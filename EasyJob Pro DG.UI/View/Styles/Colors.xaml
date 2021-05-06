@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <!-- Main colors -->
+    <Color x:Key="Color.Background.Main">White</Color>
+    <Color x:Key="Color.Background.Panel">LightGray</Color>
+    <Color x:Key="Color.Background.Item">DimGray</Color>
+    <Color x:Key="Color.Background.Expander">Black</Color>
+    <Color x:Key="Color.Text.Main">Black</Color>
+    <Color x:Key="Color.Text.Header">DimGray</Color>
+    <Color x:Key="Color.Border.Main">Black</Color>
+
+    <Color x:Key="Color.Element.Main">AliceBlue</Color>
+    <Color x:Key="Color.Element.Pressed">AntiqueWhite</Color>
+    <Color x:Key="Color.Element.MouseOver">Orange</Color>
+    <Color x:Key="Color.Element.Disabled">LightGray</Color>
+
+    <Color x:Key="Color.DgTable.Background.Gradient2">OrangeRed</Color>
+    <Color x:Key="Color.ReeferTable.Background.Gradient2">Turquoise</Color>
+    <Color x:Key="Color.ContainerTable.Background.Gradient2">GreenYellow</Color>
+
+    <Color x:Key="Color.DgTable.AlternateRow">Beige</Color>
+    <Color x:Key="Color.DgTable.HighlightRow">#FF00FF</Color>
+
+    <Color x:Key="Color.Text.Stowage">DeepSkyBlue</Color>
+    <Color x:Key="Color.Text.Segregation">Purple</Color>
+    <Color x:Key="Color.Text.SW19">Gold</Color>
+    <Color x:Key="Color.Text.Conflict">AntiqueWhite</Color>
+    <Color x:Key="Color.Text.MouseOver">OrangeRed</Color>
+
+
+</ResourceDictionary>

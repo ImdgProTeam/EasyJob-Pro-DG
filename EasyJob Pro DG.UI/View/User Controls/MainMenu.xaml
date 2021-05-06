@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="EasyJob_ProDG.UI.View.User_Controls.MainMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="MenuItem"
+               x:Key="TopLevelMenuItem">
+            <Setter Property="Foreground"
+                    Value="{StaticResource Brush.MainMenu.TopMenuItem.Foreground}" />
+        </Style>
+        <Style TargetType="MenuItem">
+            <Setter Property="Foreground"
+                    Value="{StaticResource Brush.MainMenu.MenuItem.Case1.Foreground}" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Menu x:Name="MainAppMenu"
+              Margin="4"
+              HorizontalAlignment="Left"
+              Height="auto"
+              Width="auto"
+              Background="{StaticResource Brush.MainMenu.Background}">
+
+            <MenuItem Header="File"
+                      Style="{StaticResource TopLevelMenuItem}">
+                <MenuItem Header="New"
+                          Command="New" />
+                <MenuItem Header="Open"
+                          Command="{Binding OpenFileCommand}"
+                          InputGestureText="Ctrl+O"
+                          ToolTip="Open new condition file, update existing or import dg and reefer info" />
+                <MenuItem Header="Save"
+                          Command="{Binding SaveFileCommand}"
+                          InputGestureText="Ctrl+S" />
+
+                <Separator />
+
+                <MenuItem Header="Recheck conflicts"
+                          Command="{Binding ReCheckCommand}"
+                          InputGestureText="F5"
+                          ToolTip="Check condition and update list of conflicts" />
+                <MenuItem Header="Update condition"
+                          Command="{Binding UpdateConditionCommand}"
+                          InputGestureText="Ctrl+U"
+                          ToolTip="Load only the changes in a new file" />
+                <MenuItem Header="Import info"
+                          Command="{Binding ImportDataCommand}"
+                          InputGestureText="Ctrl+I"
+                          ToolTip="Import Dg and reefer info from the file" />
+                <MenuItem Header="Import info (POL only)"
+                          Command="{Binding ImportDataOnlyPolCommand}"
+                          ToolTip="Import Dg and reefer info for current POL only" />
+                <MenuItem Header="Import info (only selected)"
+                          Command="{Binding ImportDataOnlySelectedCommand}"
+                          ToolTip="Import Dg and reefer info for selected for import items only" />
+                <MenuItem Header="Export to Excel"
+                          Command="{Binding ExportToExcelCommand}" />
+                <MenuItem Header="Add"
+                          Command="{Binding AddNewDg}" />
+                <Separator />
+                <MenuItem Header="Edit Ship Profile"
+                          Command="{Binding OpenShipProfileWindow}" />
+                <MenuItem Header="User settings"
+                          Command="{Binding OpenUserSettingsWindow}" />
+
+                <Separator />
+
+                <MenuItem Header="Exit"
+                          Command="{Binding CloseApplication}"
+                          InputGestureText="Ctrl+X" />
+            </MenuItem>
+
+            <MenuItem Header="Actions"
+                      Style="{StaticResource TopLevelMenuItem}"
+                      DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=DgDataGridViewModel}">
+                <MenuItem Header="Include Technical Name"
+                          IsCheckable="True"
+                          IsChecked="{Binding IsTechnicalNameIncluded, Mode=OneWay}"
+                          Command="{Binding IncludeTechnicalNameCommand}">
+
+                </MenuItem>
+
+            </MenuItem>
+
+            <MenuItem Header="Help"
+                      Style="{StaticResource TopLevelMenuItem}">
+                <MenuItem.Resources>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="Foreground"
+                                Value="{StaticResource Brush.MainMenu.MenuItem.Case1.Foreground}"></Setter>
+                    </Style>
+                </MenuItem.Resources>
+                <MenuItem Header="License"
+                          Command="{Binding ShowLicenseDialog}"></MenuItem>
+                <MenuItem Header="About"
+                          Command="{Binding ShowAbout}"></MenuItem>
+            </MenuItem>
+        </Menu>
+    </Grid>
+</UserControl>

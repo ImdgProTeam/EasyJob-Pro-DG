@@ -1,0 +1,87 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- Conflict list conflicts style-->
+    <Style TargetType="{x:Type TextBlock}" x:Key="ConflictTypeTrigger">
+        <Setter Property="TextAlignment"
+                Value="Justify" />
+        <Setter Property="TextWrapping"
+                Value="Wrap" />
+        <Style.Triggers>
+            <!-- Color of conflict text boxes -->
+            <DataTrigger Binding="{Binding Path=IsSegregationConflict}"
+                         Value="true">
+                <!--<Setter Property="Background"
+                        Value="Green" />-->
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=IsStowageConflict}"
+                         Value="true">
+                <!--<Setter Property="Background"
+                        Value="DarkTurquoise" />-->
+            </DataTrigger>
+            
+            <!-- Text color when mouse over -->
+            <Trigger Property="Control.IsMouseOver" Value="True">
+                <!--<Setter Property="Control.Foreground" Value="CadetBlue"></Setter>-->
+                <!--<Setter Property="Background" Value="DimGray" />-->
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+
+    
+    <!-- Style for textbox - makes hint to disappear on enter text-->
+        <Style x:Key="TextBoxWithTag" TargetType="TextBox">
+            <Setter Property="Background" Value="LightCyan" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="CaretBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <ScrollViewer 
+                                    x:Name="PART_ContentHost"
+                                    Margin="0"
+                                    VerticalAlignment="Center"/>
+                                
+                                <TextBlock x:Name="Hint"
+                                           VerticalAlignment="Center"
+                                           Background="Transparent"
+                                           FontSize="{TemplateBinding FontSize}"
+                                           Foreground="Gray"
+                                           IsHitTestVisible="False"
+                                           Text="{TemplateBinding Tag}"
+                                           TextAlignment="{TemplateBinding TextAlignment}"
+                                           Visibility="Collapsed" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Text" Value="" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="Hint" Property="Visibility" Value="Visible" />
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    <Style x:Key="TextBoxWithTagAndValidation"
+           BasedOn="{StaticResource TextBoxWithTag}"
+           TargetType="TextBox">
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError"
+                     Value="True">
+                <Setter Property="ToolTip"
+                        Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

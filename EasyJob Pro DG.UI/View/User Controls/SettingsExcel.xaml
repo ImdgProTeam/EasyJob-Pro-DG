@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="EasyJob_ProDG.UI.View.User_Controls.SettingsExcel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
+             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="300"
+             DataContext="{Binding}"
+>
+    <UserControl.Resources>
+        <converters:ExcelColumnNumberConverter x:Key="ColumnNumberConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <!--<ListBox ItemsSource="{Binding ExcelTemplateDisplay.ColumnProperties}" 
+                 >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Property}" 
+                               Width="200"/>
+                        <TextBlock Text="{Binding Value}"
+                                   Margin="10, 0"/>
+                    </StackPanel>
+
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="156" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Content="Template Name" 
+               Grid.Row="0"
+               Grid.Column="0"/>
+        <TextBox x:Name="txbTemplateName"
+                Text="{Binding ExcelTemplateDisplay.TemplateName}" 
+                 VerticalContentAlignment="Center"
+                 Grid.Row="0"
+                 Grid.Column="1"/>
+
+        <Label Content="Excel sheet name"
+               Grid.Row="1"
+               Grid.Column="0" />
+        <TextBox x:Name="txbSheetName"
+                 Text="{Binding ExcelTemplateDisplay.WorkingSheet}"
+                 VerticalContentAlignment="Center"
+                 Grid.Row="1"
+                 Grid.Column="1" />
+        
+        <Label Content="Start from row"
+               Grid.Row="2"
+               Grid.Column="0" />
+        <TextBox Text="{Binding ExcelTemplateDisplay.StartRow}"
+                 VerticalContentAlignment="Center"
+                 Grid.Row="2"
+                 Grid.Column="1" />
+
+        <Label Content="Excel sheet columns" 
+               Grid.Row="3"/>
+        <DataGrid ItemsSource="{Binding ExcelTemplateDisplay.ColumnProperties, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False"
+                  Grid.Row="4"
+                  Grid.ColumnSpan="2"
+                  IsTabStop="False">
+            
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Property"
+                                    IsReadOnly="True" 
+                                    KeyboardNavigation.IsTabStop="False"
+                                    KeyboardNavigation.TabNavigation="None"
+                                    Width="150"
+                                    Binding="{Binding PropertyName, Mode=OneWay}"/>
+                <DataGridComboBoxColumn Header="Column"
+                                        ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=SettingsWindowVM.Columns}"
+                                        SelectedValueBinding="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ColumnNumberConverter}}"
+                                        IsReadOnly="False"
+                                        Width="*"/>
+                <DataGridTextColumn Header="Column"
+                                    IsReadOnly="False"
+                                    Width="*"
+                                    Binding="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

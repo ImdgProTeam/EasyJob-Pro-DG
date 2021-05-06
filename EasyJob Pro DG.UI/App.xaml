@@ -1,0 +1,28 @@
+﻿<Application x:Class="EasyJob_ProDG.UI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:EasyJob_ProDG.UI"
+             xmlns:utility="clr-namespace:EasyJob_ProDG.UI.Utility"
+             Startup="Application_Startup">
+    <Application.Resources>
+        <ResourceDictionary>
+            <utility:ViewModelLocator x:Key="ViewModelLocator" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="View/Styles\Colors.xaml" />
+                <ResourceDictionary Source="View/Styles\Brushes.xaml" />
+                <ResourceDictionary Source="View/Styles\Fonts.xaml" />
+                <ResourceDictionary Source="View/Styles\Icons.xaml" />
+                
+                <ResourceDictionary Source="View/Styles\Defaults.xaml" />
+                <ResourceDictionary Source="View/Styles\Windows.xaml" />
+                <ResourceDictionary Source="View/Styles\Expanders.xaml" />
+                <ResourceDictionary Source="View/Styles\Buttons.xaml" />
+                <ResourceDictionary Source="View/Styles\TextControls.xaml" />
+                <ResourceDictionary Source="View/Styles\Lists.xaml" />
+                <ResourceDictionary Source="View/Styles\DataGrids.xaml" />
+                <ResourceDictionary Source="View/Styles\DgTable.xaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

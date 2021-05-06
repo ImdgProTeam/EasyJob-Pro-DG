@@ -1,0 +1,250 @@
+﻿using EasyJob_ProDG.Data;
+using EasyJob_ProDG.UI.Messages;
+using EasyJob_ProDG.UI.Services;
+using EasyJob_ProDG.UI.Services.DialogServices;
+using EasyJob_ProDG.UI.Settings;
+using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.Utility.Messages;
+using EasyJob_ProDG.UI.Wrapper;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Windows.Input;
+using System.Xml.Serialization;
+using static EasyJob_ProDG.UI.Settings.UserUISettings;
+
+namespace EasyJob_ProDG.UI.ViewModel
+{
+    public class DataGridDgViewModel : Observable
+    {
+        //--------------- Private fields --------------------------------------------
+        SettingsService uiSettings;
+        IMessageDialogService _messageDialogService;
+
+        //--------------- Public static properties ----------------------------------
+        public static IList<char> StowageCategories => new List<char>() { 'A', 'B', 'C', 'D', 'E' };
+
+        //--------------- Public properties -----------------------------------------
+        public CargoPlanWrapper CargoPlan
+        {
+            get { return ViewModelLocator.MainWindowViewModel.WorkingCargoPlan; }
+            set
+            {
+                ViewModelLocator.MainWindowViewModel.WorkingCargoPlan = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<DgTableColumnSettings> ColumnSettings { get; set; }
+        public DgWrapper SelectedDg { get; set; }
+        public List<DgWrapper> SelectedDgArray { get; set; }
+        public DgSortOrderPattern DgSortOrderDirection { get; set; }
+        public bool IsTechnicalNameIncluded { get; set; }
+        //private CollectionView _dgListView = null;
+        //public ICollectionView DgListView
+        //{
+        //    get {
+        //        _dgListView = (CollectionView)CollectionViewSource.GetDefaultView(CargoPlan.DgList);
+        //        if (_dgListView != null)
+        //            _dgListView.SortDescriptions.Add(new SortDescription("Location", ListSortDirection.Ascending));
+        //        return _dgListView;
+        //    }
+        //    set { }
+        //}
+        //private ContainerLeftToRightComparer comparer1 = new ContainerLeftToRightComparer();
+
+
+        //--------------- Constructor -----------------------------------------------
+
+        public DataGridDgViewModel()
+        {
+            LoadServices();
+
+            RegisterInDataMessenger();
+
+            LoadColumnSettings();
+
+            LoadCommands();
+        }
+
+
+
+
+        //--------------- Private methods -------------------------------------------
+
+        /// <summary>
+        /// Initiates required services
+        /// </summary>
+        private void LoadServices()
+        {
+            uiSettings = new SettingsService();
+            _messageDialogService = new MessageDialogService();
+        }
+
+        /// <summary>
+        /// Registers for messages in DataMessenger
+        /// </summary>
+        private void RegisterInDataMessenger()
+        {
+            DataMessenger.Default.Register<ApplicationClosingMessage>(this, OnApplicationClosingMessageReceived, "closing");
+            DataMessenger.Default.Register<CargoDataUpdated>(this, OnCargoDataUpdated, "cargodataupdated");
+            DataMessenger.Default.Register<ConflictPanelItemViewModel>(this, OnConflictSelectionChanged,
+                "conflict selection changed");
+        }
+
+        /// <summary>
+        /// Loads column settings from file for DgDataGrid.
+        /// Number of settings hard coded.
+        /// </summary>
+        private void LoadColumnSettings()
+        {
+            try
+            {
+                XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<DgTableColumnSettings>));
+                using (Stream s = File.OpenRead(ProgramDefaultSettingValues.ProgramDirectory + "columnsettings.xml"))
+                    ColumnSettings = (ObservableCollection<DgTableColumnSettings>)xs.Deserialize(s);
+            }
+            catch (Exception e)
+            {
+                ColumnSettings ??= new ObservableCollection<DgTableColumnSettings>();
+                for (int i = 0; i < 43; i++)
+                {
+                    ColumnSettings.Add(new DgTableColumnSettings(i));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Assigns handler methods for commands
+        /// </summary>
+        private void LoadCommands()
+        {
+            UnloadRow = new DelegateCommand(OnRowUnloaded);
+            DeleteDg = new DelegateCommand(OnDgDelete);
+            IncludeTechnicalNameCommand = new DelegateCommand(IncludeTechnicalNameOnExecuted);
+        }
+
+        /// <summary>
+        /// Includes or removes TechnicalName to ProperShippingName of all Dg in CargoPlan
+        /// </summary>
+        /// <param name="obj"></param>
+        private void IncludeTechnicalNameOnExecuted(object obj)
+        {
+            if (IsTechnicalNameIncluded)
+            {
+                foreach (var dg in CargoPlan.DgList)
+                {
+                    dg.RemoveTechnicalName();
+                }
+
+                IsTechnicalNameIncluded = false;
+            }
+            else
+            {
+                foreach (var dg in CargoPlan.DgList)
+                {
+                    dg.IncludeTechnicalName();
+                }
+
+                IsTechnicalNameIncluded = true;
+            }
+            OnPropertyChanged("IsTechnicalNameIncluded");
+        }
+
+        /// <summary>
+        /// Requests user weather to delete selected dg(s) and sends message to CargoPlan respectively
+        /// </summary>
+        /// <param name="obj"></param>
+        private void OnDgDelete(object obj)
+        {
+            if (SelectedDg == null) return;
+
+            if (_messageDialogService.ShowYesNoDialog("Do you want to delete selected Dg(s)?", "Delete cargo")
+                == MessageDialogResult.No) return;
+
+            List<DgWrapper> selectedDgArray = new List<DgWrapper>();
+            foreach (var data in (ICollection)obj)
+            {
+                var dg = data as DgWrapper;
+                selectedDgArray.Add(dg);
+            }
+
+            DataMessenger.Default.Send<UpdateCargoPlan>(new UpdateCargoPlan(selectedDgArray), "Remove dg");
+        }
+
+        private void OnRowUnloaded(object obj)
+        {
+        }
+
+        /// <summary>
+        /// Method changes SelectedDg to match with ConflictPanelItem object
+        /// </summary>
+        /// <param name="obj">Selected conflict</param>
+        private void OnConflictSelectionChanged(ConflictPanelItemViewModel obj)
+        {
+            //CLear selection
+            SelectedDg = null;
+            OnPropertyChanged("SelectedDg");
+
+            //Set new selection
+            foreach (DgWrapper dg in CargoPlan.DgList)
+            {
+                if (dg.ContainerNumber == obj.ContainerNumber
+                    && dg.Unno == obj.Unno)
+                {
+                    SelectedDg = dg;
+                    break;
+                }
+            }
+            OnPropertyChanged("SelectedDg");
+        }
+
+        /// <summary>
+        /// Invokes OnPropertyChanged method for relevant properties.
+        /// </summary>
+        /// <param name="obj">none</param>
+        private void OnCargoDataUpdated(CargoDataUpdated obj)
+        {
+            OnPropertyChanged($"CargoPlan");
+        }
+
+        /// <summary>
+        /// Contains logic to be performed before closing the application
+        /// </summary>
+        /// <param name="obj"></param>
+        private void OnApplicationClosingMessageReceived(ApplicationClosingMessage obj)
+        {
+            WriteColumnSettings();
+        }
+
+        /// <summary>
+        /// Saves current DgDataGrid column settings on disk
+        /// </summary>
+        private void WriteColumnSettings()
+        {
+            XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<DgTableColumnSettings>));
+            using (Stream s = File.Create(ProgramDefaultSettingValues.ProgramDirectory + "columnsettings.xml"))
+            {
+                xs.Serialize(s, ColumnSettings);
+            }
+        }
+
+
+        //--------------- Commands --------------------------------------------------
+
+        public ICommand SelectionChangedCommand { get; private set; }
+        public ICommand IncludeTechnicalNameCommand { get; set; }
+        public ICommand ToExcel { get; private set; }
+        public ICommand UnloadRow { get; private set; }
+        public ICommand DeleteDg { get; private set; }
+
+        //--------------- Events ----------------------------------------------------
+
+        public delegate void SelectionChanged(object obj);
+        public static event SelectionChanged OnSelectionChangedEventHandler = null;
+    }
+
+
+
+}

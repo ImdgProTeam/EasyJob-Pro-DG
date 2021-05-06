@@ -1,0 +1,1763 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CombinationDetails>
+  <Combination
+    DgA.Dgclass = "2.1" DgA.Dgsubclass1 = "2.3" DgA.Dgsubclass2 = "" DgA.closed = "true"
+        DgA.CntrLocation = "230088" DgA.cntrNr = "containerA"
+         DgA.segregatorClass = "null" DgA.segregatorException.segrClass = "null" DgA.segregatorException.segrLevel = "null"
+    DgB.Dgclass = "3" DgB.Dgsubclass1 = "2.3" DgB.Dgsubclass2 = "" DgB.closed = "true"
+        DgB.CntrLocation = "210186" DgB.cntrNr = "containerB"
+         DgB.segregatorClass = "null" DgB.segregatorException.segrClass = "null" DgB.segregatorException.segrLevel = "null"
+    ExpectedResult = "true"/>
+  <Combination
+  DgA.Dgclass = "4.1" DgA.Dgsubclass1 = "6.1" DgA.Dgsubclass2 = "8" DgA.closed = "true"
+      DgA.CntrLocation = "220088" DgA.cntrNr = "containerC"
+       DgA.segregatorClass = "9" DgA.segregatorException.segrClass = "null" DgA.segregatorException.segrLevel = "null"
+  DgB.Dgclass = "3" DgB.Dgsubclass1 = "2.3" DgB.Dgsubclass2 = "" DgB.closed = "true"
+      DgB.CntrLocation = "210186" DgB.cntrNr = "containerB"
+       DgB.segregatorClass = "null" DgB.segregatorException.segrClass = "null" DgB.segregatorException.segrLevel = "null"
+  ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "4.1" DgA.Dgsubclass1 = "6.1" DgA.Dgsubclass2 = "8" DgA.closed = "true"
+    DgA.CntrLocation = "220088" DgA.cntrNr = "containerC"
+     DgA.segregatorClass = "5.1" DgA.segregatorException.segrClass = "null" DgA.segregatorException.segrLevel = "null"
+DgB.Dgclass = "3" DgB.Dgsubclass1 = "2.3" DgB.Dgsubclass2 = "" DgB.closed = "true"
+    DgB.CntrLocation = "230186" DgB.cntrNr = "containerB"
+     DgB.segregatorClass = "null" DgB.segregatorException.segrClass = "null" DgB.segregatorException.segrLevel = "null"
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "4.1" DgA.Dgsubclass1 = "6.1" DgA.Dgsubclass2 = "8" DgA.closed = "true"
+    DgA.CntrLocation = "220088" DgA.cntrNr = "containerA"
+     DgA.segregatorClass = "5.1" DgA.segregatorException.segrClass = "3" DgA.segregatorException.segrLevel = "1"
+DgB.Dgclass = "3" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+    DgB.CntrLocation = "230186" DgB.cntrNr = "containerB"
+     DgB.segregatorClass = "null" DgB.segregatorException.segrClass = "null" DgB.segregatorException.segrLevel = "null"
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "4.1" DgA.Dgsubclass1 = "6.1" DgA.Dgsubclass2 = "8" DgA.closed = "true"
+  DgA.CntrLocation = "220088" DgA.cntrNr = "containerA"
+   DgA.segregatorClass = "5.1" DgA.segregatorException.segrClass = "null" DgA.segregatorException.segrLevel = "null"
+DgB.Dgclass = "3" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+  DgB.CntrLocation = "230186" DgB.cntrNr = "containerB"
+   DgB.segregatorClass = "4.1" DgB.segregatorException.segrClass = "null" DgB.segregatorException.segrLevel = "null"
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "4.1" DgA.Dgsubclass1 = "6.1" DgA.Dgsubclass2 = "8" DgA.closed = "true"
+DgA.CntrLocation = "220088" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "5.1" DgA.segregatorException.segrClass = "3" DgA.segregatorException.segrLevel = "1"
+DgB.Dgclass = "3" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "230186" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "4.1" DgB.segregatorException.segrClass = "null" DgB.segregatorException.segrLevel = "null"
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "220088" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "3" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "190086" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "2.1" DgB.segregatorException.segrClass = "null" DgB.segregatorException.segrLevel = "null"
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "220088" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "3" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "190086" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "2.1" DgB.segregatorException.segrClass = "3" DgB.segregatorException.segrLevel = "99"
+ExpectedResult = "false"/>
+
+  <!--Case 1 closed conainers-->
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "010382" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "030182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "020082" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010184" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "010186" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "010304" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "010104" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+
+  <!--Case 1 closed versus open conainers-->
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010382" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "020082" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010184" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010186" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010184" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010192" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010188" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010186" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010190" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "020190" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030184" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "020182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010190" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010304" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010104" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010108" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010104" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010102" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010114" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010102" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010118" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010112" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "020182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010112" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+
+  <!--Case 1 open versus open conainers TO BE COMPLETED-->
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010382" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010082" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010282" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "020082" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "020582" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010184" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010186" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010192" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010310" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010118" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010104" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "070104" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "090104" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "070104" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "050108" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "070182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "090182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "070182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "100182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "060182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "100182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "060182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "110182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "060102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "140102" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "060102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "140182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "060102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "060182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "060182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "2.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "090390" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+
+  <!--Case 2 closed conainers-->
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "010382" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "030182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "020082" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010184" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "010186" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "010304" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "010114" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "030388" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "060088" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "020082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "060088" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "060188" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "050182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "020182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "070182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "030016" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "060012" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "090012" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "030382" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "020482" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+
+
+  <!--Case 2 closed versus open conainers-->
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010382" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030184" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "020382" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010184" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010186" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010188" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010504" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010216" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010114" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030514" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+      <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030214" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030388" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "060088" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "020090" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "060082" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "060288" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "050182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "020182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "070182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030016" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "060012" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "090012" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030012" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "070012" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+      <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030702" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+        <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "050514" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030382" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "020482" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+
+  <!--Case 2 open versus open conainers-->
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010382" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030184" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030584" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+      <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030288" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "020282" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010184" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010186" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "020188" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010504" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010216" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010114" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030588" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "060088" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "020090" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "060082" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "060488" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010512" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "071002" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "030002" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "071016" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "020484" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "070582" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "090582" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "020582" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "050182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "020182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "070182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030016" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "070012" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "090012" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030682" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "070002" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "090002" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "070002" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "070082" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "2.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "070182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "4.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "070482" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+
+
+  <!--Case 3 closed conainers-->
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "010382" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "010282" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "030182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+      <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "030584" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+      <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "030288" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "030582" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "020282" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010184" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "010186" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "010304" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "070304" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "010214" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "030588" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "060288" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "020082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "060388" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "060388" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "050182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "020182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "070182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "030016" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "060012" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "090012" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "071002" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "091004" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "030582" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "020682" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  
+  <!--Case 3 closed versus open conainers-->
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010382" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010282" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030582" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "020282" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010184" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010186" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010304" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "070304" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010214" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030588" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "060288" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "020082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "060388" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "060388" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "050182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "020182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "070182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030016" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "060012" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "090012" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "071002" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "091004" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030582" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "020682" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  
+  <!--Case 3 open versus open conainers-->
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010582" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010282" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "050182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030788" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "020482" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "060286" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010184" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010186" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010304" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "070304" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "010214" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030588" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "060288" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "020582" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030682" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "020082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "060388" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "060388" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "050182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "020182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "070182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "060012" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "090012" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "011002" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "151412" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "070182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "020182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "090182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030016" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "060012" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "170012" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+    <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "071002" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "181004" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "030090" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "030882" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "020782" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+      <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "060486" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+      <Combination
+DgA.Dgclass = "3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "false"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "false"
+DgB.CntrLocation = "050788" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+
+  <!--Case 4 closed conainers-->
+  <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "011382" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "011282" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "050182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "090182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "101588" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "020182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "111284" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "011184" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "011290" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "011304" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "070304" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+      <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "090304" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+        <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "101204" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "050102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "140214" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "090588" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+  <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "110208" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+        <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "051002" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "141084" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+    <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "030502" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "true"/>
+      <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "060102" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "180214" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/> 
+    <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "060082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "180316" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "070002" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "170308" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+      <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "051002" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "151084" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "110182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "020182" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "130182" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "010082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "110016" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "050012" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "150012" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+    <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "051002" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "151084" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  <Combination
+DgA.Dgclass = "1.3" DgA.Dgsubclass1 = "" DgA.Dgsubclass2 = "" DgA.closed = "true"
+DgA.CntrLocation = "030082" DgA.cntrNr = "containerA"
+ DgA.segregatorClass = "" DgA.segregatorException.segrClass = "" DgA.segregatorException.segrLevel = ""
+DgB.Dgclass = "6.2" DgB.Dgsubclass1 = "" DgB.Dgsubclass2 = "" DgB.closed = "true"
+DgB.CntrLocation = "140682" DgB.cntrNr = "containerB"
+ DgB.segregatorClass = "" DgB.segregatorException.segrClass = "" DgB.segregatorException.segrLevel = ""
+ExpectedResult = "false"/>
+  
+
+</CombinationDetails>

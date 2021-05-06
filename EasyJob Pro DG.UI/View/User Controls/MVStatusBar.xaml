@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="EasyJob_ProDG.UI.View.User_Controls.MVStatusBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
+             xmlns:vm="clr-namespace:EasyJob_ProDG.UI.ViewModel"
+             mc:Ignorable="d"
+             DataContext="{Binding StatusBarControl}">
+    <StatusBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+               Background="Wheat" Margin="0,5,0,0">
+        <StatusBarItem>
+            <TextBlock Text="{Binding StatusBarText, UpdateSourceTrigger=PropertyChanged}"
+                   Visibility="{Binding ProgressBarVisible, UpdateSourceTrigger=PropertyChanged}"/>
+        </StatusBarItem>
+        <StatusBarItem >
+            <ProgressBar Width="100"
+                         Height="20"
+                         Name="progressBar"
+                         Visibility="{Binding ProgressBarVisible, UpdateSourceTrigger=PropertyChanged}"
+                         Value="{Binding ProgressPercentage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                         Minimum="0"
+                         Maximum="100">
+
+                <!--<ProgressBar.Triggers>
+                    <EventTrigger RoutedEvent="ProgressBar.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="progressBar"
+                                                 Storyboard.TargetProperty="Value"
+                                                 From="0"
+                                                 To="100"
+                                                 Duration="0:0:10"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </ProgressBar.Triggers>-->
+            </ProgressBar>
+        </StatusBarItem>
+    </StatusBar>
+</UserControl>

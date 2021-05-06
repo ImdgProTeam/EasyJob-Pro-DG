@@ -1,0 +1,117 @@
+﻿<Window x:Class="EasyJob_ProDG.UI.View.DialogWindows.winLogin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EasyJob_ProDG.UI"
+        mc:Ignorable="d"
+        Title="Login"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin"
+              Value="4" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin"
+              Value="4" />
+            <Setter Property="MinWidth"
+              Value="200" />
+        </Style>
+        <Style TargetType="PasswordBox">
+            <Setter Property="Margin"
+              Value="4" />
+            <Setter Property="MinWidth"
+              Value="200" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin"
+              Value="4" />
+            <Setter Property="MinWidth"
+              Value="50" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Popup IsOpen="True" 
+               HorizontalAlignment="Center"
+               AllowsTransparency="True"
+               HorizontalOffset="-20"
+               Opacity="10"
+               PopupAnimation="Fade"
+               Placement="Bottom"
+               StaysOpen="False"
+               >
+            <TextBlock Text="Enter user name and password"
+                       Background="Aquamarine"
+                       TextAlignment="Center"
+                       Opacity="50"
+                       ></TextBlock>
+        </Popup>
+    <Border CornerRadius="10"
+          BorderBrush="Gray"
+          BorderThickness="2"
+          Margin="4"
+          Padding="4">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="55" />
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+
+
+            <StackPanel Grid.Column="0"
+                  Grid.Row="0">
+                <!--<Image Name="imgKey"
+               Margin="8"
+               Source="../Images/Key.jpg" />-->
+            </StackPanel>
+            <StackPanel Grid.Column="1"
+                  Grid.Row="0"
+                  Grid.ColumnSpan="2">
+                <TextBlock FontSize="18"
+                   Margin="8"
+                   TextWrapping="Wrap"
+                   Text="Please Login To Access This Application" />
+            </StackPanel>
+            <TextBlock Grid.Column="1"
+             Grid.Row="1"
+             Text="User Name" />
+            <TextBox Grid.Column="2"
+               Grid.Row="1"
+               Name="txtUserName" />
+            <TextBlock Grid.Column="1"
+             Grid.Row="2"
+             Text="Password" />
+            <PasswordBox Grid.Column="2"
+                   Grid.Row="2"
+                   Name="txtPassword" />
+            <StackPanel Grid.Column="2"
+                  Grid.Row="3"
+                  Orientation="Horizontal">
+                <Button Name="btnCancel"
+                IsCancel="True"
+                Content="Cancel"
+                Command ="{Binding CancelCommand}" />
+                <Button Name="btnLogin"
+                IsDefault="True"
+                Content="Login"
+                Command ="{Binding LoginCommand}" />
+            </StackPanel>
+        </Grid>
+    </Border>
+    </Grid>
+</Window>

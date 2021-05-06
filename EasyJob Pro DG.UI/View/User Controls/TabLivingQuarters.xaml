@@ -1,0 +1,150 @@
+﻿<UserControl x:Class="EasyJob_ProDG.UI.View.User_Controls.TabLivingQuarters"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:behaviors="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
+             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             DataContext="{Binding}">
+    <UserControl.Resources>
+        <Style x:Key="NoFocusStyle"
+               TargetType="DataGridCell">
+            <Setter Property="KeyboardNavigation.IsTabStop"
+                    Value="False"></Setter>
+            <Setter Property="Focusable"
+                    Value="False" />
+        </Style>
+        <converters:AnyCellToNullConverter x:Key="AnyCell" />
+        <converters:CellToTextConverter x:Key="CellToText" />
+        <converters:boolInversionConverter x:Key="ToNegative" />
+    </UserControl.Resources>
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80"
+                SharedSizeGroup="sizeNumber"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="2" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+        </Grid.RowDefinitions>
+                
+        <TextBlock TextAlignment="Center"
+                   VerticalAlignment="Center"
+                   Grid.ColumnSpan="2"
+                   Grid.Row="0">
+                        Description here
+        </TextBlock>
+        <TextBlock Text="Enter position"
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   TextAlignment="Center"
+                   TextWrapping="Wrap"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Bottom" />
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto"
+                      Grid.Row="2"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="3">
+            <DataGrid Name="dataGridLivingQuarters"
+                      ItemsSource="{Binding LivingQuartersObservable, Mode=TwoWay}"
+                      CanUserAddRows="False"
+                      CanUserReorderColumns="False"
+                      CanUserDeleteRows="False"
+                      CanUserSortColumns="False"
+                      AutoGenerateColumns="False"
+                      IsSynchronizedWithCurrentItem="True">
+
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="80"
+                                            FocusManager.IsFocusScope="False"
+                                            CellStyle="{StaticResource NoFocusStyle}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding NumberInList}"
+                                       HorizontalAlignment="Right"
+                                       Focusable="False"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Width="*"
+                                            FocusManager.IsFocusScope="False"
+                                            CellStyle="{StaticResource NoFocusStyle}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding DisplayPosition, Mode=TwoWay, UpdateSourceTrigger=LostFocus,
+                                    Converter={StaticResource AnyCell}, ValidatesOnDataErrors=True}"
+                                         Tag="Enter position, e.g. 220582"
+                                         Style="{StaticResource TextBoxWithTag}"
+                                         TextAlignment="Right"
+                                         VerticalContentAlignment="Center"
+                                         Focusable="True">
+
+                                </TextBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
+                    <DataGridTemplateColumn Width="10"
+                                            FocusManager.IsFocusScope="False"
+                                            CellStyle="{StaticResource NoFocusStyle}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Content="-"
+                                        Focusable="True"
+                                    Click="Button_Click" CommandParameter="{Binding NumberInList}"
+                                        />
+
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+    </ScrollViewer>
+        
+            
+        <TextBlock Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLivingQuarters,
+            Converter={StaticResource CellToText}}"
+                   Foreground="Gray"
+                   Grid.Row="4"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2" />        
+        <TextBox Tag="Enter new position here"
+                     Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLivingQuartersNewEntry,
+                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                     Style="{StaticResource TextBoxWithTagAndValidation}"
+                     VerticalContentAlignment="Center"
+                     Focusable="True"
+                     Grid.Row="5"
+                     Grid.ColumnSpan="2"
+                     Grid.Column="0"/>
+
+        <Button Content="Add" 
+                IsEnabled="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLivingQuarters.HasError,
+            Converter={StaticResource ToNegative}}"
+                Command="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.AddCellLivingQuartersCommand}"
+                Margin="2, 6, 2, 0"
+                    Grid.Row="4"
+                    Grid.RowSpan="2"
+                    Grid.Column="2"/>
+        
+            <TextBlock Text="How to enter positions describe here"
+                   Grid.ColumnSpan="2"
+                   Grid.Column="0"
+                   Grid.Row="6"></TextBlock>
+    </Grid>
+
+</UserControl>

@@ -1,0 +1,58 @@
+﻿<Window x:Class="EasyJob_ProDG.UI.View.UI.winAbout"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EasyJob_ProDG.UI"
+        mc:Ignorable="d"
+        Title="About Pro DG" Width="300"
+        Style="{StaticResource DemoWindowStyle}"
+        WindowStartupLocation="CenterScreen"
+        SizeToContent="Height"
+        ResizeMode="NoResize">
+    <Border CornerRadius="10"
+            BorderBrush="Gray"
+            BorderThickness="2"
+            Margin="4"
+            Padding="4">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <!--<Image Name="imgPDSA"
+                       Margin="8"
+                       HorizontalAlignment="Left"
+                       Source="../Images/lgoPDSA.gif"
+                       Stretch="None" />-->
+                <TextBlock Margin="4"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center"
+                           Text="Software is designed for automatic checking of stowage and segregation of dangerous goods on container ships in accordance with the requirements of IMDG Code 39-18" />
+                <TextBlock Margin="4"
+                           TextAlignment="Center"
+                           Text="Copyright imdg.pro (c) 2018 - 2021" />
+                <StackPanel Orientation="Horizontal"
+                            Margin ="0, 10,0,0">
+                    <TextBlock Margin="4"
+                               TextAlignment="Center"
+                               Text="send your comments to:"/>
+                    <Label Content="feedback@imdg.pro"
+                           Foreground="Blue"/>
+                </StackPanel>
+
+            </StackPanel>
+            <StackPanel Margin="8"
+                        Grid.Row="1"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Center">
+                <Button Name="btnClose"
+                        Style="{StaticResource BasicButton}"
+                        Width="80"
+                        Content="Close"
+                        Click="btnClose_Click"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

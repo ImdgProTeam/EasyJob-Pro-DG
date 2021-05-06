@@ -1,0 +1,150 @@
+﻿<Window x:Class="EasyJob_ProDG.UI.View.UI.ShipProfileWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:local="clr-namespace:EasyJob_ProDG.UI"
+        xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
+        xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
+        xmlns:ub="clr-namespace:EasyJob_ProDG.UI.Behaviors"
+        xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
+        mc:Ignorable="d"
+        Title="Ship Profile"
+        Height="500"
+        Width="450"
+        MinWidth="9cm"
+        ResizeMode="CanResize"
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource ToolWindowStyle}"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM}">
+
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}"
+               BasedOn="{StaticResource TextBoxWithTag}">
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="TextAlignment"
+                    Value="Center" />
+            <Setter Property="Background"
+                    Value="Yellow" />
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background"
+                    Value="Red" />
+        </Style>
+        <Style TargetType="{x:Type RepeatButton}">
+            <Setter Property="Background"
+                    Value="Green" />
+            
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Margin="0, 5, 0, 0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TabControl DataContext="{Binding TempShip}"
+                    Name="tabShipProfile"
+                    Grid.Row="0">
+
+            <!--Tab Main-->
+            <TabItem Header="Main"
+                     Name="tabMain">
+                <uc:TabMain/>
+            </TabItem>
+
+            <!--Dimensions-->
+            <TabItem Header="Dimensions"
+                     Name="tabDimensions">
+                <uc:TabDimensions />
+            </TabItem>
+            <!--Holds-->
+            <TabItem Header="Holds"
+                     Name="tabHolds">
+                <uc:TabHolds />
+            </TabItem>
+
+            <TabItem Header="Living quarters"
+                     Name="TabLivingQuarters">
+                <uc:TabLivingQuarters />
+            </TabItem>
+            <TabItem Header="Heated structures"
+                     Name="TabHeatedStructures">
+                <uc:TabHeatedStructures />
+            </TabItem>
+            <TabItem Header="LSA"
+                     Name="TabLSA">
+                <uc:TabLSA />
+            </TabItem>
+            <TabItem Header="DOC">
+                <uc:TabDOC />
+            </TabItem>
+
+        </TabControl>
+
+        <UniformGrid Grid.Row="3" HorizontalAlignment="Stretch" Columns="4">
+            
+            <Button x:Name="buttonCancel"
+                    Content="Cancel"
+                    Command="{Binding CancelChangesCommand}"
+                    IsCancel="True"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    MinWidth="60"
+                    Margin="10,0, 5,0"
+                    Click="CloseWindow"
+                    TabIndex="12" />
+            <Button x:Name="buttonBack"
+                    Content="Back"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    MinWidth="60"
+                    Margin="5, 0"
+                    TabIndex="11"
+                    Grid.RowSpan="2"
+                    Click="buttonBack_Click" />
+            <Button x:Name="buttonNext"
+                    Content="Next"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    MinWidth="60"
+                    Margin="5,0"
+                    TabIndex="9"
+                    Click="buttonNext_Click" />
+            <Button x:Name="buttonSave"
+                    Content="Save"
+                    Command="{Binding SaveChangesCommand}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    MinWidth="60"
+                    Margin="5,0, 10, 0"
+                    Grid.ColumnSpan="2"
+                    Click="CloseWindow"
+                    TabIndex="10">
+                <behavior:Interaction.Triggers>
+                    <behavior:EventTrigger EventName="Click">
+                        <behavior:InvokeCommandAction Command="{Binding SaveCommand}" />
+                    </behavior:EventTrigger>
+                </behavior:Interaction.Triggers>
+            </Button>
+        </UniformGrid>
+    </Grid>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding WindowLoaded}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding WindowClosed}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+</Window>

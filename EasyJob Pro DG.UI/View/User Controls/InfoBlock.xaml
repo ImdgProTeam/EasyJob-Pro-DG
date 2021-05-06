@@ -1,0 +1,98 @@
+﻿<UserControl x:Class="EasyJob_ProDG.UI.View.User_Controls.InfoBlock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
+             mc:Ignorable="d"
+             d:DesignHeight="450">
+    <Grid Background="DarkSlateGray">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Label Content="Total Dg containers"
+               Grid.Row="0"
+               Grid.Column="0"
+               Foreground="AliceBlue" />
+        <Label Content="{Binding WorkingCargoPlan.DgContainerCount}"
+               Grid.Row="0"
+               Grid.Column="1"
+               Foreground="AliceBlue"></Label>
+        <Label Content="Total Dg in list"
+               Grid.Row="1"
+               Grid.Column="0"
+               Foreground="AliceBlue" />
+        <Label Content="{Binding WorkingCargoPlan.DgList.Count}"
+               Grid.Row="1"
+               Grid.Column="1"
+               Foreground="AliceBlue" />
+        <Label Content="Total containers"
+               Grid.Row="0"
+               Grid.Column="2"
+               Foreground="AliceBlue" />
+        <Label Content="{Binding WorkingCargoPlan.Containers.Count}"
+               Grid.Row="0"
+               Grid.Column="3"
+               Foreground="AliceBlue"
+               HorizontalAlignment="Left" />
+        <Label Content="Total reefers"
+               Grid.Row="1"
+               Grid.Column="2"
+               Foreground="AliceBlue" />
+        <Label Content="{Binding WorkingCargoPlan.ReeferCount}"
+               Grid.Row="1"
+               Grid.Column="3"
+               Foreground="AliceBlue" />
+        <Label Content="Voyage number"
+               Grid.Row="0"
+               Grid.Column="4"
+               Foreground="AliceBlue" />
+        <Label Content="{Binding VoyageInfo.VoyageNumber, UpdateSourceTrigger=PropertyChanged}"
+               Grid.Row="0"
+               Grid.Column="5"
+               Foreground="AliceBlue" />
+        <Label Content="Total dg net weight"
+               Grid.Row="1"
+               Grid.Column="4"
+               Foreground="AliceBlue" />
+        <Label Content="{Binding WorkingCargoPlan.TotalDgNetWeight}" ContentStringFormat="0.000"
+               Grid.Row="1"
+               Grid.Column="5"
+               Foreground="AliceBlue" />
+        <Label Content="Port of departure"
+               Grid.Row="0"
+               Grid.Column="6"
+               Foreground="AliceBlue" />
+        <Label Content="{Binding VoyageInfo.PortOfDeparture, UpdateSourceTrigger=PropertyChanged}"
+               Grid.Row="0"
+               Grid.Column="7"
+               Foreground="AliceBlue" />
+        <Label Content="Port of destination"
+               Grid.Row="1"
+               Grid.Column="6"
+               Foreground="AliceBlue" />
+        <Label Content="{Binding VoyageInfo.PortOfDestination, UpdateSourceTrigger=PropertyChanged}"
+               Grid.Row="1"
+               Grid.Column="7"
+               Foreground="AliceBlue" />
+        <Button Content="DummyButton"
+                Grid.RowSpan="2"
+                Grid.Column="8"
+                Command="{Binding DummyCommand}" />
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,105 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.Styles">
+    <!-- Main colors -->
+    <SolidColorBrush x:Key="Brush.Background.Main"
+                     Color="{StaticResource Color.Background.Main}" />
+    <SolidColorBrush x:Key="Brush.Background.Panel"
+                     Color="{StaticResource Color.Background.Panel}" />
+    <SolidColorBrush x:Key="Brush.Background.Item"
+                     Color="{StaticResource Color.Background.Item}" />
+    <SolidColorBrush x:Key="Brush.Text.Main"
+                     Color="{StaticResource Color.Text.Main}" />
+    <SolidColorBrush x:Key="Brush.Text.Header"
+                     Color="{StaticResource Color.Text.Header}" />
+    <SolidColorBrush x:Key="Brush.Element.MouseOver"
+                     Color="{StaticResource Color.Element.MouseOver}" />
+    <SolidColorBrush x:Key="Brush.Border.Main"
+                     Color="{StaticResource Color.Border.Main}" />
+
+    <!-- Dg Table -->
+    <LinearGradientBrush x:Key="Brush.DgTable.Background"
+                         StartPoint="0.0,0.0"
+                         EndPoint="1.0,1.0">
+        <GradientStop Color="{StaticResource Color.Background.Main}"
+                      Offset="0" />
+        <GradientStop Color="{StaticResource Color.DgTable.Background.Gradient2}"
+                      Offset="0.9" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="Brush.DgTable.AlternateRow"
+                     Color="{StaticResource Color.DgTable.AlternateRow}" />
+
+    <!-- Reefer Table -->
+    <LinearGradientBrush x:Key="Brush.ReeferTable.Background"
+                         StartPoint="0.0,0.0"
+                         EndPoint="1.0,1.0">
+        <GradientStop Color="{StaticResource Color.Background.Main}"
+                      Offset="0" />
+        <GradientStop Color="{StaticResource Color.ReeferTable.Background.Gradient2}"
+                      Offset="0.9" />
+    </LinearGradientBrush>
+
+    <!-- Container Table -->
+    <LinearGradientBrush x:Key="Brush.ContainerTable.Background"
+                         StartPoint="0.0,0.0"
+                         EndPoint="1.0,1.0">
+        <GradientStop Color="{StaticResource Color.Background.Main}"
+                      Offset="0" />
+        <GradientStop Color="{StaticResource Color.ContainerTable.Background.Gradient2}"
+                      Offset="0.9" />
+    </LinearGradientBrush>
+
+    <!-- Conflict list -->
+    <SolidColorBrush x:Key="Brush.ConflictList.Text.Segregation"
+                     Color="{StaticResource Color.Text.Segregation}" />
+    <SolidColorBrush x:Key="Brush.ConflictList.Text.Stowage"
+                     Color="{StaticResource Color.Text.Stowage}" />
+    <SolidColorBrush x:Key="Brush.ConflictList.Text.SW19"
+                     Color="{StaticResource Color.Text.SW19}" />
+    <SolidColorBrush x:Key="Brush.Text.Conflict"
+                     Color="{StaticResource Color.Text.Conflict}" />
+    <SolidColorBrush x:Key="Brush.Text.MouseOver"
+                     Color="{StaticResource Color.Text.MouseOver}" />
+
+    <!-- Expander colors -->
+    <SolidColorBrush x:Key="Brush.Background.Expander"
+                     Color="{StaticResource Color.Background.Expander}" />
+    <SolidColorBrush x:Key="Expander.MouseOver.Circle.Stroke"
+                     Color="OrangeRed" />
+    <SolidColorBrush x:Key="Expander.MouseOver.Circle.Fill"
+                     Color="Orange" />
+    <SolidColorBrush x:Key="Expander.MouseOver.Arrow.Stroke"
+                     Color="{StaticResource Color.Element.MouseOver}" />
+    <SolidColorBrush x:Key="Expander.Pressed.Circle.Stroke"
+                     Color="#FF3C77DD" />
+    <SolidColorBrush x:Key="Expander.Pressed.Circle.Fill"
+                     Color="#FFD9ECFF" />
+    <SolidColorBrush x:Key="Expander.Pressed.Arrow.Stroke"
+                     Color="{StaticResource Color.Element.Pressed}" />
+    <SolidColorBrush x:Key="Expander.Disabled.Circle.Stroke"
+                     Color="#FFBCBCBC" />
+    <SolidColorBrush x:Key="Expander.Disabled.Circle.Fill"
+                     Color="#FFE6E6E6" />
+    <SolidColorBrush x:Key="Expander.Disabled.Arrow.Stroke"
+                     Color="{StaticResource Color.Element.Disabled}" />
+    <SolidColorBrush x:Key="Expander.Static.Circle.Fill"
+                     Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="Expander.Static.Circle.Stroke"
+                     Color="#FF333333" />
+    <SolidColorBrush x:Key="Expander.Static.Arrow.Stroke"
+                     Color="{StaticResource Color.Element.Main}" />
+
+    <!-- Menu colors -->
+    <SolidColorBrush x:Key="Brush.MainMenu.Background" 
+                     Color="{StaticResource Color.Border.Main}"/>
+    <SolidColorBrush x:Key="Brush.MainMenu.TopMenuItem.Foreground"
+                     Color="{StaticResource Color.Background.Panel}"></SolidColorBrush>
+    <SolidColorBrush x:Key="Brush.MainMenu.MenuItem.Case1.Foreground"
+                     Color="{StaticResource Color.Text.Main}"></SolidColorBrush>
+    <SolidColorBrush x:Key="Brush.MainMenu.MenuItem.Case2.Foreground"
+                     Color="{StaticResource Color.DgTable.Background.Gradient2}"></SolidColorBrush>
+    <SolidColorBrush x:Key="Brush.MainMenu.MenuItem.Inactive.Foreground"
+                     Color="{StaticResource Color.Background.Panel}"></SolidColorBrush>
+
+</ResourceDictionary>

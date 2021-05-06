@@ -1,0 +1,128 @@
+* PART 3 DANGEROUS GOODS LIST, SPECIAL PROVISIONS AND EXCEPTIONS
+
+3.4 Dangerous goods packed in limited quantities
+
+3.4.1 General — Not implemented
+3.4.1.2 Noted
+
+3.4.2 Packing — Not implemented
+
+3.4.3 Stowage — Implemented
+
+3.4.4 Segregation:
+3.4.4.1 Not implemented
+3.4.4.2 Implemented
+
+3.4.5 Marking and placarding — Not implemented
+
+3.4.6 Documentation — Not implemented
+
+
+* PART 7 PROVISIONS CONCERNING TRANSPORT OPERATIONS
+
+Chapter 7.1 General stowage provisions
+
+7.1.1 Introduction — Noted
+
+7.1.2 Definitions — Implemented (accuracy is behind the user)
+
+7.1.3 Stowage categories — Implemented for cargo ships
+
+7.1.4 Special stowage provisions
+7.1.4.1 Not applicable
+7.1.4.2 Stowage of marine pollutants — Implemented - alarm will be raised if stowed at sea side.
+7.1.4.3 Stowage of limited quantities and excepted quantities — Implemented for limited quantities
+7.1.4.4 Stowage of goods of class 1
+7.1.4.4.1 - Not implemented (applicable to ships constructed before 1 September 1984)
+7.1.4.4.2 — Implemented
+7.1.4.4.3 — Implemented
+7.1.4.4.4 — Implemented
+7.1.4.4.5 Passenger ships - Not implemented
+7.1.4.4.6 Alternative arrangements - Not implemented
+7.1.4.5 Stowage of goods of class 7 - Implemented for 7.1.4.5.15, 7.1.4.5.16, 7.1.4.5.17 and 7.1.4.5.18 - the strictest requirements.
+7.1.4.6 Stowage of dangerous goods under temperature control - Implemented
+7.1.4.7 Stowage of stabilized goods - Implemented
+
+7.1.5 Stowage codes — Implemented
+
+7.1.6 Handling codes — Implemented
+
+
+
+Chapter 7.2 General segregation provisions
+
+7.2.1 Introduction — Noted
+
+7.2.2 Definitions  — Implemented
+
+7.2.3 Segregation provisions — Implemented
+
+7.2.4 Segregation table — Implemented
+
+7.2.5 Segregation groups — Implemented
+
+7.2.6 Special segregation provisions and exemptions — Implemented
+
+7.2.7 Segregation of goods of class 1
+7.2.7.1 Segregation between goods of class 1 — Implemented
+7.2.7.2 Segregation from goods of other classes — Implemented
+
+7.2.8 Segregation codes — Implemented
+
+Annex: Segregation flow chart — Followed
+
+Chapter 7.3 Consigning operations concerning the packing and use of
+cargo transport units (CTUs) and related provisions
+Not implemented
+
+Chapter 7.4 Stowage and segregation on containerships
+
+7.4.1 Introduction
+7.4.1.1 — Noted
+7.4.1.2 — Not applicable (conventional cargo spaces)
+7.4.1.3 — Implemented
+7.4.1.4 — Implemented
+
+7.4.2 Stowage requirements
+
+7.4.2.1 — Not applicable (hatchless ships)
+7.4.2.2 
+7.4.2.2.1
+7.4.2.2.1.1 — Noted
+7.4.2.2.1.2 — Not implemented (clear gap is not considerd)
+7.4.2.2.2 — Not applicable
+7.4.2.3
+7.4.2.3.1 — Only refered to DOC
+7.4.2.3.2 — Implemented
+7.4.2.3.3 — Implemented
+7.4.2.4 — Not implemented (shall by covered by DOC)
+
+7.4.3 Segregation requirements
+
+7.4.3.1
+7.4.3.1.1 — Implemented
+7.4.3.1.2 — Implemented (for non-hatchless ships)
+
+
+Chapter 7.5 Stowage and segregation on ro-ro ships
+Not implemented
+
+
+Chapter 7.6 Stowage and segregation on general cargo ships
+Not implemented
+
+
+Chapter 7.7 Shipborne barges on barge-carrying ships
+Not implemented
+
+
+
+Chapter 7.8 Special requirements in the event of an incident and fire
+precautions involving dangerous goods
+Not implemented
+
+
+Chapter 7.9 Exemptions, approvals and certificates
+Not implemented
+
+

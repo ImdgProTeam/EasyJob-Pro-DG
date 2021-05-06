@@ -1,0 +1,133 @@
+﻿<UserControl x:Class="EasyJob_ProDG.UI.View.User_Controls.ConflictsListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=ConflictListViewModel}">
+
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="ConflictsView"
+                              Source="{Binding Path=Conflicts}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="ConflictGroupTitle" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+        <Style x:Key="HeaderStyle"
+               TargetType="TextBlock">
+            <Setter Property="Foreground"
+                    Value="{StaticResource Brush.Text.Header}" />
+            <Setter Property="TextAlignment"
+                    Value="Center" />
+            <Setter Property="FontWeight"
+                    Value="DemiBold" />
+        </Style>
+    </UserControl.Resources>
+    <Grid x:Name="mainConflictListGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+
+
+        <TextBlock Style="{StaticResource HeaderStyle}">
+            List of Conflicts
+        </TextBlock>
+        <ListBox x:Name="ConflictBox"
+                 ItemsSource="{Binding Source={StaticResource ConflictsView}, UpdateSourceTrigger=PropertyChanged}"
+                 SelectedItem="{Binding SelectedConflict}"
+                 IsSynchronizedWithCurrentItem="True"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 HorizontalContentAlignment="Stretch"
+                 Margin="0,0,2,0"
+                 Padding="2"
+                 Grid.Row="1">
+
+            <ListBox.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{StaticResource Brush.Border.Main}"
+                                    BorderThickness="1"
+                                    Margin="40">
+                                <TextBlock />
+                            </Border>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander IsExpanded="False"
+                                                  Background="{StaticResource Brush.Background.Expander}"
+                                                  Style="{StaticResource expandTitleTrigger}"
+                                                  MouseEnter="Expander_MouseEnter"
+                                                  MouseLeave="Expander_MouseLeave"
+                                                  LostFocus="Expander_LostFocus">
+
+                                            <Expander.Header>
+                                                <StackPanel x:Name="stpHeader"
+                                                            Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Name}"></TextBlock>
+                                                    <TextBlock Text=" ("></TextBlock>
+                                                    <TextBlock Text="{Binding ItemCount}"></TextBlock>
+                                                    <TextBlock Text=")"></TextBlock>
+                                                </StackPanel>
+                                            </Expander.Header>
+                                            <ItemsPresenter />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ListBox.GroupStyle>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel Height="NaN">
+                        <CheckBox IsChecked="False"
+                                  HorizontalAlignment="Left"
+                                  Margin="4,4,0,0"
+                                  DockPanel.Dock="Right"
+                                  VerticalAlignment="Top">
+                            <CheckBox.Template>
+                                <ControlTemplate>
+                                    <Ellipse x:Name="CheckedConflictEllipse"
+                                             Height="10"
+                                             Width="10"
+                                             Fill="Red"
+                                             MouseDown="Ellipse_MouseDown">
+                                    </Ellipse>
+                                </ControlTemplate>
+                            </CheckBox.Template>
+                        </CheckBox>
+                        <TextBlock DockPanel.Dock="Top"
+                            Text="{Binding ContainerNumber, UpdateSourceTrigger=PropertyChanged}"
+                                   MouseDown="HeaderTextBlock_MouseDown"></TextBlock>
+                        <TextBlock  DockPanel.Dock="Bottom"
+                                    Padding="5,5,10,2"
+                                    Style="{StaticResource ConflictTypeTrigger}"
+                                    Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}">
+                        </TextBlock>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding DoubleClickOnSelectedItem}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListBox>
+
+    </Grid>
+</UserControl>

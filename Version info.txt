@@ -1,0 +1,168 @@
+VERSION INFO
+
+
+
+0.7.0.5
+Date: 
+
+Version workable: Yes
+Changes:
+1. Export to Excel revised and expanded.
+2. Update method clears HasUpdated of all units. Also updates VoyageInfo.
+3. Fixed issue with reefer temperatures.
+4. Added Reefer properties to condition unit constructor (those did not save in ejc previously.)
+5. Opening program: fixed issue with corrupt file causing exception due to VoyagInfo == null.
+6. Opening file: If file is read but CargoPlan not created - message will pop up and previous plan will remain open.
+7. Fixed IFTDG issue with multiple segregation groups assigned. Also with digits prefix to segregation groups and unrecognized segregation groups.
+8. Removed RemoveDuplicateRecords method from CheckDgList as it caused unwillfull behavior of DgList.
+9. Renamed DgDataGrid, ContainerDataGrid etc. into DataGridDg etc.
+10. Created fixed limited columns and context menu to choose their visibility for Containers and Reefers.
+
+Workable datagrid: dg, partially containers and reefers
+-------------------------------------------------------
+///////////////////////////////////////////////////////
+
+
+
+0.7.0.4
+Date: 2020-12-06
+
+Version workable: Yes
+Changes:
+1. Fixed reading error when incomplete dg information provided in .edi.
+2. Fixed error in determining class from DgList when it is mentioned as '2' for specified unno.
+3. Created method to read IFTDGN .edi files.
+4. Fixed issues with reading of FP and MP.
+5. Minor adjustments in DgDataGrid.
+6. Dg_AssignFromDgList reviewed.
+7. Extended interface IUpdatable to contain HasContainerTypeChanged, HasPodChanged, IsToImport, IsNotToImport, LocationBeforeRestow.
+8. Implemented method to Import dg info from another condition.
+9. Expanded Dg and DgWrapper classes with Technical and original names, packages, emergency contacts.
+10. Expanded DgDataGrid with new properties: Remarks, Emergency contacts, Final destination, Ems.
+11. IReefer interface developed and implemented for Container and ContainerWrapper
+12. EJC updated to version 0.89 to include expanded IUpdatable, IReefer as well as other new Dg fields and Remarks for each type of unit.
+This now also includes voyage info.
+13. Status bar reflects process while opening new condition file.
+14. Added command to include or remove TechnicalName to ProperShippingName.
+15. On import from .edi EMS will be formatted.
+16. Old position will be also displayed, if position changed.
+17. Adjusted Packing group input.
+18. Created method to extract DataGrid to excel in View. Implemented for DgDataGrid.
+19. Changed DgNetWeight property and associated to type decimal in order to clear errors.
+20. EJC updated to version 0.90.
+21. InfoBlock expanded with Total dg net weight and voyage information.
+22. Total weight updates in real time.
+
+Workable datagrid: dg, partially containers and reefers
+-------------------------------------------------------
+///////////////////////////////////////////////////////
+
+
+0.7.0.3
+Date: 2020-11-13
+
+Version workable: Yes
+Changes:
+1. Fixed bug with update of hold number and size when changing position.
+2. Updates conflicts once non-dg container position changed.
+3. Fixed issue with blank FP in DGS edi segment.
+4. Optimized work with conflicts and cargo data registration/unregistration in data messenger.
+5. Start with args enabled (open condition file on 'open with').
+6. Exe file name changed to ProDG Desktop.
+7. First start method created.
+8. AssociateFileExtension created (workability doubtful).
+9. Changed columnsettings and workingcondition to be started/recorded in the App directory.
+10. Revised solution to rename unit: option to remove only one is removed (now either all or none).
+11. Created a separate class CargoPlanUnitPropertyChanger to handle changes in unit properties.
+DgWrapper, ContainerWrapper and CargoPlanWrapper refactored.
+12. Implemented method to Update current cargo condition with changes from another plan.
+13. Implemented optional opening, when on opening file there is a pop up window with open options.
+OpenOption enumeration added to OpenFile. Update and Import are blocked if there is no plan loaded.
+14. Fixed error in saving IsRf property of CargoPlanAssociated.
+15. Fixed error in closing the app with empty CargoPlan.
+16. New version of ejc 0.8c released. That includes now properties from IUpdatable, Max 1L for aerosols, Waste.
+17. Max 1L for aerosols implemented.
+18. Waste property added.
+19. Created connection between proper shipping name and Unno and Max 1L and Waste.
+20. Dg properties column and newly created DgWrapper properties added to DgTable. 
+21. Added Recheck button. MainWindow right side changed to DockPanel.
+
+Workable datagrid: dg, partially containers and reefers
+-------------------------------------------------------
+///////////////////////////////////////////////////////
+
+
+0.7.0.2
+Date: 2020-10-23
+
+Version workable: Yes
+Changes:
+1. MainWindow: Changes file name in title when save condition.
+2. Rectified error with different number of conflicts on the same action.
+3. Refactoring: ConflictList.
+4. Changed to create DgWrapperList through the constructor and using model.
+5. Fixed bug with unknown container type IsClosed property.
+6. DgDataGrid: Added validation logic for containerType, changed selected item color.
+7. Container type converts to UPPER case on typing.
+8. In segregation removed segregation check between same unnos.
+9. Present condition is saved on closing app and got resumed on startup.
+10. Location and ContainerNumbers, POD, POL, Type of units in Dg, Containers and Reefer lists are syncronized. 
+Change of any unit number will confirm with dialog if change for all units is required. 
+11. IsRf property syncronized in DgList and ContainerList. As well upon change the unit will show up 
+or disappear from ReeferList.
+12. Implemented for Dg delete: confirmation request, focus shift to next dg, sync with CargoPlan, input binding for 'Delete' button.
+13. Container list sorting for booleans true first.
+14. Removed List<Dg> DgCargo from container class.
+15. On startup - empty screen if failed to read WorkingCargoPlan.
+16. Reduced number of displayed conflicts by checking for doublers.
+17. Changes in order to implement sync of Container and Reefer model lists with wrapper list (not completed).
+18. Fixed errors in SpecialSegregationCheck and class refactored for better reading.
+
+Workable datagrid: dg, partially containers and reefers
+-------------------------------------------------------
+///////////////////////////////////////////////////////
+
+
+0.7.0.1
+Date: 2020-09-25
+
+Version workable: Yes
+Changes:
+1. Set version number, vessel name and current file in MainWindow title through TitleService.
+2. Refactoring in Model (ShipProfile, OpenFile, DgVerificator, CargoPlan).
+3. Removed project ProDG.IO.
+4. Extracted classes DialogOpenFile and DilogSaveFile and refactored.
+5. Updated class ModelWrapper to include NotifyDataErrorInfoBase.
+6. DgDataGrid: changed Name column to TextColumn, removed unnecessary events and handlers from code behind, 
+enabled start/finish editing text columns with Enter without jumping to another row.
+7. UI: Fixed bug with opening User Settings window after implementation of INotifyErrorInfo.
+8. DgDataGrid: added Hold number column.
+9. Refactoring of CurrentProgramData and ICurrentProgramData, ShipProfileDataService.
+10. Location on board will define isUnderdeck based on ProgramDefaultSettingValues.
+11. Added DropFile feature.
+12. Added check for version match of UI and Data projects in Debug mode.
+13. DgDataGrid: Fixed issue with scroll when an item is selected.
+14. Implemented MessageDialogService.
+15. UI OpenFile: In case a file cannot be opened, a message will display and no changes will be done.
+16. UI OpenFile: Open or Drop of unknown file will require confirmation.
+17. WithXL: Temporarily made to open first worksheet of workbook, if no match with template.
+
+Workable datagrid: dg only
+-------------------------------------------------------
+///////////////////////////////////////////////////////
+
+0.7.0.0
+Date: 2020-09-02
+
+Version workable: Yes
+Freatures: 
+- Open edi, xls
+- Checking stowage segregation
+- Change and save ship profile
+- Export to excel (from CargoPlan, not from view)
+- Set excel profile
+- Blanked licence, login, save condition
+
+Workable datagrid: dg only
+-------------------------------------------------------
+///////////////////////////////////////////////////////
