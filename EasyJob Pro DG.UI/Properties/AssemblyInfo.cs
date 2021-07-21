@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("Desktop version (beta)")]
 [assembly: AssemblyCompany("imdg.pro")]
 [assembly: AssemblyProduct("Pro DG")]
-[assembly: AssemblyCopyright("Copyright ©  2018 - 2020")]
+[assembly: AssemblyCopyright("Copyright ©  2018 - 2021")]
 [assembly: AssemblyTrademark("imdg.pro")]
 [assembly: AssemblyCulture("")]
 
@@ -49,5 +49,5 @@ using System.Windows;
 // Можно задать все значения или принять номера сборки и редакции по умолчанию 
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.7.0.5")]
-[assembly: AssemblyFileVersion("0.7.0.5")]
+[assembly: AssemblyVersion("0.8.0.0")]
+[assembly: AssemblyFileVersion("0.8.0.0")]

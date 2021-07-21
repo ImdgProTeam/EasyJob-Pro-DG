@@ -1,47 +1,67 @@
-﻿using EasyJob_ProDG.UI.ViewModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using EasyJob_ProDG.UI.Services.FirstStartServices;
 
 namespace EasyJob_ProDG.UI.View.UI
 {
     public partial class MainWindow
     {
-        public static bool Started;
+        /// <summary>
+        /// Cargo condition file path to be used when the program started.
+        /// </summary>
         public string StartupFilePath;
 
 
         public MainWindow(string path = null)
         {
-            //First start service
-            //FirstStartService.DoFirstStart();
-
             StartupFilePath = path;
-
-            //Initialize window
-            WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             InitializeComponent();
 
-            //MainWindowViewModel viewModel = DataContext as MainWindowViewModel;
-            //viewModel?.SetupDialogService(this);
+            SetWindowLocationOnStartup();
+        }
 
-            Left = Properties.Settings.Default.WindowPosition.Left;
-            Top = Properties.Settings.Default.WindowPosition.Top;
-            Width = Properties.Settings.Default.WindowPosition.Width;
-            Height = Properties.Settings.Default.WindowPosition.Height;
+        /// <summary>
+        /// Sets Window size and location from settings. 
+        /// </summary>
+        private void SetWindowLocationOnStartup()
+        {
+            try
+            {
+                if (Properties.Settings.Default.WindowStateMaximized)
+                {
+                    WindowState = WindowState.Maximized;
+                }
+                else
+                {
+                    Left = Properties.Settings.Default.WindowPosition.Left;
+                    Top = Properties.Settings.Default.WindowPosition.Top;
+                    Width = Properties.Settings.Default.WindowPosition.Width;
+                    Height = Properties.Settings.Default.WindowPosition.Height;
+                }
+            }
+            catch
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            }
+        }
 
-            Started = true;
+        /// <summary>
+        /// Saves window location and state to settings.
+        /// </summary>
+        private void SaveCurrentWindowLocationToSettings()
+        {
+            Properties.Settings.Default.WindowStateMaximized = this.WindowState == WindowState.Maximized;
+            Properties.Settings.Default.WindowPosition = this.RestoreBounds;
+            Properties.Settings.Default.Save();
         }
 
         private void ClosingApplication(object sender, CancelEventArgs e)
         {
             OnWindowClosingEventHandler.Invoke();
 
-            Properties.Settings.Default.WindowPosition = this.RestoreBounds;
-            Properties.Settings.Default.Save();
+            SaveCurrentWindowLocationToSettings();
         }
 
         public delegate void WindowClosing();

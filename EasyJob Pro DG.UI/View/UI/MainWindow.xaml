@@ -11,7 +11,6 @@
         mc:Ignorable="d"
         Icon="imdg.good.ico"
         Title="{Binding WindowTitle, UpdateSourceTrigger=Default}"
-        WindowState="Maximized"
         WindowStyle="ThreeDBorderWindow"
         AllowDrop="True"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainWindowViewModel}"

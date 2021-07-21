@@ -1,9 +1,50 @@
+//////////////////////////////////////////////////////////////////////////
+/// How to change to the next version
+/// 1. Complete current version text
+/// 2. Complete date row
+/// 3. Save everything
+/// 4. Close the VisualStudio
+/// 5. Copy solution folder to the same location
+/// 6. Rename the copy with current version number
+/// 7. Open original project in VS
+/// 8. Create a new entry in this file with new version assigned
+/// 9. Change version in AssemblyInfo.cs of Data project
+/// 10. Change version in AssemblyInfo.cs of UI project
+/// 11. Build solution and run in order to ensure everything works fine.
+/// DONE!
+//////////////////////////////////////////////////////////////////////////
+
+
+
 VERSION INFO
+
+
+0.8.0.0
+Date: 
+
+Version workable: Yes
+Changes:
+
+VISUAL
+1. Fixed window location and size on startup.
+2. 
+
+ERRORS
+1.
+2.
+
+NEW
+1.
+2.
+
+Workable datagrid: dg, partially containers and reefers
+-------------------------------------------------------
+///////////////////////////////////////////////////////
 
 
 
 0.7.0.5
-Date: 
+Date: 2021-07-21
 
 Version workable: Yes
 Changes:
