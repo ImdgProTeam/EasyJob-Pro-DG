@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.Model.Cargo;
 using ExcelApp = Microsoft.Office.Interop.Excel;
@@ -19,28 +17,6 @@ namespace EasyJob_ProDG.Model.IO.Excel
         #endregion
 
         //------------------- Import - Export methods -------------------------------------------------------------------------
-        //public static void ExportToExcelFileOnDisk(DataGrid grid)
-        //{
-        //    grid.SelectAllCells();
-        //    grid.ClipboardCopyMode = DataGridClipboardCopyMode.IncludeHeader;
-
-        //    ApplicationCommands.Copy.Execute(null, grid);
-
-        //    string resultat = (string)Clipboard.GetData(DataFormats.CommaSeparatedValue);
-        //    string result = (string)Clipboard.GetData(DataFormats.UnicodeText);
-
-        //    grid.UnselectAllCells();
-
-        //    System.IO.StreamWriter writer = new StreamWriter("test.xls");
-        //    writer.WriteLine(result.Replace(',', ' '));
-        //    writer.Close();
-        //}
-
-        //private static void ToExcel2(string fileName, DataGrid grid)
-        //{
-
-        //}
-
 
         /// <summary>
         /// Method exports the list of Dg into Excel in default format.
@@ -80,7 +56,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
 
             #region Headings row
             //Creating heading titles
-            for (int i = 1; i <= titles.Count; i++)
+            for (int i = 1; i <= template.MaxColumnNumber; i++)
             {
                 excelCells = (ExcelApp.Range)excelWorkSheet.Cells[template.StartRow - 1, i];
                 excelCells.Font.Bold = true;
@@ -98,7 +74,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
             for (int excelrow = 1; excelrow <= dgList.Count; excelrow++)
             {
                 Dg dg = dgList[excelrow - 1];
-                for (int excelcol = 1; excelcol <= titles.Count; excelcol++)
+                for (int excelcol = 1; excelcol <= template.MaxColumnNumber; excelcol++)
                 {
                     string value = null;
                     excelCells = (ExcelApp.Range)excelWorkSheet.Cells[excelrow + template.StartRow - 1, excelcol];
@@ -257,7 +233,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                     int row = template.StartRow + line;
                     Dg unit = new Dg();
                     Container cont = new Container();
-                    for (int col = 1; col <= 16; col++)
+                    for (int col = 1; col <= template.MaxColumnNumber; col++)
                     {
                         excelcells = excelWorksheet.Cells[row, col];
                         if (excelcells.Value2 == null) continue;

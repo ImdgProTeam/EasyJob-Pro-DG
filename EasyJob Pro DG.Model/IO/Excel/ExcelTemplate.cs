@@ -35,6 +35,11 @@ namespace EasyJob_ProDG.Model.IO.Excel
         static int _colFinalDestination = 19;
         static int _colOperator = 20;
         static int _colEmergencyContact = 21;
+
+        /// <summary>
+        /// Defines the number of the last column to be read in excel sheet
+        /// </summary>
+        static int _maxColumnNumber = 21;
         #endregion
 
         //public properties
@@ -69,6 +74,8 @@ namespace EasyJob_ProDG.Model.IO.Excel
         public int ColumnFinalDestination { get { return _colFinalDestination; } set { _colFinalDestination = value; } }
         public int ColumnOperator { get { return _colOperator; } set { _colOperator = value; } }
         public int ColumnEmergencyContact { get { return _colEmergencyContact; } set { _colEmergencyContact = value; } }
+
+        public int MaxColumnNumber { get { return _maxColumnNumber; } }
         #endregion
 
         public ExcelTemplate()
@@ -117,63 +124,103 @@ namespace EasyJob_ProDG.Model.IO.Excel
                                     break;
                                 case "container number":
                                     _colContNr = int.Parse(value);
+                                    if (_colContNr > _maxColumnNumber)
+                                        _maxColumnNumber = _colContNr;
                                     break;
                                 case "container location":
                                     _colLocation = int.Parse(value);
+                                    if (_colLocation > _maxColumnNumber)
+                                        _maxColumnNumber = _colLocation;
                                     break;
                                 case "unno":
                                     _colUnno = int.Parse(value);
+                                    if (_colUnno > _maxColumnNumber)
+                                        _maxColumnNumber = _colUnno;
                                     break;
                                 case "pol":
                                     _colPOL = int.Parse(value);
+                                    if (_colPOL > _maxColumnNumber)
+                                        _maxColumnNumber = _colPOL;
                                     break;
                                 case "pod":
                                     _colPOD = int.Parse(value);
+                                    if (_colPOD > _maxColumnNumber)
+                                        _maxColumnNumber = _colPOD;
                                     break;
                                 case "class":
                                     _colClass = int.Parse(value);
+                                    if (_colClass > _maxColumnNumber)
+                                        _maxColumnNumber = _colClass;
                                     break;
                                 case "subclass":
                                     _colSubclass = int.Parse(value);
+                                    if (_colSubclass > _maxColumnNumber)
+                                        _maxColumnNumber = _colSubclass;
                                     break;
                                 case "psn":
                                     _colName = int.Parse(value);
+                                    if (_colName > _maxColumnNumber)
+                                        _maxColumnNumber = _colName;
                                     break;
                                 case "pkg":
                                     _colPkg = int.Parse(value);
+                                    if (_colPkg > _maxColumnNumber)
+                                        _maxColumnNumber = _colPkg;
                                     break;
                                 case "fp":
                                     _colFP = int.Parse(value);
+                                    if (_colFP > _maxColumnNumber)
+                                        _maxColumnNumber = _colFP;
                                     break;
                                 case "mp":
                                     _colMP = int.Parse(value);
+                                    if (_colMP > _maxColumnNumber)
+                                        _maxColumnNumber = _colMP;
                                     break;
                                 case "lq":
                                     _colLQ = int.Parse(value);
+                                    if (_colLQ > _maxColumnNumber)
+                                        _maxColumnNumber = _colLQ;
                                     break;
                                 case "ems":
                                     _colEms = int.Parse(value);
+                                    if (_colEms > _maxColumnNumber)
+                                        _maxColumnNumber = _colEms;
                                     break;
                                 case "remarks":
                                     _colRemarks = int.Parse(value);
+                                    if (_colRemarks > _maxColumnNumber)
+                                        _maxColumnNumber = _colRemarks;
                                     break;
                                 case "net weight":
                                     _colNetWt = int.Parse(value);
+                                    if (_colNetWt > _maxColumnNumber)
+                                        _maxColumnNumber = _colNetWt;
                                     break;
                                 case "technical name":
                                     _colTechName = int.Parse(value);
+                                    if (_colTechName > _maxColumnNumber)
+                                        _maxColumnNumber = _colTechName;
                                     break;
                                 case "package":
                                     _colPackage = int.Parse(value);
+                                    if (_colPackage > _maxColumnNumber)
+                                        _maxColumnNumber = _colPackage;
                                     break;
                                 case "final destination":
                                     _colFinalDestination = int.Parse(value);
+                                    if (_colFinalDestination > _maxColumnNumber)
+                                        _maxColumnNumber = _colFinalDestination;
                                     break;
                                 case "operator":
                                     _colOperator = int.Parse(value);
+                                    if (_colOperator > _maxColumnNumber)
+                                        _maxColumnNumber = _colOperator;
                                     break;
                                 case "emergency contact":
                                     _colEmergencyContact = int.Parse(value);
+                                    if (_colEmergencyContact > _maxColumnNumber)
+                                        _maxColumnNumber = _colEmergencyContact;
                                     break;
                             }
                         }
