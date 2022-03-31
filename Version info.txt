@@ -30,7 +30,7 @@ VISUAL
 2. 
 
 ERRORS
-1.
+1. Fixed bug when exporting to and importing from excel was limited to 16 columns only.
 2.
 
 NEW
