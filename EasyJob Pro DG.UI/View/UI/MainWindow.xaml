@@ -126,7 +126,7 @@
                 <GridSplitter ShowsPreview="False"
                               HorizontalAlignment="Center"
                               VerticalAlignment="Stretch"
-                              Width="6"
+                              Width="2"
                               Grid.Column="1"
                               Grid.Row="0"
                               Grid.RowSpan="2" />

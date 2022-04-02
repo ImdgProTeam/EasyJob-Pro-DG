@@ -5,8 +5,8 @@ namespace EasyJob_ProDG.UI.Utility
 {
     public class DelegateCommand : ICommand
     {
-        private Action<object> _execute;
-        private Predicate<object> _canExecute;
+        private readonly Action<object> _execute;
+        private readonly Predicate<object> _canExecute;
 
         public event EventHandler CanExecuteChanged
         {
