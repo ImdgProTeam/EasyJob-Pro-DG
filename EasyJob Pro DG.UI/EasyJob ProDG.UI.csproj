@@ -134,9 +134,6 @@
     <Compile Include="Utility\ViewModelLocator.cs" />
     <Compile Include="ViewModel\ConflictPanelItemVM.cs" />
     <Compile Include="Data\ConflictsList.cs" />
-    <Compile Include="Classes %28TO GET RID OFF%29\ExportToTXT.cs" />
-    <Compile Include="Classes %28TO GET RID OFF%29\Output.cs" />
-    <Compile Include="Classes %28TO GET RID OFF%29\Style.cs" />
     <Compile Include="ViewModel\ConflictsListViewModel.cs" />
     <Compile Include="ViewModel\DataGridContainersViewModel.cs" />
     <Compile Include="ViewModel\DataGridDgViewModel.cs" />

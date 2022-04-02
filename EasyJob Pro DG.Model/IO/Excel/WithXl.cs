@@ -363,7 +363,6 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 {
                     //TODO: Generate list of excel worksheets in a book for opening
                     return workbook.Sheets[1];
-                    Output.ThrowMessage("Not implemented");
                     //int i = 1;
                     //foreach (Excel.Worksheet sheet in workbook.Worksheets)
                     //{

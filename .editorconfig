@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS1717: Назначение выполнено для той же переменной
+dotnet_diagnostic.CS1717.severity = none

@@ -511,7 +511,6 @@ namespace EasyJob_ProDG.UI.ViewModel
 
 
         // ----------- Registered commands ------------------------------------------
-
         public DelegateCommand CloseApplicationCommand
         {
             get
@@ -525,6 +524,5 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         // -------------- 
         #endregion
-
     }
 }
