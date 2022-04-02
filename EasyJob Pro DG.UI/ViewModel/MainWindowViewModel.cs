@@ -23,8 +23,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 {
     public class MainWindowViewModel : Observable
     {
-        // -------------- Private fields --------------------------------------------
-
+        #region Private fields
         LoadDataService loadDataService;
         WindowDialogService windowDialogService;
         CargoDataService cargoDataService;
@@ -32,11 +31,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         SettingsService uiSettingsService;
         IDialogWindowService dialogWindowService;
         IMessageDialogService _messageDialogService;
-        ITitleService _titleService;
+        ITitleService _titleService; 
+        #endregion
 
 
-        // -------------- Public properties to be used in view ----------------------
-
+        #region Public properties to be used in View
         public string WindowTitle { get; private set; }
         public ConflictsList Conflicts { get; set; }
         public VentilationRequirements Vents { get; set; }
@@ -44,11 +43,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         public Voyage VoyageInfo => WorkingCargoPlan.VoyageInfo ?? null;
         public UserUISettings UISettings { get; set; }
         public DgWrapper SelectedDg { get; set; }
-        public StatusBarViewModel StatusBarControl { get; set; }
+        public StatusBarViewModel StatusBarControl { get; set; } 
+        #endregion
 
 
-        // -------------- Constructor -----------------------------------------------
-
+        #region Constructor
         public MainWindowViewModel()
         {
             //starting status bar         
@@ -68,11 +67,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void RaiseCanExecuteChanged()
         {
 
-        }
+        } 
+        #endregion
 
 
-        // ---------------- Methods -------------------------------------------------
-
+        #region Methods
         private void LoadServices()
         {
             loadDataService = new LoadDataService();
@@ -230,8 +229,19 @@ namespace EasyJob_ProDG.UI.ViewModel
             OnPropertyChanged("VoyageInfo");
         }
 
-        // --------- Window dialog service ------------------------------------------
+        /// <summary>
+        /// Raised when ShipProfile saved to update data
+        /// </summary>
+        /// <param name="obj"></param>
+        private void OnShipProfileSaved(ShipProfileWrapperMessage obj)
+        {
+            GetCargoData();
+        }
 
+        #endregion
+
+
+        #region Window dialog service
         /// <summary>
         /// Sets up dialog service and registers viewModels for it.
         /// </summary>
@@ -258,64 +268,20 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             dialogWindowService = new DialogWindowService(owner);
 
-        }
+        } 
+        #endregion
 
-        // --------- Messenger commands ---------------------------------------------
+
+        #region Messenger commands
 
         private void SubscribeToMessenger()
         {
             DataMessenger.Default.Register<ShipProfileWrapperMessage>(this, OnShipProfileSaved, "ship profile saved");
-        }
+        } 
+        #endregion
 
 
-
-
-
-
-
-
-
-        ///// <summary>
-        ///// Changes location to all items with matching number in all lists 
-        ///// </summary>
-        ///// <param name="containerNumber"></param>
-        ///// <param name="value">New location</param>
-        //private void SetNewContainerLocation(string containerNumber, string value)
-        //{
-        //    foreach (var dg in WorkingCargoPlan.DgList)
-        //    {
-        //        if (dg.ContainerNumber == containerNumber)
-        //            if (dg.Location != value)
-        //                dg.Location = value;
-        //    }
-
-        //    foreach (var container in WorkingCargoPlan.Containers)
-        //    {
-        //        if (container.ContainerNumber == containerNumber)
-        //            if (container.Location != value)
-        //                container.Location = value;
-        //    }
-
-        //    foreach (var reefer in WorkingCargoPlan.Reefers)
-        //    {
-        //        if (reefer.ContainerNumber == containerNumber)
-        //            if (reefer.Location != value)
-        //                reefer.Location = value;
-        //    }
-        //}
-
-
-
-        /// <summary>
-        /// Raised when ShipProfile saved to update data
-        /// </summary>
-        /// <param name="obj"></param>
-        private void OnShipProfileSaved(ShipProfileWrapperMessage obj)
-        {
-            GetCargoData();
-        }
-
-        //---------- Command methods ------------------------------------------------
+        #region Command methods
 
         /// <summary>
         /// Calls export to excel method
@@ -452,10 +418,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
             //conflictDataService.ReCheckConflicts();
-        }
+        } 
+        #endregion
 
-        //--------- Event methods ---------------------------------------------------
 
+        #region Event methods
         private void OnApplicationClosing(object parameter)
         {
             SaveWorkingCondition();
@@ -471,10 +438,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             bool canExecute = WorkingCargoPlan != null && !WorkingCargoPlan.IsEmpty;
             return canExecute;
-        }
+        } 
+        #endregion
 
-        //--------- Methods without use and references ------------------------------
 
+        #region Methods without use and references
         /// <summary>
         /// Clears all class properties
         /// </summary>
@@ -484,10 +452,10 @@ namespace EasyJob_ProDG.UI.ViewModel
             Conflicts.Clear();
             Stowage.SWgroups.Clear();
         }
+        #endregion
 
 
-        // ---------- Toolbox windows calling methods
-
+        #region Methods calling toolbox windows
         private void OpenShipProfileWindowExecuted(object parameters)
         {
             windowDialogService.ShowDialog(new ShipProfileWindow());
@@ -517,10 +485,10 @@ namespace EasyJob_ProDG.UI.ViewModel
 
 
         }
+        #endregion
 
 
-        // ---------------- Commands ------------------------------------------------
-
+        #region Commands
         public ICommand AddNewDg { get; set; }
         public ICommand ReCheckCommand { get; set; }
         public ICommand OpenShipProfileWindow { get; private set; }
@@ -539,7 +507,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         //Dummy command added for testing purpose only.
         //Remember to delete dummy button when removing the command.
-        public ICommand DummyCommand { get; set; }
+        public ICommand DummyCommand { get; set; } 
 
 
         // ----------- Registered commands ------------------------------------------
@@ -556,6 +524,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         // -------------- 
+        #endregion
 
     }
 }
