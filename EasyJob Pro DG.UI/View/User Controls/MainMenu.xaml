@@ -58,17 +58,17 @@
                 <MenuItem Header="Export to Excel"
                           Command="{Binding ExportToExcelCommand}" />
                 <MenuItem Header="Add"
-                          Command="{Binding AddNewDg}" />
+                          Command="{Binding AddNewDgCommand}" />
                 <Separator />
                 <MenuItem Header="Edit Ship Profile"
-                          Command="{Binding OpenShipProfileWindow}" />
+                          Command="{Binding OpenShipProfileWindowCommand}" />
                 <MenuItem Header="User settings"
-                          Command="{Binding OpenUserSettingsWindow}" />
+                          Command="{Binding OpenUserSettingsWindowCommand}" />
 
                 <Separator />
 
                 <MenuItem Header="Exit"
-                          Command="{Binding CloseApplication}"
+                          Command="{Binding CloseApplicationCommand}"
                           InputGestureText="Ctrl+X" />
             </MenuItem>
 
@@ -93,9 +93,9 @@
                     </Style>
                 </MenuItem.Resources>
                 <MenuItem Header="License"
-                          Command="{Binding ShowLicenseDialog}"></MenuItem>
+                          Command="{Binding ShowLicenseDialogCommand}"></MenuItem>
                 <MenuItem Header="About"
-                          Command="{Binding ShowAbout}"></MenuItem>
+                          Command="{Binding ShowAboutCommand}"></MenuItem>
             </MenuItem>
         </Menu>
     </Grid>

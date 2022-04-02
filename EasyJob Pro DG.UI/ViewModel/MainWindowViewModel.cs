@@ -97,21 +97,21 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         private void LoadCommands()
         {
-            AddNewDg = new DelegateCommand(OnAddNewDg, CanAddNewDg);
+            AddNewDgCommand = new DelegateCommand(OnAddNewDg, CanAddNewDg);
             ReCheckCommand = new DelegateCommand(OnReCheckRequested);
-            OpenShipProfileWindow = new DelegateCommand(OpenShipProfileWindowExecuted);
-            OpenUserSettingsWindow = new DelegateCommand(OpenUserSettingsWindowExecuted);
-            ShowAbout = new DelegateCommand(ShowAboutExecuted);
-            ShowLicenseDialog = new DelegateCommand(ShowLicenseDialogExecuted);
+            OpenShipProfileWindowCommand = new DelegateCommand(OpenShipProfileWindowExecuted);
+            OpenUserSettingsWindowCommand = new DelegateCommand(OpenUserSettingsWindowExecuted);
+            ShowAboutCommand = new DelegateCommand(ShowAboutExecuted);
+            ShowLicenseDialogCommand = new DelegateCommand(ShowLicenseDialogExecuted);
             OpenFileCommand = new DelegateCommand(OpenOnExecuted);
             SaveFileCommand = new DelegateCommand(SaveOnExecuted);
             UpdateConditionCommand = new DelegateCommand(UpdateConditionOnExecuted, CanExecuteForOptionalOpen);
             ImportDataCommand = new DelegateCommand(ImportInfoOnExecuted, CanExecuteForOptionalOpen);
             ImportDataOnlyPolCommand = new DelegateCommand(ImportInfoOnlyPolOnExecuted, CanExecuteForOptionalOpen);
             ImportDataOnlySelectedCommand = new DelegateCommand(ImportInfoOnlySelectedOnExecuted, CanExecuteForOptionalOpen);
-            ExportToExcelCommand = new DelegateCommand(ExportToExcel);
+            ExportToExcelCommand = new DelegateCommand(ExportToExcelOnExecuted);
             SelectionChangedCommand = new DelegateCommand(OnApplicationClosing);
-            ApplicationClosing = new DelegateCommand(OnApplicationClosing);
+            ApplicationClosingCommand = new DelegateCommand(OnApplicationClosing);
 
             //Dummy command added for testing purpose
             DummyCommand = new DelegateCommand(DummyMethod);
@@ -287,7 +287,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// Calls export to excel method
         /// </summary>
         /// <param name="obj"></param>
-        private void ExportToExcel(object obj)
+        private void ExportToExcelOnExecuted(object obj)
         {
             loadDataService.ExportToExcel(WorkingCargoPlan);
         }
@@ -313,7 +313,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void ImportInfoOnExecuted(object obj)
         {
-            ImportFileInfo(obj);
+            ImportFileInfoOnExecuted(obj);
         }
 
         /// <summary>
@@ -322,7 +322,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void ImportInfoOnlyPolOnExecuted(object obj)
         {
-            ImportFileInfo(obj, false, VoyageInfo.PortOfDeparture);
+            ImportFileInfoOnExecuted(obj, false, VoyageInfo.PortOfDeparture);
         }
 
         /// <summary>
@@ -331,7 +331,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void ImportInfoOnlySelectedOnExecuted(object obj)
         {
-            ImportFileInfo(obj, true);
+            ImportFileInfoOnExecuted(obj, true);
         }
 
         /// <summary>
@@ -340,7 +340,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="owner">Owner window for dialog window.</param>
         /// <param name="importOnlySelected">True: only selected for import items will be imported.</param>
         /// <param name="currentPort">If set, only selected items will be imported</param>
-        private void ImportFileInfo(object owner, bool importOnlySelected = false, string currentPort = null)
+        private void ImportFileInfoOnExecuted(object owner, bool importOnlySelected = false, string currentPort = null)
         {
             if (!DialogOpenFile.OpenFileWithDialog(owner, out var file)) return;
             OpenNewFile(file, OpenFile.OpenOption.Import, importOnlySelected, currentPort);
@@ -489,12 +489,12 @@ namespace EasyJob_ProDG.UI.ViewModel
 
 
         #region Commands
-        public ICommand AddNewDg { get; set; }
+        public ICommand AddNewDgCommand { get; set; }
         public ICommand ReCheckCommand { get; set; }
-        public ICommand OpenShipProfileWindow { get; private set; }
-        public ICommand OpenUserSettingsWindow { get; private set; }
-        public ICommand ShowAbout { get; private set; }
-        public ICommand ShowLicenseDialog { get; private set; }
+        public ICommand OpenShipProfileWindowCommand { get; private set; }
+        public ICommand OpenUserSettingsWindowCommand { get; private set; }
+        public ICommand ShowAboutCommand { get; private set; }
+        public ICommand ShowLicenseDialogCommand { get; private set; }
         public ICommand OpenFileCommand { get; set; }
         public ICommand SaveFileCommand { get; set; }
         public ICommand UpdateConditionCommand { get; set; }
@@ -503,7 +503,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand ImportDataOnlySelectedCommand { get; set; }
         public ICommand ExportToExcelCommand { get; set; }
         public ICommand SelectionChangedCommand { get; set; }
-        public ICommand ApplicationClosing { get; set; }
+        public ICommand ApplicationClosingCommand { get; set; }
 
         //Dummy command added for testing purpose only.
         //Remember to delete dummy button when removing the command.
@@ -512,7 +512,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         // ----------- Registered commands ------------------------------------------
 
-        public DelegateCommand CloseApplication
+        public DelegateCommand CloseApplicationCommand
         {
             get
             {
