@@ -7,11 +7,9 @@ namespace EasyJob_ProDG.UI.ViewModel
 {
     public class StatusBarViewModel : Observable
     {
-        //private StatusBarWorker _worker;
         private BackgroundWorker _worker;
 
         private int _Max = 100;
-        private int _startValue;
         private int _setValue;
         private bool IsInProgress;
 
@@ -97,7 +95,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void Reset()
         {
             ProgressPercentage = 0;
-            _startValue = 0;
         }
 
         internal void StartProgressBar(int barSet)
