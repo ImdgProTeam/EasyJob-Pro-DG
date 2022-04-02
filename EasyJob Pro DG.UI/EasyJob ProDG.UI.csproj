@@ -456,9 +456,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="imdg1.good.ico" />
   </ItemGroup>
   <ItemGroup>

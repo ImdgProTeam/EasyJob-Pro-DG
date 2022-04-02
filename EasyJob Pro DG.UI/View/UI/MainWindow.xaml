@@ -17,6 +17,9 @@
         Closing="ClosingApplication">
 
     <Window.InputBindings>
+        <KeyBinding Key="Q"
+                    Modifiers="Control"
+                    Command="{Binding CloseApplicationCommand}" />
         <KeyBinding Key="X"
                     Modifiers="Control"
                     Command="{Binding CloseApplicationCommand}" />

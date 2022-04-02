@@ -27,25 +27,25 @@
                       Style="{StaticResource TopLevelMenuItem}">
                 <MenuItem Header="New"
                           Command="New" />
-                <MenuItem Header="Open"
+                <MenuItem Header="_Open"
                           Command="{Binding OpenFileCommand}"
                           InputGestureText="Ctrl+O"
                           ToolTip="Open new condition file, update existing or import dg and reefer info" />
-                <MenuItem Header="Save"
+                <MenuItem Header="_Save"
                           Command="{Binding SaveFileCommand}"
                           InputGestureText="Ctrl+S" />
 
                 <Separator />
 
-                <MenuItem Header="Recheck conflicts"
+                <MenuItem Header="_Recheck conflicts"
                           Command="{Binding ReCheckCommand}"
                           InputGestureText="F5"
                           ToolTip="Check condition and update list of conflicts" />
-                <MenuItem Header="Update condition"
+                <MenuItem Header="_Update condition"
                           Command="{Binding UpdateConditionCommand}"
                           InputGestureText="Ctrl+U"
                           ToolTip="Load only the changes in a new file" />
-                <MenuItem Header="Import info"
+                <MenuItem Header="_Import info"
                           Command="{Binding ImportDataCommand}"
                           InputGestureText="Ctrl+I"
                           ToolTip="Import Dg and reefer info from the file" />
@@ -69,7 +69,7 @@
 
                 <MenuItem Header="Exit"
                           Command="{Binding CloseApplicationCommand}"
-                          InputGestureText="Ctrl+X" />
+                          InputGestureText="Ctrl+Q" />
             </MenuItem>
 
             <MenuItem Header="Actions"
