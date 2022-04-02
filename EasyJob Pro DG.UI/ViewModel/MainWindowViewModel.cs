@@ -181,6 +181,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             if (CanExecuteForOptionalOpen(null))
             {
+                StatusBarControl.StartProgressBar(10, "Opening...");
                 var viewModel = new DialogWindowOptionsViewModel($"Choose how you wish to open the file {file}",
                     "Open as new condition", "Update condition", "Import Dg data");
                 bool? dialogResult = dialogWindowService.ShowDialog(viewModel);
@@ -189,10 +190,12 @@ namespace EasyJob_ProDG.UI.ViewModel
                     StatusBarControl.Cancel();
                     return;
                 }
-                StatusBarControl.ChangeBarSet(15);
 
                 if (dialogResult.Value)
+                {
+                    //StatusBarControl.ChangeBarSet(15);
                     OpenNewFile(file, (OpenFile.OpenOption)viewModel.ResultOption);
+                }
             }
             else
             {
@@ -329,10 +332,10 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj">Owner window</param>
         private void OpenOnExecuted(object obj)
         {
-            StatusBarControl.StartProgressBar(10, "Opening...");
+            //StatusBarControl.StartProgressBar(0, "Opening...");
             if (!DialogOpenFile.OpenFileWithDialog(obj, out var file))
             {
-                StatusBarControl.Cancel();
+                //StatusBarControl.Cancel();
                 return;
             }
             OpenFileWithOptionsChoice(file);

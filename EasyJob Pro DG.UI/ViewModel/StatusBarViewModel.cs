@@ -13,6 +13,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         private int _setValue;
         private bool IsInProgress;
 
+        /// <summary>
+        /// Delay in ms used for increment
+        /// </summary>
+        private const int delay = 25;
+
         private int _progressPercentage;
         public int ProgressPercentage
         {
@@ -88,7 +93,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 if (ProgressPercentage < _setValue)
                     ProgressPercentage++;
-                Thread.Sleep(50);
+                Thread.Sleep(delay);
             }
         }
 
