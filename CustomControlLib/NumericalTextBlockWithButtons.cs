@@ -188,23 +188,12 @@ namespace CustomControlLib
             if (e.Key == System.Windows.Input.Key.Subtract) ReduceValue();
         }
 
-
-
         private void NumericalTextBoxWithButtons_GotFocus(object sender, RoutedEventArgs e)
         {
             var txbNumber = GetTemplateChild(textBoxNumber) as TextBox;
             txbNumber.Focus();
             //txbNumber.SelectAll();
         }
-
-        //public void OnGotFocus()
-        //{
-
-        //}
-        //public override void GotFocus()
-        //{
-
-        //}
 
         private void IncreaseValue()
         {
