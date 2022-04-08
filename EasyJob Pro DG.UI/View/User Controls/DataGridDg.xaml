@@ -15,9 +15,9 @@
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel}">
     <UserControl.Resources>
         <converters:VisibilityToInverseBooleanConverter x:Key="VisibilityToInverseBooleanConverter" />
-        <CollectionViewSource x:Key="DataViewSource"
+        <!--<CollectionViewSource x:Key="DataViewSource"
                                       Source="{Binding CargoPlan.DgList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      Filter="DataViewSource_Filter"/>
+                                      Filter="DataViewSource_Filter"/>-->
     </UserControl.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top"
@@ -25,9 +25,7 @@
             <Label Content="Search"/>
             <TextBox Width="100"
                      Margin="3"
-                     Name="txbFilterText"
-                     TextChanged="txbFilterText_TextChanged"
-                     />
+                     Text="{Binding TextToFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Bottom"
@@ -44,7 +42,7 @@
         </StackPanel>
 
         <DataGrid x:Name="MainDgTable"
-                  ItemsSource="{Binding Source={StaticResource DataViewSource}}"
+                  ItemsSource="{Binding DgPlanView}"
                   SelectedItem="{Binding SelectedDg, Mode=TwoWay}"
                   IsSynchronizedWithCurrentItem="True"
                   FrozenColumnCount="0"

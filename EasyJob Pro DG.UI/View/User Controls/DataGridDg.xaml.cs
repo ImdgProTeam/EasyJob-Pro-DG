@@ -252,33 +252,5 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             FocusOnRow(currentRowIndex);
         }
 
-        /// <summary>
-        /// CollectionViewSource (dataGrid ItemSource) Filter event handler
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DataViewSource_Filter(object sender, FilterEventArgs e)
-        {
-            if (!(e.Item is DgWrapper dg)) return;
-            if (dg.ContainerNumber is null) return;
-
-            var filterText = txbFilterText.Text;
-            if (filterText.Length == 0) return;
-
-            if (dg.ContainerNumber.ToLower().Contains(filterText.ToLower())) return;
-
-            e.Accepted = false;
-        }
-
-        /// <summary>
-        /// Search text box text changed event handler
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void txbFilterText_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var collection = (CollectionViewSource)MainDgTable.FindResource("DataViewSource");
-            collection.View.Refresh();
-       }
     }
 }
