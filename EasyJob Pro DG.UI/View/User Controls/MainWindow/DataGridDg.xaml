@@ -16,17 +16,11 @@
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel}">
     <UserControl.Resources>
         <converters:VisibilityToInverseBooleanConverter x:Key="VisibilityToInverseBooleanConverter" />
-        <!--<CollectionViewSource x:Key="DataViewSource"
-                                      Source="{Binding CargoPlan.DgList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      Filter="DataViewSource_Filter"/>-->
     </UserControl.Resources>
+    
     <DockPanel>
         <StackPanel DockPanel.Dock="Top"
                     Orientation="Horizontal">
-            <Label Content="Search"/>
-            <TextBox Width="100"
-                     Margin="3"
-                     Text="{Binding TextToFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <cc:SearchBox Text="{Binding TextToFilter}"
                           Background="AliceBlue"/>
         </StackPanel>
