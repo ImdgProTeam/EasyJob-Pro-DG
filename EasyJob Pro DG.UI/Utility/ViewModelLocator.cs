@@ -25,8 +25,8 @@ namespace EasyJob_ProDG.UI.Utility
             }
         }
 
-        private static DataGridDgViewModel dataGridContainersViewModel = new DataGridDgViewModel();
-        public static DataGridDgViewModel DataGridContainersViewModel
+        private static DataGridContainersViewModel dataGridContainersViewModel = new DataGridContainersViewModel();
+        public static DataGridContainersViewModel DataGridContainersViewModel
         {
             get
             {
@@ -34,8 +34,8 @@ namespace EasyJob_ProDG.UI.Utility
             }
         }
 
-        private static DataGridDgViewModel dataGridReefersViewModel = new DataGridDgViewModel();
-        public static DataGridDgViewModel DataGridReefersViewModel
+        private static DataGridReefesViewModel dataGridReefersViewModel = new DataGridReefesViewModel();
+        public static DataGridReefesViewModel DataGridReefersViewModel
         {
             get
             {
