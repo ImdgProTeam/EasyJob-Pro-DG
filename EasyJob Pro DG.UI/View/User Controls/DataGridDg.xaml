@@ -15,14 +15,22 @@
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel}">
     <UserControl.Resources>
         <converters:VisibilityToInverseBooleanConverter x:Key="VisibilityToInverseBooleanConverter" />
+        <CollectionViewSource x:Key="DataViewSource"
+                                      Source="{Binding CargoPlan.DgList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Filter="DataViewSource_Filter"/>
     </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="25" />
-        </Grid.RowDefinitions>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top"
+                    Orientation="Horizontal">
+            <Label Content="Search"/>
+            <TextBox Width="100"
+                     Margin="3"
+                     Name="txbFilterText"
+                     TextChanged="txbFilterText_TextChanged"
+                     />
+        </StackPanel>
 
-        <StackPanel Grid.Row="1"
+        <StackPanel DockPanel.Dock="Bottom"
                     Orientation="Horizontal"
                     HorizontalAlignment="Right">
             <Button Content="Blank"
@@ -36,7 +44,7 @@
         </StackPanel>
 
         <DataGrid x:Name="MainDgTable"
-                  ItemsSource="{Binding CargoPlan.DgList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding Source={StaticResource DataViewSource}}"
                   SelectedItem="{Binding SelectedDg, Mode=TwoWay}"
                   IsSynchronizedWithCurrentItem="True"
                   FrozenColumnCount="0"
@@ -65,9 +73,11 @@
                   PreviewTextInput="UserControl_PreviewTextInput"
                   UnloadingRow="MainDgTable_OnUnloadingRow"
                   behaviors:DataGridBehavior.DisplayRowNumber="True"
-                  Loaded="MainDgTable_Loaded">
+                  Loaded="MainDgTable_Loaded"
+                  >
 
             <DataGrid.Resources>
+
                 <!-- Context menu -->
                 <ContextMenu x:Key="DataGridColumnHeaderContextMenu"
                              DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}"
@@ -808,5 +818,5 @@
             </DataGrid.InputBindings>
         </DataGrid>
 
-    </Grid>
+    </DockPanel>
 </UserControl>
