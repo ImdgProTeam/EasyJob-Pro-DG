@@ -222,7 +222,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             OnPropertyChanged("SelectedDg");
 
             //Set new selection
-            foreach (DgWrapper dg in CargoPlan.DgList)
+            foreach (DgWrapper dg in DgPlanView)
             {
                 if (dg.ContainerNumber == obj.ContainerNumber
                     && dg.Unno == obj.Unno)
