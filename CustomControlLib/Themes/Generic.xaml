@@ -5,8 +5,6 @@
 
     <Style TargetType="{x:Type local:ButtonLess}"
            BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="Background"
-                Value="Bisque" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ButtonLess}">
@@ -48,7 +46,7 @@
                                      Height="23"
                                      Margin="5,0"
                                      TextWrapping="NoWrap"
-                                     Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}"
+                                     Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                      TextAlignment="Center"
                                      VerticalAlignment="Center"
                                      Width="20"
@@ -77,5 +75,33 @@
             </Setter.Value>
         </Setter>
         <!--<EventSetter Event="GotFocus" Handler="OnGotFocus"></EventSetter>-->
+    </Style>
+
+    <Style TargetType="{x:Type local:SearchBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:SearchBox}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Margin="{TemplateBinding Margin}">
+                        <StackPanel Orientation="Horizontal" Margin="{TemplateBinding Padding}">
+                            <Label Content="Search"/>
+                            <TextBox x:Name="PART_SearchTextBox"
+                                     Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                                     TextWrapping="NoWrap"
+                                     Margin="3, 3"
+                                     MinWidth="80"
+                                     TextAlignment="Left"
+                                     />
+                            <Button x:Name="PART_buttonClear"
+                                    Content="Clear"
+                                    Height="{Binding ElementName=SearchTextBox, Path=ActualHeight}"
+                                    Margin="3, 0"/>
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>
