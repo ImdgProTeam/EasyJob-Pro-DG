@@ -7,7 +7,8 @@
              xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
              xmlns:behaviors="clr-namespace:EasyJob_ProDG.UI.Behaviors"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
-             xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties"
+             xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties" 
+             xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
              x:Class="EasyJob_ProDG.UI.View.User_Controls.DataGridDg"
              mc:Ignorable="d"
              d:DesignHeight="300"
@@ -26,6 +27,8 @@
             <TextBox Width="100"
                      Margin="3"
                      Text="{Binding TextToFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <cc:SearchBox Text="{Binding TextToFilter}"
+                          Background="AliceBlue"/>
         </StackPanel>
 
         <StackPanel DockPanel.Dock="Bottom"

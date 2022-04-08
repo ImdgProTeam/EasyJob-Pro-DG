@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
              xmlns:attachedProperties="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties"
+             xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
              xmlns:behaviors="clr-namespace:EasyJob_ProDG.UI.Behaviors"
              xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
              mc:Ignorable="d" 
@@ -17,8 +18,7 @@
 
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
-            <Label Content="Search"/>
-            <TextBox></TextBox>
+            <cc:SearchBox Text="123"/>
 
         </StackPanel>
         
