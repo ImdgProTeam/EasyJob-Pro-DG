@@ -95,6 +95,11 @@
                 </GroupStyle>
             </ListBox.GroupStyle>
 
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <DockPanel Height="NaN">

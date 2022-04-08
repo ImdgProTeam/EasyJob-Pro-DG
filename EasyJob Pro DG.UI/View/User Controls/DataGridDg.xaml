@@ -50,9 +50,10 @@
                   FrozenColumnCount="0"
                   AutoGenerateColumns="False"
                   ScrollViewer.CanContentScroll="True"
+                  EnableRowVirtualization="True"
                   VirtualizingPanel.IsContainerVirtualizable="True"
                   VirtualizingPanel.IsVirtualizing="True"
-                  VirtualizingPanel.VirtualizationMode="Standard"                  
+                  VirtualizingPanel.VirtualizationMode="Recycling"                  
                   VirtualizingPanel.ScrollUnit="Pixel"
                   CanUserAddRows="True"
                   HeadersVisibility="All"
@@ -149,6 +150,12 @@
                 <StaticResource ResourceKey="BaseFont" />
             </DataGrid.FontFamily>
 
+            <DataGrid.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel/>
+                </ItemsPanelTemplate>
+            </DataGrid.ItemsPanel>
+            
             <!-- Columns -->
             <DataGrid.Columns>
 

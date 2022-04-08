@@ -27,6 +27,7 @@
                   FrozenColumnCount="0"
                   AutoGenerateColumns="False"
                   ScrollViewer.CanContentScroll="True"
+                  EnableRowVirtualization="True"
                   VirtualizingPanel.IsContainerVirtualizable="True"
                   VirtualizingPanel.IsVirtualizing="True"
                   VirtualizingPanel.VirtualizationMode="Standard"
@@ -80,6 +81,11 @@
 
             </DataGrid.Resources>
 
+            <DataGrid.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel/>
+                </ItemsPanelTemplate>
+            </DataGrid.ItemsPanel>
 
             <!-- Columns -->
             <DataGrid.Columns>
