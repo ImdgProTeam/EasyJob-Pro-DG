@@ -96,7 +96,7 @@
                                      />
                             <Button x:Name="PART_buttonClear"
                                     Content="Clear"
-                                    Height="{Binding ElementName=SearchTextBox, Path=ActualHeight}"
+                                    Height="{Binding ElementName=PART_SearchTextBox, Path=ActualHeight}"
                                     Margin="3, 0"/>
                         </StackPanel>
                     </Border>
