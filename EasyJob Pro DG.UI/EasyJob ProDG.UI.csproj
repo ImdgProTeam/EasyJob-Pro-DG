@@ -169,7 +169,7 @@
       <DependentUpon>for experiments.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\DgWrapperList.cs" />
-    <Compile Include="ViewModel\DataGridReefesViewModel.cs" />
+    <Compile Include="ViewModel\DataGridReefersViewModel.cs" />
     <Compile Include="ViewModel\IConflictListViewModel.cs" />
     <Compile Include="Data\VentilationRequirements.cs" />
     <Compile Include="Utility\Observable.cs" />

@@ -18,12 +18,12 @@
 
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
-            <cc:SearchBox Text="123"/>
+            <cc:SearchBox Text="{Binding TextToFilter}"/>
 
         </StackPanel>
         
         <DataGrid x:Name="MainContainerDataTable"
-                  ItemsSource="{Binding CargoPlan.Containers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding ContainerPlanView}"
                   SelectedItem="{Binding SelectedContainer, Mode=TwoWay}"
                   IsSynchronizedWithCurrentItem="True"
                   FrozenColumnCount="0"

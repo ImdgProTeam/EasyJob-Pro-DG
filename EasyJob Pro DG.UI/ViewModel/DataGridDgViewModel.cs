@@ -97,8 +97,11 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             //Logic section
 
-            if (dg.ContainerNumber.ToLower().Contains(textToFilter.ToLower())) return;
-            if (dg.Unno.ToString().Contains(textToFilter.ToLower())) return;
+            var searchText = textToFilter.ToLower().Replace(" ", "");
+
+            if (dg.ContainerNumber.ToLower().Contains(searchText)) return;
+            if (dg.Unno.ToString().Contains(searchText)) return;
+            if (dg.Location.Replace(" ", "").Contains(searchText)) return;
 
             e.Accepted = false;
         }

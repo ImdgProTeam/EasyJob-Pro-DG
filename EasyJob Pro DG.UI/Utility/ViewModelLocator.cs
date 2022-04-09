@@ -34,8 +34,8 @@ namespace EasyJob_ProDG.UI.Utility
             }
         }
 
-        private static DataGridReefesViewModel dataGridReefersViewModel = new DataGridReefesViewModel();
-        public static DataGridReefesViewModel DataGridReefersViewModel
+        private static DataGridReefersViewModel dataGridReefersViewModel = new DataGridReefersViewModel();
+        public static DataGridReefersViewModel DataGridReefersViewModel
         {
             get
             {
