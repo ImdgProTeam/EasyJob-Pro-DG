@@ -27,14 +27,14 @@ Changes:
 
 VISUAL
 1. Fixed window location and size on startup.
-2. 
+2. All three data grids now use virtualization panels.
 
 ERRORS
 1. Fixed bug when exporting to and importing from excel was limited to 16 columns only.
 2.
 
 NEW
-1.
+1. Added search options to all three dataGrids
 2.
 
 Workable datagrid: dg, partially containers and reefers
