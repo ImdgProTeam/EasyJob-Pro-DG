@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using EasyJob_ProDG.Data;
-using EasyJob_ProDG.Data.Info_data;
-using EasyJob_ProDG.Model.Transport;
 
 namespace EasyJob_ProDG.Model.Transport
 {
@@ -24,7 +23,7 @@ namespace EasyJob_ProDG.Model.Transport
             bool interResult = false;
 
             //accommodation
-            if (NumberOfAccommodations == 0 || Accommodation==null || Accommodation.Count == 0)
+            if (NumberOfAccommodations == 0 || Accommodation == null || Accommodation.Count == 0)
             {
                 ErrorList = "accommodation";
                 result = false;
@@ -74,7 +73,7 @@ namespace EasyJob_ProDG.Model.Transport
             return result;
         }
 
-        
+
         // ---------------------- static ----------------------------------------------------------------------------------
 
         public static ShipProfile ReadShipProfile(string shipFile, bool openDefault)
@@ -91,11 +90,17 @@ namespace EasyJob_ProDG.Model.Transport
                 ////Loading of default shipprofile
                 //MessageBox.Show("A default ship profile configuration will be loaded. That will affect the accuracy of stowage and segregation check.");
                 Output.ThrowMessage("Ship configuration file not found.\nA default ship profile configuration will be loaded. That will affect the accuracy of stowage and segregation check.");
+                Debug.WriteLine($"------> File {fileName} does not exist.");
+                Debug.WriteLine("------> Default Ship profile will be loaded");
                 return new ShipProfile();
             }
             //Case if file found and read
             ShipProfile ship = new ShipProfile(fileName);
-            if (!ship._filecorrupt) return ship;
+            if (!ship._filecorrupt) 
+            {
+                Debug.WriteLine($"------> Ship profile is succesfully read from file {fileName}.");
+                return ship; 
+            }
             //Errors encountered while reading the file
             Output.ThrowMessage("Ship settings file was read with errors. A default ship profile configuration will be loaded. That will affect the accuracy of stowage and segregation check.");
             //result = MessageBox.Show("Ship settings file was read with errors. Would you like to change it? Y/N?\n(It may take some time and will require from you detailed information regarding your ship)", "Error message", MessageBoxButton.YesNo);
@@ -107,10 +112,13 @@ namespace EasyJob_ProDG.Model.Transport
             //}
             //Loading of default ship profile
             //MessageBox.Show("A default ship profile configuration will be loaded. That will affect the accuracy of stowage and segregation check.");
+
+            Debug.WriteLine($"------> Ship profile read from file {fileName} is corrupt.");
+            Debug.WriteLine("------> Default Ship profile will be loaded");
             return new ShipProfile();
         }
 
-      /// <summary>
+        /// <summary>
         /// Method creates new profileName.ini file from ShipProfile ship
         /// </summary>
         /// <param name="profileName"></param>
@@ -167,7 +175,7 @@ namespace EasyJob_ProDG.Model.Transport
                     var addvalue = i == 0 ? "Weather deck" : "Hold " + i;
                     string entry = "DOC " + addvalue + " = ";
                     for (int x = 0; x < 23; x++)
-                        entry += (x != 0 ? "," : "") + ship.Doc.DOCtable[i,x];
+                        entry += (x != 0 ? "," : "") + ship.Doc.DOCtable[i, x];
                     writer.WriteLine(entry);
                 }
                 writer.WriteLine("");
@@ -199,9 +207,9 @@ namespace EasyJob_ProDG.Model.Transport
                 last = ship.Holds[i].LastBay;
             }
             ship.NumberOfAccommodations = ship.NumberOfAccommodations == 0 ? (byte)1 : ship.NumberOfAccommodations;
-            ship.LivingQuartersList = ship.LivingQuartersList ?? new List<CellPosition> {new CellPosition(99, 199, 199, 199, 0)};
-            ship.HeatedStructuresList = ship.HeatedStructuresList ?? new List<CellPosition> {new CellPosition(99, 199, 199, 199, 0)};
-            ship.LSAList = ship.LSAList ?? new List<CellPosition> {new CellPosition(99, 199, 199, 199, 0)};
+            ship.LivingQuartersList = ship.LivingQuartersList ?? new List<CellPosition> { new CellPosition(99, 199, 199, 199, 0) };
+            ship.HeatedStructuresList = ship.HeatedStructuresList ?? new List<CellPosition> { new CellPosition(99, 199, 199, 199, 0) };
+            ship.LSAList = ship.LSAList ?? new List<CellPosition> { new CellPosition(99, 199, 199, 199, 0) };
             ship.SeaSides = ship.SeaSides ?? new List<OuterRow>() { new OuterRow(0, 99, 99) };
             if (ship.Doc == null)
             {
