@@ -1,5 +1,4 @@
-﻿using System;
-using EasyJob_ProDG.Data.Info_data;
+﻿using EasyJob_ProDG.Data.Info_data;
 
 
 namespace EasyJob_ProDG.Model.Cargo
@@ -7,6 +6,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
     public class Container : LocationOnBoard, IContainer, IReefer, IO.IUpdatable
     {
+        #region Public properties
         // -------------- public properties -----------------------------------------
 
         public bool IsClosed { get; set; }
@@ -32,9 +32,11 @@ namespace EasyJob_ProDG.Model.Cargo
             }
         }
 
-        public string Remarks { get; set; }
+        public string Remarks { get; set; } 
+        #endregion
 
 
+        #region IUpdatable
         // -------------- IUpdatable ------------------------------------------------
 
         public bool IsToBeKeptInPlan { get; set; }
@@ -47,16 +49,19 @@ namespace EasyJob_ProDG.Model.Cargo
         public bool HasPodChanged { get; set; }
         public bool HasContainerTypeChanged { get; set; }
 
-        public string LocationBeforeRestow { get; set; }
+        public string LocationBeforeRestow { get; set; } 
+        #endregion
 
+
+        #region IReefer
         // -------------- IReefer ---------------------------------------------------
 
         public double SetTemperature { get; set; }
+        public double LoadTemperature { get; set; }
         public string Commodity { get; set; }
         public string VentSetting { get; set; }
-        public double LoadTemperature { get; set; }
         public string ReeferSpecial { get; set; }
-        public string ReeferRemark { get; set; }
+        public string ReeferRemark { get; set; } 
 
         /// <summary>
         /// Removes all reefer-related property values.
@@ -70,7 +75,10 @@ namespace EasyJob_ProDG.Model.Cargo
             ReeferSpecial = string.Empty;
             ReeferSpecial = string.Empty;
         }
+        #endregion
 
+
+        #region Constructor
         // -------------- public constructor ----------------------------------------
 
         public Container()
@@ -81,8 +89,11 @@ namespace EasyJob_ProDG.Model.Cargo
             IsUnderdeck = false;
             IsClosed = true;
             ContainerTypeRecognized = false;
-        }
+        } 
+        #endregion
 
+
+        #region Public methods
         // -------------- public methods --------------------------------------------
 
         /// <summary>
@@ -140,6 +151,7 @@ namespace EasyJob_ProDG.Model.Cargo
         public void RemoveDgFromContainer()
         {
             if (DgCountInContainer > 0) DgCountInContainer--;
-        }
+        } 
+        #endregion
     }
 }
