@@ -323,9 +323,9 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <summary>
         /// UN no of a dangerous good
         /// </summary>
-        public int Unno
+        public ushort Unno
         {
-            get => GetValue<int>();
+            get => GetValue<ushort>();
             set
             {
                 if (Unno == value) return;
@@ -684,9 +684,8 @@ namespace EasyJob_ProDG.UI.Wrapper
         private string AddZeroIfRequired(byte value, byte numberOfZeros = 1)
         {
             string result = "";
-            byte temp = value;
-            if (temp < 10) result += "0";
-            if (temp < 100 && numberOfZeros == 2) result += "0";
+            if (value < 10) result += "0";
+            if (value < 100 && numberOfZeros == 2) result += "0";
             result += value.ToString();
             return result;
         }
@@ -729,7 +728,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         /// <param name="unno">UN no being checked</param>
         /// <returns>If UN no is valid or user acknowledge</returns>
-        private bool CheckForExistingUnno(int unno)
+        private bool CheckForExistingUnno(ushort unno)
         {
             if (UnnoValidator.Validate(unno)) return true;
             if (_messageDialogService.ShowYesNoDialog(

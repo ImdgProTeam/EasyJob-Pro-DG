@@ -65,7 +65,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="unno">Specified UN no.</param>
         /// <param name="xmlDoc">IMDG Code DG List in xml format.</param>
         /// <returns>List of Dg of specified UN no with raw information from IMDG code.</returns>
-        private static List<Dg> GetRecordsFromXml(int unno, XDocument xmlDoc)
+        private static List<Dg> GetRecordsFromXml(ushort unno, XDocument xmlDoc)
         {
             var chosenEntries = (from entry in xmlDoc.Descendants("DG")
                                  where (int)entry.Attribute("unno") == unno
@@ -93,7 +93,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 record.Name = entry.Element("name").Value;
 
                 array = entry.Attribute("specialprovisions").Value.Split(' ');
-                foreach (string x in array) record.special.Add(x != "–" ? Convert.ToInt16(x) : 0);
+                foreach (string x in array) record.special.Add(x != "–" ? Convert.ToUInt16(x) : (ushort)0);
 
                 record.StowageCat = (entry.Element("Stowage").Attribute("category").Value).Length > 1 ?
                                     (entry.Element("Stowage").Attribute("category").Value)[1] :
