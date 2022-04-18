@@ -12,6 +12,83 @@ namespace EasyJob_ProDG.Data.Info_data
             "5.1", "5.2", "6.1", "6.2", "7", "8", "9"
         };
 
+        /// <summary>
+        /// Method to assign row number in segregation table.
+        /// </summary>
+        public static byte AssignSegregationTableRowNumber(string dgClass)
+        {
+            byte tableRow;
+
+            var _index = dgClass.Length > 3 ? dgClass.Substring(0, 3) : dgClass;
+            switch (_index)
+            {
+                case "1.1":
+                    tableRow = 0;
+                    break;
+                case "1.2":
+                    tableRow = 0;
+                    break;
+                case "1.3":
+                    tableRow = 1;
+                    break;
+                case "1.4":
+                    tableRow = 2;
+                    break;
+                case "1.5":
+                    tableRow = 0;
+                    break;
+                case "1.6":
+                    tableRow = 1;
+                    break;
+                case "2.1":
+                    tableRow = 3;
+                    break;
+                case "2.2":
+                    tableRow = 4;
+                    break;
+                case "2.3":
+                    tableRow = 5;
+                    break;
+                case "3":
+                    tableRow = 6;
+                    break;
+                case "4.1":
+                    tableRow = 7;
+                    break;
+                case "4.2":
+                    tableRow = 8;
+                    break;
+                case "4.3":
+                    tableRow = 9;
+                    break;
+                case "5.1":
+                    tableRow = 10;
+                    break;
+                case "5.2":
+                    tableRow = 11;
+                    break;
+                case "6.1":
+                    tableRow = 12;
+                    break;
+                case "6.2":
+                    tableRow = 13;
+                    break;
+                case "7":
+                    tableRow = 14;
+                    break;
+                case "8":
+                    tableRow = 15;
+                    break;
+                case "9":
+                    tableRow = 16;
+                    break;
+                default:
+                    tableRow = 0;
+                    break;
+            }
+            return tableRow;
+        }
+
         #region Segregation groups
         public enum SegregationGroup : byte
         {
