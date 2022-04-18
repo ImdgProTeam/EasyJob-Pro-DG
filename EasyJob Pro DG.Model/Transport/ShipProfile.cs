@@ -1,7 +1,6 @@
 ﻿using EasyJob_ProDG.Model.Cargo;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace EasyJob_ProDG.Model.Transport
