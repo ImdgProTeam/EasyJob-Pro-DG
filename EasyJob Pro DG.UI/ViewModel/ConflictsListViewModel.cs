@@ -1,10 +1,6 @@
-﻿using EasyJob_ProDG.UI.Data;
-using EasyJob_ProDG.UI.Messages;
-using EasyJob_ProDG.UI.Services;
+﻿using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Utility;
 using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using EasyJob_ProDG.UI.Services.DataServices;
 
@@ -16,9 +12,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         //readonly fields
         readonly CargoDataService cargoDataService;
         readonly ConflictDataService conflictDataService;
-
-        //public CargoPlanWrapper cargoPlan;
-        //public DgWrapper selectedDg;
 
 
         //public properties
@@ -36,8 +29,6 @@ namespace EasyJob_ProDG.UI.ViewModel
             conflictDataService = new ConflictDataService();
             OnConflictListReceived();
 
-            //Conflicts.GroupDescriptions.Add(new PropertyGroupDescription("ConflictGroupTitle"));
-            //Conflicts.GroupDescriptions.Add(new PropertyGroupDescription("ContainerNumber"));
         }
 
 
@@ -51,23 +42,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void OnConflictListReceived()
         {
             Conflicts = conflictDataService.GetConflicts();
-            //Conflicts = CollectionViewSource.GetDefaultView(conflictDataService.GetConflicts());
-            //OnPropertyChanged("Conflicts");
-            //Conflicts.Refresh();
-
-
-        }
-        private void OnConflictListReceived(ConflictsList conflicts)
-        {
-            //Conflicts = CollectionViewSource.GetDefaultView(conflicts);
-            //OnPropertyChanged("Conflicts");
-
-
-        }
-
-        public void Load()
-        {
-
         }
 
         public void NotifyOfSelectedConflict(object parameters)
@@ -75,12 +49,6 @@ namespace EasyJob_ProDG.UI.ViewModel
             DataMessenger.Default.Send(SelectedConflict, "conflict selection changed");
         }
 
-        private void ConflictBox_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            var s = sender as ListBox;
-            ConflictPanelItemViewModel txb = s?.SelectedItems[0] as ConflictPanelItemViewModel;
-            MessageBox.Show(txb?.Text);
-        }
 
         //Commands
         public ICommand DoubleClickOnSelectedItem { get; set; }
