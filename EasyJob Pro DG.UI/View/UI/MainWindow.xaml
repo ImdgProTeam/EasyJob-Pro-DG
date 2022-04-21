@@ -15,7 +15,7 @@
         WindowStyle="ThreeDBorderWindow"
         AllowDrop="True"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainWindowViewModel}"
-        d:DataContext="{d:DesignInstance viewmodel:MainWindowViewModel}"
+        d:DataContext="{d:DesignInstance viewmodel:MainWindowViewModel, d:IsDesignTimeCreatable=True}"
         Closing="ClosingApplication">
 
     <Window.InputBindings>

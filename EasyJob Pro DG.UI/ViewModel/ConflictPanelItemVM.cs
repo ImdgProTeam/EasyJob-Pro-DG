@@ -73,6 +73,10 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
         }
         public string Surrounded => "Unit protected from: " + _dgUnit.Surrounded;
+
+        /// <summary>
+        /// Titles for group spoilers in Conflict list
+        /// </summary>
         public string ConflictGroupTitle
         {
             get
