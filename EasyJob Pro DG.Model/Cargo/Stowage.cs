@@ -56,7 +56,7 @@ namespace EasyJob_ProDG.Model.Cargo
             }
 
             //Check in respect of marine pollutants
-            CheckMarinePollutantStowage(unit, ship);
+            CheckMarinePollutantAndInfectiousSubstancesStowage(unit, ship);
 
             //Additional requirements
             CheckAdditionalStowageRequirements(unit);
@@ -216,14 +216,18 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
         /// <summary>
-        /// Method checks if a marine pollutant stowed on deck on a seaside and adds a conflict in that case.
+        /// Method checks if a marine pollutant or infectious waste as specified by UNno is stowed on deck on a seaside and adds a conflict in that case.
         /// </summary>
         /// <param name="unit"></param>
         /// <param name="ship"></param>
-        private static void CheckMarinePollutantStowage(Dg unit, ShipProfile ship)
+        private static void CheckMarinePollutantAndInfectiousSubstancesStowage(Dg unit, ShipProfile ship)
         {
-            if (!unit.IsMp || unit.IsUnderdeck) return;
-            unit.AddConflict(ship.IsOnSeaSide(unit), "stowage", "SSC5");
+            if (unit.IsUnderdeck || !unit.IsMp &&
+                 unit.Unno != 2814 && unit.Unno != 2900 && unit.Unno != 3549) return;
+
+            char[] categories = new char[] { 'A', 'B', 'E' };
+            unit.AddConflict(categories.Contains(unit.StowageCat),stow, "SSC5a");
+            unit.AddConflict(ship.IsOnSeaSide(unit), stow, "SSC5");
         }
 
         /// <summary>
