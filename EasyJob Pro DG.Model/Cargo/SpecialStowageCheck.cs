@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable RedundantAssignment
 
 namespace EasyJob_ProDG.Model.Cargo
 {
-    [SuppressMessage("ReSharper", "RedundantEmptySwitchSection")]
     public partial class Stowage
     {
         /// <summary>

@@ -464,7 +464,7 @@ namespace EasyJob_ProDG.Model.Cargo
         public void ClearConflicts()
         {
             foreach (var dg in DgList)
-                dg.ClearConflicts();
+                dg.ClearAllConflicts();
         }
 
 

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace EasyJob_ProDG.Model.Cargo
 {
@@ -21,7 +20,6 @@ namespace EasyJob_ProDG.Model.Cargo
             public List<byte> VentHoldsList => ventHolds;
 
 
-            // ReSharper disable once UnusedParameter.Local
             public SpecialStowageGroups(bool val)
             {
                 listSW19 = new List<Dg>();

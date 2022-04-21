@@ -31,7 +31,9 @@ namespace EasyJob_ProDG.Model.Cargo
                 if (pkgChanged)
                 {
                     StowageCat = dgFromImdgCode.StowageCat;
+                    stowageCatFromDgList = dgFromImdgCode.StowageCat;
                     stowageSW = dgFromImdgCode.stowageSW;
+                    stowageSWfromDgList = dgFromImdgCode.stowageSW.ToList();
                     segregationSG = dgFromImdgCode.segregationSG;
                     special = dgFromImdgCode.special;
                     Properties = dgFromImdgCode.Properties;
@@ -51,7 +53,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     orderInList--;
                 }
 
-                SetStabilizedValueIfContainedInDgList();
+                //SetStabilizedValueIfContainedInDgList();
             }
             catch (Exception e)
             {
@@ -262,18 +264,18 @@ namespace EasyJob_ProDG.Model.Cargo
             Properties = dgFromImdgCode.Properties;
         }
 
-        /// <summary>
-        /// Set value IsStabilizedWordInProperShippingName to true, if word "Stabilized" contained in dg list
-        /// </summary>
-        private void SetStabilizedValueIfContainedInDgList()
-        {
-            if (!Name.ToLower().Contains("stabilized"))
-            {
-                isStabilizedWordInProperShippingName = false;
-                return;
-            }
-            isStabilizedWordInProperShippingName = true;
-            isStabilizedWordAddedToProperShippingName = false;
-        }
+        ///// <summary>
+        ///// Set value IsStabilizedWordInProperShippingName to true, if word "Stabilized" contained in dg list
+        ///// </summary>
+        //private void SetStabilizedValueIfContainedInDgList()
+        //{
+        //    if (!Name.ToLower().Contains("stabilized"))
+        //    {
+        //        isStabilizedWordInProperShippingName = false;
+        //        return;
+        //    }
+        //    isStabilizedWordInProperShippingName = true;
+        //    isStabilizedWordAddedToProperShippingName = false;
+        //}
     }
 }

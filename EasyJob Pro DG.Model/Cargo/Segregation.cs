@@ -319,12 +319,12 @@ namespace EasyJob_ProDG.Model.Cargo
 
             #region Definitions
             bool fullReCheck = false;
-            int[] table72631 = { 2014, 2984, 3105, 3107, 3109, 3149 };
-            int[] table72632 = { 1295, 1818, 2189 };
-            int[] table72633 = { 3391, 3392, 3393, 3394, 3395, 3396, 3397, 3398, 3399, 3400 };
-            int[] Table72634 = { 3101, 3102, 3103, 3104, 3105, 3106, 3107, 3108, 3109, 3110, 3111, 3112, 3113, 3114, 3115, 3116, 3117, 3118, 3119, 3120, 1325 };
-            int[] classes72721 = { 1942, 2067, 1451, 2722, 1486, 1477, 1498, 1446, 2464, 1454, 1474, 1507 };
-            int[] blastingExplosives = { 81, 82, 84, 241, 331, 332 };
+            ushort[] table72631 = { 2014, 2984, 3105, 3107, 3109, 3149 };
+            ushort[] table72632 = { 1295, 1818, 2189 };
+            ushort[] table72633 = { 3391, 3392, 3393, 3394, 3395, 3396, 3397, 3398, 3399, 3400 };
+            ushort[] Table72634 = { 3101, 3102, 3103, 3104, 3105, 3106, 3107, 3108, 3109, 3110, 3111, 3112, 3113, 3114, 3115, 3116, 3117, 3118, 3119, 3120, 1325 };
+            ushort[] classes72721 = { 1942, 2067, 1451, 2722, 1486, 1477, 1498, 1446, 2464, 1454, 1474, 1507 };
+            ushort[] blastingExplosives = { 81, 82, 84, 241, 331, 332 };
             #endregion
 
             foreach (Dg a in dglist)
@@ -339,7 +339,7 @@ namespace EasyJob_ProDG.Model.Cargo
                         if (a == b || a.Unno == b.Unno) continue;
                         if (table72631.Contains(b.Unno))
                         {
-                            Conflict.ReplaceConflict(a, b, "SGC2");
+                            Conflicts.ReplaceConflict(a, b, "SGC2");
                         }
                     }
                 }
@@ -350,7 +350,7 @@ namespace EasyJob_ProDG.Model.Cargo
                         if (a == b || a.Unno == b.Unno) continue;
                         if (table72632.Contains(b.Unno))
                         {
-                            Conflict.ReplaceConflict(a, b, "SGC2");
+                            Conflicts.ReplaceConflict(a, b, "SGC2");
                         }
                     }
                 }
@@ -361,7 +361,7 @@ namespace EasyJob_ProDG.Model.Cargo
                         if (a == b || a.Unno == b.Unno) continue;
                         if (table72633.Contains(b.Unno))
                         {
-                            Conflict.ReplaceConflict(a, b, "SGC2");
+                            Conflicts.ReplaceConflict(a, b, "SGC2");
                         }
                     }
                 }
@@ -372,8 +372,8 @@ namespace EasyJob_ProDG.Model.Cargo
                         if (a == b || a.Unno == b.Unno) continue;
                         if (Table72634.Contains(b.Unno))
                         {
-                            if (a.Unno == 1325 || b.Unno == 1325) Conflict.ReplaceConflict(a, b, "SGC203");
-                            else Conflict.ReplaceConflict(a, b, "SGC202");
+                            if (a.Unno == 1325 || b.Unno == 1325) Conflicts.ReplaceConflict(a, b, "SGC203");
+                            else Conflicts.ReplaceConflict(a, b, "SGC202");
                         }
                     }
                 }
@@ -401,11 +401,11 @@ namespace EasyJob_ProDG.Model.Cargo
 
                 //3. 7.2.7.2.1
                 #region Segregation of class 1 from goods of other classes
-                if (a.IsConflicted && classes72721.Contains(a.Unno) && a.Conflict.Contains(blastingExplosives))
+                if (a.IsConflicted && classes72721.Contains(a.Unno) && a.Conflicts.Contains(blastingExplosives))
                     foreach (Dg b in dglist)
                     {
-                        if (blastingExplosives.Contains(b.Unno) && a.Conflict.Contains(b))
-                            Conflict.ReplaceConflict(a, b, "EXPLOTHERS");
+                        if (blastingExplosives.Contains(b.Unno) && a.Conflicts.Contains(b))
+                            Conflicts.ReplaceConflict(a, b, "EXPLOTHERS");
                         if (Athwartship(a, b, 1, ship.Row00Exists) && ForeAndAft(a, b, 1) &&
                             a.IsUnderdeck == b.IsUnderdeck || !a.IsClosed && !b.IsClosed && a.IsUnderdeck &&
                             b.IsUnderdeck && a.HoldNr == b.HoldNr)
@@ -422,9 +422,9 @@ namespace EasyJob_ProDG.Model.Cargo
                 //Max 1L: ...separated from class 1 except 1.4
                 if (a.Unno == 1950 && a.IsMax1L && a.IsConflicted)
                 {
-                    for (int i = 0; i < a.Conflict.SegrConflicts.Count; i++)
+                    for (int i = 0; i < a.Conflicts.SegregationConflictsList.Count; i++)
                     {
-                        var conflict = a.Conflict.SegrConflicts[i];
+                        var conflict = a.Conflicts.SegregationConflictsList[i];
                         if (conflict.ConflictContainerClassStr.StartsWith("1.4"))
                         {
                             foreach (var dgB in dglist)
@@ -432,19 +432,19 @@ namespace EasyJob_ProDG.Model.Cargo
                                 if (dgB.ContainerNumber == conflict.ConflictContainerNr
                                     && dgB.Unno == conflict.ConflictContainerUnno)
                                 {
-                                    foreach (var dgBSegrConflict in dgB.Conflict.SegrConflicts)
+                                    foreach (var dgBSegrConflict in dgB.Conflicts.SegregationConflictsList)
                                     {
                                         if (dgBSegrConflict.ConflictContainerNr == a.ContainerNumber
                                             && dgBSegrConflict.ConflictContainerUnno == 1950
                                             && dgBSegrConflict.ConflictContainerClassStr.StartsWith("2"))
                                         {
-                                            dgB.Conflict.SegrConflicts.Remove(dgBSegrConflict);
+                                            dgB.Conflicts.SegregationConflictsList.Remove(dgBSegrConflict);
                                             break;
                                         }
                                     }
                                 }
                             }
-                            a.Conflict.SegrConflicts.RemoveAt(i);
+                            a.Conflicts.SegregationConflictsList.RemoveAt(i);
                             i--;
                         }
                     }

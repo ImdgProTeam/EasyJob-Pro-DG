@@ -1,7 +1,6 @@
 ﻿using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.UI.Wrapper;
 using EasyJob_ProDG.UI.Utility;
-using System;
 using EasyJob_ProDG.UI.Messages;
 
 namespace EasyJob_ProDG.UI.ViewModel
@@ -54,6 +53,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         } 
         public int Unno => _dgUnit.Unno;
         public string ContainerNumber => _dgUnit.ContainerNumber;
+        public int ContainerID => _dgUnit.Model.ID;
         public string Location => _dgUnit.Location;
         public string Code { get; }
         public string GroupParam { get; set; }

@@ -209,12 +209,12 @@ namespace EasyJob_ProDG.Model.Cargo
             if (fishmeal.Contains(unit.Unno))
             {
                 unit.AddConflict();
-                unit.Conflict.AddStowConflict("SSC3");
+                unit.Conflicts.AddStowConflict("SSC3");
             }
             if (ammonium.Contains(unit.Unno))
             {
                 unit.AddConflict();
-                unit.Conflict.AddStowConflict("SSC4");
+                unit.Conflicts.AddStowConflict("SSC4");
             }
 
         }

@@ -67,7 +67,7 @@
     <Compile Include="IO\ExportCondition.cs" />
     <Compile Include="IO\ReadIftdgnFile.cs" />
     <Compile Include="Transport\CellPosition.cs" />
-    <Compile Include="Cargo\Conflict.cs" />
+    <Compile Include="Cargo\Conflicts.cs" />
     <Compile Include="Cargo\Container.cs" />
     <Compile Include="Cargo\CargoPlan.cs" />
     <Compile Include="Cargo\Dg.cs" />

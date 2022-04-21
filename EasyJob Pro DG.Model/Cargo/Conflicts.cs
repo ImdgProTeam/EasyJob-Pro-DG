@@ -4,101 +4,116 @@ using EasyJob_ProDG.Data.Info_data;
 
 namespace EasyJob_ProDG.Model.Cargo
 {
-    public class Conflict
+    public class Conflicts
     {
         // ---------- private fields --------------------------------
 
 
         // ---------- public fields ---------------------------------
-        public bool FailedStowage,
-                    FailedSegregation;
-        public readonly List<string> StowConflicts;
-        public readonly List<SegregationConflict> SegrConflicts;
+        public bool FailedStowage => StowageConflictsList?.Count > 0;
+        public bool FailedSegregation => SegregationConflictsList?.Count > 0;
+        public bool IsEmpty => !FailedStowage && !FailedSegregation;
+
+
+        public readonly List<string> StowageConflictsList;
+        public readonly List<SegregationConflict> SegregationConflictsList;
+
 
         // ---------- Constructor ----------------------------------
-        public Conflict()
+        public Conflicts()
         {
-            StowConflicts = new List<string>();
-            SegrConflicts = new List<SegregationConflict>();
-            // ReSharper disable once UnusedVariable
-            List<string> surroundingContainers = new List<string>();
+            StowageConflictsList = new List<string>();
+            SegregationConflictsList = new List<SegregationConflict>();
         }
 
         // --- Methods to add/remove/replace conflicts in the list ---
         public void AddStowConflict(string code)
         {
-            if(!StowConflicts.Contains(code)) StowConflicts.Add(code);
-            FailedStowage = true;
+            if(!StowageConflictsList.Contains(code)) StowageConflictsList.Add(code);
         }
         public void AddSegrConflict(string code, Dg unit)
         {
-            if(!Contains(code, unit)) SegrConflicts.Add(new SegregationConflict (code, unit));
-            FailedSegregation = true;
+            if(!Contains(code, unit)) SegregationConflictsList.Add(new SegregationConflict (code, unit));
         }
-        public static void RemoveConflict(Dg a, Dg b)
+
+        /// <summary>
+        /// Clears all stowage conflicts
+        /// </summary>
+        /// <param name="dg"></param>
+        public void ClearStowageConflicts()
         {
-            foreach (SegregationConflict conf in a.Conflict.SegrConflicts)
+            StowageConflictsList.Clear();
+        }
+
+        /// <summary>
+        /// Emties mutual segregation conflicts from both dg SegregationConflictLists
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        public static void RemoveSegregationConflict(Dg a, Dg b)
+        {
+            foreach (SegregationConflict conf in a.Conflicts.SegregationConflictsList)
             {
                 if (conf.ConflictContainerNr != b.ContainerNumber) continue;
                 //remove conflict from a
-                a.Conflict.SegrConflicts.Remove(conf);
-                if (a.Conflict.SegrConflicts.Count == 0 && a.Conflict.StowConflicts.Count == 0) a.IsConflicted = false;
+                a.Conflicts.SegregationConflictsList.Remove(conf);
+
                 //remove conflict from b
-                if (b.IsConflicted && b.Conflict.Contains(a)) foreach (SegregationConflict bconf in b.Conflict.SegrConflicts)
+                if (b.IsConflicted && b.Conflicts.Contains(a)) foreach (SegregationConflict bconf in b.Conflicts.SegregationConflictsList)
                     if (bconf.ConflictContainerNr == a.ContainerNumber)
-                        b.Conflict.SegrConflicts.Remove(bconf);
-                if (b.Conflict.SegrConflicts.Count == 0 && b.Conflict.StowConflicts.Count == 0) a.IsConflicted = false;
+                        b.Conflicts.SegregationConflictsList.Remove(bconf);
             }
         }
+
+        /// <summary>
+        /// Renews mutual segregation confilcts in both dg SegregationConflictLists with new code
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="newCode"></param>
         public static void ReplaceConflict(Dg a, Dg b, string newCode)
         {
-            if (a.Conflict == null) return;
-            foreach (SegregationConflict conf in a.Conflict.SegrConflicts)
+            if (a.Conflicts == null) return;
+            foreach (SegregationConflict conf in a.Conflicts.SegregationConflictsList)
                 if (conf.ConflictContainerNr == b.ContainerNumber)
                 {
                     conf.Code = newCode;
-                    if (b.IsConflicted && b.Conflict.Contains(a))
-                        foreach (var bconf in b.Conflict.SegrConflicts)
+                    if (b.IsConflicted && b.Conflicts.Contains(a))
+                        foreach (var bconf in b.Conflicts.SegregationConflictsList)
                             if (bconf.ConflictContainerNr == a.ContainerNumber) bconf.Code = newCode;
                 }
         }
 
+
         // --------- Contains methods -------------------------------
         public bool Contains(Dg b)
         {
-            if (SegrConflicts.Count == 0) return false;
-            foreach (SegregationConflict conf in SegrConflicts)
+            if (SegregationConflictsList.Count == 0) return false;
+            foreach (SegregationConflict conf in SegregationConflictsList)
                 if (conf.ConflictContainerNr == b.ContainerNumber)
                     return true;
             return false;
         }
-        public bool Contains(int unno)
+        public bool Contains(ushort unno)
         {
-            if (SegrConflicts.Count == 0) return false;
-            foreach (SegregationConflict conf in SegrConflicts)
+            if (SegregationConflictsList.Count == 0) return false;
+            foreach (SegregationConflict conf in SegregationConflictsList)
                 if (conf.ConflictContainerUnno == unno)
                     return true;
             return false;
         }
-        public bool Contains(int[] unnos)
+        public bool Contains(ushort[] unnos)
         {
-            if (SegrConflicts.Count == 0) return false;
-            foreach (SegregationConflict unused in SegrConflicts)
-                //foreach (int unno in unnos)
-                //{
-                //    if (this.Contains(unno))
-                //        return true;
-                //}
-                //
-                // !!!Code was replaced with linq expression below. Must be checked !!!
+            if (SegregationConflictsList.Count == 0) return false;
+            foreach (SegregationConflict unused in SegregationConflictsList)
                 if (unnos.Any(Contains))
                     return true;
             return false;
         }
         public bool Contains(string code, Dg b)
         {
-            if (SegrConflicts.Count == 0) return false;
-            foreach (SegregationConflict conf in SegrConflicts)
+            if (SegregationConflictsList.Count == 0) return false;
+            foreach (SegregationConflict conf in SegregationConflictsList)
                 if (conf.ConflictContainerNr == b.ContainerNumber && conf.Code == code)
                     return true;
             return false;
@@ -109,7 +124,7 @@ namespace EasyJob_ProDG.Model.Cargo
         public string ShowStowageConflicts()
         {
             string result = null;
-            foreach(string s in StowConflicts)
+            foreach(string s in StowageConflictsList)
             {
                 if (s.StartsWith("SW19") || s.StartsWith("SW22")) continue;
                 if(s.StartsWith("SW") || s.StartsWith("H"))
@@ -127,7 +142,7 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             string result = null;
 
-            foreach (SegregationConflict s in SegrConflicts)
+            foreach (SegregationConflict s in SegregationConflictsList)
             {
                 string  codeDiscr = s.Code.StartsWith("SGC") 
                     ? CodesDictionary.ConflictCodes[s.Code] 
@@ -145,11 +160,11 @@ namespace EasyJob_ProDG.Model.Cargo
         public override string ToString()
         {
             string temp = $"";
-            if (SegrConflicts.Count > 1)
+            if (SegregationConflictsList.Count > 1)
             {
                 temp = "conflicts";
             }
-            else if (SegrConflicts.Count > 0)
+            else if (SegregationConflictsList.Count > 0)
             {
                 temp = "conflict";
             }

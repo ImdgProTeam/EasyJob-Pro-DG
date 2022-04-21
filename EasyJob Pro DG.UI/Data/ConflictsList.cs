@@ -46,6 +46,30 @@ namespace EasyJob_ProDG.UI.Data
             }
         }
 
+        /// <summary>
+        /// Renews all unit stowage conflicts in ConflictList
+        /// </summary>
+        /// <param name="unit"></param>
+        public void UpdateDgWrapperStowageConfilicts(DgWrapper unit)
+        {
+            ushort iterations = (ushort)this.Count;
+
+            //Clear unit associated stowage conflicts
+            for(ushort i=0, n=0; i < iterations; i++, n++)
+            {
+                var conflict = this[n];
+                if(conflict.IsStowageConflict && conflict.ContainerID == unit.Model.ID)
+                {
+                    conflict.UnregisterInMessenger();
+                    Remove(conflict);
+                    n--;
+                }
+            }
+
+            CreateStowageConflict(unit);
+        }
+
+
 
         // ---------------- Private methods -----------------------------------------
 
@@ -67,14 +91,23 @@ namespace EasyJob_ProDG.UI.Data
         private void CreateStowageConflictList(DgWrapperList dgList)
         {
             foreach (DgWrapper dg in dgList)
-                if (dg.IsConflicted && dg.Conflict.FailedStowage)
-                    foreach (string s in dg.Conflict.StowConflicts)
-                    {
-                        var newConflict = new ConflictPanelItemViewModel(dg, s);
-                        if (Contains(newConflict)) continue;
-                        if (!_isTempConflictsCreating) newConflict.RegisterInMessenger();
-                        Add(newConflict);
-                    }
+                CreateStowageConflict(dg);
+        }
+
+        /// <summary>
+        /// Adds stowage conflicts to ConflictList of a single dg
+        /// </summary>
+        /// <param name="dg"></param>
+        private void CreateStowageConflict(DgWrapper dg)
+        {
+            if (dg.IsConflicted && dg.Conflicts.FailedStowage)
+                foreach (string s in dg.Conflicts.StowageConflictsList)
+                {
+                    var newConflict = new ConflictPanelItemViewModel(dg, s);
+                    if (Contains(newConflict)) continue;
+                    if (!_isTempConflictsCreating) newConflict.RegisterInMessenger();
+                    Add(newConflict);
+                }
         }
 
         /// <summary>
@@ -114,9 +147,9 @@ namespace EasyJob_ProDG.UI.Data
         private void CreateSegregationConflictList(DgWrapperList dgList)
         {
             foreach (DgWrapper dg in dgList)
-                if (dg.IsConflicted && dg.Conflict.FailedSegregation)
+                if (dg.IsConflicted && dg.Conflicts.FailedSegregation)
                 {
-                    foreach (Conflict.SegregationConflict c in dg.Conflict.SegrConflicts)
+                    foreach (Conflicts.SegregationConflict c in dg.Conflicts.SegregationConflictsList)
                     {
                         var newConflict =
                             new ConflictPanelItemViewModel(dg, c.Code, true, new DgWrapper(c.DgInConflict));

@@ -19,7 +19,12 @@ namespace EasyJob_ProDG.UI.Services.DataServices
 
         public void ReCheckDgList()
         {
-            currentProgramData.ReCheckDgList();
+            currentProgramData.ReCheckDgWrapperList();
+        }
+
+        public void ReCheckDgWrapperStowage(DgWrapper dgWrapper)
+        {
+            currentProgramData.ReCheckDgWrapperStowage(dgWrapper);
         }
     }
 }

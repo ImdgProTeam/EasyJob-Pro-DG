@@ -22,24 +22,36 @@ namespace EasyJob_ProDG.UI.ViewModel
         //Constructor
         public ConflictListViewModel()
         {
-            DataMessenger.Default.Register<ConflictListToBeUpdatedMessage>(this, OnConflictListReceived);
+            DataMessenger.Default.Register<ConflictListToBeUpdatedMessage>(this, OnConflictListToBeUpdatedMessageReceived);
+
             DoubleClickOnSelectedItem = new DelegateCommand(NotifyOfSelectedConflict);
             //DataMessenger.Default.Register<ConflictsList>(this, OnConflictListReceived);
             cargoDataService = new CargoDataService();
             conflictDataService = new ConflictDataService();
-            OnConflictListReceived();
-
+            GetConflicts();
         }
 
 
         //Methods
-        private void OnConflictListReceived(ConflictListToBeUpdatedMessage obj)
+
+        /// <summary>
+        /// Initiates ReCheck of DgList and Updates ConflictList
+        /// Called by changed property of a DgWrapper.
+        /// </summary>
+        /// <param name="obj"></param>
+        private void OnConflictListToBeUpdatedMessageReceived(ConflictListToBeUpdatedMessage obj)
         {
+            if (obj.OnlyUnitStowageToBeUpdated)
+            {
+                cargoDataService.ReCheckDgWrapperStowage(obj.dgWrapper);
+                return;
+            }
+            
             cargoDataService.ReCheckDgList();
-            OnConflictListReceived();
+            GetConflicts();
         }
 
-        private void OnConflictListReceived()
+        private void GetConflicts()
         {
             Conflicts = conflictDataService.GetConflicts();
         }

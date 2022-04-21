@@ -9,7 +9,6 @@ using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Settings;
 using EasyJob_ProDG.UI.Utility;
-using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.View.UI;
 using EasyJob_ProDG.UI.Wrapper;

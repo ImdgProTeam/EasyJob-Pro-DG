@@ -21,8 +21,8 @@ namespace EasyJob_ProDG.Model.Cargo
         private string dgclass;
 
         //assign from DG List
-        private bool isStabilizedWordInProperShippingName;
-        private bool isStabilizedWordAddedToProperShippingName;
+        private bool isStabilizedWordInProperShippingName => OriginalNameFromCode.Contains("STABILIZED");
+        private bool isStabilizedWordAddedToProperShippingName => Name.ToUpper().Contains("STABILIZED") && !isStabilizedWordInProperShippingName;
         private bool isSelfReactive = false;
         private char stowageCatFromDgList;
         private List<string> segregationSG;
@@ -53,25 +53,31 @@ namespace EasyJob_ProDG.Model.Cargo
         #region Public properties
         //----------------- public properties -----------------------------
         // ---------------- computed properties ---------------------------
+        public int ID { get; } 
+
 
         public bool IsStabilized
         {
             get
             {
-                return isStabilizedWordInProperShippingName ? true : isStabilizedWordAddedToProperShippingName;
+                return isStabilizedWordInProperShippingName || isStabilizedWordAddedToProperShippingName;
             }
             set
             {
-                isStabilizedWordAddedToProperShippingName = value;
-                if (value == true)
-                    if (isStabilizedWordInProperShippingName == false)
+                //Applicable only if the word 'STABILIZED' is not alrady included as a part of Proper Shipping Name into IMDG code
+                if (isStabilizedWordInProperShippingName) return;
+
+                if (value)
                     {
+                        if (!Name.ToLower().Replace(" ", "").Contains("stabilized")) 
+                            Name += ", STABILIZED";
                         StowageCat = 'D';
                         stowageSW.Add("SW1");
+                    
                     }
-                if (value == false)
-                    if (isStabilizedWordInProperShippingName == false)
+                if (!value)
                     {
+                        Name = Name.Replace(", STABILIZED", "");
                         StowageCat = stowageCatFromDgList;
                         stowageSW = stowageSWfromDgList;
                     }
@@ -267,14 +273,14 @@ namespace EasyJob_ProDG.Model.Cargo
 
         public bool EmitFlammableVapours { get; set; }
         public bool Flammable { get; set; }
-        public bool IsConflicted { get; set; }
+        public bool IsConflicted => !this.Conflicts?.IsEmpty ?? false;
         public bool IsLq { get; set; }
         public bool Liquid { get; set; }
         public bool IsMp { get; set; }
         public bool IsMax1L { get; set; }
         public bool IsWaste { get; set; }
         public char StowageCat { get; set; }
-        public Conflict Conflict { get; set; }
+        public Conflicts Conflicts { get; set; }
         public decimal DgNetWeight { get; set; }
         public string EmergencyContacts { get; set; }
         public string Remarks { get; set; }
@@ -448,8 +454,7 @@ namespace EasyJob_ProDG.Model.Cargo
             Flammable = false;
             Liquid = false;
             EmitFlammableVapours = false;
-            isStabilizedWordAddedToProperShippingName = false;
-            isStabilizedWordAddedToProperShippingName = false;
+            ID = new Random().Next();
         }
 
         /// <summary>
@@ -472,9 +477,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         public void AddConflict()
         {
-            Conflict ??= new Conflict();
-
-            IsConflicted = true;
+            Conflicts ??= new Conflicts();
         }
 
         /// <summary>
@@ -488,21 +491,18 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             if (!add) return;
             AddConflict();
-            if (stoworsegr == "stowage") Conflict.AddStowConflict(code);
-            else Conflict.AddSegrConflict(code, b);
+            if (stoworsegr == "stowage") Conflicts.AddStowConflict(code);
+            else Conflicts.AddSegrConflict(code, b);
         } 
 
         /// <summary>
         /// Method clears all conflicts in dg unit and changes 'conflicted' status to false
         /// </summary>
-        public void ClearConflicts()
+        public void ClearAllConflicts()
         {
             if (!IsConflicted) return;
-            IsConflicted = false;
-            Conflict.SegrConflicts.Clear();
-            Conflict.StowConflicts.Clear();
-            Conflict.FailedSegregation = false;
-            Conflict.FailedStowage = false;
+            Conflicts.SegregationConflictsList.Clear();
+            Conflicts.StowageConflictsList.Clear();
         }
         #endregion
 
@@ -543,7 +543,7 @@ namespace EasyJob_ProDG.Model.Cargo
             stowageSW.Clear();
             segregationSG.Clear();
             segregationGroup.Clear();
-            StowageCat = 'A';
+            StowageCat = '0';
             Name = null;
             Flammable = false;
             Liquid = false;
@@ -671,8 +671,7 @@ namespace EasyJob_ProDG.Model.Cargo
             typeOfPackagesDescription = dg.typeOfPackagesDescription;
             dg.MergePackagesInfo();
 
-            isStabilizedWordInProperShippingName = dg.isStabilizedWordInProperShippingName;
-            isStabilizedWordAddedToProperShippingName = dg.isStabilizedWordAddedToProperShippingName;
+            //isStabilizedWordAddedToProperShippingName = dg.isStabilizedWordAddedToProperShippingName;
             isSelfReactive = dg.isSelfReactive;
             stowageCatFromDgList = dg.stowageCatFromDgList;
             segregationSG = dg.segregationSG;

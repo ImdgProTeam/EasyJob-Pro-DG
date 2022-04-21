@@ -185,9 +185,9 @@
                 <DataGridTextColumn x:Name="carrierColumn"
                                     Binding="{Binding Carrier, UpdateSourceTrigger=LostFocus}"
                                     Header="Operator"
-                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].DisplayIndex, Mode=TwoWay, FallbackValue=39}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].Visibility, Mode=TwoWay}" />
+                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[40].Width, Mode=TwoWay}"
+                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[40].DisplayIndex, Mode=TwoWay, FallbackValue=40}"
+                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[40].Visibility, Mode=TwoWay}" />
 
                 <!-- POL -->
                 <DataGridTextColumn x:Name="polColumn"
@@ -209,9 +209,9 @@
                 <DataGridTextColumn x:Name="finalDestinationColumn"
                                     Binding="{Binding FinalDestination, UpdateSourceTrigger=LostFocus}"
                                     Header="Final destination"
-                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].DisplayIndex, Mode=TwoWay, FallbackValue=38}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].Visibility, Mode=TwoWay}" />
+                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].Width, Mode=TwoWay}"
+                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].DisplayIndex, Mode=TwoWay, FallbackValue=39}"
+                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].Visibility, Mode=TwoWay}" />
 
                 <!-- Unno -->
                 <DataGridTextColumn x:Name="unnoColumn"
@@ -514,9 +514,9 @@
                                         Header="Import"
                                         CanUserSort="True"
                                         SortMemberPath="IsToImport"
-                                        Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[40].Width, Mode=TwoWay}"
-                                        DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[40].DisplayIndex, Mode=TwoWay, FallbackValue=40}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[40].Visibility, Mode=TwoWay}">
+                                        Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[41].Width, Mode=TwoWay}"
+                                        DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[41].DisplayIndex, Mode=TwoWay, FallbackValue=41}"
+                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[41].Visibility, Mode=TwoWay}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=IsToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -529,9 +529,9 @@
                                         Header="Not to import"
                                         CanUserSort="True"
                                         SortMemberPath="IsNotToImport"
-                                        Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[41].Width, Mode=TwoWay}"
-                                        DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[41].DisplayIndex, Mode=TwoWay, FallbackValue=41}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[41].Visibility, Mode=TwoWay}">
+                                        Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[42].Width, Mode=TwoWay}"
+                                        DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[42].DisplayIndex, Mode=TwoWay, FallbackValue=42}"
+                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[42].Visibility, Mode=TwoWay}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=IsNotToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -559,9 +559,9 @@
                 <DataGridTextColumn x:Name="positionBeforeRestowColumn"
                                     Binding="{Binding LocationBeforeRestow, Mode=OneWay}"
                                     Header="Old Position"
-                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[42].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[42].DisplayIndex, Mode=TwoWay, FallbackValue=42}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[42].Visibility, Mode=TwoWay}"
+                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[43].Width, Mode=TwoWay}"
+                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[43].DisplayIndex, Mode=TwoWay, FallbackValue=43}"
+                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[43].Visibility, Mode=TwoWay}"
                                     IsReadOnly="False">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -665,21 +665,36 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
+                <!-- isSTABILIZED -->
+                <DataGridTemplateColumn x:Name="isStabilizedColumn"
+                                        Header="Stabilized"
+                                        CanUserSort="True"
+                                        SortMemberPath="IsStabilized"
+                                        Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[32].Width, Mode=TwoWay}"
+                                        DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[32].DisplayIndex, Mode=TwoWay, FallbackValue=32}"
+                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[32].Visibility, Mode=TwoWay}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsStabilized, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
                 <!-- EMS -->
                 <DataGridTextColumn x:Name="emsColumn"
                                     Binding="{Binding DgEMS}"
                                     Header="EmS"
-                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[32].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[32].DisplayIndex, Mode=TwoWay, FallbackValue=32}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[32].Visibility, Mode=TwoWay}" />
+                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[33].Width, Mode=TwoWay}"
+                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[33].DisplayIndex, Mode=TwoWay, FallbackValue=33}"
+                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[33].Visibility, Mode=TwoWay}" />
 
                 <!-- TechnicalName -->
                 <DataGridTextColumn x:Name="technicalNameColumn"
                                     Header="Technical name"
                                     FocusManager.FocusedElement="{Binding ElementName=technicalNameColumn}"
-                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[33].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[33].DisplayIndex, Mode=TwoWay, FallbackValue=33}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[33].Visibility, Mode=TwoWay}"
+                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[34].Width, Mode=TwoWay}"
+                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[34].DisplayIndex, Mode=TwoWay, FallbackValue=34}"
+                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[34].Visibility, Mode=TwoWay}"
                                     Binding="{Binding TechnicalName, UpdateSourceTrigger=LostFocus, Mode=TwoWay}">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -704,9 +719,9 @@
                                     Header="Proper Shipping Name from IMDG code"
                                     FocusManager.FocusedElement="{Binding ElementName=originalNameColumn}"
                                     IsReadOnly="True"
-                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[34].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[34].DisplayIndex, Mode=TwoWay, FallbackValue=34}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[34].Visibility, Mode=TwoWay}"
+                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[35].Width, Mode=TwoWay}"
+                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[35].DisplayIndex, Mode=TwoWay, FallbackValue=35}"
+                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[35].Visibility, Mode=TwoWay}"
                                     Binding="{Binding OriginalNameFromCode, Mode=OneWay}">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -722,9 +737,9 @@
                 <DataGridTextColumn x:Name="packagesColumn"
                                     Header="Number and type of Packages"
                                     FocusManager.FocusedElement="{Binding ElementName=packagesColumn}"
-                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[35].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[35].DisplayIndex, Mode=TwoWay, FallbackValue=35}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[35].Visibility, Mode=TwoWay}"
+                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[36].Width, Mode=TwoWay}"
+                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[36].DisplayIndex, Mode=TwoWay, FallbackValue=36}"
+                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[36].Visibility, Mode=TwoWay}"
                                     Binding="{Binding NumberAndTypeOfPackages, UpdateSourceTrigger=LostFocus, Mode=TwoWay}">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -748,9 +763,9 @@
                 <DataGridTextColumn x:Name="contactsColumn"
                                     Header="Emergency contact"
                                     FocusManager.FocusedElement="{Binding ElementName=contactsColumn}"
-                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[36].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[36].DisplayIndex, Mode=TwoWay, FallbackValue=36}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[36].Visibility, Mode=TwoWay}"
+                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[37].Width, Mode=TwoWay}"
+                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[37].DisplayIndex, Mode=TwoWay, FallbackValue=37}"
+                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[37].Visibility, Mode=TwoWay}"
                                     Binding="{Binding EmergencyContacts, UpdateSourceTrigger=LostFocus, Mode=TwoWay}">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -774,9 +789,9 @@
                 <DataGridTextColumn x:Name="remarksColumn"
                                     Header="Remarks"
                                     FocusManager.FocusedElement="{Binding ElementName=remarksColumn}"
-                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[37].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[37].DisplayIndex, Mode=TwoWay, FallbackValue=37}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[37].Visibility, Mode=TwoWay}"
+                                    Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].Width, Mode=TwoWay}"
+                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].DisplayIndex, Mode=TwoWay, FallbackValue=38}"
+                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].Visibility, Mode=TwoWay}"
                                     Binding="{Binding Remarks, UpdateSourceTrigger=LostFocus, Mode=TwoWay}">
                     <DataGridTextColumn.ElementStyle>
                         <Style>

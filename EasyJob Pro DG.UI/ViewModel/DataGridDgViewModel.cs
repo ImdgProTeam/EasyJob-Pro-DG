@@ -3,7 +3,7 @@ using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Settings;
 using EasyJob_ProDG.UI.Utility;
-using EasyJob_ProDG.UI.Utility.Messages;
+using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.Collections;
@@ -145,7 +145,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             catch (Exception e)
             {
                 ColumnSettings ??= new ObservableCollection<DgTableColumnSettings>();
-                for (int i = 0; i < 43; i++)
+                for (int i = 0; i < 44; i++)
                 {
                     ColumnSettings.Add(new DgTableColumnSettings(i));
                 }

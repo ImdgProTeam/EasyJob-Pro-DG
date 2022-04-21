@@ -23,7 +23,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
 
         public void ReCheckConflicts()
         {
-            currentProgramData.ReCheckDgList();
+            currentProgramData.ReCheckDgWrapperList();
         }
     }
 }
