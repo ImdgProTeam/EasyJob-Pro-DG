@@ -1,6 +1,6 @@
 ﻿using EasyJob_ProDG.UI.Wrapper;
 
-namespace EasyJob_ProDG.UI.Utility.Messages
+namespace EasyJob_ProDG.UI.Messages
 {
     /// <summary>
     /// Message class used for manipulation with CargoPlan units.

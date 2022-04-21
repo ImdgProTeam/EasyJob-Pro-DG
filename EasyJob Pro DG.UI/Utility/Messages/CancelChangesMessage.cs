@@ -1,4 +1,4 @@
-﻿namespace EasyJob_ProDG.UI.Utility.Messages
+﻿namespace EasyJob_ProDG.UI.Messages
 {
     public class CancelChangesMessage
     {
