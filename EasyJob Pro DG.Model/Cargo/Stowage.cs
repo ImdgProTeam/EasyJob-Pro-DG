@@ -6,7 +6,7 @@ namespace EasyJob_ProDG.Model.Cargo
 {
     public partial class Stowage
     {
-        private static string stow = "stowage";
+        private const string stow = "stowage";
         public static SpecialStowageGroups SWgroups = new SpecialStowageGroups(true);
 
         public ShipProfile Ship;
@@ -39,20 +39,24 @@ namespace EasyJob_ProDG.Model.Cargo
         {
 
             if (unit.IsLq) return;
+
             //Check special stowage
             foreach (string sscode in unit.StowageSWList)
                 unit.AddConflict(SpecialStowageCheck(sscode, unit, containers, ship), stow, sscode);
+
             //Check stowage category
-            unit.AddConflict(StowageCatCheck(unit), "stowage","SSC1");
+            unit.AddConflict(StowageCatCheck(unit), stow,"SSC1");
 
             //Check against DOC
-            unit.AddConflict(!CheckDoc(unit, ship), "stowage", "SSC2");
+            unit.AddConflict(!CheckDoc(unit, ship), stow, "SSC2");
 
             //Class 1 general stowage
+            //Not less than 12 m from Living quarters and LSA
+            //Not less than 2,4 m from ship side
             if (unit.DgClass.StartsWith("1") && !unit.DgClass.StartsWith("1.4"))
             {
-                unit.AddConflict(ship.IsNotClearOfLSA(unit), "stowage", "SSC6");
-                unit.AddConflict(ship.IsOnSeaSide(unit), "stowage", "SSC7");
+                unit.AddConflict(ship.IsNotClearOfLSA(unit), stow, "SSC6");
+                unit.AddConflict(ship.IsOnSeaSide(unit), stow, "SSC7");
             }
 
             //Check in respect of marine pollutants

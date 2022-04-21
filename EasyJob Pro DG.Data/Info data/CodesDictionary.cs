@@ -43,7 +43,7 @@ namespace EasyJob_ProDG.Data.Info_data
             {"SSC4", "For stowage of AMMONIUM NITRATE (UN 1942), AMMONIUM NITRATE BASED FERTILIZER (UN 2067 AND 2071) in containers, the applicable provisions of 7.6.2.8.4 and 7.6.2.11.1 also apply." },
             {"SSC5", "Marine pollutants and infectious substances: Where stowage on deck only is required, preference shall be given to stowage on well-protected decks or to stowage inboard in sheltered areas of exposed decks. (7.1.4.2)." },
             {"SSC5a", "Marine pollutants and infectious substances: Where stowage is permitted on deck or under deck, under deck stowage is preferred. (7.1.4.2)." },
-            {"SSC6", "Goods of class 1 with the exception of division 1.4 shall be stowed not less than a horizontal distance of 12 m from living quarters, life-saving appliances and areas with public access. (7.1.4.4.2)." },
+            {"SSC6", "Goods of class 1 with the exception of division 1.4 shall be stowed not less than a horizontal distance of 12 m from living quarters, life-saving appliances* and areas where the ship’s passengers can access without any authorization or limitation. (7.1.4.4.2)." },
             {"SSC7", "Goods of class 1 with the exception of division 1.4 shall not be positioned closer to the ship’s side than a distance equal to one eighth of the beam or 2.4 m, whichever is the lesser. (7.1.4.4.3)." },
             {"SSC8", "Stowage of goods of class 7 might be violated. Segregation from the crew might be required. Refer to 7.1.4.5.18 and table 7.1.4.5.18." },
             {"SGC1", "Two dg classes are in conflict according to Table 7.2.4" },
