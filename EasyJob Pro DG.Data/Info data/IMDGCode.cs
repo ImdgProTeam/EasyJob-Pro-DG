@@ -12,6 +12,26 @@ namespace EasyJob_ProDG.Data.Info_data
             "5.1", "5.2", "6.1", "6.2", "7", "8", "9"
         };
 
+        public static readonly int[,] SegregationTable ={
+            {5, 5, 5, 4, 2, 2, 4, 4, 4, 4, 4, 4, 2, 4, 2, 4, 0 }, //Explosives 1.1, 1.2, 1.5
+            {5, 5, 5, 4, 2, 2, 4, 3, 3, 4, 4, 4, 2, 4, 2, 2, 0 }, //Explosives 1.3, 1.6
+            {5, 5, 5, 2, 1, 1, 2, 2, 2, 2, 2, 2, 0, 4, 2, 2, 0 }, //Explosives 1.4 
+            {4, 4, 2, 0, 0, 0, 2, 1, 2, 2, 2, 2, 0, 4, 2, 1, 0 }, //Flammable gases 2.1   
+            {2, 2, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 2, 1, 0, 0 }, //Non-toxic, non-flammable gases 2.2 
+            {2, 2, 1, 0, 0, 0, 2, 0, 2, 0, 0, 2, 0, 2, 1, 0, 0 }, //Toxic gases 2.3 
+            {4, 4, 2, 2, 1, 2, 0, 0, 2, 2, 2, 2, 0, 3, 2, 0, 0 }, //Flammable liquids 3
+            {4, 3, 2, 1, 0, 0, 0, 0, 1, 0, 1, 2, 0, 3, 2, 1, 0 }, //Flammable solids 4.1
+            {4, 3, 2, 2, 1, 2, 2, 1, 0, 1, 2, 2, 1, 3, 2, 1, 0 }, //Substances liable to spontaneous combustion 4.2
+            {4, 4, 2, 2, 0, 0, 2, 0, 1, 0, 2, 2, 0, 2, 2, 1, 0 }, //Substances which, in contact with water, emit flammable gases 4.3
+            {4, 4, 2, 2, 0, 0, 2, 1, 2, 2, 0, 2, 1, 3, 1, 2, 0 }, //Oxidizing substances(agents) 5.1 
+            {4, 4, 2, 2, 1, 2, 2, 2, 2, 2, 2, 0, 1, 3, 2, 2, 0 }, //Organic peroxides 5.2 
+            {2, 2, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0 }, //Toxic substances 6.1 
+            {4, 4, 4, 4, 2, 2, 3, 3, 3, 2, 3, 3, 1, 0, 3, 3, 0 }, //Infectious substances 6.2
+            {2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 1, 2, 0, 3, 0, 2, 0 }, //Radioactive material 7
+            {4, 2, 2, 1, 0, 0, 0, 1, 1, 1, 2, 2, 0, 3, 2, 0, 0 }, //Corrosive substances 8 
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }  //Miscellaneous 9
+            };
+
         /// <summary>
         /// Method to assign row number in segregation table.
         /// </summary>
@@ -272,5 +292,12 @@ namespace EasyJob_ProDG.Data.Info_data
         {
             1950, 2037
         };
+
+        public static ushort[] Table72631 = { 2014, 2984, 3105, 3107, 3109, 3149 };
+        public static ushort[] Table72632 = { 1295, 1818, 2189 };
+        public static ushort[] Table72633 = { 3391, 3392, 3393, 3394, 3395, 3396, 3397, 3398, 3399, 3400 };
+        public static ushort[] Table72634 = { 1325, 3101, 3102, 3103, 3104, 3105, 3106, 3107, 3108, 3109, 3110, 3111, 3112, 3113, 3114, 3115, 3116, 3117, 3118, 3119, 3120 };
+        public static ushort[] Classes72721 = { 1942, 2067, 1451, 2722, 1486, 1477, 1498, 1446, 2464, 1454, 1474, 1507 };
+        public static ushort[] BlastingExplosives = { 81, 82, 84, 241, 331, 332 };
     }
 }

@@ -1,4 +1,5 @@
-﻿using EasyJob_ProDG.Model.Transport;
+﻿using EasyJob_ProDG.Data.Info_data;
+using EasyJob_ProDG.Model.Transport;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace EasyJob_ProDG.Model.Cargo
     {
         private const string segr = "segregation";
 
-        private ShipProfile Ship;
+        private readonly ShipProfile Ship;
 
         public enum SegregationCase : byte
         {
@@ -21,25 +22,8 @@ namespace EasyJob_ProDG.Model.Cargo
             SeparationBetweenExplosives
         }
 
-        private static readonly int[,] SegregationTable ={
-            {5, 5, 5, 4, 2, 2, 4, 4, 4, 4, 4, 4, 2, 4, 2, 4, 0 }, //Explosives 1.1, 1.2, 1.5
-            {5, 5, 5, 4, 2, 2, 4, 3, 3, 4, 4, 4, 2, 4, 2, 2, 0 }, //Explosives 1.3, 1.6
-            {5, 5, 5, 2, 1, 1, 2, 2, 2, 2, 2, 2, 0, 4, 2, 2, 0 }, //Explosives 1.4 
-            {4, 4, 2, 0, 0, 0, 2, 1, 2, 2, 2, 2, 0, 4, 2, 1, 0 }, //Flammable gases 2.1   
-            {2, 2, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 2, 1, 0, 0 }, //Non-toxic, non-flammable gases 2.2 
-            {2, 2, 1, 0, 0, 0, 2, 0, 2, 0, 0, 2, 0, 2, 1, 0, 0 }, //Toxic gases 2.3 
-            {4, 4, 2, 2, 1, 2, 0, 0, 2, 2, 2, 2, 0, 3, 2, 0, 0 }, //Flammable liquids 3
-            {4, 3, 2, 1, 0, 0, 0, 0, 1, 0, 1, 2, 0, 3, 2, 1, 0 }, //Flammable solids 4.1
-            {4, 3, 2, 2, 1, 2, 2, 1, 0, 1, 2, 2, 1, 3, 2, 1, 0 }, //Substances liable to spontaneous combustion 4.2
-            {4, 4, 2, 2, 0, 0, 2, 0, 1, 0, 2, 2, 0, 2, 2, 1, 0 }, //Substances which, in contact with water, emit flammable gases 4.3
-            {4, 4, 2, 2, 0, 0, 2, 1, 2, 2, 0, 2, 1, 3, 1, 2, 0 }, //Oxidizing substances(agents) 5.1 
-            {4, 4, 2, 2, 1, 2, 2, 2, 2, 2, 2, 0, 1, 3, 2, 2, 0 }, //Organic peroxides 5.2 
-            {2, 2, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0 }, //Toxic substances 6.1 
-            {4, 4, 4, 4, 2, 2, 3, 3, 3, 2, 3, 3, 1, 0, 3, 3, 0 }, //Infectious substances 6.2
-            {2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 1, 2, 0, 3, 0, 2, 0 }, //Radioactive material 7
-            {4, 2, 2, 1, 0, 0, 0, 1, 1, 1, 2, 2, 0, 3, 2, 0, 0 }, //Corrosive substances 8 
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }  //Miscellaneous 9
-            };
+        private static readonly int[,] SegregationTable = IMDGCode.SegregationTable;
+
 
 
         //----------------------------- Public constructors ---------------------------------------------------
@@ -329,12 +313,12 @@ namespace EasyJob_ProDG.Model.Cargo
 
             #region Definitions
             bool fullReCheck = false;
-            ushort[] table72631 = { 2014, 2984, 3105, 3107, 3109, 3149 };
-            ushort[] table72632 = { 1295, 1818, 2189 };
-            ushort[] table72633 = { 3391, 3392, 3393, 3394, 3395, 3396, 3397, 3398, 3399, 3400 };
-            ushort[] Table72634 = { 1325, 3101, 3102, 3103, 3104, 3105, 3106, 3107, 3108, 3109, 3110, 3111, 3112, 3113, 3114, 3115, 3116, 3117, 3118, 3119, 3120 };
-            ushort[] classes72721 = { 1942, 2067, 1451, 2722, 1486, 1477, 1498, 1446, 2464, 1454, 1474, 1507 };
-            ushort[] blastingExplosives = { 81, 82, 84, 241, 331, 332 };
+            ushort[] table72631 = IMDGCode.Table72631;
+            ushort[] table72632 = IMDGCode.Table72632;
+            ushort[] table72633 = IMDGCode.Table72633;
+            ushort[] Table72634 = IMDGCode.Table72634;
+            ushort[] classes72721 = IMDGCode.Classes72721;
+            ushort[] blastingExplosives = IMDGCode.BlastingExplosives;
             #endregion
 
             foreach (Dg a in dglist)
