@@ -167,6 +167,7 @@ namespace EasyJob_ProDG.Data.Info_data
                     ployed as industry best practice in a port. Until such cleaning is undertaken, the 
                     cargo spaces in which the asbestos has been carried shall be closed and access to 
                     those spaces shall be prohibited."},
+            { "H5", "Avoid handling the packaging or large packaging or keep handling to a minimum. Inform the appropriate public health authority or veterinary authority where persons or animals may have been exposed." },
             { "SW1", "Protected from sources of heat." },
             { "SW2", "Clear of living quarters."},
             {"SW3", "Shall be transported under temperature control."},

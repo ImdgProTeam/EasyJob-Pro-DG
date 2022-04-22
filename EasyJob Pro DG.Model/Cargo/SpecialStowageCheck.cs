@@ -149,6 +149,9 @@ namespace EasyJob_ProDG.Model.Cargo
                 case "H4":
                     result = true;
                     break;
+                case "H5":
+                    result = true;
+                    break;
                 default: break;
             }
             return result;
