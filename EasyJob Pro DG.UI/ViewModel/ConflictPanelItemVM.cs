@@ -53,7 +53,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         } 
         public int Unno => _dgUnit.Unno;
         public string ContainerNumber => _dgUnit.ContainerNumber;
-        public int ContainerID => _dgUnit.Model.ID;
+        public int DgID => _dgUnit.Model.ID;
         public string Location => _dgUnit.Location;
         public string Code { get; }
         public string GroupParam { get; set; }

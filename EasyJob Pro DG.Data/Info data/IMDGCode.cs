@@ -264,5 +264,13 @@ namespace EasyJob_ProDG.Data.Info_data
             "Dangerous goods of class 9 in package form, which according to the IMDG code emmit flammable vapours, not to be carried in hold No 8"
         };
         #endregion
+
+        /// <summary>
+        /// List of unnos to which SW22 can be applied in part of Waste
+        /// </summary>
+        public static ushort[] SW22RelatedUnnos = new ushort[]
+        {
+            1950, 2037
+        };
     }
 }

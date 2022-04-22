@@ -45,19 +45,13 @@ namespace EasyJob_ProDG.Model.Cargo
                 unit.AddConflict(SpecialStowageCheck(sscode, unit, containers, ship), stow, sscode);
 
             //Check stowage category
-            unit.AddConflict(StowageCatCheck(unit), stow,"SSC1");
+            unit.AddConflict(StowageCatCheck(unit), stow, "SSC1");
 
             //Check against DOC
             unit.AddConflict(!CheckDoc(unit, ship), stow, "SSC2");
 
-            //Class 1 general stowage
-            //Not less than 12 m from Living quarters and LSA
-            //Not less than 2,4 m from ship side
-            if (unit.DgClass.StartsWith("1") && !unit.DgClass.StartsWith("1.4"))
-            {
-                unit.AddConflict(ship.IsNotClearOfLSA(unit), stow, "SSC6");
-                unit.AddConflict(ship.IsOnSeaSide(unit), stow, "SSC7");
-            }
+            //Check in respect of explosives
+            CheckStowageOfExplosives(unit, ship);
 
             //Check in respect of marine pollutants
             CheckMarinePollutantAndInfectiousSubstancesStowage(unit, ship);
@@ -68,6 +62,7 @@ namespace EasyJob_ProDG.Model.Cargo
             //Additional requirements for class 7
             CheckRadioactiveStowage(unit, ship);
         }
+
 
         /// <summary>
         /// Method to determine Stowage category in accordance with IMDG Code paragraph 7.1.3.
@@ -252,6 +247,23 @@ namespace EasyJob_ProDG.Model.Cargo
                 }
             }
             unit.AddConflict(bays.Contains(unit.Bay), stow, "SCC8");
+        }
+
+        /// <summary>
+        /// Checks special stowage requirements are met if the unit is an explosive
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <param name="ship"></param>
+        private static void CheckStowageOfExplosives(Dg unit, ShipProfile ship)
+        {
+            //Class 1 general stowage
+            //Not less than 12 m from Living quarters and LSA
+            //Not less than 2,4 m from ship side
+            if (unit.DgClass.StartsWith("1") && !unit.DgClass.StartsWith("1.4"))
+            {
+                unit.AddConflict(ship.IsNotClearOfLSA(unit), stow, "SSC6");
+                unit.AddConflict(ship.IsOnSeaSide(unit), stow, "SSC7");
+            }
         }
 
     }

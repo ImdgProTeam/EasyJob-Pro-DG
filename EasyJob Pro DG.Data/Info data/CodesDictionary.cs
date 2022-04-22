@@ -46,6 +46,7 @@ namespace EasyJob_ProDG.Data.Info_data
             {"SSC6", "Goods of class 1 with the exception of division 1.4 shall be stowed not less than a horizontal distance of 12 m from living quarters, life-saving appliances* and areas where the ship’s passengers can access without any authorization or limitation. (7.1.4.4.2)." },
             {"SSC7", "Goods of class 1 with the exception of division 1.4 shall not be positioned closer to the ship’s side than a distance equal to one eighth of the beam or 2.4 m, whichever is the lesser. (7.1.4.4.3)." },
             {"SSC8", "Stowage of goods of class 7 might be violated. Segregation from the crew might be required. Refer to 7.1.4.5.18 and table 7.1.4.5.18." },
+            {"SSC22", "For WASTE AEROSOLS or WASTE GAS CARTRIDGES: category C, clear of living quarters." },
             {"SGC1", "Two dg classes are in conflict according to Table 7.2.4" },
             {"SGC11", "Two dg classes are in conflict according to Table 7.2.4, taking into account additional requirement of 'segregation as for class'" },
             {"SGC2","Segregation is not required according to 7.2.6.3.2" },
@@ -207,7 +208,7 @@ namespace EasyJob_ProDG.Data.Info_data
             {"SW21", "For uranium metal pyrophoric and thorium metal pyrophoric stowage, category D applies."},
             {"SW22", @"For AEROSOLS with a maximum capacity of 1 L: category A.
                        For AEROSOLS with a capacity above 1 L: category B.
-                       For WASTE AEROSOLS: category C, clear of living quarters."},
+                       For WASTE AEROSOLS or WASTE GAS CARTRIDGES: category C, clear of living quarters."},
             {"SW23", "When transported in BK3 bulk container, see 7.6.2.12 and 7.7.3.9."},
             {"SW24", "For special stowage provisions, see 7.4.1.3 and 7.6.2.7.2."},
             {"SW25", "For special stowage provisions, see 7.6.2.7.3."},

@@ -478,15 +478,17 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 if (IsWaste == value) return;
                 SetValue(value);
+
                 if (value)
                 {
                     if (Unno == 1950) IsMax1L = false;
-                    if (!Name.ToLower().Replace(" ", "").Contains("waste")) Name += ", WASTE";
                 }
-                else
-                {
-                    Name = Name.Replace(", WASTE", "");
-                }
+
+                UpdateDgStowageConflicts();
+
+                OnPropertyChanged("StowageCat");
+                OnPropertyChanged("StowageSW");
+                OnPropertyChanged("Name");
             }
         }
         public bool IsStabilized

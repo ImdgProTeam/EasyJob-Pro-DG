@@ -97,10 +97,19 @@ namespace EasyJob_ProDG.Model.Cargo
                 case "SW21":
                     result = dg.IsUnderdeck;
                     break;
+                
+                //For AEROSOLS with a maximum capacity of 1 L: category A.
+                //For AEROSOLS with a capacity above 1 L: category B.
+                //For WASTE AEROSOLS or WASTE GAS CARTRIDGES: category C, clear of living quarters.
                 case "SW22":
                     if (dg.StowageCat == '-' || dg.StowageCat == ' ' || dg.StowageCat == '0') dg.StowageCat = 'B';
-                    if (dg.IsUnderdeck || ship.IsInLivingQuarters(dg))
+                    if (!dg.IsWaste && (dg.IsUnderdeck || ship.IsInLivingQuarters(dg)))
                         SWgroups.AddSW22 = dg;
+                    else if (dg.IsWaste && (dg.IsUnderdeck || ship.IsInLivingQuarters(dg)))
+                    {
+                        dg.AddConflict(true, stow, "SSC22");
+                        SWgroups.ListSW22List.Remove(dg);
+                    }
                     break;
                 case "SW23":
                     //4.3.4.1 Flexible bulk containers are only allowed in the holds of general cargo ships. They are not allowed to be transported in cargo transport units.

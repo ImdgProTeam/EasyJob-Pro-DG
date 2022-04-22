@@ -106,7 +106,7 @@ namespace EasyJob_ProDG.UI.Data
         /// <param name="cargoPlan"></param>
         private void ReCheckDgStowage(Dg dg, CargoPlan cargoPlan)
         {
-            dg.Conflicts.ClearStowageConflicts();
+            dg.Conflicts?.ClearStowageConflicts();
             Stowage.CheckUnitStowage(dg, OwnShip, cargoPlan.Containers);
         }
 

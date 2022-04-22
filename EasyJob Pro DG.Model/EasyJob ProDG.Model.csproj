@@ -56,6 +56,7 @@
     <Compile Include="Cargo\ILocationOnBoard.cs" />
     <Compile Include="Cargo\IReefer.cs" />
     <Compile Include="Cargo\LocationOnBoard.cs" />
+    <Compile Include="Cargo\RandomizeID.cs" />
     <Compile Include="IO\EasyJobCondition\CargoPlanAssociated.cs" />
     <Compile Include="IO\EasyJobCondition\ConditionUnit.cs" />
     <Compile Include="IO\EasyJobCondition\EasyJobCondition.cs" />
