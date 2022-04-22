@@ -374,7 +374,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
             Debug.WriteLine("");
             for (int i = 0; i < 5; i++)
             {
-                bool segCheck = Segregation.SegregationCheck(dgA, dgB, (byte)i, ship);
+                bool segCheck = Segregation.SegregationConflictCheck(dgA, dgB, (byte)i, ship);
                 Debug.WriteLine("Segregation check at level {0} result is {1}", i, segCheck);
             }
 
@@ -609,8 +609,8 @@ namespace EasyJob_ProDG.ModelTests.Cargo
 
             Debug.WriteLine("Seglevel is {0}", seglevel);
             Debug.WriteLine("Seglevel5 is {0}", _seglevel5);
-            if (_seglevel5 != 0) _conf = Segregation.SegregationCheck(a, b, _seglevel5, ship);
-            if (Segregation.SegregationCheck(a, b, seglevel, ship)) _conf = true;
+            if (_seglevel5 != 0) _conf = Segregation.SegregationConflictCheck(a, b, _seglevel5, ship);
+            if (Segregation.SegregationConflictCheck(a, b, seglevel, ship)) _conf = true;
             Debug.WriteLine("Segregation result is {0}", _conf.ToString());
             Assert.IsTrue(_conf);
         }

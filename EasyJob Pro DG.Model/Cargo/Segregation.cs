@@ -7,9 +7,19 @@ namespace EasyJob_ProDG.Model.Cargo
 {
     public partial class Segregation
     {
-        private static string segr = "segregation";
+        private const string segr = "segregation";
 
-        public ShipProfile Ship;
+        private ShipProfile Ship;
+
+        public enum SegregationCase : byte
+        {
+            None = 0,
+            AwayFrom = 1,
+            SeparatedFrom,
+            SeparatedByCompleteCompartmentFrom,
+            SeparatedLongitudinallyByCompleteCompartmentFrom,
+            SeparationBetweenExplosives
+        }
 
         private static readonly int[,] SegregationTable ={
             {5, 5, 5, 4, 2, 2, 4, 4, 4, 4, 4, 4, 2, 4, 2, 4, 0 }, //Explosives 1.1, 1.2, 1.5
@@ -210,8 +220,8 @@ namespace EasyJob_ProDG.Model.Cargo
                 }
             }
 
-            if (_seglevel5 != 0) _conf = SegregationCheck(a, b, _seglevel5, ship);
-            if (SegregationCheck(a, b, seglevel, ship)) _conf = true;
+            if (_seglevel5 != 0) _conf = SegregationConflictCheck(a, b, _seglevel5, ship);
+            if (SegregationConflictCheck(a, b, seglevel, ship)) _conf = true;
             return _conf;
         }
 
@@ -223,7 +233,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="seglevel"></param>
         /// <param name="ship"></param>
         /// <returns></returns>
-        public static bool SegregationCheck(Dg a, Dg b, byte seglevel, ShipProfile ship)
+        public static bool SegregationConflictCheck(Dg a, Dg b, byte seglevel, ShipProfile ship)
         //implemented only for container ships with closed cargo holds
         {
             //true if conflicted
@@ -256,7 +266,7 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
         /// <summary>
-        /// Method gets segregation level of 2 DG classes
+        /// Method gets segregation level of 2 DG classes in Segregation Table
         /// </summary>
         /// <param name="class1"></param>
         /// <param name="class2"></param>
@@ -280,7 +290,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="reefers"></param>
         /// <param name="row00Exists"></param>
         /// <param name="reeferMotorFacing"></param>
-        public static void ExplosivesWithReefersCheck(Dg unit, IEnumerable<Container> reefers, bool row00Exists, byte reeferMotorFacing)
+        private static void ExplosivesWithReefersCheck(Dg unit, IEnumerable<Container> reefers, bool row00Exists, byte reeferMotorFacing)
         {
             foreach (var reeferOn in reefers)
             {
@@ -313,7 +323,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         /// <param name="cargoplan"></param>
         /// <param name="ship"></param>
-        public static void PostSegregation(CargoPlan cargoplan, ShipProfile ship)
+        internal static void PostSegregation(CargoPlan cargoplan, ShipProfile ship)
         {
             ICollection<Dg> dglist = cargoplan.DgList;
 
@@ -322,7 +332,7 @@ namespace EasyJob_ProDG.Model.Cargo
             ushort[] table72631 = { 2014, 2984, 3105, 3107, 3109, 3149 };
             ushort[] table72632 = { 1295, 1818, 2189 };
             ushort[] table72633 = { 3391, 3392, 3393, 3394, 3395, 3396, 3397, 3398, 3399, 3400 };
-            ushort[] Table72634 = { 3101, 3102, 3103, 3104, 3105, 3106, 3107, 3108, 3109, 3110, 3111, 3112, 3113, 3114, 3115, 3116, 3117, 3118, 3119, 3120, 1325 };
+            ushort[] Table72634 = { 1325, 3101, 3102, 3103, 3104, 3105, 3106, 3107, 3108, 3109, 3110, 3111, 3112, 3113, 3114, 3115, 3116, 3117, 3118, 3119, 3120 };
             ushort[] classes72721 = { 1942, 2067, 1451, 2722, 1486, 1477, 1498, 1446, 2464, 1454, 1474, 1507 };
             ushort[] blastingExplosives = { 81, 82, 84, 241, 331, 332 };
             #endregion
@@ -468,7 +478,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="row00Exists"></param>
         /// <param name="reeferMotorFacing"></param>
         /// <returns></returns>
-        public static void ReefersComplianceSegregationCheck(Dg unit, IEnumerable<Container> reefers, bool row00Exists, byte reeferMotorFacing)
+        private static void ReefersComplianceSegregationCheck(Dg unit, IEnumerable<Container> reefers, bool row00Exists, byte reeferMotorFacing)
         {
             bool result;
             //Check for explosives
@@ -531,7 +541,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="a"></param>
         /// <param name="cargoPlan"></param>
         /// <param name="ship"></param>
-        public static void Segregate(Dg a, CargoPlan cargoPlan, ShipProfile ship)
+        internal static void Segregate(Dg a, CargoPlan cargoPlan, ShipProfile ship)
         {
             bool _conf = false;
             ICollection<Dg> dglist = cargoPlan.DgList;
@@ -689,6 +699,14 @@ namespace EasyJob_ProDG.Model.Cargo
             return segConflict;
         }
 
+
+        /// <summary>
+        /// Checks "Separated longitudinally by an intervening complete compartment or hold from"
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="ship"></param>
+        /// <returns></returns>
         private static bool SegregationCase4(Dg a, Dg b, ShipProfile ship)
         {
             bool segConflict = false;
@@ -735,6 +753,13 @@ namespace EasyJob_ProDG.Model.Cargo
             return segConflict;
         }
 
+        /// <summary>
+        /// Checks "Separated by a complete compartment or hold from"
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="ship"></param>
+        /// <returns></returns>
         private static bool SegregationCase3(Dg a, Dg b, ShipProfile ship)
         {
             bool segConflict;
@@ -774,7 +799,14 @@ namespace EasyJob_ProDG.Model.Cargo
             }
             return segConflict;
         }
-
+        
+        /// <summary>
+        /// Checks "separated from"
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="ship"></param>
+        /// <returns></returns>
         private static bool SegregationCase2(Dg a, Dg b, ShipProfile ship)
         {
             bool segConflict;
@@ -801,6 +833,13 @@ namespace EasyJob_ProDG.Model.Cargo
             return segConflict;
         }
 
+        /// <summary>
+        /// Checks "away from"
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="ship"></param>
+        /// <returns></returns>
         private static bool SegregationCase1(Dg a, Dg b, ShipProfile ship)
         {
             bool segConflict = false;
