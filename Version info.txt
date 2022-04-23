@@ -20,10 +20,12 @@ VERSION INFO
 
 
 0.8.0.0
-Date: 
+Date: 23.04.2022
 
 Version workable: Yes
 Changes:
+
+Implemented amendments 40-20
 
 VISUAL
 1. Fixed window location and size on startup.
@@ -31,11 +33,13 @@ VISUAL
 
 ERRORS
 1. Fixed bug when exporting to and importing from excel was limited to 16 columns only.
-2.
+2. Fixed IsWaste
 
 NEW
 1. Added search options to all three dataGrids
-2.
+2. Implemented IsStabilized
+
+Arrangement job done in various classes to improve readability and optimize the code.
 
 Workable datagrid: dg, partially containers and reefers
 -------------------------------------------------------
