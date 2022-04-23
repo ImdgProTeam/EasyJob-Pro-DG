@@ -1,6 +1,7 @@
 ﻿using EasyJob_ProDG.Data;
 using EasyJob_ProDG.Model.Transport;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Xml.Linq;
@@ -47,12 +48,14 @@ namespace EasyJob_ProDG.Model
                     (Path.Combine(ProgramDefaultSettingValues.ProgramDirectory.ToString()) + docName);
 
                 //checking xml version
+                Debug.WriteLine("------> Checking dglist.xml version");
                 string xmlVersion = (string)xmlDoc.Root.Attribute("version");
                 if (xmlVersion != ProgramDefaultSettingValues.xmlDgListVersion)
                 {
+                    Debug.WriteLine("------> Wrong dglist.xml version is used");
                     throw new Exception("Dg database has wrong format or corrupt.");
                 }
-
+                Debug.WriteLine("------> dglist.xml connected");
                 return xmlDoc;
             }
             catch (FileNotFoundException ex)

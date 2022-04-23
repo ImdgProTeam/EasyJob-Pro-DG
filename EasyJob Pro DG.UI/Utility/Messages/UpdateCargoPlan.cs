@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using EasyJob_ProDG.UI.Wrapper;
 
-namespace EasyJob_ProDG.UI.Utility.Messages
+namespace EasyJob_ProDG.UI.Messages
 {
     internal class UpdateCargoPlan
     {

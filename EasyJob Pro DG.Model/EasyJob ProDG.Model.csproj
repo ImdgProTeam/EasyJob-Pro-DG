@@ -56,6 +56,7 @@
     <Compile Include="Cargo\ILocationOnBoard.cs" />
     <Compile Include="Cargo\IReefer.cs" />
     <Compile Include="Cargo\LocationOnBoard.cs" />
+    <Compile Include="Cargo\RandomizeID.cs" />
     <Compile Include="IO\EasyJobCondition\CargoPlanAssociated.cs" />
     <Compile Include="IO\EasyJobCondition\ConditionUnit.cs" />
     <Compile Include="IO\EasyJobCondition\EasyJobCondition.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="IO\ExportCondition.cs" />
     <Compile Include="IO\ReadIftdgnFile.cs" />
     <Compile Include="Transport\CellPosition.cs" />
-    <Compile Include="Cargo\Conflict.cs" />
+    <Compile Include="Cargo\Conflicts.cs" />
     <Compile Include="Cargo\Container.cs" />
     <Compile Include="Cargo\CargoPlan.cs" />
     <Compile Include="Cargo\Dg.cs" />

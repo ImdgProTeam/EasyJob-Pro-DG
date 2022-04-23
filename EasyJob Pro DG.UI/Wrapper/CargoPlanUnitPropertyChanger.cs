@@ -1,12 +1,15 @@
 ﻿using System.Linq;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
-using EasyJob_ProDG.UI.Utility.Messages;
+using EasyJob_ProDG.UI.Messages;
 using System.Reflection;
 using EasyJob_ProDG.Model.Cargo;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
+    /// <summary>
+    /// Class is used to receive messages and make necessary changes related to respective unit in all three Container, Dg and Reefer lists.
+    /// </summary>
     internal class CargoPlanUnitPropertyChanger
     {
         private static CargoPlanUnitPropertyChanger _changer = null;

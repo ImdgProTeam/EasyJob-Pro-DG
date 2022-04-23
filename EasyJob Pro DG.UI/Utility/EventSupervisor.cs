@@ -1,5 +1,4 @@
 ﻿using EasyJob_ProDG.UI.Messages;
-using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.View.UI;
 using EasyJob_ProDG.UI.View.User_Controls;
 using EasyJob_ProDG.UI.Wrapper;

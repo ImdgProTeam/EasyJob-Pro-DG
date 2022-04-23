@@ -13,7 +13,7 @@ namespace EasyJob_ProDG.Model.Transport
 
         public OuterRow() { }
 
-        public int this[int index]
+        public int this[byte index]
         {
             get
             {

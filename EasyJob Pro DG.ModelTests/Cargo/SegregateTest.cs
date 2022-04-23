@@ -221,7 +221,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
             bool result;
 
             Debug.WriteLine("Test two units with no segregator class and no segregator exception");
-            int segrLevel = Segregation.Segregate(dgList[0].DgClass, dgList[2].DgClass);
+            int segrLevel = Segregation.GetSegregationLevelFromTable(dgList[0].DgClass, dgList[2].DgClass);
             Debug.WriteLine("Segregation level between two containers: {0}", segrLevel);
             result = Segregation.Segregate(dgList[0], dgList[2], ship);
             if (result == false) result = Segregation.Segregate(dgList[1], dgList[2], ship);
@@ -237,7 +237,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
             bool result;
 
             Debug.WriteLine("Test two units with no segregator class and no segregator exception");
-            int segrLevel = Segregation.Segregate(dgList[3].DgClass, dgList[4].DgClass);
+            int segrLevel = Segregation.GetSegregationLevelFromTable(dgList[3].DgClass, dgList[4].DgClass);
             Debug.WriteLine("Segregation level between two containers: {0}", segrLevel);
             result = Segregation.Segregate(dgList[3], dgList[4], ship);
             //if (result == false) result = Segregation.Segregate(dgList[1], dgList[2], ship);
@@ -257,12 +257,12 @@ namespace EasyJob_ProDG.ModelTests.Cargo
 
 
             Debug.WriteLine("Test two units with no segregator class and no segregator exception");
-            int segrLevel = Segregation.Segregate(a.DgSubclassArray[0], b.DgClass);
+            int segrLevel = Segregation.GetSegregationLevelFromTable(a.DgSubclassArray[0], b.DgClass);
             Debug.WriteLine("Segregation level between two containers: {0}", segrLevel);
             result = Segregation.Segregate(a, b, ship);
             if (result == false)
             {
-                segrLevel = Segregation.Segregate(b.DgClass, c.DgClass);
+                segrLevel = Segregation.GetSegregationLevelFromTable(b.DgClass, c.DgClass);
                 Debug.WriteLine("First test passed succesfully - IsClosed versus open in djacent holds.\nSegregation level between two containers: {0}", segrLevel);
                 Debug.WriteLine("Holds are {0} and {1}", b.HoldNr, c.HoldNr);
                 Debug.WriteLine("IsClosed: {0} - {1}", b.IsClosed, c.IsClosed);
@@ -339,7 +339,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
             {
                 foreach (string b in dgB.AllDgClassesList)
                 {
-                    var segLevel = Segregation.Segregate(a, b);
+                    var segLevel = Segregation.GetSegregationLevelFromTable(a, b);
                     Debug.WriteLine("Segregation level between class {0} and {1}:   {2}", a, b, segLevel);
                 }
             }
@@ -348,12 +348,12 @@ namespace EasyJob_ProDG.ModelTests.Cargo
             {
                 foreach (var b in dgB.AllDgClassesList)
                 {
-                    var segLevel = Segregation.Segregate(dgA.SegregatorClass, b);
+                    var segLevel = Segregation.GetSegregationLevelFromTable(dgA.SegregatorClass, b);
                     Debug.WriteLine("Segregation level between segregator class {0} and class {1}:   {2}", dgA.SegregatorClass, b, segLevel);
                 }
                 if (dgB.SegregatorClass != null)
                 {
-                    var segLevel = Segregation.Segregate(dgA.SegregatorClass, dgB.SegregatorClass);
+                    var segLevel = Segregation.GetSegregationLevelFromTable(dgA.SegregatorClass, dgB.SegregatorClass);
                     Debug.WriteLine("Segregation level between segregator class {0} and segregator class {1}:   {2}", dgA.SegregatorClass, dgB.SegregatorClass, segLevel);
                 }
             }
@@ -361,12 +361,12 @@ namespace EasyJob_ProDG.ModelTests.Cargo
             {
                 foreach (var a in dgA.AllDgClassesList)
                 {
-                    var segLevel = Segregation.Segregate(dgB.SegregatorClass, a);
+                    var segLevel = Segregation.GetSegregationLevelFromTable(dgB.SegregatorClass, a);
                     Debug.WriteLine("Segregation level between segregator class {0} and class {1}:   {2}", dgB.SegregatorClass, a, segLevel);
                 }
                 if (dgA.SegregatorClass != null)
                 {
-                    var segLevel = Segregation.Segregate(dgA.SegregatorClass, dgB.SegregatorClass);
+                    var segLevel = Segregation.GetSegregationLevelFromTable(dgA.SegregatorClass, dgB.SegregatorClass);
                     Debug.WriteLine("Segregation level between segregator class {0} and segregator class {1}:   {2}", dgB.SegregatorClass, dgA.SegregatorClass, segLevel);
                 }
             }
@@ -374,7 +374,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
             Debug.WriteLine("");
             for (int i = 0; i < 5; i++)
             {
-                bool segCheck = Segregation.SegregationCheck(dgA, dgB, (byte)i, ship);
+                bool segCheck = Segregation.SegregationConflictCheck(dgA, dgB, (byte)i, ship);
                 Debug.WriteLine("Segregation check at level {0} result is {1}", i, segCheck);
             }
 
@@ -456,7 +456,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
                         Debug.WriteLine("Control value of DgClass {0}", b.AllDgClassesList[0]);
                         foreach (string clb in b.AllDgClassesList)
                         {
-                            _seglevel = (byte)Segregation.Segregate(cla, clb);
+                            _seglevel = (byte)Segregation.GetSegregationLevelFromTable(cla, clb);
                             if (_seglevel == 5) _seglevel5 = _seglevel;
                             else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
                         }
@@ -474,7 +474,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
                         Debug.WriteLine("Control value of DgClass {0}", a.AllDgClassesList[0]);
                         foreach (string cla in a.AllDgClassesList)
                         {
-                            _seglevel = (byte)Segregation.Segregate(cla, b.SegregatorClass);
+                            _seglevel = (byte)Segregation.GetSegregationLevelFromTable(cla, b.SegregatorClass);
                             if (_seglevel == 5) _seglevel5 = _seglevel;
                             else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
                         }
@@ -489,8 +489,8 @@ namespace EasyJob_ProDG.ModelTests.Cargo
                         {
                             if (cla == b.SegregatorException.SegrClass) _seglevel = b.SegregatorException.SegrCase; //except for class ... 
                             else if (b.SegregatorException.SegrClass == "1" && cla.StartsWith("1")) _seglevel = b.SegregatorException.SegrCase; //in relation to goods of class 1
-                            else _seglevel = (byte)Segregation.Segregate(cla, b.SegregatorClass);
-                            if (_seglevel == 99) _seglevel = (byte)Segregation.Segregate(cla, b.DgClass); //segregation as for the primary hazard 7.2.8
+                            else _seglevel = (byte)Segregation.GetSegregationLevelFromTable(cla, b.SegregatorClass);
+                            if (_seglevel == 99) _seglevel = (byte)Segregation.GetSegregationLevelFromTable(cla, b.DgClass); //segregation as for the primary hazard 7.2.8
 
                             if (_seglevel == 5) _seglevel5 = _seglevel;
                             else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
@@ -515,7 +515,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
                         Debug.WriteLine("Control value of DgClass {0}", b.AllDgClassesList[0]);
                         foreach (string clb in b.AllDgClassesList)
                         {
-                            _seglevel = (byte)Segregation.Segregate(a.SegregatorClass, clb);
+                            _seglevel = (byte)Segregation.GetSegregationLevelFromTable(a.SegregatorClass, clb);
                             if (_seglevel == 5) _seglevel5 = _seglevel;
                             else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
                         }
@@ -527,8 +527,8 @@ namespace EasyJob_ProDG.ModelTests.Cargo
                             if (clb == a.SegregatorException.SegrClass) _seglevel = a.SegregatorException.SegrCase; //except for class ... 
                             else if (a.SegregatorException.SegrClass == "1"
                                 && clb.StartsWith("1")) _seglevel = a.SegregatorException.SegrCase; //in relation to goods of class 1
-                            else _seglevel = (byte)Segregation.Segregate(a.SegregatorClass, clb);
-                            if (_seglevel == 99) _seglevel = (byte)Segregation.Segregate(a.DgClass, clb); //segregation as for the primary hazard 7.2.8
+                            else _seglevel = (byte)Segregation.GetSegregationLevelFromTable(a.SegregatorClass, clb);
+                            if (_seglevel == 99) _seglevel = (byte)Segregation.GetSegregationLevelFromTable(a.DgClass, clb); //segregation as for the primary hazard 7.2.8
 
                             if (_seglevel == 5) _seglevel5 = _seglevel;
                             else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
@@ -544,15 +544,15 @@ namespace EasyJob_ProDG.ModelTests.Cargo
                         //both have NO SegregatorException
                         if (b.SegregatorException == null)
                         {
-                            seglevel = (byte)Segregation.Segregate(a.SegregatorClass, b.SegregatorClass);
+                            seglevel = (byte)Segregation.GetSegregationLevelFromTable(a.SegregatorClass, b.SegregatorClass);
                         }
                         else //b.SegregatorException != null
                         {
                             if (a.SegregatorClass == b.SegregatorException.SegrClass) _seglevel = b.SegregatorException.SegrCase; //except for class ... 
                             else if (b.SegregatorException.SegrClass == "1"
                                 && a.SegregatorClass.StartsWith("1")) _seglevel = b.SegregatorException.SegrCase; //in relation to goods of class 1
-                            else _seglevel = (byte)Segregation.Segregate(a.SegregatorClass, b.SegregatorClass);
-                            if (_seglevel == 99) _seglevel = (byte)Segregation.Segregate(a.SegregatorClass, b.DgClass); //segregation as for the primary hazard 7.2.8
+                            else _seglevel = (byte)Segregation.GetSegregationLevelFromTable(a.SegregatorClass, b.SegregatorClass);
+                            if (_seglevel == 99) _seglevel = (byte)Segregation.GetSegregationLevelFromTable(a.SegregatorClass, b.DgClass); //segregation as for the primary hazard 7.2.8
 
                             seglevel = _seglevel > seglevel ? _seglevel : seglevel;
                         }
@@ -564,8 +564,8 @@ namespace EasyJob_ProDG.ModelTests.Cargo
                             if (a.SegregatorException.SegrClass == b.SegregatorClass) _seglevel = a.SegregatorException.SegrCase;
                             else if (a.SegregatorException.SegrClass == "1"
                                 && b.SegregatorClass.StartsWith("1")) _seglevel = a.SegregatorException.SegrCase; //in relation to goods of class 1
-                            else _seglevel = (byte)Segregation.Segregate(a.SegregatorClass, b.SegregatorClass);
-                            if (_seglevel == 99) _seglevel = (byte)Segregation.Segregate(a.DgClass, b.SegregatorClass); //segregation as for the primary hazard 7.2.8
+                            else _seglevel = (byte)Segregation.GetSegregationLevelFromTable(a.SegregatorClass, b.SegregatorClass);
+                            if (_seglevel == 99) _seglevel = (byte)Segregation.GetSegregationLevelFromTable(a.DgClass, b.SegregatorClass); //segregation as for the primary hazard 7.2.8
 
                             seglevel = _seglevel > seglevel ? _seglevel : seglevel;
                         }
@@ -592,12 +592,12 @@ namespace EasyJob_ProDG.ModelTests.Cargo
                                 _seglevel = s1 > s2 ? s1 : s2;
                             } //in relation to goods of class 1
 
-                            else _seglevel = (byte)Segregation.Segregate(a.SegregatorClass, b.SegregatorClass);
+                            else _seglevel = (byte)Segregation.GetSegregationLevelFromTable(a.SegregatorClass, b.SegregatorClass);
                             if (_seglevel == 99)
                             {
                                 _seglevel = s1 > s2
-                                    ? (byte)Segregation.Segregate(a.DgClass, b.SegregatorClass)
-                                    : (byte)Segregation.Segregate(b.DgClass, a.SegregatorClass);
+                                    ? (byte)Segregation.GetSegregationLevelFromTable(a.DgClass, b.SegregatorClass)
+                                    : (byte)Segregation.GetSegregationLevelFromTable(b.DgClass, a.SegregatorClass);
                             }
                             //segregation as for the primary hazard 7.2.8
 
@@ -609,8 +609,8 @@ namespace EasyJob_ProDG.ModelTests.Cargo
 
             Debug.WriteLine("Seglevel is {0}", seglevel);
             Debug.WriteLine("Seglevel5 is {0}", _seglevel5);
-            if (_seglevel5 != 0) _conf = Segregation.SegregationCheck(a, b, _seglevel5, ship);
-            if (Segregation.SegregationCheck(a, b, seglevel, ship)) _conf = true;
+            if (_seglevel5 != 0) _conf = Segregation.SegregationConflictCheck(a, b, _seglevel5, ship);
+            if (Segregation.SegregationConflictCheck(a, b, seglevel, ship)) _conf = true;
             Debug.WriteLine("Segregation result is {0}", _conf.ToString());
             Assert.IsTrue(_conf);
         }

@@ -1,7 +1,6 @@
 ﻿using EasyJob_ProDG.Model.Cargo;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace EasyJob_ProDG.Model.Transport
@@ -182,7 +181,7 @@ namespace EasyJob_ProDG.Model.Transport
                                 case "seasides":
                                     ex.Source = "seasides";
                                     OuterRow instance = new OuterRow();
-                                    var i = 0;
+                                    byte i = 0;
                                     foreach (string figure in lineValue.Split(','))
                                     {
                                         instance[i] = int.Parse(figure);

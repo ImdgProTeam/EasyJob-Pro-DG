@@ -7,13 +7,15 @@
         xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.UI"
         xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
+        xmlns:viewmodel="clr-namespace:EasyJob_ProDG.UI.ViewModel"
         mc:Ignorable="d"
         Icon="imdg.good.ico"
         Title="{Binding WindowTitle, UpdateSourceTrigger=Default}"
         WindowStyle="ThreeDBorderWindow"
         AllowDrop="True"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainWindowViewModel}"
+        d:DataContext="{d:DesignInstance viewmodel:MainWindowViewModel, d:IsDesignTimeCreatable=True}"
         Closing="ClosingApplication">
 
     <Window.InputBindings>
@@ -88,7 +90,7 @@
             <Grid x:Name="WorkingGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
+                    <!--<ColumnDefinition Width="Auto" />-->
                     <ColumnDefinition Width="200" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -125,12 +127,14 @@
                 </DockPanel>
 
                 <GridSplitter ShowsPreview="False"
-                              HorizontalAlignment="Center"
+                              HorizontalAlignment="Right"
                               VerticalAlignment="Stretch"
-                              Width="2"
-                              Grid.Column="1"
+                              Width="3"
+                              Grid.Column="0"
                               Grid.Row="0"
-                              Grid.RowSpan="2" />
+                              Grid.RowSpan="2" 
+                              Background="Transparent"
+                              Panel.ZIndex="100"/>
 
                 <TabControl Grid.Column="0"
                             Grid.Row="0"

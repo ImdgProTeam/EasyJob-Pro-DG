@@ -250,7 +250,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         else if (col == template.ColumnClass)
                         {
                             unit.DgClass = WithXlAssistToRead.DgClass(excelcells, unit, excelapp);
-                            if (!string.IsNullOrEmpty(unit.DgClass)) unit.AssignRowNumber();
+                            if (!string.IsNullOrEmpty(unit.DgClass)) unit.AssignSegregationTableRowNumber();
                         }
                         else if (col == template.ColumnSubclass)
                         {

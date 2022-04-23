@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.Model.Transport;
 
 namespace EasyJob_ProDG.Model.Cargo
 {
     public partial class Stowage
     {
-        private static string stow = "stowage";
+        private const string stow = "stowage";
         public static SpecialStowageGroups SWgroups = new SpecialStowageGroups(true);
 
         public ShipProfile Ship;
@@ -39,27 +40,25 @@ namespace EasyJob_ProDG.Model.Cargo
         {
 
             if (unit.IsLq) return;
+
             //Check special stowage
             foreach (string sscode in unit.StowageSWList)
                 unit.AddConflict(SpecialStowageCheck(sscode, unit, containers, ship), stow, sscode);
+
             //Check stowage category
-            unit.AddConflict(StowageCatCheck(unit), "stowage","SSC1");
+            unit.AddConflict(StowageCatCheck(unit), stow, "SSC1");
 
             //Check against DOC
-            unit.AddConflict(!CheckDoc(unit, ship), "stowage", "SSC2");
+            unit.AddConflict(!CheckDoc(unit, ship), stow, "SSC2");
 
-            //Class 1 general stowage
-            if (unit.DgClass.StartsWith("1") && !unit.DgClass.StartsWith("1.4"))
-            {
-                unit.AddConflict(ship.IsNotClearOfLSA(unit), "stowage", "SSC6");
-                unit.AddConflict(ship.IsOnSeaSide(unit), "stowage", "SSC7");
-            }
+            //Check in respect of explosives
+            CheckStowageOfExplosives(unit, ship);
 
             //Check in respect of marine pollutants
-            CheckMarinePollutantStowage(unit, ship);
+            CheckMarinePollutantAndInfectiousSubstancesStowage(unit, ship);
 
             //Additional requirements
-            CheckAdditionalStowageRequirements(unit);
+            CheckAdditionalStowageRequirements(unit, containers, ship);
 
             //Additional requirements for class 7
             CheckRadioactiveStowage(unit, ship);
@@ -192,38 +191,58 @@ namespace EasyJob_ProDG.Model.Cargo
             return fromtable != 0;
         }
 
-        public static void CheckAdditionalStowageRequirements(Dg unit)
+        /// <summary>
+        /// Checks if unit can be NOT considered protected from source of heat.
+        /// Returns true if Not protected, false if protected.
+        /// </summary>
+        /// <param name="dg"></param>
+        /// <param name="containers"></param>
+        /// <param name="ship"></param>
+        /// <returns></returns>
+        internal static bool CheckNotProtectedFromSourceOfHeat(Dg dg, ICollection<Container> containers, ShipProfile ship)
         {
-            List<int> fishmeal =new List<int>()
+            if (ship.IsInHeatedStructures(dg))
+                return true;
+            if (!dg.IsUnderdeck)
+                return !CheckProtectedUnit(dg, containers, ship.Row00Exists);
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks for any additional stowage requirements which may exist in chapter 7.4
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <param name="containers"></param>
+        /// <param name="ship"></param>
+        private static void CheckAdditionalStowageRequirements(Dg unit, ICollection<Container> containers, ShipProfile ship)
+        {
+            if (IMDGCode.Fishmeal.Contains(unit.Unno))
             {
-                1374, 2216, 3497
-            };
-            List<int> ammonium = new List<int>()
-            {
-                1942, 2067, 2071
-            };
-            if (fishmeal.Contains(unit.Unno))
-            {
-                unit.AddConflict();
-                unit.Conflict.AddStowConflict("SSC3");
+                unit.AddConflict(stow, "SSC3");
+                unit.AddConflict(unit.IsUnderdeck, stow, "SSC3a");
+                unit.AddConflict(CheckNotProtectedFromSourceOfHeat(unit, containers, ship), stow, "SSC3b");
             }
-            if (ammonium.Contains(unit.Unno))
+            if (IMDGCode.AmmoniumNitrate.Contains(unit.Unno))
             {
-                unit.AddConflict();
-                unit.Conflict.AddStowConflict("SSC4");
+                unit.AddConflict(stow, "SSC4");
             }
 
         }
 
         /// <summary>
-        /// Method checks if a marine pollutant stowed on deck on a seaside and adds a conflict in that case.
+        /// Method checks if a marine pollutant or infectious waste as specified by UNno is stowed on deck on a seaside and adds a conflict in that case.
         /// </summary>
         /// <param name="unit"></param>
         /// <param name="ship"></param>
-        private static void CheckMarinePollutantStowage(Dg unit, ShipProfile ship)
+        private static void CheckMarinePollutantAndInfectiousSubstancesStowage(Dg unit, ShipProfile ship)
         {
-            if (!unit.IsMp || unit.IsUnderdeck) return;
-            unit.AddConflict(ship.IsOnSeaSide(unit), "stowage", "SSC5");
+            if (unit.IsUnderdeck || !unit.IsMp &&
+                 unit.Unno != 2814 && unit.Unno != 2900 && unit.Unno != 3549) return;
+
+            char[] categories = new char[] { 'A', 'B', 'E' };
+            unit.AddConflict(categories.Contains(unit.StowageCat),stow, "SSC5a");
+            unit.AddConflict(ship.IsOnSeaSide(unit), stow, "SSC5");
         }
 
         /// <summary>
@@ -244,6 +263,23 @@ namespace EasyJob_ProDG.Model.Cargo
                 }
             }
             unit.AddConflict(bays.Contains(unit.Bay), stow, "SCC8");
+        }
+
+        /// <summary>
+        /// Checks special stowage requirements are met if the unit is an explosive
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <param name="ship"></param>
+        private static void CheckStowageOfExplosives(Dg unit, ShipProfile ship)
+        {
+            //Class 1 general stowage
+            //Not less than 12 m from Living quarters and LSA
+            //Not less than 2,4 m from ship side
+            if (unit.DgClass.StartsWith("1") && !unit.DgClass.StartsWith("1.4"))
+            {
+                unit.AddConflict(ship.IsNotClearOfLSA(unit), stow, "SSC6");
+                unit.AddConflict(ship.IsOnSeaSide(unit), stow, "SSC7");
+            }
         }
 
     }
