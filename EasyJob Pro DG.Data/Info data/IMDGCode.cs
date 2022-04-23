@@ -322,7 +322,7 @@ namespace EasyJob_ProDG.Data.Info_data
         public static ushort[] Table72632 = { 1295, 1818, 2189 };
         public static ushort[] Table72633 = { 3391, 3392, 3393, 3394, 3395, 3396, 3397, 3398, 3399, 3400 };
         public static ushort[] Table72634 = { 1325, 3101, 3102, 3103, 3104, 3105, 3106, 3107, 3108, 3109, 3110, 3111, 3112, 3113, 3114, 3115, 3116, 3117, 3118, 3119, 3120 };
-        public static ushort[] Classes72721 = { 1942, 2067, 1451, 2722, 1486, 1477, 1498, 1446, 2464, 1454, 1474, 1507 };
+        public static ushort[] Classes72721 = { 1942, 2067, 1486,1454,1451, 2722,  1477, 1498, 1446, 2464,  1474, 1507 };
         public static ushort[] BlastingExplosives = { 81, 82, 84, 241, 331, 332 }; 
         #endregion
     }
