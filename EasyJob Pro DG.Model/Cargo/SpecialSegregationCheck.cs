@@ -86,8 +86,6 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
 
-
-
         /// <summary>
         /// Checks according to Special segregation codes acc to col 16b of DG List. 
         /// For each individual dg check is carried out against the whole dg list, where required, and Conflict is added to the unit.
@@ -444,7 +442,7 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             foreach (Dg b in dgList)
             {
-                CheckSegregationWithClass(a, b, "3", SegregationCase.AwayFrom, sscode, ship);
+                CheckSegregationWithSpecialGroup(a, b, segregation, segregationCase, sscode, ship);
             }
         }
 
