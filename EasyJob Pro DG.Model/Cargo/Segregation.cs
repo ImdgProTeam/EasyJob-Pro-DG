@@ -581,6 +581,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
         // Supporting methods used inside other public methods
 
+        #region SegregationCases methods
         /// <summary>
         /// Checks segregation between goods of class 1.
         /// </summary>
@@ -593,24 +594,8 @@ namespace EasyJob_ProDG.Model.Cargo
             //Closed cargo transport units carrying different goods of class 1 do not require segregation from each other provided 7.2.7.1.4 authorizes the goods to be transported together. Where this is not permitted, closed cargotransport unit shall be “separated from” one another.
             bool segConflict;
 
-            byte[,] explosivesSeg =
-            {
-                {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },   //A
-                {0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9 },   //B
-                {0, 0, 9, 6, 6, 0, 1, 0, 0, 0, 0, 4, 9 },   //C
-                {0, 0, 6, 9, 6, 0, 1, 0, 0, 0, 0, 4, 9 },   //D
-                {0, 0, 6, 6, 9, 0, 1, 0, 0, 0, 0, 4, 9 },   //E
-                {0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 9 },   //F
-                {0, 0, 1, 1, 1, 0, 9, 0, 0, 0, 0, 0, 9 },   //G
-                {0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 9 },   //H
-                {0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 9 },   //J
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 9 },   //K
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0 },   //L
-                {0, 0, 4, 4, 4, 0, 0, 0, 0, 0, 0, 3, 5 },   //N
-                {0, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 5, 9 }    //S
-            };
-
-            char[] cGroupCodes = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'N', 'S' };
+            byte[,] explosivesSeg = IMDGCode.ExplosivesPermittedMixedStowage;
+            char[] cGroupCodes = IMDGCode.ExplosivesCompatibilityGroupCodes;
 
             //segregation according to compatibility group
             if (a.DgClass.Length > 3 && b.DgClass.Length > 3)
@@ -783,7 +768,7 @@ namespace EasyJob_ProDG.Model.Cargo
             }
             return segConflict;
         }
-        
+
         /// <summary>
         /// Checks "separated from"
         /// </summary>
@@ -853,7 +838,8 @@ namespace EasyJob_ProDG.Model.Cargo
                 }
             }
             return segConflict;
-        }
+        } 
+        #endregion
 
 
         /// <summary>
