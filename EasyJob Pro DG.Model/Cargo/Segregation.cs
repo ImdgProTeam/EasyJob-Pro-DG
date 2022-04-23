@@ -10,8 +10,6 @@ namespace EasyJob_ProDG.Model.Cargo
     {
         private const string segr = "segregation";
 
-        private readonly ShipProfile Ship;
-
         public enum SegregationCase : byte
         {
             None = 0,
@@ -22,23 +20,13 @@ namespace EasyJob_ProDG.Model.Cargo
             SeparationBetweenExplosives
         }
 
-        private static readonly int[,] SegregationTable = IMDGCode.SegregationTable;
+        private static readonly byte[,] SegregationTable = IMDGCode.SegregationTable;
 
-
-
-        //----------------------------- Public constructors ---------------------------------------------------
-
-        public Segregation()
-        { }
-
-        public Segregation(ShipProfile ship)
-        {
-            Ship = ship;
-        }
 
 
         //--------------------- Segregation methods ----------------------------------------------------------------
 
+        #region Public methods
         /// <summary>
         /// Method finds if there is a segregation conflict between two dg units 
         /// taking into account special segregation requirements (segregatorClass and segregatorException).
@@ -66,7 +54,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     {
                         foreach (string clb in b.AllDgClassesList)
                         {
-                            _seglevel = (byte)Segregate(cla, clb);
+                            _seglevel = (byte)GetSegregationLevelFromTable(cla, clb);
                             if (_seglevel == 5) _seglevel5 = _seglevel;
                             else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
                         }
@@ -81,7 +69,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     {
                         foreach (string cla in a.AllDgClassesList)
                         {
-                            _seglevel = (byte)Segregate(cla, b.SegregatorClass);
+                            _seglevel = (byte)GetSegregationLevelFromTable(cla, b.SegregatorClass);
                             if (_seglevel == 5) _seglevel5 = _seglevel;
                             else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
                         }
@@ -92,8 +80,8 @@ namespace EasyJob_ProDG.Model.Cargo
                         {
                             if (cla == b.SegregatorException.SegrClass) _seglevel = b.SegregatorException.SegrCase; //except for class ... 
                             else if (b.SegregatorException.SegrClass == "1" && cla.StartsWith("1")) _seglevel = b.SegregatorException.SegrCase; //in relation to goods of class 1
-                            else _seglevel = (byte)Segregate(cla, b.SegregatorClass);
-                            if (_seglevel == 99) _seglevel = (byte)Segregate(cla, b.DgClass); //segregation as for the primary hazard 7.2.8
+                            else _seglevel = (byte)GetSegregationLevelFromTable(cla, b.SegregatorClass);
+                            if (_seglevel == 99) _seglevel = (byte)GetSegregationLevelFromTable(cla, b.DgClass); //segregation as for the primary hazard 7.2.8
 
                             if (_seglevel == 5) _seglevel5 = _seglevel;
                             else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
@@ -113,7 +101,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     {
                         foreach (string clb in b.AllDgClassesList)
                         {
-                            _seglevel = (byte)Segregate(a.SegregatorClass, clb);
+                            _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, clb);
                             if (_seglevel == 5) _seglevel5 = _seglevel;
                             else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
                         }
@@ -125,8 +113,8 @@ namespace EasyJob_ProDG.Model.Cargo
                             if (clb == a.SegregatorException.SegrClass) _seglevel = a.SegregatorException.SegrCase; //except for class ... 
                             else if (a.SegregatorException.SegrClass == "1"
                                 && clb.StartsWith("1")) _seglevel = a.SegregatorException.SegrCase; //in relation to goods of class 1
-                            else _seglevel = (byte)Segregate(a.SegregatorClass, clb);
-                            if (_seglevel == 99) _seglevel = (byte)Segregate(a.DgClass, clb); //segregation as for the primary hazard 7.2.8
+                            else _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, clb);
+                            if (_seglevel == 99) _seglevel = (byte)GetSegregationLevelFromTable(a.DgClass, clb); //segregation as for the primary hazard 7.2.8
 
                             if (_seglevel == 5) _seglevel5 = _seglevel;
                             else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
@@ -141,15 +129,15 @@ namespace EasyJob_ProDG.Model.Cargo
                         //both have NO segregatorException
                         if (b.SegregatorException == null)
                         {
-                            seglevel = (byte)Segregate(a.SegregatorClass, b.SegregatorClass);
+                            seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, b.SegregatorClass);
                         }
                         else //b.segregatorException != null
                         {
                             if (a.SegregatorClass == b.SegregatorException.SegrClass) _seglevel = b.SegregatorException.SegrCase; //except for class ... 
                             else if (b.SegregatorException.SegrClass == "1"
                                 && a.SegregatorClass.StartsWith("1")) _seglevel = b.SegregatorException.SegrCase; //in relation to goods of class 1
-                            else _seglevel = (byte)Segregate(a.SegregatorClass, b.SegregatorClass);
-                            if (_seglevel == 99) _seglevel = (byte)Segregate(a.SegregatorClass, b.DgClass); //segregation as for the primary hazard 7.2.8
+                            else _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, b.SegregatorClass);
+                            if (_seglevel == 99) _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, b.DgClass); //segregation as for the primary hazard 7.2.8
 
                             seglevel = _seglevel > seglevel ? _seglevel : seglevel;
                         }
@@ -161,8 +149,8 @@ namespace EasyJob_ProDG.Model.Cargo
                             if (a.SegregatorException.SegrClass == b.SegregatorClass) _seglevel = a.SegregatorException.SegrCase;
                             else if (a.SegregatorException.SegrClass == "1"
                                 && b.SegregatorClass.StartsWith("1")) _seglevel = a.SegregatorException.SegrCase; //in relation to goods of class 1
-                            else _seglevel = (byte)Segregate(a.SegregatorClass, b.SegregatorClass);
-                            if (_seglevel == 99) _seglevel = (byte)Segregate(a.DgClass, b.SegregatorClass); //segregation as for the primary hazard 7.2.8
+                            else _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, b.SegregatorClass);
+                            if (_seglevel == 99) _seglevel = (byte)GetSegregationLevelFromTable(a.DgClass, b.SegregatorClass); //segregation as for the primary hazard 7.2.8
 
                             seglevel = _seglevel > seglevel ? _seglevel : seglevel;
                         }
@@ -189,12 +177,12 @@ namespace EasyJob_ProDG.Model.Cargo
                                 _seglevel = s1 > s2 ? s1 : s2;
                             } //in relation to goods of class 1
 
-                            else _seglevel = (byte)Segregate(a.SegregatorClass, b.SegregatorClass);
+                            else _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, b.SegregatorClass);
                             if (_seglevel == 99)
                             {
                                 _seglevel = s1 > s2
-                                    ? (byte)Segregate(a.DgClass, b.SegregatorClass)
-                                    : (byte)Segregate(b.DgClass, a.SegregatorClass);
+                                    ? (byte)GetSegregationLevelFromTable(a.DgClass, b.SegregatorClass)
+                                    : (byte)GetSegregationLevelFromTable(b.DgClass, a.SegregatorClass);
                             }
                             //segregation as for the primary hazard 7.2.8
 
@@ -210,96 +198,45 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
         /// <summary>
-        /// Method checks if two dg containers are properly segregated according to segregation level
+        /// Method checks segregation as per segregation table of a DG unit with dg list and adds a conflict if any.
         /// </summary>
         /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <param name="seglevel"></param>
+        /// <param name="cargoPlan"></param>
         /// <param name="ship"></param>
-        /// <returns></returns>
-        public static bool SegregationConflictCheck(Dg a, Dg b, byte seglevel, ShipProfile ship)
-        //implemented only for container ships with closed cargo holds
+        internal static void Segregate(Dg a, CargoPlan cargoPlan, ShipProfile ship)
         {
-            //true if conflicted
-            bool segConflict;
-            switch (seglevel)
-            {
-                case 1:
-                    segConflict = SegregationCase1(a, b, ship);
-                    break;
-                case 2:
-                    segConflict = SegregationCase2(a, b, ship);
-                    break;
-                case 3:
-                    segConflict = SegregationCase3(a, b, ship);
-                    break;
-                case 4:
-                    segConflict = SegregationCase4(a, b, ship);
-                    break;
-                case 5:
-                    segConflict = SegregationCase5(a, b, ship);
-                    break;
-                case 0:
-                    segConflict = false;
-                    break;
-                default:
-                    segConflict = false;
-                    break;
-            }
-            return segConflict;
-        }
+            bool _conf = false;
+            ICollection<Dg> dglist = cargoPlan.DgList;
 
-        /// <summary>
-        /// Method gets segregation level of 2 DG classes in Segregation Table
-        /// </summary>
-        /// <param name="class1"></param>
-        /// <param name="class2"></param>
-        /// <returns></returns>
-        public static int Segregate(string class1, string class2)
-        {
-            if (class1 == class2 &&
-                ((class1.Length == 1 && class1 != "1") ||
-                 (class1.Length < 4 && !class1.StartsWith("1"))))
-                return 0;
-            if (class1 == "9" || class2 == "9") return 0;
-            Dg a = new Dg(class1);
-            Dg b = new Dg(class2);
-            return SegregationTable[a.dgRowInTable, b.dgRowInTable];
-        }
+            //No segregation required for units in limited quantities
+            if (a.IsLq) return;
 
-        /// <summary>
-        /// Method checks if an explosive segregated with reefers (without checking wheather it is an explosive)
-        /// </summary>
-        /// <param name="unit"></param>
-        /// <param name="reefers"></param>
-        /// <param name="row00Exists"></param>
-        /// <param name="reeferMotorFacing"></param>
-        private static void ExplosivesWithReefersCheck(Dg unit, IEnumerable<Container> reefers, bool row00Exists, byte reeferMotorFacing)
-        {
-            foreach (var reeferOn in reefers)
+            //1. Check if there are any special requirements in column 16b of CH 3
+            SpecialSegregationCheck(a, dglist, ship);
+
+            //2. Segregation between classes according to table 7.2.4
+            //taking into account segregation requirements from //1.
+
+            //checking segregation with every unit in dglist
+            foreach (Dg b in dglist)
             {
-                bool result = false;
-                switch (reeferMotorFacing)
-                {
-                    case (byte)ShipProfile.MotorFacing.Aft:
-                        if (reeferOn.Bay - unit.Bay <= 1 && reeferOn.Bay - unit.Bay > -4 ||
-                            reeferOn.Size == 40 && reeferOn.Bay == unit.Bay - 4)
-                            result = Athwartship(reeferOn.ConvertToDg(), unit, 3, row00Exists);
-                        break;
-                    case (byte)ShipProfile.MotorFacing.Forward:
-                        if (reeferOn.Bay - unit.Bay < 4 && reeferOn.Bay - unit.Bay >= -1 ||
-                            reeferOn.Size == 40 && reeferOn.Bay == unit.Bay + 4)
-                            result = Athwartship(reeferOn.ConvertToDg(), unit, 3, row00Exists);
-                        break;
-                    default:
-                        if ((reeferOn.Bay - unit.Bay < 4 && reeferOn.Bay - unit.Bay > -4) ||
-                            (reeferOn.Size == 40 &&
-                                    (reeferOn.Bay == unit.Bay + 4 || reeferOn.Bay == unit.Bay - 4)))
-                            result = Athwartship(reeferOn.ConvertToDg(), unit, 3, row00Exists);
-                        break;
-                }
-                unit.AddConflict(result, segr, "SGC7", reeferOn.ConvertToDg());
+                if (b.IsLq) continue;
+                if (a.Unno == b.Unno) continue; //to exclude segregation of same substances
+                if (a.ContainerNumber == b.ContainerNumber) continue; //to exclude segregation with the same container
+
+                //checking if conflict exists
+                _conf = Segregate(a, b, ship);
+
+                //adding conflict if exists
+                //substances of the same class may be stowed together without regard to segregation required by secondary hazards:
+                a.AddConflict(_conf, segr, a.DgClass == b.DgClass ? "SGC21" : "SGC1", b);
             }
+
+            //Checking segregation with the reefers
+            ReefersComplianceSegregationCheck(a, cargoPlan.Reefers, ship.Row00Exists, ship.RfMotor);
+
+            //Checking of segregation requirements for class 7
+            RadioactiveSegregationCheck(a, cargoPlan, ship.Row00Exists);
         }
 
         /// <summary>
@@ -455,6 +392,104 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
         /// <summary>
+        /// Method checks if two dg containers are properly segregated according to segregation level
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="seglevel"></param>
+        /// <param name="ship"></param>
+        /// <returns></returns>
+        public static bool SegregationConflictCheck(Dg a, Dg b, byte seglevel, ShipProfile ship)
+        //implemented only for container ships with closed cargo holds
+        {
+            //true if conflicted
+            bool segConflict;
+            switch (seglevel)
+            {
+                case 1:
+                    segConflict = SegregationCase1(a, b, ship);
+                    break;
+                case 2:
+                    segConflict = SegregationCase2(a, b, ship);
+                    break;
+                case 3:
+                    segConflict = SegregationCase3(a, b, ship);
+                    break;
+                case 4:
+                    segConflict = SegregationCase4(a, b, ship);
+                    break;
+                case 5:
+                    segConflict = SegregationCase5(a, b, ship);
+                    break;
+                case 0:
+                    segConflict = false;
+                    break;
+                default:
+                    segConflict = false;
+                    break;
+            }
+            return segConflict;
+        }
+
+        /// <summary>
+        /// Method gets segregation level of 2 DG classes in Segregation Table
+        /// </summary>
+        /// <param name="class1"></param>
+        /// <param name="class2"></param>
+        /// <returns></returns>
+        public static byte GetSegregationLevelFromTable(string class1, string class2)
+        {
+            if (class1 == class2 &&
+                ((class1.Length == 1 && class1 != "1") ||
+                 (class1.Length < 4 && !class1.StartsWith("1"))))
+                return 0;
+            if (class1 == "9" || class2 == "9") return 0;
+            Dg a = new Dg(class1);
+            Dg b = new Dg(class2);
+            return SegregationTable[a.dgRowInTable, b.dgRowInTable];
+        } 
+        #endregion
+
+
+        #region Private methods
+        //--------------------- Private methods ----------------------------------------------------------------
+
+        /// <summary>
+        /// Method checks if an explosive segregated with reefers (without checking wheather it is an explosive)
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <param name="reefers"></param>
+        /// <param name="row00Exists"></param>
+        /// <param name="reeferMotorFacing"></param>
+        private static void ExplosivesWithReefersCheck(Dg unit, IEnumerable<Container> reefers, bool row00Exists, byte reeferMotorFacing)
+        {
+            foreach (var reeferOn in reefers)
+            {
+                bool result = false;
+                switch (reeferMotorFacing)
+                {
+                    case (byte)ShipProfile.MotorFacing.Aft:
+                        if (reeferOn.Bay - unit.Bay <= 1 && reeferOn.Bay - unit.Bay > -4 ||
+                            reeferOn.Size == 40 && reeferOn.Bay == unit.Bay - 4)
+                            result = Athwartship(reeferOn.ConvertToDg(), unit, 3, row00Exists);
+                        break;
+                    case (byte)ShipProfile.MotorFacing.Forward:
+                        if (reeferOn.Bay - unit.Bay < 4 && reeferOn.Bay - unit.Bay >= -1 ||
+                            reeferOn.Size == 40 && reeferOn.Bay == unit.Bay + 4)
+                            result = Athwartship(reeferOn.ConvertToDg(), unit, 3, row00Exists);
+                        break;
+                    default:
+                        if ((reeferOn.Bay - unit.Bay < 4 && reeferOn.Bay - unit.Bay > -4) ||
+                            (reeferOn.Size == 40 &&
+                                    (reeferOn.Bay == unit.Bay + 4 || reeferOn.Bay == unit.Bay - 4)))
+                            result = Athwartship(reeferOn.ConvertToDg(), unit, 3, row00Exists);
+                        break;
+                }
+                unit.AddConflict(result, segr, "SGC7", reeferOn.ConvertToDg());
+            }
+        }
+
+        /// <summary>
         /// Method checks segregation of class 1, 2.1 and 3 from reefers and adds conflict to Dg if failure.
         /// </summary>
         /// <param name="unit"></param>
@@ -520,48 +555,6 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
         /// <summary>
-        /// Method checks segregation as per segregation table of a DG unit with dg list and adds a conflict if any.
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="cargoPlan"></param>
-        /// <param name="ship"></param>
-        internal static void Segregate(Dg a, CargoPlan cargoPlan, ShipProfile ship)
-        {
-            bool _conf = false;
-            ICollection<Dg> dglist = cargoPlan.DgList;
-
-            //No segregation required for units in limited quantities
-            if (a.IsLq) return;
-
-            //1. Check if there are any special requirements in column 16b of CH 3
-            SpecialSegregationCheck(a, dglist, ship);
-
-            //2. Segregation between classes according to table 7.2.4
-            //taking into account segregation requirements from //1.
-
-            //checking segregation with every unit in dglist
-            foreach (Dg b in dglist)
-            {
-                if (b.IsLq) continue;
-                if (a.Unno == b.Unno) continue; //to exclude segregation of same substances
-                if (a.ContainerNumber == b.ContainerNumber) continue; //to exclude segregation with the same container
-
-                //checking if conflict exists
-                _conf = Segregate(a, b, ship);
-
-                //adding conflict if exists
-                //substances of the same class may be stowed together without regard to segregation required by secondary hazards:
-                a.AddConflict(_conf, segr, a.DgClass == b.DgClass ? "SGC21" : "SGC1", b);
-            }
-
-            //Checking segregation with the reefers
-            ReefersComplianceSegregationCheck(a, cargoPlan.Reefers, ship.Row00Exists, ship.RfMotor);
-
-            //Checking of segregation requirements for class 7
-            RadioactiveSegregationCheck(a, cargoPlan, ship.Row00Exists);
-        }
-
-        /// <summary>
         /// Method checks if a dg unit of class 7 has another unit of class 7 within 6 mtrs and adds conflct in that case
         /// </summary>
         /// <param name="unit"></param>
@@ -574,12 +567,12 @@ namespace EasyJob_ProDG.Model.Cargo
             foreach (Dg dg in dglist)
                 if (dg.DgClass == "7" && dg.ContainerNumber != unit.ContainerNumber)
                     unit.AddConflict((ForeAndAft(unit, dg, 1) && Athwartship(unit, dg, 3, row00Exists)), segr, "SGC8", dg);
-        }
+        } 
+        #endregion
+
 
 
         //---------------------------------- Supporting methods -------------------------------------------------------------------
-
-        // Supporting methods used inside other public methods
 
         #region SegregationCases methods
         /// <summary>
@@ -838,10 +831,11 @@ namespace EasyJob_ProDG.Model.Cargo
                 }
             }
             return segConflict;
-        } 
+        }
         #endregion
 
 
+        #region Dimensional methods
         /// <summary>
         /// Method determines row numbers port and stbd of a selected container at required amount of spacing.
         /// </summary>
@@ -976,7 +970,8 @@ namespace EasyJob_ProDG.Model.Cargo
         private static bool ForeAndAft(Dg a, Dg b, byte bays)
         {
             return ForeAndAft(a, bays).Contains(b.Bay);
-        }
+        } 
+        #endregion
 
     }
 }
