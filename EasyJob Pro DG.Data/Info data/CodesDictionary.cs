@@ -40,6 +40,8 @@ namespace EasyJob_ProDG.Data.Info_data
             {"SSC1","Stowage under deck is not permitted by stowage category (7.1.3)." },
             {"SSC2", "Not permitted according to ship's DOC" },
             {"SSC3", "For stowage of FISHMEAL, UNSTABILIZED (UN 1374), FISHMEAL, STABILIZED (UN 2216) and KRILL MEAL (UN 3497) in containers, the provisions of 7.6.2.7.2.2 also apply." },
+            {"SSC3a", "Temperature readings in the hold shall be taken once a day early in the morning during the voyage and recorded. (7.6.2.7.2.2)" },
+            {"SSC3b", "The cargo shall be stowed protected from sources of heat. (7.6.2.7.2.2)" },
             {"SSC4", "For stowage of AMMONIUM NITRATE (UN 1942), AMMONIUM NITRATE BASED FERTILIZER (UN 2067 AND 2071) in containers, the applicable provisions of 7.6.2.8.4 and 7.6.2.11.1 also apply." },
             {"SSC5", "Marine pollutants and infectious substances: Where stowage on deck only is required, preference shall be given to stowage on well-protected decks or to stowage inboard in sheltered areas of exposed decks. (7.1.4.2)." },
             {"SSC5a", "Marine pollutants and infectious substances: Where stowage is permitted on deck or under deck, under deck stowage is preferred. (7.1.4.2)." },

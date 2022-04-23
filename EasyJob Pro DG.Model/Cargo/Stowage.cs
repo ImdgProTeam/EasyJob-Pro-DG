@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.Model.Transport;
 
 namespace EasyJob_ProDG.Model.Cargo
@@ -57,12 +58,11 @@ namespace EasyJob_ProDG.Model.Cargo
             CheckMarinePollutantAndInfectiousSubstancesStowage(unit, ship);
 
             //Additional requirements
-            CheckAdditionalStowageRequirements(unit);
+            CheckAdditionalStowageRequirements(unit, containers, ship);
 
             //Additional requirements for class 7
             CheckRadioactiveStowage(unit, ship);
         }
-
 
         /// <summary>
         /// Method to determine Stowage category in accordance with IMDG Code paragraph 7.1.3.
@@ -191,25 +191,41 @@ namespace EasyJob_ProDG.Model.Cargo
             return fromtable != 0;
         }
 
-        public static void CheckAdditionalStowageRequirements(Dg unit)
+        /// <summary>
+        /// Checks if unit can be NOT considered protected from source of heat.
+        /// Returns true if Not protected, false if protected.
+        /// </summary>
+        /// <param name="dg"></param>
+        /// <param name="containers"></param>
+        /// <param name="ship"></param>
+        /// <returns></returns>
+        internal static bool CheckNotProtectedFromSourceOfHeat(Dg dg, ICollection<Container> containers, ShipProfile ship)
         {
-            List<int> fishmeal =new List<int>()
+            if (ship.IsInHeatedStructures(dg))
+                return true;
+            if (!dg.IsUnderdeck)
+                return !CheckProtectedUnit(dg, containers, ship.Row00Exists);
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks for any additional stowage requirements which may exist in chapter 7.4
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <param name="containers"></param>
+        /// <param name="ship"></param>
+        private static void CheckAdditionalStowageRequirements(Dg unit, ICollection<Container> containers, ShipProfile ship)
+        {
+            if (IMDGCode.Fishmeal.Contains(unit.Unno))
             {
-                1374, 2216, 3497
-            };
-            List<int> ammonium = new List<int>()
-            {
-                1942, 2067, 2071
-            };
-            if (fishmeal.Contains(unit.Unno))
-            {
-                unit.AddConflict();
-                unit.Conflicts.AddStowConflict("SSC3");
+                unit.AddConflict(stow, "SSC3");
+                unit.AddConflict(unit.IsUnderdeck, stow, "SSC3a");
+                unit.AddConflict(CheckNotProtectedFromSourceOfHeat(unit, containers, ship), stow, "SSC3b");
             }
-            if (ammonium.Contains(unit.Unno))
+            if (IMDGCode.Ammonium.Contains(unit.Unno))
             {
-                unit.AddConflict();
-                unit.Conflicts.AddStowConflict("SSC4");
+                unit.AddConflict(stow, "SSC4");
             }
 
         }

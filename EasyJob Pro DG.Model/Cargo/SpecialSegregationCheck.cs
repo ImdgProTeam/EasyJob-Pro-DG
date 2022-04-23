@@ -643,8 +643,9 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
 
+        #region Various private segregation methods
         private static void CheckSegregationWithSpecialGroup(Dg a, Dg b, IMDGCode.SegregationGroup segregationGroup,
-                                        SegregationCase segregationCase, string sscode, Transport.ShipProfile ship)
+                                SegregationCase segregationCase, string sscode, Transport.ShipProfile ship)
         {
             bool conf;
 
@@ -687,7 +688,7 @@ namespace EasyJob_ProDG.Model.Cargo
             bool conf;
 
             if (a == b || b.IsLq) return;
-            
+
             foreach (string s in b.AllDgClassesList)
             {
                 foreach (string dgClass in dgClasses)
@@ -696,8 +697,8 @@ namespace EasyJob_ProDG.Model.Cargo
                     if (!string.IsNullOrEmpty(exceptFromClass) && s.StartsWith(exceptFromClass)) continue;
                     conf = SegregationConflictCheck(a, b, (byte)segregationCase, ship);
                     a.AddConflict(conf, segr, sscode, b);
-                    
-                    if(conf) return;
+
+                    if (conf) return;
                     break;
                 }
             }
@@ -739,6 +740,7 @@ namespace EasyJob_ProDG.Model.Cargo
             if (a.DgClass == "8" && b.DgClass == "8"
                 && (a.PackingGroupByte > 1) && (b.PackingGroupByte > 1))
                 a.AddConflict(true, segr, "SGC201", b);
-        }
+        } 
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using EasyJob_ProDG.Model.Transport;
+using System.Collections.Generic;
 
 // ReSharper disable RedundantAssignment
 
@@ -24,10 +25,7 @@ namespace EasyJob_ProDG.Model.Cargo
             {
                 case "SW1":
                     //Protected from sources of heat means that packages and cargo transport units shall be stowed at least 2.4 m from heated ship structures, where the surface temperature is liable to exceed 55°C.Examples of heated structures are steam pipes, heating coils, top or side walls of heated fuel and cargo tanks, and bulkheads of machinery spaces. In addition, packages not loaded inside a cargo transport unit and stowed on deck shall be shaded from direct sunlight. The surface of a cargo transport unit can heat rapidly when in direct sunlight in nearly windless conditions and the cargo may also become heated. Depending on the nature of the goods in the cargo transport unit and the planned voyage precautions shall be taken to ensure that exposure to direct sunlight is reduced.
-                    if (!dg.IsUnderdeck)
-                        result = !CheckProtectedUnit(dg, containers, ship.Row00Exists);
-                    if (ship.IsInHeatedStructures(dg))
-                        result = true;
+                    result = CheckNotProtectedFromSourceOfHeat(dg, containers, ship);
                     break;
                 case "SW2":
                     //
@@ -124,6 +122,8 @@ namespace EasyJob_ProDG.Model.Cargo
                 case "SW26":
                     result = true;
                     break;
+
+
                 case "SW27":
                     result = false;
                     break;
@@ -156,6 +156,5 @@ namespace EasyJob_ProDG.Model.Cargo
             }
             return result;
         }
-
     }
 }
