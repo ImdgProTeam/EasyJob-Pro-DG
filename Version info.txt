@@ -19,6 +19,26 @@
 VERSION INFO
 
 
+
+0.9.0.0
+Date: 
+
+Version workable: Yes
+Changes:
+
+VISUAL
+1. 
+
+ERRORS
+1. 
+
+NEW
+1. 
+
+Workable datagrid: dg, partially containers and reefers
+-------------------------------------------------------
+///////////////////////////////////////////////////////
+
 0.8.0.0
 Date: 23.04.2022
 
