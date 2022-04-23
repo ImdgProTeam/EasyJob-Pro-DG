@@ -1,4 +1,6 @@
-﻿namespace EasyJob_ProDG.Model.Cargo
+﻿using static EasyJob_ProDG.Model.Cargo.Segregation;
+
+namespace EasyJob_ProDG.Model.Cargo
 {
     /// <summary>
     /// Class to contain exception for Segregator (class which should be used for segregation instead of given class from DG list)
@@ -7,10 +9,17 @@
     {
         public string SegrClass;
         public byte SegrCase;
+
         public SegregatorException (string _class, byte segrCase)
         {
             SegrClass = _class;
             SegrCase = segrCase;
+        }
+
+        public SegregatorException(string _class, SegregationCase segrCase)
+        {
+            SegrClass = _class;
+            SegrCase = (byte)segrCase;
         }
 
         /// <summary>

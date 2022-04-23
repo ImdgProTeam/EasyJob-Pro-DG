@@ -32,7 +32,7 @@ namespace EasyJob_ProDG.Model.Cargo
         public bool mpDetermined;
 
         //from other sources
-        private readonly List<byte> segregationGroup;
+        private readonly List<byte> segregationGroupsListBytes;
         public byte DgRowInDOC;
         public byte dgRowInTable;
         public byte[] Stack;
@@ -175,6 +175,15 @@ namespace EasyJob_ProDG.Model.Cargo
             }
         }
 
+        public byte SegregationGroupByte
+        {
+            set
+            {
+                if(segregationGroupsListBytes.Contains(value)) return;
+                segregationGroupsListBytes.Add(value);
+            }
+        }
+
         /// <summary>
         /// Set: will check if segregation group exists in the list and will assign it to dg unit.
         /// Get: returns string containing all segregation groups separated with comma.
@@ -184,7 +193,7 @@ namespace EasyJob_ProDG.Model.Cargo
             get
             {
                 string result = null;
-                foreach (int itemNr in segregationGroup)
+                foreach (int itemNr in segregationGroupsListBytes)
                 {
                     string group = IMDGCode.SegregationGroups[itemNr];
                     result += result == null ? group : ", " + group;
@@ -197,16 +206,16 @@ namespace EasyJob_ProDG.Model.Cargo
 
                 //By full group title as mentioned in IMDG code
                 if (IMDGCode.SegregationGroups.Contains(value) &&
-                   !segregationGroup.Contains((byte)Array.IndexOf(IMDGCode.SegregationGroups, value)))
+                   !segregationGroupsListBytes.Contains((byte)Array.IndexOf(IMDGCode.SegregationGroups, value)))
                 {
-                    segregationGroup.Add((byte)Array.IndexOf(IMDGCode.SegregationGroups, value));
+                    segregationGroupsListBytes.Add((byte)Array.IndexOf(IMDGCode.SegregationGroups, value));
                 }
                 //By code only
                 else if (IMDGCode.SegregationGroupsCodes.Contains(value))
                 {
                     segregationGroupIndex = (byte)Array.IndexOf(IMDGCode.SegregationGroupsCodes, value);
-                    if (!segregationGroup.Contains(segregationGroupIndex))
-                        segregationGroup.Add(segregationGroupIndex);
+                    if (!segregationGroupsListBytes.Contains(segregationGroupIndex))
+                        segregationGroupsListBytes.Add(segregationGroupIndex);
                 }
                 //Parse multiple values
                 else if (value.Contains(","))
@@ -219,8 +228,8 @@ namespace EasyJob_ProDG.Model.Cargo
                 //By index in dictionary
                 else if (byte.TryParse(value, out segregationGroupIndex))
                 {
-                    if (!segregationGroup.Contains(segregationGroupIndex))
-                        segregationGroup.Add(segregationGroupIndex);
+                    if (!segregationGroupsListBytes.Contains(segregationGroupIndex))
+                        segregationGroupsListBytes.Add(segregationGroupIndex);
                 }
 
 
@@ -319,7 +328,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Property returns number of dg subclasses
         /// </summary>
         public byte DgsubclassCount => (byte)dgsubclass.Count;
-        public List<byte> SegregationGroupList => segregationGroup;
+        public List<byte> SegregationGroupList => segregationGroupsListBytes;
         public string DgEMS { get; set; }
         public string Name { get; set; } //Proper shipping name
         public string OriginalNameFromCode { get; private set; }
@@ -479,7 +488,7 @@ namespace EasyJob_ProDG.Model.Cargo
             special = new List<ushort>();
             stowageSW = new List<string>();
             segregationSG = new List<string>();
-            segregationGroup = new List<byte>();
+            segregationGroupsListBytes = new List<byte>();
             IsLq = false;
             Flammable = false;
             Liquid = false;
@@ -584,7 +593,7 @@ namespace EasyJob_ProDG.Model.Cargo
             special.Clear();
             stowageSW.Clear();
             segregationSG.Clear();
-            segregationGroup.Clear();
+            segregationGroupsListBytes.Clear();
             StowageCat = '0';
             Name = null;
             Flammable = false;

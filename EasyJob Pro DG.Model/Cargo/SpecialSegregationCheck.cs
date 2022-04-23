@@ -12,6 +12,14 @@ namespace EasyJob_ProDG.Model.Cargo
             {
                 foreach (var sscode in dg.SegregationSGList)
                 {
+                    // Define Segregation group
+                    if (sscode.StartsWith("SGG"))
+                    {
+                        dg.SegregationGroupByte = (byte)Array.IndexOf(IMDGCode.SegregationGroupsCodes, sscode);
+                        continue;
+                    }
+
+                    // Work with other special segregation requirements
                     switch (sscode)
                     {
                         case "SG1": //For packages carrying a subsidiary risk label of class 1, segregation as for class 1, division 1.3.
@@ -20,7 +28,7 @@ namespace EasyJob_ProDG.Model.Cargo
                                 if (s.StartsWith("1"))
                                 {
                                     dg.SegregatorClass = "1.3";
-                                    dg.SegregatorException = new SegregatorException("1", 5);
+                                    dg.SegregatorException = new SegregatorException("1", SegregationCase.SeparationBetweenExplosives);
                                 }
                             }
                             break;
@@ -40,10 +48,10 @@ namespace EasyJob_ProDG.Model.Cargo
                             dg.SegregatorClass = "5.1";
                             break;
                         case "SG68": //If flashpoint 60°C c.c.or below, segregation as for class 3 but “away from” class 4.1.
-                            if (dg.FlashPointDouble <= 60 || Math.Abs(dg.FlashPointDouble - 9999) < 10)
+                            if (dg.FlashPointDouble <= 60.5 || Math.Abs(dg.FlashPointDouble - 9999) < 10)
                             {
                                 dg.SegregatorClass = "3";
-                                dg.SegregatorException = new SegregatorException("4.1", 1);
+                                dg.SegregatorException = new SegregatorException("4.1", SegregationCase.AwayFrom);
                             }
                             break;
                         case "SG69": //For AEROSOLS with a maximum capacity of 1 L: segregation as for class 9.
@@ -53,7 +61,7 @@ namespace EasyJob_ProDG.Model.Cargo
                             if (dg.IsMax1L)
                             {
                                 dg.SegregatorClass = "9";
-                                dg.SegregatorException = new SegregatorException("1", 2);
+                                dg.SegregatorException = new SegregatorException("1", SegregationCase.SeparatedFrom);
                             }
                             else
                             {
@@ -69,69 +77,9 @@ namespace EasyJob_ProDG.Model.Cargo
                             break;
                         case "SG77": //Segregation as for class 8. However, in relation to class 7, no segregation needs to be applied.
                             dg.SegregatorClass = "8";
-                            dg.SegregatorException = new SegregatorException("7", 0);
+                            dg.SegregatorException = new SegregatorException("7", SegregationCase.None);
                             break;
 
-                        #region Segregation Groups
-
-                        case "SGG1":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[1];
-                            break;
-                        case "SGG1a":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[19];
-                            break;
-                        case "SGG2":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[2];
-                            break;
-                        case "SGG3":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[3];
-                            break;
-                        case "SGG4":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[4];
-                            break;
-                        case "SGG5":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[5];
-                            break;
-                        case "SGG6":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[6];
-                            break;
-                        case "SGG7":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[7];
-                            break;
-                        case "SGG8":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[8];
-                            break;
-                        case "SGG9":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[9];
-                            break;
-                        case "SGG10":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[10];
-                            break;
-                        case "SGG11":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[11];
-                            break;
-                        case "SGG12":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[12];
-                            break;
-                        case "SGG13":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[13];
-                            break;
-                        case "SGG14":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[14];
-                            break;
-                        case "SGG15":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[15];
-                            break;
-                        case "SGG16":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[16];
-                            break;
-                        case "SGG17":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[17];
-                            break;
-                        case "SGG18":
-                            dg.SegregationGroup = IMDGCode.SegregationGroups[18];
-                            break;
-                            #endregion
                     }
                 }
             }
@@ -156,136 +104,79 @@ namespace EasyJob_ProDG.Model.Cargo
                 switch (sscode)
                 {
                     case "SG7": //Stow “away from” class 3.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithClass(a, b, "3", SegregationCase.AwayFrom, sscode, ship);
-                        }
+                        CheckSegregationWithClass(a, dglist, "3", SegregationCase.AwayFrom, sscode, ship);
                         break;
 
                     case "SG8": //Stow “away from” class 4.1.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithClass(a, b, "4.1", SegregationCase.AwayFrom, sscode, ship);
-                        }
+                        CheckSegregationWithClass(a, dglist, "4.1", SegregationCase.AwayFrom, sscode, ship);
                         break;
 
                     case "SG9": //Stow “away from” class 4.3.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithClass(a, b, "4.3", SegregationCase.AwayFrom, sscode, ship);
-                        }
+                        CheckSegregationWithClass(a, dglist, "4.3", SegregationCase.AwayFrom, sscode, ship);
                         break;
 
                     case "SG10": //Stow “away from” class 5.1.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithClass(a, b, "5.1", SegregationCase.AwayFrom, sscode, ship);
-                        }
+                        CheckSegregationWithClass(a, dglist, "5.1", SegregationCase.AwayFrom, sscode, ship);
                         break;
 
                     case "SG11": //Stow “away from” class 6.2.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithClass(a, b, "6.2", SegregationCase.AwayFrom, sscode, ship);
-                        }
+                        CheckSegregationWithClass(a, dglist, "6.2", SegregationCase.AwayFrom, sscode, ship);
                         break;
 
                     case "SG12": //Stow “away from” class 7.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithClass(a, b, "7", SegregationCase.AwayFrom, sscode, ship);
-                        }
+                        CheckSegregationWithClass(a, dglist, "7", SegregationCase.AwayFrom, sscode, ship);
                         break;
 
                     case "SG13": //Stow “away from” class 8.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithClass(a, b, "8", SegregationCase.AwayFrom, sscode, ship);
-                        }
+                        CheckSegregationWithClass(a, dglist, "8", SegregationCase.AwayFrom, sscode, ship);
                         break;
 
                     case "SG14": //Stow “separated from” class 1 except for division 1.4S.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithClass(a, b, "1", SegregationCase.SeparatedFrom, sscode, ship, exceptFromClass: "1.4S");
-                        }
+                        CheckSegregationWithClass(a, dglist, "1", SegregationCase.SeparatedFrom, sscode, ship, exceptFromClass: "1.4S");
                         break;
 
                     case "SG15": // Stow “separated from” class 3.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithClass(a, b, "3", SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithClass(a, dglist, "3", SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG16": //Stow “separated from” class 4.1.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithClass(a, b, "4.1", SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithClass(a, dglist, "4.1", SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG17": //Stow “separated from” class 5.1.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithClass(a, b, "5.1", SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithClass(a, dglist, "5.1", SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG18": //Stow “separated from” class 6.2.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithClass(a, b, "6.2", SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithClass(a, dglist, "6.2", SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG19": //Stow “separated from” class 7.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithClass(a, b, "7", SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithClass(a, dglist, "7", SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG20": //Stow “away from” acids.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.acids, SegregationCase.AwayFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.acids, SegregationCase.AwayFrom, sscode, ship);
                         break;
 
                     case "SG21": //Stow “away from” alkalis.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.alkalis, SegregationCase.AwayFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.alkalis, SegregationCase.AwayFrom, sscode, ship);
                         break;
 
                     case "SG22": //Stow “away from” ammonium salts.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.ammonium_compounds, SegregationCase.AwayFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.ammonium_compounds, SegregationCase.AwayFrom, sscode, ship);
                         break;
 
                     case "SG23": //Stow “away from” animal or vegetable oils.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSubstance(a, b, "oil", SegregationCase.AwayFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSubstance(a, dglist, "oil", SegregationCase.AwayFrom, sscode, ship);
                         break;
 
                     case "SG24": //Stow “away from” azides.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.azides, SegregationCase.AwayFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.azides, SegregationCase.AwayFrom, sscode, ship);
                         break;
 
                     case "SG25": //Stow “separated from” goods of classes 2.1 and 3.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithClasses(a, b, new [] { "2.1", "3" }, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithClasses(a, dglist, new[] { "2.1", "3" }, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG26": //In addition: from goods of classes 2.1 and 3 when stowed on deck of a container ship a minimum distance of two container spaces athwartship shall be maintained, when stowed on ro-ro ships a distance of 6 m athwartship shall be maintained.
@@ -322,10 +213,7 @@ namespace EasyJob_ProDG.Model.Cargo
                         break;
 
                     case "SG28": //Stow “separated from” ammonium compounds and explosives containing ammonium compounds or salts.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.ammonium_compounds, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.ammonium_compounds, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG29": //Segregation from foodstuffs as in 7.3.4.2.2, 7.6.3.1.2 or 7.7.3.7.
@@ -333,31 +221,19 @@ namespace EasyJob_ProDG.Model.Cargo
                         break;
 
                     case "SG30": //Stow “away from” heavy metals and their salts.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.heavy_metals_and_their_salts, SegregationCase.AwayFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.heavy_metals_and_their_salts, SegregationCase.AwayFrom, sscode, ship);
                         break;
 
                     case "SG31": //Stow “away from” lead and its compounds.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.lead_and_its_compounds, SegregationCase.AwayFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.lead_and_its_compounds, SegregationCase.AwayFrom, sscode, ship);
                         break;
 
                     case "SG32": //Stow “away from” liquid halogenated hydrocarbons.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.liquid_halogenated_hydrocarbons, SegregationCase.AwayFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.liquid_halogenated_hydrocarbons, SegregationCase.AwayFrom, sscode, ship);
                         break;
 
                     case "SG33": //Stow “away from” powdered metals.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.powdered_metals, SegregationCase.AwayFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.powdered_metals, SegregationCase.AwayFrom, sscode, ship);
                         break;
 
                     case "SG34": //When containing ammonium compounds, “separated from” SGG4 – chlorates or SGG13 – perchlorates and explosives containing chlorates or perchlorates.
@@ -370,31 +246,19 @@ namespace EasyJob_ProDG.Model.Cargo
                         break;
 
                     case "SG35": //Stow “separated from” acids.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.acids, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.acids, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG36": //Stow “separated from” alkalis.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.alkalis, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.alkalis, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG37": //Stow “separated from” ammonia.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSubstance(a, b, "ammonia", SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSubstance(a, dglist, "ammonia", SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG38": //Stow “separated from” ammonium compounds.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.ammonium_compounds, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.ammonium_compounds, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG39": //Stow “separated from” ammonium compounds other than AMMONIUM PERSULPHATE (UN 1444).
@@ -427,52 +291,31 @@ namespace EasyJob_ProDG.Model.Cargo
                         break;
 
                     case "SG41": //Stow “separated from” animal or vegetable oil.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSubstance(a, b, "oil", SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSubstance(a, dglist, "oil", SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG42": //Stow “separated from” bromates.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.bromates, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.bromates, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG43": //Stow “separated from” bromine.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSubstance(a, b, "bromine", SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSubstance(a, dglist, "bromine", SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG44": //Stow “separated from” CARBON TETRACHLORIDE (UN 1846).
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithUnno(a, b, 1846, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithUnno(a, dglist, 1846, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG45": //Stow “separated from” chlorates.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.chlorates, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.chlorates, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG46": //Stow “separated from” chlorine.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSubstance(a, b, "chlorine", SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSubstance(a, dglist, "chlorine", SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG47": //Stow “separated from” chlorites.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.chlorites, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.chlorites, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG48": //Stow “separated from” combustible material (particularly liquids).
@@ -480,27 +323,18 @@ namespace EasyJob_ProDG.Model.Cargo
                         break;
 
                     case "SG49": //Stow “separated from” cyanides.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.cyanides, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.cyanides, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG50": //Segregation from foodstuffs as in 7.3.4.2.1, 7.6.3.1.2 or 7.7.3.6.
                         break;
 
                     case "SG51": //Stow “separated from” hypochlorites.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.hypochlorites, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.hypochlorites, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG52": //Stow “separated from” iron oxide.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSubstance(a, b, new[] { "iron", "oxide" }, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSubstance(a, dglist, new[] { "iron", "oxide" }, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG53": //Shall not be stowed together with combustible material in the same cargo transport unit.
@@ -508,24 +342,15 @@ namespace EasyJob_ProDG.Model.Cargo
                         break;
 
                     case "SG54": //Stow “separated from” mercury and mercury compounds.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.mercury_and_mercury_compounds, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.mercury_and_mercury_compounds, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG55": //Stow “separated from” mercury salts.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.mercury_and_mercury_compounds, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.mercury_and_mercury_compounds, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG56": //Stow “separated from” nitrites.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.nitrites_and_their_mixtures, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.nitrites_and_their_mixtures, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG57": //Stow “separated from” odour-absorbing cargoes.
@@ -533,56 +358,35 @@ namespace EasyJob_ProDG.Model.Cargo
                         break;
 
                     case "SG58": //Stow “separated from” perchlorates.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.perchlorates, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.perchlorates, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG59": //Stow “separated from” permanganates.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.perchlorates, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.perchlorates, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG60": //Stow “separated from” peroxides.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.peroxides, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.peroxides, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG61": //Stow “separated from” powdered metals.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.powdered_metals, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.powdered_metals, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG62": //Stow “separated from” sulphur.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSubstance(a, b, "sulphur", SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSubstance(a, dglist, "sulphur", SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG63": //Stow “separated longitudinally by an intervening complete compartment or hold from” class 1.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithClass(a, b, "1", SegregationCase.SeparatedLongitudinallyByCompleteCompartmentFrom, sscode, ship);
-                        }
+                        CheckSegregationWithClass(a, dglist, "1", SegregationCase.SeparatedLongitudinallyByCompleteCompartmentFrom, sscode, ship);
                         break;
 
                     case "SG64": //[Reserved]
                         break;
 
                     case "SG65": //Stow “separated by a complete compartment or hold from” class 1 except for division 1.4.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithClass(a, b, "1", SegregationCase.SeparatedLongitudinallyByCompleteCompartmentFrom,
-                                sscode, ship, exceptFromClass: "1.4");
-                        }
+                        CheckSegregationWithClass(a, dglist, "1", SegregationCase.SeparatedLongitudinallyByCompleteCompartmentFrom,
+                                                sscode, ship, exceptFromClass: "1.4");
                         break;
 
                     case "SG66": //[Reserved]
@@ -607,10 +411,7 @@ namespace EasyJob_ProDG.Model.Cargo
                         break;
 
                     case "SG70": //For arsenic sulphides, “separated from” acids.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.acids, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.acids, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG71": //Within the appliance, to the extent that the dangerous goods are integral parts of the complete life-saving appliance, there is no need to apply the provisions on segregation of substances in chapter 7.2.
@@ -623,18 +424,12 @@ namespace EasyJob_ProDG.Model.Cargo
                         break;
 
                     case "SG75": //Stow “separated from” strong acids.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.strong_acids, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.strong_acids, SegregationCase.SeparatedFrom, sscode, ship);
                         break;
 
                     case "SG78": //Stow “separated longitudinally by an intervening complete compartment or hold from” division 1.1, 1.2, and 1.5.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithClasses(a, b, new[] { "1.1", "1.2", "1.5" }
-                            , SegregationCase.SeparatedLongitudinallyByCompleteCompartmentFrom, sscode, ship);
-                        }
+                        CheckSegregationWithClasses(a, dglist, new[] { "1.1", "1.2", "1.5" }, 
+                                                SegregationCase.SeparatedLongitudinallyByCompleteCompartmentFrom, sscode, ship);
                         break;
 
                 }
@@ -643,6 +438,16 @@ namespace EasyJob_ProDG.Model.Cargo
 
 
         #region Various private segregation methods
+
+        private static void CheckSegregationWithSpecialGroup(Dg a, IEnumerable<Dg> dgList, IMDGCode.SegregationGroup segregation,
+            SegregationCase segregationCase, string sscode, Transport.ShipProfile ship)
+        {
+            foreach (Dg b in dgList)
+            {
+                CheckSegregationWithClass(a, b, "3", SegregationCase.AwayFrom, sscode, ship);
+            }
+        }
+
         private static void CheckSegregationWithSpecialGroup(Dg a, Dg b, IMDGCode.SegregationGroup segregationGroup,
                                 SegregationCase segregationCase, string sscode, Transport.ShipProfile ship)
         {
@@ -666,6 +471,16 @@ namespace EasyJob_ProDG.Model.Cargo
             }
         }
 
+
+        private static void CheckSegregationWithClass(Dg a, IEnumerable<Dg> dgList, string dgClass, SegregationCase segregationCase,
+                                                    string sscode, Transport.ShipProfile ship, string exceptFromClass = null)
+        {
+            foreach (Dg b in dgList)
+            {
+                CheckSegregationWithClass(a, b, dgClass, segregationCase, sscode, ship, exceptFromClass);
+            }
+        }
+
         private static void CheckSegregationWithClass(Dg a, Dg b, string dgClass, SegregationCase segregationCase,
                                                     string sscode, Transport.ShipProfile ship, string exceptFromClass = null)
         {
@@ -681,6 +496,15 @@ namespace EasyJob_ProDG.Model.Cargo
             }
         }
 
+
+        private static void CheckSegregationWithClasses(Dg a, IEnumerable<Dg> dgList, string[] dgClasses, SegregationCase segregationCase,
+                                            string sscode, Transport.ShipProfile ship, string exceptFromClass = null)
+        {
+            foreach (Dg b in dgList)
+            {
+                CheckSegregationWithClasses(a, b, dgClasses, segregationCase, sscode, ship, exceptFromClass);
+            }
+        }
         private static void CheckSegregationWithClasses(Dg a, Dg b, string[] dgClasses, SegregationCase segregationCase,
                                             string sscode, Transport.ShipProfile ship, string exceptFromClass = null)
         {
@@ -703,6 +527,15 @@ namespace EasyJob_ProDG.Model.Cargo
             }
         }
 
+
+        private static void CheckSegregationWithUnno(Dg a, IEnumerable<Dg> dgList, ushort unno, SegregationCase segregationCase,
+                                            string sscode, Transport.ShipProfile ship)
+        {
+            foreach (Dg b in dgList)
+            {
+                CheckSegregationWithUnno(a, b, unno, segregationCase, sscode, ship);
+            }
+        }
         private static void CheckSegregationWithUnno(Dg a, Dg b, ushort unno, SegregationCase segregationCase,
                                             string sscode, Transport.ShipProfile ship)
         {
@@ -715,6 +548,15 @@ namespace EasyJob_ProDG.Model.Cargo
             a.AddConflict(conf, segr, sscode, b);
         }
 
+
+        private static void CheckSegregationWithSubstance(Dg a, IEnumerable<Dg> dgList, string[] nameContains, SegregationCase segregationCase,
+                                            string sscode, Transport.ShipProfile ship)
+        {
+            foreach (Dg b in dgList)
+            {
+                CheckSegregationWithSubstance(a, b, nameContains, segregationCase, sscode, ship);
+            }
+        }
         private static void CheckSegregationWithSubstance(Dg a, Dg b, string[] nameContains, SegregationCase segregationCase,
                                             string sscode, Transport.ShipProfile ship)
         {
@@ -728,18 +570,28 @@ namespace EasyJob_ProDG.Model.Cargo
             a.AddConflict(conf, segr, sscode, b);
         }
 
+
+        private static void CheckSegregationWithSubstance(Dg a, IEnumerable<Dg> dgList, string nameContains, SegregationCase segregationCase,
+                                            string sscode, Transport.ShipProfile ship)
+        {
+            foreach (Dg b in dgList)
+            {
+                CheckSegregationWithSubstance(a, b, nameContains, segregationCase, sscode, ship);
+            }
+        }
         private static void CheckSegregationWithSubstance(Dg a, Dg b, string nameContains, SegregationCase segregationCase,
                                             string sscode, Transport.ShipProfile ship)
         {
             CheckSegregationWithSubstance(a, b, new[] { nameContains }, segregationCase, sscode, ship);
         }
 
+
         private static void CheckClass8CanBeStowedTogether(Dg a, Dg b)
         {
             if (a.DgClass == "8" && b.DgClass == "8"
                 && (a.PackingGroupByte > 1) && (b.PackingGroupByte > 1))
                 a.AddConflict(true, segr, "SGC201", b);
-        } 
+        }
         #endregion
     }
 }
