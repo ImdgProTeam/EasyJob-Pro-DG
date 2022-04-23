@@ -301,7 +301,7 @@ namespace EasyJob_ProDG.Model.Cargo
                         }
                         break;
 
-                    case "SG27": //Stow “away from” explosives containing chlorates or perchlorates.
+                    case "SG27": //Stow “separated from” explosives containing chlorates or perchlorates.
                         foreach (Dg b in dglist)
                         {
                             if (a == b || b.IsLq) continue;
@@ -313,7 +313,7 @@ namespace EasyJob_ProDG.Model.Cargo
                                 {
                                     if (cl.StartsWith("1"))
                                     {
-                                        conf = SegregationCase1(a, b, ship);
+                                        conf = SegregationCase2(a, b, ship);
                                         a.AddConflict(conf, segr, sscode, b);
                                     }
                                 }
@@ -322,10 +322,10 @@ namespace EasyJob_ProDG.Model.Cargo
                         }
                         break;
 
-                    case "SG28": //Stow “away from” ammonium compounds and explosives containing ammonium compounds or salts.
+                    case "SG28": //Stow “separated from” ammonium compounds and explosives containing ammonium compounds or salts.
                         foreach (Dg b in dglist)
                         {
-                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.ammonium_compounds, SegregationCase.AwayFrom, sscode, ship);
+                            CheckSegregationWithSpecialGroup(a, b, IMDGCode.SegregationGroup.ammonium_compounds, SegregationCase.SeparatedFrom, sscode, ship);
                         }
                         break;
 
@@ -476,7 +476,7 @@ namespace EasyJob_ProDG.Model.Cargo
                         }
                         break;
 
-                    case "SG48": //Stow “separated from” combustible material(particularly liquids). Combustible material does not include packing materials or dunnage.
+                    case "SG48": //Stow “separated from” combustible material (particularly liquids).
                         a.AddConflict(conf, segr, sscode, a);
                         break;
 
@@ -504,11 +504,8 @@ namespace EasyJob_ProDG.Model.Cargo
                         }
                         break;
 
-                    case "SG53": //Stow “separated from” liquid organic substances.
-                        foreach (Dg b in dglist)
-                        {
-                            CheckSegregationWithSubstance(a, b, new[] { "liquid", "organic" }, SegregationCase.SeparatedFrom, sscode, ship);
-                        }
+                    case "SG53": //Shall not be stowed together with combustible material in the same cargo transport unit.
+                        a.AddConflict(conf, segr, sscode, a);
                         break;
 
                     case "SG54": //Stow “separated from” mercury and mercury compounds.
