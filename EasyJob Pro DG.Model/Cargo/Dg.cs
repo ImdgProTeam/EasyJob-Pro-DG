@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Xml.Linq;
 
 namespace EasyJob_ProDG.Model.Cargo
@@ -20,30 +21,34 @@ namespace EasyJob_ProDG.Model.Cargo
         private string dgclass;
 
         //assign from DG List
-        private bool isStabilizedWordInProperShippingName;
-        private bool isStabilizedWordAddedToProperShippingName;
+        private bool isStabilizedWordInProperShippingName => OriginalNameFromCode.Contains("STABILIZED");
         private bool isSelfReactive = false;
         private char stowageCatFromDgList;
         private List<string> segregationSG;
-        private List<int> special;
+        private List<ushort> special;
         private List<string> stowageSW;
         private List<string> stowageSWfromDgList;
         public bool differentClass;
         public bool mpDetermined;
 
         //from other sources
-        private readonly List<int> segregationGroup;
+        private readonly List<byte> segregationGroup;
         public byte DgRowInDOC;
         public byte dgRowInTable;
         public byte[] Stack;
         public char CompatibilityGroup = '0';
         public string SegregatorClass;
 
+        //User input fields
+        private bool isStabilizedWordAddedToProperShippingName
+            => Name.ToUpper().Contains("STABILIZED") && !isStabilizedWordInProperShippingName;
+        private bool isWaste;
 
         //from IFTDGN
-        internal int numberOfPackages;
+        internal ushort numberOfPackages;
         internal string typeOfPackages;
         internal string typeOfPackagesDescription;
+
         public string NumberAndTypeOfPackages { get; set; }
         public string TechnicalName { get; set; }
 
@@ -52,30 +57,9 @@ namespace EasyJob_ProDG.Model.Cargo
         #region Public properties
         //----------------- public properties -----------------------------
         // ---------------- computed properties ---------------------------
+        public int ID { get; }
 
-        public bool IsStabilized
-        {
-            get
-            {
-                return isStabilizedWordInProperShippingName ? true : isStabilizedWordAddedToProperShippingName;
-            }
-            set
-            {
-                isStabilizedWordAddedToProperShippingName = value;
-                if (value == true)
-                    if (isStabilizedWordInProperShippingName == false)
-                    {
-                        StowageCat = 'D';
-                        stowageSW.Add("SW1");
-                    }
-                if (value == false)
-                    if (isStabilizedWordInProperShippingName == false)
-                    {
-                        StowageCat = stowageCatFromDgList;
-                        stowageSW = stowageSWfromDgList;
-                    }
-            }
-        }
+
         public bool IsSelfReactive
         {
             get { return isSelfReactive; }
@@ -91,7 +75,7 @@ namespace EasyJob_ProDG.Model.Cargo
             set { flashPoint = value; }
             get { return flashPoint; }
         }
-        public int Unno { get; set; }
+        public ushort Unno { get; set; }
 
         /// <summary>
         /// Set: adds string dg class to dgclass and will update allDgClasses.
@@ -131,10 +115,14 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             get
             {
-                string temp = null;
                 if (dgsubclass.Count <= 0) return "";
-                foreach (var x in dgsubclass) temp += temp == null ? x.ToString(CultureInfo.InvariantCulture) : ", " + x.ToString(CultureInfo.InvariantCulture);
-                return temp;
+                StringBuilder sb = new StringBuilder();
+
+                foreach (var x in dgsubclass)
+                {
+                    sb.Append(string.IsNullOrEmpty(sb.ToString()) ? x.ToString(CultureInfo.InvariantCulture) : ", " + x.ToString(CultureInfo.InvariantCulture));
+                }
+                return sb.ToString();
             }
 
             set
@@ -205,37 +193,37 @@ namespace EasyJob_ProDG.Model.Cargo
             }
             set
             {
-                int segregationGroupIndex = 0;
+                byte segregationGroupIndex;
 
                 //By full group title as mentioned in IMDG code
                 if (IMDGCode.SegregationGroups.Contains(value) &&
-                   !segregationGroup.Contains(Array.IndexOf(IMDGCode.SegregationGroups, value)))
+                   !segregationGroup.Contains((byte)Array.IndexOf(IMDGCode.SegregationGroups, value)))
                 {
-                    segregationGroup.Add(Array.IndexOf(IMDGCode.SegregationGroups, value));
+                    segregationGroup.Add((byte)Array.IndexOf(IMDGCode.SegregationGroups, value));
                 }
                 //By code only
                 else if (IMDGCode.SegregationGroupsCodes.Contains(value))
                 {
-                    segregationGroupIndex = Array.IndexOf(IMDGCode.SegregationGroupsCodes, value);
-                    if(!segregationGroup.Contains(segregationGroupIndex))
+                    segregationGroupIndex = (byte)Array.IndexOf(IMDGCode.SegregationGroupsCodes, value);
+                    if (!segregationGroup.Contains(segregationGroupIndex))
                         segregationGroup.Add(segregationGroupIndex);
                 }
                 //Parse multiple values
                 else if (value.Contains(","))
                 {
-                    foreach (var group in value.Replace(" ","").Split(','))
+                    foreach (var group in value.Replace(" ", "").Split(','))
                     {
                         SegregationGroup = group;
                     }
                 }
                 //By index in dictionary
-                else if(int.TryParse(value, out segregationGroupIndex))
+                else if (byte.TryParse(value, out segregationGroupIndex))
                 {
-                    if(!segregationGroup.Contains(segregationGroupIndex))
+                    if (!segregationGroup.Contains(segregationGroupIndex))
                         segregationGroup.Add(segregationGroupIndex);
                 }
-                
-                    
+
+
             }
         }
 
@@ -258,18 +246,71 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
 
+        // ---------------- User input properties ------------------------------
+        public bool IsStabilized
+        {
+            get
+            {
+                return isStabilizedWordInProperShippingName || isStabilizedWordAddedToProperShippingName;
+            }
+            set
+            {
+                //Applicable only if the word 'STABILIZED' is not alrady included as a part of Proper Shipping Name into IMDG code
+                if (isStabilizedWordInProperShippingName) return;
+
+                if (value)
+                {
+                    if (!Name.ToLower().Replace(" ", "").Contains("stabilized"))
+                        Name += ", STABILIZED";
+                    StowageCat = 'D';
+                    stowageSW.Add("SW1");
+
+                }
+                if (!value)
+                {
+                    Name = Name.Replace(", STABILIZED", "");
+                    StowageCat = stowageCatFromDgList;
+                    stowageSW = stowageSWfromDgList;
+                }
+            }
+        }
+
+        public bool IsWaste
+        {
+            get => isWaste;
+            set
+            {
+                if (value)
+                {
+                    isWaste = true;
+                    if (!Name.ToLower().Replace(" ", "").Contains("waste")) Name += ", WASTE";
+                    if (IMDGCode.SW22RelatedUnnos.Contains(Unno))
+                    {
+                        StowageCat = 'C';
+                    }
+                }
+                else
+                {
+                    isWaste = false;
+                    Name = Name.Replace(", WASTE", "");
+                    StowageCat = stowageCatFromDgList;
+                }
+            }
+        }
+
+
+
         // ---------------- auto-properties ------------------------------
 
         public bool EmitFlammableVapours { get; set; }
         public bool Flammable { get; set; }
-        public bool IsConflicted { get; set; }
+        public bool IsConflicted => !this.Conflicts?.IsEmpty ?? false;
         public bool IsLq { get; set; }
         public bool Liquid { get; set; }
         public bool IsMp { get; set; }
         public bool IsMax1L { get; set; }
-        public bool IsWaste { get; set; }
         public char StowageCat { get; set; }
-        public Conflict Conflict { get; set; }
+        public Conflicts Conflicts { get; set; }
         public decimal DgNetWeight { get; set; }
         public string EmergencyContacts { get; set; }
         public string Remarks { get; set; }
@@ -277,8 +318,8 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <summary>
         /// Property returns number of dg subclasses
         /// </summary>
-        public int DgsubclassCount => dgsubclass.Count;
-        public List<int> SegregationGroupList => segregationGroup;
+        public byte DgsubclassCount => (byte)dgsubclass.Count;
+        public List<byte> SegregationGroupList => segregationGroup;
         public string DgEMS { get; set; }
         public string Name { get; set; } //Proper shipping name
         public string OriginalNameFromCode { get; private set; }
@@ -435,40 +476,50 @@ namespace EasyJob_ProDG.Model.Cargo
             DgNetWeight = 0;
             IsMp = false;
             mpDetermined = false;
-            special = new List<int>();
+            special = new List<ushort>();
             stowageSW = new List<string>();
             segregationSG = new List<string>();
-            segregationGroup = new List<int>();
+            segregationGroup = new List<byte>();
             IsLq = false;
             Flammable = false;
             Liquid = false;
             EmitFlammableVapours = false;
-            isStabilizedWordAddedToProperShippingName = false;
-            isStabilizedWordAddedToProperShippingName = false;
+
+            ID = RandomizeID.GetNewID();
         }
 
         /// <summary>
         /// Constructor to create Dg unit having only class and row for means of segregation between two classes
         /// </summary>
         /// <param name="_class"></param>
-        public Dg(string _class)
+        public Dg(string dgClass)
         {
-            dgclass = _class;
-            AssignRowNumber();
+            dgclass = dgClass;
+            AssignSegregationTableRowNumber();
         }
         #endregion
 
 
         //---------------------- Supporting methods ----------------------------------------------------------------------
 
+        #region Conflict methods
         /// <summary>
         /// Method creates dg.conflict if not yet created
         /// </summary>
         public void AddConflict()
         {
-            Conflict ??= new Conflict();
+            Conflicts ??= new Conflicts();
+        }
 
-            IsConflicted = true;
+        /// <summary>
+        /// Adds Stowage or Segregation conflict to Dg.
+        /// </summary>
+        /// <param name="stowOrSegr">"stowage" or "segregation"</param>
+        /// <param name="code">string conflict code</param>
+        /// <param name="b">conflicting Dg in case of segregatin conflict/></param>
+        public void AddConflict(string stowOrSegr, string code, Dg b = null)
+        {
+            AddConflict(true, stowOrSegr, code, b);
         }
 
         /// <summary>
@@ -482,9 +533,20 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             if (!add) return;
             AddConflict();
-            if (stoworsegr == "stowage") Conflict.AddStowConflict(code);
-            else Conflict.AddSegrConflict(code, b);
+            if (stoworsegr == "stowage") Conflicts.AddStowConflict(code);
+            else Conflicts.AddSegrConflict(code, b);
         }
+
+        /// <summary>
+        /// Method clears all conflicts in dg unit and changes 'conflicted' status to false
+        /// </summary>
+        public void ClearAllConflicts()
+        {
+            if (!IsConflicted) return;
+            Conflicts.SegregationConflictsList.Clear();
+            Conflicts.StowageConflictsList.Clear();
+        }
+        #endregion
 
         /// <summary>
         /// Method assigns a stack to dg unit, taking into account 20 and 40'
@@ -498,80 +560,11 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
         /// <summary>
-        /// Method to assign row number in segregation table.
+        /// Will define row number in IMDG Code segregation table and assign it to dgRowInTable
         /// </summary>
-        public void AssignRowNumber()
+        public void AssignSegregationTableRowNumber()
         {
-            byte tableRow;
-
-            var _index = dgclass.Length > 3 ? dgclass.Substring(0, 3) : dgclass;
-            switch (_index)
-            {
-                case "1.1":
-                    tableRow = 0;
-                    break;
-                case "1.2":
-                    tableRow = 0;
-                    break;
-                case "1.3":
-                    tableRow = 1;
-                    break;
-                case "1.4":
-                    tableRow = 2;
-                    break;
-                case "1.5":
-                    tableRow = 0;
-                    break;
-                case "1.6":
-                    tableRow = 1;
-                    break;
-                case "2.1":
-                    tableRow = 3;
-                    break;
-                case "2.2":
-                    tableRow = 4;
-                    break;
-                case "2.3":
-                    tableRow = 5;
-                    break;
-                case "3":
-                    tableRow = 6;
-                    break;
-                case "4.1":
-                    tableRow = 7;
-                    break;
-                case "4.2":
-                    tableRow = 8;
-                    break;
-                case "4.3":
-                    tableRow = 9;
-                    break;
-                case "5.1":
-                    tableRow = 10;
-                    break;
-                case "5.2":
-                    tableRow = 11;
-                    break;
-                case "6.1":
-                    tableRow = 12;
-                    break;
-                case "6.2":
-                    tableRow = 13;
-                    break;
-                case "7":
-                    tableRow = 14;
-                    break;
-                case "8":
-                    tableRow = 15;
-                    break;
-                case "9":
-                    tableRow = 16;
-                    break;
-                default:
-                    tableRow = 0;
-                    break;
-            }
-            dgRowInTable = tableRow;
+            dgRowInTable = IMDGCode.AssignSegregationTableRowNumber(dgclass);
         }
 
         /// <summary>
@@ -579,7 +572,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// If unno is given, then the unit parameter will be updated accordingly. By default unno will become '0'.
         /// </summary>
         /// <param name="unno"></param>
-        public void Clear(int unno = 0)
+        public void Clear(ushort unno = 0)
         {
             Unno = unno;
             dgsubclass.Clear();
@@ -592,7 +585,7 @@ namespace EasyJob_ProDG.Model.Cargo
             stowageSW.Clear();
             segregationSG.Clear();
             segregationGroup.Clear();
-            StowageCat = 'A';
+            StowageCat = '0';
             Name = null;
             Flammable = false;
             Liquid = false;
@@ -610,19 +603,6 @@ namespace EasyJob_ProDG.Model.Cargo
             dgclass = null;
             dgsubclass.Clear();
             allDgClasses.Clear();
-        }
-
-        /// <summary>
-        /// Method clears all conflicts in dg unit and changes 'conflicted' status to false
-        /// </summary>
-        public void ClearConflicts()
-        {
-            if (!IsConflicted) return;
-            IsConflicted = false;
-            Conflict.SegrConflicts.Clear();
-            Conflict.StowConflicts.Clear();
-            Conflict.FailedSegregation = false;
-            Conflict.FailedStowage = false;
         }
 
         /// <summary>
@@ -682,7 +662,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 FinalDestination = this.FinalDestination,
                 Carrier = this.Carrier,
                 IsRf = this.IsRf
-        };
+            };
         }
 
         /// <summary>
@@ -716,7 +696,7 @@ namespace EasyJob_ProDG.Model.Cargo
             DgSubclassArray = dg.DgSubclassArray;
             FlashPointDouble = dg.FlashPointDouble;
             IsMp = dg.IsMp;
-            DgEMS =!string.IsNullOrEmpty(dg.DgEMS) ?  dg.DgEMS : DgEMS;
+            DgEMS = !string.IsNullOrEmpty(dg.DgEMS) ? dg.DgEMS : DgEMS;
             PackingGroupByte = dg.PackingGroupByte;
             SegregationGroupList.Clear();
             SegregationGroup = dg.SegregationGroup;
@@ -733,8 +713,7 @@ namespace EasyJob_ProDG.Model.Cargo
             typeOfPackagesDescription = dg.typeOfPackagesDescription;
             dg.MergePackagesInfo();
 
-            isStabilizedWordInProperShippingName = dg.isStabilizedWordInProperShippingName;
-            isStabilizedWordAddedToProperShippingName = dg.isStabilizedWordAddedToProperShippingName;
+            //isStabilizedWordAddedToProperShippingName = dg.isStabilizedWordAddedToProperShippingName;
             isSelfReactive = dg.isSelfReactive;
             stowageCatFromDgList = dg.stowageCatFromDgList;
             segregationSG = dg.segregationSG;
@@ -764,9 +743,9 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         internal void MergePackagesInfo()
         {
-            NumberAndTypeOfPackages = (numberOfPackages != 0 ? numberOfPackages + " " : "") 
-                                      + typeOfPackagesDescription 
-                                      + (numberOfPackages != 0 || typeOfPackagesDescription!= "" ? ", " : "")
+            NumberAndTypeOfPackages = (numberOfPackages != 0 ? numberOfPackages + " " : "")
+                                      + typeOfPackagesDescription
+                                      + (numberOfPackages != 0 || typeOfPackagesDescription != "" ? ", " : "")
                                       + typeOfPackages;
         }
 
@@ -785,6 +764,8 @@ namespace EasyJob_ProDG.Model.Cargo
             EmergencyContacts = dgCopyFrom.EmergencyContacts;
         }
 
+
+        #region System override methods
         // ---------------- System override methods ------------------------------------------
 
         /// <summary>
@@ -800,7 +781,10 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             return dg.ConvertToContainer();
         }
+        #endregion
 
+
+        #region IUpdatable
         // -------------- IUpdatable ------------------------------------------------
         public bool IsToBeKeptInPlan { get; set; }
         public bool IsPositionLockedForChange { get; set; }
@@ -812,6 +796,7 @@ namespace EasyJob_ProDG.Model.Cargo
         public bool HasPodChanged { get; set; }
         public bool HasContainerTypeChanged { get; set; }
         public string LocationBeforeRestow { get; set; }
+        #endregion
 
 
     }

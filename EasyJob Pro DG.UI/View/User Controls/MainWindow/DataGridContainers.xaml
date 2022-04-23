@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
              xmlns:attachedProperties="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties"
+             xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
              xmlns:behaviors="clr-namespace:EasyJob_ProDG.UI.Behaviors"
              xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
              mc:Ignorable="d" 
@@ -15,20 +16,24 @@
         <converters:VisibilityToInverseBooleanConverter x:Key="VisibilityToInverseBooleanConverter" />
     </UserControl.Resources>
 
-    <Grid>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+            <cc:SearchBox Text="{Binding TextToFilter}"/>
 
-
-
-        <Grid.RowDefinitions>
-             <RowDefinition/>
-         </Grid.RowDefinitions>
-
+        </StackPanel>
+        
         <DataGrid x:Name="MainContainerDataTable"
-                  ItemsSource="{Binding CargoPlan.Containers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding ContainerPlanView}"
                   SelectedItem="{Binding SelectedContainer, Mode=TwoWay}"
                   IsSynchronizedWithCurrentItem="True"
                   FrozenColumnCount="0"
                   AutoGenerateColumns="False"
+                  ScrollViewer.CanContentScroll="True"
+                  EnableRowVirtualization="True"
+                  VirtualizingPanel.IsContainerVirtualizable="True"
+                  VirtualizingPanel.IsVirtualizing="True"
+                  VirtualizingPanel.ScrollUnit="Pixel"
+                  VirtualizingPanel.VirtualizationMode="Recycling"
                   CanUserAddRows="True"
                   HeadersVisibility="All"
                   AlternationCount="2"
@@ -41,66 +46,70 @@
                   SelectionMode="Extended"
                   behaviors:DataGridBehavior.DisplayRowNumber="True">
 
+            <DataGrid.Resources>
 
-                 <DataGrid.Resources>
-
-                     <!-- Context menu -->
-                        <ContextMenu x:Key="DataGridContainersColumnHeaderContextMenu"
-                                     DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}"
-                                     ItemsSource="{Binding Columns, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}">
-                            <ContextMenu.ItemContainerStyle>
-                                <Style TargetType="MenuItem">
-                                    <Setter Property="Header"
-                                            Value="{Binding Header}" />
-                                    <Setter Property="AutomationProperties.Name"
-                                            Value="{Binding Header}" />
-                                    <Setter Property="IsCheckable"
-                                            Value="True" />
-                                    <Setter Property="IsChecked"
-                                            Value="{Binding Visibility, Mode=TwoWay, Converter={StaticResource VisibilityToInverseBooleanConverter}}" />
-                                    <Style.Triggers>
-                                        <Trigger Property="Header"
-                                                 Value="N">
-                                            <Setter Property="Visibility"
-                                                    Value="Collapsed" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ContextMenu.ItemContainerStyle>
-                        </ContextMenu>
-
-                        <!-- Header style -->
-                        <Style TargetType="{x:Type DataGridColumnHeader}"
-                               BasedOn="{StaticResource DataGridColumnHeaderStyle}">
-                            <Setter Property="ContextMenu"
-                            Value="{StaticResource DataGridContainersColumnHeaderContextMenu}" />
-
+                <!-- Context menu -->
+                <ContextMenu x:Key="DataGridContainersColumnHeaderContextMenu"
+                                    DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}"
+                                    ItemsSource="{Binding Columns, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}">
+                    <ContextMenu.ItemContainerStyle>
+                        <Style TargetType="MenuItem">
+                            <Setter Property="Header"
+                                        Value="{Binding Header}" />
+                            <Setter Property="AutomationProperties.Name"
+                                        Value="{Binding Header}" />
+                            <Setter Property="IsCheckable"
+                                        Value="True" />
+                            <Setter Property="IsChecked"
+                                        Value="{Binding Visibility, Mode=TwoWay, Converter={StaticResource VisibilityToInverseBooleanConverter}}" />
+                            <Style.Triggers>
+                                <Trigger Property="Header"
+                                                Value="N">
+                                    <Setter Property="Visibility"
+                                                Value="Collapsed" />
+                                </Trigger>
+                            </Style.Triggers>
                         </Style>
+                    </ContextMenu.ItemContainerStyle>
+                </ContextMenu>
+
+                <!-- Header style -->
+                <Style TargetType="{x:Type DataGridColumnHeader}"
+                            BasedOn="{StaticResource DataGridColumnHeaderStyle}">
+                    <Setter Property="ContextMenu"
+                        Value="{StaticResource DataGridContainersColumnHeaderContextMenu}" />
+
+                </Style>
 
 
 
-                        <!-- Cell style -->
-                        <Style TargetType="{x:Type DataGridCell}">
-                            <Setter Property="IsTabStop"
-                                    Value="False" />
-                        </Style>
+                <!-- Cell style -->
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="IsTabStop"
+                                Value="False" />
+                </Style>
 
-                        <!-- TextBox style-->
-                        <Style TargetType="{x:Type TextBox}">
-                            <!--<Setter Property="IsTabStop"
-                                        Value="True" />-->
-                            <Setter Property="Margin"
-                                    Value="50" />
-                            <Setter Property="TextAlignment"
-                                    Value="Right" />
-                        </Style>
+                <!-- TextBox style-->
+                <Style TargetType="{x:Type TextBox}">
+                    <!--<Setter Property="IsTabStop"
+                                    Value="True" />-->
+                    <Setter Property="Margin"
+                                Value="50" />
+                    <Setter Property="TextAlignment"
+                                Value="Right" />
+                </Style>
 
-                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                                         Color="{StaticResource Color.DgTable.HighlightRow}" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                        Color="{StaticResource Color.DgTable.HighlightRow}" />
 
-                    </DataGrid.Resources>
+            </DataGrid.Resources>
 
-
+            <DataGrid.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel/>
+                </ItemsPanelTemplate>
+            </DataGrid.ItemsPanel>
+            
             <!-- Columns -->
             <DataGrid.Columns>
 
@@ -380,5 +389,5 @@
             </DataGrid.Columns>
 
         </DataGrid>
-    </Grid>
+    </DockPanel>
 </UserControl>

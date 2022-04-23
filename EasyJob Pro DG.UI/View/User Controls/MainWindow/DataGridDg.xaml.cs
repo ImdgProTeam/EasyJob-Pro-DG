@@ -17,7 +17,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
     public partial class DataGridDg : UserControl
     {
         DataGridDgViewModel viewModel;
-        //DgSortOrderDirection dgSortOrderDirection;
         private static bool IsCellEditingOn;
         private bool isInitialized;
         private int currentColumnIndex = 0;
@@ -27,8 +26,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         {
             InitializeComponent();
             viewModel = MainDgTable.DataContext as DataGridDgViewModel;
-            //isInitialized = true;
-        }
+         }
 
         /// <summary>
         /// TO BE CHANGED TO IMPLEMENT REQUIREMENTS OF SETTINGS
@@ -159,7 +157,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         }
 
         /// <summary>
-        /// Exports MainDataGrid to excel
+        /// Exports MainDataGrid as it is displayed to excel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

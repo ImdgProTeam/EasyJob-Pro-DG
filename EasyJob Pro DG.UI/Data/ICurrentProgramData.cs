@@ -19,7 +19,8 @@ namespace EasyJob_ProDG.UI.Data
 
         void ConnectProgramFiles();
         void LoadData();
-        void ReCheckDgList();
+        void ReCheckDgWrapperStowage(DgWrapper dgWrapper);
+        void ReCheckDgWrapperList();
         void FullDataReCheck();
         ConflictsList GetConflictsList();
         VentilationRequirements GetVentilationRequirements();

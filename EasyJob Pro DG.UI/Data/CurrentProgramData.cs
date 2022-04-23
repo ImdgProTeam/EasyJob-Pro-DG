@@ -7,7 +7,6 @@
 //                                                    //
 //****************************************************//
 
-using System;
 using EasyJob_ProDG.Model;
 using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO;
@@ -70,22 +69,45 @@ namespace EasyJob_ProDG.UI.Data
             string openPath = ((MainWindow)Application.Current.MainWindow)?.StartupFilePath;
 
             //FILE TO BE CHANGED
-            if(!CreateWorkingCargoPlan(openPath ?? "Working cargo plan.ejc")) return;
+            if (!CreateWorkingCargoPlan(openPath ?? "Working cargo plan.ejc")) return;
         }
 
         /// <summary>
         /// Clears conflicts, checks CargoPlanWrapper, creates conflicts.
         /// </summary>
-        public void ReCheckDgList()
+        public void ReCheckDgWrapperList()
         {
             if (WorkingCargoPlan != null)
             {
-                ReCheckDgWrapperList();
+                ReCheckDgList();
 
                 ////Display info
                 Conflicts.CreateConflictList(WorkingCargoPlan.DgList);
                 Vents.Check();
             }
+        }
+
+        /// <summary>
+        /// ReChecks and updates stowage conflicts in the selected unit
+        /// </summary>
+        /// <param name="unit"></param>
+        public void ReCheckDgWrapperStowage(DgWrapper unit)
+        {
+            if(unit == null) return;
+            ReCheckDgStowage(unit.Model, WorkingCargoPlan.Model);
+
+            Conflicts.UpdateDgWrapperStowageConfilicts(unit);
+        }
+
+        /// <summary>
+        /// Checks stowage of a selected dg and updates its StowageConflictList
+        /// </summary>
+        /// <param name="dg"></param>
+        /// <param name="cargoPlan"></param>
+        private void ReCheckDgStowage(Dg dg, CargoPlan cargoPlan)
+        {
+            dg.Conflicts?.ClearStowageConflicts();
+            Stowage.CheckUnitStowage(dg, OwnShip, cargoPlan.Containers);
         }
 
         /// <summary>
@@ -158,38 +180,21 @@ namespace EasyJob_ProDG.UI.Data
         /// <returns>True if CargoPlan created successfully</returns>
         private bool CreateWorkingCargoPlan(string fileName, OpenFile.OpenOption openOption = OpenFile.OpenOption.Open, bool importOnlySelected = false, string currentPort = null)
         {
-//#if !DEBUG
-            //try
-            //{
-//#endif
-                ////Open file and check
-                var tempCargoPlan = new CargoPlan().CreateCargoPlan(fileName, OwnShip, _dgDataBase, openOption, _workingCargoPlan, importOnlySelected, currentPort);
-                if (tempCargoPlan == null || tempCargoPlan.IsEmpty) return false;
+            var tempCargoPlan = new CargoPlan().CreateCargoPlan(fileName, OwnShip, _dgDataBase, openOption, _workingCargoPlan, importOnlySelected, currentPort);
+            if (tempCargoPlan == null || tempCargoPlan.IsEmpty) return false;
 
-                _workingCargoPlan = tempCargoPlan;
-                ReCheckDgList(_workingCargoPlan);
+            _workingCargoPlan = tempCargoPlan;
+            ReCheckDgList(_workingCargoPlan);
 
-                ////Creating wrapper
-                WorkingCargoPlan?.Destructor();
-                WorkingCargoPlan = new CargoPlanWrapper(_workingCargoPlan);
+            ////Creating wrapper
+            WorkingCargoPlan?.Destructor();
+            WorkingCargoPlan = new CargoPlanWrapper(_workingCargoPlan);
 
-                ////Display info
-                Conflicts.CreateConflictList(WorkingCargoPlan.DgList);
-                Vents.Check();
+            ////Display info
+            Conflicts.CreateConflictList(WorkingCargoPlan.DgList);
+            Vents.Check();
 
-                return true;
-//#if !DEBUG
-//            }
-//            catch(Exception ex)
-//            {
-//#if DEBUG
-//                string text = $"Cannot open file.\n{ex.Message}\n{ex.TargetSite.ToString()}\n{ex.Source}";
-//                MessageBox.Show(text);
-//#endif
-//                WorkingCargoPlan ??= new CargoPlanWrapper(new CargoPlan());
-//                return false;
-//            }
-//#endif
+            return true;
         }
 
         /// <summary>
@@ -208,7 +213,7 @@ namespace EasyJob_ProDG.UI.Data
         /// Clears existing conflicts, checks the plan and creates conflicts.
         /// When changing property of dg in list.
         /// </summary>
-        private void ReCheckDgWrapperList()
+        private void ReCheckDgList()
         {
             ReCheckDgList(WorkingCargoPlan.Model);
         }
@@ -294,7 +299,7 @@ namespace EasyJob_ProDG.UI.Data
             try
             {
 #endif
-                return CreateWorkingCargoPlan(file, openOption, importOnlySelected, currentPort);
+            return CreateWorkingCargoPlan(file, openOption, importOnlySelected, currentPort);
 #if !DEBUG
         }
             catch
@@ -356,7 +361,7 @@ namespace EasyJob_ProDG.UI.Data
 
 
         // ---------------- Various not in use methods ------------------------------------------
-        
+
         /// <summary>
         /// Method created to test changes in ShipProfileVM
         /// </summary>
@@ -424,7 +429,7 @@ namespace EasyJob_ProDG.UI.Data
 
             MessageBox.Show(sb.ToString());
         }
-        
+
 
         // ---------------- Constructors --------------------------------------------------------
 

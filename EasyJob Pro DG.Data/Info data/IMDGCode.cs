@@ -12,6 +12,127 @@ namespace EasyJob_ProDG.Data.Info_data
             "5.1", "5.2", "6.1", "6.2", "7", "8", "9"
         };
 
+        public static readonly byte[,] SegregationTable ={
+            {5, 5, 5, 4, 2, 2, 4, 4, 4, 4, 4, 4, 2, 4, 2, 4, 0 }, //Explosives 1.1, 1.2, 1.5
+            {5, 5, 5, 4, 2, 2, 4, 3, 3, 4, 4, 4, 2, 4, 2, 2, 0 }, //Explosives 1.3, 1.6
+            {5, 5, 5, 2, 1, 1, 2, 2, 2, 2, 2, 2, 0, 4, 2, 2, 0 }, //Explosives 1.4 
+            {4, 4, 2, 0, 0, 0, 2, 1, 2, 2, 2, 2, 0, 4, 2, 1, 0 }, //Flammable gases 2.1   
+            {2, 2, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 2, 1, 0, 0 }, //Non-toxic, non-flammable gases 2.2 
+            {2, 2, 1, 0, 0, 0, 2, 0, 2, 0, 0, 2, 0, 2, 1, 0, 0 }, //Toxic gases 2.3 
+            {4, 4, 2, 2, 1, 2, 0, 0, 2, 2, 2, 2, 0, 3, 2, 0, 0 }, //Flammable liquids 3
+            {4, 3, 2, 1, 0, 0, 0, 0, 1, 0, 1, 2, 0, 3, 2, 1, 0 }, //Flammable solids 4.1
+            {4, 3, 2, 2, 1, 2, 2, 1, 0, 1, 2, 2, 1, 3, 2, 1, 0 }, //Substances liable to spontaneous combustion 4.2
+            {4, 4, 2, 2, 0, 0, 2, 0, 1, 0, 2, 2, 0, 2, 2, 1, 0 }, //Substances which, in contact with water, emit flammable gases 4.3
+            {4, 4, 2, 2, 0, 0, 2, 1, 2, 2, 0, 2, 1, 3, 1, 2, 0 }, //Oxidizing substances(agents) 5.1 
+            {4, 4, 2, 2, 1, 2, 2, 2, 2, 2, 2, 0, 1, 3, 2, 2, 0 }, //Organic peroxides 5.2 
+            {2, 2, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0 }, //Toxic substances 6.1 
+            {4, 4, 4, 4, 2, 2, 3, 3, 3, 2, 3, 3, 1, 0, 3, 3, 0 }, //Infectious substances 6.2
+            {2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 1, 2, 0, 3, 0, 2, 0 }, //Radioactive material 7
+            {4, 2, 2, 1, 0, 0, 0, 1, 1, 1, 2, 2, 0, 3, 2, 0, 0 }, //Corrosive substances 8 
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }  //Miscellaneous 9
+            };
+
+        /// <summary>
+        /// Method to assign row number in segregation table.
+        /// </summary>
+        public static byte AssignSegregationTableRowNumber(string dgClass)
+        {
+            byte tableRow;
+
+            var _index = dgClass.Length > 3 ? dgClass.Substring(0, 3) : dgClass;
+            switch (_index)
+            {
+                case "1.1":
+                    tableRow = 0;
+                    break;
+                case "1.2":
+                    tableRow = 0;
+                    break;
+                case "1.3":
+                    tableRow = 1;
+                    break;
+                case "1.4":
+                    tableRow = 2;
+                    break;
+                case "1.5":
+                    tableRow = 0;
+                    break;
+                case "1.6":
+                    tableRow = 1;
+                    break;
+                case "2.1":
+                    tableRow = 3;
+                    break;
+                case "2.2":
+                    tableRow = 4;
+                    break;
+                case "2.3":
+                    tableRow = 5;
+                    break;
+                case "3":
+                    tableRow = 6;
+                    break;
+                case "4.1":
+                    tableRow = 7;
+                    break;
+                case "4.2":
+                    tableRow = 8;
+                    break;
+                case "4.3":
+                    tableRow = 9;
+                    break;
+                case "5.1":
+                    tableRow = 10;
+                    break;
+                case "5.2":
+                    tableRow = 11;
+                    break;
+                case "6.1":
+                    tableRow = 12;
+                    break;
+                case "6.2":
+                    tableRow = 13;
+                    break;
+                case "7":
+                    tableRow = 14;
+                    break;
+                case "8":
+                    tableRow = 15;
+                    break;
+                case "9":
+                    tableRow = 16;
+                    break;
+                default:
+                    tableRow = 0;
+                    break;
+            }
+            return tableRow;
+        }
+
+        #region Class 1
+        /// <summary>
+        /// Permitted mixed stowage for goods of class 1 (Table 7.2.7.1.4)
+        /// </summary>
+        public static byte[,] ExplosivesPermittedMixedStowage =
+{
+                {9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },   //A
+                {0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9 },   //B
+                {0, 0, 9, 6, 6, 0, 1, 0, 0, 0, 0, 4, 9 },   //C
+                {0, 0, 6, 9, 6, 0, 1, 0, 0, 0, 0, 4, 9 },   //D
+                {0, 0, 6, 6, 9, 0, 1, 0, 0, 0, 0, 4, 9 },   //E
+                {0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 9 },   //F
+                {0, 0, 1, 1, 1, 0, 9, 0, 0, 0, 0, 0, 9 },   //G
+                {0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 9 },   //H
+                {0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 9 },   //J
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 9 },   //K
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0 },   //L
+                {0, 0, 4, 4, 4, 0, 0, 0, 0, 0, 0, 3, 5 },   //N
+                {0, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 5, 9 }    //S
+            };
+
+        public static char[] ExplosivesCompatibilityGroupCodes = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'N', 'S' }; 
+        #endregion
+
         #region Segregation groups
         public enum SegregationGroup : byte
         {
@@ -186,6 +307,33 @@ namespace EasyJob_ProDG.Data.Info_data
             "No special requirements for class 6.2/7 or for the goods in limited quantities",
             "Dangerous goods of class 9 in package form, which according to the IMDG code emmit flammable vapours, not to be carried in hold No 8"
         };
+        #endregion
+
+        #region Arrays of UNNOs
+        /// <summary>
+        /// List of unnos to which SW22 can be applied in part of Waste
+        /// </summary>
+        public static ushort[] SW22RelatedUnnos = new ushort[]
+        {
+            1950, 2037
+        };
+
+        public static ushort[] Table72631 = { 2014, 2984, 3105, 3107, 3109, 3149 };
+        public static ushort[] Table72632 = { 1295, 1818, 2189 };
+        public static ushort[] Table72633 = { 3391, 3392, 3393, 3394, 3395, 3396, 3397, 3398, 3399, 3400 };
+        public static ushort[] Table72634 = { 1325, 3101, 3102, 3103, 3104, 3105, 3106, 3107, 3108, 3109, 3110, 3111, 3112, 3113, 3114, 3115, 3116, 3117, 3118, 3119, 3120 };
+        public static ushort[] Classes72721 = { 1942, 2067, 1486,1454,1451, 2722,  1477, 1498, 1446, 2464,  1474, 1507 };
+        public static ushort[] BlastingExplosives = { 81, 82, 84, 241, 331, 332 };
+
+        /// <summary>
+        /// Fish meal UNNOs in accordance with 7.4.1.3
+        /// </summary>
+        public static ushort[] Fishmeal = { 1374, 2216, 3497 };
+
+        /// <summary>
+        /// Ammonium Nitrate substances listed in 7.4.1.4
+        /// </summary>
+        public static ushort[] AmmoniumNitrate = { 1942, 2067, 2071 };
         #endregion
     }
 }

@@ -3,7 +3,6 @@ using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
-using EasyJob_ProDG.UI.Utility.Messages;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;

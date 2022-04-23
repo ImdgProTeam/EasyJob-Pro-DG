@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29009.5
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControlLib", "CustomControlLib\CustomControlLib.csproj", "{4F6F6F5A-357F-40A4-B20C-EFA4DF688E84}"
 EndProject
@@ -17,6 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyJob ProDG.UI", "EasyJob
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7882AB03-2FDA-44A4-B40A-692BC1CE0591}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		Version info.txt = Version info.txt
 	EndProjectSection
 EndProject

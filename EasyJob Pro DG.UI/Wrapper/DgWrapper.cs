@@ -2,10 +2,10 @@
 using EasyJob_ProDG.Model.IO;
 using EasyJob_ProDG.Model.Validators;
 using EasyJob_ProDG.UI.Data;
+using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
-using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.View.Sort;
 using System;
 using System.Collections.Generic;
@@ -85,7 +85,8 @@ namespace EasyJob_ProDG.UI.Wrapper
                 _locationSortable = null;
                 if (!IsInList) return;
 
-                if (CurrentProgramData.OwnShip != null) Model.HoldNr = CurrentProgramData.OwnShip.DefineCargoHoldNumber(Bay);
+                if (CurrentProgramData.OwnShip != null) 
+                    Model.HoldNr = CurrentProgramData.OwnShip.DefineCargoHoldNumber(Bay);
                 SetToAllContainersInPlan(GetValue<string>(), oldValue);
                 UpdateLocationPresentation();
             }
@@ -323,9 +324,9 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <summary>
         /// UN no of a dangerous good
         /// </summary>
-        public int Unno
+        public ushort Unno
         {
-            get => GetValue<int>();
+            get => GetValue<ushort>();
             set
             {
                 if (Unno == value) return;
@@ -477,15 +478,32 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 if (IsWaste == value) return;
                 SetValue(value);
+
                 if (value)
                 {
                     if (Unno == 1950) IsMax1L = false;
-                    if (!Name.ToLower().Replace(" ", "").Contains("waste")) Name += ", WASTE";
                 }
-                else
-                {
-                    Name = Name.Replace(", WASTE", "");
-                }
+
+                UpdateDgStowageConflicts();
+
+                OnPropertyChanged("StowageCat");
+                OnPropertyChanged("StowageSW");
+                OnPropertyChanged("Name");
+            }
+        }
+        public bool IsStabilized
+        {
+            get { return GetValue<bool>(); }
+            set
+            {
+                if (IsStabilized == value) return;
+                SetValue(value);
+
+                UpdateDgStowageConflicts();
+
+                OnPropertyChanged("StowageCat");
+                OnPropertyChanged("StowageSW");
+                OnPropertyChanged("Name");
             }
         }
 
@@ -497,10 +515,22 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<string>(); }
             set
             {
+                string oldName = Name.ToLower();
+                string newName = value.ToLower().Replace(" ", "");
+
                 SetValue(value);
                 IsNameChanged = !string.Equals(OriginalNameFromCode, value);
-                if (value.ToLower().Replace(" ", "").Contains("waste")) IsWaste = true;
-                else if (value.ToLower().Replace(" ", "").Contains("max1l")) IsMax1L = true;
+
+                if (oldName.Contains("waste") && !newName.Contains("waste"))
+                    IsWaste = false;
+                else if(newName.Contains("waste")) IsWaste = true;
+                else if (oldName.Contains("max1l") && !newName.Contains("max1l"))
+                    IsMax1L = false;
+                else if (newName.Contains("max1l")) IsMax1L = true;
+                else if (oldName.Contains("stabilized") && !newName.Contains("stabilized"))
+                    IsStabilized = false;
+                else if (newName.Contains("stabilized")) IsStabilized = true;
+
             }
         }
 
@@ -586,18 +616,6 @@ namespace EasyJob_ProDG.UI.Wrapper
                 SetValue(value);
             }
         }
-        public bool IsStabilized
-        {
-            get { return GetValue<bool>(); }
-            set
-            {
-                SetValue(value);
-                OnPropertyChanged();
-                //dgPropertyChanged.Invoke(this, EventArgs.Empty);
-                OnPropertyChanged("StowageCat");
-                OnPropertyChanged("StowageSW");
-            }
-        }
         public bool IsSelfReactive
         {
             get { return GetValue<bool>(); }
@@ -605,7 +623,6 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 SetValue(value);
                 OnPropertyChanged();
-                //dgPropertyChanged.Invoke(this, EventArgs.Empty);
             }
         }
         public string Properties => GetValue<string>();
@@ -655,9 +672,9 @@ namespace EasyJob_ProDG.UI.Wrapper
                 SetValue(value);
             }
         }
-        public Conflict Conflict
+        public Conflicts Conflicts
         {
-            get { return GetValue<Conflict>(); }
+            get { return GetValue<Conflicts>(); }
             set { SetValue(value); }
         }
         public string AllDgClasses => GetValue<string>();
@@ -684,9 +701,8 @@ namespace EasyJob_ProDG.UI.Wrapper
         private string AddZeroIfRequired(byte value, byte numberOfZeros = 1)
         {
             string result = "";
-            byte temp = value;
-            if (temp < 10) result += "0";
-            if (temp < 100 && numberOfZeros == 2) result += "0";
+            if (value < 10) result += "0";
+            if (value < 100 && numberOfZeros == 2) result += "0";
             result += value.ToString();
             return result;
         }
@@ -729,7 +745,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         /// <param name="unno">UN no being checked</param>
         /// <returns>If UN no is valid or user acknowledge</returns>
-        private bool CheckForExistingUnno(int unno)
+        private bool CheckForExistingUnno(ushort unno)
         {
             if (UnnoValidator.Validate(unno)) return true;
             if (_messageDialogService.ShowYesNoDialog(
@@ -779,7 +795,6 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         private void OnUpdatePackingGroup()
         {
-            //TODO: Check how packing group change affects other values, if updated manually
             Model.AssignFromDgList(_dgDataBase, false, true);
             OnDgPackingGroupChangedEventHandler.Invoke(this);
             UpdateDgDataPresentation();
@@ -799,6 +814,11 @@ namespace EasyJob_ProDG.UI.Wrapper
         private void UpdateConflictList()
         {
             OnConflictListToBeChangedEventHandler.Invoke(this);
+        }
+
+        private void UpdateDgStowageConflicts()
+        {
+            DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage(this));
         }
 
         /// <summary>
@@ -939,6 +959,8 @@ namespace EasyJob_ProDG.UI.Wrapper
         public delegate void ConflictListToBeChangedEventHandler(object sender);
         public static event ConflictListToBeChangedEventHandler OnConflictListToBeChangedEventHandler = null;
 
+        public delegate void UnitStowageConflictsToBeUpdatedEventHandler(object sender);
+        public static event UnitStowageConflictsToBeUpdatedEventHandler OnUnitStowageConflictsToBeUpdatedEventHandler = null;
 
         // -------------- Overriding methods and operators --------------------------
 

@@ -1,16 +1,17 @@
 ﻿using EasyJob_ProDG.Data;
-using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Settings;
 using EasyJob_ProDG.UI.Utility;
-using EasyJob_ProDG.UI.Utility.Messages;
+using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Xml.Serialization;
 using static EasyJob_ProDG.UI.Settings.UserUISettings;
@@ -20,8 +21,10 @@ namespace EasyJob_ProDG.UI.ViewModel
     public class DataGridDgViewModel : Observable
     {
         //--------------- Private fields --------------------------------------------
-        SettingsService uiSettings;
-        IMessageDialogService _messageDialogService;
+        private SettingsService uiSettings;
+        private IMessageDialogService _messageDialogService;
+        private readonly CollectionViewSource dgPlanView = new CollectionViewSource();
+
 
         //--------------- Public static properties ----------------------------------
         public static IList<char> StowageCategories => new List<char>() { 'A', 'B', 'C', 'D', 'E' };
@@ -30,33 +33,20 @@ namespace EasyJob_ProDG.UI.ViewModel
         public CargoPlanWrapper CargoPlan
         {
             get { return ViewModelLocator.MainWindowViewModel.WorkingCargoPlan; }
-            set
-            {
-                ViewModelLocator.MainWindowViewModel.WorkingCargoPlan = value;
-                OnPropertyChanged();
-            }
         }
         public ObservableCollection<DgTableColumnSettings> ColumnSettings { get; set; }
+
+        /// <summary>
+        /// Used for DgDataGrid binding 
+        /// </summary>
+        public ICollectionView DgPlanView => dgPlanView?.View;
         public DgWrapper SelectedDg { get; set; }
         public List<DgWrapper> SelectedDgArray { get; set; }
         public DgSortOrderPattern DgSortOrderDirection { get; set; }
         public bool IsTechnicalNameIncluded { get; set; }
-        //private CollectionView _dgListView = null;
-        //public ICollectionView DgListView
-        //{
-        //    get {
-        //        _dgListView = (CollectionView)CollectionViewSource.GetDefaultView(CargoPlan.DgList);
-        //        if (_dgListView != null)
-        //            _dgListView.SortDescriptions.Add(new SortDescription("Location", ListSortDirection.Ascending));
-        //        return _dgListView;
-        //    }
-        //    set { }
-        //}
-        //private ContainerLeftToRightComparer comparer1 = new ContainerLeftToRightComparer();
 
 
         //--------------- Constructor -----------------------------------------------
-
         public DataGridDgViewModel()
         {
             LoadServices();
@@ -66,11 +56,58 @@ namespace EasyJob_ProDG.UI.ViewModel
             LoadColumnSettings();
 
             LoadCommands();
+
+            SetDataView();
+
+            dgPlanView.Filter += OnDgListFiltered;
         }
 
 
+        #region Filter Logic
+        // ----------- Filter logic ----------------
+        private string textToFilter;
 
+        public string TextToFilter
+        {
+            get { return textToFilter; }
+            set
+            {
+                if (textToFilter == value) return;
+                textToFilter = value;
+                DgPlanView.Refresh();
+            }
+        }
 
+        /// <summary>
+        /// Implements logic to filter content
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnDgListFiltered(object sender, FilterEventArgs e)
+        {
+            // Checks section
+
+            if (string.IsNullOrEmpty(textToFilter)) return;
+
+            if (!(e.Item is DgWrapper dg) || dg.ContainerNumber is null)
+            {
+                e.Accepted = false;
+                return;
+            }
+
+            //Logic section
+
+            var searchText = textToFilter.ToLower().Replace(" ", "");
+
+            if (dg.ContainerNumber.ToLower().Contains(searchText)) return;
+            if (dg.Unno.ToString().Contains(searchText)) return;
+            if (dg.Location.Replace(" ", "").Contains(searchText)) return;
+
+            e.Accepted = false;
+        }
+        #endregion
+
+        #region Private methods
         //--------------- Private methods -------------------------------------------
 
         /// <summary>
@@ -108,7 +145,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             catch (Exception e)
             {
                 ColumnSettings ??= new ObservableCollection<DgTableColumnSettings>();
-                for (int i = 0; i < 43; i++)
+                for (int i = 0; i < 44; i++)
                 {
                     ColumnSettings.Add(new DgTableColumnSettings(i));
                 }
@@ -188,7 +225,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             OnPropertyChanged("SelectedDg");
 
             //Set new selection
-            foreach (DgWrapper dg in CargoPlan.DgList)
+            foreach (DgWrapper dg in DgPlanView)
             {
                 if (dg.ContainerNumber == obj.ContainerNumber
                     && dg.Unno == obj.Unno)
@@ -206,7 +243,17 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj">none</param>
         private void OnCargoDataUpdated(CargoDataUpdated obj)
         {
+            SetDataView();
             OnPropertyChanged($"CargoPlan");
+            OnPropertyChanged("DgPlanView");
+        }
+
+        /// <summary>
+        /// Sets data source to View property
+        /// </summary>
+        private void SetDataView()
+        {
+            dgPlanView.Source = CargoPlan.DgList;
         }
 
         /// <summary>
@@ -229,8 +276,9 @@ namespace EasyJob_ProDG.UI.ViewModel
                 xs.Serialize(s, ColumnSettings);
             }
         }
+        #endregion
 
-
+        #region Commands
         //--------------- Commands --------------------------------------------------
 
         public ICommand SelectionChangedCommand { get; private set; }
@@ -238,11 +286,14 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand ToExcel { get; private set; }
         public ICommand UnloadRow { get; private set; }
         public ICommand DeleteDg { get; private set; }
+        #endregion
 
+        #region Events
         //--------------- Events ----------------------------------------------------
 
         public delegate void SelectionChanged(object obj);
         public static event SelectionChanged OnSelectionChangedEventHandler = null;
+        #endregion
     }
 
 

@@ -46,6 +46,31 @@ namespace EasyJob_ProDG.UI.Data
             }
         }
 
+        /// <summary>
+        /// Renews all unit stowage conflicts in ConflictList
+        /// </summary>
+        /// <param name="unit"></param>
+        public void UpdateDgWrapperStowageConfilicts(DgWrapper unit)
+        {
+            ushort iterations = (ushort)this.Count;
+
+            //Clear unit associated stowage conflicts
+            for(ushort i=0, n=0; i < iterations; i++, n++)
+            {
+                var conflict = this[n];
+                if(conflict.IsStowageConflict && conflict.DgID == unit.Model.ID)
+                {
+                    conflict.UnregisterInMessenger();
+                    Remove(conflict);
+                    n--;
+                }
+            }
+
+            CreateStowageConflict(unit);
+            CreateSwConflicts(unit);
+        }
+
+
 
         // ---------------- Private methods -----------------------------------------
 
@@ -67,14 +92,21 @@ namespace EasyJob_ProDG.UI.Data
         private void CreateStowageConflictList(DgWrapperList dgList)
         {
             foreach (DgWrapper dg in dgList)
-                if (dg.IsConflicted && dg.Conflict.FailedStowage)
-                    foreach (string s in dg.Conflict.StowConflicts)
-                    {
-                        var newConflict = new ConflictPanelItemViewModel(dg, s);
-                        if (Contains(newConflict)) continue;
-                        if (!_isTempConflictsCreating) newConflict.RegisterInMessenger();
-                        Add(newConflict);
-                    }
+                CreateStowageConflict(dg);
+        }
+
+        /// <summary>
+        /// Adds stowage conflicts to ConflictList of a single dg
+        /// </summary>
+        /// <param name="dg"></param>
+        private void CreateStowageConflict(DgWrapper dg)
+        {
+            if (dg.IsConflicted && dg.Conflicts.FailedStowage)
+                foreach (string s in dg.Conflicts.StowageConflictsList)
+                {
+                    var newConflict = new ConflictPanelItemViewModel(dg, s);
+                    AddNewConflict(newConflict);
+                }
         }
 
         /// <summary>
@@ -91,8 +123,7 @@ namespace EasyJob_ProDG.UI.Data
                     GroupParam =
                         "SW19 For batteries transported in accordance with special provisions 376 or 377, category C, unless transported on a short international voyage. Please check cargo documents of the following units: "
                 };
-                if (!_isTempConflictsCreating) conf.RegisterInMessenger();
-                Add(conf);
+                AddNewConflict(conf); 
             }
             foreach (var unit in specialGroups.ListSW22List)
             {
@@ -100,10 +131,39 @@ namespace EasyJob_ProDG.UI.Data
                 ConflictPanelItemViewModel conf = new ConflictPanelItemViewModel(unitWrapper, "SW22")
                 {
                     GroupParam =
-                        "SW22 For WASTE AEROSOLS: category C, clear of living quarters. Please check cargo documents of the unit "
+                        "SW22 For WASTE AEROSOLS and WASTE GAS CARTRIDGES: category C, clear of living quarters. Please check cargo documents of the unit "
                 };
-                if (!_isTempConflictsCreating) conf.RegisterInMessenger();
-                Add(conf);
+                AddNewConflict(conf);
+            }
+        }
+
+        /// <summary>
+        /// Adds SW conflicts of a selected unit to Conflict list
+        /// </summary>
+        private void CreateSwConflicts(DgWrapper dg)
+        {
+            var specialGroups = Stowage.SWgroups;
+            foreach (var unit in specialGroups.ListSW19List)
+            {
+                if (unit.ID != dg.Model.ID) continue;
+                var unitWrapper = new DgWrapper(unit);
+                ConflictPanelItemViewModel conf = new ConflictPanelItemViewModel(unitWrapper, "SW19")
+                {
+                    GroupParam =
+                        "SW19 For batteries transported in accordance with special provisions 376 or 377, category C, unless transported on a short international voyage. Please check cargo documents of the following units: "
+                };
+                AddNewConflict(conf);
+            }
+            foreach (var unit in specialGroups.ListSW22List)
+            {
+                if (unit.ID != dg.Model.ID) continue;
+                var unitWrapper = new DgWrapper(unit);
+                ConflictPanelItemViewModel conf = new ConflictPanelItemViewModel(unitWrapper, "SW22")
+                {
+                    GroupParam =
+                        "SW22 For WASTE AEROSOLS and WASTE GAS CARTRIDGES: category C, clear of living quarters. Please check cargo documents of the unit "
+                };
+                AddNewConflict(conf);
             }
         }
 
@@ -114,15 +174,13 @@ namespace EasyJob_ProDG.UI.Data
         private void CreateSegregationConflictList(DgWrapperList dgList)
         {
             foreach (DgWrapper dg in dgList)
-                if (dg.IsConflicted && dg.Conflict.FailedSegregation)
+                if (dg.IsConflicted && dg.Conflicts.FailedSegregation)
                 {
-                    foreach (Conflict.SegregationConflict c in dg.Conflict.SegrConflicts)
+                    foreach (Conflicts.SegregationConflict c in dg.Conflicts.SegregationConflictsList)
                     {
                         var newConflict =
                             new ConflictPanelItemViewModel(dg, c.Code, true, new DgWrapper(c.DgInConflict));
-                        if (Contains(newConflict)) continue;
-                        if (!_isTempConflictsCreating) newConflict.RegisterInMessenger();
-                        Add(newConflict);
+                        AddNewConflict(newConflict);
                     }
                 }
         }
@@ -168,9 +226,7 @@ namespace EasyJob_ProDG.UI.Data
             //Add new conflicts
             foreach (var conf in tempConflicts)
             {
-                if (Contains(conf)) continue;
-                conf.RegisterInMessenger();
-                Add(conf);
+                AddNewConflict(conf);
             }
         }
 
@@ -185,6 +241,17 @@ namespace EasyJob_ProDG.UI.Data
             }
         }
 
+
+        /// <summary>
+        /// Method add a new ConflictPanelItem to ConflictList, if it does not already exist
+        /// </summary>
+        /// <param name="conf"></param>
+        private void AddNewConflict(ConflictPanelItemViewModel conf)
+        {
+            if (Contains(conf)) return;
+            if (!_isTempConflictsCreating) conf.RegisterInMessenger();
+            Add(conf);
+        }
 
         // ---------------- Private override methods ----------------------------------------
 

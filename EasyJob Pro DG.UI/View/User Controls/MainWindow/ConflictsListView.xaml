@@ -43,6 +43,10 @@
                  IsSynchronizedWithCurrentItem="True"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 VirtualizingPanel.IsContainerVirtualizable="True"
+                 VirtualizingPanel.IsVirtualizing="True"
+                 VirtualizingPanel.VirtualizationMode="Standard"
+                 VirtualizingPanel.ScrollUnit="Pixel"
                  HorizontalContentAlignment="Stretch"
                  Margin="0,0,2,0"
                  Padding="2"
@@ -91,6 +95,11 @@
                 </GroupStyle>
             </ListBox.GroupStyle>
 
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <DockPanel Height="NaN">

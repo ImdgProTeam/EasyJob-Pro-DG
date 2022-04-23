@@ -277,7 +277,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                             {
                                 dg = new Dg()
                                 {
-                                    Unno = int.Parse(segment.Remove(0, 2))
+                                    Unno = ushort.Parse(segment.Remove(0, 2))
                                 };
                                 dg.AssignSegregationGroup();
                                 count++;
@@ -512,7 +512,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                             {
                                 dg = new Dg()
                                 {
-                                    Unno = int.Parse(segment.Remove(0, 2))
+                                    Unno = ushort.Parse(segment.Remove(0, 2))
                                 };
                                 dg.AssignSegregationGroup();
                                 count++;
@@ -838,7 +838,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                             {
                                 dg = new Dg()
                                 {
-                                    Unno = int.Parse(segment.Remove(0, 2))
+                                    Unno = ushort.Parse(segment.Remove(0, 2))
                                 };
                                 dg.AssignSegregationGroup();
                                 count++;
@@ -1215,7 +1215,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                             {
                                 dg = new Dg()
                                 {
-                                    Unno = int.Parse(segment.Remove(0, 2))
+                                    Unno = ushort.Parse(segment.Remove(0, 2))
                                 };
                                 dg.AssignSegregationGroup();
                                 count++;

@@ -107,11 +107,12 @@ namespace EasyJob_ProDG.Model.IO
                     case "GID":
                         dgUnit = new Dg();
 
-                        int indexOf2ndPlus = segment.IndexOf('+', 4);
-                        int lengthOfNumberOfPackages = segment.IndexOf(':', 0) - indexOf2ndPlus - 1;
-                        int lengthOfKindOfPackages = segment.IndexOf(':', segment.IndexOf(':') + 1) - segment.IndexOf(':', 0) - 1;
+                        byte indexOf2ndPlus = (byte)segment.IndexOf('+', 4);
+                        byte lengthOfNumberOfPackages = (byte)(segment.IndexOf(':', 0) - indexOf2ndPlus - 1);
+                        byte lengthOfKindOfPackages = (byte)(segment.IndexOf(':', segment.IndexOf(':') + 1) - segment.IndexOf(':', 0) - 1);
 
-                        dgUnit.numberOfPackages = lengthOfKindOfPackages < 1 ? 0 : int.Parse(segment.Substring(indexOf2ndPlus + 1, lengthOfNumberOfPackages));
+                        dgUnit.numberOfPackages = lengthOfKindOfPackages < 1 ? (ushort)0 
+                            : ushort.Parse(segment.Substring(indexOf2ndPlus + 1, lengthOfNumberOfPackages));
                         dgUnit.typeOfPackages = lengthOfKindOfPackages < 1 ? "" : segment.Substring(segment.IndexOf(':', 0) + 1, lengthOfKindOfPackages);
                         dgUnit.typeOfPackagesDescription = segment.LastIndexOf(':') < 1 ? "" : segment.Substring(segment.LastIndexOf(':') + 1);
 

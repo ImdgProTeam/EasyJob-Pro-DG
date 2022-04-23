@@ -9,12 +9,12 @@ using EasyJob_ProDG.UI.Wrapper;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
-    public class DataGridContainersViewModel : Observable
+    public class DataGridReefersViewModel : Observable
     {
         //--------------- Private fields --------------------------------------------
         SettingsService uiSettings;
         IMessageDialogService _messageDialogService;
-        private readonly CollectionViewSource containerPlanView = new CollectionViewSource();
+        private readonly CollectionViewSource reeferPlanView = new CollectionViewSource();
 
         //--------------- Public properties -----------------------------------------
         public CargoPlanWrapper CargoPlan
@@ -22,25 +22,22 @@ namespace EasyJob_ProDG.UI.ViewModel
             get { return ViewModelLocator.MainWindowViewModel.WorkingCargoPlan; }
             set
             {
-                //ViewModelLocator.MainWindowViewModel.WorkingCargoPlan = value;
-                //OnPropertyChanged();
             }
         }
-
         /// <summary>
-        /// Used for ContainerDataGrid binding 
+        /// Used for ReeferDataGrid binding 
         /// </summary>
-        public ICollectionView ContainerPlanView => containerPlanView?.View;
-        public ContainerWrapper SelectedContainer { get; set; }
-        public List<ContainerWrapper> SelectedContainerArray { get; set; }
-        public UserUISettings.DgSortOrderPattern ContainerSortOrderDirection { get; set; }
+        public ICollectionView ReeferPlanView => reeferPlanView?.View;
+        public ContainerWrapper SelectedReefer { get; set; }
+        public List<ContainerWrapper> SelectedReeferArray { get; set; }
+        public UserUISettings.DgSortOrderPattern ReeferSortOrderDirection { get; set; }
 
 
         // ---------- Constructor ---------------
-        public DataGridContainersViewModel()
+        public DataGridReefersViewModel()
         {
             SetDataView();
-            containerPlanView.Filter += OnContainerListFiltered;
+            reeferPlanView.Filter += OnReeferListFiltered;
         }
 
         #region Filter Logic
@@ -54,7 +51,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 if (textToFilter == value) return;
                 textToFilter = value;
-                ContainerPlanView.Refresh();
+                ReeferPlanView.Refresh();
             }
         }
 
@@ -63,7 +60,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnContainerListFiltered(object sender, FilterEventArgs e)
+        private void OnReeferListFiltered(object sender, FilterEventArgs e)
         {
             // Checks section
 
@@ -80,7 +77,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             var searchText = textToFilter.ToLower().Replace(" ", "");
 
             if (c.ContainerNumber.ToLower().Contains(searchText)) return;
-            if (c.Location.Replace(" ","").Contains(searchText)) return;
+            if (c.Location.Replace(" ", "").Contains(searchText)) return;
 
             e.Accepted = false;
         }
@@ -91,7 +88,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         private void SetDataView()
         {
-            containerPlanView.Source = CargoPlan.Containers;
+            reeferPlanView.Source = CargoPlan.Reefers;
         }
     }
 }

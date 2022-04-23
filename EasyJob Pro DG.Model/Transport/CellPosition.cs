@@ -42,7 +42,7 @@ namespace EasyJob_ProDG.Model.Transport
 
 
         //------------- Properties -------------------------
-        public byte this[int index]
+        public byte this[byte index]
         {
             get { return Position[index]; }
             set

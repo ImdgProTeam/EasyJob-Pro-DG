@@ -15,6 +15,22 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\Users\Master\Documents\IMDG Working\ProDG\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -44,6 +60,18 @@
   <PropertyGroup>
     <ApplicationIcon>imdg1.good.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>995773992F1359DC75985927692F79A4CD3BC0E7</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>EasyJob ProDG.UI_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Interop.Microsoft.Office.Interop.Excel">
       <HintPath>..\EasyJob Pro DG.Model\obj\Debug\Interop.Microsoft.Office.Interop.Excel.dll</HintPath>
@@ -53,7 +81,7 @@
     <Reference Include="Microsoft.Expression.Prototyping.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Windows.Design.Interaction, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="sysglobl" />
@@ -134,9 +162,6 @@
     <Compile Include="Utility\ViewModelLocator.cs" />
     <Compile Include="ViewModel\ConflictPanelItemVM.cs" />
     <Compile Include="Data\ConflictsList.cs" />
-    <Compile Include="Classes %28TO GET RID OFF%29\ExportToTXT.cs" />
-    <Compile Include="Classes %28TO GET RID OFF%29\Output.cs" />
-    <Compile Include="Classes %28TO GET RID OFF%29\Style.cs" />
     <Compile Include="ViewModel\ConflictsListViewModel.cs" />
     <Compile Include="ViewModel\DataGridContainersViewModel.cs" />
     <Compile Include="ViewModel\DataGridDgViewModel.cs" />
@@ -144,7 +169,7 @@
       <DependentUpon>for experiments.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\DgWrapperList.cs" />
-    <Compile Include="ViewModel\DataGridReefesViewModel.cs" />
+    <Compile Include="ViewModel\DataGridReefersViewModel.cs" />
     <Compile Include="ViewModel\IConflictListViewModel.cs" />
     <Compile Include="Data\VentilationRequirements.cs" />
     <Compile Include="Utility\Observable.cs" />
@@ -187,34 +212,34 @@
       <DependentUpon>ShipProfileWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogWindows\WinLoginViewModel.cs" />
-    <Compile Include="View\User Controls\DataGridContainers.xaml.cs">
+    <Compile Include="View\User Controls\MainWindow\DataGridContainers.xaml.cs">
       <DependentUpon>DataGridContainers.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User Controls\DataGridReefers.xaml.cs">
+    <Compile Include="View\User Controls\MainWindow\DataGridReefers.xaml.cs">
       <DependentUpon>DataGridReefers.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User Controls\InfoBlock.xaml.cs">
+    <Compile Include="View\User Controls\MainWindow\InfoBlock.xaml.cs">
       <DependentUpon>InfoBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User Controls\SettingsExcel.xaml.cs">
+    <Compile Include="View\User Controls\SettingsWindow\SettingsExcel.xaml.cs">
       <DependentUpon>SettingsExcel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User Controls\TabDimensions.xaml.cs">
+    <Compile Include="View\User Controls\ShipProfileWindow\TabDimensions.xaml.cs">
       <DependentUpon>TabDimensions.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User Controls\TabDOC.xaml.cs">
+    <Compile Include="View\User Controls\ShipProfileWindow\TabDOC.xaml.cs">
       <DependentUpon>TabDOC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User Controls\TabHeatedStructures.xaml.cs">
+    <Compile Include="View\User Controls\ShipProfileWindow\TabHeatedStructures.xaml.cs">
       <DependentUpon>TabHeatedStructures.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User Controls\TabLivingQuarters.xaml.cs">
+    <Compile Include="View\User Controls\ShipProfileWindow\TabLivingQuarters.xaml.cs">
       <DependentUpon>TabLivingQuarters.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User Controls\TabLSA.xaml.cs">
+    <Compile Include="View\User Controls\ShipProfileWindow\TabLSA.xaml.cs">
       <DependentUpon>TabLSA.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User Controls\TabMain.xaml.cs">
+    <Compile Include="View\User Controls\ShipProfileWindow\TabMain.xaml.cs">
       <DependentUpon>TabMain.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogWindows\winAbout.xaml.cs">
@@ -227,19 +252,19 @@
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="Services\DialogServices\IMessageDialogService.cs" />
     <Compile Include="Services\DialogServices\MessageDialogService.cs" />
-    <Compile Include="View\User Controls\DataGridDg.xaml.cs">
+    <Compile Include="View\User Controls\MainWindow\DataGridDg.xaml.cs">
       <DependentUpon>DataGridDg.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User Controls\ConflictsListView.xaml.cs">
+    <Compile Include="View\User Controls\MainWindow\ConflictsListView.xaml.cs">
       <DependentUpon>ConflictsListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User Controls\MainMenu.xaml.cs">
+    <Compile Include="View\User Controls\MainWindow\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User Controls\MVStatusBar.xaml.cs">
+    <Compile Include="View\User Controls\MainWindow\MVStatusBar.xaml.cs">
       <DependentUpon>MVStatusBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\User Controls\TabHolds.xaml.cs">
+    <Compile Include="View\User Controls\ShipProfileWindow\TabHolds.xaml.cs">
       <DependentUpon>TabHolds.xaml</DependentUpon>
     </Compile>
     <Compile Include="Wrapper\CargoPlanUnitPropertyChanger.cs" />
@@ -333,43 +358,43 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User Controls\DataGridContainers.xaml">
+    <Page Include="View\User Controls\MainWindow\DataGridContainers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User Controls\DataGridReefers.xaml">
+    <Page Include="View\User Controls\MainWindow\DataGridReefers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User Controls\InfoBlock.xaml">
+    <Page Include="View\User Controls\MainWindow\InfoBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User Controls\SettingsExcel.xaml">
+    <Page Include="View\User Controls\SettingsWindow\SettingsExcel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User Controls\TabDimensions.xaml">
+    <Page Include="View\User Controls\ShipProfileWindow\TabDimensions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User Controls\TabDOC.xaml">
+    <Page Include="View\User Controls\ShipProfileWindow\TabDOC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User Controls\TabHeatedStructures.xaml">
+    <Page Include="View\User Controls\ShipProfileWindow\TabHeatedStructures.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User Controls\TabLivingQuarters.xaml">
+    <Page Include="View\User Controls\ShipProfileWindow\TabLivingQuarters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User Controls\TabLSA.xaml">
+    <Page Include="View\User Controls\ShipProfileWindow\TabLSA.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User Controls\TabMain.xaml">
+    <Page Include="View\User Controls\ShipProfileWindow\TabMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -381,23 +406,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User Controls\DataGridDg.xaml">
+    <Page Include="View\User Controls\MainWindow\DataGridDg.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User Controls\ConflictsListView.xaml">
+    <Page Include="View\User Controls\MainWindow\ConflictsListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User Controls\MainMenu.xaml">
+    <Page Include="View\User Controls\MainWindow\MainMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User Controls\MVStatusBar.xaml">
+    <Page Include="View\User Controls\MainWindow\MVStatusBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User Controls\TabHolds.xaml">
+    <Page Include="View\User Controls\ShipProfileWindow\TabHolds.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -420,6 +445,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="EasyJob ProDG.UI_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\EasyJob_Pro_DG.UI.ViewModel.ConflictListViewModel.datasource" />
     <None Include="Properties\DataSources\EasyJob_Pro_DG.UI.ViewModel.ConflictPanelItemViewModel.datasource" />
@@ -459,9 +485,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="imdg1.good.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -483,6 +506,18 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.8 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

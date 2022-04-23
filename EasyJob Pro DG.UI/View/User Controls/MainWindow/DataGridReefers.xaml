@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
              xmlns:behaviors="clr-namespace:EasyJob_ProDG.UI.Behaviors"
-             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
+             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters" xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -15,17 +15,24 @@
         <converters:VisibilityToInverseBooleanConverter x:Key="VisibilityToInverseBooleanConverter" />
     </UserControl.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-        </Grid.RowDefinitions>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+            <cc:SearchBox Text="{Binding TextToFilter}"/>
+
+        </StackPanel>
 
         <DataGrid x:Name="MainContainerDataTable"
-                  ItemsSource="{Binding CargoPlan.Reefers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding ReeferPlanView}"
                   SelectedItem="{Binding SelectedReefer, Mode=TwoWay}"
                   IsSynchronizedWithCurrentItem="True"
                   FrozenColumnCount="0"
                   AutoGenerateColumns="False"
+                  ScrollViewer.CanContentScroll="True"
+                  EnableRowVirtualization="True"
+                  VirtualizingPanel.IsContainerVirtualizable="True"
+                  VirtualizingPanel.IsVirtualizing="True"
+                  VirtualizingPanel.VirtualizationMode="Standard"
+                  VirtualizingPanel.ScrollUnit="Pixel"
                   CanUserAddRows="True"
                   HeadersVisibility="All"
                   AlternationCount="2"
@@ -75,6 +82,11 @@
 
             </DataGrid.Resources>
 
+            <DataGrid.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel/>
+                </ItemsPanelTemplate>
+            </DataGrid.ItemsPanel>
 
             <!-- Columns -->
             <DataGrid.Columns>
@@ -383,5 +395,5 @@
 
             </DataGrid.Columns>
         </DataGrid>
-    </Grid>
+    </DockPanel>
 </UserControl>

@@ -9,7 +9,6 @@ using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Settings;
 using EasyJob_ProDG.UI.Utility;
-using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.View.UI;
 using EasyJob_ProDG.UI.Wrapper;
@@ -23,8 +22,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 {
     public class MainWindowViewModel : Observable
     {
-        // -------------- Private fields --------------------------------------------
-
+        #region Private fields
         LoadDataService loadDataService;
         WindowDialogService windowDialogService;
         CargoDataService cargoDataService;
@@ -32,11 +30,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         SettingsService uiSettingsService;
         IDialogWindowService dialogWindowService;
         IMessageDialogService _messageDialogService;
-        ITitleService _titleService;
+        ITitleService _titleService; 
+        #endregion
 
 
-        // -------------- Public properties to be used in view ----------------------
-
+        #region Public properties to be used in View
         public string WindowTitle { get; private set; }
         public ConflictsList Conflicts { get; set; }
         public VentilationRequirements Vents { get; set; }
@@ -44,11 +42,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         public Voyage VoyageInfo => WorkingCargoPlan.VoyageInfo ?? null;
         public UserUISettings UISettings { get; set; }
         public DgWrapper SelectedDg { get; set; }
-        public StatusBarViewModel StatusBarControl { get; set; }
+        public StatusBarViewModel StatusBarControl { get; set; } 
+        #endregion
 
 
-        // -------------- Constructor -----------------------------------------------
-
+        #region Constructor
         public MainWindowViewModel()
         {
             //starting status bar         
@@ -68,11 +66,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void RaiseCanExecuteChanged()
         {
 
-        }
+        } 
+        #endregion
 
 
-        // ---------------- Methods -------------------------------------------------
-
+        #region Methods
         private void LoadServices()
         {
             loadDataService = new LoadDataService();
@@ -98,21 +96,21 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         private void LoadCommands()
         {
-            AddNewDg = new DelegateCommand(OnAddNewDg, CanAddNewDg);
+            AddNewDgCommand = new DelegateCommand(OnAddNewDg, CanAddNewDg);
             ReCheckCommand = new DelegateCommand(OnReCheckRequested);
-            OpenShipProfileWindow = new DelegateCommand(OpenShipProfileWindowExecuted);
-            OpenUserSettingsWindow = new DelegateCommand(OpenUserSettingsWindowExecuted);
-            ShowAbout = new DelegateCommand(ShowAboutExecuted);
-            ShowLicenseDialog = new DelegateCommand(ShowLicenseDialogExecuted);
+            OpenShipProfileWindowCommand = new DelegateCommand(OpenShipProfileWindowExecuted);
+            OpenUserSettingsWindowCommand = new DelegateCommand(OpenUserSettingsWindowExecuted);
+            ShowAboutCommand = new DelegateCommand(ShowAboutExecuted);
+            ShowLicenseDialogCommand = new DelegateCommand(ShowLicenseDialogExecuted);
             OpenFileCommand = new DelegateCommand(OpenOnExecuted);
             SaveFileCommand = new DelegateCommand(SaveOnExecuted);
             UpdateConditionCommand = new DelegateCommand(UpdateConditionOnExecuted, CanExecuteForOptionalOpen);
             ImportDataCommand = new DelegateCommand(ImportInfoOnExecuted, CanExecuteForOptionalOpen);
             ImportDataOnlyPolCommand = new DelegateCommand(ImportInfoOnlyPolOnExecuted, CanExecuteForOptionalOpen);
             ImportDataOnlySelectedCommand = new DelegateCommand(ImportInfoOnlySelectedOnExecuted, CanExecuteForOptionalOpen);
-            ExportToExcelCommand = new DelegateCommand(ExportToExcel);
+            ExportToExcelCommand = new DelegateCommand(ExportToExcelOnExecuted);
             SelectionChangedCommand = new DelegateCommand(OnApplicationClosing);
-            ApplicationClosing = new DelegateCommand(OnApplicationClosing);
+            ApplicationClosingCommand = new DelegateCommand(OnApplicationClosing);
 
             //Dummy command added for testing purpose
             DummyCommand = new DelegateCommand(DummyMethod);
@@ -181,6 +179,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             if (CanExecuteForOptionalOpen(null))
             {
+                StatusBarControl.StartProgressBar(10, "Opening...");
                 var viewModel = new DialogWindowOptionsViewModel($"Choose how you wish to open the file {file}",
                     "Open as new condition", "Update condition", "Import Dg data");
                 bool? dialogResult = dialogWindowService.ShowDialog(viewModel);
@@ -189,10 +188,12 @@ namespace EasyJob_ProDG.UI.ViewModel
                     StatusBarControl.Cancel();
                     return;
                 }
-                StatusBarControl.ChangeBarSet(15);
 
                 if (dialogResult.Value)
+                {
+                    //StatusBarControl.ChangeBarSet(15);
                     OpenNewFile(file, (OpenFile.OpenOption)viewModel.ResultOption);
+                }
             }
             else
             {
@@ -227,8 +228,19 @@ namespace EasyJob_ProDG.UI.ViewModel
             OnPropertyChanged("VoyageInfo");
         }
 
-        // --------- Window dialog service ------------------------------------------
+        /// <summary>
+        /// Raised when ShipProfile saved to update data
+        /// </summary>
+        /// <param name="obj"></param>
+        private void OnShipProfileSaved(ShipProfileWrapperMessage obj)
+        {
+            GetCargoData();
+        }
 
+        #endregion
+
+
+        #region Window dialog service
         /// <summary>
         /// Sets up dialog service and registers viewModels for it.
         /// </summary>
@@ -255,70 +267,26 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             dialogWindowService = new DialogWindowService(owner);
 
-        }
+        } 
+        #endregion
 
-        // --------- Messenger commands ---------------------------------------------
+
+        #region Messenger commands
 
         private void SubscribeToMessenger()
         {
             DataMessenger.Default.Register<ShipProfileWrapperMessage>(this, OnShipProfileSaved, "ship profile saved");
-        }
+        } 
+        #endregion
 
 
-
-
-
-
-
-
-
-        ///// <summary>
-        ///// Changes location to all items with matching number in all lists 
-        ///// </summary>
-        ///// <param name="containerNumber"></param>
-        ///// <param name="value">New location</param>
-        //private void SetNewContainerLocation(string containerNumber, string value)
-        //{
-        //    foreach (var dg in WorkingCargoPlan.DgList)
-        //    {
-        //        if (dg.ContainerNumber == containerNumber)
-        //            if (dg.Location != value)
-        //                dg.Location = value;
-        //    }
-
-        //    foreach (var container in WorkingCargoPlan.Containers)
-        //    {
-        //        if (container.ContainerNumber == containerNumber)
-        //            if (container.Location != value)
-        //                container.Location = value;
-        //    }
-
-        //    foreach (var reefer in WorkingCargoPlan.Reefers)
-        //    {
-        //        if (reefer.ContainerNumber == containerNumber)
-        //            if (reefer.Location != value)
-        //                reefer.Location = value;
-        //    }
-        //}
-
-
-
-        /// <summary>
-        /// Raised when ShipProfile saved to update data
-        /// </summary>
-        /// <param name="obj"></param>
-        private void OnShipProfileSaved(ShipProfileWrapperMessage obj)
-        {
-            GetCargoData();
-        }
-
-        //---------- Command methods ------------------------------------------------
+        #region Command methods
 
         /// <summary>
         /// Calls export to excel method
         /// </summary>
         /// <param name="obj"></param>
-        private void ExportToExcel(object obj)
+        private void ExportToExcelOnExecuted(object obj)
         {
             loadDataService.ExportToExcel(WorkingCargoPlan);
         }
@@ -329,10 +297,10 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj">Owner window</param>
         private void OpenOnExecuted(object obj)
         {
-            StatusBarControl.StartProgressBar(10, "Opening...");
+            //StatusBarControl.StartProgressBar(0, "Opening...");
             if (!DialogOpenFile.OpenFileWithDialog(obj, out var file))
             {
-                StatusBarControl.Cancel();
+                //StatusBarControl.Cancel();
                 return;
             }
             OpenFileWithOptionsChoice(file);
@@ -344,7 +312,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void ImportInfoOnExecuted(object obj)
         {
-            ImportFileInfo(obj);
+            ImportFileInfoOnExecuted(obj);
         }
 
         /// <summary>
@@ -353,7 +321,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void ImportInfoOnlyPolOnExecuted(object obj)
         {
-            ImportFileInfo(obj, false, VoyageInfo.PortOfDeparture);
+            ImportFileInfoOnExecuted(obj, false, VoyageInfo.PortOfDeparture);
         }
 
         /// <summary>
@@ -362,7 +330,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void ImportInfoOnlySelectedOnExecuted(object obj)
         {
-            ImportFileInfo(obj, true);
+            ImportFileInfoOnExecuted(obj, true);
         }
 
         /// <summary>
@@ -371,7 +339,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="owner">Owner window for dialog window.</param>
         /// <param name="importOnlySelected">True: only selected for import items will be imported.</param>
         /// <param name="currentPort">If set, only selected items will be imported</param>
-        private void ImportFileInfo(object owner, bool importOnlySelected = false, string currentPort = null)
+        private void ImportFileInfoOnExecuted(object owner, bool importOnlySelected = false, string currentPort = null)
         {
             if (!DialogOpenFile.OpenFileWithDialog(owner, out var file)) return;
             OpenNewFile(file, OpenFile.OpenOption.Import, importOnlySelected, currentPort);
@@ -449,10 +417,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
             //conflictDataService.ReCheckConflicts();
-        }
+        } 
+        #endregion
 
-        //--------- Event methods ---------------------------------------------------
 
+        #region Event methods
         private void OnApplicationClosing(object parameter)
         {
             SaveWorkingCondition();
@@ -468,10 +437,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             bool canExecute = WorkingCargoPlan != null && !WorkingCargoPlan.IsEmpty;
             return canExecute;
-        }
+        } 
+        #endregion
 
-        //--------- Methods without use and references ------------------------------
 
+        #region Methods without use and references
         /// <summary>
         /// Clears all class properties
         /// </summary>
@@ -481,10 +451,10 @@ namespace EasyJob_ProDG.UI.ViewModel
             Conflicts.Clear();
             Stowage.SWgroups.Clear();
         }
+        #endregion
 
 
-        // ---------- Toolbox windows calling methods
-
+        #region Methods calling toolbox windows
         private void OpenShipProfileWindowExecuted(object parameters)
         {
             windowDialogService.ShowDialog(new ShipProfileWindow());
@@ -514,16 +484,16 @@ namespace EasyJob_ProDG.UI.ViewModel
 
 
         }
+        #endregion
 
 
-        // ---------------- Commands ------------------------------------------------
-
-        public ICommand AddNewDg { get; set; }
+        #region Commands
+        public ICommand AddNewDgCommand { get; set; }
         public ICommand ReCheckCommand { get; set; }
-        public ICommand OpenShipProfileWindow { get; private set; }
-        public ICommand OpenUserSettingsWindow { get; private set; }
-        public ICommand ShowAbout { get; private set; }
-        public ICommand ShowLicenseDialog { get; private set; }
+        public ICommand OpenShipProfileWindowCommand { get; private set; }
+        public ICommand OpenUserSettingsWindowCommand { get; private set; }
+        public ICommand ShowAboutCommand { get; private set; }
+        public ICommand ShowLicenseDialogCommand { get; private set; }
         public ICommand OpenFileCommand { get; set; }
         public ICommand SaveFileCommand { get; set; }
         public ICommand UpdateConditionCommand { get; set; }
@@ -532,16 +502,15 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand ImportDataOnlySelectedCommand { get; set; }
         public ICommand ExportToExcelCommand { get; set; }
         public ICommand SelectionChangedCommand { get; set; }
-        public ICommand ApplicationClosing { get; set; }
+        public ICommand ApplicationClosingCommand { get; set; }
 
         //Dummy command added for testing purpose only.
         //Remember to delete dummy button when removing the command.
-        public ICommand DummyCommand { get; set; }
+        public ICommand DummyCommand { get; set; } 
 
 
         // ----------- Registered commands ------------------------------------------
-
-        public DelegateCommand CloseApplication
+        public DelegateCommand CloseApplicationCommand
         {
             get
             {
@@ -553,6 +522,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         // -------------- 
-
+        #endregion
     }
 }

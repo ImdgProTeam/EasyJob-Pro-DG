@@ -250,7 +250,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         else if (col == template.ColumnClass)
                         {
                             unit.DgClass = WithXlAssistToRead.DgClass(excelcells, unit, excelapp);
-                            if (!string.IsNullOrEmpty(unit.DgClass)) unit.AssignRowNumber();
+                            if (!string.IsNullOrEmpty(unit.DgClass)) unit.AssignSegregationTableRowNumber();
                         }
                         else if (col == template.ColumnSubclass)
                         {
@@ -363,7 +363,6 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 {
                     //TODO: Generate list of excel worksheets in a book for opening
                     return workbook.Sheets[1];
-                    Output.ThrowMessage("Not implemented");
                     //int i = 1;
                     //foreach (Excel.Worksheet sheet in workbook.Worksheets)
                     //{

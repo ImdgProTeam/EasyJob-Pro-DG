@@ -1,6 +1,6 @@
 ﻿using EasyJob_ProDG.Model.Cargo;
 
-namespace EasyJob_ProDG.UI.Utility.Messages
+namespace EasyJob_ProDG.UI.Messages
 {
     /// <summary>
     /// Message class to send information necessary to update same properties of all units in the plan.

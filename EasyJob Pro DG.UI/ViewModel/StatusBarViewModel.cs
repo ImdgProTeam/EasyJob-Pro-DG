@@ -7,13 +7,16 @@ namespace EasyJob_ProDG.UI.ViewModel
 {
     public class StatusBarViewModel : Observable
     {
-        //private StatusBarWorker _worker;
         private BackgroundWorker _worker;
 
         private int _Max = 100;
-        private int _startValue;
         private int _setValue;
         private bool IsInProgress;
+
+        /// <summary>
+        /// Delay in ms used for increment
+        /// </summary>
+        private const int delay = 25;
 
         private int _progressPercentage;
         public int ProgressPercentage
@@ -90,14 +93,13 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 if (ProgressPercentage < _setValue)
                     ProgressPercentage++;
-                Thread.Sleep(50);
+                Thread.Sleep(delay);
             }
         }
 
         private void Reset()
         {
             ProgressPercentage = 0;
-            _startValue = 0;
         }
 
         internal void StartProgressBar(int barSet)

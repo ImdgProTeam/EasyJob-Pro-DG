@@ -2,7 +2,7 @@
 
 namespace EasyJob_ProDG.UI.Services.DataServices
 {
-    class ConflictDataService : IConflictDataService
+    internal class ConflictDataService : IConflictDataService
     {
         ICurrentProgramData currentProgramData = new CurrentProgramData();
 
@@ -23,7 +23,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
 
         public void ReCheckConflicts()
         {
-            currentProgramData.ReCheckDgList();
+            currentProgramData.ReCheckDgWrapperList();
         }
     }
 }

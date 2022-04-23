@@ -2,7 +2,6 @@
 using Microsoft.Win32;
 using System;
 using System.Windows;
-using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DialogServices;
 
 namespace EasyJob_ProDG.UI.Data

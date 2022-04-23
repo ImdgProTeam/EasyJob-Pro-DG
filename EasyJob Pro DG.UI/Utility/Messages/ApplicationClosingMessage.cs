@@ -1,4 +1,4 @@
-﻿namespace EasyJob_ProDG.UI.Utility.Messages
+﻿namespace EasyJob_ProDG.UI.Messages
 {
     /// <summary>
     /// Message class used to notify members of closing the application.
