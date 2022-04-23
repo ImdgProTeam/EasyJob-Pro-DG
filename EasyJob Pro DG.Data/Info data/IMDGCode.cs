@@ -329,7 +329,11 @@ namespace EasyJob_ProDG.Data.Info_data
         /// Fish meal UNNOs in accordance with 7.4.1.3
         /// </summary>
         public static ushort[] Fishmeal = { 1374, 2216, 3497 };
-        public static ushort[] Ammonium = { 1942, 2067, 2071 };
+
+        /// <summary>
+        /// Ammonium Nitrate substances listed in 7.4.1.4
+        /// </summary>
+        public static ushort[] AmmoniumNitrate = { 1942, 2067, 2071 };
         #endregion
     }
 }

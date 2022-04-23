@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using EasyJob_ProDG.Data.Info_data;
 
 namespace EasyJob_ProDG.Model.Cargo

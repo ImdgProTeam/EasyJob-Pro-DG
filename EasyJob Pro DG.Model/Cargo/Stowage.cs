@@ -223,7 +223,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 unit.AddConflict(unit.IsUnderdeck, stow, "SSC3a");
                 unit.AddConflict(CheckNotProtectedFromSourceOfHeat(unit, containers, ship), stow, "SSC3b");
             }
-            if (IMDGCode.Ammonium.Contains(unit.Unno))
+            if (IMDGCode.AmmoniumNitrate.Contains(unit.Unno))
             {
                 unit.AddConflict(stow, "SSC4");
             }
