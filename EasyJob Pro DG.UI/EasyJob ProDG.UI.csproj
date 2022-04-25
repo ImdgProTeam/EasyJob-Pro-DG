@@ -185,6 +185,8 @@
     <Compile Include="View\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="View\Converters\boolToNegativeConverter.cs" />
     <Compile Include="View\Converters\CellToTextConverter.cs" />
+    <Compile Include="View\Converters\CompositeConverter.cs" />
+    <Compile Include="View\Converters\ConverterBase.cs" />
     <Compile Include="View\Converters\ExcelColumnNumberConverter.cs" />
     <Compile Include="View\Converters\HoldsToVisibilityConverter.cs" />
     <Compile Include="View\Converters\VisibilityToInverseBooleanConverter.cs" />
