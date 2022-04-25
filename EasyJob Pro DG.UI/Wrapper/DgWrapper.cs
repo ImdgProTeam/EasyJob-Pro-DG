@@ -444,7 +444,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             set
             {
                 SetValue(value);
-                UpdateConflictList();
+                UpdateDgStowageConflicts();
             }
         }
 
@@ -550,7 +550,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             set
             {
                 SetValue(value);
-                UpdateConflictList();
+                UpdateDgStowageConflicts();
             }
         }
         #endregion
