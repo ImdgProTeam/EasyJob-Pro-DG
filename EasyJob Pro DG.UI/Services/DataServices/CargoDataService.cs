@@ -9,7 +9,6 @@ namespace EasyJob_ProDG.UI.Services.DataServices
 
         public CargoDataService()
         {
-            //this.currentProgramData = currentProgramData;
         }
 
         public CargoPlanWrapper GetCargoPlan()

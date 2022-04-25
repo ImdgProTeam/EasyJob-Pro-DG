@@ -16,13 +16,15 @@ namespace EasyJob_ProDG.UI.Wrapper
 {
     public class DgWrapper : ModelWrapper<Dg>, ILocationOnBoard, IContainer, IUpdatable
     {
-        static readonly DgDataBaseDataService dgDataBaseDataService = new DgDataBaseDataService();
+        #region Private fields
+        private static readonly DgDataBaseDataService dgDataBaseDataService = new DgDataBaseDataService();
         private static IMessageDialogService _messageDialogService = new MessageDialogService();
         private readonly XDocument _dgDataBase = dgDataBaseDataService.GetDgDataBase();
 
 
         //Private fields
-        private SortableLocation _locationSortable;
+        private SortableLocation _locationSortable; 
+        #endregion
 
 
         // --------------- Public properties ----------------------------
@@ -30,9 +32,9 @@ namespace EasyJob_ProDG.UI.Wrapper
         public bool IsInList { get; set; }
 
 
+        #region LocationOnBoard properties
         //--------------- Properties related to container location ------------------
 
-        #region LocationOnBoard properties
         public bool IsUnderdeck
         {
             get { return GetValue<bool>(); }
@@ -68,7 +70,6 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
             }
         }
-        #endregion
 
         /// <summary>
         /// Container position on board (slot address)
@@ -96,8 +97,10 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// Property used to sort DgWrappers in chosen order
         /// </summary>
         public SortableLocation LocationSortable => _locationSortable ??= new SortableLocation(this);
+        #endregion
 
 
+        #region IUpdatable
         //--------------- Properties related to IUpdatable -------------------------- 
 
         public bool IsPositionLockedForChange
@@ -171,9 +174,11 @@ namespace EasyJob_ProDG.UI.Wrapper
         public string LocationBeforeRestow
         {
             get => GetValue<string>(); set { }
-        }
+        } 
+        #endregion
 
 
+        #region IContainer
         //--------------- Properties related to IContainer --------------------------- 
 
         /// <summary>
@@ -318,7 +323,11 @@ namespace EasyJob_ProDG.UI.Wrapper
             }
         }
 
+        public bool ContainerTypeRecognized { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        #endregion
 
+
+        #region Dg properties with complex functionality
         //--------------- Properties related to Dangerous Cargo ---------------------
 
         /// <summary>
@@ -406,15 +415,6 @@ namespace EasyJob_ProDG.UI.Wrapper
                     OnUpdatePackingGroup();
                     UpdateConflictList();
                 }
-            }
-        }
-
-        public string FlashPoint
-        {
-            get { return GetValue<string>(); }
-            set
-            {
-                SetValue(value);
             }
         }
 
@@ -523,7 +523,7 @@ namespace EasyJob_ProDG.UI.Wrapper
 
                 if (oldName.Contains("waste") && !newName.Contains("waste"))
                     IsWaste = false;
-                else if(newName.Contains("waste")) IsWaste = true;
+                else if (newName.Contains("waste")) IsWaste = true;
                 else if (oldName.Contains("max1l") && !newName.Contains("max1l"))
                     IsMax1L = false;
                 else if (newName.Contains("max1l")) IsMax1L = true;
@@ -534,10 +534,69 @@ namespace EasyJob_ProDG.UI.Wrapper
             }
         }
 
-        /// <summary>
-        /// Technical name
-        /// </summary>
-        public string TechnicalName
+        public bool IsSelfReactive
+        {
+            get { return GetValue<bool>(); }
+            set
+            {
+                SetValue(value);
+                OnPropertyChanged();
+            }
+        }
+
+        public char StowageCat
+        {
+            get { return GetValue<char>(); }
+            set
+            {
+                SetValue(value);
+                UpdateConflictList();
+            }
+        }
+        #endregion
+
+
+        #region Dg properties without additional functionality
+        // --------- Dg properties without additional functionality -------
+
+        public Conflicts Conflicts
+        {
+            get { return GetValue<Conflicts>(); }
+            set { SetValue(value); }
+        }
+        public string DgEMS
+        {
+            get
+            {
+                return GetValue<string>();
+            }
+            set
+            {
+                SetValue(value);
+            }
+        }
+        public string EmergencyContacts
+        {
+            get => GetValue<string>();
+            set => SetValue(value);
+        }
+        public bool EmitFlammableVapours
+        {
+            get { return GetValue<bool>(); }
+            set
+            {
+                SetValue(value);
+            }
+        }
+        public bool Flammable
+        {
+            get { return GetValue<bool>(); }
+            set
+            {
+                SetValue(value);
+            }
+        }
+        public string FlashPoint
         {
             get { return GetValue<string>(); }
             set
@@ -545,9 +604,14 @@ namespace EasyJob_ProDG.UI.Wrapper
                 SetValue(value);
             }
         }
-
-        public string OriginalNameFromCode => GetValue<string>();
-
+        public bool IsConflicted
+        {
+            get { return GetValue<bool>(); }
+            set
+            {
+                SetValue(value);
+            }
+        }
         /// <summary>
         /// True if proper shipping name is different from original from DgList.
         /// </summary>
@@ -574,24 +638,6 @@ namespace EasyJob_ProDG.UI.Wrapper
                 SetValue(value);
             }
         }
-
-        public string NumberAndTypeOfPackages
-        {
-            get { return GetValue<string>(); }
-            set { SetValue(value); }
-        }
-
-        public string DgEMS
-        {
-            get
-            {
-                return GetValue<string>();
-            }
-            set
-            {
-                SetValue(value);
-            }
-        }
         public bool Liquid
         {
             get { return GetValue<bool>(); }
@@ -600,44 +646,44 @@ namespace EasyJob_ProDG.UI.Wrapper
                 SetValue(value);
             }
         }
-        public bool Flammable
+        public string NumberAndTypeOfPackages
         {
-            get { return GetValue<bool>(); }
-            set
-            {
-                SetValue(value);
-            }
-        }
-        public bool EmitFlammableVapours
-        {
-            get { return GetValue<bool>(); }
-            set
-            {
-                SetValue(value);
-            }
-        }
-        public bool IsSelfReactive
-        {
-            get { return GetValue<bool>(); }
-            set
-            {
-                SetValue(value);
-                OnPropertyChanged();
-            }
-        }
-        public string Properties => GetValue<string>();
-
-        public string EmergencyContacts
-        {
-            get => GetValue<string>();
-            set => SetValue(value);
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
         }
         public string Remarks
         {
             get => GetValue<string>();
             set => SetValue(value);
         }
+        public string SegregationGroup
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
 
+        /// <summary>
+        /// Technical name
+        /// </summary>
+        public string TechnicalName
+        {
+            get { return GetValue<string>(); }
+            set
+            {
+                SetValue(value);
+            }
+        }
+        #endregion
+
+
+        #region Readonly Dg properties
+        // ---------- Readonly Dg properties ------------------------------
+        public string AllDgClasses => GetValue<string>();
+        public string Properties => GetValue<string>();
+        public string SegregationSG
+        {
+            get { return GetValue<string>(); }
+        }
         public string Special
         {
             get { return GetValue<string>(); }
@@ -646,42 +692,13 @@ namespace EasyJob_ProDG.UI.Wrapper
         {
             get { return GetValue<string>(); }
         }
-        public string SegregationSG
-        {
-            get { return GetValue<string>(); }
-        }
-        public char StowageCat
-        {
-            get { return GetValue<char>(); }
-            set
-            {
-                SetValue(value);
-                UpdateConflictList();
-            }
-        }
-        public string SegregationGroup
-        {
-            get { return GetValue<string>(); }
-            set { SetValue(value); }
-        }
-        public bool IsConflicted
-        {
-            get { return GetValue<bool>(); }
-            set
-            {
-                SetValue(value);
-            }
-        }
-        public Conflicts Conflicts
-        {
-            get { return GetValue<Conflicts>(); }
-            set { SetValue(value); }
-        }
-        public string AllDgClasses => GetValue<string>();
         public string Surrounded => GetValue<string>();
+        public string OriginalNameFromCode => GetValue<string>();
 
-        public bool ContainerTypeRecognized { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        #endregion
 
+
+        #region Public methods
         // --------------- Methods ---------------------------------------
 
         /// <summary>
@@ -691,6 +708,56 @@ namespace EasyJob_ProDG.UI.Wrapper
         {
             DataMessenger.Default.Unregister(this);
         }
+
+        /// <summary>
+        /// Compiles location of input of bay, row or tier
+        /// </summary>
+        /// <param name="value">Bay, row or tier</param>
+        /// <param name="propertyName">Specified property</param>
+        /// <returns></returns>
+        internal string CompileLocation(byte value, [CallerMemberName] string propertyName = null)
+        {
+            switch (propertyName.ToLower())
+            {
+                case "bay":
+                    return AddZeroIfRequired(value, 2) + AddZeroIfRequired(Row) + AddZeroIfRequired(Tier);
+                case "row":
+                    return AddZeroIfRequired(Bay, 2) + AddZeroIfRequired(value) + AddZeroIfRequired(Tier);
+                case "tier":
+                    return AddZeroIfRequired(Bay, 2) + AddZeroIfRequired(Row) + AddZeroIfRequired(value);
+                default:
+                    return Location;
+            }
+        }
+
+        /// <summary>
+        /// Adds TechnicalName, if any, to ProperShippingName and changes status of IsTechnicalNameIncluded.
+        /// </summary>
+        internal void IncludeTechnicalName()
+        {
+            if (IsTechnicalNameIncluded) return;
+            if (string.IsNullOrEmpty(TechnicalName)) return;
+            Name += "\n" + TechnicalName;
+            IsTechnicalNameIncluded = true;
+        }
+
+        /// <summary>
+        /// Removes TechnicalName, if any, to ProperShippingName and changes status of IsTechnicalNameIncluded.
+        /// </summary>
+        public void RemoveTechnicalName()
+        {
+            if (!IsTechnicalNameIncluded) return;
+            if (string.IsNullOrEmpty(TechnicalName)) return;
+            Name = Name.Replace(TechnicalName, "");
+            if (Name.EndsWith("\n"))
+                Name = Name.Remove(Name.Length - 1);
+            IsTechnicalNameIncluded = false;
+        } 
+        #endregion
+
+
+        #region Private methods
+        // --------------- Private methods ---------------------------------------
 
         /// <summary>
         /// Checks if input value is less then '10' and adds '0' before the digit if the case
@@ -720,27 +787,6 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Compiles location of input of bay, row or tier
-        /// </summary>
-        /// <param name="value">Bay, row or tier</param>
-        /// <param name="propertyName">Specified property</param>
-        /// <returns></returns>
-        public string CompileLocation(byte value, [CallerMemberName] string propertyName = null)
-        {
-            switch (propertyName.ToLower())
-            {
-                case "bay":
-                    return AddZeroIfRequired(value, 2) + AddZeroIfRequired(Row) + AddZeroIfRequired(Tier);
-                case "row":
-                    return AddZeroIfRequired(Bay, 2) + AddZeroIfRequired(value) + AddZeroIfRequired(Tier);
-                case "tier":
-                    return AddZeroIfRequired(Bay, 2) + AddZeroIfRequired(Row) + AddZeroIfRequired(value);
-                default:
-                    return Location;
-            }
-        }
-
-        /// <summary>
         /// Checks if UN no exists in database and prompts user to confirm weather to continue if UN does not exist.
         /// </summary>
         /// <param name="unno">UN no being checked</param>
@@ -752,39 +798,17 @@ namespace EasyJob_ProDG.UI.Wrapper
                     $"UN no {unno:0000} does not exist in the DataBase. \nDo you wish to proceed?", "Attention!") ==
                 MessageDialogResult.Yes) return true;
             return false;
-        }
-
-        /// <summary>
-        /// Adds TechnicalName, if any, to ProperShippingName and changes status of IsTechnicalNameIncluded.
-        /// </summary>
-        public void IncludeTechnicalName()
-        {
-            if (IsTechnicalNameIncluded) return;
-            if (string.IsNullOrEmpty(TechnicalName)) return;
-            Name += "\n" + TechnicalName;
-            IsTechnicalNameIncluded = true;
-        }
-
-        /// <summary>
-        /// Removes TechnicalName, if any, to ProperShippingName and changes status of IsTechnicalNameIncluded.
-        /// </summary>
-        public void RemoveTechnicalName()
-        {
-            if (!IsTechnicalNameIncluded) return;
-            if (string.IsNullOrEmpty(TechnicalName)) return;
-            Name = Name.Replace(TechnicalName, "");
-            if (Name.EndsWith("\n"))
-                Name = Name.Remove(Name.Length - 1);
-            IsTechnicalNameIncluded = false;
-        }
+        } 
+        #endregion
 
 
+        #region Methods affecting view changes
         // --------------- Methods affecting view changes ---------------------------
 
         /// <summary>
         /// Updates Dg info from DgListDataBase for the unit and updates presentation
         /// </summary>
-        public void UpdateDgInfoAndUploadChanges()
+        private void UpdateDgInfoAndUploadChanges()
         {
             Model.UpdateDgInfo(_dgDataBase);
             UpdateDgDataPresentation();
@@ -868,9 +892,11 @@ namespace EasyJob_ProDG.UI.Wrapper
         private void SetToAllContainersInPlan(object value, object oldValue = null, [CallerMemberName] string propertyName = null)
         {
             DataMessenger.Default.Send(new CargoPlanUnitPropertyChanged(this, value, oldValue, propertyName));
-        }
+        } 
+        #endregion
 
 
+        #region Validation
         // --------------- Validation -----------------------------------------------
 
         /// <summary>
@@ -911,9 +937,11 @@ namespace EasyJob_ProDG.UI.Wrapper
                 default:
                     break;
             }
-        }
+        } 
+        #endregion
 
 
+        #region Converters
         // --------------- Converters -----------------------------------------------
 
         /// <summary>
@@ -935,8 +963,10 @@ namespace EasyJob_ProDG.UI.Wrapper
         {
             return (Dg)Model;
         }
+        #endregion
 
 
+        #region Constructors
         // --------------- Public constructors --------------------------------------
 
         public DgWrapper() : base(new Dg())
@@ -949,8 +979,10 @@ namespace EasyJob_ProDG.UI.Wrapper
         {
             IsNameChanged = false;
         }
+        #endregion
 
 
+        #region Events
         // --------------- Events ---------------------------------------------------
 
         public delegate void DgPackingGroupChangedEventHandler(object sender);
@@ -961,7 +993,10 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         public delegate void UnitStowageConflictsToBeUpdatedEventHandler(object sender);
         public static event UnitStowageConflictsToBeUpdatedEventHandler OnUnitStowageConflictsToBeUpdatedEventHandler = null;
+        #endregion
 
+
+        #region Override methods
         // -------------- Overriding methods and operators --------------------------
 
         public override string ToString()
@@ -977,8 +1012,8 @@ namespace EasyJob_ProDG.UI.Wrapper
         public static explicit operator ContainerWrapper(DgWrapper dgWrapper)
         {
             return dgWrapper.ConvertToContainerWrapper();
-        }
-
+        } 
+        #endregion
 
     }
 }
