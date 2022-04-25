@@ -511,52 +511,6 @@ namespace EasyJob_ProDG.Model.Cargo
 
         //---------------------- Supporting methods ----------------------------------------------------------------------
 
-        #region Conflict methods
-        /// <summary>
-        /// Method creates dg.conflict if not yet created
-        /// </summary>
-        public void AddConflict()
-        {
-            Conflicts ??= new Conflicts();
-        }
-
-        /// <summary>
-        /// Adds Stowage or Segregation conflict to Dg.
-        /// </summary>
-        /// <param name="stowOrSegr">"stowage" or "segregation"</param>
-        /// <param name="code">string conflict code</param>
-        /// <param name="b">conflicting Dg in case of segregatin conflict/></param>
-        public void AddConflict(string stowOrSegr, string code, Dg b = null)
-        {
-            AddConflict(true, stowOrSegr, code, b);
-        }
-
-        /// <summary>
-        /// Method adds conflict to Dg if 'add' is 'true'. Stowage or segregation conflict will be added as defined. Method combines other conflict related methods in Dg class to reduce nesting.
-        /// </summary>
-        /// <param name="add"></param>
-        /// <param name="stoworsegr"></param>
-        /// <param name="code"></param>
-        /// <param name="b"></param>
-        public void AddConflict(bool add, string stoworsegr, string code, Dg b = null)
-        {
-            if (!add) return;
-            AddConflict();
-            if (stoworsegr == "stowage") Conflicts.AddStowConflict(code);
-            else Conflicts.AddSegrConflict(code, b);
-        }
-
-        /// <summary>
-        /// Method clears all conflicts in dg unit and changes 'conflicted' status to false
-        /// </summary>
-        public void ClearAllConflicts()
-        {
-            if (!IsConflicted) return;
-            Conflicts.SegregationConflictsList.Clear();
-            Conflicts.StowageConflictsList.Clear();
-        }
-        #endregion
-
         /// <summary>
         /// Method assigns a stack to dg unit, taking into account 20 and 40'
         /// </summary>
@@ -767,7 +721,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Copies all non-importable information from source Dg.
         /// </summary>
         /// <param name="dgCopyFrom">Dg from which info shall be copied.</param>
-        public void CopyNonImportableInfo(Dg dgCopyFrom)
+        internal void CopyNonImportableInfo(Dg dgCopyFrom)
         {
             Remarks = dgCopyFrom.Remarks;
             EmergencyContacts = dgCopyFrom.EmergencyContacts;

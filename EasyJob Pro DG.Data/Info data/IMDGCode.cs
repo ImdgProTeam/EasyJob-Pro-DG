@@ -109,7 +109,7 @@ namespace EasyJob_ProDG.Data.Info_data
             return tableRow;
         }
 
-        #region Class 1
+        #region Class 1 compatibility table
         /// <summary>
         /// Permitted mixed stowage for goods of class 1 (Table 7.2.7.1.4)
         /// </summary>
