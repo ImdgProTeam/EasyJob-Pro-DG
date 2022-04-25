@@ -6,9 +6,9 @@ using System.Windows.Data;
 namespace EasyJob_ProDG.UI.View.Converters
 {
     [ValueConversion(typeof(CellPositionWrapper), typeof(string))]
-    public class CellToTextConverter : IValueConverter
+    internal class CellToTextConverter : ConverterBase
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             CellPositionWrapper cell;
             if(value != null)
@@ -18,11 +18,6 @@ namespace EasyJob_ProDG.UI.View.Converters
                 else return cell.ToString();
             }
             return string.Empty;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return null;
         }
     }
 }

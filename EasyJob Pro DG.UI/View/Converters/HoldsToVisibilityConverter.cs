@@ -6,9 +6,9 @@ using System.Windows.Data;
 namespace EasyJob_ProDG.UI.View.Converters
 {
     [ValueConversion(typeof(byte), typeof(Visibility))]
-    public class HoldsToVisibilityConverter : IValueConverter
+    internal class HoldsToVisibilityConverter : ConverterBase
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             byte? number = value as byte?;
             byte hold = 0;
@@ -17,10 +17,6 @@ namespace EasyJob_ProDG.UI.View.Converters
             if (success) 
                 if (number >= hold) return Visibility.Visible;
             return Visibility.Hidden;
-        }
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
         }
     }
 }
