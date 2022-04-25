@@ -1,14 +1,10 @@
-﻿using EasyJob_ProDG.UI.Wrapper;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace EasyJob_ProDG.UI.View.Converters
 {
+    [ValueConversion(typeof(string), typeof(string))]
     public class AnyCellToNullConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
