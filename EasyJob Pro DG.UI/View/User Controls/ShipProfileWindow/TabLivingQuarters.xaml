@@ -17,9 +17,6 @@
             <Setter Property="Focusable"
                     Value="False" />
         </Style>
-        <converters:AnyCellToNullConverter x:Key="AnyCell" />
-        <converters:CellToTextConverter x:Key="CellToText" />
-        <converters:boolInversionConverter x:Key="ToNegative" />
     </UserControl.Resources>
     <Grid >
         <Grid.ColumnDefinitions>
@@ -84,7 +81,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding DisplayPosition, Mode=TwoWay, UpdateSourceTrigger=LostFocus,
-                                    Converter={StaticResource AnyCell}, ValidatesOnDataErrors=True}"
+                                    Converter={converters:AnyCellToNullConverter}, ValidatesOnDataErrors=True}"
                                          Tag="Enter position, e.g. 220582"
                                          Style="{StaticResource TextBoxWithTag}"
                                          TextAlignment="Right"
@@ -117,7 +114,7 @@
         
             
         <TextBlock Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLivingQuarters,
-            Converter={StaticResource CellToText}}"
+            Converter={converters:CellToTextConverter}}"
                    Foreground="Gray"
                    Grid.Row="4"
                    Grid.Column="0"
@@ -134,7 +131,7 @@
 
         <Button Content="Add" 
                 IsEnabled="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLivingQuarters.HasError,
-            Converter={StaticResource ToNegative}}"
+            Converter={converters:BoolInversionConverter}}"
                 Command="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.AddCellLivingQuartersCommand}"
                 Margin="2, 6, 2, 0"
                     Grid.Row="4"

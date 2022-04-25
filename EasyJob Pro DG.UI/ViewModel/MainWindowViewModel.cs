@@ -15,11 +15,13 @@ using EasyJob_ProDG.UI.Wrapper;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Markup;
 using Application = System.Windows.Application;
 using Window = System.Windows.Window;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
+    [MarkupExtensionReturnType(typeof(MainWindowViewModel))]
     public class MainWindowViewModel : Observable
     {
         #region Private fields

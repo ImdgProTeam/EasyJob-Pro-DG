@@ -183,7 +183,7 @@
     <Compile Include="View\AttachedProperties\SelectingDgDataGridItem.cs" />
     <Compile Include="View\Converters\AnyCellToNullConverter.cs" />
     <Compile Include="View\Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="View\Converters\boolToNegativeConverter.cs" />
+    <Compile Include="View\Converters\BoolInversionConverter.cs" />
     <Compile Include="View\Converters\CellToTextConverter.cs" />
     <Compile Include="View\Converters\CompositeConverter.cs" />
     <Compile Include="View\Converters\ConverterBase.cs" />

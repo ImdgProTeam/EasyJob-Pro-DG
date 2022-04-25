@@ -5,9 +5,9 @@ using System.Windows.Data;
 namespace EasyJob_ProDG.UI.View.Converters
 {
     [ValueConversion(typeof(string), typeof(string))]
-    public class AnyCellToNullConverter : IValueConverter
+    internal class AnyCellToNullConverter : ConverterBase
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string text = (string)value;
             if(text == "bay: any row: any tier: any " || string.IsNullOrEmpty(text))
@@ -17,7 +17,7 @@ namespace EasyJob_ProDG.UI.View.Converters
             return text;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value;
         }

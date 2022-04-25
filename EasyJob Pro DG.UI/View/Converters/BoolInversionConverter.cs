@@ -5,11 +5,11 @@ using System.Windows.Data;
 namespace EasyJob_ProDG.UI.View.Converters
 {
     [ValueConversion(typeof(bool), typeof(bool))]
-    class boolInversionConverter : IValueConverter
+    internal class BoolInversionConverter : ConverterBase
     {
         private bool parsedValue;
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string directValue = value.ToString();
             if (directValue == null || !Boolean.TryParse(directValue, out parsedValue))
@@ -21,7 +21,7 @@ namespace EasyJob_ProDG.UI.View.Converters
 
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return Convert(value, targetType, parameter, culture);
         }

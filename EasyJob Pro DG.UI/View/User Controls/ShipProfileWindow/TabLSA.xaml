@@ -16,9 +16,6 @@
             <Setter Property="Focusable"
                     Value="False" />
         </Style>
-        <converters:AnyCellToNullConverter x:Key="AnyCell" />
-        <converters:CellToTextConverter x:Key="CellToText" />
-        <converters:boolInversionConverter x:Key="ToNegative" />
     </UserControl.Resources>
 
     <Grid>
@@ -115,7 +112,7 @@
 
 
         <TextBlock Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLSA,
-            Converter={StaticResource CellToText}}"
+            Converter={converters:CellToTextConverter}}"
                    Foreground="Gray"
                    Grid.Row="4"
                    Grid.Column="0"
@@ -132,7 +129,7 @@
 
         <Button Content="Add"
                 IsEnabled="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLSA.HasError,
-            Converter={StaticResource ToNegative}}"
+            Converter={converters:BoolInversionConverter}}"
                 Command="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.AddCellLSACommand}"
                 Margin="2, 6, 2, 0"
                 Grid.Row="4"
