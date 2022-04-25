@@ -130,7 +130,7 @@
                  Grid.Column="0" />
 
         <Button Content="Add"
-                IsEnabled="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellHeatedStructures.HasError,
+                IsEnabled="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellHeatedStructures.HasErrorOrEmpty,
             Converter={converters:BoolInversionConverter}}"
                 Command="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.AddCellHeatedStructuresCommand}"
                 Margin="2, 6, 2, 0"

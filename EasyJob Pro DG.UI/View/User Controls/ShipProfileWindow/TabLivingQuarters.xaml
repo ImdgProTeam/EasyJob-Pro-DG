@@ -130,7 +130,7 @@
                      Grid.Column="0"/>
 
         <Button Content="Add" 
-                IsEnabled="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLivingQuarters.HasError,
+                IsEnabled="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLivingQuarters.HasErrorOrEmpty,
             Converter={converters:BoolInversionConverter}}"
                 Command="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.AddCellLivingQuartersCommand}"
                 Margin="2, 6, 2, 0"

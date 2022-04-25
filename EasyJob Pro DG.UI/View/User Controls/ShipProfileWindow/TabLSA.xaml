@@ -80,7 +80,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox Text="{Binding DisplayPosition, Mode=TwoWay, UpdateSourceTrigger=LostFocus,
-                                    Converter={StaticResource AnyCell}, ValidatesOnDataErrors=True}"
+                                    Converter={converters:AnyCellToNullConverter}, ValidatesOnDataErrors=True}"
                                          Tag="Enter position, e.g. 220582"
                                          Style="{StaticResource TextBoxWithTag}"
                                          TextAlignment="Right"
@@ -128,7 +128,7 @@
                  Grid.Column="0" />
 
         <Button Content="Add"
-                IsEnabled="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLSA.HasError,
+                IsEnabled="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLSA.HasErrorOrEmpty,
             Converter={converters:BoolInversionConverter}}"
                 Command="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.AddCellLSACommand}"
                 Margin="2, 6, 2, 0"

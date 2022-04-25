@@ -34,6 +34,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             }
         }
         public bool HasError { get; set; }
+        public bool HasErrorOrEmpty => HasError || Model.IsEmpty;
 
         protected override IEnumerable<string> ValidateProperty(string propertyName)
         {
