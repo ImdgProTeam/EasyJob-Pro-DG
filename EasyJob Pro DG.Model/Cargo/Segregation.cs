@@ -392,7 +392,8 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
         /// <summary>
-        /// Method checks if two dg containers are properly segregated according to segregation level
+        /// Method checks if two dg containers are properly segregated according to segregation level.
+        /// Returns true if the units are in conflict
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
