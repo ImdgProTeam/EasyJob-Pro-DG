@@ -18,13 +18,13 @@
                     Value="False" />
         </Style>
     </UserControl.Resources>
-    <Grid >
+    <Grid FocusManager.FocusedElement="{Binding ElementName=AddCellTextBox}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="80"
                 SharedSizeGroup="sizeNumber"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="100"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="25"></RowDefinition>
@@ -32,9 +32,9 @@
             <RowDefinition Height="2" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="60"></RowDefinition>
         </Grid.RowDefinitions>
-                
+
         <TextBlock TextAlignment="Center"
                    VerticalAlignment="Center"
                    Grid.ColumnSpan="2"
@@ -110,35 +110,36 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-    </ScrollViewer>
-        
-            
+        </ScrollViewer>
+
+
         <TextBlock Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLivingQuarters,
             Converter={converters:CellToTextConverter}}"
                    Foreground="Gray"
                    Grid.Row="4"
                    Grid.Column="0"
-                   Grid.ColumnSpan="2" />        
-        <TextBox Tag="Enter new position here"
+                   Grid.ColumnSpan="2" />
+        <TextBox x:Name="AddCellTextBox"
+            Tag="Enter new position here"
                      Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLivingQuartersNewEntry,
                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                      Style="{StaticResource TextBoxWithTagAndValidation}"
                      VerticalContentAlignment="Center"
                      Focusable="True"
+                 
                      Grid.Row="5"
                      Grid.ColumnSpan="2"
                      Grid.Column="0"/>
 
-        <Button Content="Add" 
-                IsEnabled="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLivingQuarters.HasErrorOrEmpty,
-            Converter={converters:BoolInversionConverter}}"
+        <Button Content="Add"
+                IsDefault="{Binding Path=IsFocused, ElementName=AddPositionTextBox}"
                 Command="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.AddCellLivingQuartersCommand}"
                 Margin="2, 6, 2, 0"
-                    Grid.Row="4"
-                    Grid.RowSpan="2"
-                    Grid.Column="2"/>
-        
-            <TextBlock Text="How to enter positions describe here"
+                Grid.Row="4"
+                Grid.RowSpan="2"
+                Grid.Column="2"/>
+
+        <TextBlock Text="How to enter positions describe here"
                    Grid.ColumnSpan="2"
                    Grid.Column="0"
                    Grid.Row="6"></TextBlock>

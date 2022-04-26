@@ -9,6 +9,7 @@ using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Wrapper;
 using EasyJob_ProDG.UI.Wrapper.Dummies;
+using System;
 using System.ComponentModel;
 using System.Windows.Input;
 
@@ -64,9 +65,9 @@ namespace EasyJob_ProDG.UI.ViewModel
             CancelChangesCommand = new DelegateCommand(CancelChanges);
             WindowLoaded = new DelegateCommand(OnWindowLoaded);
             WindowClosed = new DelegateCommand(OnWindowClosed);
-            AddCellLivingQuartersCommand = new DelegateCommand(AddCellLivingQuarters);
-            AddCellHeatedStructuresCommand = new DelegateCommand(AddCellHeatedStructures);
-            AddCellLSACommand = new DelegateCommand(AddCellLSA);
+            AddCellLivingQuartersCommand = new DelegateCommand(AddCellLivingQuarters, CanAddCellLivingQuarters);
+            AddCellHeatedStructuresCommand = new DelegateCommand(AddCellHeatedStructures, CanAddCellHeatedStructures);
+            AddCellLSACommand = new DelegateCommand(AddCellLSA, CanAddCellLSA);
         }
 
         /// <summary>
@@ -194,6 +195,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             OnPropertyChanged("CellLivingQuarters");
             OnPropertyChanged("CellLivingQuartersNewEntry");
         }
+        private bool CanAddCellLivingQuarters(object obj) => !CellLivingQuarters.HasErrorOrEmpty;
 
         // Block of fields, properties and methods for HeatedStructures
         public CellPositionWrapper CellHeatedStructures { get; set; }
@@ -217,6 +219,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             OnPropertyChanged("CellHeatedStructures");
             OnPropertyChanged("CellHeatedStructuresNewEntry");
         }
+        private bool CanAddCellHeatedStructures(object obj) => !CellHeatedStructures.HasErrorOrEmpty;
 
         // Block of fields, properties and methods for LSA
         public CellPositionWrapper CellLSA { get; set; }
@@ -240,7 +243,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             OnPropertyChanged("CellLSA");
             OnPropertyChanged("CellLSANewEntry");
         }
-        
+        private bool CanAddCellLSA(object obj) => !CellLSA.HasErrorOrEmpty;
+
 
         // ---- Events and their methods ---------------------------------------------------------------
 

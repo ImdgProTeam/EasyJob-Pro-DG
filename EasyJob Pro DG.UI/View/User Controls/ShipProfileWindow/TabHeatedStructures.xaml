@@ -8,7 +8,8 @@
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800"
-             DataContext="{Binding}">
+             DataContext="{Binding}"
+             >
 
     <UserControl.Resources>
         <Style x:Key="NoFocusStyle"
@@ -20,7 +21,7 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=AddCellTextBox}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="80" />
             <ColumnDefinition Width="*" />
@@ -119,7 +120,8 @@
                    Grid.Row="4"
                    Grid.Column="0"
                    Grid.ColumnSpan="2" />
-        <TextBox Tag="Enter new position here"
+        <TextBox x:Name="AddCellTextBox"
+            Tag="Enter new position here"
                  Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellHeatedStructuresNewEntry,
                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                  Style="{StaticResource TextBoxWithTagAndValidation}"
@@ -130,8 +132,7 @@
                  Grid.Column="0" />
 
         <Button Content="Add"
-                IsEnabled="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellHeatedStructures.HasErrorOrEmpty,
-            Converter={converters:BoolInversionConverter}}"
+                IsDefault="{Binding Path=IsFocused, ElementName=AddCellTextBox}"
                 Command="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.AddCellHeatedStructuresCommand}"
                 Margin="2, 6, 2, 0"
                 Grid.Row="4"
