@@ -15,6 +15,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Xml.Serialization;
 using static EasyJob_ProDG.UI.Settings.UserUISettings;
+using System.Diagnostics;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
@@ -25,6 +26,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private IMessageDialogService _messageDialogService;
         private readonly CollectionViewSource dgPlanView = new CollectionViewSource();
 
+        private const byte totalNumberOfColumns = 44;
 
         //--------------- Public static properties ----------------------------------
         public static IList<char> StowageCategories => new List<char>() { 'A', 'B', 'C', 'D', 'E' };
@@ -141,14 +143,20 @@ namespace EasyJob_ProDG.UI.ViewModel
                 XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<DgTableColumnSettings>));
                 using (Stream s = File.OpenRead(ProgramDefaultSettingValues.ProgramDirectory + "columnsettings.xml"))
                     ColumnSettings = (ObservableCollection<DgTableColumnSettings>)xs.Deserialize(s);
+                
+                if (ColumnSettings.Count != totalNumberOfColumns)
+                    throw new Exception("Number of columns read from settings file is wrong.");
+                Debug.WriteLine("----> Column settings successfully loaded.");
             }
             catch (Exception e)
-            {
-                ColumnSettings ??= new ObservableCollection<DgTableColumnSettings>();
-                for (int i = 0; i < 44; i++)
+            {                
+                Debug.WriteLine("---> Number of columns read from settings file is wrong.");
+                ColumnSettings = new ObservableCollection<DgTableColumnSettings>();
+                for (int i = 0; i < totalNumberOfColumns; i++)
                 {
                     ColumnSettings.Add(new DgTableColumnSettings(i));
                 }
+                Debug.WriteLine("----> Default column settings created.");
             }
         }
 
