@@ -2,7 +2,6 @@
 {
     internal static class DgConflictMethods
     {
-        #region Conflict methods
         /// <summary>
         /// Method creates dg.Conflict if not yet created
         /// </summary>
@@ -46,6 +45,15 @@
             dg.Conflicts.SegregationConflictsList.Clear();
             dg.Conflicts.StowageConflictsList.Clear();
         }
-        #endregion
+        
+        /// <summary>
+        /// Removes selected stowage conflict
+        /// </summary>
+        /// <param name="dg"></param>
+        /// <param name="conflictCode"></param>
+        internal static void RemoveStowageConflict(this Dg dg, string conflictCode)
+        {
+            dg.Conflicts.StowageConflictsList.Remove(conflictCode);
+        }
     }
 }

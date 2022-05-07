@@ -227,7 +227,36 @@ namespace EasyJob_ProDG.Model.Cargo
             {
                 unit.AddConflict(stow, "SSC4");
             }
+            if (unit.IsAsCoolantOrConditioner)
+            {
+                ReplaceStowageConflicts(unit, "EXC9", "SSC2");
+            }
+        }
 
+        /// <summary>
+        /// Removes any stowage conflict of the unit with [single] newCode with exception of exceptCode. 
+        /// If no conflict has been removed, the newCode will not be set.
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <param name="newCode">New code to be set.</param>
+        /// <param name="exceptCode">Code which will be ignorred and will remain in Conflicts of the unit.</param>
+        private static void ReplaceStowageConflicts(Dg unit, string newCode, string exceptCode = "none")
+        {
+            if (!unit.IsConflicted || !unit.Conflicts.FailedStowage) return;
+
+            bool removed = false;
+            for (byte i = 0; i < unit.Conflicts.StowageConflictsList.Count; i++)
+            {
+                var conflict = unit.Conflicts.StowageConflictsList[i];
+                if (conflict != exceptCode)
+                {
+                    unit.RemoveStowageConflict(conflict);
+                    i--;
+                    removed = true;
+                }
+            }
+            if(removed)
+                unit.AddConflict(stow, newCode);
         }
 
         /// <summary>

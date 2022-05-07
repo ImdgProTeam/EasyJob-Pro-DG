@@ -65,7 +65,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             get
             {
                 string result = Code + " ";
-                if (Code.StartsWith("SSC") || Code.StartsWith("SGC") || Code.StartsWith("EXPL"))
+                if (Code.StartsWith("SSC") || Code.StartsWith("SGC") || Code.StartsWith("EXPL") || Code.StartsWith("EXC"))
                     result += CodesDictionary.ConflictCodes[Code];
                 else result += " " + (_segrConflict ? CodesDictionary.Segregation[Code] : CodesDictionary.Stowage[Code]);
                 

@@ -29,11 +29,11 @@ namespace EasyJob_ProDG.Model.Cargo
         // --- Methods to add/remove/replace conflicts in the list ---
         public void AddStowConflict(string code)
         {
-            if(!StowageConflictsList.Contains(code)) StowageConflictsList.Add(code);
+            if (!StowageConflictsList.Contains(code)) StowageConflictsList.Add(code);
         }
         public void AddSegrConflict(string code, Dg unit)
         {
-            if(!Contains(code, unit)) SegregationConflictsList.Add(new SegregationConflict (code, unit));
+            if (!Contains(code, unit)) SegregationConflictsList.Add(new SegregationConflict(code, unit));
         }
 
         /// <summary>
@@ -60,8 +60,8 @@ namespace EasyJob_ProDG.Model.Cargo
 
                 //remove conflict from b
                 if (b.IsConflicted && b.Conflicts.Contains(a)) foreach (SegregationConflict bconf in b.Conflicts.SegregationConflictsList)
-                    if (bconf.ConflictContainerNr == a.ContainerNumber)
-                        b.Conflicts.SegregationConflictsList.Remove(bconf);
+                        if (bconf.ConflictContainerNr == a.ContainerNumber)
+                            b.Conflicts.SegregationConflictsList.Remove(bconf);
             }
         }
 
@@ -82,6 +82,26 @@ namespace EasyJob_ProDG.Model.Cargo
                         foreach (var bconf in b.Conflicts.SegregationConflictsList)
                             if (bconf.ConflictContainerNr == a.ContainerNumber) bconf.Code = newCode;
                 }
+        }
+
+        /// <summary>
+        /// Finds all segregation conflicts and replaces their codes with the newCode on both conflicted units.
+        /// </summary>
+        /// <param name="dg">Dg to search segregation conflicts in.</param>
+        /// <param name="newCode">New code to be set for all conflicts.</param>
+        internal static void ReplaceAllSegregationConflicts(Dg dg, string newCode)
+        {
+            if (dg.Conflicts == null) return;
+
+            foreach (SegregationConflict conf in dg.Conflicts.SegregationConflictsList)
+            { 
+                conf.Code = newCode; 
+                foreach(SegregationConflict mutualConflict in conf.DgInConflict.Conflicts.SegregationConflictsList)
+                {
+                    if (mutualConflict.ConflictContainerNr == dg.ContainerNumber)
+                        mutualConflict.Code = newCode;
+                }
+            }
         }
 
 
@@ -124,10 +144,10 @@ namespace EasyJob_ProDG.Model.Cargo
         public string ShowStowageConflicts()
         {
             string result = null;
-            foreach(string s in StowageConflictsList)
+            foreach (string s in StowageConflictsList)
             {
                 if (s.StartsWith("SW19") || s.StartsWith("SW22")) continue;
-                if(s.StartsWith("SW") || s.StartsWith("H"))
+                if (s.StartsWith("SW") || s.StartsWith("H"))
                 {
                     result += s + " " + CodesDictionary.Stowage[s] + ". ";
                 }
@@ -144,15 +164,15 @@ namespace EasyJob_ProDG.Model.Cargo
 
             foreach (SegregationConflict s in SegregationConflictsList)
             {
-                string  codeDiscr = s.Code.StartsWith("SGC") 
-                    ? CodesDictionary.ConflictCodes[s.Code] 
+                string codeDiscr = s.Code.StartsWith("SGC")
+                    ? CodesDictionary.ConflictCodes[s.Code]
                     : CodesDictionary.Segregation[s.Code];
-                result += s.ConflictContainerLocation 
-                          +" (class " + s.ConflictContainerClassStr 
+                result += s.ConflictContainerLocation
+                          + " (class " + s.ConflictContainerClassStr
                           + (s.ConflictContainerClassStr == "Reefer"
                               ? ""
-                              : (" unno " + s.ConflictContainerUnno)) 
-                          + ") " + s.Code + " - " + codeDiscr+"\n";
+                              : (" unno " + s.ConflictContainerUnno))
+                          + ") " + s.Code + " - " + codeDiscr + "\n";
             }
             return result;
         }
@@ -185,7 +205,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
             internal SegregationConflict(string code, Dg unit)
             {
-                string subclass="";
+                string subclass = "";
                 Code = code;
                 DgInConflict = unit;
                 ConflictContainerNr = unit.ContainerNumber;

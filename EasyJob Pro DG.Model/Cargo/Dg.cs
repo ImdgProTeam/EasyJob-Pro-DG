@@ -179,7 +179,7 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             set
             {
-                if(segregationGroupsListBytes.Contains(value)) return;
+                if (segregationGroupsListBytes.Contains(value)) return;
                 segregationGroupsListBytes.Add(value);
             }
         }
@@ -307,6 +307,14 @@ namespace EasyJob_ProDG.Model.Cargo
             }
         }
 
+        public bool IsMax1L { get; set; }
+
+        public bool IsAsCoolantOrConditioner
+        {
+            get => Name.ToUpper().Contains("COOLANT") || Name.ToUpper().Contains("CONDITIONER");
+        }
+
+
 
 
         // ---------------- auto-properties ------------------------------
@@ -317,7 +325,6 @@ namespace EasyJob_ProDG.Model.Cargo
         public bool IsLq { get; set; }
         public bool Liquid { get; set; }
         public bool IsMp { get; set; }
-        public bool IsMax1L { get; set; }
         public char StowageCat { get; set; }
         public Conflicts Conflicts { get; set; }
         public decimal DgNetWeight { get; set; }

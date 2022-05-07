@@ -531,6 +531,14 @@ namespace EasyJob_ProDG.UI.Wrapper
                     IsStabilized = false;
                 else if (newName.Contains("stabilized")) IsStabilized = true;
 
+                // AS COOLANT OR AS CONDITIONER 5.5.3.2.1
+                if (oldName.Contains("coolant") && !newName.Contains("coolant") ||
+                    oldName.Contains("conditioner") && !newName.Contains("conditioner") ||
+                    !oldName.Contains("coolant") && newName.Contains("coolant") ||
+                    !oldName.Contains("conditioner") && newName.Contains("conditioner"))
+                    UpdateConflictList();
+                    
+
             }
         }
 

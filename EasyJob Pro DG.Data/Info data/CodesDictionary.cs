@@ -4,37 +4,6 @@ namespace EasyJob_ProDG.Data.Info_data
 {
     public partial class CodesDictionary
     {
-        internal static Dictionary<string, string> Paragraphs = new Dictionary<string, string>
-        {
-            {"7.1.4.4.5","Transport to or from offshore oil platforms, mobile offshore drilling units and other offshore installations \nNotwithstanding the stowage category indicated in column 16a of the Dangerous Goods List, UN 0124 JET PERFORATING GUNS, CHARGED, and UN 0494 JET PERFORATING GUNS, CHARGED, transported to or from offshore oil platforms, mobile offshore drilling units and other offshore installations may be stowed on deck in offshore well tool pallets, cradles or baskets provided that: \n.1 initiation devices shall be segregated from each other and from any jet perforating guns in accordance with the provisions of 7.2.7, and from any other dangerous goods in accordance with the provisions of 7.2.4 and 7.6.3.2, unless otherwise approved by the competent authority; \n.2 jet perforating guns shall be securely held in place during transport; \n.3 each shaped charge affixed to any gun shall not contain more than 112 g of explosives; \n.4 each shaped charge, if not completely enclosed in glass or metal, shall be fully protected by a metal cover following installation in the gun; \n.5 both ends of jet perforating guns shall be protected by means of steel end caps allowing for pressure release in the event of fire; \n.6 the total explosive content shall not exceed 95 kg per well tool pallet, cradle or basket; and \n.7 where more than one well tool pallet, cradle or basket is stowed \"on deck\", a minimum horizontal distance of 3 m shall be observed between them." },
-            {"7.1.4.7", "Stowage of stabilized dangerous goods \nSubstances, for which the word \"STABILIZED\" is added as part of the proper shipping name of the substances in accordance with 3.1.2.6, Stowage Category D and SW1 shall apply." },
-            {"7.4.1.4", @"For stowage of AMMONIUM NITRATE (UN 1942), AMMONIUM NITRATE BASED FERTILIZER (UN 2067 AND 2071) in containers, the applicable provisions of 7.6.2.8.4 and 7.6.2.11.1 also apply." },
-            {"7.4.1.3", @"For stowage of FISHMEAL, UNSTABILIZED (UN 1374), FISHMEAL, STABILIZED (UN 2216) and KRILL MEAL (UN 3497) in containers, the provisions of 7.6.2.7.2.2 also apply." },
-            { "7.6.2.8.4", @"UN 1942 AMMONIUM NITRATE and UN 2067 AMMONIUM NITRATE BASED FERTILIZER may be stowed under deck in a clean cargo space capable of being opened up in an emergency. The possible need to open hatches in case of fire to provide maximum ventilation and to apply water in an emergency and the consequent risk to the stability of the ship through flooding of cargo space shall be considered before loading." },
-            {"7.6.2.11.1", @"Stowage provisions for AMMONIUM NITRATE BASED FERTILIZER, UN 2071
-                \n7.6.2.11.1.1 AMMONIUM NITRATE BASED FERTILIZER, UN 2071 shall be stowed in a clean cargo space capable of being opened up in an emergency. In the case of bagged fertilizer or fertilizer in containers or in bulk containers, it is sufficient if, in the case of an emergency, the cargo is accessible through free approaches (hatch entries), and mechanical ventilation enables the master to exhaust any gases or fumes resulting from decomposition. The possible need to open hatches in case of fire to provide maximum ventilation and to apply water in an emergency, and the consequent risk to the stability of the ship through flooding of the cargo space, shall be considered before loading.
-                \n7.6.2.11.1.2 If suppression of decomposition should prove impracticable (such as in bad weather), there would not necessarily be immediate danger to the structure of the ship. However, the residue left after decomposition may have only half the mass of the original cargo; this loss of mass may also affect the stability of the ship and shall be considered before loading.
-                \n7.6.2.11.1.3 AMMONIUM NITRATE BASED FERTILIZER, UN 2071 shall be stowed out of direct contact with a metal engine-room bulkhead.In the case of bagged material, this may be done, for example, by using wooden boards to provide an air space between the bulkhead and the cargo.This requirement need not apply to short international voyages.
-                \n7.6.2.11.1.4 In the case of ships not fitted with smoke-detecting or other suitable devices, arrangements shall be made during the voyage to inspect cargo spaces containing these fertilizers at intervals not exceeding 4 h (such as to sniff at the ventilators serving them) to ensure early detection of decomposition should that occur." },
-            {"7.6.2.7.2", @"Stowage provisions for FISHMEAL, UNSTABILIZED (UN 1374), FISHMEAL, STABILIZED (UN 2216, class 9) and KRILL MEAL(UN 3497)
-                \n7.6.2.7.2.2 For containers:
-                \n.1 After packing, the doors and other openings shall be sealed to prevent the penetration of air into the unit.
-                \n.2 Temperature readings in the hold shall be taken once a day early in the morning during the voyage and recorded.
-                \n.3 If the temperature of the hold rises excessively above ambient and continues to increase, the possible need to apply copious quantities of water in an emergency and the consequent risk to the stability of the ship shall be considered.
-                \n.4 The cargo shall be stowed protected from sources of heat." },
-            {"7.6.2.7.3", @"Stowage provisions for SEED CAKE (UN 1386)
-             \n7.6.2.7.3.1 Stowage provisions for SEED CAKE, containing vegetable oil (a) mechanically expelled seeds, containing more than 10% oil or more than 20% oil and moisture combined:
-            \n\t.1 through and surface ventilation is required;
-            \n\t.2 if the voyage exceeds 5 days, the ship shall be equipped with facilities for introducing carbon dioxide or inert gas into the cargo spaces;
-            \n\t.3 bags shall always be stowed in double strip, as shown in 7.6.2.7.2.3 of this Code for fishmeal, unstabilized; and
-            \n\t.4 regular temperature readings shall be taken at varying depths in the cargo space and recorded.If the temperature of the cargo exceeds 55°C and continues to increase, ventilation to the cargo spaces shall be restricted. If self-heating continues, then carbon dioxide or inert gas shall be introduced.
-            \n7.6.2.7.3.2 Stowage provisions for SEED CAKE, containing vegetable oil (b) solvent extractions and expelled seeds containing not more than 10% of oil and, when the amount of moisture is higher than 10%, not more than 20% of oil and moisture combined:
-            \n\t.1 surface ventilation is required to assist in removing any residual solvent vapour;
-            \n\t.2 if bags are stowed without provision for ventilation to circulate throughout the stow and the voyage exceeds 5 days, regular temperature readings shall be taken at varying depths in the hold and recorded; and
-            \n\t.3 if the voyage exceeds 5 days, the vessel shall be equipped with facilities for introducing carbon dioxide or inert gas into the cargo spaces."}
-        };
-
-
         public static Dictionary<string, string> ConflictCodes = new Dictionary<string, string>
         {
             {"SSC1","Stowage under deck is not permitted by stowage category (7.1.3)." },
@@ -69,7 +38,8 @@ namespace EasyJob_ProDG.Data.Info_data
             { "EXPL4", "When articles of compatibility group N are transported with articles or substances of compatibility groups C, D or E, the goods of compatibility group N shall be treated as compatibility group D. (Table 7.2.7.1.4)"},
             { "EXPL5", "When articles of compatibility group N are transported together with articles or substances of compatibility group S, the entire load shall be treated as compatibility group N. (Table 7.2.7.1.4)"},
             { "EXPL6", "Any combination of articles in compatibility groups C, D and E shall be treated as compatibility group E. Any combination of substances in compatibility groups C and D shall be treated as the most appropriate compatibility group shown in 2.1.2.3, taking into account the predominant characteristics of the combined load. This overall classification code shall be displayed on any label or placard placed on a unit load or closed cargo transport unit as prescribed in 5.2.2.2.2. (Table 7.2.7.1.4)" },
-            { "EXPLOTHERS", "Notwithstanding the segregation provisions of this chapter, AMMONIUM NITRATE (UN 1942), AMMONIUM NITRATE FERTILIZERS (UN 2067), alkali metal nitrates (e.g. UN 1486) and alkaline earth metal nitrates ... may be stowed together with blasting explosives (except TYPE C) provided the aggregate is treated as blasting explosives under class 1. (7.2.7.2.1)" }
+            { "EXPLOTHERS", "Notwithstanding the segregation provisions of this chapter, AMMONIUM NITRATE (UN 1942), AMMONIUM NITRATE FERTILIZERS (UN 2067), alkali metal nitrates (e.g. UN 1486) and alkaline earth metal nitrates ... may be stowed together with blasting explosives (except TYPE C) provided the aggregate is treated as blasting explosives under class 1. (7.2.7.2.1)" },
+            {"EXC9", "Cargo transport units containing substances used for cooling or conditioning purposes (other than fumigation) during transport are not subject to any provisions of this Code other than those of section 5.3. (5.5.3.2.1)" }
 
 
         };

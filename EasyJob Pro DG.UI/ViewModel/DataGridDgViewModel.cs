@@ -228,6 +228,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj">Selected conflict</param>
         private void OnConflictSelectionChanged(ConflictPanelItemViewModel obj)
         {
+            if (obj == null) 
+                return;
+
             //CLear selection
             SelectedDg = null;
             OnPropertyChanged("SelectedDg");
