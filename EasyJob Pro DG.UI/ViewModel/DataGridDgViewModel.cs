@@ -238,8 +238,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             //Set new selection
             foreach (DgWrapper dg in DgPlanView)
             {
-                if (dg.ContainerNumber == obj.ContainerNumber
-                    && dg.Unno == obj.Unno)
+                if (dg.Model.ID == obj.DgID)
                 {
                     SelectedDg = dg;
                     break;
