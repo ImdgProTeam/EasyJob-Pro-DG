@@ -48,35 +48,13 @@ namespace EasyJob_ProDG.Model.Cargo
         internal ushort numberOfPackages;
         internal string typeOfPackages;
         internal string typeOfPackagesDescription;
-
-        public string NumberAndTypeOfPackages { get; set; }
-        public string TechnicalName { get; set; }
-
         #endregion
 
         #region Public properties
         //----------------- public properties -----------------------------
         // ---------------- computed properties ---------------------------
         public int ID { get; }
-
-
-        public bool IsSelfReactive
-        {
-            get { return isSelfReactive; }
-            set { isSelfReactive = value; }
-        }
-        public byte PackingGroupByte
-        {
-            get { return packingGroup; }
-            set { packingGroup = value; }
-        }
-        public double FlashPointDouble
-        {
-            set { flashPoint = value; }
-            get { return flashPoint; }
-        }
         public ushort Unno { get; set; }
-
         /// <summary>
         /// Set: adds string dg class to dgclass and will update allDgClasses.
         /// Get: returns string with dgclass.
@@ -94,18 +72,6 @@ namespace EasyJob_ProDG.Model.Cargo
             }
         }
 
-        public string FlashPoint
-        {
-            get
-            {
-                return Math.Abs(flashPoint - 9999) < 1 ? "" : flashPoint.ToString(CultureInfo.InvariantCulture);
-            }
-            set
-            {
-                if (string.IsNullOrEmpty(value)) flashPoint = 9999;
-                else flashPoint = double.Parse(value);
-            }
-        }
         /// <summary>
         /// Set: will add string dg class to dgsubclass and will update allDgClasses.
         /// Get: will return string with all subclasses listed and separated with comma.
@@ -174,14 +140,27 @@ namespace EasyJob_ProDG.Model.Cargo
                 }
             }
         }
-
-        public byte SegregationGroupByte
+        public byte PackingGroupByte
         {
+            get { return packingGroup; }
+            set { packingGroup = value; }
+        }
+        public string FlashPoint
+        {
+            get
+            {
+                return Math.Abs(flashPoint - 9999) < 1 ? "" : flashPoint.ToString(CultureInfo.InvariantCulture);
+            }
             set
             {
-                if (segregationGroupsListBytes.Contains(value)) return;
-                segregationGroupsListBytes.Add(value);
+                if (string.IsNullOrEmpty(value)) flashPoint = 9999;
+                else flashPoint = double.Parse(value);
             }
+        }
+        public double FlashPointDouble
+        {
+            set { flashPoint = value; }
+            get { return flashPoint; }
         }
 
         /// <summary>
@@ -236,6 +215,15 @@ namespace EasyJob_ProDG.Model.Cargo
             }
         }
 
+        public byte SegregationGroupByte
+        {
+            set
+            {
+                if (segregationGroupsListBytes.Contains(value)) return;
+                segregationGroupsListBytes.Add(value);
+            }
+        }
+
         /// <summary>
         /// Returns string with all segregation group codes listed.
         /// </summary>
@@ -252,6 +240,12 @@ namespace EasyJob_ProDG.Model.Cargo
                 }
                 return result;
             }
+        }
+
+        public bool IsSelfReactive
+        {
+            get { return isSelfReactive; }
+            set { isSelfReactive = value; }
         }
 
 
@@ -283,7 +277,6 @@ namespace EasyJob_ProDG.Model.Cargo
                 }
             }
         }
-
         public bool IsWaste
         {
             get => isWaste;
@@ -306,14 +299,11 @@ namespace EasyJob_ProDG.Model.Cargo
                 }
             }
         }
-
         public bool IsMax1L { get; set; }
-
         public bool IsAsCoolantOrConditioner
         {
             get => Name.ToUpper().Contains("COOLANT") || Name.ToUpper().Contains("CONDITIONER");
         }
-
 
 
 
@@ -330,18 +320,15 @@ namespace EasyJob_ProDG.Model.Cargo
         public decimal DgNetWeight { get; set; }
         public string EmergencyContacts { get; set; }
         public string Remarks { get; set; }
-
-        /// <summary>
-        /// Property returns number of dg subclasses
-        /// </summary>
-        public byte DgsubclassCount => (byte)dgsubclass.Count;
-        public List<byte> SegregationGroupList => segregationGroupsListBytes;
+        public string NumberAndTypeOfPackages { get; set; }
+        public string TechnicalName { get; set; }
         public string DgEMS { get; set; }
         public string Name { get; set; } //Proper shipping name
         public string OriginalNameFromCode { get; private set; }
         public bool IsNameChanged { get; set; }
         public bool IsTechnicalNameIncluded { get; set; }
         public string Surrounded { get; set; }
+
 
         // -------------- Properties copied from Container class ---------------------------
 
@@ -354,6 +341,7 @@ namespace EasyJob_ProDG.Model.Cargo
         public string POD { get; set; }
         public string FinalDestination { get; set; }
         public string Carrier { get; set; }
+
 
         //--------------- Readonly properties -----------------------------------------------
 
@@ -398,6 +386,11 @@ namespace EasyJob_ProDG.Model.Cargo
             }
         }
 
+        /// <summary>
+        /// Returns number of dg subclasses
+        /// </summary>
+        public byte DgsubclassCount => (byte)dgsubclass.Count;
+        public List<byte> SegregationGroupList => segregationGroupsListBytes;
 
 
         // -------------- inherited properties ----------------------------------------------
@@ -439,13 +432,13 @@ namespace EasyJob_ProDG.Model.Cargo
         // ------------------- Other properties --------------------------------------------        
 
         internal byte[] ALocation => new[] { Bay, Row, Tier };
-        public List<string> AllDgClassesList => allDgClasses;
+        internal List<string> AllDgClassesList => allDgClasses;
 
         /// <summary>
         /// Set: will add string dg class to allDgClasses.
         /// Get: will return string with allDgClasses listed and separated with a comma.
         /// </summary>
-        public string AllDgClasses
+        internal string AllDgClasses
         {
             get
             {

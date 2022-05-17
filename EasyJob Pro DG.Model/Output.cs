@@ -2,7 +2,8 @@
 {
 
     /// <summary>
-    /// Dummy class to facilitate converting from console project to wpf 
+    /// Dummy class to facilitate converting from console project to wpf .
+    /// Later shall be removed
     /// </summary>
     public class Output
     {

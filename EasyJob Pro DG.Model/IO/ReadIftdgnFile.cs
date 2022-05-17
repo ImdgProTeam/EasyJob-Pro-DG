@@ -55,10 +55,12 @@ namespace EasyJob_ProDG.Model.IO
                         if (segment.Contains("IFTDGN"))
                             isIftdn = true;
                         break;
+
                     case "BGM":
                         if (segment.StartsWith("BGM"))
                             started = true;
                         continue;
+
                     case "EQD":
                         if (segment.Substring(4, 2) == "CN")
                         {
@@ -269,10 +271,6 @@ namespace EasyJob_ProDG.Model.IO
                     default:
                         break;
                 }
-
-
-
-
             }
         }
 
