@@ -274,6 +274,8 @@
     <Compile Include="Wrapper\ConflictWrapper.cs" />
     <Compile Include="Wrapper\ContainerWrapper.cs" />
     <Compile Include="Wrapper\DgWrapper.cs" />
+    <Compile Include="Wrapper\DgWrapperMethods.cs" />
+    <Compile Include="Wrapper\DgWrapperProperties.cs" />
     <Compile Include="Wrapper\DOCWrapper.cs" />
     <Compile Include="Wrapper\Dummies\DummyAccommodation.cs" />
     <Compile Include="Wrapper\Dummies\DummyCargoHold.cs" />
