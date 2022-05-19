@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Data;
+using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Settings;
@@ -37,6 +38,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public DataGridReefersViewModel()
         {
             SetDataView();
+            RegisterInDataMessenger();
             reeferPlanView.Filter += OnReeferListFiltered;
         }
 
@@ -89,6 +91,25 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void SetDataView()
         {
             reeferPlanView.Source = CargoPlan.Reefers;
+        }
+
+        /// <summary>
+        /// Invokes OnPropertyChanged method for relevant properties.
+        /// </summary>
+        /// <param name="obj">none</param>
+        private void OnCargoDataUpdated(CargoDataUpdated obj)
+        {
+            SetDataView();
+            OnPropertyChanged($"CargoPlan");
+            OnPropertyChanged("ReeferPlanView");
+        }
+
+        /// <summary>
+        /// Registers for messages in DataMessenger
+        /// </summary>
+        private void RegisterInDataMessenger()
+        {
+            DataMessenger.Default.Register<CargoDataUpdated>(this, OnCargoDataUpdated, "cargodataupdated");
         }
     }
 }

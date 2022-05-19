@@ -62,7 +62,6 @@
     <Compile Include="IO\EasyJobCondition\CargoPlanAssociated.cs" />
     <Compile Include="IO\EasyJobCondition\ConditionUnit.cs" />
     <Compile Include="IO\EasyJobCondition\EasyJobCondition.cs" />
-    <Compile Include="IO\EasyJobCondition\RecordConverter.cs" />
     <Compile Include="IO\EasyJobCondition\RecordsCreator.cs" />
     <Compile Include="IO\Excel\ExcelTemplate.cs" />
     <Compile Include="IO\IUpdatable.cs" />

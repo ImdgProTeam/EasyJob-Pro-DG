@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Data;
+using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Settings;
@@ -20,11 +21,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         public CargoPlanWrapper CargoPlan
         {
             get { return ViewModelLocator.MainWindowViewModel.WorkingCargoPlan; }
-            set
-            {
-                //ViewModelLocator.MainWindowViewModel.WorkingCargoPlan = value;
-                //OnPropertyChanged();
-            }
         }
 
         /// <summary>
@@ -40,6 +36,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public DataGridContainersViewModel()
         {
             SetDataView();
+            RegisterInDataMessenger();
             containerPlanView.Filter += OnContainerListFiltered;
         }
 
@@ -92,6 +89,25 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void SetDataView()
         {
             containerPlanView.Source = CargoPlan.Containers;
+        }
+
+        /// <summary>
+        /// Invokes OnPropertyChanged method for relevant properties.
+        /// </summary>
+        /// <param name="obj">none</param>
+        private void OnCargoDataUpdated(CargoDataUpdated obj)
+        {
+            SetDataView();
+            OnPropertyChanged($"CargoPlan");
+            OnPropertyChanged("ContainerPlanView");
+        }
+
+        /// <summary>
+        /// Registers for messages in DataMessenger
+        /// </summary>
+        private void RegisterInDataMessenger()
+        {
+            DataMessenger.Default.Register<CargoDataUpdated>(this, OnCargoDataUpdated, "cargodataupdated");
         }
     }
 }
