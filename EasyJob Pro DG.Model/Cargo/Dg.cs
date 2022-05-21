@@ -708,7 +708,7 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             NumberAndTypeOfPackages = (numberOfPackages != 0 ? numberOfPackages + " " : "")
                                       + typeOfPackagesDescription
-                                      + (numberOfPackages != 0 || typeOfPackagesDescription != "" ? ", " : "")
+                                      + ((numberOfPackages != 0 || typeOfPackagesDescription != "") && typeOfPackages != "" ? ", " : "")
                                       + typeOfPackages;
         }
 
