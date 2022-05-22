@@ -3,11 +3,15 @@ using EasyJob_ProDG.UI.ViewModel;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace EasyJob_ProDG.UI.View.User_Controls
 {
@@ -21,12 +25,15 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         private bool isInitialized;
         private int currentColumnIndex = 0;
         private int currentRowIndex = 1;
+        private double OriginalScrollPosition { get; set; }
+        private bool IsResizingColumn { get; set; }
+
 
         public DataGridDg()
         {
             InitializeComponent();
             viewModel = MainDgTable.DataContext as DataGridDgViewModel;
-         }
+        }
 
         /// <summary>
         /// TO BE CHANGED TO IMPLEMENT REQUIREMENTS OF SETTINGS
@@ -252,5 +259,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             FocusOnRow(currentRowIndex);
         }
 
+        
     }
 }

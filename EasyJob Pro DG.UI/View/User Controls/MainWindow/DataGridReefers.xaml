@@ -18,22 +18,24 @@
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
             <cc:SearchBox Text="{Binding TextToFilter}"/>
-
         </StackPanel>
 
         <DataGrid x:Name="MainContainerDataTable"
                   ItemsSource="{Binding ReeferPlanView}"
                   SelectedItem="{Binding SelectedReefer, Mode=TwoWay}"
                   IsSynchronizedWithCurrentItem="True"
-                  FrozenColumnCount="0"
                   AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  
+                  FrozenColumnCount="0"
                   ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.IsDeferredScrollingEnabled="False"
                   EnableRowVirtualization="True"
                   VirtualizingPanel.IsContainerVirtualizable="True"
                   VirtualizingPanel.IsVirtualizing="True"
-                  VirtualizingPanel.VirtualizationMode="Standard"
-                  VirtualizingPanel.ScrollUnit="Pixel"
-                  CanUserAddRows="True"
+                  VirtualizingPanel.VirtualizationMode="Recycling"
+                  VirtualizingPanel.ScrollUnit="Item"
+                  
                   HeadersVisibility="All"
                   AlternationCount="2"
                   Background="{StaticResource Brush.ReeferTable.Background}"
@@ -44,7 +46,6 @@
                   Grid.Row="0"
                   SelectionMode="Extended"
                   behaviors:DataGridBehavior.DisplayRowNumber="True">
-
 
             <DataGrid.Resources>
                 
@@ -81,12 +82,6 @@
 
 
             </DataGrid.Resources>
-
-            <DataGrid.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel/>
-                </ItemsPanelTemplate>
-            </DataGrid.ItemsPanel>
 
             <!-- Columns -->
             <DataGrid.Columns>

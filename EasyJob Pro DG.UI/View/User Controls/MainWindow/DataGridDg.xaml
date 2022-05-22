@@ -39,27 +39,35 @@
                     Margin="1" />
         </StackPanel>
 
+        <ScrollViewer HorizontalContentAlignment="Stretch" 
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Disabled">
         <DataGrid x:Name="MainDgTable"
                   ItemsSource="{Binding DgPlanView}"
                   SelectedItem="{Binding SelectedDg, Mode=TwoWay}"
                   IsSynchronizedWithCurrentItem="True"
+                  
                   FrozenColumnCount="0"
                   AutoGenerateColumns="False"
+                  HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Auto"
+                  
+                  
                   ScrollViewer.CanContentScroll="True"
                   EnableRowVirtualization="True"
                   VirtualizingPanel.IsContainerVirtualizable="True"
                   VirtualizingPanel.IsVirtualizing="True"
-                  VirtualizingPanel.VirtualizationMode="Recycling"                  
+                  VirtualizingPanel.VirtualizationMode="Standard"                  
                   VirtualizingPanel.ScrollUnit="Pixel"
-                  CanUserAddRows="True"
+                  CanUserAddRows="False"
                   HeadersVisibility="All"
+                  GridLinesVisibility="All"
                   AlternationCount="2"
                   Background="{StaticResource Brush.DgTable.Background}"
                   RowBackground="Transparent"
                   AlternatingRowBackground="{StaticResource Brush.DgTable.AlternateRow}"
                   Opacity="0.6"
-                  Grid.Column="0"
-                  Grid.Row="0"
+                  
                   SelectionMode="Extended"
                   ap:SelectingDgDataGridItem.SelectingItem="{Binding SelectedDg}"
                   SelectedCellsChanged="MainDgTable_OnSelectedCellsChanged"
@@ -105,7 +113,6 @@
                        BasedOn="{StaticResource DataGridColumnHeaderStyle}">
                     <Setter Property="ContextMenu"
                             Value="{StaticResource DataGridColumnHeaderContextMenu}" />
-
                 </Style>
 
 
@@ -126,16 +133,6 @@
                             Value="Right" />
                 </Style>
 
-                <!--<Style TargetType="{x:Type TextBox}">
-                    <Setter Property="Style"
-                            Value="{StaticResource MyStyle}"></Setter>
-                </Style>-->
-
-                <!--<Style TargetType="{x:Type CheckBox}">
-                    <Setter Property="IsTabStop"
-                            Value="False" />
-                </Style>-->
-
                 <!-- Selection color -->
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                                  Color="{StaticResource Color.DgTable.HighlightRow}" />
@@ -146,12 +143,6 @@
                 <StaticResource ResourceKey="BaseFont" />
             </DataGrid.FontFamily>
 
-            <DataGrid.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel/>
-                </ItemsPanelTemplate>
-            </DataGrid.ItemsPanel>
-            
             <!-- Columns -->
             <DataGrid.Columns>
 
@@ -811,7 +802,8 @@
                     </DataGridTextColumn.EditingElementStyle>
                 </DataGridTextColumn>
 
-
+                <DataGridTemplateColumn IsReadOnly="True" Width="500" CanUserReorder="False" CanUserResize="False"
+                                        CanUserSort="False" />
 
             </DataGrid.Columns>
 
@@ -835,6 +827,6 @@
                             CommandParameter="{Binding ElementName=MainDgTable, Path=SelectedItems}" />
             </DataGrid.InputBindings>
         </DataGrid>
-
+</ScrollViewer>
     </DockPanel>
 </UserControl>
