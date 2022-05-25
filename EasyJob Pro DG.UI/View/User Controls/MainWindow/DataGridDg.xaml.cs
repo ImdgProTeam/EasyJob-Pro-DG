@@ -259,6 +259,60 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             FocusOnRow(currentRowIndex);
         }
 
-        
+        private void DataGrid_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            var dataGrid = sender as DataGrid;
+            if (this.IsResizingColumn
+              && TryFindVisualChildElement(dataGrid, out ScrollViewer scrollViewer))
+            {
+                this.Dispatcher.InvokeAsync(() =>
+                {
+                    scrollViewer.ScrollToHorizontalOffset(this.OriginalScrollPosition);
+                    this.IsResizingColumn = false;
+                }, DispatcherPriority.Background);
+            }
+        }
+        private void DataGridCell_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var dataGridCell = sender as DataGridCell;
+            if (TryFindVisualChildElement(this.MainDgTable, out ScrollViewer scrollViewer))
+            {
+                this.OriginalScrollPosition = scrollViewer.HorizontalOffset;
+                this.IsResizingColumn = true;
+            }
+        }
+
+        private bool TryFindVisualChildElement<TChild>(DependencyObject parent, out TChild resultElement)
+          where TChild : DependencyObject
+        {
+            resultElement = null;
+
+            if (parent is Popup popup)
+            {
+                parent = popup.Child;
+                if (parent == null)
+                {
+                    return false;
+                }
+            }
+
+            for (var childIndex = 0; childIndex < VisualTreeHelper.GetChildrenCount(parent); childIndex++)
+            {
+                DependencyObject childElement = VisualTreeHelper.GetChild(parent, childIndex);
+
+                if (childElement is TChild child)
+                {
+                    resultElement = child;
+                    return true;
+                }
+
+                if (TryFindVisualChildElement(childElement, out resultElement))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
