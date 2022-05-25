@@ -49,7 +49,7 @@
                   Grid.Column="0"
                   Grid.Row="0"
                   SelectionMode="Extended"
-                  behaviors:DataGridBehavior.DisplayRowNumber="True">
+                  behaviors:DataGridBehavior.DisplayRowNumber="True" >
 
             <DataGrid.Resources>
 
