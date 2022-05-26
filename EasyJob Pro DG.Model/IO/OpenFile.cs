@@ -17,7 +17,8 @@ namespace EasyJob_ProDG.Model.IO
             Excel,
             Ejc,
             IFTDGN,
-            Other
+            Other,
+            None
         }
 
         public enum OpenOption : byte

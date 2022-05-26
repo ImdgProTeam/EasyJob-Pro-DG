@@ -31,6 +31,8 @@ namespace EasyJob_ProDG.UI.Data
         bool UpdateWithNewFile(string file);
         void SaveFile(string fileName);
         void ExportDgListToExcel(CargoPlanWrapper cargo);
+        bool ImportReeferManifestInfo(string file, bool importOnlySelected, string currentPort);
+
         string ConditionFileName { get; }
 
     }

@@ -13,7 +13,7 @@ namespace EasyJob_ProDG.UI.Data
         /// <summary>
         /// Opens dialog and returns file name and type as 'out' parameters.
         /// </summary>
-        /// <param name="parameter"></param>
+        /// <param name="parameter">Owner window</param>
         /// <param name="file">Opened file name</param>
         /// <returns>True if file opened successfully</returns>
         public static bool OpenFileWithDialog(object parameter, out string file)
@@ -24,7 +24,7 @@ namespace EasyJob_ProDG.UI.Data
             {
                 DefaultExt = ".edi",
                 Filter = "Program file (*.edi, *.ejc, *.xls)|*.edi;*.xlsx;*.xls;*.ejc|All files (*.*)|*.*",
-                CheckFileExists = true, 
+                CheckFileExists = true,
                 Multiselect = false
             };
 
@@ -48,16 +48,58 @@ namespace EasyJob_ProDG.UI.Data
         }
 
         /// <summary>
+        /// Opens dialog and returns excel file name and type as 'out' parameters.
+        /// </summary>
+        /// <param name="parameter">Owner window</param>
+        /// <param name="file">Opened excel file name</param>
+        /// <returns>True if file opened successfully</returns>
+        public static bool OpenExcelFileWithDialog(object parameter, out string file)
+        {
+            var s = parameter as Window;
+
+            OpenFileDialog dlg = new OpenFileDialog
+            {
+                DefaultExt = ".xlsx",
+                Filter = "Excel file (*.xls, *.xlsx)|*.xlsx;*.xls|All files (*.*)|*.*",
+                CheckFileExists = true,
+                Multiselect = false
+            };
+
+            if ((bool)dlg.ShowDialog(s))
+            {
+                try
+                {
+                    //Open file and check
+                    file = dlg.FileName;
+                    if (ConfirmFileType(file, OpenFile.FileTypes.Excel)) return true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Could not load file " + ex.Message, s?.Title, MessageBoxButton.OK,
+                        MessageBoxImage.Exclamation);
+                }
+            }
+
+            file = null;
+            return false;
+        }
+
+        /// <summary>
         /// Checks file type and confirms with user to open other type of file.
         /// </summary>
         /// <param name="file">Any file name with extension</param>
+        /// <param name="fileType">If specific file type required to be confirmed. If not mentioned - all readable files will be checked.</param>
         /// <returns>True if file is confirmed to be opened</returns>
-        public static bool ConfirmFileType(string file)
+        public static bool ConfirmFileType(string file, OpenFile.FileTypes fileType = OpenFile.FileTypes.None)
         {
             string fileExt = OpenFile.GetExtension(file);
             var ftype = OpenFile.DefineFileType(fileExt);
 
-            if (ftype != OpenFile.FileTypes.Other || OtherTypeDialog())
+            if (fileType == ftype)
+            {
+                return true;
+            }
+            else if (ftype != OpenFile.FileTypes.Other || OtherTypeDialog())
             {
                 return true;
             }

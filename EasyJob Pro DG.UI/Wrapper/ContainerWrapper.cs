@@ -50,7 +50,7 @@ namespace EasyJob_ProDG.UI.Wrapper
 
                 if (CurrentProgramData.OwnShip != null) Model.HoldNr = CurrentProgramData.OwnShip.DefineCargoHoldNumber(Bay);
                 SetToAllContainersInPlan(GetValue<string>(), oldValue);
-                UpdateLocation();
+                RefreshLocation();
             }
         }
 
@@ -242,7 +242,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         public double SetTemperature
         {
             get { return GetValue<double>(); }
-            set { SetValue(value); }
+            set { SetValue(value);           }
         }
         public string Commodity
         {
@@ -392,13 +392,23 @@ namespace EasyJob_ProDG.UI.Wrapper
             OnPropertyChanged("Type");
             OnPropertyChanged("IsClosed");
 
-            UpdateLocation();
+            RefreshLocation();
+        }
+
+        internal void RefreshIReefer()
+        {
+            OnPropertyChanged("Commodity");
+            OnPropertyChanged("SetTemperature");
+            OnPropertyChanged("VentSetting");
+            OnPropertyChanged("LoadTemperature");
+            OnPropertyChanged("ReeferSpecial");
+            OnPropertyChanged("ReeferRemark");
         }
 
         /// <summary>
         /// Calls OnPropertyChanged for all location related properties
         /// </summary>
-        private void UpdateLocation()
+        private void RefreshLocation()
         {
             OnPropertyChanged("Location");
             OnPropertyChanged("Bay");
@@ -409,6 +419,8 @@ namespace EasyJob_ProDG.UI.Wrapper
             OnPropertyChanged("Size");
             OnPropertyChanged("LocationSortable");
         }
+
+        
 
         //--------------- Private methods -------------------------------------------
 

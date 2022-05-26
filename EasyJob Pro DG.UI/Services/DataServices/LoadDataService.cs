@@ -37,5 +37,10 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         {
             _currentProgramData.ExportDgListToExcel(cargo);
         }
+
+        public bool ImportReeferManifestInfo(string file, bool importOnlySelected = false, string currentPort = null)
+        {
+            return _currentProgramData.ImportReeferManifestInfo(file, importOnlySelected, currentPort);
+        }
     }
 }

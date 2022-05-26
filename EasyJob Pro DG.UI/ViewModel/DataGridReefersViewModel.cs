@@ -102,14 +102,23 @@ namespace EasyJob_ProDG.UI.ViewModel
             SetDataView();
             OnPropertyChanged($"CargoPlan");
             OnPropertyChanged("ReeferPlanView");
+            ReeferPlanView.Refresh();
         }
 
+        private void OnReeferInfoUpdated(CargoDataUpdated obj)
+        {
+            reeferPlanView.Source = null;
+            SetDataView();
+            OnPropertyChanged("ReeferPlanView");
+        }
         /// <summary>
         /// Registers for messages in DataMessenger
         /// </summary>
         private void RegisterInDataMessenger()
         {
             DataMessenger.Default.Register<CargoDataUpdated>(this, OnCargoDataUpdated, "cargodataupdated");
+            DataMessenger.Default.Register<CargoDataUpdated>(this, OnReeferInfoUpdated, "reeferinfoupdated");
         }
+
     }
 }

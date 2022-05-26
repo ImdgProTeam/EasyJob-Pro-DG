@@ -323,13 +323,15 @@ namespace EasyJob_ProDG.Model.IO.Excel
         /// <param name="excelCells"></param>
         /// <param name="excelWorksheet"></param>
         /// <returns></returns>
-        private static int CountRows(ref ExcelApp.Range excelCells, ExcelApp.Worksheet excelWorksheet)
+        internal static int CountRows(ref ExcelApp.Range excelCells, ExcelApp.Worksheet excelWorksheet, int startRow = 0)
         {
             bool stop = false;
             int rowsCount = 0;
+            int startRowUsed = startRow == 0 ? template.StartRow : startRow;
+
             while (!stop)
             {
-                excelCells = excelWorksheet.Cells[template.StartRow + rowsCount, template.ColumnContainerNumber];
+                excelCells = excelWorksheet.Cells[startRowUsed + rowsCount, startRow == 0 ? template.ColumnContainerNumber : 1];
                 stop = excelCells.Value2 == null;
                 if (!stop) rowsCount++;
             }

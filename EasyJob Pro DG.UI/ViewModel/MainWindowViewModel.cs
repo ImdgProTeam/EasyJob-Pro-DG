@@ -110,6 +110,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             ImportDataCommand = new DelegateCommand(ImportInfoOnExecuted, CanExecuteForOptionalOpen);
             ImportDataOnlyPolCommand = new DelegateCommand(ImportInfoOnlyPolOnExecuted, CanExecuteForOptionalOpen);
             ImportDataOnlySelectedCommand = new DelegateCommand(ImportInfoOnlySelectedOnExecuted, CanExecuteForOptionalOpen);
+            ImportReeferManifestInfoCommand = new DelegateCommand(ImportReeferManifestInfoOnExecuted, CanAddReeferManifestInfo);
             ExportToExcelCommand = new DelegateCommand(ExportToExcelOnExecuted);
             SelectionChangedCommand = new DelegateCommand(OnApplicationClosing);
             ApplicationClosingCommand = new DelegateCommand(OnApplicationClosing);
@@ -201,6 +202,23 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 OpenNewFile(file);
             }
+        }
+
+        /// <summary>
+        /// Returns true if Reefer manifest info successfully imported from the file and Reefers properties updated
+        /// </summary>
+        /// <param name="file">Excel file containing manifest info</param>
+        private void ImportReeferManifestInfo(string file)
+        {
+            StatusBarControl.StartProgressBar(10, "Importing...");
+            if (!loadDataService.ImportReeferManifestInfo(file))
+            {
+                _messageDialogService.ShowOkDialog("Manifest file can not be read", "Error");
+                StatusBarControl.Cancel();
+            }
+            StatusBarControl.ChangeBarSet(90);
+            DataMessenger.Default.Send<CargoDataUpdated>(new CargoDataUpdated(), "reeferinfoupdated"); 
+            StatusBarControl.ChangeBarSet(100);
         }
 
         /// <summary>
@@ -302,7 +320,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             //StatusBarControl.StartProgressBar(0, "Opening...");
             if (!DialogOpenFile.OpenFileWithDialog(obj, out var file))
             {
-                //StatusBarControl.Cancel();
+                StatusBarControl.Cancel();
                 return;
             }
             OpenFileWithOptionsChoice(file);
@@ -345,6 +363,21 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             if (!DialogOpenFile.OpenFileWithDialog(owner, out var file)) return;
             OpenNewFile(file, OpenFile.OpenOption.Import, importOnlySelected, currentPort);
+        }
+
+        private bool CanAddReeferManifestInfo(object obj)
+        {
+            return WorkingCargoPlan.ReeferCount > 0;
+        }
+
+        /// <summary>
+        /// Opens dialog to choose excel file with reefer manifests and imports reefer info
+        /// </summary>
+        /// <param name="obj">Owner window</param>
+        private void ImportReeferManifestInfoOnExecuted(object obj)
+        {
+            if(!DialogOpenFile.OpenExcelFileWithDialog(obj,out var file)) return;
+            ImportReeferManifestInfo(file);
         }
 
         /// <summary>
@@ -418,7 +451,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void OnReCheckRequested(object obj)
         {
             DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
-            //conflictDataService.ReCheckConflicts();
         } 
         #endregion
 
@@ -502,6 +534,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand ImportDataCommand { get; set; }
         public ICommand ImportDataOnlyPolCommand { get; set; }
         public ICommand ImportDataOnlySelectedCommand { get; set; }
+        public ICommand ImportReeferManifestInfoCommand { get; set; }
         public ICommand ExportToExcelCommand { get; set; }
         public ICommand SelectionChangedCommand { get; set; }
         public ICommand ApplicationClosingCommand { get; set; }

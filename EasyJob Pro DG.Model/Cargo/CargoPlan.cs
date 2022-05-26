@@ -1,9 +1,11 @@
 ﻿using EasyJob_ProDG.Model.IO;
+using EasyJob_ProDG.Model.IO.Excel;
 using EasyJob_ProDG.Model.Transport;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using static EasyJob_ProDG.Model.IO.Excel.WithXlReefers;
 
 namespace EasyJob_ProDG.Model.Cargo
 {
@@ -62,6 +64,11 @@ namespace EasyJob_ProDG.Model.Cargo
 
             //result
             return cargoPlan;
+        }
+
+        public bool ImportReeferManifestInfoFromExcel(string fileName)
+        {
+            return Reefers.ImportReeferManifestInfoFromExcel(fileName);
         }
 
         /// <summary>
@@ -334,6 +341,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
             return resultingNewCargoPlan;
         }
+
 
 
 

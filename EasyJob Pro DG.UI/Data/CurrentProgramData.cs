@@ -152,7 +152,11 @@ namespace EasyJob_ProDG.UI.Data
             return UpdatedOnExecuted(fileName);
         }
 
-
+        public bool ImportReeferManifestInfo(string file, bool importOnlySelected = false, string currentPort = null)
+        {
+            return ImportReeferManifestInfoOnExecuted(file, importOnlySelected, currentPort);
+            
+        }
 
         public void SaveWorkingCondition()
         {
@@ -207,6 +211,18 @@ namespace EasyJob_ProDG.UI.Data
             _workingCargoPlan = new CargoPlan();//WorkingCargoPlan.Model.UpdateCargoPlan(file, OwnShip, _dgDataBase);
             ReCheckDgList(_workingCargoPlan);
             return true;
+        }
+
+        /// <summary>
+        /// Imports manifest info from excel file and updates Reefers with its data..
+        /// </summary>
+        /// <param name="file">Excel file path containing manifest info.</param>
+        /// <param name="importOnlySelected">If selected, then import only selected reefers info.</param>
+        /// <param name="currentPort">If not null (by default null), then only current POL reefers will be updated.</param>
+        /// <returns></returns>
+        private bool ImportReeferManifestInfoOnExecuted(string file, bool importOnlySelected, string currentPort)
+        {
+            return _workingCargoPlan.ImportReeferManifestInfoFromExcel(file);
         }
 
         /// <summary>
