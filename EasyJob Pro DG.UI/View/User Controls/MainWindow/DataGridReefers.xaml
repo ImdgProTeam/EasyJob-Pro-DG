@@ -271,7 +271,7 @@
 
                 <!-- Reefer remark -->
                 <DataGridTextColumn x:Name="remarkColumn"
-                                    Header="Remarks"
+                                    Header="Remark"
                                     FocusManager.FocusedElement="{Binding ElementName=txbName}"
                                     Binding="{Binding ReeferRemark, UpdateSourceTrigger=LostFocus}">
                     <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Width, Mode=TwoWay}"

@@ -1,5 +1,4 @@
-﻿using EasyJob_ProDG.UI.Wrapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
@@ -9,12 +8,15 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace EasyJob_ProDG.UI.Utility
 {
+    /// <summary>
+    /// Class deals with exporting to excel of data as displayed
+    /// </summary>
     public static class ExportDataGridToExcel
     {
         /// <summary>
-        /// Exports DataGrid data to excel in the same order as on the screen
+        /// Exports data from DataGrid as it is displayed.
         /// </summary>
-        /// <param name="dataGrid">DataGrid with DgWrappers or ContainerWrappers.</param>
+        /// <param name="dataGrid">DataGrid containing data to export.</param>
         public static void ExportToExcel(DataGrid dataGrid)
         {
             ListCollectionView collection = CollectionViewSource.GetDefaultView(dataGrid.ItemsSource) as ListCollectionView;
@@ -36,9 +38,9 @@ namespace EasyJob_ProDG.UI.Utility
                 try
                 {
                     columnProperties[index] = new ColumnProperty();
-                    columnProperties[index].ColumnHeader = column.Header.ToString();
-                    columnProperties[index].ColumnPropertyName = PropertiesDictionary[column.Header.ToString()];
-                    columnProperties[index].ColumnWidth = (int) column.ActualWidth / 8;
+                    columnProperties[index].ColumnHeader = column.Header?.ToString() ?? null;
+                    columnProperties[index].ColumnPropertyName = PropertiesDictionary[column.Header?.ToString()] ?? column.Header?.ToString();
+                    columnProperties[index].ColumnWidth = (int)column.ActualWidth / 8;
                 }
                 catch
                 {
@@ -67,18 +69,7 @@ namespace EasyJob_ProDG.UI.Utility
                 }
 
                 range.Value2 = columnProperties[i].ColumnHeader;
-            }
 
-            //filling the data into the table
-            subtraction = 0;
-            for (int i = 0; i < dataGrid.Columns.Count; i++)
-            {
-                //skip if column is not mentioned in dictionary
-                if (columnProperties[i] == null)
-                {
-                    subtraction++;
-                    continue;
-                }
 
                 //create records
                 for (int j = 0; j < collection.Count - 1; j++)
@@ -86,19 +77,19 @@ namespace EasyJob_ProDG.UI.Utility
                     string value;
                     try
                     {
-                        DgWrapper dg = (DgWrapper)collection.GetItemAt(j);
-                        PropertyInfo property = dg.GetType().GetProperty(columnProperties[i].ColumnPropertyName);
+                        var item = collection.GetItemAt(j);
+                        PropertyInfo property = item.GetType().GetProperty(columnProperties[i].ColumnPropertyName);
                         if (property == null) continue;
 
                         if (Object.ReferenceEquals(property?.PropertyType, typeof(Boolean)))
                         {
-                            value = (bool)property?.GetValue(dg) ? "Y" : "";
+                            value = (bool)property?.GetValue(item) ? "Y" : "";
                         }
                         else
                         {
-                            value = property?.GetValue(dg)?.ToString();
+                            value = property?.GetValue(item)?.ToString();
                         }
-                        Excel.Range range = (Excel.Range)sheet.Cells[j + 2, i + 1 - subtraction];
+                        range = (Excel.Range)sheet.Cells[j + 2, i + 1 - subtraction];
                         range.Value2 = value;
                     }
                     catch
@@ -107,18 +98,17 @@ namespace EasyJob_ProDG.UI.Utility
                     }
                 }
             }
-
-
-
             excel.Visible = true;
         }
 
+
         /// <summary>
-        /// Dictionary used to match column headers with DgWrapper properties.
+        /// Dictionary used to match column headers with item properties.
         /// </summary>
         private static readonly Dictionary<string, string> PropertiesDictionary = new Dictionary<string, string>()
         {
             {"Position", "Location"},
+            {"Hold number", "HoldNr" },
             {"Container number", "ContainerNumber"},
             {"Operator", "Carrier"},
             {"POL", "POL"},
@@ -144,7 +134,15 @@ namespace EasyJob_ProDG.UI.Utility
             {"Technical name", "TechnicalName"},
             {"Number and type of Packages", "NumberAndTypeOfPackages"},
             {"Emergency contact", "EmergencyContacts"},
-            {"Remarks", "Remarks"}
+            {"Remarks", "Remarks"},
+            {"Contains Dg cargo", "ContainsDgCargo" },
+
+            {"Commodity", "Commodity" },
+            {"Vent", "VentSetting" },
+            {"Set point", "SetTemperature" },
+            {"Load temperature", "LoadTemperature" },
+            {"Special", "ReeferSpecial" },
+            {"Remark", "ReeferRemark" }
 
         };
 
@@ -159,7 +157,6 @@ namespace EasyJob_ProDG.UI.Utility
 
             internal ColumnProperty()
             {
-
             }
         }
     }
