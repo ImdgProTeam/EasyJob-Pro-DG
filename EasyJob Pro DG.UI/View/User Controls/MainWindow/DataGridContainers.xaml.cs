@@ -21,6 +21,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             MainWindow.OnWindowClosingEventHandler += new MainWindow.WindowClosing(UpdateColumnSettings);
         }
 
+        #region Column settings
         /// <summary>
         /// Loads column settings for ContainerDataTable from settings.settings
         /// </summary>
@@ -34,7 +35,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
             try
             {
-                for(int i = 0; i < displayIndexes.Count(); i++)
+                for (int i = 0; i < displayIndexes.Count(); i++)
                 {
                     MainContainerDataTable.Columns[i].DisplayIndex = int.Parse(displayIndexes[i]);
                     MainContainerDataTable.Columns[i].Width = double.Parse(widths[i]);
@@ -45,7 +46,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             {
                 Debug.WriteLine("-----> Restoring of ContainerDataTable column settings caused an exception");
                 int i = 0;
-                foreach(var column in MainContainerDataTable.Columns)
+                foreach (var column in MainContainerDataTable.Columns)
                 {
                     column.DisplayIndex = i;
                     column.Width = DataGridLength.Auto;
@@ -62,10 +63,10 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         private void UpdateColumnSettings()
         {
             List<int> displayIndexes = new List<int>();
-            List<double> widths = new List<double>(); 
+            List<double> widths = new List<double>();
             List<string> visibilitys = new List<string>();
-            
-            foreach(var column in MainContainerDataTable.Columns)
+
+            foreach (var column in MainContainerDataTable.Columns)
             {
                 displayIndexes.Add(column.DisplayIndex);
                 widths.Add(column.ActualWidth);
@@ -77,5 +78,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             Properties.Settings.Default.ContainerDataTableVisibilities = string.Join(";", visibilitys);
         }
 
+        #endregion
     }
 }

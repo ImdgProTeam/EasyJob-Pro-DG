@@ -31,6 +31,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             MainWindow.OnWindowClosingEventHandler += new MainWindow.WindowClosing(UpdateColumnSettings);
         }
 
+        #region Column settings
         /// <summary>
         /// Loads column settings for ReeferDataTable from settings.settings
         /// </summary>
@@ -87,5 +88,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             Properties.Settings.Default.ReeferDataTableVisibilities = string.Join(";", visibilitys);
         }
 
+        #endregion
     }
 }
