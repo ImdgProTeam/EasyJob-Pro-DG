@@ -66,7 +66,9 @@
                           ToolTip="Import Dg and reefer info for selected for import items only" />
                 <MenuItem Header="Export to Excel"
                           Command="{Binding ExportToExcelCommand}" />
+                
                 <Separator/>
+                
                 <MenuItem Header="Actions"
                       DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=DgDataGridViewModel}">
                     <MenuItem Header="Include Technical Name"
@@ -78,12 +80,14 @@
                     <MenuItem Header="Add"
                               Command="{Binding AddNewDgCommand}" />
                 </MenuItem>
-                
             </MenuItem>
+            
             <MenuItem Header="Reefers"
                       Style="{StaticResource TopLevelMenuItem}">
                 <MenuItem Header="Import manifest info"
                       Command="{Binding ImportReeferManifestInfoCommand}"/>
+                <MenuItem Header="Edit manifest template"/>
+                <MenuItem Header="Export to exce"/>
             </MenuItem>
 
             <MenuItem Header="Settings"
