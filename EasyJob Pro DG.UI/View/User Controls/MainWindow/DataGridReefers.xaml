@@ -20,6 +20,16 @@
             <cc:SearchBox Text="{Binding TextToFilter}"/>
         </StackPanel>
 
+        <StackPanel DockPanel.Dock="Bottom"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+
+            <Button Content="To Excel"
+                    Click="ExportToExcel"
+                    Width="100"
+                    Margin="1" />
+        </StackPanel>
+
         <DataGrid x:Name="MainReeferDataTable"
                   ItemsSource="{Binding ReeferPlanView}"
                   SelectedItem="{Binding SelectedReefer, Mode=TwoWay}"

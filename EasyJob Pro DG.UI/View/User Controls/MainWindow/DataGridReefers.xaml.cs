@@ -1,4 +1,5 @@
-﻿using EasyJob_ProDG.UI.View.UI;
+﻿using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.View.UI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -80,5 +81,10 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         }
 
         #endregion
+
+        private void ExportToExcel(object sender, RoutedEventArgs e)
+        {
+            ExportDataGridToExcel.ExportToExcel(MainReeferDataTable);
+        }
     }
 }
