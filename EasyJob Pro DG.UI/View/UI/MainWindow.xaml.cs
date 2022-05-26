@@ -22,6 +22,7 @@ namespace EasyJob_ProDG.UI.View.UI
             SetWindowLocationOnStartup();
         }
 
+        #region Window location
         /// <summary>
         /// Sets Window size and location from settings. 
         /// </summary>
@@ -55,7 +56,8 @@ namespace EasyJob_ProDG.UI.View.UI
             Properties.Settings.Default.WindowStateMaximized = this.WindowState == WindowState.Maximized;
             Properties.Settings.Default.WindowPosition = this.RestoreBounds;
             Properties.Settings.Default.Save();
-        }
+        } 
+        #endregion
 
         private void ClosingApplication(object sender, CancelEventArgs e)
         {
@@ -64,77 +66,81 @@ namespace EasyJob_ProDG.UI.View.UI
             SaveCurrentWindowLocationToSettings();
         }
 
+
+        // --------- Events -----------------------------------------------
         public delegate void WindowClosing();
         public static event WindowClosing OnWindowClosingEventHandler = null;
 
-        /// <summary>
-        /// Sorting in accordance with selected pattern of items in Reefer data grid
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DataGrid_Sorting(object sender, DataGridSortingEventArgs e)
-        {
-            DataGrid grid = sender as DataGrid;
-            ListCollectionView collection = CollectionViewSource.GetDefaultView(grid.ItemsSource) as ListCollectionView;
+        //#region Sorting
+        ///// <summary>
+        ///// Sorting in accordance with selected pattern of items in Reefer data grid
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void DataGrid_Sorting(object sender, DataGridSortingEventArgs e)
+        //{
+        //    DataGrid grid = sender as DataGrid;
+        //    ListCollectionView collection = CollectionViewSource.GetDefaultView(grid.ItemsSource) as ListCollectionView;
 
-            if (e.Column != null && e.Column.Header.ToString() == "Location" || e.Column.Header.ToString() == "SortableLocation")
-            {
-                SortDescription sortAscending = new SortDescription("LocationSortable", ListSortDirection.Ascending);
-                SortDescription sortDescending = new SortDescription("LocationSortable", ListSortDirection.Descending);
-                bool ascending = collection.SortDescriptions.Contains(sortAscending);
-                if (collection.SortDescriptions.Count > 0)
-                    collection.SortDescriptions.Clear();
-                if (ascending)
-                    collection.SortDescriptions.Add(sortDescending);
-                else
-                    collection.SortDescriptions.Add(sortAscending);
-                e.Handled = true;
-            }
-        }
+        //    if (e.Column != null && e.Column.Header.ToString() == "Location" || e.Column.Header.ToString() == "SortableLocation")
+        //    {
+        //        SortDescription sortAscending = new SortDescription("LocationSortable", ListSortDirection.Ascending);
+        //        SortDescription sortDescending = new SortDescription("LocationSortable", ListSortDirection.Descending);
+        //        bool ascending = collection.SortDescriptions.Contains(sortAscending);
+        //        if (collection.SortDescriptions.Count > 0)
+        //            collection.SortDescriptions.Clear();
+        //        if (ascending)
+        //            collection.SortDescriptions.Add(sortDescending);
+        //        else
+        //            collection.SortDescriptions.Add(sortAscending);
+        //        e.Handled = true;
+        //    }
+        //}
 
-        /// <summary>
-        /// Sorting in accordance with selected pattern of items in Container data grid
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DataGrid_Sorting_1(object sender, DataGridSortingEventArgs e)
-        {
-            DataGrid grid = sender as DataGrid;
-            ListCollectionView collection = CollectionViewSource.GetDefaultView(grid.ItemsSource) as ListCollectionView;
+        ///// <summary>
+        ///// Sorting in accordance with selected pattern of items in Container data grid
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void DataGrid_Sorting_1(object sender, DataGridSortingEventArgs e)
+        //{
+        //    DataGrid grid = sender as DataGrid;
+        //    ListCollectionView collection = CollectionViewSource.GetDefaultView(grid.ItemsSource) as ListCollectionView;
 
-            //Location as per location sortable
-            if (e.Column != null && e.Column.Header.ToString() == "Location" || e.Column.Header.ToString() == "SortableLocation")
-            {
-                SortDescription sortAscending = new SortDescription("LocationSortable", ListSortDirection.Ascending);
-                SortDescription sortDescending = new SortDescription("LocationSortable", ListSortDirection.Descending);
-                bool ascending = collection.SortDescriptions.Contains(sortAscending);
-                if (collection.SortDescriptions.Count > 0)
-                    collection.SortDescriptions.Clear();
-                if (ascending)
-                    collection.SortDescriptions.Add(sortDescending);
-                else
-                    collection.SortDescriptions.Add(sortAscending);
-                e.Handled = true;
-            }
+        //    //Location as per location sortable
+        //    if (e.Column != null && e.Column.Header.ToString() == "Location" || e.Column.Header.ToString() == "SortableLocation")
+        //    {
+        //        SortDescription sortAscending = new SortDescription("LocationSortable", ListSortDirection.Ascending);
+        //        SortDescription sortDescending = new SortDescription("LocationSortable", ListSortDirection.Descending);
+        //        bool ascending = collection.SortDescriptions.Contains(sortAscending);
+        //        if (collection.SortDescriptions.Count > 0)
+        //            collection.SortDescriptions.Clear();
+        //        if (ascending)
+        //            collection.SortDescriptions.Add(sortDescending);
+        //        else
+        //            collection.SortDescriptions.Add(sortAscending);
+        //        e.Handled = true;
+        //    }
 
-            //Booleans: true first
-            if (e.Column != null && e.Column.Header.ToString() == "ContainsDgCargo" ||
-                e.Column.Header.ToString() == "IsUnderdeck" || e.Column.Header.ToString() == "IsClosed" ||
-                e.Column.Header.ToString() == "IsRf" || e.Column.Header.ToString() == "TypeRecognized" ||
-                e.Column.Header.ToString() == "HasError")
-            {
-                SortDescription sortAscending = new SortDescription(e.Column.Header.ToString(), ListSortDirection.Ascending);
-                SortDescription sortDescending = new SortDescription(e.Column.Header.ToString(), ListSortDirection.Descending);
-                bool descending = collection.SortDescriptions.Contains(sortDescending);
-                if (collection.SortDescriptions.Count > 0)
-                    collection.SortDescriptions.Clear();
-                if (descending)
-                    collection.SortDescriptions.Add(sortAscending);
-                else
-                    collection.SortDescriptions.Add(sortDescending);
-                e.Handled = true;
-            }
-        }
+        //    //Booleans: true first
+        //    if (e.Column != null && e.Column.Header.ToString() == "ContainsDgCargo" ||
+        //        e.Column.Header.ToString() == "IsUnderdeck" || e.Column.Header.ToString() == "IsClosed" ||
+        //        e.Column.Header.ToString() == "IsRf" || e.Column.Header.ToString() == "TypeRecognized" ||
+        //        e.Column.Header.ToString() == "HasError")
+        //    {
+        //        SortDescription sortAscending = new SortDescription(e.Column.Header.ToString(), ListSortDirection.Ascending);
+        //        SortDescription sortDescending = new SortDescription(e.Column.Header.ToString(), ListSortDirection.Descending);
+        //        bool descending = collection.SortDescriptions.Contains(sortDescending);
+        //        if (collection.SortDescriptions.Count > 0)
+        //            collection.SortDescriptions.Clear();
+        //        if (descending)
+        //            collection.SortDescriptions.Add(sortAscending);
+        //        else
+        //            collection.SortDescriptions.Add(sortDescending);
+        //        e.Handled = true;
+        //    }
+        //}
 
+        //#endregion
     }
 }
