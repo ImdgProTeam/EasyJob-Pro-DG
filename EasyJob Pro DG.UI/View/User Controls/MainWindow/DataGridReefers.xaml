@@ -20,7 +20,7 @@
             <cc:SearchBox Text="{Binding TextToFilter}"/>
         </StackPanel>
 
-        <DataGrid x:Name="MainContainerDataTable"
+        <DataGrid x:Name="MainReeferDataTable"
                   ItemsSource="{Binding ReeferPlanView}"
                   SelectedItem="{Binding SelectedReefer, Mode=TwoWay}"
                   IsSynchronizedWithCurrentItem="True"

@@ -82,5 +82,41 @@ namespace EasyJob_ProDG.UI.Properties {
                 this["ContainerDataTableVisibilities"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ReeferDataTableDisplayIndex {
+            get {
+                return ((string)(this["ReeferDataTableDisplayIndex"]));
+            }
+            set {
+                this["ReeferDataTableDisplayIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ReeferDataTableWidth {
+            get {
+                return ((string)(this["ReeferDataTableWidth"]));
+            }
+            set {
+                this["ReeferDataTableWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ReeferDataTableVisibilities {
+            get {
+                return ((string)(this["ReeferDataTableVisibilities"]));
+            }
+            set {
+                this["ReeferDataTableVisibilities"] = value;
+            }
+        }
     }
 }
