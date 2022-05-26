@@ -36,15 +36,24 @@
                           InputGestureText="Ctrl+S" />
 
                 <Separator />
-
-                <MenuItem Header="_Recheck conflicts"
-                          Command="{Binding ReCheckCommand}"
-                          InputGestureText="F5"
-                          ToolTip="Check condition and update list of conflicts" />
                 <MenuItem Header="_Update condition"
                           Command="{Binding UpdateConditionCommand}"
                           InputGestureText="Ctrl+U"
                           ToolTip="Load only the changes in a new file" />
+                <Separator />
+
+                <MenuItem Header="Exit"
+                          Command="{Binding CloseApplicationCommand}"
+                          InputGestureText="Ctrl+Q" />
+            </MenuItem>
+
+            <MenuItem Header="Dangerous cargo"
+                      Style="{StaticResource TopLevelMenuItem}">
+                <MenuItem Header="_Recheck conflicts"
+                          Command="{Binding ReCheckCommand}"
+                          InputGestureText="F5"
+                          ToolTip="Check condition and update list of conflicts" />
+                <Separator/>
                 <MenuItem Header="_Import info"
                           Command="{Binding ImportDataCommand}"
                           InputGestureText="Ctrl+I"
@@ -57,33 +66,34 @@
                           ToolTip="Import Dg and reefer info for selected for import items only" />
                 <MenuItem Header="Export to Excel"
                           Command="{Binding ExportToExcelCommand}" />
-                <MenuItem Header="Add"
-                          Command="{Binding AddNewDgCommand}" />
-                <Separator />
-                <MenuItem Header="Edit Ship Profile"
-                          Command="{Binding OpenShipProfileWindowCommand}" />
-                <MenuItem Header="User settings"
-                          Command="{Binding OpenUserSettingsWindowCommand}" />
-
-                <Separator />
-
-                <MenuItem Header="Exit"
-                          Command="{Binding CloseApplicationCommand}"
-                          InputGestureText="Ctrl+Q" />
-            </MenuItem>
-
-            <MenuItem Header="Actions"
-                      Style="{StaticResource TopLevelMenuItem}"
+                <Separator/>
+                <MenuItem Header="Actions"
                       DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=DgDataGridViewModel}">
-                <MenuItem Header="Include Technical Name"
+                    <MenuItem Header="Include Technical Name"
                           IsCheckable="True"
                           IsChecked="{Binding IsTechnicalNameIncluded, Mode=OneWay}"
                           Command="{Binding IncludeTechnicalNameCommand}">
 
+                    </MenuItem>
+                    <MenuItem Header="Add"
+                              Command="{Binding AddNewDgCommand}" />
                 </MenuItem>
-
+                
+            </MenuItem>
+            <MenuItem Header="Reefers"
+                      Style="{StaticResource TopLevelMenuItem}">
+                <MenuItem Header="Import manifest info"
+                      Command="{Binding ImportReeferManifestInfoCommand}"/>
             </MenuItem>
 
+            <MenuItem Header="Settings"
+                      Style="{StaticResource TopLevelMenuItem}">
+                <MenuItem Header="Edit Ship Profile"
+                          Command="{Binding OpenShipProfileWindowCommand}" />
+                <MenuItem Header="User settings"
+                          Command="{Binding OpenUserSettingsWindowCommand}" />
+            </MenuItem>
+            
             <MenuItem Header="Help"
                       Style="{StaticResource TopLevelMenuItem}">
                 <MenuItem.Resources>
