@@ -14,52 +14,12 @@ namespace EasyJob_ProDG.Model.IO.Excel
         static bool isTemplateRead = false;
 
         /// <summary>
-        /// Imports manifest info from excel file
-        /// </summary>
-        /// <param name="reefers">Reefers list to update info in</param>
-        /// <param name="file">Excel file path from which to import manifest info</param>
-        /// <returns></returns>
-        public static bool ImportReeferManifestInfoFromExcel(this IEnumerable<Container> reefers, string file)
-        {
-            List<Container> tempList = new List<Container>();
-
-            if (!tempList.ImportReeferInfoFromExcel(file)) return false;
-
-            reefers.UpdateReeferManifestInfo(tempList);
-
-            return true;
-        }
-
-        /// <summary>
-        /// Updates List of Reefers with reefer info from manifestInfoReefers
-        /// </summary>
-        /// <param name="reefers">Reefers to be updated</param>
-        /// <param name="manifestInfoReefers">Reefers to update info from</param>
-        private static void UpdateReeferManifestInfo(this IEnumerable<Container> reefers, IEnumerable<Container> manifestInfoReefers)
-        {
-            Container reefer;
-
-            foreach (var unit in manifestInfoReefers)
-            {
-                reefer = reefers.FirstOrDefault(x => x.ContainerNumber == unit.ContainerNumber);
-                if (reefer != null)
-                {
-                    reefer.Commodity = unit.Commodity;
-                    if(unit.SetTemperature != 0) reefer.SetTemperature = unit.SetTemperature;
-                    reefer.VentSetting = unit.VentSetting;
-                    reefer.ReeferSpecial = unit.ReeferSpecial;
-                    reefer.ReeferRemark = unit.ReeferRemark;
-                }
-            }
-        }
-
-        /// <summary>
         /// Imports reefers info from excel file
         /// </summary>
         /// <param name="excelReefers">Blank list to transfer info to</param>
         /// <param name="workbook">Filepath</param>
         /// <returns></returns>
-        private static bool ImportReeferInfoFromExcel(this List<Container> excelReefers, string workbook)
+        internal static bool ImportReeferInfoFromExcel(this List<Container> excelReefers, string workbook)
         {
             //bool isTemplateRead = false;// template.ReadTemplate();
             bool isImported = false;

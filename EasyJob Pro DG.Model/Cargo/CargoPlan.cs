@@ -66,9 +66,20 @@ namespace EasyJob_ProDG.Model.Cargo
             return cargoPlan;
         }
 
-        public bool ImportReeferManifestInfoFromExcel(string fileName)
+        /// <summary>
+        /// Updates Reefers with manifest info from excel file
+        /// </summary>
+        /// <param name="fileName">Excel file with manifest info - path.</param>
+        /// <returns>True if imported and updated successfully.</returns>
+        public bool ImportReeferManifestInfoFromExcel(string fileName, bool importOnlySelected = false, string currentPort = null)
         {
-            return Reefers.ImportReeferManifestInfoFromExcel(fileName);
+            List<Container> tempList = new List<Container>();
+
+            if (!tempList.ImportReeferInfoFromExcel(fileName)) return false;
+
+            Reefers.UpdateReeferManifestInfo(tempList, importOnlySelected, currentPort);
+
+            return true;
         }
 
         /// <summary>
@@ -341,7 +352,6 @@ namespace EasyJob_ProDG.Model.Cargo
 
             return resultingNewCargoPlan;
         }
-
 
 
 

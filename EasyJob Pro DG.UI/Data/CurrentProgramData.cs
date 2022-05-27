@@ -222,7 +222,7 @@ namespace EasyJob_ProDG.UI.Data
         /// <returns></returns>
         private bool ImportReeferManifestInfoOnExecuted(string file, bool importOnlySelected, string currentPort)
         {
-            return _workingCargoPlan.ImportReeferManifestInfoFromExcel(file);
+            return _workingCargoPlan.ImportReeferManifestInfoFromExcel(file, importOnlySelected, currentPort);
         }
 
         /// <summary>

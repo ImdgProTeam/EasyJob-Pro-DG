@@ -65,6 +65,7 @@
     <Compile Include="IO\EasyJobCondition\RecordsCreator.cs" />
     <Compile Include="IO\Excel\ExcelTemplate.cs" />
     <Compile Include="IO\Excel\WithXlReefers.cs" />
+    <Compile Include="IO\ImportUpdateExtensions.cs" />
     <Compile Include="IO\IUpdatable.cs" />
     <Compile Include="IO\OpenFile.cs" />
     <Compile Include="IO\ReadBaplieFile.cs" />
