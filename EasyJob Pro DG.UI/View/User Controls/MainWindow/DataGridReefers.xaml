@@ -177,9 +177,6 @@
                                         Header="Contains Dg cargo"
                                         CanUserSort="True"
                                         SortMemberPath="ContainsDgCargo">
-                    <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].Width, Mode=TwoWay}"
-                                        DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].DisplayIndex, Mode=TwoWay, FallbackValue=11}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].Visibility, Mode=TwoWay}">-->
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=ContainsDgCargo, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -198,9 +195,6 @@
                                     Header="Commodity"
                                     FocusManager.FocusedElement="{Binding ElementName=txbName}"
                                     Binding="{Binding Commodity, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
-                    <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Width, Mode=TwoWay}"
-                                DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].DisplayIndex, Mode=TwoWay, FallbackValue=7}"
-                                Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Visibility, Mode=TwoWay}"-->
 
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -225,9 +219,6 @@
                                     Header="Vent"
                                     FocusManager.FocusedElement="{Binding ElementName=txbName}"
                                     Binding="{Binding VentSetting, UpdateSourceTrigger=LostFocus}">
-                    <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Width, Mode=TwoWay}"
-                                DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].DisplayIndex, Mode=TwoWay, FallbackValue=7}"
-                                Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Visibility, Mode=TwoWay}"-->
 
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -257,9 +248,6 @@
                                     Header="Special"
                                     FocusManager.FocusedElement="{Binding ElementName=txbName}"
                                     Binding="{Binding ReeferSpecial, UpdateSourceTrigger=LostFocus}">
-                    <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Width, Mode=TwoWay}"
-                                DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].DisplayIndex, Mode=TwoWay, FallbackValue=7}"
-                                Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Visibility, Mode=TwoWay}"-->
 
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -284,9 +272,6 @@
                                     Header="Remark"
                                     FocusManager.FocusedElement="{Binding ElementName=txbName}"
                                     Binding="{Binding ReeferRemark, UpdateSourceTrigger=LostFocus}">
-                    <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Width, Mode=TwoWay}"
-                                DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].DisplayIndex, Mode=TwoWay, FallbackValue=7}"
-                                Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Visibility, Mode=TwoWay}"-->
 
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -314,6 +299,30 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=IsPositionLockedForChange, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- isToImport -->
+                <DataGridTemplateColumn x:Name="isToImport"
+                                        Header="Import"
+                                        CanUserSort="True"
+                                        SortMemberPath="IsToImport">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- isNotToImport -->
+                <DataGridTemplateColumn x:Name="isNotToImport"
+                                        Header="Not to import"
+                                        CanUserSort="True"
+                                        SortMemberPath="IsToNotImport">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsNotToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
