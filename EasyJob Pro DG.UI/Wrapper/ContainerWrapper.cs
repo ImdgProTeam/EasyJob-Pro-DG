@@ -280,6 +280,7 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         #endregion
 
+        #region IUpdatable properties
         //--------------- Properties related to IUpdatable -------------------------- 
 
         public bool IsPositionLockedForChange
@@ -310,6 +311,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 if (IsNotToImport == value) return;
                 SetValue(value);
+                if (value) IsToImport = false;
                 SetToAllContainersInPlan(value);
             }
         }
@@ -321,6 +323,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 if (IsToImport == value) return;
                 SetValue(value);
+                if(value) IsNotToImport = false;
                 SetToAllContainersInPlan(value);
             }
         }
@@ -355,7 +358,8 @@ namespace EasyJob_ProDG.UI.Wrapper
         {
             get => GetValue<string>();
             set { }
-        }
+        } 
+        #endregion
 
 
         //--------------- Public methods --------------------------------------------
