@@ -72,7 +72,7 @@ namespace EasyJob_ProDG.UI.Utility
 
 
                 //create records
-                for (int j = 0; j < collection.Count - 1; j++)
+                for (int j = 0; j < collection.Count; j++)
                 {
                     string value;
                     try
@@ -132,7 +132,7 @@ namespace EasyJob_ProDG.UI.Utility
             {"POL", "POL"},
             {"Position", "Location"},
             {"Proper shipping name", "Name"},
-            {"Remark", "ReeferRemark" }
+            {"Remark", "ReeferRemark" },
             {"Remarks", "Remarks"},
             {"Segregation group", "SegregationGroup"},
             {"Set point", "SetTemperature" },
@@ -140,7 +140,7 @@ namespace EasyJob_ProDG.UI.Utility
             {"Technical name", "TechnicalName"},
             {"UNNO", "Unno"},
             {"Vent", "VentSetting" },
-            {"Waste", "IsWaste"},
+            {"Waste", "IsWaste"}
         };
 
         /// <summary>
