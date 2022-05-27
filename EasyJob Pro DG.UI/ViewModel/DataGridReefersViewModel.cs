@@ -105,11 +105,15 @@ namespace EasyJob_ProDG.UI.ViewModel
             ReeferPlanView.Refresh();
         }
 
+        /// <summary>
+        /// Updates reeferView update after import manifest info
+        /// </summary>
+        /// <param name="obj"></param>
         private void OnReeferInfoUpdated(CargoDataUpdated obj)
         {
-            reeferPlanView.Source = null;
             SetDataView();
             OnPropertyChanged("ReeferPlanView");
+            ReeferPlanView.Refresh();
         }
         /// <summary>
         /// Registers for messages in DataMessenger

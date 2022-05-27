@@ -13,6 +13,7 @@ using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.View.UI;
 using EasyJob_ProDG.UI.Wrapper;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Markup;
@@ -111,6 +112,9 @@ namespace EasyJob_ProDG.UI.ViewModel
             ImportDataOnlyPolCommand = new DelegateCommand(ImportInfoOnlyPolOnExecuted, CanExecuteForOptionalOpen);
             ImportDataOnlySelectedCommand = new DelegateCommand(ImportInfoOnlySelectedOnExecuted, CanExecuteForOptionalOpen);
             ImportReeferManifestInfoCommand = new DelegateCommand(ImportReeferManifestInfoOnExecuted, CanAddReeferManifestInfo);
+            ImportReeferManifestInfoOnlySelectedCommand = new DelegateCommand(ImportReeferManifestInfoOnlySelectedOnExecuted, CanAddReeferManifestInfoOnlySelected);
+            ImportReeferManifestInfoOnlyPolCommand = new DelegateCommand(ImportReeferManifestInfoOnlyPolOnExecuted, CanAddReeferManifestInfo);
+
             ExportToExcelCommand = new DelegateCommand(ExportToExcelOnExecuted);
             SelectionChangedCommand = new DelegateCommand(OnApplicationClosing);
             ApplicationClosingCommand = new DelegateCommand(OnApplicationClosing);
@@ -208,10 +212,10 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// Returns true if Reefer manifest info successfully imported from the file and Reefers properties updated
         /// </summary>
         /// <param name="file">Excel file containing manifest info</param>
-        private void ImportReeferManifestInfo(string file)
+        private void ImportReeferManifestInfo(string file, bool importOnlySelected = false, string currentPort = null)
         {
             StatusBarControl.StartProgressBar(10, "Importing...");
-            if (!loadDataService.ImportReeferManifestInfo(file))
+            if (!loadDataService.ImportReeferManifestInfo(file, importOnlySelected, currentPort))
             {
                 _messageDialogService.ShowOkDialog("Manifest file can not be read", "Error");
                 StatusBarControl.Cancel();
@@ -369,6 +373,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             return WorkingCargoPlan.ReeferCount > 0;
         }
+        private bool CanAddReeferManifestInfoOnlySelected(object obj)
+        {
+            if(CanAddReeferManifestInfo(obj))
+                return WorkingCargoPlan.Reefers.Any(x => x.IsToImport == true);
+            return false;
+        }
 
         /// <summary>
         /// Opens dialog to choose excel file with reefer manifests and imports reefer info
@@ -377,7 +387,27 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void ImportReeferManifestInfoOnExecuted(object obj)
         {
             if(!DialogOpenFile.OpenExcelFileWithDialog(obj,out var file)) return;
-            ImportReeferManifestInfo(file);
+                ImportReeferManifestInfo(file);
+        }
+
+        /// <summary>
+        /// Opens dialog to choose excel file with reefer manifests and imports reefer info of reefers loaded in the current port
+        /// </summary>
+        /// <param name="obj">Owner window</param>
+        private void ImportReeferManifestInfoOnlyPolOnExecuted(object obj)
+        {
+            if (!DialogOpenFile.OpenExcelFileWithDialog(obj, out var file)) return;
+                ImportReeferManifestInfo(file,false,VoyageInfo.PortOfDeparture);
+        }
+
+        /// <summary>
+        /// Opens dialog to choose excel file with reefer manifests and imports reefer info of selected reefers only
+        /// </summary>
+        /// <param name="obj">Owner window</param>
+        private void ImportReeferManifestInfoOnlySelectedOnExecuted(object obj)
+        {
+            if (!DialogOpenFile.OpenExcelFileWithDialog(obj, out var file)) return;
+                ImportReeferManifestInfo(file, true);
         }
 
         /// <summary>
@@ -535,6 +565,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand ImportDataOnlyPolCommand { get; set; }
         public ICommand ImportDataOnlySelectedCommand { get; set; }
         public ICommand ImportReeferManifestInfoCommand { get; set; }
+        public ICommand ImportReeferManifestInfoOnlySelectedCommand { get; set; }
+        public ICommand ImportReeferManifestInfoOnlyPolCommand { get; set; }
+
         public ICommand ExportToExcelCommand { get; set; }
         public ICommand SelectionChangedCommand { get; set; }
         public ICommand ApplicationClosingCommand { get; set; }

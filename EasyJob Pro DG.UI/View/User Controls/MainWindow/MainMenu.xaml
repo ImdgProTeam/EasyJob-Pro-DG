@@ -86,6 +86,10 @@
                       Style="{StaticResource TopLevelMenuItem}">
                 <MenuItem Header="Import manifest info"
                       Command="{Binding ImportReeferManifestInfoCommand}"/>
+                <MenuItem Header="Import manifest info only selected"
+                      Command="{Binding ImportReeferManifestInfoOnlySelectedCommand}"/>
+                <MenuItem Header="Import manifest info only current POL"
+                      Command="{Binding ImportReeferManifestInfoOnlyPolCommand}"/>
                 <MenuItem Header="Edit manifest template"/>
                 <MenuItem Header="Export to exce"/>
             </MenuItem>
