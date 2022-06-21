@@ -1,5 +1,4 @@
-﻿using EasyJob_ProDG.Model.Transport;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 // ReSharper disable RedundantAssignment
 
@@ -105,7 +104,7 @@ namespace EasyJob_ProDG.Model.Cargo
                         SWgroups.AddSW22 = dg;
                     else if (dg.IsWaste && (dg.IsUnderdeck || ship.IsInLivingQuarters(dg)))
                     {
-                        dg.AddConflict(true, stow, "SSC22");
+                        dg.AddConflict(true, STOW, "SSC22");
                         SWgroups.ListSW22List.Remove(dg);
                     }
                     break;

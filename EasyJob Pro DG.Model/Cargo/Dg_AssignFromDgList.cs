@@ -263,19 +263,5 @@ namespace EasyJob_ProDG.Model.Cargo
             OriginalNameFromCode = dgFromImdgCode.Name;
             Properties = dgFromImdgCode.Properties;
         }
-
-        ///// <summary>
-        ///// Set value IsStabilizedWordInProperShippingName to true, if word "Stabilized" contained in dg list
-        ///// </summary>
-        //private void SetStabilizedValueIfContainedInDgList()
-        //{
-        //    if (!Name.ToLower().Contains("stabilized"))
-        //    {
-        //        isStabilizedWordInProperShippingName = false;
-        //        return;
-        //    }
-        //    isStabilizedWordInProperShippingName = true;
-        //    isStabilizedWordAddedToProperShippingName = false;
-        //}
     }
 }
