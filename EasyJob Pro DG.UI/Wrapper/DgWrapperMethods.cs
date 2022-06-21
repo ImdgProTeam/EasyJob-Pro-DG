@@ -179,6 +179,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             OnPropertyChanged("Special");
             OnPropertyChanged("IsMax1L");
             OnPropertyChanged("IsWaste");
+            OnPropertyChanged("Properties");
         }
 
         /// <summary>
