@@ -2,6 +2,7 @@
 using EasyJob_ProDG.UI.Wrapper;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Messages;
+using System.Linq;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
@@ -64,12 +65,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             get
             {
-                string result = Code + " ";
-                if (Code.StartsWith("SSC") || Code.StartsWith("SGC") || Code.StartsWith("EXPL") || Code.StartsWith("EXC"))
-                    result += CodesDictionary.ConflictCodes[Code];
-                else result += " " + (_segrConflict ? CodesDictionary.Segregation[Code] : CodesDictionary.Stowage[Code]);
-                
-                return result;
+                if (CodesDictionary.ConflictCodesPrefixes.Contains(CodesDictionary.ReturnCodePrefix(Code)))
+                    return CodesDictionary.ConflictCodes[Code];
+                else return Code + " " + (_segrConflict ? CodesDictionary.Segregation[Code] : CodesDictionary.Stowage[Code]);
             }
         }
         public string Surrounded => "Unit protected from: " + _dgUnit.Surrounded;

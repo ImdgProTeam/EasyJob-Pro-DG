@@ -7,14 +7,11 @@ namespace EasyJob_ProDG.Model.Cargo
 {
     public partial class Stowage
     {
-        private const string stow = "stowage";
+        private const string STOW = "stowage";
         public static SpecialStowageGroups SWgroups = new SpecialStowageGroups(true);
-
-        public ShipProfile Ship;
 
         public Stowage()
         {
-            Ship = new ShipProfile();
         }
 
         /// <summary>
@@ -43,13 +40,13 @@ namespace EasyJob_ProDG.Model.Cargo
 
             //Check special stowage
             foreach (string sscode in unit.StowageSWList)
-                unit.AddConflict(SpecialStowageCheck(sscode, unit, containers, ship), stow, sscode);
+                unit.AddConflict(SpecialStowageCheck(sscode, unit, containers, ship), STOW, sscode);
 
             //Check stowage category
-            unit.AddConflict(StowageCatCheck(unit), stow, "SSC1");
+            unit.AddConflict(StowageCatCheck(unit), STOW, "SSC1");
 
             //Check against DOC
-            unit.AddConflict(!CheckDoc(unit, ship), stow, "SSC2");
+            unit.AddConflict(!CheckDoc(unit, ship), STOW, "SSC2");
 
             //Check in respect of explosives
             CheckStowageOfExplosives(unit, ship);
@@ -219,17 +216,21 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             if (IMDGCode.Fishmeal.Contains(unit.Unno))
             {
-                unit.AddConflict(stow, "SSC3");
-                unit.AddConflict(unit.IsUnderdeck, stow, "SSC3a");
-                unit.AddConflict(CheckNotProtectedFromSourceOfHeat(unit, containers, ship), stow, "SSC3b");
+                unit.AddConflict(STOW, "SSC3");
+                unit.AddConflict(unit.IsUnderdeck, STOW, "SSC3a");
+                unit.AddConflict(CheckNotProtectedFromSourceOfHeat(unit, containers, ship), STOW, "SSC3b");
             }
             if (IMDGCode.AmmoniumNitrate.Contains(unit.Unno))
             {
-                unit.AddConflict(stow, "SSC4");
+                unit.AddConflict(STOW, "SSC4");
             }
             if (unit.IsAsCoolantOrConditioner)
             {
                 ReplaceStowageConflicts(unit, "EXC9", "SSC2");
+            }
+            if(unit.Unno == 1415 || unit.Unno == 1418)
+            {
+                unit.AddConflict(STOW, "FF1");
             }
         }
 
@@ -256,7 +257,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 }
             }
             if(removed)
-                unit.AddConflict(stow, newCode);
+                unit.AddConflict(STOW, newCode);
         }
 
         /// <summary>
@@ -270,8 +271,8 @@ namespace EasyJob_ProDG.Model.Cargo
                  unit.Unno != 2814 && unit.Unno != 2900 && unit.Unno != 3549) return;
 
             char[] categories = new char[] { 'A', 'B', 'E' };
-            unit.AddConflict(categories.Contains(unit.StowageCat),stow, "SSC5a");
-            unit.AddConflict(ship.IsOnSeaSide(unit), stow, "SSC5");
+            unit.AddConflict(categories.Contains(unit.StowageCat),STOW, "SSC5a");
+            unit.AddConflict(ship.IsOnSeaSide(unit), STOW, "SSC5");
         }
 
         /// <summary>
@@ -291,7 +292,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     bays.Add((byte)(accBay + 1 - i));
                 }
             }
-            unit.AddConflict(bays.Contains(unit.Bay), stow, "SCC8");
+            unit.AddConflict(bays.Contains(unit.Bay), STOW, "SCC8");
         }
 
         /// <summary>
@@ -306,8 +307,8 @@ namespace EasyJob_ProDG.Model.Cargo
             //Not less than 2,4 m from ship side
             if (unit.DgClass.StartsWith("1") && !unit.DgClass.StartsWith("1.4"))
             {
-                unit.AddConflict(ship.IsNotClearOfLSA(unit), stow, "SSC6");
-                unit.AddConflict(ship.IsOnSeaSide(unit), stow, "SSC7");
+                unit.AddConflict(ship.IsNotClearOfLSA(unit), STOW, "SSC6");
+                unit.AddConflict(ship.IsOnSeaSide(unit), STOW, "SSC7");
             }
         }
 

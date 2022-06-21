@@ -4,6 +4,11 @@ namespace EasyJob_ProDG.Data.Info_data
 {
     public partial class CodesDictionary
     {
+        /// <summary>
+        /// Contains all prefixes to existing conflict codes (other than special stowage or segregation codes)
+        /// </summary>
+        public static string[] ConflictCodesPrefixes = new [] { "SSC", "SGC", "EXC", "EXP", "FF" };
+        
         public static Dictionary<string, string> ConflictCodes = new Dictionary<string, string>
         {
             {"SSC1","Stowage under deck is not permitted by stowage category (7.1.3)." },
@@ -39,7 +44,8 @@ namespace EasyJob_ProDG.Data.Info_data
             { "EXPL5", "When articles of compatibility group N are transported together with articles or substances of compatibility group S, the entire load shall be treated as compatibility group N. (Table 7.2.7.1.4)"},
             { "EXPL6", "Any combination of articles in compatibility groups C, D and E shall be treated as compatibility group E. Any combination of substances in compatibility groups C and D shall be treated as the most appropriate compatibility group shown in 2.1.2.3, taking into account the predominant characteristics of the combined load. This overall classification code shall be displayed on any label or placard placed on a unit load or closed cargo transport unit as prescribed in 5.2.2.2.2. (Table 7.2.7.1.4)" },
             { "EXPLOTHERS", "Notwithstanding the segregation provisions of this chapter, AMMONIUM NITRATE (UN 1942), AMMONIUM NITRATE FERTILIZERS (UN 2067), alkali metal nitrates (e.g. UN 1486) and alkaline earth metal nitrates ... may be stowed together with blasting explosives (except TYPE C) provided the aggregate is treated as blasting explosives under class 1. (7.2.7.2.1)" },
-            {"EXC9", "Cargo transport units containing substances used for cooling or conditioning purposes (other than fumigation) during transport are not subject to any provisions of this Code other than those of section 5.3. (5.5.3.2.1)" }
+            {"EXC9", "Cargo transport units containing substances used for cooling or conditioning purposes (other than fumigation) during transport are not subject to any provisions of this Code other than those of section 5.3. (5.5.3.2.1)" },
+            {"FF1", "For fire-fighting purposes, dry lithium chloride powder, dry sodium chloride or graphite powder should be carried on board when this substance is transported. (Chapter 3.2 – Dangerous Goods List: Properties and observations column (17))" }
 
 
         };
@@ -915,5 +921,16 @@ namespace EasyJob_ProDG.Data.Info_data
             new ContainerType("L5RT,Thermal Refrigerated/Heated,45,9.5,L5R1,true"),
             new ContainerType("12TR,Flatbed,42,8,12TR,false")
         };
+
+        public static string ReturnCodePrefix(string code)
+        {
+            string prefix = string.Empty;
+            foreach(char c in code)
+            {
+                if (char.IsDigit(c)) break;
+                prefix += c;
+            }
+            return prefix;
+        }
     }
 }
