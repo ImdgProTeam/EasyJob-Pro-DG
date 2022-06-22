@@ -31,14 +31,23 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             var widths = Properties.Settings.Default.ContainerDataTableWidth.Split(';');
             var visibilitys = Properties.Settings.Default.ContainerDataTableVisibilities.Split(';');
 
-            if (displayIndexes.Count() != MainContainerDataTable.Columns.Count) return;
+            if (displayIndexes.Count() != MainContainerDataTable.Columns.Count || displayIndexes.Any(x => int.Parse(x) < 0) ) return;
 
             try
             {
+                int index;
+                double width;
+
                 for (int i = 0; i < displayIndexes.Count(); i++)
                 {
-                    MainContainerDataTable.Columns[i].DisplayIndex = int.Parse(displayIndexes[i]);
-                    MainContainerDataTable.Columns[i].Width = double.Parse(widths[i]);
+                    index = int.Parse(displayIndexes[i]);
+                    if (index < 0) throw new ArgumentOutOfRangeException(nameof(index), "Negative display index");
+                    MainContainerDataTable.Columns[i].DisplayIndex = index;
+
+                    width = double.Parse(widths[i]);
+                    if (width < 0) throw new ArgumentOutOfRangeException(nameof(width), "Negative column width");
+                    MainContainerDataTable.Columns[i].Width = width;
+
                     MainContainerDataTable.Columns[i].Visibility = (System.Windows.Visibility)Enum.Parse(typeof(System.Windows.Visibility), visibilitys[i]);
                 }
             }

@@ -37,10 +37,19 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
             try
             {
+                int index; 
+                double width;
+
                 for (int i = 0; i < displayIndexes.Count(); i++)
                 {
-                    MainReeferDataTable.Columns[i].DisplayIndex = int.Parse(displayIndexes[i]);
-                    MainReeferDataTable.Columns[i].Width = double.Parse(widths[i]);
+                    index = int.Parse(displayIndexes[i]);
+                    if (index < 0) throw new ArgumentOutOfRangeException(nameof(index), "Negative display index");
+                    MainReeferDataTable.Columns[i].DisplayIndex = index;
+
+                    width = double.Parse(widths[i]);
+                    if(width < 0) throw new ArgumentOutOfRangeException(nameof(width), "Negative column width");
+                    MainReeferDataTable.Columns[i].Width = width;
+
                     MainReeferDataTable.Columns[i].Visibility = (System.Windows.Visibility)Enum.Parse(typeof(System.Windows.Visibility), visibilitys[i]);
                 }
             }
