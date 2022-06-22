@@ -302,7 +302,7 @@ namespace EasyJob_ProDG.Model.Cargo
         public bool IsMax1L { get; set; }
         public bool IsAsCoolantOrConditioner
         {
-            get => Name.ToUpper().Contains("COOLANT") || Name.ToUpper().Contains("CONDITIONER");
+            get => !string.IsNullOrEmpty(Name) && (Name.ToUpper().Contains("COOLANT") || Name.ToUpper().Contains("CONDITIONER"));
         }
 
 

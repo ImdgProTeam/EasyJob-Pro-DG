@@ -346,7 +346,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 string[] tempdgsubclasses = Model.DgSubclassArray;
                 Model.ClearAllDgClasses();
-                SetValue(value);
+                SetValue(value.Replace(" ",""));
                 foreach (var dgsubclass in tempdgsubclasses)
                 {
                     Model.DgSubclass = dgsubclass;

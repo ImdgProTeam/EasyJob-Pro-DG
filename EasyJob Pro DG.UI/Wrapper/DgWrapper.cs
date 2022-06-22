@@ -1,4 +1,5 @@
-﻿using EasyJob_ProDG.Model.Cargo;
+﻿using EasyJob_ProDG.Data.Info_data;
+using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO;
 using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Services.DialogServices;
@@ -46,9 +47,9 @@ namespace EasyJob_ProDG.UI.Wrapper
                     }
                 case nameof(Unno):
                     {
-                        if (Unno.ToString().Length != 4)
+                        if (Unno <= 0 || Unno > IMDGCode.MaxUnnoNumber)
                         {
-                            yield return "Inappropriate UN number length";
+                            yield return "Invalid UN number";
                         }
                         break;
                     }

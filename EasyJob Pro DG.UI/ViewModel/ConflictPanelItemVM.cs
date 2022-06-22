@@ -65,7 +65,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             get
             {
-                if (CodesDictionary.ConflictCodesPrefixes.Contains(CodesDictionary.ReturnCodePrefix(Code)))
+                if (CodesDictionary.ConflictCodesPrefixes.Contains(CodesDictionary.GetCodePrefix(Code)))
                     return CodesDictionary.ConflictCodes[Code];
                 else return Code + " " + (_segrConflict ? CodesDictionary.Segregation[Code] : CodesDictionary.Stowage[Code]);
             }
