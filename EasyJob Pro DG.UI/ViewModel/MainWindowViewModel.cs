@@ -46,6 +46,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         public UserUISettings UISettings { get; set; }
         public DgWrapper SelectedDg { get; set; }
         public StatusBarViewModel StatusBarControl { get; set; } 
+
+        public GridLength ConflictColumnWidth { get; set; }
         #endregion
 
 

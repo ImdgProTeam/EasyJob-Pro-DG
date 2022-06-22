@@ -118,5 +118,17 @@ namespace EasyJob_ProDG.UI.Properties {
                 this["ReeferDataTableVisibilities"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        public double ConflictsWidth {
+            get {
+                return ((double)(this["ConflictsWidth"]));
+            }
+            set {
+                this["ConflictsWidth"] = value;
+            }
+        }
     }
 }

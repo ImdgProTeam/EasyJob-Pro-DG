@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 
 namespace EasyJob_ProDG.UI.View.UI
 {
@@ -20,6 +18,7 @@ namespace EasyJob_ProDG.UI.View.UI
             InitializeComponent();
 
             SetWindowLocationOnStartup();
+            RestoreConflictColumnWidth();
         }
 
         #region Window location
@@ -56,13 +55,26 @@ namespace EasyJob_ProDG.UI.View.UI
             Properties.Settings.Default.WindowStateMaximized = this.WindowState == WindowState.Maximized;
             Properties.Settings.Default.WindowPosition = this.RestoreBounds;
             Properties.Settings.Default.Save();
-        } 
+        }
+        #endregion
+
+        #region DesignMatters
+        private void SaveConflictColumnWidth()
+        {
+            Properties.Settings.Default.ConflictsWidth = WorkingGrid.ColumnDefinitions[1].ActualWidth;
+        }
+
+        private void RestoreConflictColumnWidth()
+        {
+            WorkingGrid.ColumnDefinitions[1].Width=new GridLength( Properties.Settings.Default.ConflictsWidth);
+        }
         #endregion
 
         private void ClosingApplication(object sender, CancelEventArgs e)
         {
             OnWindowClosingEventHandler.Invoke();
 
+            SaveConflictColumnWidth();
             SaveCurrentWindowLocationToSettings();
         }
 
