@@ -7,7 +7,7 @@ namespace EasyJob_ProDG.Data.Info_data
         /// <summary>
         /// Contains all prefixes to existing conflict codes (other than special stowage or segregation codes)
         /// </summary>
-        public static string[] ConflictCodesPrefixes = new [] { "SSC", "SGC", "EXC", "EXP", "FF" };
+        public static string[] ConflictCodesPrefixes = new [] { "SSC", "SGC", "EXC", "EXPL", "FF" };
         
         public static Dictionary<string, string> ConflictCodes = new Dictionary<string, string>
         {
@@ -922,13 +922,19 @@ namespace EasyJob_ProDG.Data.Info_data
             new ContainerType("12TR,Flatbed,42,8,12TR,false")
         };
 
-        public static string ReturnCodePrefix(string code)
+
+        /// <summary>
+        /// Returns prefix of a conflict code
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static string GetCodePrefix(string code)
         {
             string prefix = string.Empty;
-            foreach(char c in code)
+            for(byte i =0; i < 4; i++)
             {
-                if (char.IsDigit(c)) break;
-                prefix += c;
+                if (char.IsDigit(code[i])) break;
+                prefix += code[i];
             }
             return prefix;
         }

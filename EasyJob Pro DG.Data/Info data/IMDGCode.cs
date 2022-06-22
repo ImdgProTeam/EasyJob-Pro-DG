@@ -4,7 +4,7 @@ namespace EasyJob_ProDG.Data.Info_data
 {
     public static class IMDGCode
     {
-
+        public const ushort MaxUnnoNumber = 3549;
         public static List<string> AllValidDgClasses = new List<string>()
         {
             "1.1", "1.2", "1.3", "1.4", "1.5", "1.6",
