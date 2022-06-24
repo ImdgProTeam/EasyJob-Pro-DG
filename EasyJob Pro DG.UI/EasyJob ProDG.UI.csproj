@@ -187,6 +187,7 @@
     <Compile Include="View\Converters\CellToTextConverter.cs" />
     <Compile Include="View\Converters\CompositeConverter.cs" />
     <Compile Include="View\Converters\ConverterBase.cs" />
+    <Compile Include="View\Converters\DummyConverter.cs" />
     <Compile Include="View\Converters\ExcelColumnNumberConverter.cs" />
     <Compile Include="View\Converters\HoldsToVisibilityConverter.cs" />
     <Compile Include="View\Converters\VisibilityToInverseBooleanConverter.cs" />
@@ -214,6 +215,9 @@
       <DependentUpon>ShipProfileWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogWindows\WinLoginViewModel.cs" />
+    <Compile Include="View\User Controls\MainWindow\AddContainerToDataGrid.cs">
+      <DependentUpon>AddContainerGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\User Controls\MainWindow\DataGridContainers.xaml.cs">
       <DependentUpon>DataGridContainers.xaml</DependentUpon>
     </Compile>
@@ -359,6 +363,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Styles\Windows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User Controls\MainWindow\AddContainerGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
