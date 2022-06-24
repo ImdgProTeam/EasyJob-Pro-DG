@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Xml.Serialization;
 using static EasyJob_ProDG.UI.Settings.UserUISettings;
 using System.Diagnostics;
+using System.Windows;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
@@ -61,7 +62,10 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             SetDataView();
 
+            SetVisualElements();
+
             dgPlanView.Filter += OnDgListFiltered;
+
         }
 
 
@@ -109,6 +113,72 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         #endregion
 
+        #region AddDg
+        public bool CanUserAddDg => !string.IsNullOrEmpty(DgToAddNumber) && DgToAddUnno > 0;
+
+        string dgToAddNumber;
+        public string DgToAddNumber
+        {
+            get => dgToAddNumber;
+            set
+            {
+                dgToAddNumber = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanUserAddDg));
+            }
+        }
+
+        string dgToAddLocation;
+        public string DgToAddLocation
+        {
+            get => dgToAddLocation;
+            set
+            {
+                dgToAddLocation = value;
+                OnPropertyChanged();
+            }
+        }
+
+        ushort dgToAddUnno;
+        public ushort DgToAddUnno
+        {
+            get => dgToAddUnno;
+            set
+            {
+                dgToAddUnno = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanUserAddDg));
+            }
+        }
+        public Visibility MenuVisibility { get; set; }
+
+        private void OnAddDg(object obj)
+        {
+
+        }
+
+        /// <summary>
+        /// Actions on displaying AddDg menu (on click 'Add' button)
+        /// </summary>
+        /// <param name="obj"></param>
+        private void OnDisplayAddDgMenu(object obj)
+        {
+            DgToAddNumber = SelectedDg?.ContainerNumber;
+            DgToAddLocation = SelectedDg?.Location;
+
+            MenuVisibility = Visibility.Visible;
+            OnPropertyChanged(nameof(MenuVisibility));
+        }
+
+        /// <summary>
+        /// Sets initial view properties of AddDg menu
+        /// </summary>
+        private void SetInitialAddMenuProperties()
+        {
+            MenuVisibility = Visibility.Collapsed;
+        }
+        #endregion
+
         #region Private methods
         //--------------- Private methods -------------------------------------------
 
@@ -143,13 +213,13 @@ namespace EasyJob_ProDG.UI.ViewModel
                 XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<DgTableColumnSettings>));
                 using (Stream s = File.OpenRead(ProgramDefaultSettingValues.ProgramDirectory + "columnsettings.xml"))
                     ColumnSettings = (ObservableCollection<DgTableColumnSettings>)xs.Deserialize(s);
-                
+
                 if (ColumnSettings.Count != totalNumberOfColumns)
                     throw new Exception("Number of columns read from settings file is wrong.");
                 Debug.WriteLine("----> Column settings successfully loaded.");
             }
             catch (Exception e)
-            {                
+            {
                 Debug.WriteLine("---> Number of columns read from settings file is wrong.");
                 ColumnSettings = new ObservableCollection<DgTableColumnSettings>();
                 for (int i = 0; i < totalNumberOfColumns; i++)
@@ -165,9 +235,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         private void LoadCommands()
         {
+            AddDgCommand = new DelegateCommand(OnAddDg);
             UnloadRow = new DelegateCommand(OnRowUnloaded);
             DeleteDg = new DelegateCommand(OnDgDelete);
             IncludeTechnicalNameCommand = new DelegateCommand(IncludeTechnicalNameOnExecuted);
+            DisplayAddDgMenuCommand = new DelegateCommand(OnDisplayAddDgMenu);
+            SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
         }
 
         /// <summary>
@@ -228,7 +301,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj">Selected conflict</param>
         private void OnConflictSelectionChanged(ConflictPanelItemViewModel obj)
         {
-            if (obj == null) 
+            if (obj == null)
                 return;
 
             //CLear selection
@@ -258,12 +331,31 @@ namespace EasyJob_ProDG.UI.ViewModel
             OnPropertyChanged("DgPlanView");
         }
 
+        private void OnSelectionChanged(object obj)
+        {
+            if (MenuVisibility == Visibility.Visible)
+            {
+                DgToAddNumber = SelectedDg.ContainerNumber;
+                DgToAddLocation = SelectedDg.Location;
+                OnPropertyChanged(nameof(DgToAddLocation));
+            }
+
+        }
+
         /// <summary>
         /// Sets data source to View property
         /// </summary>
         private void SetDataView()
         {
             dgPlanView.Source = CargoPlan.DgList;
+        }
+
+        /// <summary>
+        /// Sets required properties values of various visual elements
+        /// </summary>
+        private void SetVisualElements()
+        {
+            SetInitialAddMenuProperties();
         }
 
         /// <summary>
@@ -296,6 +388,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand ToExcel { get; private set; }
         public ICommand UnloadRow { get; private set; }
         public ICommand DeleteDg { get; private set; }
+        public ICommand AddDgCommand { get; private set; }
+        public ICommand DisplayAddDgMenuCommand { get; private set; }
         #endregion
 
         #region Events

@@ -19,8 +19,12 @@
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
             <cc:SearchBox Text="{Binding TextToFilter}"/>
-
         </StackPanel>
+
+        <local:AddContainerToDataGrid DockPanel.Dock="Bottom"
+                                      Title="Add Container |"
+                                      ContainerNumber="ABCD1234567"
+                                      IsAddDg="False"/>
 
         <DataGrid x:Name="MainContainerDataTable"
                   ItemsSource="{Binding ContainerPlanView}"

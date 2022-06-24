@@ -3,6 +3,7 @@ using EasyJob_ProDG.Model.IO.Excel;
 using EasyJob_ProDG.Model.Transport;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
 using static EasyJob_ProDG.Model.IO.Excel.WithXlReefers;
@@ -353,6 +354,73 @@ namespace EasyJob_ProDG.Model.Cargo
             return resultingNewCargoPlan;
         }
 
+        /// <summary>
+        /// Adds new Dg to CargoPlan
+        /// </summary>
+        /// <param name="dg">New dg to be added to plan</param>
+        public void AddDg(Dg dg)
+        {
+            if (dg == null || string.IsNullOrEmpty(dg.ContainerNumber)) return;
+
+            var container = Containers.FirstOrDefault(c => c.ContainerNumber == dg.ContainerNumber);
+            if (container is null)
+            {
+                container = (Container)dg;
+                Containers.Add(container);
+                if (dg.IsRf) Reefers.Add(container);
+            }
+            DgList.Add(dg);
+            container.DgCountInContainer++;
+        }
+
+        /// <summary>
+        /// Adds new container to CargoPlan
+        /// </summary>
+        /// <param name="container">Container to add to the plan. Container number shall be unique.</param>
+        public void AddContainer(Container container)
+        {
+            #region Safety checks
+            if (container is null) return;
+            if (string.IsNullOrEmpty(container.ContainerNumber))
+            {
+                Debug.WriteLine("---> Attempt to add a container with no container number");
+                return;
+            }
+            if (Containers.Any(x => x.ContainerNumber == container.ContainerNumber))
+            {
+                Debug.WriteLine("---> Attempt to add a container with container number which is already in list");
+                return;
+            }
+            #endregion
+
+            Containers.Add(container);
+            if (container.IsRf) Reefers.Add(container);
+        }
+
+        /// <summary>
+        /// Adds new reefer to CargoPlan
+        /// </summary>
+        /// <param name="container">Reefer container to be added. Container number shall be unique.</param>
+        public void AddReefer(Container reefer)
+        {
+            #region Safety checks
+            if (reefer is null) return;
+            if (string.IsNullOrEmpty(reefer.ContainerNumber))
+            {
+                Debug.WriteLine("---> Attempt to add a reefer with no container number");
+                return;
+            }
+            if (Containers.Any(x => x.ContainerNumber == reefer.ContainerNumber))
+            {
+                Debug.WriteLine("---> Attempt to add a reefer with container number which is already in list");
+                return;
+            }
+            #endregion
+
+            reefer.IsRf = true;
+            Containers.Add(reefer);
+            Reefers.Add(reefer);
+        }
 
 
         // -------------- Supporting methods ----------------------------------------
