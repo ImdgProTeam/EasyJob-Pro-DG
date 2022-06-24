@@ -8,8 +8,7 @@
              xmlns:behaviors="clr-namespace:EasyJob_ProDG.UI.Behaviors"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties" 
-             xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib" 
-             xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
+             xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
              x:Class="EasyJob_ProDG.UI.View.User_Controls.DataGridDg"
              mc:Ignorable="d"
              d:DesignHeight="300"
@@ -18,7 +17,6 @@
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel}">
     <UserControl.Resources>
         <converters:VisibilityToInverseBooleanConverter x:Key="VisibilityToInverseBooleanConverter" />
-        <converters:DummyConverter x:Key="DummyConverter"/>
     </UserControl.Resources>
     
     <DockPanel>
@@ -31,33 +29,17 @@
         <StackPanel DockPanel.Dock="Bottom"
                     Orientation="Horizontal"
                     HorizontalAlignment="Right">
-            <Button Content="Add"
+            <Button Content="Blank"
                     Width="100"
                     Margin="1"
-                    HorizontalAlignment="Right"
-                    Command="{Binding DisplayAddDgMenuCommand}"/>
+                    HorizontalAlignment="Right" />
             <Button Content="To Excel"
                     Click="ExportToExcel"
                     Width="100"
                     Margin="1" />
         </StackPanel>
 
-        <!-- Add dg -->
-        <uc:AddContainerToDataGrid Title="Add dg |" DockPanel.Dock="Bottom" 
-                                   IsAddDg="True"
-                                   Visibility="{Binding MenuVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DummyConverter}}"
-                                   ContainerNumber="{Binding DgToAddNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DummyConverter}}"
-                                   Location="{Binding DgToAddLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DummyConverter}}"
-                                   UNNO="{Binding DgToAddUnno, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DummyConverter}}"
-                                   CanUserAdd="{Binding CanUserAddDg, UpdateSourceTrigger=PropertyChanged}">
-            <behavior:Interaction.Triggers>
-                <behavior:EventTrigger EventName="AddItem">
-                    <behavior:InvokeCommandAction Command="{Binding AddDgCommand}"/>
-                </behavior:EventTrigger>
-            </behavior:Interaction.Triggers>
-        </uc:AddContainerToDataGrid>
-
-            <ScrollViewer HorizontalContentAlignment="Stretch" 
+        <ScrollViewer HorizontalContentAlignment="Stretch" 
                       HorizontalScrollBarVisibility="Disabled"
                       VerticalScrollBarVisibility="Disabled">
         <DataGrid x:Name="MainDgTable"

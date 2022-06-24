@@ -30,14 +30,6 @@
                     Margin="1" />
         </StackPanel>
 
-        <local:AddContainerToDataGrid 
-            Title="Add Reefer container |"
-            DockPanel.Dock="Bottom"
-            ContainerNumber="REEF1234567"
-            Location="121388"
-            UNNO="5"
-            IsAddDg="False"/>
-
         <DataGrid x:Name="MainReeferDataTable"
                   ItemsSource="{Binding ReeferPlanView}"
                   SelectedItem="{Binding SelectedReefer, Mode=TwoWay}"
