@@ -198,7 +198,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             txb.CaretIndex = txb.Text.Length;
             e.Handled = true;
         }
-        #endregion
 
         /// <summary>
         /// ContainerNumber TextBox gets focus as Visibility changes to Visible
@@ -216,5 +215,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                 }
             }
         }
+        
+        #endregion
     }
 }

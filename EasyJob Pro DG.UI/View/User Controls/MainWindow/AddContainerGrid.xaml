@@ -9,15 +9,14 @@
              IsVisibleChanged="UserControl_IsVisibleChanged" 
              x:Name="Control"
              >
-    
+
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BTVConverter" />
     </UserControl.Resources>
-    
+
     <Grid DockPanel.Dock="Bottom">
-        
+
         <Grid.Resources>
-            
             <Style TargetType="Label">
                 <Setter Property="Margin" Value="2"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
@@ -31,41 +30,42 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <StackPanel Orientation="Horizontal">
             <Label Content="{Binding ElementName=Control, Path=Title, UpdateSourceTrigger=PropertyChanged}"/>
+            
             <Label Content="Container number*"
                    FontWeight="DemiBold"/>
             <TextBox x:Name="txbContainerNumber"
-                Text="{Binding ContainerNumber, ElementName=Control, UpdateSourceTrigger=PropertyChanged}"
-                    PreviewTextInput="ContainerNumber_PreviewTextInput"
-                     Width="100" CharacterCasing="Upper"
-                     Focusable="True"
-                     />
-            
+                     Width="100" 
+                     Text="{Binding ContainerNumber, ElementName=Control, UpdateSourceTrigger=PropertyChanged}"
+                     CharacterCasing="Upper"
+                     PreviewTextInput="ContainerNumber_PreviewTextInput"/>
+
             <Label Content="Position"/>
-            <TextBox PreviewTextInput="Location_PreviewTextInput"
+            <TextBox Width="100"
                 Text="{Binding Location, ElementName=Control, UpdateSourceTrigger=PropertyChanged}"
-                Width="100"/>
-            
+                PreviewTextInput="Location_PreviewTextInput"/>
+
             <Label Content="Unno*"
                    FontWeight="DemiBold"
                    Visibility="{Binding IsAddDg, ElementName=Control, Converter={StaticResource BTVConverter}}"/>
-            <TextBox PreviewTextInput="UNNO_PreviewTextInput" 
+            <TextBox Width="100" 
+                    Text="{Binding UNNO, ElementName=Control, UpdateSourceTrigger=PropertyChanged,
+                                          StringFormat=\{0:0000\}}"
+                     Visibility="{Binding IsAddDg, ElementName=Control, Converter={StaticResource BTVConverter}}"
+                     PreviewTextInput="UNNO_PreviewTextInput" 
                      PreviewKeyDown="UNNO_PreviewKeyDown"
                      GotFocus="TextBox_GotFocus"
-                     CaretIndex="5"
-                Text="{Binding UNNO, ElementName=Control, UpdateSourceTrigger=PropertyChanged,
-                StringFormat=\{0:0000\}}"
-                     
-                     Visibility="{Binding IsAddDg, ElementName=Control, Converter={StaticResource BTVConverter}}"
-                Width="100" SelectionChanged="TextBox_SelectionChanged"/>
+                     SelectionChanged="TextBox_SelectionChanged"/>
+            
             <Button Content="Add"
                     IsEnabled="{Binding CanUserAdd, ElementName=Control}"
                     IsDefault="True"
                     Margin="5"
                     Width="50"
                     Background="{Binding ElementName=Control, Path=Background}" Click="Button_Click_1"/>
+            
             <Button Content="x"
                     IsCancel="True"
                     Click="Button_Click"
@@ -76,6 +76,7 @@
                     Margin="20, 5, 5, 5"
                     Background="{Binding ElementName=Control, Path=Background}"
                     BorderThickness="0"/>
+            
         </StackPanel>
 
     </Grid>
