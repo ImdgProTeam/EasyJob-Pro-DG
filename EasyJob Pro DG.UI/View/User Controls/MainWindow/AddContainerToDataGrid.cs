@@ -13,7 +13,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         public AddContainerToDataGrid()
         {
             InitializeComponent();
-            Keyboard.Focus(txbContainerNumber);
         }
 
         #region Dependency Properties
@@ -201,6 +200,11 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         }
         #endregion
 
+        /// <summary>
+        /// ContainerNumber TextBox gets focus as Visibility changes to Visible
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if ((bool)e.NewValue)
