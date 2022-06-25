@@ -102,6 +102,8 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <returns>True if change cancelled by user</returns>
         private bool AskSetContainerNumber(CargoPlanUnitPropertyChanged obj)
         {
+            if (obj.OldValue == null) return true;
+
             var answer = _messageDialogService.ShowOkCancelDialog(
                 "Container number will be changed for all units with the same number in the plan?",
                 null);
