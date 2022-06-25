@@ -33,7 +33,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         SettingsService uiSettingsService;
         IDialogWindowService dialogWindowService;
         IMessageDialogService _messageDialogService;
-        ITitleService _titleService; 
+        ITitleService _titleService;
+
         #endregion
 
 
@@ -46,8 +47,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         public UserUISettings UISettings { get; set; }
         public DgWrapper SelectedDg { get; set; }
         public StatusBarViewModel StatusBarControl { get; set; } 
+        public DataGridDgViewModel DgDataGridVM => ViewModelLocator.DataGridDgViewModel;
+
 
         public GridLength ConflictColumnWidth { get; set; }
+        public int SelectedDataGridIndex { get; set; }
+
         #endregion
 
 
@@ -453,28 +458,17 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         /// <summary>
-        /// Adds new default Dg to WorkingCargoPlan.
-        /// Updates DgContainerCount.
+        /// Shifts view to DgDataGrid and calls DisplayAddMenu from DgDataGridVM
         /// </summary>
         /// <param name="parameter">none</param>
         private void OnAddNewDg(object parameter)
         {
-            WorkingCargoPlan.AddDg(new DgWrapper()
-            {
-                DgClass = "1.3",
-                Unno = 3225,
-                Location = "020008",
-                ContainerNumber = "GHGA9871235",
-                POD = "CNSHA",
-                POL = "USOAK",
-                IsInList = true
-            });
-            OnPropertyChanged("DgContainerCount");
+            SelectedDataGridIndex = 0;
+            OnPropertyChanged(nameof(SelectedDataGridIndex));
+
+            DgDataGridVM.OnDisplayAddDgMenu();
         }
-        private bool CanAddNewDg(object obj)
-        {
-            return false;
-        }
+        private bool CanAddNewDg(object obj) => true;
 
         /// <summary>
         /// Calls Re-check of condition conflicts

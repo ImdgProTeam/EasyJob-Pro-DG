@@ -134,7 +134,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         internal void Cancel()
         {
-            _worker.CancelAsync();
+            _worker?.CancelAsync();
             Completed();
         }
     }

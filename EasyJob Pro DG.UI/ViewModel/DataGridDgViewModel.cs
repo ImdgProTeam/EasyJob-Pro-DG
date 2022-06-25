@@ -170,13 +170,14 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// Actions on displaying AddDg menu (on click 'Add' button)
         /// </summary>
         /// <param name="obj"></param>
-        private void OnDisplayAddDgMenu(object obj)
+        internal void OnDisplayAddDgMenu(object obj = null)
         {
             DgToAddNumber = SelectedDg?.ContainerNumber;
             DgToAddLocation = SelectedDg?.Location;
 
             MenuVisibility = Visibility.Visible;
             OnPropertyChanged(nameof(MenuVisibility));
+
         }
 
         /// <summary>

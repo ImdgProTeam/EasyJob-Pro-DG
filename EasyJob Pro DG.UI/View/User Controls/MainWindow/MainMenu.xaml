@@ -69,12 +69,11 @@
                 
                 <Separator/>
                 
-                <MenuItem Header="Actions"
-                      DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=DgDataGridViewModel}">
+                <MenuItem Header="Actions">
                     <MenuItem Header="Include Technical Name"
                           IsCheckable="True"
-                          IsChecked="{Binding IsTechnicalNameIncluded, Mode=OneWay}"
-                          Command="{Binding IncludeTechnicalNameCommand}">
+                          IsChecked="{Binding DgDataGridVM.IsTechnicalNameIncluded, Mode=OneWay}"
+                          Command="{Binding DgDataGridVM.IncludeTechnicalNameCommand}">
 
                     </MenuItem>
                     <MenuItem Header="Add"

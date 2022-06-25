@@ -138,7 +138,8 @@
 
                 <TabControl Grid.Column="0"
                             Grid.Row="0"
-                            TabStripPlacement="Bottom">
+                            TabStripPlacement="Bottom"
+                            SelectedIndex="{Binding SelectedDataGridIndex, Mode=TwoWay}">
                     <TabItem Header="Dangerous goods">
                         <uc:DataGridDg x:Name="MainDataGrid" />
                     </TabItem>
