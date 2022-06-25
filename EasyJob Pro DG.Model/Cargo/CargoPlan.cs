@@ -358,7 +358,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Adds new Dg to CargoPlan
         /// </summary>
         /// <param name="dg">New dg to be added to plan</param>
-        public void AddDg(Dg dg)
+        public void AddDg(Dg dg, XDocument dgDataBase)
         {
             if (dg == null || string.IsNullOrEmpty(dg.ContainerNumber)) return;
 
@@ -369,6 +369,11 @@ namespace EasyJob_ProDG.Model.Cargo
                 Containers.Add(container);
                 if (dg.IsRf) Reefers.Add(container);
             }
+            else
+            {
+                dg.CopyContainerInfo(container);
+            }
+            dg.UpdateDgInfo(dgDataBase);
             DgList.Add(dg);
             container.DgCountInContainer++;
         }

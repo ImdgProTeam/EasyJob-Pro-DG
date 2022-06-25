@@ -113,7 +113,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         #endregion
 
-        #region AddDg
+        #region AddDg Logic
         public bool CanUserAddDg => !string.IsNullOrEmpty(DgToAddNumber) && DgToAddUnno > 0;
 
         string dgToAddNumber;
@@ -122,7 +122,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             get => dgToAddNumber;
             set
             {
-                dgToAddNumber = value;
+                dgToAddNumber = value?.Trim();
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(CanUserAddDg));
             }
@@ -134,7 +134,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             get => dgToAddLocation;
             set
             {
-                dgToAddLocation = value;
+                dgToAddLocation = value?.Trim();
                 OnPropertyChanged();
             }
         }
@@ -150,11 +150,20 @@ namespace EasyJob_ProDG.UI.ViewModel
                 OnPropertyChanged(nameof(CanUserAddDg));
             }
         }
+
+        /// <summary>
+        /// Used to set visibility of AddMenu
+        /// </summary>
         public Visibility MenuVisibility { get; set; }
 
         private void OnAddDg(object obj)
         {
-
+            CargoPlan.AddDg(new Model.Cargo.Dg()
+            {
+                Unno = dgToAddUnno,
+                ContainerNumber = dgToAddNumber,
+                Location = dgToAddLocation
+            });
         }
 
         /// <summary>
@@ -335,8 +344,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             if (MenuVisibility == Visibility.Visible)
             {
-                DgToAddNumber = SelectedDg.ContainerNumber;
-                DgToAddLocation = SelectedDg.Location;
+                DgToAddNumber = SelectedDg?.ContainerNumber;
+                DgToAddLocation = SelectedDg?.Location;
                 OnPropertyChanged(nameof(DgToAddLocation));
             }
 

@@ -506,6 +506,12 @@ namespace EasyJob_ProDG.Model.Cargo
             dgclass = dgClass;
             AssignSegregationTableRowNumber();
         }
+
+        public Dg(ushort unno, XDocument dgDataBase)
+        {
+            Unno = unno;    
+            this.UpdateDgInfo(dgDataBase);
+        }
         #endregion
 
 

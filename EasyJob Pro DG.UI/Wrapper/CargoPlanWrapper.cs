@@ -9,6 +9,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using EasyJob_ProDG.Model.Transport;
 using Container = EasyJob_ProDG.Model.Cargo.Container;
+using EasyJob_ProDG.UI.Services.DataServices;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
@@ -17,6 +18,8 @@ namespace EasyJob_ProDG.UI.Wrapper
         // ----------------- Private fields ------------------------------------
 
         private IMessageDialogService _messageDialogService = new MessageDialogService();
+        private static readonly DgDataBaseDataService dgDataBaseDataService = new DgDataBaseDataService();
+        private readonly System.Xml.Linq.XDocument _dgDataBase = dgDataBaseDataService.GetDgDataBase();
         private CargoPlanUnitPropertyChanger _propertyChanger;
 
 
@@ -28,7 +31,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         public Voyage VoyageInfo
         {
             get { return GetValue<Voyage>(); }
-            set{SetValue(value);}
+            set { SetValue(value); }
         }
 
         public int ContainerCount => Containers.Count;
@@ -197,6 +200,27 @@ namespace EasyJob_ProDG.UI.Wrapper
             OnPropertyChanged("DgContainerCount");
         }
 
+        /// <summary>
+        /// Adds a Dg to CargoPlan and its Wrapper to CargoPlanWrapper
+        /// </summary>
+        /// <param name="dg"></param>
+        internal void AddDg(Dg dg)
+        {
+            this.Model.AddDg(dg,_dgDataBase);
+
+            if (!Containers.Any(c => c.ContainerNumber == dg.ContainerNumber))
+            {
+                var container = Model.Containers.FirstOrDefault(c => c.ContainerNumber == dg.ContainerNumber);
+                var containerWrapper = new ContainerWrapper(container);
+                Containers.Add(containerWrapper);
+                if (container.IsRf) Reefers.Add(containerWrapper);
+            }
+            DgList.Add(new DgWrapper(dg));
+
+            DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
+            UpdateCargoPlanValues();
+        }
+
 
         // -------------- Add/Remove/Modify methods ---------------------------------
 
@@ -204,16 +228,18 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// Adds Dg and respective container (if not yet exists) to CargoPlanWrapper and its Model
         /// </summary>
         /// <param name="dg">Dg to be added</param>
-        internal void AddDg(Dg dg)
+        internal void AddDgOption(Dg dg)
         {
-            Model.DgList.Add(dg);
-            DgList.Add(new DgWrapper(dg));
+            if (dg == null || string.IsNullOrEmpty(dg.ContainerNumber)) return;
+            
+            var container = Model.Containers.FirstOrDefault(c=>c.ContainerNumber== dg.ContainerNumber);
 
-            var container = dg.ConvertToContainer();
-
-            if (!Model.Containers.Contains(container))
+            if (container is null)
             {
+                container = dg.ConvertToContainer();
+                container.DgCountInContainer++;
                 var containerWrapper = new ContainerWrapper(container);
+
                 Model.Containers.Add(container);
                 Containers.Add(containerWrapper);
                 if (container.IsRf)
@@ -222,7 +248,16 @@ namespace EasyJob_ProDG.UI.Wrapper
                     Reefers.Add(containerWrapper);
                 }
             }
+            else
+            {
+                container.DgCountInContainer++;
+                var containerWrapper = Containers.FirstOrDefault(c => c.ContainerNumber == container.ContainerNumber);
 
+                dg.CopyContainerInfo(container);
+            }
+
+            Model.DgList.Add(dg);
+            DgList.Add(new DgWrapper(dg));            
             UpdateCargoPlanValues();
         }
 
