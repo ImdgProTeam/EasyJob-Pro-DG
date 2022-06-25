@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -12,6 +13,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         public AddContainerToDataGrid()
         {
             InitializeComponent();
+            Keyboard.Focus(txbContainerNumber);
         }
 
         #region Dependency Properties
@@ -196,7 +198,19 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             if (txb.CaretIndex == txb.Text.Length) return;
             txb.CaretIndex = txb.Text.Length;
             e.Handled = true;
-        } 
+        }
         #endregion
+
+        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                if (!txbContainerNumber.Focus())
+                {
+                    txbContainerNumber.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Input, 
+                        new ThreadStart(delegate () { txbContainerNumber.Focus(); }));
+                }
+            }
+        }
     }
 }

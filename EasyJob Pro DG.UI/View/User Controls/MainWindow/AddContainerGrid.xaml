@@ -6,8 +6,9 @@
              xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="800" 
+             IsVisibleChanged="UserControl_IsVisibleChanged" 
              x:Name="Control"
-             FocusManager.FocusedElement="{Binding txbContainerNumber}">
+             >
     
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BTVConverter" />
@@ -39,6 +40,7 @@
                 Text="{Binding ContainerNumber, ElementName=Control, UpdateSourceTrigger=PropertyChanged}"
                     PreviewTextInput="ContainerNumber_PreviewTextInput"
                      Width="100" CharacterCasing="Upper"
+                     Focusable="True"
                      />
             
             <Label Content="Position"/>
