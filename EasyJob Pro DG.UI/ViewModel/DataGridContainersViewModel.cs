@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Data;
+using System.Windows.Input;
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DialogServices;
@@ -37,6 +38,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             SetDataView();
             RegisterInDataMessenger();
+            LoadCommands();
+            SetVisualElements();
             containerPlanView.Filter += OnContainerListFiltered;
         }
 
@@ -83,12 +86,101 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         #endregion
 
+        #region AddReefer Logic
+        public bool CanUserAddContainer => !string.IsNullOrEmpty(ContainerToAddNumber);
+
+        string containerToAddNumber;
+        public string ContainerToAddNumber
+        {
+            get => containerToAddNumber;
+            set
+            {
+                containerToAddNumber = value?.Trim();
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanUserAddContainer));
+            }
+        }
+
+        string containerToAddLocation;
+        public string ContainerToAddLocation
+        {
+            get => containerToAddLocation;
+            set
+            {
+                containerToAddLocation = value.LimitMaxContainerLocationInput();
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Used to set visibility of AddMenu
+        /// </summary>
+        public System.Windows.Visibility MenuVisibility { get; set; }
+
+        private void OnAddNewContainer(object obj)
+        {
+            //Correct location
+            string location = containerToAddLocation.CorrectFormatContainerLocation();
+
+            //Action
+            CargoPlan.AddNewContainer(new Model.Cargo.Container()
+            {
+                ContainerNumber = containerToAddNumber,
+                Location = location
+            }); ;
+
+            //Scroll into the new Container
+            SelectedContainer = CargoPlan.Containers[CargoPlan.Containers.Count - 1];
+            OnPropertyChanged(nameof(SelectedContainer));
+        }
+
+        /// <summary>
+        /// Actions on displaying AddDg menu (on click 'Add' button)
+        /// </summary>
+        /// <param name="obj"></param>
+        internal void OnDisplayAddContainerMenu(object obj = null)
+        {
+            ContainerToAddNumber = SelectedContainer?.ContainerNumber;
+            ContainerToAddLocation = SelectedContainer?.Location;
+
+            MenuVisibility = System.Windows.Visibility.Visible;
+            OnPropertyChanged(nameof(MenuVisibility));
+        }
+
+        /// <summary>
+        /// Sets initial view properties of AddDg menu
+        /// </summary>
+        private void SetInitialAddMenuProperties()
+        {
+            MenuVisibility = System.Windows.Visibility.Collapsed;
+        }
+
+        #endregion
+
         /// <summary>
         /// Sets data source to View property
         /// </summary>
         private void SetDataView()
         {
             containerPlanView.Source = CargoPlan.Containers;
+        }
+
+        /// <summary>
+        /// Sets required properties values of various visual elements
+        /// </summary>
+        private void SetVisualElements()
+        {
+            SetInitialAddMenuProperties();
+        }
+
+        /// <summary>
+        /// Assigns handler methods for commands
+        /// </summary>
+        private void LoadCommands()
+        {
+            AddNewContainerCommand = new DelegateCommand(OnAddNewContainer);
+            DisplayAddContainerMenuCommand = new DelegateCommand(OnDisplayAddContainerMenu);
+            SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
         }
 
         /// <summary>
@@ -109,5 +201,26 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             DataMessenger.Default.Register<CargoDataUpdated>(this, OnCargoDataUpdated, "cargodataupdated");
         }
+
+        private void OnSelectionChanged(object obj)
+        {
+            if (SelectedContainer is null) return;
+
+            if (MenuVisibility == System.Windows.Visibility.Visible)
+            {
+                if (SelectedContainer.ContainerNumber != containerToAddNumber)
+                {
+                    ContainerToAddNumber = SelectedContainer?.ContainerNumber;
+                    ContainerToAddLocation = SelectedContainer?.Location;
+                }
+            }
+        }
+
+        #region Commands
+        //--------------- Commands ----------------------------------------
+        public ICommand SelectionChangedCommand { get; private set; }
+        public ICommand AddNewContainerCommand { get; private set; }
+        public ICommand DisplayAddContainerMenuCommand { get; private set; }
+        #endregion
     }
 }

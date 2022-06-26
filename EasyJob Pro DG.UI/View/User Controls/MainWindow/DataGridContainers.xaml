@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
              xmlns:attachedProperties="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties"
              xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
+             xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:behaviors="clr-namespace:EasyJob_ProDG.UI.Behaviors"
              xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
              mc:Ignorable="d" 
@@ -21,14 +22,33 @@
             <cc:SearchBox Text="{Binding TextToFilter}"/>
         </StackPanel>
 
-        <local:AddContainerToDataGrid DockPanel.Dock="Bottom"
+        <StackPanel DockPanel.Dock="Bottom"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+
+            <Button Content="Add"
+                    Command="{Binding DisplayAddContainerMenuCommand}"
+                    Width="100"
+                    Margin="1" />
+        </StackPanel>
+
+        <local:AddContainerToDataGrid IsAddDg="False"
                                       Title="Add Container |"
-                                      ContainerNumber="ABCD1234567"
-                                      IsAddDg="False"/>
+                                      Visibility="{Binding MenuVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      ContainerNumber="{Binding ContainerToAddNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Location="{Binding ContainerToAddLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      CanUserAdd="{Binding CanUserAddContainer, UpdateSourceTrigger=PropertyChanged}"
+                                      DockPanel.Dock="Bottom">
+            <behavior:Interaction.Triggers>
+                <behavior:EventTrigger EventName="AddItem">
+                    <behavior:InvokeCommandAction Command="{Binding AddNewContainerCommand}"/>
+                </behavior:EventTrigger>
+            </behavior:Interaction.Triggers>
+        </local:AddContainerToDataGrid>
 
         <DataGrid x:Name="MainContainerDataTable"
                   ItemsSource="{Binding ContainerPlanView}"
-                  SelectedItem="{Binding SelectedContainer, Mode=TwoWay}"
+                  SelectedItem="{Binding SelectedContainer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   IsSynchronizedWithCurrentItem="True"
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
@@ -53,6 +73,7 @@
                   Grid.Column="0"
                   Grid.Row="0"
                   SelectionMode="Extended"
+                  SelectionChanged="MainContainerDataTable_SelectionChanged"
                   behaviors:DataGridBehavior.DisplayRowNumber="True" >
 
             <DataGrid.Resources>
@@ -391,7 +412,15 @@
                 </DataGridTextColumn>
 
             </DataGrid.Columns>
-
+            
+            
+            <!-- BEHAVIORS -->
+            <behavior:Interaction.Triggers>
+                <behavior:EventTrigger EventName="SelectionChanged">
+                    <behavior:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
+                </behavior:EventTrigger>
+            </behavior:Interaction.Triggers>
+            
         </DataGrid>
     </DockPanel>
 </UserControl>

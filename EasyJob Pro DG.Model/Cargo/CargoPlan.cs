@@ -382,24 +382,26 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Adds new container to CargoPlan
         /// </summary>
         /// <param name="container">Container to add to the plan. Container number shall be unique.</param>
-        public void AddContainer(Container container)
+        /// <returns>True if container succesfully added to CargoPlan</returns>
+        public bool AddContainer(Container container)
         {
             #region Safety checks
-            if (container is null) return;
+            if (container is null) return false;
             if (string.IsNullOrEmpty(container.ContainerNumber))
             {
                 Debug.WriteLine("---> Attempt to add a container with no container number");
-                return;
+                return false;
             }
             if (Containers.ContainsUnitWithSameContainerNumberInList(container))
             {
                 Debug.WriteLine("---> Attempt to add a container with container number which is already in list");
-                return;
+                return false;
             }
             #endregion
 
             Containers.Add(container);
             if (container.IsRf) Reefers.Add(container);
+            return true;
         }
 
         /// <summary>

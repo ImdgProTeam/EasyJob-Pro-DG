@@ -201,9 +201,37 @@ namespace EasyJob_ProDG.UI.Wrapper
             OnPropertyChanged("DgContainerCount");
         }
 
+        /// <summary>
+        /// Method refreshes the wrapper, updates summary values and sends a message to update conflicts list.
+        /// </summary>
+        /// <param name="wrapper">The ContainerWrapper which PropertyChange resulted in change of plan.</param>
+        private void UpdateCargoPlanValuesAndConflicts(ContainerWrapper wrapper)
+        {
+            wrapper.Refresh();
+
+            DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
+            UpdateCargoPlanValues();
+        }
+
 
 
         // -------------- Add/Remove/Modify methods ---------------------------------
+
+        internal void AddNewContainer(Container container)
+        {
+            if (Model.Containers.ContainsUnitWithSameContainerNumberInList(container)) return;
+            if (Containers.ContainsUnitWithSameContainerNumberInList(container)) return;
+
+            //add to Model
+            if (!Model.AddContainer(container)) return;
+
+            var containerWrapper = new ContainerWrapper(container);
+            Containers.Add(containerWrapper);
+            if (container.IsRf) 
+                Reefers.Add(containerWrapper);
+
+            UpdateCargoPlanValuesAndConflicts(containerWrapper);
+        }
 
         /// <summary>
         /// Adds a Dg to CargoPlan and its Wrapper to CargoPlanWrapper
@@ -221,59 +249,20 @@ namespace EasyJob_ProDG.UI.Wrapper
                 Containers.Add(containerWrapper);
                 if (container.IsRf) Reefers.Add(containerWrapper);
             }
-            containerWrapper.Refresh();
             DgList.Add(new DgWrapper(dg));
 
-            DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
-            UpdateCargoPlanValues();
+            UpdateCargoPlanValuesAndConflicts(containerWrapper);
         }
 
         /// <summary>
-        /// Adds Dg and respective container (if not yet exists) to CargoPlanWrapper and its Model
-        /// </summary>
-        /// <param name="dg">Dg to be added</param>
-        internal void AddDgOption(Dg dg)
-        {
-            if (dg == null || string.IsNullOrEmpty(dg.ContainerNumber)) return;
-
-            var container = Model.Containers.FirstOrDefault(c => c.ContainerNumber == dg.ContainerNumber);
-
-            if (container is null)
-            {
-                container = dg.ConvertToContainer();
-                container.DgCountInContainer++;
-                var containerWrapper = new ContainerWrapper(container);
-
-                Model.Containers.Add(container);
-                Containers.Add(containerWrapper);
-                if (container.IsRf)
-                {
-                    Model.Reefers.Add(container);
-                    Reefers.Add(containerWrapper);
-                }
-            }
-            else
-            {
-                container.DgCountInContainer++;
-                var containerWrapper = Containers.FirstOrDefault(c => c.ContainerNumber == container.ContainerNumber);
-
-                dg.CopyContainerInfo(container);
-            }
-
-            Model.DgList.Add(dg);
-            DgList.Add(new DgWrapper(dg));
-            UpdateCargoPlanValues();
-        }
-
-        /// <summary>
-        /// Adds a new Container to Reefers list
+        /// Adds a new reefer Container to CargoPlan
         /// </summary>
         /// <param name="unit">Container to be added</param>
         internal void AddNewReefer(Container unit)
         {
             //if already exists -> no action
-            if(Model.Reefers.ContainsUnitWithSameContainerNumberInList(unit)) return;
-            
+            if (Model.Reefers.ContainsUnitWithSameContainerNumberInList(unit)) return;
+
             //add to Model
             if (!this.Model.AddReefer(unit)) return;
 
@@ -292,10 +281,8 @@ namespace EasyJob_ProDG.UI.Wrapper
                 containerWrapper.IsRf = true;
             }
             Reefers.Add(containerWrapper);
-            containerWrapper.Refresh();
 
-            DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
-            UpdateCargoPlanValues();
+            UpdateCargoPlanValuesAndConflicts(containerWrapper);
         }
 
         /// <summary>

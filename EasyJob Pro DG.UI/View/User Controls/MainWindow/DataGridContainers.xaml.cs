@@ -31,7 +31,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             var widths = Properties.Settings.Default.ContainerDataTableWidth.Split(';');
             var visibilitys = Properties.Settings.Default.ContainerDataTableVisibilities.Split(';');
 
-            if (displayIndexes.Count() != MainContainerDataTable.Columns.Count || displayIndexes.Any(x => int.Parse(x) < 0) ) return;
+            if (displayIndexes.Count() != MainContainerDataTable.Columns.Count || displayIndexes.Any(x => int.Parse(x) < 0)) return;
 
             try
             {
@@ -88,5 +88,17 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         }
 
         #endregion
+
+        private void MainContainerDataTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                MainContainerDataTable.ScrollIntoView(MainContainerDataTable.SelectedItem);
+            }
+            catch
+            {
+
+            }
+        }
     }
 }
