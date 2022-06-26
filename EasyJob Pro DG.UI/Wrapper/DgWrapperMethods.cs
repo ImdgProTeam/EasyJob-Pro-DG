@@ -104,7 +104,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         /// <param name="unno">UN no being checked</param>
         /// <returns>If UN no is valid or user acknowledge</returns>
-        private bool CheckForExistingUnno(ushort unno)
+        internal static bool CheckForExistingUnno(ushort unno)
         {
             if (UnnoValidator.Validate(unno)) return true;
             if (_messageDialogService.ShowYesNoDialog(

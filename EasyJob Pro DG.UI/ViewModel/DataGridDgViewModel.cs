@@ -134,7 +134,14 @@ namespace EasyJob_ProDG.UI.ViewModel
             get => dgToAddLocation;
             set
             {
-                dgToAddLocation = value?.Trim();
+                string newValue = value?.Replace(" ", "");
+
+                if(newValue?.Length > 6 && int.Parse(newValue) > 2559999)
+                {
+                    dgToAddLocation = newValue?.Substring(1);
+                }
+                else 
+                    dgToAddLocation = value?.Trim();
                 OnPropertyChanged();
             }
         }
@@ -158,12 +165,26 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private void OnAddDg(object obj)
         {
+            //Correct location
+            string location;
+
+            if (string.IsNullOrEmpty(dgToAddLocation))
+                location = "000000";
+            else if (dgToAddLocation.Length < 5)
+                location = "0000" + dgToAddLocation;
+            else location= dgToAddLocation;
+
+            //Existing unno
+            if (!DgWrapper.CheckForExistingUnno(dgToAddUnno))
+                return;
+
+            //Action
             CargoPlan.AddDg(new Model.Cargo.Dg()
             {
                 Unno = dgToAddUnno,
                 ContainerNumber = dgToAddNumber,
-                Location = dgToAddLocation
-            });
+                Location = location
+            }); ;
         }
 
         /// <summary>
