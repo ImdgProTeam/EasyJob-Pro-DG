@@ -38,6 +38,8 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <returns></returns>
         public static bool Segregate(Dg a, Dg b, ShipProfile ship)
         {
+            if (a.Bay == 0 || b.Bay == 0) return false;
+
             bool _conf = false;
             byte seglevel = 0,
                 _seglevel,
@@ -205,7 +207,10 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="ship"></param>
         internal static void Segregate(Dg a, CargoPlan cargoPlan, ShipProfile ship)
         {
-            bool _conf = false;
+            if (a.Bay == 0) return;
+            if (cargoPlan == null) return;
+
+            bool _conf;
             ICollection<Dg> dglist = cargoPlan.DgList;
 
             //No segregation required for units in limited quantities
@@ -508,6 +513,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <returns></returns>
         private static void ReefersComplianceSegregationCheck(Dg unit, IEnumerable<Container> reefers, bool row00Exists, byte reeferMotorFacing)
         {
+            if (string.IsNullOrEmpty(unit.DgClass)) return;
             bool result;
             //Check for explosives
             if (unit.DgClass.StartsWith("1") || (unit.SegregatorClass != null && unit.SegregatorClass.StartsWith("1")))

@@ -21,7 +21,7 @@ namespace EasyJob_ProDG.Model.Cargo
         private string dgclass;
 
         //assign from DG List
-        private bool isStabilizedWordInProperShippingName => OriginalNameFromCode.Contains("STABILIZED");
+        private bool isStabilizedWordInProperShippingName => OriginalNameFromCode?.Contains("STABILIZED") ?? false;
         private bool isSelfReactive = false;
         private char stowageCatFromDgList;
         private List<string> segregationSG;
@@ -41,7 +41,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
         //User input fields
         private bool isStabilizedWordAddedToProperShippingName
-            => Name.ToUpper().Contains("STABILIZED") && !isStabilizedWordInProperShippingName;
+            => !string.IsNullOrEmpty(Name) && Name.ToUpper().Contains("STABILIZED") && !isStabilizedWordInProperShippingName;
         private bool isWaste;
 
         //from IFTDGN

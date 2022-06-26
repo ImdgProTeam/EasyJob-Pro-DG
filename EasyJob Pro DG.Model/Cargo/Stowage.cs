@@ -302,6 +302,8 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="ship"></param>
         private static void CheckStowageOfExplosives(Dg unit, ShipProfile ship)
         {
+            if(string.IsNullOrEmpty(unit.DgClass)) return;
+
             //Class 1 general stowage
             //Not less than 12 m from Living quarters and LSA
             //Not less than 2,4 m from ship side

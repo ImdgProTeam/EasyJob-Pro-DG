@@ -1503,7 +1503,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         /// <returns>Original line without new line symbols.</returns>
         private static string RemoveNewLines(string line)
         {
-            return line.Replace("\n", "").Replace("\r", "");
+            return line?.Replace("\n", "").Replace("\r", "");
         }
 
 
