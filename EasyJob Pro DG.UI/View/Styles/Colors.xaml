@@ -21,7 +21,7 @@
     <Color x:Key="Color.ContainerTable.Background.Gradient2">GreenYellow</Color>
 
     <Color x:Key="Color.DgTable.AlternateRow">Beige</Color>
-    <Color x:Key="Color.DgTable.HighlightRow">#FF00FF</Color>
+    <Color x:Key="Color.DgTable.HighlightRow">#5868E1</Color>
 
     <Color x:Key="Color.Text.Stowage">DeepSkyBlue</Color>
     <Color x:Key="Color.Text.Segregation">Purple</Color>
