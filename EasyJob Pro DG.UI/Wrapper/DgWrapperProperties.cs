@@ -326,7 +326,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             set
             {
                 if (Unno == value) return;
-                if (!CheckForExistingUnno(value)) return;
+                if (!DataHelper.CheckForExistingUnno(value)) return;
 
                 SetValue(value);
                 if (value != 1950) IsMax1L = false;

@@ -114,6 +114,7 @@
     <Compile Include="Behaviors\DataGridBehaviors.cs" />
     <Compile Include="Behaviors\SelectTextOnFocusBehavior.cs" />
     <Compile Include="Behaviors\TakeFocusAndSelectTextOnVisibleBehavior.cs" />
+    <Compile Include="Data\DataHelper.cs" />
     <Compile Include="Data\DialogSaveFile.cs" />
     <Compile Include="Data\DialogOpenFile.cs" />
     <Compile Include="Data\CurrentProgramData.cs" />
@@ -476,9 +477,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Startup\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="View\UI\imdg.good.ico" />
   </ItemGroup>

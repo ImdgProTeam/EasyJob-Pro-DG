@@ -17,6 +17,7 @@ using System.Xml.Serialization;
 using static EasyJob_ProDG.UI.Settings.UserUISettings;
 using System.Diagnostics;
 using System.Windows;
+using EasyJob_ProDG.UI.Data;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
@@ -175,7 +176,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             else location= dgToAddLocation;
 
             //Existing unno
-            if (!DgWrapper.CheckForExistingUnno(dgToAddUnno))
+            if (!DataHelper.CheckForExistingUnno(dgToAddUnno))
                 return;
 
             //Action

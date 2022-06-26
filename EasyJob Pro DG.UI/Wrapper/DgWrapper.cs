@@ -2,7 +2,6 @@
 using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO;
 using EasyJob_ProDG.UI.Services.DataServices;
-using EasyJob_ProDG.UI.Services.DialogServices;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
@@ -11,7 +10,6 @@ namespace EasyJob_ProDG.UI.Wrapper
     public partial class DgWrapper : ModelWrapper<Dg>, ILocationOnBoard, IContainer, IUpdatable
     {
         private static readonly DgDataBaseDataService dgDataBaseDataService = new DgDataBaseDataService();
-        private static IMessageDialogService _messageDialogService = new MessageDialogService();
         private readonly XDocument _dgDataBase = dgDataBaseDataService.GetDgDataBase();
 
 
@@ -56,7 +54,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                 default:
                     break;
             }
-        } 
+        }
         #endregion
 
 
@@ -131,7 +129,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         public static explicit operator ContainerWrapper(DgWrapper dgWrapper)
         {
             return dgWrapper.ConvertToContainerWrapper();
-        } 
+        }
         #endregion
 
     }
