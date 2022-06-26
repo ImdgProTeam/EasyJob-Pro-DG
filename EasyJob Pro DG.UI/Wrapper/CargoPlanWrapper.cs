@@ -213,10 +213,10 @@ namespace EasyJob_ProDG.UI.Wrapper
         {
             this.Model.AddDg(dg, _dgDataBase);
 
-            var containerWrapper = Containers.FirstOrDefault(c => c.ContainerNumber == dg.ContainerNumber);
+            var containerWrapper = Containers.FindContainerByContainerNumber(dg);
             if (containerWrapper is null)
             {
-                var container = Model.Containers.FirstOrDefault(c => c.ContainerNumber == dg.ContainerNumber);
+                var container = Model.Containers.FindContainerByContainerNumber(dg);
                 containerWrapper = new ContainerWrapper(container);
                 Containers.Add(containerWrapper);
                 if (container.IsRf) Reefers.Add(containerWrapper);
@@ -272,21 +272,22 @@ namespace EasyJob_ProDG.UI.Wrapper
         internal void AddNewReefer(Container unit)
         {
             //if already exists -> no action
-            if (Model.Reefers.Any(r => r.ContainerNumber == unit.ContainerNumber)) return;
-
+            if(Model.Reefers.ContainsUnitWithSameContainerNumberInList(unit)) return;
+            
             //add to Model
             if (!this.Model.AddReefer(unit)) return;
 
             //add to CargoPlan
             ContainerWrapper containerWrapper;
-            if (!Containers.Any(c => c.ContainerNumber == unit.ContainerNumber))
+            if (!Containers.ContainsUnitWithSameContainerNumberInList(unit))
             {
-                containerWrapper = new ContainerWrapper(unit);
+                var container = Model.Containers.FindContainerByContainerNumber(unit);
+                containerWrapper = new ContainerWrapper(container);
                 Containers.Add(containerWrapper);
             }
             else
             {
-                containerWrapper = Containers.FirstOrDefault(c => c.ContainerNumber == unit.ContainerNumber);
+                containerWrapper = Containers.FindContainerByContainerNumber(unit);
                 if (containerWrapper == null) throw new ArgumentException($"Container with ContainerNumber {unit.ContainerNumber} cannot be found in CargoPlan.Containers despite it is expected");
                 containerWrapper.IsRf = true;
             }
@@ -334,20 +335,6 @@ namespace EasyJob_ProDG.UI.Wrapper
 
 
         // -------------- Static methods and converters -----------------------------
-
-        /// <summary>
-        /// Checks if a CargoPlan unit exists in a collection
-        /// </summary>
-        /// <param name="container">CargoPlan unit to be found</param>
-        /// <param name="collection">Collection of the units to be searched</param>
-        /// <returns></returns>
-        public static bool ContainedInList<TM, T>(ICollection<TM> collection, T container)
-            where T : IContainer, ILocationOnBoard
-            where TM : IContainer, ILocationOnBoard
-        {
-            return collection.Any(c =>
-                c.ContainerNumber == container.ContainerNumber && c.Location == container.Location);
-        }
 
         /// <summary>
         /// Converts each DgWrapper in DgList into plain Dg

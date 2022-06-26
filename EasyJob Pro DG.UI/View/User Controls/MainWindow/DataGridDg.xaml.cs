@@ -249,11 +249,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             isInitialized = true;
         }
 
-        private void MainDgTable_OnSelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-        {
-
-        }
-
         private void MainDgTable_OnUnloadingRow(object sender, DataGridRowEventArgs e)
         {
             FocusOnRow(currentRowIndex);

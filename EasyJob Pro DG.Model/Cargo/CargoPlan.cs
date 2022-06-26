@@ -362,7 +362,7 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             if (dg == null || string.IsNullOrEmpty(dg.ContainerNumber)) return;
 
-            var container = Containers.FirstOrDefault(c => c.ContainerNumber == dg.ContainerNumber);
+            var container = Containers.FindContainerByContainerNumber(dg);
             if (container is null)
             {
                 container = (Container)dg;
@@ -391,7 +391,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 Debug.WriteLine("---> Attempt to add a container with no container number");
                 return;
             }
-            if (Containers.Any(x => x.ContainerNumber == container.ContainerNumber))
+            if (Containers.ContainsUnitWithSameContainerNumberInList(container))
             {
                 Debug.WriteLine("---> Attempt to add a container with container number which is already in list");
                 return;
@@ -417,10 +417,10 @@ namespace EasyJob_ProDG.Model.Cargo
             }
             #endregion
 
-            if (Containers.Any(x => x.ContainerNumber == reefer.ContainerNumber))
+            if (Containers.ContainsUnitWithSameContainerNumberInList(reefer))
             {
                 Debug.WriteLine("---> Attempt to add a reefer with container number which is already in list");
-                var container = Containers.FirstOrDefault(c => c.ContainerNumber == reefer.ContainerNumber);
+                var container = Containers.FindContainerByContainerNumber(reefer);
                 if (container == null) throw new Exception($"Container with ContainerNumber {reefer.ContainerNumber} cannot be found in CargoPlan despite it was expected.");
                 container.IsRf = true;
                 reefer.CopyContainerInfo(container);

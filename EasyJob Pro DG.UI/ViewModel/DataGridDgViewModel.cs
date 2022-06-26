@@ -135,14 +135,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             get => dgToAddLocation;
             set
             {
-                string newValue = value?.Replace(" ", "");
-
-                if(newValue?.Length > 6 && int.Parse(newValue) > 2559999)
-                {
-                    dgToAddLocation = newValue?.Substring(1);
-                }
-                else 
-                    dgToAddLocation = value?.Trim();
+                dgToAddLocation = value.LimitMaxContainerLocationInput();
                 OnPropertyChanged();
             }
         }
@@ -167,13 +160,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void OnAddDg(object obj)
         {
             //Correct location
-            string location;
-
-            if (string.IsNullOrEmpty(dgToAddLocation))
-                location = "000000";
-            else if (dgToAddLocation.Length < 5)
-                location = "0000" + dgToAddLocation;
-            else location= dgToAddLocation;
+            string location = dgToAddLocation.CorrectFormatContainerLocation();
 
             //Existing unno
             if (!DataHelper.CheckForExistingUnno(dgToAddUnno))
@@ -369,7 +356,6 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 DgToAddNumber = SelectedDg?.ContainerNumber;
                 DgToAddLocation = SelectedDg?.Location;
-                OnPropertyChanged(nameof(DgToAddLocation));
             }
 
         }

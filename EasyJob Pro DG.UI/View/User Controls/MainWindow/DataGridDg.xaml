@@ -89,7 +89,6 @@
                   
                   SelectionMode="Extended"
                   ap:SelectingDgDataGridItem.SelectingItem="{Binding SelectedDg}"
-                  SelectedCellsChanged="MainDgTable_OnSelectedCellsChanged"
                   Sorting="MainDgTable_Sorting"
                   PreviewKeyDown="MainDgTable_PreviewKeyDown"
                   BeginningEdit="MainDgTable_BeginningEdit"

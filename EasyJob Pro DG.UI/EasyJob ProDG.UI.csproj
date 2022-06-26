@@ -126,6 +126,7 @@
     <Compile Include="Services\FirstStartServices\ExtensionRegistryHelper.cs" />
     <Compile Include="Services\FirstStartServices\FirstStartService.cs" />
     <Compile Include="Utility\ExportDataGridToExcel.cs" />
+    <Compile Include="Utility\ExtensionMethods.cs" />
     <Compile Include="Utility\Messages\ApplicationClosingMessage.cs" />
     <Compile Include="Utility\Messages\CancelChangesMessage.cs" />
     <Compile Include="Utility\Messages\ConflictListToBeUpdatedMessage.cs" />
