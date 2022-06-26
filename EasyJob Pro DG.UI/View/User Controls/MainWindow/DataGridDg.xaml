@@ -80,11 +80,12 @@
                   VirtualizingPanel.ScrollUnit="Pixel"
                   CanUserAddRows="False"
                   HeadersVisibility="All"
-                  GridLinesVisibility="All"
+                  GridLinesVisibility="None"
                   AlternationCount="2"
                   Background="{StaticResource Brush.DgTable.Background}"
                   RowBackground="Transparent"
                   AlternatingRowBackground="{StaticResource Brush.DgTable.AlternateRow}"
+                  
                   Opacity="0.6"
                   
                   SelectionMode="Extended"
@@ -134,12 +135,19 @@
                             Value="{StaticResource DataGridColumnHeaderContextMenu}" />
                     </Style>
 
-
-
                     <!-- Cell style -->
                     <Style TargetType="{x:Type DataGridCell}">
                         <Setter Property="IsTabStop"
                             Value="False" />
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <!--<Style.Triggers>
+                            <DataTrigger Binding="{Binding DisplayIndex, RelativeSource={RelativeSource AncestorType={x:Type ColumnDefinition}}}" Value="1">
+                                <Setter Property="Background" Value="Red"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridColumn}}" Value="1">
+                                <Setter Property="Background" Value="Black"/>
+                            </DataTrigger>
+                        </Style.Triggers>-->
                     </Style>
 
                     <!-- TextBox style-->
@@ -150,6 +158,11 @@
                             Value="50" />
                         <Setter Property="TextAlignment"
                             Value="Right" />
+                    </Style>
+
+                    <!-- CheckBox style -->
+                    <Style TargetType="{x:Type CheckBox}">
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
                     </Style>
 
                     <!-- Selection color -->

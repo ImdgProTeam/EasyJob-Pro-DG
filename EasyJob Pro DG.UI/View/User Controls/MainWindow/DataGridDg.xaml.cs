@@ -22,8 +22,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
     {
         DataGridDgViewModel viewModel;
         private static bool IsCellEditingOn;
-        private bool isInitialized;
-        private int currentColumnIndex = 0;
         private int currentRowIndex = 1;
         private double OriginalScrollPosition { get; set; }
         private bool IsResizingColumn { get; set; }
@@ -246,7 +244,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
         private void MainDgTable_Loaded(object sender, RoutedEventArgs e)
         {
-            isInitialized = true;
+            //PaintAlternateColumn(Colors.LightGoldenrodYellow);
         }
 
         private void MainDgTable_OnUnloadingRow(object sender, DataGridRowEventArgs e)
@@ -319,6 +317,35 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             catch
             {
 
+            }
+        }
+
+        /// <summary>
+        /// Method paints each alternate column in DataGrid with specified color
+        /// </summary>
+        /// <param name="color"></param>
+        private void PaintAlternateColumn(Color color)
+        {
+            int alt = 0;
+            for (byte i = 0; i < MainDgTable.Columns.Count; i++)
+            {
+                var column = MainDgTable.Columns.FirstOrDefault(x => x.DisplayIndex == i);
+                if (column?.Visibility == Visibility.Visible)
+                {
+                    if(alt == 0)
+                    {
+                        alt = 1;
+                        continue;
+                    }
+
+                    FrameworkElement cellContent;
+                    for (int rowIndex = 0; rowIndex < MainDgTable.Items.Count; rowIndex++)
+                    {
+                        cellContent = column.GetCellContent(MainDgTable.Items[rowIndex]);
+                        if (cellContent?.Parent is DataGridCell cell) cell.Background = new SolidColorBrush(color);
+                    }
+                    alt = 0;
+                }
             }
         }
     }
