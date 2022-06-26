@@ -76,6 +76,7 @@
                   Grid.Row="0"
                   SelectionMode="Extended"
                   behaviors:DataGridBehavior.DisplayRowNumber="True"
+                  SelectionChanged="MainReeferDataTable_SelectionChanged"
                   >
 
             <DataGrid.Resources>

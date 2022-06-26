@@ -97,6 +97,7 @@
                   UnloadingRow="MainDgTable_OnUnloadingRow"
                   behaviors:DataGridBehavior.DisplayRowNumber="True"
                   Loaded="MainDgTable_Loaded"
+                  SelectionChanged="MainDgTable_SelectionChanged"
                   >
 
                 <DataGrid.Resources>
@@ -830,10 +831,6 @@
                 <behavior:Interaction.Triggers>
                     <behavior:EventTrigger EventName="SelectionChanged">
                         <behavior:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
-                    </behavior:EventTrigger>
-                    <behavior:EventTrigger EventName="UnloadingRow">
-                        <behavior:InvokeCommandAction Command="{Binding UnloadRow}"
-                                                  CommandParameter="{Binding ElementName=MainDgTable, Path=SelectedItems}" />
                     </behavior:EventTrigger>
                 </behavior:Interaction.Triggers>
 

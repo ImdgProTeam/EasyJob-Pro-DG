@@ -95,5 +95,17 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         {
             ExportDataGridToExcel.ExportToExcel(MainReeferDataTable);
         }
+
+        private void MainReeferDataTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                MainReeferDataTable.ScrollIntoView(MainReeferDataTable.SelectedItem);
+            }
+            catch
+            {
+
+            }
+        }
     }
 }

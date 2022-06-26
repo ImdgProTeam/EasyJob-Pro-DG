@@ -173,6 +173,10 @@ namespace EasyJob_ProDG.UI.ViewModel
                 ContainerNumber = dgToAddNumber,
                 Location = location
             }); ;
+
+            //Scroll into the new Container
+            SelectedDg = CargoPlan.DgList[CargoPlan.DgList.Count - 1];
+            OnPropertyChanged(nameof(SelectedDg));
         }
 
         /// <summary>
@@ -255,7 +259,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void LoadCommands()
         {
             AddDgCommand = new DelegateCommand(OnAddDg);
-            UnloadRow = new DelegateCommand(OnRowUnloaded);
             DeleteDg = new DelegateCommand(OnDgDelete);
             IncludeTechnicalNameCommand = new DelegateCommand(IncludeTechnicalNameOnExecuted);
             DisplayAddDgMenuCommand = new DelegateCommand(OnDisplayAddDgMenu);
@@ -310,10 +313,6 @@ namespace EasyJob_ProDG.UI.ViewModel
             DataMessenger.Default.Send<UpdateCargoPlan>(new UpdateCargoPlan(selectedDgArray), "Remove dg");
         }
 
-        private void OnRowUnloaded(object obj)
-        {
-        }
-
         /// <summary>
         /// Method changes SelectedDg to match with ConflictPanelItem object
         /// </summary>
@@ -352,10 +351,15 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private void OnSelectionChanged(object obj)
         {
+            if (SelectedDg is null) return;
+
             if (MenuVisibility == Visibility.Visible)
             {
-                DgToAddNumber = SelectedDg?.ContainerNumber;
-                DgToAddLocation = SelectedDg?.Location;
+                if (SelectedDg.ContainerNumber != DgToAddNumber)
+                {
+                    DgToAddNumber = SelectedDg?.ContainerNumber;
+                    DgToAddLocation = SelectedDg?.Location;
+                }
             }
 
         }
@@ -404,7 +408,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand SelectionChangedCommand { get; private set; }
         public ICommand IncludeTechnicalNameCommand { get; set; }
         public ICommand ToExcel { get; private set; }
-        public ICommand UnloadRow { get; private set; }
         public ICommand DeleteDg { get; private set; }
         public ICommand AddDgCommand { get; private set; }
         public ICommand DisplayAddDgMenuCommand { get; private set; }

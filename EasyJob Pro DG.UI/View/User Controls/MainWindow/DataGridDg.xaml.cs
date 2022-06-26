@@ -309,5 +309,17 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
             return false;
         }
+
+        private void MainDgTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                MainDgTable.ScrollIntoView(MainDgTable.SelectedItem);
+            }
+            catch
+            {
+
+            }
+        }
     }
 }

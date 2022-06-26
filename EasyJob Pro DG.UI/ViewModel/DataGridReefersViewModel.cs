@@ -130,7 +130,11 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 ContainerNumber = reeferToAddNumber,
                 Location = location
-            }); ;
+            });
+
+            //Scroll into the new Container
+            SelectedReefer = CargoPlan.Reefers[CargoPlan.Reefers.Count - 1];
+            OnPropertyChanged(nameof(SelectedReefer));
         }
 
         /// <summary>
@@ -217,10 +221,15 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private void OnSelectionChanged(object obj)
         {
+            if (SelectedReefer is null) return;
+
             if (MenuVisibility == System.Windows.Visibility.Visible)
             {
-                ReeferToAddNumber = SelectedReefer?.ContainerNumber;
-                ReeferToAddLocation = SelectedReefer?.Location;
+                if (SelectedReefer.ContainerNumber != reeferToAddNumber)
+                {
+                    ReeferToAddNumber = SelectedReefer?.ContainerNumber;
+                    ReeferToAddLocation = SelectedReefer?.Location;
+                }
             }
         } 
         #endregion
