@@ -45,7 +45,7 @@
             DockPanel.Dock="Bottom">
             <behavior:Interaction.Triggers>
                 <behavior:EventTrigger EventName="AddItem">
-                    <behavior:InvokeCommandAction Command="{Binding AddReeferCommand}"/>
+                    <behavior:InvokeCommandAction Command="{Binding AddNewReeferCommand}"/>
                 </behavior:EventTrigger>
             </behavior:Interaction.Triggers>
         </local:AddContainerToDataGrid>
@@ -75,7 +75,8 @@
                   Grid.Column="0"
                   Grid.Row="0"
                   SelectionMode="Extended"
-                  behaviors:DataGridBehavior.DisplayRowNumber="True">
+                  behaviors:DataGridBehavior.DisplayRowNumber="True"
+                  >
 
             <DataGrid.Resources>
 
@@ -429,6 +430,13 @@
                 </DataGridTemplateColumn>
 
             </DataGrid.Columns>
+
+            <!-- BEHAVIORS -->
+            <behavior:Interaction.Triggers>
+                <behavior:EventTrigger EventName="SelectionChanged">
+                    <behavior:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
+                </behavior:EventTrigger>
+            </behavior:Interaction.Triggers>
         </DataGrid>
     </DockPanel>
 </UserControl>

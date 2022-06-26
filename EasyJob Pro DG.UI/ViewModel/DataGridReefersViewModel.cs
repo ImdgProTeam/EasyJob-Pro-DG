@@ -42,6 +42,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             RegisterInDataMessenger();
             LoadCommands();
             SetVisualElements();
+
             reeferPlanView.Filter += OnReeferListFiltered;
         }
 
@@ -109,14 +110,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             get => reeferToAddLocation;
             set
             {
-                string newValue = value?.Replace(" ", "");
-
-                if (newValue?.Length > 6 && int.Parse(newValue) > 2559999)
-                {
-                    reeferToAddLocation = newValue?.Substring(1);
-                }
-                else
-                    reeferToAddLocation = value?.Trim();
+                reeferToAddLocation = value.LimitMaxContainerLocationInput();
                 OnPropertyChanged();
             }
         }
@@ -126,16 +120,10 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         public System.Windows.Visibility MenuVisibility { get; set; }
 
-        private void OnAddReefer(object obj)
+        private void OnAddNewReefer(object obj)
         {
             //Correct location
-            string location;
-
-            if (string.IsNullOrEmpty(reeferToAddLocation))
-                location = "000000";
-            else if (reeferToAddLocation.Length < 5)
-                location = "0000" + reeferToAddLocation;
-            else location = reeferToAddLocation;
+            string location = reeferToAddLocation.CorrectFormatContainerLocation();
 
             //Action
             CargoPlan.AddNewReefer(new Model.Cargo.Container()
@@ -156,7 +144,6 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             MenuVisibility = System.Windows.Visibility.Visible;
             OnPropertyChanged(nameof(MenuVisibility));
-
         }
 
         /// <summary>
@@ -167,10 +154,10 @@ namespace EasyJob_ProDG.UI.ViewModel
             MenuVisibility = System.Windows.Visibility.Collapsed;
         }
 
-        public ICommand AddReeferCommand { get; private set; }
-        public ICommand DisplayAddReeferMenuCommand { get; private set; }
         #endregion
 
+        #region Private methods
+        //-------------- Private methods --------------------------------------------
         /// <summary>
         /// Sets data source to View property
         /// </summary>
@@ -192,8 +179,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         private void LoadCommands()
         {
-            AddReeferCommand = new DelegateCommand(OnAddReefer);
+            AddNewReeferCommand = new DelegateCommand(OnAddNewReefer);
             DisplayAddReeferMenuCommand = new DelegateCommand(OnDisplayAddReeferMenu);
+            SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
         }
 
         /// <summary>
@@ -227,5 +215,22 @@ namespace EasyJob_ProDG.UI.ViewModel
             DataMessenger.Default.Register<CargoDataUpdated>(this, OnReeferInfoUpdated, "reeferinfoupdated");
         }
 
+        private void OnSelectionChanged(object obj)
+        {
+            if (MenuVisibility == System.Windows.Visibility.Visible)
+            {
+                ReeferToAddNumber = SelectedReefer?.ContainerNumber;
+                ReeferToAddLocation = SelectedReefer?.Location;
+            }
+        } 
+        #endregion
+
+
+        #region Commands
+        //--------------- Commands ----------------------------------------
+        public ICommand SelectionChangedCommand { get; private set; }
+        public ICommand AddNewReeferCommand { get; private set; }
+        public ICommand DisplayAddReeferMenuCommand { get; private set; } 
+        #endregion
     }
 }
