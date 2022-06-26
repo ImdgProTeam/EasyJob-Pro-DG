@@ -46,10 +46,10 @@
         <!-- Add dg -->
         <uc:AddContainerToDataGrid Title="Add dg |" DockPanel.Dock="Bottom" 
                                    IsAddDg="True"
-                                   Visibility="{Binding MenuVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DummyConverter}}"
-                                   ContainerNumber="{Binding DgToAddNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DummyConverter}}"
-                                   Location="{Binding DgToAddLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DummyConverter}}"
-                                   UNNO="{Binding DgToAddUnno, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DummyConverter}}"
+                                   Visibility="{Binding MenuVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   ContainerNumber="{Binding DgToAddNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   Location="{Binding DgToAddLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   UNNO="{Binding DgToAddUnno, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    CanUserAdd="{Binding CanUserAddDg, UpdateSourceTrigger=PropertyChanged}">
             <behavior:Interaction.Triggers>
                 <behavior:EventTrigger EventName="AddItem">

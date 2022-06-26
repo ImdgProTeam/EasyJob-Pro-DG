@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
+             xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:behaviors="clr-namespace:EasyJob_ProDG.UI.Behaviors"
              xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters" xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
              mc:Ignorable="d"
@@ -24,6 +25,10 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Right">
 
+            <Button Content="Add"
+                    Command="{Binding DisplayAddReeferMenuCommand}"
+                    Width="100"
+                    Margin="1" />
             <Button Content="To Excel"
                     Click="ExportToExcel"
                     Width="100"
@@ -32,11 +37,18 @@
 
         <local:AddContainerToDataGrid 
             Title="Add Reefer container |"
-            DockPanel.Dock="Bottom"
-            ContainerNumber="REEF1234567"
-            Location="121388"
-            UNNO="5"
-            IsAddDg="False"/>
+            IsAddDg="False"
+            Visibility="{Binding MenuVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            ContainerNumber="{Binding ReeferToAddNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Location="{Binding ReeferToAddLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            CanUserAdd="{Binding CanUserAddReefer, UpdateSourceTrigger=PropertyChanged}"
+            DockPanel.Dock="Bottom">
+            <behavior:Interaction.Triggers>
+                <behavior:EventTrigger EventName="AddItem">
+                    <behavior:InvokeCommandAction Command="{Binding AddReeferCommand}"/>
+                </behavior:EventTrigger>
+            </behavior:Interaction.Triggers>
+        </local:AddContainerToDataGrid>
 
         <DataGrid x:Name="MainReeferDataTable"
                   ItemsSource="{Binding ReeferPlanView}"
@@ -66,7 +78,7 @@
                   behaviors:DataGridBehavior.DisplayRowNumber="True">
 
             <DataGrid.Resources>
-                
+
                 <ContextMenu x:Key="DataGridReefersColumnHeaderContextMenu"
                              DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}"
                              ItemsSource="{Binding Columns, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}">

@@ -395,6 +395,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             OnPropertyChanged("POD");
             OnPropertyChanged("Type");
             OnPropertyChanged("IsClosed");
+            OnPropertyChanged(nameof(IsRf));
 
             RefreshLocation();
         }

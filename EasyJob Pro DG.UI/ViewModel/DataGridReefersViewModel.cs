@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Data;
+using System.Windows.Input;
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DialogServices;
@@ -39,6 +40,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             SetDataView();
             RegisterInDataMessenger();
+            LoadCommands();
+            SetVisualElements();
             reeferPlanView.Filter += OnReeferListFiltered;
         }
 
@@ -85,12 +88,112 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         #endregion
 
+        #region AddReefer Logic
+        public bool CanUserAddReefer => !string.IsNullOrEmpty(ReeferToAddNumber);
+
+        string reeferToAddNumber;
+        public string ReeferToAddNumber
+        {
+            get => reeferToAddNumber;
+            set
+            {
+                reeferToAddNumber = value?.Trim();
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanUserAddReefer));
+            }
+        }
+
+        string reeferToAddLocation;
+        public string ReeferToAddLocation
+        {
+            get => reeferToAddLocation;
+            set
+            {
+                string newValue = value?.Replace(" ", "");
+
+                if (newValue?.Length > 6 && int.Parse(newValue) > 2559999)
+                {
+                    reeferToAddLocation = newValue?.Substring(1);
+                }
+                else
+                    reeferToAddLocation = value?.Trim();
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Used to set visibility of AddMenu
+        /// </summary>
+        public System.Windows.Visibility MenuVisibility { get; set; }
+
+        private void OnAddReefer(object obj)
+        {
+            //Correct location
+            string location;
+
+            if (string.IsNullOrEmpty(reeferToAddLocation))
+                location = "000000";
+            else if (reeferToAddLocation.Length < 5)
+                location = "0000" + reeferToAddLocation;
+            else location = reeferToAddLocation;
+
+            //Action
+            CargoPlan.AddNewReefer(new Model.Cargo.Container()
+            {
+                ContainerNumber = reeferToAddNumber,
+                Location = location
+            }); ;
+        }
+
+        /// <summary>
+        /// Actions on displaying AddDg menu (on click 'Add' button)
+        /// </summary>
+        /// <param name="obj"></param>
+        internal void OnDisplayAddReeferMenu(object obj = null)
+        {
+            ReeferToAddNumber = SelectedReefer?.ContainerNumber;
+            ReeferToAddLocation = SelectedReefer?.Location;
+
+            MenuVisibility = System.Windows.Visibility.Visible;
+            OnPropertyChanged(nameof(MenuVisibility));
+
+        }
+
+        /// <summary>
+        /// Sets initial view properties of AddDg menu
+        /// </summary>
+        private void SetInitialAddMenuProperties()
+        {
+            MenuVisibility = System.Windows.Visibility.Collapsed;
+        }
+
+        public ICommand AddReeferCommand { get; private set; }
+        public ICommand DisplayAddReeferMenuCommand { get; private set; }
+        #endregion
+
         /// <summary>
         /// Sets data source to View property
         /// </summary>
         private void SetDataView()
         {
             reeferPlanView.Source = CargoPlan.Reefers;
+        }
+
+        /// <summary>
+        /// Sets required properties values of various visual elements
+        /// </summary>
+        private void SetVisualElements()
+        {
+            SetInitialAddMenuProperties();
+        }
+
+        /// <summary>
+        /// Assigns handler methods for commands
+        /// </summary>
+        private void LoadCommands()
+        {
+            AddReeferCommand = new DelegateCommand(OnAddReefer);
+            DisplayAddReeferMenuCommand = new DelegateCommand(OnDisplayAddReeferMenu);
         }
 
         /// <summary>

@@ -32,7 +32,7 @@ namespace EasyJob_ProDG.Model.Cargo
             }
         }
 
-        public string Remarks { get; set; } 
+        public string Remarks { get; set; }
         #endregion
 
 
@@ -49,7 +49,7 @@ namespace EasyJob_ProDG.Model.Cargo
         public bool HasPodChanged { get; set; }
         public bool HasContainerTypeChanged { get; set; }
 
-        public string LocationBeforeRestow { get; set; } 
+        public string LocationBeforeRestow { get; set; }
         #endregion
 
 
@@ -61,7 +61,7 @@ namespace EasyJob_ProDG.Model.Cargo
         public string Commodity { get; set; }
         public string VentSetting { get; set; }
         public string ReeferSpecial { get; set; }
-        public string ReeferRemark { get; set; } 
+        public string ReeferRemark { get; set; }
 
         /// <summary>
         /// Removes all reefer-related property values.
@@ -89,7 +89,7 @@ namespace EasyJob_ProDG.Model.Cargo
             IsUnderdeck = false;
             IsClosed = true;
             ContainerTypeRecognized = false;
-        } 
+        }
         #endregion
 
 
@@ -151,7 +151,28 @@ namespace EasyJob_ProDG.Model.Cargo
         public void RemoveDgFromContainer()
         {
             if (DgCountInContainer > 0) DgCountInContainer--;
-        } 
+        }
+
+        /// <summary>
+        /// Copies basic IContainer and LocationOnBoard properties from another container
+        /// </summary>
+        /// <param name="container"></param>
+        public void CopyContainerInfo(Container container)
+        {
+            Location = container.Location;
+            IsUnderdeck = container.IsUnderdeck;
+            DgCountInContainer = container.DgCountInContainer;
+            IsRf = container.IsRf;
+
+            _type = container._type;
+            ContainerTypeRecognized = container.ContainerTypeRecognized;
+            IsClosed = container.IsClosed;
+
+            Carrier = container.Carrier;
+            FinalDestination = container.FinalDestination;
+            POD = container.POD;
+            POL = container.POL;
+        }
         #endregion
     }
 }

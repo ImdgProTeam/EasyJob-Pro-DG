@@ -406,25 +406,32 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Adds new reefer to CargoPlan
         /// </summary>
         /// <param name="container">Reefer container to be added. Container number shall be unique.</param>
-        public void AddReefer(Container reefer)
+        public bool AddReefer(Container reefer)
         {
             #region Safety checks
-            if (reefer is null) return;
+            if (reefer is null) return false;
             if (string.IsNullOrEmpty(reefer.ContainerNumber))
             {
                 Debug.WriteLine("---> Attempt to add a reefer with no container number");
-                return;
-            }
-            if (Containers.Any(x => x.ContainerNumber == reefer.ContainerNumber))
-            {
-                Debug.WriteLine("---> Attempt to add a reefer with container number which is already in list");
-                return;
+                return false;
             }
             #endregion
 
-            reefer.IsRf = true;
-            Containers.Add(reefer);
+            if (Containers.Any(x => x.ContainerNumber == reefer.ContainerNumber))
+            {
+                Debug.WriteLine("---> Attempt to add a reefer with container number which is already in list");
+                var container = Containers.FirstOrDefault(c => c.ContainerNumber == reefer.ContainerNumber);
+                if (container == null) throw new Exception($"Container with ContainerNumber {reefer.ContainerNumber} cannot be found in CargoPlan despite it was expected.");
+                container.IsRf = true;
+                reefer.CopyContainerInfo(container);
+            }
+            else
+            {
+                reefer.IsRf = true;
+                Containers.Add(reefer);
+            }
             Reefers.Add(reefer);
+            return true;
         }
 
 

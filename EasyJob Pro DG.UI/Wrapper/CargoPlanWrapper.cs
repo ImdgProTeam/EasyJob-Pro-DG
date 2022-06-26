@@ -10,6 +10,7 @@ using System.Linq;
 using EasyJob_ProDG.Model.Transport;
 using Container = EasyJob_ProDG.Model.Cargo.Container;
 using EasyJob_ProDG.UI.Services.DataServices;
+using System;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
@@ -200,29 +201,32 @@ namespace EasyJob_ProDG.UI.Wrapper
             OnPropertyChanged("DgContainerCount");
         }
 
+
+
+        // -------------- Add/Remove/Modify methods ---------------------------------
+
         /// <summary>
         /// Adds a Dg to CargoPlan and its Wrapper to CargoPlanWrapper
         /// </summary>
         /// <param name="dg"></param>
         internal void AddDg(Dg dg)
         {
-            this.Model.AddDg(dg,_dgDataBase);
+            this.Model.AddDg(dg, _dgDataBase);
 
-            if (!Containers.Any(c => c.ContainerNumber == dg.ContainerNumber))
+            var containerWrapper = Containers.FirstOrDefault(c => c.ContainerNumber == dg.ContainerNumber);
+            if (containerWrapper is null)
             {
                 var container = Model.Containers.FirstOrDefault(c => c.ContainerNumber == dg.ContainerNumber);
-                var containerWrapper = new ContainerWrapper(container);
+                containerWrapper = new ContainerWrapper(container);
                 Containers.Add(containerWrapper);
                 if (container.IsRf) Reefers.Add(containerWrapper);
             }
+            containerWrapper.Refresh();
             DgList.Add(new DgWrapper(dg));
 
             DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
             UpdateCargoPlanValues();
         }
-
-
-        // -------------- Add/Remove/Modify methods ---------------------------------
 
         /// <summary>
         /// Adds Dg and respective container (if not yet exists) to CargoPlanWrapper and its Model
@@ -231,8 +235,8 @@ namespace EasyJob_ProDG.UI.Wrapper
         internal void AddDgOption(Dg dg)
         {
             if (dg == null || string.IsNullOrEmpty(dg.ContainerNumber)) return;
-            
-            var container = Model.Containers.FirstOrDefault(c=>c.ContainerNumber== dg.ContainerNumber);
+
+            var container = Model.Containers.FirstOrDefault(c => c.ContainerNumber == dg.ContainerNumber);
 
             if (container is null)
             {
@@ -257,21 +261,44 @@ namespace EasyJob_ProDG.UI.Wrapper
             }
 
             Model.DgList.Add(dg);
-            DgList.Add(new DgWrapper(dg));            
+            DgList.Add(new DgWrapper(dg));
             UpdateCargoPlanValues();
         }
 
         /// <summary>
-        /// Adds DgWrapper and respective Container (if not yet exists) to CargoPlanWrapper and its Model
+        /// Adds a new Container to Reefers list
         /// </summary>
-        /// <param name="dg">DgWrapper to be added</param>
-        internal void AddDg(DgWrapper dg)
+        /// <param name="unit">Container to be added</param>
+        internal void AddNewReefer(Container unit)
         {
-            AddDg(dg.ConvertBackToDg());
+            //if already exists -> no action
+            if (Model.Reefers.Any(r => r.ContainerNumber == unit.ContainerNumber)) return;
+
+            //add to Model
+            if (!this.Model.AddReefer(unit)) return;
+
+            //add to CargoPlan
+            ContainerWrapper containerWrapper;
+            if (!Containers.Any(c => c.ContainerNumber == unit.ContainerNumber))
+            {
+                containerWrapper = new ContainerWrapper(unit);
+                Containers.Add(containerWrapper);
+            }
+            else
+            {
+                containerWrapper = Containers.FirstOrDefault(c => c.ContainerNumber == unit.ContainerNumber);
+                if (containerWrapper == null) throw new ArgumentException($"Container with ContainerNumber {unit.ContainerNumber} cannot be found in CargoPlan.Containers despite it is expected");
+                containerWrapper.IsRf = true;
+            }
+            Reefers.Add(containerWrapper);
+            containerWrapper.Refresh();
+
+            DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
+            UpdateCargoPlanValues();
         }
 
         /// <summary>
-        /// Adds a Container to Reefers list
+        /// Adds the Container to Reefers list
         /// </summary>
         /// <param name="unit">Container to be added</param>
         internal void AddReefer(Container unit)
@@ -280,6 +307,9 @@ namespace EasyJob_ProDG.UI.Wrapper
             Model.Reefers.Add(unit);
             Reefers.Add(new ContainerWrapper(unit));
             unit.IsRf = true;
+
+            DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
+            UpdateCargoPlanValues();
         }
 
         /// <summary>
@@ -311,7 +341,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <param name="container">CargoPlan unit to be found</param>
         /// <param name="collection">Collection of the units to be searched</param>
         /// <returns></returns>
-        public static bool ContainedInList<T, TM>(T container, ICollection<TM> collection)
+        public static bool ContainedInList<TM, T>(ICollection<TM> collection, T container)
             where T : IContainer, ILocationOnBoard
             where TM : IContainer, ILocationOnBoard
         {
