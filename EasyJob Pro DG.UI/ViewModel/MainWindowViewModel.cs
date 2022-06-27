@@ -73,14 +73,14 @@ namespace EasyJob_ProDG.UI.ViewModel
             RaiseCanExecuteChanged();
         }
 
-        private void RaiseCanExecuteChanged()
-        {
-
-        }
         #endregion
 
 
         #region Methods
+        private void RaiseCanExecuteChanged()
+        {
+
+        }
         private void LoadServices()
         {
             loadDataService = new LoadDataService();

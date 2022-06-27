@@ -135,7 +135,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             foreach (var dgWrapper in obj.DgWrappersChanged)
             {
                 RemoveDg(dgWrapper);
-                RemoveRemovedDgFromCargoPlan(dgWrapper.ContainerNumber);
+                RemoveRemovedDgFromCargoPlan(dgWrapper);
             }
 
             DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
@@ -158,11 +158,18 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// Reduces number of DgInContainer property of all Containers in CargoPlan
         /// </summary>
         /// <param name="containerNumber"></param>
-        private void RemoveRemovedDgFromCargoPlan(string containerNumber)
+        private void RemoveRemovedDgFromCargoPlan(IContainer unit)
         {
-            var container = Containers.FirstOrDefault(c => c.ContainerNumber == containerNumber);
+            var container = Containers.FindContainerByContainerNumber(unit);
+
             container?.Model.RemoveDgFromContainer();
+
             container?.Refresh();
+            if (container.IsRf)
+            {
+                var reefer = Reefers.FindContainerByContainerNumber(unit);
+                reefer?.Refresh();
+            }
         }
 
 
@@ -208,6 +215,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         private void UpdateCargoPlanValuesAndConflicts(ContainerWrapper wrapper)
         {
             wrapper.Refresh();
+            if (wrapper.IsRf) Reefers.FindContainerByContainerNumber(wrapper).Refresh();
 
             DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
             UpdateCargoPlanValues();
@@ -227,7 +235,7 @@ namespace EasyJob_ProDG.UI.Wrapper
 
             var containerWrapper = new ContainerWrapper(container);
             Containers.Add(containerWrapper);
-            if (container.IsRf) 
+            if (container.IsRf)
                 Reefers.Add(containerWrapper);
 
             UpdateCargoPlanValuesAndConflicts(containerWrapper);

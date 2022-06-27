@@ -354,6 +354,9 @@ namespace EasyJob_ProDG.Model.Cargo
             return resultingNewCargoPlan;
         }
 
+        #region Add/Remove methods
+        //----------- Add/Remove methods -------------------------------------------------------------------
+
         /// <summary>
         /// Adds new Dg to CargoPlan
         /// </summary>
@@ -434,7 +437,9 @@ namespace EasyJob_ProDG.Model.Cargo
             }
             Reefers.Add(reefer);
             return true;
-        }
+        } 
+
+        #endregion
 
 
         // -------------- Supporting methods ----------------------------------------
