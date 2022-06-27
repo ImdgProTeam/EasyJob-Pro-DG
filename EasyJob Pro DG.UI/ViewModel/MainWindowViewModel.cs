@@ -35,6 +35,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         IMessageDialogService _messageDialogService;
         ITitleService _titleService;
 
+        private DataGridDgViewModel dgDataGridVM => ViewModelLocator.DataGridDgViewModel;
+        private DataGridReefersViewModel reefersDataGridVM => ViewModelLocator.DataGridReefersViewModel;
+        private DataGridContainersViewModel containersDataGridVM => ViewModelLocator.DataGridContainersViewModel;
         #endregion
 
 
@@ -46,10 +49,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public Voyage VoyageInfo => WorkingCargoPlan.VoyageInfo ?? null;
         public UserUISettings UISettings { get; set; }
         public DgWrapper SelectedDg { get; set; }
-        public StatusBarViewModel StatusBarControl { get; set; } 
-        public DataGridDgViewModel DgDataGridVM => ViewModelLocator.DataGridDgViewModel;
-
-
+        public StatusBarViewModel StatusBarControl { get; set; }
         public GridLength ConflictColumnWidth { get; set; }
         public int SelectedDataGridIndex { get; set; }
 
@@ -76,7 +76,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void RaiseCanExecuteChanged()
         {
 
-        } 
+        }
         #endregion
 
 
@@ -228,7 +228,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 StatusBarControl.Cancel();
             }
             StatusBarControl.ChangeBarSet(90);
-            DataMessenger.Default.Send<CargoDataUpdated>(new CargoDataUpdated(), "reeferinfoupdated"); 
+            DataMessenger.Default.Send<CargoDataUpdated>(new CargoDataUpdated(), "reeferinfoupdated");
             StatusBarControl.ChangeBarSet(100);
         }
 
@@ -298,7 +298,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             dialogWindowService = new DialogWindowService(owner);
 
-        } 
+        }
         #endregion
 
 
@@ -307,7 +307,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void SubscribeToMessenger()
         {
             DataMessenger.Default.Register<ShipProfileWrapperMessage>(this, OnShipProfileSaved, "ship profile saved");
-        } 
+        }
         #endregion
 
 
@@ -382,7 +382,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         private bool CanAddReeferManifestInfoOnlySelected(object obj)
         {
-            if(CanAddReeferManifestInfo(obj))
+            if (CanAddReeferManifestInfo(obj))
                 return WorkingCargoPlan.Reefers.Any(x => x.IsToImport == true);
             return false;
         }
@@ -393,8 +393,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj">Owner window</param>
         private void ImportReeferManifestInfoOnExecuted(object obj)
         {
-            if(!DialogOpenFile.OpenExcelFileWithDialog(obj,out var file)) return;
-                ImportReeferManifestInfo(file);
+            if (!DialogOpenFile.OpenExcelFileWithDialog(obj, out var file)) return;
+            ImportReeferManifestInfo(file);
         }
 
         /// <summary>
@@ -404,7 +404,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void ImportReeferManifestInfoOnlyPolOnExecuted(object obj)
         {
             if (!DialogOpenFile.OpenExcelFileWithDialog(obj, out var file)) return;
-                ImportReeferManifestInfo(file,false,VoyageInfo.PortOfDeparture);
+            ImportReeferManifestInfo(file, false, VoyageInfo.PortOfDeparture);
         }
 
         /// <summary>
@@ -414,7 +414,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void ImportReeferManifestInfoOnlySelectedOnExecuted(object obj)
         {
             if (!DialogOpenFile.OpenExcelFileWithDialog(obj, out var file)) return;
-                ImportReeferManifestInfo(file, true);
+            ImportReeferManifestInfo(file, true);
         }
 
         /// <summary>
@@ -463,12 +463,33 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="parameter">none</param>
         private void OnAddNewDg(object parameter)
         {
+            var container = GetSelectedContainer();
+
             SelectedDataGridIndex = 0;
             OnPropertyChanged(nameof(SelectedDataGridIndex));
 
-            DgDataGridVM.OnDisplayAddDgMenu();
+            dgDataGridVM.OnDisplayAddDgMenu(container);
         }
         private bool CanAddNewDg(object obj) => true;
+
+        /// <summary>
+        /// Gets SelectedUnit as Container from SelectedDataGrid.
+        /// </summary>
+        /// <returns>Container from selection.</returns>
+        private Container GetSelectedContainer()
+        {
+            switch (SelectedDataGridIndex)
+            {
+                case 0:
+                    return (Container)dgDataGridVM.SelectedDg?.Model;
+                case 1:
+                    return reefersDataGridVM.SelectedReefer?.Model;
+                case 2:
+                    return containersDataGridVM.SelectedContainer?.Model;
+                default:
+                    return null;
+            }
+        }
 
         /// <summary>
         /// Calls Re-check of condition conflicts
@@ -477,7 +498,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void OnReCheckRequested(object obj)
         {
             DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
-        } 
+        }
         #endregion
 
 
@@ -497,7 +518,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             bool canExecute = WorkingCargoPlan != null && !WorkingCargoPlan.IsEmpty;
             return canExecute;
-        } 
+        }
         #endregion
 
 
@@ -570,7 +591,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         //Dummy command added for testing purpose only.
         //Remember to delete dummy button when removing the command.
-        public ICommand DummyCommand { get; set; } 
+        public ICommand DummyCommand { get; set; }
 
 
         // ----------- Registered commands ------------------------------------------

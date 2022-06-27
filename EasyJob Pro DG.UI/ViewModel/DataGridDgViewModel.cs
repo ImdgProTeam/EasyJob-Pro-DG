@@ -185,12 +185,13 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         internal void OnDisplayAddDgMenu(object obj = null)
         {
-            DgToAddNumber = SelectedDg?.ContainerNumber;
-            DgToAddLocation = SelectedDg?.Location;
+            var container = (Model.Cargo.Container)obj;
+
+            DgToAddNumber = container == null ? SelectedDg?.ContainerNumber : container.ContainerNumber;
+            DgToAddLocation = container == null ? SelectedDg?.Location : container.Location;
 
             MenuVisibility = Visibility.Visible;
             OnPropertyChanged(nameof(MenuVisibility));
-
         }
 
         /// <summary>

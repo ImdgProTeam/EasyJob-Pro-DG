@@ -748,7 +748,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
         public static explicit operator Container(Dg dg)
         {
-            return dg.ConvertToContainer();
+            return dg?.ConvertToContainer();
         }
         #endregion
 
