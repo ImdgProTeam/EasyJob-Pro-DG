@@ -8,7 +8,7 @@ namespace EasyJob_ProDG.UI.Data
 {
     public static class DialogOpenFile
     {
-        private static readonly IMessageDialogService _messageDialogService = new MessageDialogService();
+        private static IMessageDialogService _messageDialogService => MessageDialogService.Connect();
 
         /// <summary>
         /// Opens dialog and returns file name and type as 'out' parameters.

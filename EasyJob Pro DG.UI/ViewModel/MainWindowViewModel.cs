@@ -89,7 +89,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             uiSettingsService = new SettingsService();
             dialogWindowService = new DialogWindowService(Application.Current.MainWindow);
             windowDialogService = new WindowDialogService();
-            _messageDialogService = new MessageDialogService();
+            _messageDialogService = MessageDialogService.Connect();
             _titleService = new TitleService();
 
         }

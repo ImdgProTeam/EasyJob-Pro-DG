@@ -5,7 +5,7 @@ namespace EasyJob_ProDG.UI.Data
 {
     internal static class DataHelper
     {
-        private static IMessageDialogService _messageDialogService = new MessageDialogService();
+        private static IMessageDialogService _messageDialogService => MessageDialogService.Connect();
 
         /// <summary>
         /// Checks if UN no exists in database and prompts user to confirm weather to continue if UN does not exist.
