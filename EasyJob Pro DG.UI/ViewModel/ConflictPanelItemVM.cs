@@ -42,7 +42,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 }
                 string result = "Unit " + _dgUnit.ContainerNumber + " (class " + _dgUnit.AllDgClasses + $" unno {_dgUnit.Unno:0000}) in " + _dgUnit.Location;
                 if (_segrConflict)
-                    result += " is in conflict with " + _dgB.ContainerNumber + " (class " + _dgB.AllDgClasses + (_dgB.AllDgClasses == "Reefer" ? "" : $" unno {_dgB.Unno:0000}") + ") in " + _dgB.Location;
+                    result += " is in conflict with " + _dgB.ContainerNumber + " (class " + _dgB.AllDgClasses + (_dgB.DgClass == "Reefer" ? "Reefer" : $" unno {_dgB.Unno:0000}") + ") in " + _dgB.Location;
                 else result += ":";
                 result += " " + Description;
                 return result;
