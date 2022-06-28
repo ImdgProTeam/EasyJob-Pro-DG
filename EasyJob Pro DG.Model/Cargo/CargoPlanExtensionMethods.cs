@@ -55,5 +55,22 @@ namespace EasyJob_ProDG.Model.Cargo
 
             return collection.FirstOrDefault(c => string.Equals(c.ContainerNumber, unit.ContainerNumber));
         }
+
+        /// <summary>
+        /// Finds an IContainer unit with requiered ContainerNumber in the collection.
+        /// </summary>
+        /// <typeparam name="T">Shall be not null and have ContainerNumber property.</typeparam>
+        /// <param name="collection">Collection of IContainers to search through.></param>
+        /// <param name="containerNumber">ContainerNumber as a string.</param>
+        /// <returns>The requested type T inhereted from IContainer from collection with matching ContainerNumber.</returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        public static T FindContainerByContainerNumber<T>(this ICollection<T> collection, string containerNumber)
+            where T:IContainer
+        {
+            if (collection == null) throw new System.ArgumentNullException(nameof(collection), "Argument expected to exist.");
+            if (string.IsNullOrEmpty(containerNumber)) throw new System.ArgumentNullException(nameof(containerNumber), "Argument expected to exist.");
+
+            return collection.FirstOrDefault(c => string.Equals(c.ContainerNumber, containerNumber));
+        }
     }
 }

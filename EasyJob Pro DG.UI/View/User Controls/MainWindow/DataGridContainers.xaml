@@ -420,7 +420,13 @@
                     <behavior:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
                 </behavior:EventTrigger>
             </behavior:Interaction.Triggers>
-            
+
+            <!-- INPUT BINDINGS -->
+            <DataGrid.InputBindings>
+                <KeyBinding Key="Delete"
+                            Command="{Binding DeleteContainerCommand}"
+                            CommandParameter="{Binding ElementName=MainContainerDataTable, Path=SelectedItems}" />
+            </DataGrid.InputBindings>
         </DataGrid>
     </DockPanel>
 </UserControl>

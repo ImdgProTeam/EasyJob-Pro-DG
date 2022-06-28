@@ -184,11 +184,20 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <summary>
         /// Calls OnPropertyChanged on CargoPlan count values
         /// </summary>
-        internal void UpdateCargoPlanValues()
+        private void UpdateCargoPlanValues()
         {
             OnPropertyChanged("ContainerCount");
             OnPropertyChanged("ReeferCount");
             OnPropertyChanged("DgContainerCount");
+        }
+
+        /// <summary>
+        /// Method updates summary and sends a message to update the conflicts list.
+        /// </summary>
+        private void UpdateCargoPlanValuesAndConflicts()
+        {
+            DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
+            UpdateCargoPlanValues();
         }
 
         /// <summary>
@@ -287,8 +296,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             Reefers.Add(new ContainerWrapper(unit));
             unit.IsRf = true;
 
-            DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
-            UpdateCargoPlanValues();
+            UpdateCargoPlanValuesAndConflicts();
         }
 
         /// <summary>
@@ -298,6 +306,40 @@ namespace EasyJob_ProDG.UI.Wrapper
         internal void AddReefer(ContainerWrapper unit)
         {
             AddReefer(unit.Model);
+        }
+
+        /// <summary>
+        /// Removes container from CargoPlan (also from Reefers and DgList).
+        /// </summary>
+        /// <param name="containerNumber">ContainerNumber of a container to be deleted.</param>
+        internal void RemoveContainer(string containerNumber)
+        {
+            var unit = Containers.FindContainerByContainerNumber(containerNumber);
+
+            unit.ClearSubscriptions();
+            Containers.Remove(unit);
+            Model.Containers.Remove(unit.Model);
+
+            if (unit.IsRf)
+            {
+                var reefer = Reefers.FindContainerByContainerNumber(containerNumber);
+                Reefers.Remove(reefer);
+                Model.Reefers.Remove(reefer.Model);
+            }
+
+            for(int i = 0; i < DgList.Count; i++)
+            {
+                var d = DgList[i];
+
+                if (d.ContainerNumber != containerNumber) continue;
+
+                d.ClearSubscriptions();
+                DgList.Remove(d);
+                Model.DgList.Remove(d.Model);
+                i--;
+            }
+
+            UpdateCargoPlanValuesAndConflicts();
         }
 
         /// <summary>
@@ -318,12 +360,12 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <param name="toUpdateInCargoPlan">If required to update IsRf property in Dg and Containers.</param>
         internal void RemoveReefer(string unitNumber, bool toUpdateInCargoPlan = false)
         {
-            Reefers.Remove(Reefers.FirstOrDefault(x => x.ContainerNumber == unitNumber));
-            Model.Reefers.Remove(Model.Reefers.FirstOrDefault(x => x.ContainerNumber == unitNumber));
+            Reefers.Remove(Reefers.FindContainerByContainerNumber(unitNumber));
+            Model.Reefers.Remove(Model.Reefers.FindContainerByContainerNumber(unitNumber));
 
             if (toUpdateInCargoPlan)
             {
-                var container = Containers.FirstOrDefault(x => x.ContainerNumber == unitNumber);
+                var container = Containers.FindContainerByContainerNumber(unitNumber);
                 container.Model.IsRf = false;
                 container.ResetReefer();
                 container.Refresh();
@@ -334,8 +376,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                     dg.UpdateReeferProperty();
                 }
 
-                DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
-                UpdateCargoPlanValues();
+                UpdateCargoPlanValuesAndConflicts();
             }
         }
 
@@ -360,8 +401,8 @@ namespace EasyJob_ProDG.UI.Wrapper
             if (container is null) return;
 
             container?.Model.RemoveDgFromContainer();
-
             container?.Refresh();
+
             if (container.IsRf)
             {
                 var reefer = Reefers.FindContainerByContainerNumber(unit);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -15,7 +16,7 @@ namespace EasyJob_ProDG.UI.ViewModel
     {
         //--------------- Private fields --------------------------------------------
         SettingsService uiSettings;
-        IMessageDialogService _messageDialogService;
+        IMessageDialogService _messageDialogService => MessageDialogService.Connect();
         private readonly CollectionViewSource containerPlanView = new CollectionViewSource();
 
         //--------------- Public properties -----------------------------------------
@@ -181,6 +182,27 @@ namespace EasyJob_ProDG.UI.ViewModel
             AddNewContainerCommand = new DelegateCommand(OnAddNewContainer);
             DisplayAddContainerMenuCommand = new DelegateCommand(OnDisplayAddContainerMenu);
             SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
+            DeleteContainerCommand = new DelegateCommand(OnDeleteContainersRequested);
+        }
+
+        private void OnDeleteContainersRequested(object obj)
+        {
+            if (SelectedContainer == null) return;
+            var count = ((ICollection)obj).Count;
+
+            if (_messageDialogService.ShowYesNoDialog($"Do you want to delete selected container" + (count > 1 ? $"s ({count})" : "") + "?", "Delete cargo")
+                == MessageDialogResult.No) return;
+
+            var list = new List<string>();
+            foreach (ContainerWrapper item in (ICollection)obj)
+            {
+                list.Add(item.ContainerNumber);
+            }
+
+            foreach (var number in list)
+            {
+                CargoPlan.RemoveContainer(number);
+            }
         }
 
         /// <summary>
@@ -221,6 +243,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand SelectionChangedCommand { get; private set; }
         public ICommand AddNewContainerCommand { get; private set; }
         public ICommand DisplayAddContainerMenuCommand { get; private set; }
+        public ICommand DeleteContainerCommand { get; private set; }
         #endregion
     }
 }
