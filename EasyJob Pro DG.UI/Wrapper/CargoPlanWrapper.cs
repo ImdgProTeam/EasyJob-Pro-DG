@@ -18,7 +18,7 @@ namespace EasyJob_ProDG.UI.Wrapper
     {
         // ----------------- Private fields ------------------------------------
 
-        private IMessageDialogService _messageDialogService = new MessageDialogService();
+        private IMessageDialogService _messageDialogService => MessageDialogService.Connect();
         private static readonly DgDataBaseDataService dgDataBaseDataService = new DgDataBaseDataService();
         private readonly System.Xml.Linq.XDocument _dgDataBase = dgDataBaseDataService.GetDgDataBase();
         private CargoPlanUnitPropertyChanger _propertyChanger;
@@ -54,6 +54,19 @@ namespace EasyJob_ProDG.UI.Wrapper
             SubscribeToMessenger();
 
             DgList.CollectionChanged += DgListChanged;
+            Reefers.CollectionChanged += ReefersCollectionChanged;
+        }
+
+        private void ReefersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            //if (e.Action == NotifyCollectionChangedAction.Remove)
+            //{
+            //    foreach (var item in e.OldItems)
+            //    {
+            //        var container = Containers.FindContainerByContainerNumber((IContainer)item);
+            //        container.IsRf = false;
+            //    }
+            //}
         }
 
         public void Destructor()
@@ -142,36 +155,6 @@ namespace EasyJob_ProDG.UI.Wrapper
             OnPropertyChanged("DgContainerCount");
             OnPropertyChanged("TotalDgNetWeight");
         }
-
-        /// <summary>
-        /// Method removes dg from DgWrapperList and from model as well
-        /// </summary>
-        /// <param name="dg"></param>
-        private void RemoveDg(DgWrapper dg)
-        {
-            dg.ClearSubscriptions();
-            DgList.Remove(dg);
-            Model.DgList.Remove(dg.Model);
-        }
-
-        /// <summary>
-        /// Reduces number of DgInContainer property of all Containers in CargoPlan
-        /// </summary>
-        /// <param name="containerNumber"></param>
-        private void RemoveRemovedDgFromCargoPlan(IContainer unit)
-        {
-            var container = Containers.FindContainerByContainerNumber(unit);
-
-            container?.Model.RemoveDgFromContainer();
-
-            container?.Refresh();
-            if (container.IsRf)
-            {
-                var reefer = Reefers.FindContainerByContainerNumber(unit);
-                reefer?.Refresh();
-            }
-        }
-
 
         // -------------- Public methods --------------------------------------------
 
@@ -321,11 +304,69 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// Removes reefer unit from CargoPlan and Model Reefers
         /// </summary>
         /// <param name="unit">Reefer to be removed</param>
-        /// <returns>true if reefer deleted</returns>
+        /// <returns>Void</returns>
         internal void RemoveReefer(ContainerWrapper unit)
         {
-            Reefers.Remove(Reefers.SingleOrDefault(r => r.ContainerNumber == unit.ContainerNumber));
-            Model.Reefers.Remove(Model.Reefers.SingleOrDefault(r => r.ContainerNumber == unit.ContainerNumber));
+            Reefers.Remove(Reefers.FindContainerByContainerNumber(unit));
+            Model.Reefers.Remove(Model.Reefers.FindContainerByContainerNumber(unit));
+        }
+
+        /// <summary>
+        /// Removes reefer unit from CargoPlan and Model Reefers.
+        /// </summary>
+        /// <param name="unitNumber">Reefer to be removed ContainerNumber.</param>
+        /// <param name="toUpdateInCargoPlan">If required to update IsRf property in Dg and Containers.</param>
+        internal void RemoveReefer(string unitNumber, bool toUpdateInCargoPlan = false)
+        {
+            Reefers.Remove(Reefers.FirstOrDefault(x => x.ContainerNumber == unitNumber));
+            Model.Reefers.Remove(Model.Reefers.FirstOrDefault(x => x.ContainerNumber == unitNumber));
+
+            if (toUpdateInCargoPlan)
+            {
+                var container = Containers.FirstOrDefault(x => x.ContainerNumber == unitNumber);
+                container.Model.IsRf = false;
+                container.ResetReefer();
+                container.Refresh();
+
+                foreach (var dg in DgList.Where(x => x.ContainerNumber == unitNumber))
+                {
+                    dg.Model.IsRf = false;
+                    dg.UpdateReeferProperty();
+                }
+
+                DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
+                UpdateCargoPlanValues();
+            }
+        }
+
+        /// <summary>
+        /// Method removes dg from DgWrapperList and from model as well
+        /// </summary>
+        /// <param name="dg"></param>
+        private void RemoveDg(DgWrapper dg)
+        {
+            dg.ClearSubscriptions();
+            DgList.Remove(dg);
+            Model.DgList.Remove(dg.Model);
+        }
+
+        /// <summary>
+        /// Reduces number of DgInContainer property of all Containers in CargoPlan
+        /// </summary>
+        /// <param name="containerNumber"></param>
+        private void RemoveRemovedDgFromCargoPlan(IContainer unit)
+        {
+            var container = Containers.FindContainerByContainerNumber(unit);
+            if (container is null) return;
+
+            container?.Model.RemoveDgFromContainer();
+
+            container?.Refresh();
+            if (container.IsRf)
+            {
+                var reefer = Reefers.FindContainerByContainerNumber(unit);
+                reefer?.Refresh();
+            }
         }
 
 

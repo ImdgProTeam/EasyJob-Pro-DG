@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -15,7 +16,8 @@ namespace EasyJob_ProDG.UI.ViewModel
     {
         //--------------- Private fields --------------------------------------------
         SettingsService uiSettings;
-        IMessageDialogService _messageDialogService;
+        IMessageDialogService _messageDialogService => MessageDialogService.Connect();
+
         private readonly CollectionViewSource reeferPlanView = new CollectionViewSource();
 
         //--------------- Public properties -----------------------------------------
@@ -45,6 +47,46 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             reeferPlanView.Filter += OnReeferListFiltered;
         }
+
+        #region StartUp logic
+
+        /// <summary>
+        /// Sets data source to View property
+        /// </summary>
+        private void SetDataView()
+        {
+            reeferPlanView.Source = CargoPlan.Reefers;
+        }
+
+        /// <summary>
+        /// Sets required properties values of various visual elements
+        /// </summary>
+        private void SetVisualElements()
+        {
+            SetInitialAddMenuProperties();
+        }
+
+        /// <summary>
+        /// Assigns handler methods for commands
+        /// </summary>
+        private void LoadCommands()
+        {
+            AddNewReeferCommand = new DelegateCommand(OnAddNewReefer);
+            DisplayAddReeferMenuCommand = new DelegateCommand(OnDisplayAddReeferMenu);
+            SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
+            DeleteReefersCommand = new DelegateCommand(OnDeleteReefersRequested);
+        }
+
+        /// <summary>
+        /// Subscribe for messages in DataMessenger
+        /// </summary>
+        private void RegisterInDataMessenger()
+        {
+            DataMessenger.Default.Register<CargoDataUpdated>(this, OnCargoDataUpdated, "cargodataupdated");
+            DataMessenger.Default.Register<CargoDataUpdated>(this, OnReeferInfoUpdated, "reeferinfoupdated");
+        }
+
+        #endregion
 
         #region Filter Logic
         // ----------- Filter logic ----------------
@@ -162,30 +204,25 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         #region Private methods
         //-------------- Private methods --------------------------------------------
-        /// <summary>
-        /// Sets data source to View property
-        /// </summary>
-        private void SetDataView()
-        {
-            reeferPlanView.Source = CargoPlan.Reefers;
-        }
 
-        /// <summary>
-        /// Sets required properties values of various visual elements
-        /// </summary>
-        private void SetVisualElements()
+        private void OnDeleteReefersRequested(object obj)
         {
-            SetInitialAddMenuProperties();
-        }
+            if (SelectedReefer == null) return;
+            var count = ((ICollection)obj).Count;
 
-        /// <summary>
-        /// Assigns handler methods for commands
-        /// </summary>
-        private void LoadCommands()
-        {
-            AddNewReeferCommand = new DelegateCommand(OnAddNewReefer);
-            DisplayAddReeferMenuCommand = new DelegateCommand(OnDisplayAddReeferMenu);
-            SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
+            if (_messageDialogService.ShowYesNoDialog($"Do you want to delete selected reefer" + (count > 1 ? $"s ({count})" : "") + "?", "Delete cargo")
+                == MessageDialogResult.No) return;
+
+            List<string> list = new List<string>();
+            foreach (ContainerWrapper item in (ICollection)obj)
+            {
+                list.Add(item.ContainerNumber);
+            }
+
+            foreach(var number in list)
+            {
+                CargoPlan.RemoveReefer(number, toUpdateInCargoPlan: true);
+            }
         }
 
         /// <summary>
@@ -210,14 +247,6 @@ namespace EasyJob_ProDG.UI.ViewModel
             OnPropertyChanged("ReeferPlanView");
             ReeferPlanView.Refresh();
         }
-        /// <summary>
-        /// Registers for messages in DataMessenger
-        /// </summary>
-        private void RegisterInDataMessenger()
-        {
-            DataMessenger.Default.Register<CargoDataUpdated>(this, OnCargoDataUpdated, "cargodataupdated");
-            DataMessenger.Default.Register<CargoDataUpdated>(this, OnReeferInfoUpdated, "reeferinfoupdated");
-        }
 
         private void OnSelectionChanged(object obj)
         {
@@ -239,7 +268,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         //--------------- Commands ----------------------------------------
         public ICommand SelectionChangedCommand { get; private set; }
         public ICommand AddNewReeferCommand { get; private set; }
-        public ICommand DisplayAddReeferMenuCommand { get; private set; } 
+        public ICommand DisplayAddReeferMenuCommand { get; private set; }
+        public ICommand DeleteReefersCommand { get; private set; }
         #endregion
     }
 }

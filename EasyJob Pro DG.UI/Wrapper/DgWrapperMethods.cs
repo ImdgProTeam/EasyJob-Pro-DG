@@ -183,6 +183,14 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
+        /// Calls OnPropertyChanged for IsRf property
+        /// </summary>
+        public void UpdateReeferProperty()
+        {
+            OnPropertyChanged(nameof(IsRf));
+        }
+
+        /// <summary>
         /// Sends message to synchronise changes with CargoPlan
         /// </summary>
         /// <param name="value">new value set</param>

@@ -35,6 +35,7 @@
                     Margin="1" />
         </StackPanel>
 
+        <!-- Add reefer -->
         <local:AddContainerToDataGrid 
             Title="Add Reefer container |"
             IsAddDg="False"
@@ -68,6 +69,7 @@
                   
                   HeadersVisibility="All"
                   AlternationCount="2"
+                  GridLinesVisibility="None"
                   Background="{StaticResource Brush.ReeferTable.Background}"
                   RowBackground="Transparent"
                   AlternatingRowBackground="{StaticResource Brush.DgTable.AlternateRow}"
@@ -112,6 +114,10 @@
                             Value="{StaticResource DataGridReefersColumnHeaderContextMenu}" />
                 </Style>
 
+                <!-- CheckBox style -->
+                <Style TargetType="{x:Type CheckBox}">
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
 
             </DataGrid.Resources>
 
@@ -124,9 +130,6 @@
                                     Header="Position"
                                     CanUserSort="True"
                                     SortMemberPath="LocationSortable">
-                    <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[0].Width, Mode=TwoWay}"
-                                DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[0].DisplayIndex, Mode=TwoWay, FallbackValue=0}"
-                                Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[0].Visibility, Mode=TwoWay}">-->
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <!--<Setter Property="TextBox.TextAlignment"
@@ -142,9 +145,6 @@
                                         Header="Is under deck"
                                         CanUserSort="True"
                                         SortMemberPath="IsUnderdeck">
-                    <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].Width, Mode=TwoWay}"
-                                        DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].DisplayIndex, Mode=TwoWay, FallbackValue=11}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].Visibility, Mode=TwoWay}">-->
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=IsUnderdeck, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -158,41 +158,26 @@
                                     Binding="{Binding ContainerNumber, UpdateSourceTrigger=LostFocus}"
                                     Header="Container number"
                                     MinWidth="100" />
-                <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[1].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[1].DisplayIndex, Mode=TwoWay, FallbackValue=1}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[1].Visibility, Mode=TwoWay}" />-->
 
                 <!-- Carrier -->
                 <DataGridTextColumn x:Name="carrierColumn"
                                     Binding="{Binding Carrier, UpdateSourceTrigger=LostFocus}"
                                     Header="Operator" />
-                <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].DisplayIndex, Mode=TwoWay, FallbackValue=39}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].Visibility, Mode=TwoWay}" /-->
 
                 <!-- POL -->
                 <DataGridTextColumn x:Name="polColumn"
                                     Binding="{Binding POL, UpdateSourceTrigger=LostFocus}"
                                     Header="POL" />
-                <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[2].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[2].DisplayIndex, Mode=TwoWay, FallbackValue=2}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[2].Visibility, Mode=TwoWay}" />-->
 
                 <!-- POD -->
                 <DataGridTextColumn x:Name="podColumn"
                                     Binding="{Binding POD, UpdateSourceTrigger=LostFocus}"
                                     Header="POD" />
-                <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[3].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[3].DisplayIndex, Mode=TwoWay, FallbackValue=3}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[3].Visibility, Mode=TwoWay}" />-->
 
                 <!-- Final destination -->
                 <DataGridTextColumn x:Name="finalDestinationColumn"
                                     Binding="{Binding FinalDestination, UpdateSourceTrigger=LostFocus}"
                                     Header="Final destination" />
-                <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].DisplayIndex, Mode=TwoWay, FallbackValue=38}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].Visibility, Mode=TwoWay}" />-->
 
                 <!-- Contains Dg cargo -->
                 <DataGridTemplateColumn x:Name="containsDgColumn"
@@ -438,6 +423,13 @@
                     <behavior:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
                 </behavior:EventTrigger>
             </behavior:Interaction.Triggers>
+
+            <!-- INPUT BINDINGS -->
+            <DataGrid.InputBindings>
+                <KeyBinding Key="Delete"
+                            Command="{Binding DeleteReefersCommand}"
+                            CommandParameter="{Binding ElementName=MainReeferDataTable, Path=SelectedItems}" />
+            </DataGrid.InputBindings>
         </DataGrid>
     </DockPanel>
 </UserControl>

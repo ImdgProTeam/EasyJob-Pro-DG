@@ -25,7 +25,7 @@ namespace EasyJob_ProDG.UI.ViewModel
     {
         //--------------- Private fields --------------------------------------------
         private SettingsService uiSettings;
-        private IMessageDialogService _messageDialogService;
+        private IMessageDialogService _messageDialogService => MessageDialogService.Connect();
         private readonly CollectionViewSource dgPlanView = new CollectionViewSource();
 
         private const byte totalNumberOfColumns = 44;
@@ -69,6 +69,86 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         }
 
+
+        #region StartUp Logic
+
+        /// <summary>
+        /// Initiates required services
+        /// </summary>
+        private void LoadServices()
+        {
+            uiSettings = new SettingsService();
+        }
+
+        /// <summary>
+        /// Registers for messages in DataMessenger
+        /// </summary>
+        private void RegisterInDataMessenger()
+        {
+            DataMessenger.Default.Register<ApplicationClosingMessage>(this, OnApplicationClosingMessageReceived, "closing");
+            DataMessenger.Default.Register<CargoDataUpdated>(this, OnCargoDataUpdated, "cargodataupdated");
+            DataMessenger.Default.Register<ConflictPanelItemViewModel>(this, OnConflictSelectionChanged,
+                "conflict selection changed");
+        }
+
+        /// <summary>
+        /// Loads column settings from file for DgDataGrid.
+        /// Number of settings hard coded.
+        /// </summary>
+        private void LoadColumnSettings()
+        {
+            try
+            {
+                XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<DgTableColumnSettings>));
+                using (Stream s = File.OpenRead(ProgramDefaultSettingValues.ProgramDirectory + "columnsettings.xml"))
+                    ColumnSettings = (ObservableCollection<DgTableColumnSettings>)xs.Deserialize(s);
+
+                if (ColumnSettings.Count != totalNumberOfColumns)
+                    throw new Exception("Number of columns read from settings file is wrong.");
+                Debug.WriteLine("----> Column settings successfully loaded.");
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("---> Number of columns read from settings file is wrong.");
+                ColumnSettings = new ObservableCollection<DgTableColumnSettings>();
+                for (int i = 0; i < totalNumberOfColumns; i++)
+                {
+                    ColumnSettings.Add(new DgTableColumnSettings(i));
+                }
+                Debug.WriteLine("----> Default column settings created.");
+            }
+        }
+
+        /// <summary>
+        /// Assigns handler methods for commands
+        /// </summary>
+        private void LoadCommands()
+        {
+            AddDgCommand = new DelegateCommand(OnAddDg);
+            DeleteDg = new DelegateCommand(OnDgDeleteRequested);
+            IncludeTechnicalNameCommand = new DelegateCommand(IncludeTechnicalNameOnExecuted);
+            DisplayAddDgMenuCommand = new DelegateCommand(OnDisplayAddDgMenu);
+            SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
+        }
+
+        /// <summary>
+        /// Sets data source to View property
+        /// </summary>
+        private void SetDataView()
+        {
+            dgPlanView.Source = CargoPlan.DgList;
+        }
+
+        /// <summary>
+        /// Sets required properties values of various visual elements
+        /// </summary>
+        private void SetVisualElements()
+        {
+            SetInitialAddMenuProperties();
+        }
+
+
+        #endregion
 
         #region Filter Logic
         // ----------- Filter logic ----------------
@@ -207,66 +287,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         //--------------- Private methods -------------------------------------------
 
         /// <summary>
-        /// Initiates required services
-        /// </summary>
-        private void LoadServices()
-        {
-            uiSettings = new SettingsService();
-            _messageDialogService = new MessageDialogService();
-        }
-
-        /// <summary>
-        /// Registers for messages in DataMessenger
-        /// </summary>
-        private void RegisterInDataMessenger()
-        {
-            DataMessenger.Default.Register<ApplicationClosingMessage>(this, OnApplicationClosingMessageReceived, "closing");
-            DataMessenger.Default.Register<CargoDataUpdated>(this, OnCargoDataUpdated, "cargodataupdated");
-            DataMessenger.Default.Register<ConflictPanelItemViewModel>(this, OnConflictSelectionChanged,
-                "conflict selection changed");
-        }
-
-        /// <summary>
-        /// Loads column settings from file for DgDataGrid.
-        /// Number of settings hard coded.
-        /// </summary>
-        private void LoadColumnSettings()
-        {
-            try
-            {
-                XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<DgTableColumnSettings>));
-                using (Stream s = File.OpenRead(ProgramDefaultSettingValues.ProgramDirectory + "columnsettings.xml"))
-                    ColumnSettings = (ObservableCollection<DgTableColumnSettings>)xs.Deserialize(s);
-
-                if (ColumnSettings.Count != totalNumberOfColumns)
-                    throw new Exception("Number of columns read from settings file is wrong.");
-                Debug.WriteLine("----> Column settings successfully loaded.");
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("---> Number of columns read from settings file is wrong.");
-                ColumnSettings = new ObservableCollection<DgTableColumnSettings>();
-                for (int i = 0; i < totalNumberOfColumns; i++)
-                {
-                    ColumnSettings.Add(new DgTableColumnSettings(i));
-                }
-                Debug.WriteLine("----> Default column settings created.");
-            }
-        }
-
-        /// <summary>
-        /// Assigns handler methods for commands
-        /// </summary>
-        private void LoadCommands()
-        {
-            AddDgCommand = new DelegateCommand(OnAddDg);
-            DeleteDg = new DelegateCommand(OnDgDelete);
-            IncludeTechnicalNameCommand = new DelegateCommand(IncludeTechnicalNameOnExecuted);
-            DisplayAddDgMenuCommand = new DelegateCommand(OnDisplayAddDgMenu);
-            SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
-        }
-
-        /// <summary>
         /// Includes or removes TechnicalName to ProperShippingName of all Dg in CargoPlan
         /// </summary>
         /// <param name="obj"></param>
@@ -297,11 +317,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// Requests user weather to delete selected dg(s) and sends message to CargoPlan respectively
         /// </summary>
         /// <param name="obj"></param>
-        private void OnDgDelete(object obj)
+        private void OnDgDeleteRequested(object obj)
         {
             if (SelectedDg == null) return;
 
-            if (_messageDialogService.ShowYesNoDialog("Do you want to delete selected Dg(s)?", "Delete cargo")
+            if (_messageDialogService.ShowYesNoDialog($"Do you want to delete selected Dg(s) ({((ICollection)obj).Count})?", "Delete cargo")
                 == MessageDialogResult.No) return;
 
             List<DgWrapper> selectedDgArray = new List<DgWrapper>();
@@ -366,22 +386,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         /// <summary>
-        /// Sets data source to View property
-        /// </summary>
-        private void SetDataView()
-        {
-            dgPlanView.Source = CargoPlan.DgList;
-        }
-
-        /// <summary>
-        /// Sets required properties values of various visual elements
-        /// </summary>
-        private void SetVisualElements()
-        {
-            SetInitialAddMenuProperties();
-        }
-
-        /// <summary>
         /// Contains logic to be performed before closing the application
         /// </summary>
         /// <param name="obj"></param>
@@ -402,6 +406,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
         }
         #endregion
+
 
         #region Commands
         //--------------- Commands --------------------------------------------------
