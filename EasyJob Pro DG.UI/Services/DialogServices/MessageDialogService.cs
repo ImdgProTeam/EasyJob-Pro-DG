@@ -4,6 +4,8 @@ namespace EasyJob_ProDG.UI.Services.DialogServices
 {
     public class MessageDialogService : IMessageDialogService
     {
+        private static MessageDialogService _messageDialogService = new MessageDialogService();
+
         public MessageDialogResult ShowOkCancelDialog(string text, string title)
         {
             var result = MessageBox.Show(text, title, MessageBoxButton.OKCancel);
@@ -33,6 +35,14 @@ namespace EasyJob_ProDG.UI.Services.DialogServices
         public void ShowOkDialog(string text, string title)
         {
             MessageBox.Show(text, title);
+        }
+
+
+        public static MessageDialogService Connect() => _messageDialogService;
+
+        private MessageDialogService()
+        {
+            //empty
         }
 
     }
