@@ -5,18 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasyJob_ProDG.UI"
         mc:Ignorable="d"
-        Title="About Pro DG" Width="300"
+        Title="About ProDG" Width="320"
         Style="{StaticResource DemoWindowStyle}"
         WindowStartupLocation="CenterScreen"
         SizeToContent="Height"
         ResizeMode="NoResize">
-    <Border CornerRadius="10"
-            BorderBrush="Gray"
-            BorderThickness="2"
-            Margin="4"
-            Padding="4">
-        <Grid>
-            <Grid.RowDefinitions>
+
+    <Grid Margin="20, 10">
+        <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
@@ -29,17 +25,23 @@
                 <TextBlock Margin="4"
                            TextWrapping="Wrap"
                            TextAlignment="Center"
-                           Text="Software is designed for automatic checking of stowage and segregation of dangerous goods on container ships in accordance with the requirements of IMDG Code 39-18" />
+                           Text="Software is designed for automatic checking of stowage and segregation of dangerous goods on container ships in accordance with the requirements of IMDG Code 40-20" />
                 <TextBlock Margin="4"
                            TextAlignment="Center"
-                           Text="Copyright imdg.pro (c) 2018 - 2021" />
+                           Text="Copyright imdg.pro (c) 2018 - 2022" />
                 <StackPanel Orientation="Horizontal"
                             Margin ="0, 10,0,0">
-                    <TextBlock Margin="4"
+                    <TextBlock Margin="4, 4, 0, 4"
                                TextAlignment="Center"
                                Text="send your comments to:"/>
-                    <Label Content="feedback@imdg.pro"
-                           Foreground="Blue"/>
+                    <TextBox
+                        IsReadOnly="True"
+                        Padding="5,4,10,3"
+                        HorizontalAlignment="Center"
+                         TextAlignment="Center"  
+                        Text="feedback@imdg.pro"
+                        BorderThickness="0"
+                           Foreground="Blue" Cursor="Hand"/>
                 </StackPanel>
 
             </StackPanel>
@@ -54,5 +56,5 @@
                         Click="btnClose_Click"/>
             </StackPanel>
         </Grid>
-    </Border>
+
 </Window>

@@ -25,6 +25,10 @@
                      Color="{StaticResource Color.Border.Main}" 
                      p:Freeze="true"/>
 
+    <SolidColorBrush x:Key="Brush.SelectedItem"
+                     Color="{StaticResource Color.DgTable.HighlightRow}"
+                     p:Freeze="true"/>
+
     <!-- Dg Table -->
     <LinearGradientBrush x:Key="Brush.DgTable.Background"
                          StartPoint="0.0,0.0"
@@ -63,6 +67,12 @@
     </LinearGradientBrush>
 
     <!-- Conflict list -->
+    <SolidColorBrush x:Key="Brush.ConflictList.Items.Background"
+                     Color="{StaticResource Color.Background.Conflicts.Item}" 
+                     p:Freeze="true"/>
+    <SolidColorBrush x:Key="Brush.ConflictList.Text.ContainerNumber"
+                     Color="{StaticResource Color.Text.ConflictCard.ContainerNumber}" 
+                     p:Freeze="true"/>
     <SolidColorBrush x:Key="Brush.ConflictList.Text.Segregation"
                      Color="{StaticResource Color.Text.Segregation}" 
                      p:Freeze="true"/>
@@ -70,7 +80,9 @@
                      Color="{StaticResource Color.Text.Stowage}" 
                      p:Freeze="true"/>
     <SolidColorBrush x:Key="Brush.ConflictList.Text.SW19"
-                     Color="{StaticResource Color.Text.SW19}" 
+                     Color="{StaticResource Color.Text.SW19}" />
+    <SolidColorBrush x:Key="Brush.ConflictList.Text.SW22"
+                     Color="{StaticResource Color.Text.SW22}" 
                      p:Freeze="true"/>
     <SolidColorBrush x:Key="Brush.Text.Conflict"
                      Color="{StaticResource Color.Text.Conflict}" 
@@ -136,5 +148,21 @@
     <SolidColorBrush x:Key="Brush.MainMenu.MenuItem.Inactive.Foreground"
                      Color="{StaticResource Color.Background.Panel}"
                      p:Freeze="true"/>
+
+    <!-- Black block colors -->
+    <SolidColorBrush x:Key="Brush.BlackBlock.Background" 
+                     Color="{StaticResource Color.BlackBlock.Background}"
+                     p:Freeze="true"/>
+    <SolidColorBrush x:Key="Brush.BlackBlock.Foreground" 
+                     Color="{StaticResource Color.BlackBlock.Foreground}"
+                     p:Freeze="true"/>
+    
+    <!-- Controls colors -->
+    <SolidColorBrush x:Key="Brush.TextBoxWithTag.Background"
+                     Color="{StaticResource Color.TextBoxWithTag.Background}"/>
+    <SolidColorBrush x:Key="Brush.TextBoxWithTag.Background.Selected"
+                     Color="{StaticResource Color.TextBoxWithTag.Background.Selected}"/>
+    <SolidColorBrush x:Key="Brush.TextBoxWithTag.Hint"
+                     Color="{StaticResource Color.Text.Hint}"/>
 
 </ResourceDictionary>

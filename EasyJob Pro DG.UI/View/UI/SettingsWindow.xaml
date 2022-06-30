@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.UI"
         xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
         mc:Ignorable="d"
         Title="SettingsWindow" Height="500" Width="400"
@@ -13,51 +12,49 @@
         WindowStartupLocation="CenterScreen"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         Style="{StaticResource ToolWindowStyle}">
-    <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="50"/>
-    </WindowChrome.WindowChrome>
-    <Grid>
+    
+     <Grid Margin="2">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="10"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
-        <TabControl x:Name="tabUserSettings">
+        <TabControl x:Name="tabUserSettings"
+                    Grid.Row="1">
             <TabItem Header="Excel">
                 <uc:SettingsExcel />
             </TabItem>
         </TabControl>
-        <UniformGrid Grid.Row="2"
+
+        <!-- Save / Cancel buttons -->
+        <UniformGrid Grid.Row="3"
                      Columns="4">
+            <UniformGrid.Resources>
+                <Style TargetType="{x:Type Button}" 
+                       BasedOn="{StaticResource ToolBoxWindowControlButtonStyle}"/>
+            </UniformGrid.Resources>
 
             <Button x:Name="buttonCancel"
                     Command="{Binding CancelChangesCommand}"
                     IsCancel="True"
-                Content="Cancel"
-                    Margin="5"
-                    MaxWidth="120"
-                    HorizontalAlignment="Stretch"
+                    Content="Cancel"
                     Grid.Column="2"
-                    Click="CloseWindow" />
+                    Click="CloseWindow" 
+                    TabIndex="12"/>
             <Button x:Name="buttonBack"
-                Content="Back"
-                    MaxWidth="120"
-                    Margin="5"
-                    HorizontalAlignment="Stretch"
-                    Click="buttonBack_Click" />
+                    Content="Back"
+                    Click="buttonBack_Click" 
+                    TabIndex="11"/>
             <Button x:Name="buttonNext"
-                Content="Next"
-                    Margin="5"
-                    MaxWidth="120"
-                    HorizontalAlignment="Stretch"
-                    Click="buttonNext_Click" />
+                    Content="Next"
+                    Click="buttonNext_Click" 
+                    TabIndex="9"/>
             <Button x:Name="buttonSave"
                     Command="{Binding SaveChangesCommand}"
                     Content="Save"
-                    MaxWidth="120"
-                    Margin="5"
-                    HorizontalAlignment="Stretch"
-                    Click="CloseWindow" />
+                    Click="CloseWindow" 
+                    TabIndex="10"/>
         </UniformGrid>
     </Grid>
 </Window>

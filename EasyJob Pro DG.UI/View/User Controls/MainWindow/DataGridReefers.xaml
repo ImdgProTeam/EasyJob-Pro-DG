@@ -73,7 +73,7 @@
                   Background="{StaticResource Brush.ReeferTable.Background}"
                   RowBackground="Transparent"
                   AlternatingRowBackground="{StaticResource Brush.DgTable.AlternateRow}"
-                  Opacity="0.6"
+                  Opacity="1"
                   Grid.Column="0"
                   Grid.Row="0"
                   SelectionMode="Extended"
@@ -118,6 +118,10 @@
                 <Style TargetType="{x:Type CheckBox}">
                     <Setter Property="HorizontalAlignment" Value="Center"/>
                 </Style>
+
+                <!-- Selection color -->
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                 Color="{StaticResource Color.DgTable.HighlightRow}" />
 
             </DataGrid.Resources>
 

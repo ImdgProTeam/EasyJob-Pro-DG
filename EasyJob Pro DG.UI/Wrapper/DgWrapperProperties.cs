@@ -432,6 +432,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 SetValue(value);
                 UpdateDgStowageConflicts();
+                OnNetWeightChanged();
             }
         }
 

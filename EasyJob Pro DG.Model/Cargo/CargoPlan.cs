@@ -29,6 +29,19 @@ namespace EasyJob_ProDG.Model.Cargo
                 return sum;
             }
         }
+        public decimal TotalMPNetWeight
+        {
+            get
+            {
+                decimal sum = 0M;
+                foreach (var dg in DgList)
+                {
+                    if(dg.IsMp)
+                        sum += dg.DgNetWeight;
+                }
+                return sum;
+            }
+        }
         public bool IsEmpty => Containers.Count <= 0 && DgList.Count <= 0 && Reefers.Count <= 0;
 
 

@@ -14,5 +14,12 @@
                 Value="LightGray" />
     </Style>
 
-    
+    <Style x:Key="ToolBoxWindowControlButtonStyle"
+           TargetType="{x:Type Button}">
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="MaxWidth" Value="120"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    </Style>
+
+
 </ResourceDictionary>

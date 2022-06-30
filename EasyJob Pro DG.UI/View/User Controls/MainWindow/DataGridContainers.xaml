@@ -65,11 +65,12 @@
                   VirtualizingPanel.VirtualizationMode="Recycling"
                   
                   HeadersVisibility="All"
+                  GridLinesVisibility="None"
                   AlternationCount="2"
                   Background="{StaticResource Brush.ContainerTable.Background}"
                   RowBackground="Transparent"
                   AlternatingRowBackground="{StaticResource Brush.DgTable.AlternateRow}"
-                  Opacity="0.6"
+                  Opacity="1"
                   Grid.Column="0"
                   Grid.Row="0"
                   SelectionMode="Extended"
@@ -129,8 +130,9 @@
                                 Value="Right" />
                 </Style>
 
+                <!-- Selection color -->
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                                        Color="{StaticResource Color.DgTable.HighlightRow}" />
+                                 Color="{StaticResource Color.DgTable.HighlightRow}" />
 
             </DataGrid.Resources>
 

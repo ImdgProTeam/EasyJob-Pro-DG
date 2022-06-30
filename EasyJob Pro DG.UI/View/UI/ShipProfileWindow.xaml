@@ -28,34 +28,30 @@
                     Value="Center" />
             <Setter Property="TextAlignment"
                     Value="Center" />
-            <Setter Property="Background"
-                    Value="Yellow" />
+            <Setter Property="TextWrapping" Value="NoWrap"/>
         </Style>
-        <Style TargetType="{x:Type Button}">
-            <Setter Property="Background"
-                    Value="Red" />
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="2,2,10,2"/>
         </Style>
-        <Style TargetType="{x:Type RepeatButton}">
-            <Setter Property="Background"
-                    Value="Green" />
-            
-        </Style>
-
     </Window.Resources>
 
-    <Grid Margin="0, 5, 0, 0">
+    <Grid Margin="2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="10"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="10"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
         </Grid.RowDefinitions>
 
         <TabControl DataContext="{Binding TempShip}"
                     Name="tabShipProfile"
-                    Grid.Row="0">
+                    Grid.Row="1"
+                    Margin="2">
 
             <!--Tab Main-->
             <TabItem Header="Main"
@@ -92,42 +88,32 @@
 
         </TabControl>
 
-        <UniformGrid Grid.Row="3" HorizontalAlignment="Stretch" Columns="4">
+        <!-- Window controls -->
+        <UniformGrid Grid.Row="4" HorizontalAlignment="Stretch" Columns="4">
+            
+            <UniformGrid.Resources>
+                <Style TargetType="{x:Type Button}"
+                       BasedOn="{StaticResource ToolBoxWindowControlButtonStyle}"/>
+            </UniformGrid.Resources>
             
             <Button x:Name="buttonCancel"
                     Content="Cancel"
                     Command="{Binding CancelChangesCommand}"
                     IsCancel="True"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Top"
-                    MinWidth="60"
-                    Margin="10,0, 5,0"
                     Click="CloseWindow"
                     TabIndex="12" />
             <Button x:Name="buttonBack"
                     Content="Back"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Top"
-                    MinWidth="60"
-                    Margin="5, 0"
                     TabIndex="11"
                     Grid.RowSpan="2"
                     Click="buttonBack_Click" />
             <Button x:Name="buttonNext"
                     Content="Next"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Top"
-                    MinWidth="60"
-                    Margin="5,0"
                     TabIndex="9"
                     Click="buttonNext_Click" />
             <Button x:Name="buttonSave"
                     Content="Save"
                     Command="{Binding SaveChangesCommand}"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Top"
-                    MinWidth="60"
-                    Margin="5,0, 10, 0"
                     Grid.ColumnSpan="2"
                     Click="CloseWindow"
                     TabIndex="10">
@@ -139,6 +125,7 @@
             </Button>
         </UniformGrid>
     </Grid>
+    
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding WindowLoaded}" />

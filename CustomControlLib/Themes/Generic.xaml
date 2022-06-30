@@ -49,7 +49,7 @@
                                      Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                      TextAlignment="Center"
                                      VerticalAlignment="Center"
-                                     Width="20"
+                                     Width="30"
                                      IsTabStop="True"
                                       />
                             <RepeatButton x:Name="PART_ButtonMore"

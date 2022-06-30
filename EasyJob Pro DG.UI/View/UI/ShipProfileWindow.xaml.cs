@@ -11,7 +11,6 @@ namespace EasyJob_ProDG.UI.View.UI
         {
             InitializeComponent();
             buttonBack.IsEnabled = false;
-
         }
 
         private void CloseWindow(object sender, RoutedEventArgs e)

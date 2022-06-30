@@ -1,10 +1,8 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace EasyJob_ProDG.UI.View.User_Controls
 {
@@ -13,7 +11,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
     /// </summary>
     public partial class ConflictsListView : UserControl
     {
-        private DispatcherTimer timer;
         
         //Brushes
         Brush _original;
@@ -30,16 +27,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             InitializeComponent();
             _hover = (Brush)this.FindResource("Brush.Text.MouseOver");
 
-            timer = new DispatcherTimer
-            {
-                Interval = new TimeSpan(0,0,0,0,20)
-            };
-            timer.Tick += TimerOnTick;
-        }
-
-        private void TimerOnTick(object sender, EventArgs e)
-        {
-            //
         }
 
 

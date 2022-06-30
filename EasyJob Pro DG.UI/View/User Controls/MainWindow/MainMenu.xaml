@@ -90,7 +90,7 @@
                 <MenuItem Header="Import manifest info only current POL"
                       Command="{Binding ImportReeferManifestInfoOnlyPolCommand}"/>
                 <MenuItem Header="Edit manifest template"/>
-                <MenuItem Header="Export to exce"/>
+                <MenuItem Header="Export to excel"/>
             </MenuItem>
 
             <MenuItem Header="Settings"

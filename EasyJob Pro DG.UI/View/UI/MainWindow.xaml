@@ -13,6 +13,7 @@
         Icon="imdg.good.ico"
         Title="{Binding WindowTitle, UpdateSourceTrigger=Default}"
         WindowStyle="ThreeDBorderWindow"
+        Background="#FFC2EAF5"
         AllowDrop="True"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainWindowViewModel}"
         d:DataContext="{d:DesignInstance viewmodel:MainWindowViewModel, d:IsDesignTimeCreatable=True}"
@@ -72,25 +73,22 @@
         <!--   Main working space -->
         <DockPanel Grid.Row="0"
                    LastChildFill="True"
-                   Background="#FFC2EAF5">
+                   >
+
             <!---   Status bar   -->
             <uc:MVStatusBar DockPanel.Dock="Bottom" />
 
+            <!-- Main menu -->
             <StackPanel DockPanel.Dock="Top"
                         Background="Black">
                 <!---   Main menu   -->
                 <uc:MainMenu />
             </StackPanel>
 
-            <TextBlock DockPanel.Dock="Bottom"
-                       Background="Black"
-                       Margin="0,2,0,0" />
-
-
+            <!-- Main working grid-->
             <Grid x:Name="WorkingGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <!--<ColumnDefinition Width="Auto" />-->
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -103,11 +101,30 @@
                            LastChildFill="True">
 
                     <!-- Update button -->
-                    <Grid DockPanel.Dock="Bottom"
-                          Height="50">
-                        <Button Content="Re-check"
-                                Margin="2"
+                    <Grid DockPanel.Dock="Top">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="List of conflicts"
+                                   Margin="0,0,0,5"
+                                   Padding="40,0,5,0"
+                                   FontSize="14"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center"
+                                   FontWeight="DemiBold"
+                                   Grid.Column="0">
+                            </TextBlock>
+                            <Button Content="Re-check"
+                                MaxWidth="100"
+                                MaxHeight="30"
+                                Margin="5"
+                                    Padding="20, 5"
+                                    VerticalContentAlignment="Center"
+                                    Grid.Column="1"
                                 Command="{Binding ReCheckCommand}" />
+                        </Grid>
                     </Grid>
 
                     <!---   Black block   -->
@@ -115,8 +132,8 @@
                                DockPanel.Dock="Bottom"
                                Margin="2"
                                Padding="10,5,0,0"
-                               Background="Black"
-                               Foreground="Blue"
+                               Background="{StaticResource Brush.BlackBlock.Background}"
+                               Foreground="{StaticResource Brush.BlackBlock.Foreground}"
                                Text="{Binding Vents.VentHoldsFullText}"
                                TextWrapping="WrapWithOverflow"
                                TextAlignment="Left" />
@@ -139,14 +156,19 @@
                 <TabControl Grid.Column="0"
                             Grid.Row="0"
                             TabStripPlacement="Bottom"
+                            
                             SelectedIndex="{Binding SelectedDataGridIndex, Mode=TwoWay}">
-                    <TabItem Header="Dangerous goods">
+
+                    <TabItem Header="Dangerous goods"
+                             Background="{StaticResource Brush.DgTable.Background}">
                         <uc:DataGridDg x:Name="MainDataGrid" />
                     </TabItem>
-                    <TabItem Header="Reefers">
+                    <TabItem Header="Reefers"
+                             Background="{StaticResource Brush.ReeferTable.Background}">
                         <uc:DataGridReefers/>
                     </TabItem>
-                    <TabItem Header="Containers">
+                    <TabItem Header="Containers"
+                             Background="{StaticResource Brush.ContainerTable.Background}">
                         <uc:DataGridContainers/>
 
                     </TabItem>

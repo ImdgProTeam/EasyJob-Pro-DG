@@ -86,7 +86,7 @@
                   RowBackground="Transparent"
                   AlternatingRowBackground="{StaticResource Brush.DgTable.AlternateRow}"
                   
-                  Opacity="0.6"
+                  Opacity="1"
                   
                   SelectionMode="Extended"
                   ap:SelectingDgDataGridItem.SelectingItem="{Binding SelectedDg}"

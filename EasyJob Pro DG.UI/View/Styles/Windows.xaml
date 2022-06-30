@@ -27,5 +27,6 @@
                 Value="DarkGray" />
         <Setter Property="BorderThickness"
                 Value="1" />
+        <Setter Property="WindowChrome.CaptionHeight" Value="0"/>
     </Style>
 </ResourceDictionary>

@@ -8,7 +8,7 @@
              mc:Ignorable="d"
              DataContext="{Binding StatusBarControl}">
     <StatusBar HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-               Background="Wheat" Margin="0,5,0,0">
+               Background="DarkSeaGreen" Margin="0, -5">
         <StatusBarItem>
             <TextBlock Text="{Binding StatusBarText, UpdateSourceTrigger=PropertyChanged}"
                    Visibility="{Binding ProgressBarVisible, UpdateSourceTrigger=PropertyChanged}"/>
@@ -16,6 +16,7 @@
         <StatusBarItem >
             <ProgressBar Width="100"
                          Height="20"
+                         Margin="0,2"
                          Name="progressBar"
                          Visibility="{Binding ProgressBarVisible, UpdateSourceTrigger=PropertyChanged}"
                          Value="{Binding ProgressPercentage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"

@@ -16,7 +16,8 @@
                 <PropertyGroupDescription PropertyName="ConflictGroupTitle" />
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
-        <Style x:Key="HeaderStyle"
+
+        <!--<Style x:Key="HeaderStyle"
                TargetType="TextBlock">
             <Setter Property="Foreground"
                     Value="{StaticResource Brush.Text.Header}" />
@@ -24,8 +25,10 @@
                     Value="Center" />
             <Setter Property="FontWeight"
                     Value="DemiBold" />
-        </Style>
+        </Style>-->
+
     </UserControl.Resources>
+
     <Grid x:Name="mainConflictListGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -33,10 +36,6 @@
         </Grid.RowDefinitions>
 
 
-
-        <TextBlock Style="{StaticResource HeaderStyle}">
-            List of Conflicts
-        </TextBlock>
         <ListBox x:Name="ConflictBox"
                  ItemsSource="{Binding Source={StaticResource ConflictsView}, UpdateSourceTrigger=PropertyChanged}"
                  SelectedItem="{Binding SelectedConflict}"
@@ -50,20 +49,11 @@
                  HorizontalContentAlignment="Stretch"
                  Margin="0,0,2,0"
                  Padding="2"
-                 Grid.Row="1">
+                 Grid.Row="1"
+                 Background="{StaticResource Brush.Background.Main}">
 
             <ListBox.GroupStyle>
                 <GroupStyle>
-                    <GroupStyle.HeaderTemplate>
-                        <DataTemplate>
-                            <Border BorderBrush="{StaticResource Brush.Border.Main}"
-                                    BorderThickness="1"
-                                    Margin="40">
-                                <TextBlock />
-                            </Border>
-                        </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
-
                     <GroupStyle.ContainerStyle>
                         <Style TargetType="{x:Type GroupItem}">
                             <Setter Property="Template">
@@ -102,7 +92,30 @@
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
+                    <Border CornerRadius="0" Padding="5" Margin="-1, 3, 0, 0">
+                         <Border.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="Background" Value="{StaticResource Brush.ConflictList.Items.Background}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="WhiteSmoke"/>
+                                        <Setter Property="BorderBrush" Value="{StaticResource Brush.SelectedItem}"/>
+                                        <Setter Property="BorderThickness" Value="0.5"/>
+                                        <Setter Property="TextBlock.Foreground" Value="{StaticResource Brush.Text.Main}"/>
+                                    </Trigger>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, 
+                                        Path=IsSelected}"  Value="True">
+                                        <Setter Property="Background" Value="{StaticResource Brush.SelectedItem}"/>
+                                        <Setter Property="TextBlock.Foreground" Value="White"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+
+                        </Border.Resources>                       
                     <DockPanel Height="NaN">
+
+
+
                         <CheckBox IsChecked="False"
                                   HorizontalAlignment="Left"
                                   Margin="4,4,0,0"
@@ -121,13 +134,36 @@
                         </CheckBox>
                         <TextBlock DockPanel.Dock="Top"
                             Text="{Binding ContainerNumber, UpdateSourceTrigger=PropertyChanged}"
-                                   MouseDown="HeaderTextBlock_MouseDown"></TextBlock>
+                                   MouseDown="HeaderTextBlock_MouseDown"
+                                   Margin="2">
+                            <TextBlock.Resources>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Setters>
+                                        <Setter Property="Foreground" Value="{StaticResource Brush.ConflictList.Text.ContainerNumber}"/>
+                                    </Style.Setters>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, 
+                                            Path=IsMouseOver}" Value="True">
+                                            <Setter Property="TextBlock.Foreground" Value="Black"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, 
+                                            Path=IsSelected}" Value="True">
+                                            <Setter Property="TextBlock.Foreground" Value="White"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Resources>
+                        </TextBlock>
                         <TextBlock  DockPanel.Dock="Bottom"
                                     Padding="5,5,10,2"
                                     Style="{StaticResource ConflictTypeTrigger}"
                                     Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}">
+                            
                         </TextBlock>
+
+
                     </DockPanel>
+                    </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
 

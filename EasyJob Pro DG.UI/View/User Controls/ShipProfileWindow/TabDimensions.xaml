@@ -7,58 +7,54 @@
              xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.UI"
              xmlns:attachedProperties="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="400">
+
     <UserControl.Resources>
         <converters:ZeroToNullConverter x:Key="zeroToNull" />
         <converters:ZeroNullStringToFalseConverter x:Key="zeroToFalse" />
     </UserControl.Resources>
+
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel attachedProperties:EnterKeyTraversal.IsEnabled="True">
 
             <!-- Sea sides -->
             <!--   Labels  -->
-            <Label Margin="5,2"
-                   Background="DarkGreen">
-                Sea side rows
-            </Label>
-            <TextBlock Text="Define port most and starboard most row numbers for all bays and separately for individual bays if required"
-                       TextWrapping="Wrap"
-                       HorizontalAlignment="Center"
-                       Height="Auto"
-                       Background="DarkBlue"
-                       FontStyle="Italic"
-                       Foreground="DarkSlateGray"
-                       Margin="6,0,0,5"
+            <GroupBox Margin="5,2" Header="Sea side rows">
+                <StackPanel>
+
+                    <TextBlock Text="Define port most and starboard most row numbers for all bays and separately for individual bays if required"
+                       Style="{StaticResource TextBlockNoticeStyle}"
                        Width="Auto" />
 
-            <!-- Sea sides -->
-            <Grid x:Name="gridSeaSides"
-                  Background="Pink"
-                  Margin="10,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="15" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="20" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition SharedSizeGroup="sizeOne" />
-                    <ColumnDefinition SharedSizeGroup="sizeOne" />
-                    <ColumnDefinition SharedSizeGroup="sizeOne" />
-                </Grid.ColumnDefinitions>
+                    <!-- Sea sides -->
+                    <Grid x:Name="gridSeaSides"
+                            Margin="10,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="15" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="20" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="sizeOne" />
+                            <ColumnDefinition SharedSizeGroup="sizeOne" />
+                            <ColumnDefinition SharedSizeGroup="sizeOne" />
+                        </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Bay number"
+                        <!-- Columns headers -->
+                        <TextBlock Text="Bay number"
                            TextWrapping="WrapWithOverflow"
                            HorizontalAlignment="Right" />
-                <TextBlock Text="Port most row"
+                        <TextBlock Text="Port most row"
                            TextWrapping="WrapWithOverflow"
                            HorizontalAlignment="Center"
                            Grid.Column="1" />
-                <TextBlock Text="Starboard most bay"
+                        <TextBlock Text="Starboard most bay"
                            TextWrapping="WrapWithOverflow"
                            HorizontalAlignment="Center"
                            Grid.Column="2" />
 
-                <ListBox x:Name="lbxSeaSides"
+                        <ListBox x:Name="lbxSeaSides"
                          ItemsSource="{Binding SeaSidesObservable}"
                          IsSynchronizedWithCurrentItem="True"
                          Margin="0"
@@ -66,32 +62,31 @@
                          Grid.ColumnSpan="3"
                          HorizontalAlignment="Stretch"
                          HorizontalContentAlignment="Stretch">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Background="Bisque"
-                                  HorizontalAlignment="Stretch"
-                                  Margin="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition SharedSizeGroup="sizeOne" />
-                                    <ColumnDefinition SharedSizeGroup="sizeOne" />
-                                    <ColumnDefinition SharedSizeGroup="sizeOne" />
-                                </Grid.ColumnDefinitions>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Stretch"
+                                        Margin="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="sizeOne" />
+                                            <ColumnDefinition SharedSizeGroup="sizeOne" />
+                                            <ColumnDefinition SharedSizeGroup="sizeOne" />
+                                        </Grid.ColumnDefinitions>
 
-                                <TextBox Text="{Binding Bay, Converter={StaticResource zeroToNull}}"
+                                        <TextBox Text="{Binding Bay, Converter={StaticResource zeroToNull}}"
                                          Tag="Specify bay"
                                          TextAlignment="Right"
                                          HorizontalAlignment="Stretch"
                                          MinWidth="25"
                                          Margin="5,0"
                                          Grid.Column="0" />
-                                <TextBox Text="{Binding PortMost, Converter={StaticResource zeroToNull}}"
+                                        <TextBox Text="{Binding PortMost, Converter={StaticResource zeroToNull}}"
                                          Tag="Enter row, e.g. 14"
                                          TextWrapping="WrapWithOverflow"
                                          TextAlignment="Center"
                                          MinWidth="40"
                                          Margin="5,0"
                                          Grid.Column="1" />
-                                <TextBox Text="{Binding StarboardMost, Converter={StaticResource zeroToNull}}"
+                                        <TextBox Text="{Binding StarboardMost, Converter={StaticResource zeroToNull}}"
                                          Tag="Enter row, e.g. 15"
                                          TextWrapping="WrapWithOverflow"
                                          TextAlignment="Center"
@@ -99,71 +94,75 @@
                                          MinWidth="40"
                                          Margin="5,0"
                                          Grid.Column="2"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <ListBox.Resources>
-                        <ControlTemplate x:Key="ListBoxTemplate"
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.Resources>
+                                <ControlTemplate x:Key="ListBoxTemplate"
                                          TargetType="{x:Type ListBox}">
-                            <Border>
-                                <ScrollViewer Padding="0"
+                                    <Border>
+                                        <ScrollViewer Padding="0"
                                               Focusable="false"
                                               VerticalScrollBarVisibility="Auto"
                                               HorizontalScrollBarVisibility="Hidden"
                                               CanContentScroll="True"
                                               IsDeferredScrollingEnabled="False">
-                                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                                </ScrollViewer>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </ListBox.Resources>
-                </ListBox>
+                                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        </ScrollViewer>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </ListBox.Resources>
+                        </ListBox>
 
-                <!-- Overlapping first bay number with text 'All bays' -->
-                <TextBlock Text="All bays"
+                        <!-- Overlapping first bay number with text 'All bays' -->
+                        <TextBlock Text="All bays"
                            TextAlignment="Right"
                            Padding="0,0,5,0"
                            Height="15"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Stretch"
-                           Background="AntiqueWhite"
+                           Background="{Binding ElementName=lbxSeaSides, Path=Background}"
                            Margin="5,5,0,0"
                            Grid.Column="0"
                            Grid.Row="1" />
 
-                <!-- Adding a new seaside -->
-                <TextBox x:Name="txbNewOuterRowBay"
+                        <Label Content="Add another" Grid.Row="2"
+                               HorizontalAlignment="Left"/>
+                        <!-- Adding a new seaside -->
+                        <TextBox x:Name="txbNewOuterRowBay"
                          Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.NewOuterRow.Bay, Converter={StaticResource zeroToNull}, Mode=TwoWay}"
                          Tag="Specify bay"
                          TextAlignment="Center"
-                         Margin="5, 0"
+                         Margin="2, 0"
                          MinWidth="25"
                          Grid.Column="0"
-                         Grid.Row="2"/>
-                <TextBox Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.NewOuterRow.PortMost, Converter={StaticResource zeroToNull}, Mode=TwoWay}"
+                         Grid.Row="3"/>
+                        <TextBox Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.NewOuterRow.PortMost, Converter={StaticResource zeroToNull}, Mode=TwoWay}"
                          Tag="Enter row, e.g. 14"
                          IsEnabled="{Binding ElementName=txbNewOuterRowBay, Path=Text, Converter={StaticResource zeroToFalse}}"
                          TextAlignment="Center"
                          MinWidth="40"
-                         Margin="5, 0"
+                         Margin="2, 0"
                          Grid.Column="1"
-                         Grid.Row="2"/>
-                <TextBox Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.NewOuterRow.StarboardMost, Converter={StaticResource zeroToNull}, Mode=TwoWay}"
+                         Grid.Row="3"/>
+                        <TextBox Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.NewOuterRow.StarboardMost, Converter={StaticResource zeroToNull}, Mode=TwoWay}"
                          Tag="Enter row, e.g. 15"
                          IsEnabled="{Binding ElementName=txbNewOuterRowBay, Path=Text, Converter={StaticResource zeroToFalse}}"
                          TextAlignment="Center"
                          HorizontalAlignment="Stretch"
                          MinWidth="40"
-                         Margin="5, 0"
+                         Margin="2, 0"
                          Grid.Column="2"
-                         Grid.Row="2"/>
-            </Grid>
-
+                         Grid.Row="3"/>
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
 
             <!-- Accommodations -->
-            <Grid Name="gridAccommodations">
+            <Grid Name="gridAccommodations"
+                  Margin="6">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition SharedSizeGroup="sizeOne"></ColumnDefinition>
                     <ColumnDefinition SharedSizeGroup="sizeOne"></ColumnDefinition>
@@ -180,41 +179,25 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"
                            Grid.Row="0"
-                           Grid.Column="0" />
+                           Grid.Column="0" 
+                           Margin="0,0,0,3"/>
                 <TextBlock Text="Last bay before accommodation"
                            TextWrapping="Wrap"
                            TextAlignment="Center"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"
                            Grid.Row="0"
-                           Grid.Column="1" />
-                <!--<Label Content="Accommodation 1"
-                               HorizontalAlignment="Right"
-                               Grid.Row="3"
-                               Grid.Column="0" />
-                        <TextBox Tag="Enter bay, e.g. 55"
-                                 Style="{StaticResource TextBoxWithTag}"
-                                 Grid.Row="3"
-                                 Grid.Column="1" />-->
+                           Grid.Column="1" 
+                           Margin="0,0,0,3"/>
                 <ListBox x:Name="lbAccommodationBays"
                          ItemsSource="{Binding Path=AccommodationBaysObservable, Mode=TwoWay}"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          HorizontalContentAlignment="Stretch"
                          Grid.Row="1"
                          Grid.ColumnSpan="2">
-                    <!--<ListBox.Resources>
-                                    <DataTemplate x:Key="AccommodationItems">
-                                        <Grid>
-                                            <TextBox Text="{Binding Mode=OneWay}">
-                                               
-                                            </TextBox>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListBox.Resources>-->
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid Background="Bisque"
-                                  HorizontalAlignment="Stretch"
+                            <Grid HorizontalAlignment="Stretch"
                                   Margin="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -227,9 +210,6 @@
                                        Grid.Column="0" />
                                 <TextBox Text="{Binding Path=Bay, Mode=TwoWay, Converter={StaticResource zeroToNull}}"
                                          Tag="Enter the last bay before accommodation"
-                                         TextWrapping="Wrap"
-                                         TextAlignment="Center"
-                                         MinWidth="40"
                                          Margin="5,0"
                                          Grid.Column="1"/>
                             </Grid>

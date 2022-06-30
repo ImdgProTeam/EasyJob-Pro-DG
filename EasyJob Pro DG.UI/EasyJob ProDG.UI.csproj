@@ -192,6 +192,7 @@
     <Compile Include="View\Converters\DummyConverter.cs" />
     <Compile Include="View\Converters\ExcelColumnNumberConverter.cs" />
     <Compile Include="View\Converters\HoldsToVisibilityConverter.cs" />
+    <Compile Include="View\Converters\ToggleButtonDOCConverter.cs" />
     <Compile Include="View\Converters\VisibilityToInverseBooleanConverter.cs" />
     <Compile Include="View\Converters\ZeroNullStringToFalse.cs" />
     <Compile Include="View\Converters\ZeroToNullConverter.cs" />
@@ -231,6 +232,9 @@
     </Compile>
     <Compile Include="View\User Controls\SettingsWindow\SettingsExcel.xaml.cs">
       <DependentUpon>SettingsExcel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User Controls\ShipProfileWindow\HowToEnterPosition.xaml.cs">
+      <DependentUpon>HowToEnterPosition.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User Controls\ShipProfileWindow\TabDimensions.xaml.cs">
       <DependentUpon>TabDimensions.xaml</DependentUpon>
@@ -385,6 +389,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User Controls\SettingsWindow\SettingsExcel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User Controls\ShipProfileWindow\HowToEnterPosition.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

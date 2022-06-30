@@ -18,40 +18,39 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid FocusManager.FocusedElement="{Binding ElementName=AddCellTextBox}">
+    <Grid FocusManager.FocusedElement="{Binding ElementName=AddCellTextBox}"
+          Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="80" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="100" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="25" />
             <RowDefinition Height="*" />
             <RowDefinition Height="2" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="60" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock TextAlignment="Center"
-                   VerticalAlignment="Center"
-                   Grid.ColumnSpan="2"
-                   Grid.Row="0">
-                        Description here
+        <TextBlock Style="{StaticResource TextBlockNoticeStyle}"
+                   Grid.ColumnSpan="3"
+                   Grid.Row="0"
+                   Margin="10,20,10,0">
+                        Refer to the Unified Interpretation on 7.1.4.4.2 of the IMDG Code on the issue of “life-saving appliances” (MSC.1/Circ.1626).
         </TextBlock>
         <TextBlock Text="Enter position"
+                   Margin="8,0,0,0"
                    Grid.Row="1"
                    Grid.Column="0"
+                   Grid.ColumnSpan="2"
                    TextAlignment="Center"
-                   TextWrapping="Wrap"
+                   TextWrapping="NoWrap"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Bottom" />
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled"
-                      VerticalScrollBarVisibility="Auto"
-                      Grid.Row="2"
-                      Grid.Column="0"
-                      Grid.ColumnSpan="3">
+
             <DataGrid Name="dataGridLSA"
                       ItemsSource="{Binding LSAObservable, Mode=TwoWay}"
                       CanUserAddRows="False"
@@ -59,7 +58,10 @@
                       CanUserDeleteRows="False"
                       CanUserSortColumns="False"
                       AutoGenerateColumns="False"
-                      IsSynchronizedWithCurrentItem="True">
+                      IsSynchronizedWithCurrentItem="True"
+                      Grid.Row="2"
+                      Grid.ColumnSpan="3"
+                      Margin="5">
 
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="80"
@@ -82,11 +84,9 @@
                                 <TextBox Text="{Binding DisplayPosition, Mode=TwoWay, UpdateSourceTrigger=LostFocus,
                                     Converter={converters:AnyCellToNullConverter}, ValidatesOnDataErrors=True}"
                                          Tag="Enter position, e.g. 220582"
-                                         Style="{StaticResource TextBoxWithTag}"
                                          TextAlignment="Right"
                                          VerticalContentAlignment="Center"
                                          Focusable="True">
-
                                 </TextBox>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -108,12 +108,12 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-        </ScrollViewer>
 
 
         <TextBlock Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLSA,
             Converter={converters:CellToTextConverter}}"
-                   Foreground="Gray"
+                   Foreground="{StaticResource Brush.Text.Header}"
+                   Margin="12,0"
                    Grid.Row="4"
                    Grid.Column="0"
                    Grid.ColumnSpan="2" />
@@ -124,6 +124,7 @@
                  Style="{StaticResource TextBoxWithTagAndValidation}"
                  VerticalContentAlignment="Center"
                  Focusable="True"
+                 Margin="5,0"
                  Grid.Row="5"
                  Grid.ColumnSpan="2"
                  Grid.Column="0" />
@@ -136,9 +137,10 @@
                 Grid.RowSpan="2"
                 Grid.Column="2" />
 
-        <TextBlock Text="How to enter positions describe here"
-                   Grid.ColumnSpan="2"
+        <local:HowToEnterPosition
+                Grid.ColumnSpan="3"
                    Grid.Column="0"
-                   Grid.Row="6"></TextBlock>
+                   Grid.Row="6"/>
+
     </Grid>
 </UserControl>

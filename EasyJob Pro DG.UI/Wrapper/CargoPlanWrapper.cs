@@ -39,6 +39,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         public int ReeferCount => Reefers.Count;
         public int DgContainerCount => Containers.Count(c => c.ContainsDgCargo);
         public decimal TotalDgNetWeight => Model.TotalDgNetWeight;
+        public decimal TotalMPNetWeight => Model.TotalMPNetWeight;
         internal bool IsEmpty => Model.IsEmpty;
 
 
@@ -55,18 +56,6 @@ namespace EasyJob_ProDG.UI.Wrapper
 
             DgList.CollectionChanged += DgListChanged;
             Reefers.CollectionChanged += ReefersCollectionChanged;
-        }
-
-        private void ReefersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            //if (e.Action == NotifyCollectionChangedAction.Remove)
-            //{
-            //    foreach (var item in e.OldItems)
-            //    {
-            //        var container = Containers.FindContainerByContainerNumber((IContainer)item);
-            //        container.IsRf = false;
-            //    }
-            //}
         }
 
         public void Destructor()
@@ -117,7 +106,8 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <param name="obj">nil</param>
         private void OnNetWeightChanged(UpdateCargoPlan obj)
         {
-            OnPropertyChanged("TotalDgNetWeight");
+            OnPropertyChanged(nameof(TotalDgNetWeight));
+            OnPropertyChanged(nameof(TotalMPNetWeight));
         }
 
         /// <summary>
@@ -138,6 +128,17 @@ namespace EasyJob_ProDG.UI.Wrapper
 
             }
         }
+        private void ReefersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            //if (e.Action == NotifyCollectionChangedAction.Remove)
+            //{
+            //    foreach (var item in e.OldItems)
+            //    {
+            //        var container = Containers.FindContainerByContainerNumber((IContainer)item);
+            //        container.IsRf = false;
+            //    }
+            //}
+        }
 
         /// <summary>
         /// Removes selected dg from CargoPlan
@@ -154,31 +155,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
             OnPropertyChanged("DgContainerCount");
             OnPropertyChanged("TotalDgNetWeight");
-        }
-
-        // -------------- Public methods --------------------------------------------
-
-        /// <summary>
-        /// Creates new CargoPlanWrapper from a plain cargoPlan.
-        /// Updates summary values.
-        /// Called when updating ShipProfile.
-        /// </summary>
-        /// <param name="cargoplan">Plain CargoPlan</param>
-        internal void CreateCargoPlanWrapper(CargoPlan cargoplan)
-        {
-            ConvertToCargoPlanWrapper(cargoplan);
-            UpdateCargoPlanValues();
-        }
-
-        /// <summary>
-        /// Clears all cargo in all the lists
-        /// TO DELETE IF NOT CALLED
-        /// </summary>
-        internal void Clear()
-        {
-            DgList.Clear();
-            Reefers.Clear();
-            Containers.Clear();
+            OnPropertyChanged(nameof(TotalMPNetWeight));
         }
 
         /// <summary>
@@ -211,6 +188,33 @@ namespace EasyJob_ProDG.UI.Wrapper
 
             DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
             UpdateCargoPlanValues();
+        }
+
+
+
+        // -------------- Public methods --------------------------------------------
+
+        /// <summary>
+        /// Creates new CargoPlanWrapper from a plain cargoPlan.
+        /// Updates summary values.
+        /// Called when updating ShipProfile.
+        /// </summary>
+        /// <param name="cargoplan">Plain CargoPlan</param>
+        internal void CreateCargoPlanWrapper(CargoPlan cargoplan)
+        {
+            ConvertToCargoPlanWrapper(cargoplan);
+            UpdateCargoPlanValues();
+        }
+
+        /// <summary>
+        /// Clears all cargo in all the lists
+        /// TO DELETE IF NOT CALLED
+        /// </summary>
+        internal void Clear()
+        {
+            DgList.Clear();
+            Reefers.Clear();
+            Containers.Clear();
         }
 
 

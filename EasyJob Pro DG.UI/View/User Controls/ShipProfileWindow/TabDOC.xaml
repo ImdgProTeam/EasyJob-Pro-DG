@@ -7,33 +7,33 @@
              xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
              mc:Ignorable="d"
              d:DesignHeight="450"
-             d:DesignWidth="1000"
+             d:DesignWidth="300"
              DataContext="{Binding}">
     <UserControl.Resources>
+        
         <converters:HoldsToVisibilityConverter x:Key="HoldsToVisibility" />
+        <converters:ToggleButtonDOCConverter x:Key="DOCConverter"/>
+
         <DataTemplate x:Key="ColumnHeaderStyle">
-            <Border Background="Pink"
-                    BorderThickness="5"
-                    BorderBrush="AliceBlue"
-                    RenderTransformOrigin="1, 1"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom">
-                <Border.LayoutTransform>
-                    <TransformGroup>
-                        <ScaleTransform />
-                        <SkewTransform />
-                        <RotateTransform Angle="-90" />
-                        <TranslateTransform />
-                    </TransformGroup>
-                </Border.LayoutTransform>
                 <TextBlock Text="{Binding}" 
-                           TextWrapping="Wrap"
-                           VerticalAlignment="Bottom"
+                           RenderTransformOrigin="0,0"
+                           Margin="2,5"
+                           TextWrapping="NoWrap"
                            HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
                            TextAlignment="Left"
-                           Width="90"/>
-            </Border>
+                           Width="Auto">
+                    <TextBlock.LayoutTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform />
+                            <RotateTransform Angle="-90" />
+                            <TranslateTransform />
+                        </TransformGroup>
+                    </TextBlock.LayoutTransform>
+                </TextBlock>
         </DataTemplate>
+
         <Style TargetType="{x:Type DataGridCell}">
             <Setter Property="KeyboardNavigation.IsTabStop"
                     Value="False"></Setter>
@@ -41,9 +41,10 @@
                     Value="False" />
         </Style>
     </UserControl.Resources>
-    <ScrollViewer>
 
-        <DataGrid ItemsSource="{Binding DocObservable.DOCTable}"
+        <DataGrid x:Name="gridDOC"
+                  Margin="5,3"
+            ItemsSource="{Binding DocObservable.DOCTable}"
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
@@ -51,9 +52,13 @@
                   CanUserSortColumns="False"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  FrozenColumnCount="1"
                   Focusable="False"
                   KeyboardNavigation.IsTabStop="False"
-                  >
+                  PreviewKeyDown="DataGrid_PreviewKeyDown">
+        <DataGrid.Resources>
+
+        </DataGrid.Resources>
 
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Class"
@@ -75,7 +80,9 @@
                     
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate >
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                        <ToggleButton IsChecked="{Binding Row[1].Value, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBlock Text="{Binding Row[1].Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DOCConverter}}" />
+                        </ToggleButton>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -84,500 +91,158 @@
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=2}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[2].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate >
+                        <ToggleButton IsChecked="{Binding Row[2].Value, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBlock Text="{Binding Row[2].Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DOCConverter}}" />
+                        </ToggleButton>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
 
                 <DataGridTemplateColumn Header="Hold 3"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=3}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[3].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate >
+                        <ToggleButton IsChecked="{Binding Row[3].Value, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBlock Text="{Binding Row[3].Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DOCConverter}}" />
+                        </ToggleButton>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
 
                 <DataGridTemplateColumn Header="Hold 4"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=4}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[4].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate >
+                        <ToggleButton IsChecked="{Binding Row[4].Value, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBlock Text="{Binding Row[4].Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DOCConverter}}" />
+                        </ToggleButton>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
 
                 <DataGridTemplateColumn Header="Hold 5"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=5}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[5].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate >
+                        <ToggleButton IsChecked="{Binding Row[5].Value, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBlock Text="{Binding Row[5].Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DOCConverter}}" />
+                        </ToggleButton>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
 
 
                 <DataGridTemplateColumn Header="Hold 6"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=6}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[6].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate >
+                        <ToggleButton IsChecked="{Binding Row[6].Value, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBlock Text="{Binding Row[6].Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DOCConverter}}" />
+                        </ToggleButton>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
 
                 <DataGridTemplateColumn Header="Hold 7"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=7}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[7].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate >
+                        <ToggleButton IsChecked="{Binding Row[7].Value, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBlock Text="{Binding Row[7].Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DOCConverter}}" />
+                        </ToggleButton>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
 
                 <DataGridTemplateColumn Header="Hold 8"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=8}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[8].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate >
+                        <ToggleButton IsChecked="{Binding Row[8].Value, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBlock Text="{Binding Row[8].Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DOCConverter}}" />
+                        </ToggleButton>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
 
                 <DataGridTemplateColumn Header="Hold 9"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=9}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[9].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate >
+                        <ToggleButton IsChecked="{Binding Row[9].Value, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBlock Text="{Binding Row[9].Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DOCConverter}}" />
+                        </ToggleButton>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
 
                 <DataGridTemplateColumn Header="Hold 10"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=10}">
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[10].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                        <DataTemplate >
+                            <ToggleButton IsChecked="{Binding Row[10].Value, UpdateSourceTrigger=PropertyChanged}">
+                                <TextBlock Text="{Binding Row[10].Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DOCConverter}}" />
+                            </ToggleButton>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+            </DataGridTemplateColumn>
 
                 <DataGridTemplateColumn Header="Hold 11"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=11}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[11].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate >
+                        <ToggleButton IsChecked="{Binding Row[11].Value, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBlock Text="{Binding Row[11].Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DOCConverter}}" />
+                        </ToggleButton>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
 
                 <DataGridTemplateColumn Header="Hold 12"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=12}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[12].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate >
+                        <ToggleButton IsChecked="{Binding Row[12].Value, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBlock Text="{Binding Row[12].Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DOCConverter}}" />
+                        </ToggleButton>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
                 
                 <DataGridTemplateColumn Header="Weather deck"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[0].Value, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate >
+                        <ToggleButton IsChecked="{Binding Row[0].Value, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBlock Text="{Binding Row[0].Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DOCConverter}}" />
+                        </ToggleButton>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
 
-                <!--<DataGridTemplateColumn Header="Class 1.1-1.6"
-                                    HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[0].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="1.1-1.6 - Explosives"/>
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-                
-                <DataGridTemplateColumn Header="Class 1.4 (S)"
-                                    HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                        Value="1.4(S) - Explosives, Division 1.4 Compatibility group 'S'" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-                
-                <DataGridTemplateColumn Header="Class 2.1"
-                                    HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="2.1 - Flammable gases" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 2.2"
-                                    HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="2.2 - Non-flammable, Non-toxic gases" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Class 2.3 (flammable)"
-                                    HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="2.3 - Toxic gases (flammable)" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 2.3      (non-flammable)"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="2.3 - Toxic gases (non-flammable)"/>
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 3 (&lt; 23°C)"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="3 - Flammable liquids - low and intermediate flashpoint, below 23°C" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 3 (23°C - 60°C)"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="3\ - Flammable liquids - high flashpoint, >=23°C but &lt;=60°C"/>
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 4.1"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="4.1 - Flammable solids, self-reactive substances and solid desensitized explosives"/>
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 4.2"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="4.2 - Solids liable to spontaneous combustion" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Class 4.3 (liquids)"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="4.3 - Substances which, in contact with water, emit flammable gases (liquids)" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 4.3 (solids)"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="4.3 - Substances which, in contact with water, emit flammable gases (solids)" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 5.1"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="5.1 - Oxidising substances (agents)"/>
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 5.2"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="5.2 - Organic peroxides" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 6.1 &#xA;(liquids &lt;23°C)"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="6.1 - Toxic substances (liquids) - low and intermediate flashpoint, &lt;23°C" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 6.1 (liquids &#xA;>=23°C &lt;=60°C)"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="6.1 - Toxic substances (liquids) - high flashpoint, >=23°C but &lt;=60°C" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 6.1 (liquids)"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="6.1 - Toxic substances (liquids) - non flammable" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 6.1 (solids)"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="6.1 - Toxic substances (solids)" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 8 &#xA;(liquids &lt;23°C)"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="8 - Corrosives (liquids) - low and intermediate flashpoint, &lt;23°C" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 8 (liquids &#xA;>=23°C &lt;=60°C)"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="8\nCorrosives (liquids) - high flashpoint, >=23°C but &lt;=60°C" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 8 (liquids)"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="8 - Corrosives (liquids) - non flammable" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 8 (solids)"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="8 - Corrosives (solids)" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Header="Class 9"
-                                        HeaderTemplate="{StaticResource ColumnHeaderStyle}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Row[1].Value, Mode=TwoWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="ToolTip"
-                                    Value="9 - Miscellaneous Dangerous Substances and Articles" />
-                        </Style>
-                    </DataGridTemplateColumn.HeaderStyle>
-                </DataGridTemplateColumn>-->
             </DataGrid.Columns>
             
         </DataGrid>
-        <!--<ListBox ItemsSource="{Binding testDOC}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <ListBox ItemsSource="{Binding}"
-                             DisplayMemberPath="Value">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel Orientation="Horizontal">
-
-                                </VirtualizingStackPanel>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBox Text="{Binding Value}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>-->
-    </ScrollViewer>
 </UserControl>

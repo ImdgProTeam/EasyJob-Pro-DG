@@ -70,17 +70,15 @@ namespace EasyJob_ProDG.UI.ViewModel
             LoadData();
 
             SetWindowTitle();
-            RaiseCanExecuteChanged();
         }
 
         #endregion
 
+//-----------------------------------------------------------------------------------------------------------------------------
 
-        #region Methods
-        private void RaiseCanExecuteChanged()
-        {
+        #region StartUp logic
+        //---------- StartUp logic
 
-        }
         private void LoadServices()
         {
             loadDataService = new LoadDataService();
@@ -104,6 +102,23 @@ namespace EasyJob_ProDG.UI.ViewModel
             GetCargoData();
 
         }
+
+        /// <summary>
+        /// Gets public properties values from cargo and conflict data services
+        /// </summary>
+        private void GetCargoData()
+        {
+            //Get data from cargoDataService
+            WorkingCargoPlan = cargoDataService.GetCargoPlan();
+            Conflicts = conflictDataService.GetConflicts();
+            Vents = conflictDataService.GetVentilationRequirements();
+
+            //OnPropertyChange
+            RefreshView();
+
+            //Notify DgDataGrid of change
+            DataMessenger.Default.Send<CargoDataUpdated>(new CargoDataUpdated(), "cargodataupdated");
+        }
         private void LoadCommands()
         {
             AddNewDgCommand = new DelegateCommand(OnAddNewDg, CanAddNewDg);
@@ -126,30 +141,6 @@ namespace EasyJob_ProDG.UI.ViewModel
             SelectionChangedCommand = new DelegateCommand(OnApplicationClosing);
             ApplicationClosingCommand = new DelegateCommand(OnApplicationClosing);
 
-            //Dummy command added for testing purpose
-            DummyCommand = new DelegateCommand(DummyMethod);
-
-        }
-
-        private static bool dummyBool;
-        /// <summary>
-        /// Dummy method added for testing purpose and does not affect the program run
-        /// </summary>
-        /// <param name="obj"></param>
-        private void DummyMethod(object obj)
-        {
-            //var dummy = CargoPlanWrapper.ContainedInList(new Container(){ContainerNumber = "TRHU3998761", Location="0050384"}, WorkingCargoPlan.DgList);
-            //MessageBox.Show(dummy.ToString());
-
-            //var viewModel = new DialogWindowOptionsViewModel("This is a dummy dialogWindow with a very very very long long long text for testing purpose only. To see how good it is displayed in the window", "Button 1 Will also become a very long text in here which has no meaning at all", "Button 2", "Button one more to test how it looks", "This is a test header, which is not compulsory at all");
-            //bool? result = dialogWindowService.ShowDialog(viewModel);
-            //var choise = viewModel.ResultOption;
-            if (dummyBool == false)
-            {
-                StatusBarControl.StartProgressBar(50);
-                dummyBool = true;
-            }
-            else StatusBarControl.ChangeBarSet(70);
         }
 
         /// <summary>
@@ -160,7 +151,11 @@ namespace EasyJob_ProDG.UI.ViewModel
             WindowTitle = _titleService.GetTitle();
             OnPropertyChanged("WindowTitle");
         }
+        #endregion
 
+
+        #region Working with files private methods
+        //---------- Working with files
         /// <summary>
         /// Opens condition from the file.
         /// </summary>
@@ -197,7 +192,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 var viewModel = new DialogWindowOptionsViewModel($"Choose how you wish to open the file {file}",
                     "Open as new condition", "Update condition", "Import Dg data");
                 bool? dialogResult = dialogWindowService.ShowDialog(viewModel);
-                if (!dialogResult.HasValue)
+                if (!dialogResult.HasValue || !dialogResult.Value)
                 {
                     StatusBarControl.Cancel();
                     return;
@@ -231,24 +226,11 @@ namespace EasyJob_ProDG.UI.ViewModel
             DataMessenger.Default.Send<CargoDataUpdated>(new CargoDataUpdated(), "reeferinfoupdated");
             StatusBarControl.ChangeBarSet(100);
         }
+        #endregion
 
-        /// <summary>
-        /// Gets public properties values from cargo and conflict data services
-        /// </summary>
-        private void GetCargoData()
-        {
-            //Get data from cargoDataService
-            WorkingCargoPlan = cargoDataService.GetCargoPlan();
-            Conflicts = conflictDataService.GetConflicts();
-            Vents = conflictDataService.GetVentilationRequirements();
 
-            //OnPropertyChange
-            RefreshView();
-
-            //Notify DgDataGrid of change
-            DataMessenger.Default.Send<CargoDataUpdated>(new CargoDataUpdated(), "cargodataupdated");
-        }
-
+        #region Private methods
+        //---------- Private methods ------------------------------
         /// <summary>
         /// Calls OnPropertyChange for main public properties
         /// </summary>
@@ -266,8 +248,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void OnShipProfileSaved(ShipProfileWrapperMessage obj)
         {
             GetCargoData();
-        }
-
+        } 
         #endregion
 
 
@@ -522,19 +503,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         #endregion
 
 
-        #region Methods without use and references
-        /// <summary>
-        /// Clears all class properties
-        /// </summary>
-        public void NewTable()
-        {
-            WorkingCargoPlan.Clear();
-            Conflicts.Clear();
-            Stowage.SWgroups.Clear();
-        }
-        #endregion
-
-
         #region Methods calling toolbox windows
         private void OpenShipProfileWindowExecuted(object parameters)
         {
@@ -588,10 +556,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand ExportToExcelCommand { get; set; }
         public ICommand SelectionChangedCommand { get; set; }
         public ICommand ApplicationClosingCommand { get; set; }
-
-        //Dummy command added for testing purpose only.
-        //Remember to delete dummy button when removing the command.
-        public ICommand DummyCommand { get; set; }
 
 
         // ----------- Registered commands ------------------------------------------

@@ -3,31 +3,40 @@
 
 
     <!-- Main colors -->
-    <Color x:Key="Color.Background.Main">White</Color>
+    <Color x:Key="Color.Background.Main">aliceblue</Color>
     <Color x:Key="Color.Background.Panel">LightGray</Color>
-    <Color x:Key="Color.Background.Item">DimGray</Color>
+
     <Color x:Key="Color.Background.Expander">Black</Color>
     <Color x:Key="Color.Text.Main">Black</Color>
     <Color x:Key="Color.Text.Header">DimGray</Color>
+    <Color x:Key="Color.Text.Hint">Gray</Color>
     <Color x:Key="Color.Border.Main">Black</Color>
 
     <Color x:Key="Color.Element.Main">AliceBlue</Color>
     <Color x:Key="Color.Element.Pressed">AntiqueWhite</Color>
-    <Color x:Key="Color.Element.MouseOver">Orange</Color>
+    <Color x:Key="Color.Element.MouseOver">OrangeRed</Color>
     <Color x:Key="Color.Element.Disabled">LightGray</Color>
 
-    <Color x:Key="Color.DgTable.Background.Gradient2">OrangeRed</Color>
-    <Color x:Key="Color.ReeferTable.Background.Gradient2">Turquoise</Color>
-    <Color x:Key="Color.ContainerTable.Background.Gradient2">GreenYellow</Color>
+    <Color x:Key="Color.DgTable.Background.Gradient2">#FF8356</Color>
+    <Color x:Key="Color.ReeferTable.Background.Gradient2">#85c1e9</Color>
+    <Color x:Key="Color.ContainerTable.Background.Gradient2">#92A7BC</Color>
 
     <Color x:Key="Color.DgTable.AlternateRow">Beige</Color>
-    <Color x:Key="Color.DgTable.HighlightRow">#5868E1</Color>
+    <Color x:Key="Color.DgTable.HighlightRow">#5499c7</Color>
 
+    <Color x:Key="Color.Background.Conflicts.Item">Black</Color>
+
+    <Color x:Key="Color.Text.ConflictCard.ContainerNumber">White</Color>
     <Color x:Key="Color.Text.Stowage">DeepSkyBlue</Color>
-    <Color x:Key="Color.Text.Segregation">Purple</Color>
-    <Color x:Key="Color.Text.SW19">Gold</Color>
+    <Color x:Key="Color.Text.Segregation">MediumOrchid</Color>
+    <Color x:Key="Color.Text.SW19">#D5B200</Color>
+    <Color x:Key="Color.Text.SW22">#5D8AA8</Color>
     <Color x:Key="Color.Text.Conflict">AntiqueWhite</Color>
     <Color x:Key="Color.Text.MouseOver">OrangeRed</Color>
 
+    <Color x:Key="Color.BlackBlock.Background">Black</Color>
+    <Color x:Key="Color.BlackBlock.Foreground">#5D8AA8</Color>
 
+    <Color x:Key="Color.TextBoxWithTag.Background">Transparent</Color>
+    <Color x:Key="Color.TextBoxWithTag.Background.Selected">aliceblue</Color>
 </ResourceDictionary>

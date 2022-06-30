@@ -3,11 +3,11 @@
 namespace EasyJob_ProDG.UI.View.User_Controls
 {
     /// <summary>
-    /// Логика взаимодействия для TabDimensions.xaml
+    /// Логика взаимодействия для HowToEnterPosition.xaml
     /// </summary>
-    public partial class TabDimensions : UserControl
+    public partial class HowToEnterPosition : UserControl
     {
-        public TabDimensions()
+        public HowToEnterPosition()
         {
             InitializeComponent();
         }

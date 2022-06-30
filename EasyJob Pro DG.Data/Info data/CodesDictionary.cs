@@ -140,49 +140,28 @@ namespace EasyJob_ProDG.Data.Info_data
             { "H1", "Keep as dry as reasonably practicable." },
             { "H2", "Keep as cool as reasonably practicable." },
             { "H3", "During transport, it should be stowed (or kept) in a cool ventilated place." },
-            { "H4", @"If cleaning of cargo spaces has to be carried out at sea, the safety procedures 
-                    followed and standard of equipment used shall be at least as effective as those em
-                    ployed as industry best practice in a port. Until such cleaning is undertaken, the 
-                    cargo spaces in which the asbestos has been carried shall be closed and access to 
-                    those spaces shall be prohibited."},
+            { "H4", @"If cleaning of cargo spaces has to be carried out at sea, the safety procedures followed and standard of equipment used shall be at least as effective as those em ployed as industry best practice in a port. Until such cleaning is undertaken, the cargo spaces in which the asbestos has been carried shall be closed and access to those spaces shall be prohibited."},
             { "H5", "Avoid handling the packaging or large packaging or keep handling to a minimum. Inform the appropriate public health authority or veterinary authority where persons or animals may have been exposed." },
             { "SW1", "Protected from sources of heat." },
             { "SW2", "Clear of living quarters."},
             {"SW3", "Shall be transported under temperature control."},
             {"SW4", "Surface ventilation is required to assist in removing any residual solvent vapour."},
             {"SW5", "If under deck, stow in a mechanically ventilated space."},
-            {"SW6", @"When stowed under deck, mechanical ventilation shall be in accordance with SOLAS
-                    regulation II-2/19 (II-2/54) for flammable liquids with flashpoint below 23°C c.c."},
+            {"SW6", @"When stowed under deck, mechanical ventilation shall be in accordance with SOLAS regulation II-2/19 (II-2/54) for flammable liquids with flashpoint below 23°C c.c."},
             {"SW7", "As approved by the competent authorities of the countries involved in the shipment."},
-            {"SW8", @"Ventilation may be required. The possible need to open hatches in case of fire to provide
-                    maximum ventilation and to apply water in an emergency, and the consequent risk to the
-                    stability of the ship through flooding of the cargo spaces, shall be considered before loading."},
+            {"SW8", @"Ventilation may be required. The possible need to open hatches in case of fire to provide maximum ventilation and to apply water in an emergency, and the consequent risk to the stability of the ship through flooding of the cargo spaces, shall be considered before loading."},
             {"SW9", @"Provide a good through ventilation for bagged cargo. Double strip stowage is recommended.
-                    The illustration in 7.6.2.7.2.3 shows how this can be achieved. During the voyage regular
-                    temperature readings shall be taken at varying depths in the hold and recorded. If the
-                    temperature of the cargo exceeds the ambient temperature and continues to increase,
-                    ventilation shall be closed down."},
-            {"SW10", @"Unless carried in closed cargo transport units, bales shall be properly covered by tarpaulins
-                    or the like. Cargo spaces shall be clean, dry and free from oil or grease. Ventilator cowls
-                    leading into the cargo space shall have sparking-preventing screens. All other openings,
-                    entrances and hatches leading to the cargo space shall be securely closed. During temporary
-                    interruption of loading, when the hatch remains uncovered, a fire-watch shall be kept. During
-                    loading or discharge, smoking in the vicinity"},
-            {"SW11", @"Cargo transport units shall be shaded from direct sunlight. Packages in cargo transport units
-                    shall be stowed so as to allow for adequate air circulation throughout the cargo."},
+                    The illustration in 7.6.2.7.2.3 shows how this can be achieved. During the voyage regular temperature readings shall be taken at varying depths in the hold and recorded. If the temperature of the cargo exceeds the ambient temperature and continues to increase, ventilation shall be closed down."},
+            {"SW10", @"Unless carried in closed cargo transport units, bales shall be properly covered by tarpaulins or the like. Cargo spaces shall be clean, dry and free from oil or grease. Ventilator cowls leading into the cargo space shall have sparking-preventing screens. All other openings entrances and hatches leading to the cargo space shall be securely closed. During temporary interruption of loading, when the hatch remains uncovered, a fire-watch shall be kept. During loading or discharge, smoking in the vicinity"},
+            {"SW11", @"Cargo transport units shall be shaded from direct sunlight. Packages in cargo transport units shall be stowed so as to allow for adequate air circulation throughout the cargo."},
             {"SW12", "Taking account of any supplementary requirements specified in the transport documents."},
-            {"SW13", @"Taking account of any supplementary requirements specified in the competent authority
-                    approval certificate(s)."},
+            {"SW13", @"Taking account of any supplementary requirements specified in the competent authority approval certificate(s)."},
             {"SW14", "Category A only if the special stowage provisions of 7.4.1.4 and 7.6.2.8.4 are complied with."},
             {"SW15", "For metal drums, stowage category B."},
             {"SW16", "For unit loads in open cargo transport units, stowage category B."},
-            {"SW17", @"Category E, for closed cargo transport unit and pallet boxes only. Ventilation may be
-                    required. The possible need to open hatches in case of fire to provide maximum ventilation
-                    and to apply water in an emergency, and the consequent risk to the stability of the ship
-                    through flooding of the cargo space, shall be considered before loading."},
+            {"SW17", @"Category E, for closed cargo transport unit and pallet boxes only. Ventilation may be required. The possible need to open hatches in case of fire to provide maximum ventilation and to apply water in an emergency, and the consequent risk to the stability of the ship through flooding of the cargo space, shall be considered before loading."},
             {"SW18", "Category A, when transported in accordance with P650."},
-            {"SW19", @"For batteries transported in accordance with special provisions 376 or 377, category C,
-                    unless transported on a short international voyage."},
+            {"SW19", @"For batteries transported in accordance with special provisions 376 or 377, category C, unless transported on a short international voyage."},
             {"SW20", "For uranyl nitrate hexahydrate solution stowage, category D applies."},
             {"SW21", "For uranium metal pyrophoric and thorium metal pyrophoric stowage, category D applies."},
             {"SW22", @"For AEROSOLS with a maximum capacity of 1 L: category A.

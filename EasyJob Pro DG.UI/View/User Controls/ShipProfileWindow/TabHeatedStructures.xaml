@@ -7,7 +7,7 @@
              xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
              mc:Ignorable="d"
              d:DesignHeight="450"
-             d:DesignWidth="800"
+             d:DesignWidth="400"
              DataContext="{Binding}"
              >
 
@@ -28,33 +28,34 @@
             <ColumnDefinition Width="100" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="25" />
             <RowDefinition Height="*" />
             <RowDefinition Height="2" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="60" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock TextAlignment="Center"
-                   VerticalAlignment="Center"
-                   Grid.ColumnSpan="2"
-                   Grid.Row="0">
-                        Description here
+        <TextBlock Style="{StaticResource TextBlockNoticeStyle}"
+                   Grid.ColumnSpan="3"
+                   Grid.Row="0"
+                   Margin="10,20,10,0">
+                        Heated ship structures are where the surface temperature is liable to exceed 55°C. Examples of heated
+structures are steam pipes, heating coils, top or side walls of heated fuel and cargo tanks, and bulkheads of
+machinery spaces.
         </TextBlock>
+        
         <TextBlock Text="Enter position"
+                   Margin="8,0,0,0"
                    Grid.Row="1"
                    Grid.Column="0"
+                   Grid.ColumnSpan="2"
                    TextAlignment="Center"
-                   TextWrapping="Wrap"
+                   TextWrapping="NoWrap"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Bottom" />
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled"
-                      VerticalScrollBarVisibility="Auto"
-                      Grid.Row="2"
-                      Grid.Column="0"
-                      Grid.ColumnSpan="3">
+
             <DataGrid Name="dataGridHeatedStructures"
                       ItemsSource="{Binding HeatedStructuresObservable, Mode=TwoWay}"
                       CanUserAddRows="False"
@@ -62,7 +63,11 @@
                       CanUserDeleteRows="False"
                       CanUserSortColumns="False"
                       AutoGenerateColumns="False"
-                      IsSynchronizedWithCurrentItem="True">
+                      IsSynchronizedWithCurrentItem="True"
+                      Grid.Row="2"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="3"
+                      Margin="5">
 
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="80"
@@ -85,11 +90,9 @@
                                 <TextBox Text="{Binding DisplayPosition, Mode=TwoWay, UpdateSourceTrigger=LostFocus,
                                     Converter={converters:AnyCellToNullConverter}, ValidatesOnDataErrors=True}"
                                          Tag="Enter position, e.g. 220582"
-                                         Style="{StaticResource TextBoxWithTag}"
                                          TextAlignment="Right"
                                          VerticalContentAlignment="Center"
                                          Focusable="True">
-
                                 </TextBox>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -111,16 +114,18 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-        </ScrollViewer>
+
 
 
         <TextBlock Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellHeatedStructures,
             Converter={converters:CellToTextConverter}}"
-                   Foreground="Gray"
+                   Foreground="{StaticResource Brush.Text.Header}"
+                   Margin="12,0"
                    Grid.Row="4"
                    Grid.Column="0"
                    Grid.ColumnSpan="2" />
         <TextBox x:Name="AddCellTextBox"
+                 Margin="5,0"
             Tag="Enter new position here"
                  Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellHeatedStructuresNewEntry,
                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
@@ -139,10 +144,12 @@
                 Grid.RowSpan="2"
                 Grid.Column="2" />
 
-        <TextBlock Text="How to enter positions describe here"
-                   Grid.ColumnSpan="2"
+        <local:HowToEnterPosition
+                   Margin="5,15"
+                   Grid.ColumnSpan="3"
                    Grid.Column="0"
-                   Grid.Row="6"></TextBlock>
+                   Grid.Row="6"/>
+
     </Grid>
 
 
