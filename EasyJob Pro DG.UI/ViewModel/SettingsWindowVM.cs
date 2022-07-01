@@ -14,7 +14,13 @@ namespace EasyJob_ProDG.UI.ViewModel
         ISettingsService uiSettingsService = new SettingsService();
         UserUISettings settings;
 
+        /// <summary>
+        /// Property contains all available excel column numbers.
+        /// (Is used by View).
+        /// </summary>
+        public static List<char> Columns { get { return Model.IO.Excel.WithXl.Columns; } }
 
+        //---------------------- Constructor ---------------------------------------
         public SettingsWindowVM()
         {
             settings = uiSettingsService.GetSettings();
@@ -32,7 +38,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         #endregion
 
 
-        public static List<char> Columns { get { return Model.IO.Excel.WithXl.Columns; } }
 
         #region Excel Dg list settings
 
@@ -73,6 +78,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
 
         #endregion
+
 
         #region Cances/Save logic
         public void CancelChanges(object obj)
@@ -117,6 +123,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         #endregion
+
 
         // --------- IDataErors ----------------------------
         public string this[string columnName] => throw new NotImplementedException();

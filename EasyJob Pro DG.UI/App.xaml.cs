@@ -27,6 +27,8 @@ namespace EasyJob_ProDG.UI
             Debug.WriteLine("------> Assembly version checked");
 #endif
 
+            CheckLicence();
+
             if (e.Args.Length > 0)
             {
                 path = e.Args[0];
@@ -38,6 +40,23 @@ namespace EasyJob_ProDG.UI
             path = null;
 
             ApplicationMainWindow.Show();
+        }
+
+        /// <summary>
+        /// Checking the licence is valid
+        /// </summary>
+        private void CheckLicence()
+        {
+            Debug.WriteLine($"-----> Checking licence");
+            if (!Licence.IsValid())
+
+            {
+                Debug.WriteLine($"-----> Licence expired.");
+                MessageBox.Show("Your licence has expired.\nPlease contact\n\nfeedback@imdg.pro\n\nto renew your licence.", "Invalid licence");
+                //ProgramFiles.EnterLog(ProgramFiles.LogStreamWriter, "Licence checking failed");
+                Environment.Exit(0);
+            }
+            Debug.WriteLine($"-----> Licence is valid.");
         }
 
         /// <summary>

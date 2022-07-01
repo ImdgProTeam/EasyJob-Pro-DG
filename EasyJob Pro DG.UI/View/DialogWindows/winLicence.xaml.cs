@@ -1,13 +1,13 @@
 ﻿using System.Windows;
 
-namespace EasyJob_ProDG.UI.View.UI
+namespace EasyJob_ProDG.UI.View.DialogWindows
 {
     /// <summary>
-    /// Логика взаимодействия для winAbout.xaml
+    /// Логика взаимодействия для winLicence.xaml
     /// </summary>
-    public partial class winAbout : Window
+    public partial class winLicence : Window
     {
-        public winAbout()
+        public winLicence()
         {
             InitializeComponent();
         }

@@ -1,37 +1,44 @@
-﻿<Window x:Class="EasyJob_ProDG.UI.View.UI.winAbout"
+﻿<Window x:Class="EasyJob_ProDG.UI.View.DialogWindows.winLicence"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:EasyJob_ProDG.UI"
+        xmlns:data="clr-namespace:EasyJob_ProDG.Data;assembly=EasyJob_ProDG.Data"
+        xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows"
         mc:Ignorable="d"
-        Title="About ProDG" 
+        Title="Licence" 
         Style="{StaticResource DemoWindowStyle}"
         WindowStartupLocation="CenterScreen"
         Width="320"
         SizeToContent="Height"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         WindowStyle="ThreeDBorderWindow">
-
+    <Window.DataContext>
+        <local:WinLicenceViewModel/>
+    </Window.DataContext>
+    
     <Grid Margin="20, 10">
         <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0">
-                <TextBlock Margin="4"
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <TextBlock Margin="4"
                            TextWrapping="Wrap"
                            TextAlignment="Center"
-                           Text="Software is designed for automatic checking of stowage and segregation of dangerous goods on container ships in accordance with the requirements of IMDG Code 40-20" />
-                <TextBlock Margin="4"
+                           Text="This is a tester alfa-version of the ProDG software." />
+            <TextBlock Margin="4"
                            TextAlignment="Center"
-                           Text="Copyright imdg.pro (c) 2018 - 2022" />
-                <StackPanel Orientation="Horizontal"
+                           Text="Your licence is valid until" />
+            <TextBlock Margin="4"
+                           TextAlignment="Center"
+                           Text="{Binding LicenceValidity}" />
+            <StackPanel Orientation="Vertical"
                             Margin ="0, 10,0,0">
-                    <TextBlock Margin="4, 4, 0, 4"
+                <TextBlock Margin="4, 4, 0, 4"
                                TextAlignment="Center"
-                               Text="send your comments to:"/>
-                    <TextBox
+                               Text="For renewal please contact:"/>
+                <TextBox
                         IsReadOnly="True"
                         Padding="5,4,10,3"
                         HorizontalAlignment="Center"
@@ -39,19 +46,19 @@
                         Text="feedback@imdg.pro"
                         BorderThickness="0"
                            Foreground="Blue" Cursor="Hand"/>
-                </StackPanel>
-
             </StackPanel>
-            <StackPanel Margin="8"
+
+        </StackPanel>
+        <StackPanel Margin="8"
                         Grid.Row="1"
                         VerticalAlignment="Bottom"
                         HorizontalAlignment="Center">
-                <Button Name="btnClose"
+            <Button Name="btnClose"
                         Style="{StaticResource BasicButton}"
                         Width="80"
                         Content="Close"
                         Click="btnClose_Click"/>
-            </StackPanel>
-        </Grid>
+        </StackPanel>
+    </Grid>
 
 </Window>

@@ -200,6 +200,10 @@
       <DependentUpon>DialogWindowOptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogWindows\DialogWindowOptionsViewModel.cs" />
+    <Compile Include="View\DialogWindows\winLicence.xaml.cs">
+      <DependentUpon>winLicence.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogWindows\WinLicenceViewModel.cs" />
     <Compile Include="View\Sort\ContainerLeftToRightComparer.cs" />
     <Compile Include="View\Sort\LeftToRightComparer.cs" />
     <Compile Include="View\Sort\LocationCompararABC.cs" />
@@ -309,6 +313,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DialogWindows\DialogWindowOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\winLicence.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

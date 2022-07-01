@@ -515,23 +515,21 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         private void ShowAboutExecuted(object parameters)
         {
-            winAbout winAb = new winAbout();
-            winAb.Show();
+            windowDialogService.ShowDialog(new winAbout());
         }
         private void ShowLicenseDialogExecuted(object parameter)
         {
-            var viewModel = new WinLoginViewModel();
-            var result = dialogWindowService.ShowDialog(viewModel);
+            windowDialogService.ShowDialog(new winLicence());
+            //var viewModel = new WinLoginViewModel();
+            //var result = dialogWindowService.ShowDialog(viewModel);
 
-            if (result.HasValue)
-            {
-                if (result.Value)
-                {
+            //if (result.HasValue)
+            //{
+            //    if (result.Value)
+            //    {
 
-                }
-            }
-
-
+            //    }
+            //}
         }
         #endregion
 

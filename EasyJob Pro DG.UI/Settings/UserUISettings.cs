@@ -10,6 +10,7 @@ namespace EasyJob_ProDG.UI.Settings
         public bool Combine2040BaysWhenSorting { get; private set; }
         public byte LowestTierOnDeck { get; private set; }
 
+        #region ExcelTemplates
         //Excel
         private ExcelTemplate _excelTemplate;
         public ExcelTemplate ExcelTemplate
@@ -21,9 +22,10 @@ namespace EasyJob_ProDG.UI.Settings
         private ExcelReeferTemplate _excelReeferTemplate;
         public ExcelReeferTemplate ExcelReeferTemplate
         {
-            get {if(_excelReeferTemplate == null){_excelReeferTemplate = new ExcelReeferTemplate(); } return _excelReeferTemplate; }
+            get { if (_excelReeferTemplate == null) { _excelReeferTemplate = new ExcelReeferTemplate(); } return _excelReeferTemplate; }
             set { _excelReeferTemplate = value; }
-        }
+        } 
+        #endregion
 
 
         // DgTable view settings

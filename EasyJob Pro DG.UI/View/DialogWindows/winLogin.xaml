@@ -8,9 +8,7 @@
         Title="Login"
         WindowStyle="None"
         AllowsTransparency="True"
-        ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize"
         SizeToContent="WidthAndHeight">
     <Window.Resources>
         <Style TargetType="TextBlock">
