@@ -7,7 +7,7 @@ using System.Windows;
 // связанные со сборкой.
 [assembly: AssemblyTitle("Pro DG")]
 [assembly: AssemblyDescription("Tool for automatic checking of stowage and segregation of dangerous cargo on container ships")]
-[assembly: AssemblyConfiguration("Desktop version (beta)")]
+[assembly: AssemblyConfiguration("Desktop version (alfa)")]
 [assembly: AssemblyCompany("imdg.pro")]
 [assembly: AssemblyProduct("Pro DG")]
 [assembly: AssemblyCopyright("Copyright ©  2018 - 2022")]
@@ -49,5 +49,5 @@ using System.Windows;
 // Можно задать все значения или принять номера сборки и редакции по умолчанию 
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.9.0.0")]
-[assembly: AssemblyFileVersion("0.9.0.0")]
+[assembly: AssemblyVersion("0.9.0.1")]
+[assembly: AssemblyFileVersion("0.9.0.1")]
