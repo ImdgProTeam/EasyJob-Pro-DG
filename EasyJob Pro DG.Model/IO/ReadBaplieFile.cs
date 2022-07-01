@@ -409,8 +409,8 @@ namespace EasyJob_ProDG.Model.IO
                 }
             }
             //DG subclasses
-            if (dgSegment.Length <= 9) return true;
-            dgUnit.DgSubclassArray = dgSegment[9].Split(':');
+            if (dgSegment.Length <= 10) return true;
+            dgUnit.DgSubclassArray = dgSegment[10].Split(':');
             return true;
         }
 
