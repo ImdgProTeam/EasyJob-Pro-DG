@@ -13,7 +13,7 @@
             <ColumnDefinition Width="120" />
             <ColumnDefinition Width="60" />
             <ColumnDefinition Width="180" />
-            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="100" />
             <ColumnDefinition Width="150" />
             <ColumnDefinition Width="60" />
             <ColumnDefinition Width="150" />
@@ -77,7 +77,7 @@
                Grid.Row="0"
                Grid.Column="4"
                Foreground="AliceBlue" />
-        <TextBox Text="{Binding WorkingCargoPlan.TotalDgNetWeight, Mode=OneWay, StringFormat=0.000}" 
+        <TextBox Text="{Binding WorkingCargoPlan.TotalDgNetWeight, Mode=OneWay, StringFormat= # ### ##0.000}" 
                Grid.Row="0"
                Grid.Column="5"
                Foreground="AliceBlue" />
@@ -85,7 +85,7 @@
                Grid.Row="1"
                Grid.Column="4"
                Foreground="AliceBlue" />
-        <TextBox Text="{Binding WorkingCargoPlan.TotalMPNetWeight, Mode=OneWay, StringFormat=0.000}"
+        <TextBox Text="{Binding WorkingCargoPlan.TotalMPNetWeight, Mode=OneWay, StringFormat=# ### ##0.000}"
                Grid.Row="1"
                Grid.Column="5"
                Foreground="AliceBlue" />

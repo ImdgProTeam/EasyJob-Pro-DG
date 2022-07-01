@@ -385,7 +385,8 @@
                                         SortMemberPath="HasContainerTypeChanged">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding HasContainerTypeChanged, Mode=OneWay}" />
+                            <CheckBox IsChecked="{Binding HasContainerTypeChanged, Mode=OneWay}" 
+                                      IsEnabled="False"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
