@@ -14,9 +14,29 @@ namespace EasyJob_ProDG.UI.ViewModel
         ISettingsService uiSettingsService = new SettingsService();
         UserUISettings settings;
 
-        bool changedExcelTemplate;
+
+        public SettingsWindowVM()
+        {
+            settings = uiSettingsService.GetSettings();
+            LoadCommands();
+        }
+
+        #region StartUp logic
+
+        private void LoadCommands()
+        {
+            SaveChangesCommand = new DelegateCommand(SaveChanges);
+            CancelChangesCommand = new DelegateCommand(CancelChanges);
+        }
+
+        #endregion
+
 
         public static List<char> Columns { get { return Model.IO.Excel.WithXl.Columns; } }
+
+        #region Excel Dg list settings
+
+        bool changedExcelTemplate;
 
         private ExcelTemplateWrapper _excelTemplate;
         public ExcelTemplateWrapper ExcelTemplateDisplay
@@ -31,23 +51,35 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
         }
 
+        #endregion
 
-        public SettingsWindowVM()
+
+        #region Excel Reefers settings
+
+        bool changedReeferExcelTemplate;
+
+        private ExcelReeferTemplateWrapper _excelReeferTemplate;
+        public ExcelReeferTemplateWrapper ExcelReeferTemplateDisplay
         {
-            settings = uiSettingsService.GetSettings();
-            LoadCommands();
+            get
+            {
+                if (_excelReeferTemplate == null)
+                {
+                    _excelReeferTemplate = new ExcelReeferTemplateWrapper(settings.ExcelReeferTemplate);
+                }
+                return _excelReeferTemplate;
+            }
         }
 
-        private void LoadCommands()
-        {
-            SaveChangesCommand = new DelegateCommand(SaveChanges);
-            CancelChangesCommand = new DelegateCommand(CancelChanges);
-        }
 
+        #endregion
+
+        #region Cances/Save logic
         public void CancelChanges(object obj)
         {
             changedExcelTemplate = false;
             ExcelTemplateDisplay.CancelChanges();
+            ExcelReeferTemplateDisplay.CancelChanges();
         }
 
         private void SaveChanges(object obj)
@@ -59,6 +91,13 @@ namespace EasyJob_ProDG.UI.ViewModel
                 ExcelTemplateDisplay.UploadChangesFromColumnProperties();
                 uiSettingsService.SaveExcelTemplate(settings.ExcelTemplate);
             }
+            if (changedReeferExcelTemplate)
+            {
+
+                ExcelReeferTemplateDisplay.UploadChangesFromColumnProperties();
+                uiSettingsService.SaveReeferExcelTemplate(ExcelReeferTemplateDisplay.GetTemplateString());
+            }
+
 
             ResetChangeIndicators();
         }
@@ -66,12 +105,18 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void CheckWhatChanged()
         {
             changedExcelTemplate = ExcelTemplateDisplay.IsChanged;
+            changedReeferExcelTemplate = ExcelReeferTemplateDisplay.IsChanged;
         }
+
         private void ResetChangeIndicators()
         {
             changedExcelTemplate = false;
             ExcelTemplateDisplay.ResetAllChangeIndicators();
+            changedReeferExcelTemplate= false;
+            ExcelReeferTemplateDisplay.ResetAllChangeIndicators();
         }
+
+        #endregion
 
         // --------- IDataErors ----------------------------
         public string this[string columnName] => throw new NotImplementedException();

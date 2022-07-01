@@ -64,6 +64,7 @@
     <Compile Include="IO\EasyJobCondition\ConditionUnit.cs" />
     <Compile Include="IO\EasyJobCondition\EasyJobCondition.cs" />
     <Compile Include="IO\EasyJobCondition\RecordsCreator.cs" />
+    <Compile Include="IO\Excel\ExcelReeferTemplate.cs" />
     <Compile Include="IO\Excel\ExcelTemplate.cs" />
     <Compile Include="IO\Excel\WithXlReefers.cs" />
     <Compile Include="IO\ImportUpdateExtensions.cs" />

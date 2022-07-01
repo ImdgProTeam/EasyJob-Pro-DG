@@ -26,9 +26,13 @@ namespace EasyJob_ProDG.UI.Services
 
         public void SaveExcelTemplate(object template)
         {
-
             ExcelTemplate temp = template as ExcelTemplate;
             if (temp != null) ExcelTemplate.WriteTemplate(temp);
+        }
+
+        public void SaveReeferExcelTemplate(string template)
+        {
+            Properties.Settings.Default.ExcelReeferTemplate = template;
         }
     }
 }

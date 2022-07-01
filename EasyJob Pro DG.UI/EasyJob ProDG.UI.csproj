@@ -233,6 +233,9 @@
     <Compile Include="View\User Controls\SettingsWindow\SettingsExcel.xaml.cs">
       <DependentUpon>SettingsExcel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\User Controls\SettingsWindow\SettingsExcelReefers.xaml.cs">
+      <DependentUpon>SettingsExcelReefers.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\User Controls\ShipProfileWindow\HowToEnterPosition.xaml.cs">
       <DependentUpon>HowToEnterPosition.xaml</DependentUpon>
     </Compile>
@@ -292,6 +295,7 @@
     <Compile Include="Wrapper\CellPositionWrapper.cs" />
     <Compile Include="Wrapper\Dummies\DummyDOCRow.cs" />
     <Compile Include="Wrapper\Dummies\ExcelColumnProperty.cs" />
+    <Compile Include="Wrapper\ExcelReeferTemplateWrapper.cs" />
     <Compile Include="Wrapper\ExcelTemplateWrapper.cs" />
     <Compile Include="Wrapper\ModelWrapper.cs" />
     <Compile Include="Wrapper\OuterRowWrapper.cs" />
@@ -389,6 +393,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User Controls\SettingsWindow\SettingsExcel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User Controls\SettingsWindow\SettingsExcelReefers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

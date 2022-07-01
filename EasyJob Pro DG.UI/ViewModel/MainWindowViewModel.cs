@@ -35,7 +35,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         IMessageDialogService _messageDialogService;
         ITitleService _titleService;
 
-        private DataGridDgViewModel dgDataGridVM => ViewModelLocator.DataGridDgViewModel;
         private DataGridReefersViewModel reefersDataGridVM => ViewModelLocator.DataGridReefersViewModel;
         private DataGridContainersViewModel containersDataGridVM => ViewModelLocator.DataGridContainersViewModel;
         #endregion
@@ -52,6 +51,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public StatusBarViewModel StatusBarControl { get; set; }
         public GridLength ConflictColumnWidth { get; set; }
         public int SelectedDataGridIndex { get; set; }
+        public DataGridDgViewModel DgDataGridVM => ViewModelLocator.DataGridDgViewModel;
 
         #endregion
 
@@ -449,7 +449,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             SelectedDataGridIndex = 0;
             OnPropertyChanged(nameof(SelectedDataGridIndex));
 
-            dgDataGridVM.OnDisplayAddDgMenu(container);
+            DgDataGridVM.OnDisplayAddDgMenu(container);
         }
         private bool CanAddNewDg(object obj) => true;
 
@@ -462,7 +462,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             switch (SelectedDataGridIndex)
             {
                 case 0:
-                    return (Container)dgDataGridVM.SelectedDg?.Model;
+                    return (Container)DgDataGridVM.SelectedDg?.Model;
                 case 1:
                     return reefersDataGridVM.SelectedReefer?.Model;
                 case 2:

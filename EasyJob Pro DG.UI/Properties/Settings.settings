@@ -29,5 +29,8 @@
     <Setting Name="ConflictsWidth" Type="System.Double" Scope="User">
       <Value Profile="(Default)">200</Value>
     </Setting>
+    <Setting Name="ExcelReeferTemplate" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1,1,2,3,4,5,6</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

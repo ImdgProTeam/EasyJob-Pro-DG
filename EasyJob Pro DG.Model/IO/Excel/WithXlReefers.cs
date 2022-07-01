@@ -9,9 +9,9 @@ namespace EasyJob_ProDG.Model.IO.Excel
     public static class WithXlReefers
     {
 
-        static List<byte> template = new List<byte>() { 1, 2, 3, 4, 5, 6 };
-        static int templateStartRow = 1;
-        static bool isTemplateRead = false;
+        static byte[] template => ExcelReeferTemplate.ReadTemplate();
+        static int templateStartRow => template[0];
+
 
         /// <summary>
         /// Imports reefers info from excel file
@@ -21,14 +21,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
         /// <returns></returns>
         internal static bool ImportReeferInfoFromExcel(this List<Container> excelReefers, string workbook)
         {
-            //bool isTemplateRead = false;// template.ReadTemplate();
             bool isImported = false;
-
-            if (!isTemplateRead)
-            {
-                Output.ThrowMessage(
-                    "ProDG was unable to read excel file. Default template will be used");
-            }
 
             //connecting xl file
             ExcelApp.Range excelcells = null;
@@ -59,12 +52,12 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         if (excelcells.Value2 == null) continue;
                         string value = excelcells.Value2.ToString();
 
-                        if (col == template[0]) cont.ContainerNumber = value;
-                        else if (col == template[1]) cont.Commodity = value;
-                        else if (col == template[2]) cont.SetTemperature = double.Parse(value);
-                        else if (col == template[3]) cont.VentSetting = value;
-                        else if (col == template[4]) cont.ReeferSpecial = value;
-                        else if(col == template[5]) cont.ReeferRemark = value;
+                        if (col == template[1]) cont.ContainerNumber = value;
+                        else if (col == template[2]) cont.Commodity = value;
+                        else if (col == template[3]) cont.SetTemperature = double.Parse(value);
+                        else if (col == template[4]) cont.VentSetting = value;
+                        else if (col == template[5]) cont.ReeferSpecial = value;
+                        else if(col == template[6]) cont.ReeferRemark = value;
                     }
                     if (!excelReefers.Contains(cont)) excelReefers.Add(cont);
                 }

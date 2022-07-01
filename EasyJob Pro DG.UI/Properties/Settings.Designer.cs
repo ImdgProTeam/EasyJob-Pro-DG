@@ -130,5 +130,17 @@ namespace EasyJob_ProDG.UI.Properties {
                 this["ConflictsWidth"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1,1,2,3,4,5,6")]
+        public string ExcelReeferTemplate {
+            get {
+                return ((string)(this["ExcelReeferTemplate"]));
+            }
+            set {
+                this["ExcelReeferTemplate"] = value;
+            }
+        }
     }
 }

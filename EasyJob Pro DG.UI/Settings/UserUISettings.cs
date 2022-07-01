@@ -18,6 +18,13 @@ namespace EasyJob_ProDG.UI.Settings
             set { _excelTemplate = value; }
         }
 
+        private ExcelReeferTemplate _excelReeferTemplate;
+        public ExcelReeferTemplate ExcelReeferTemplate
+        {
+            get {if(_excelReeferTemplate == null){_excelReeferTemplate = new ExcelReeferTemplate(); } return _excelReeferTemplate; }
+            set { _excelReeferTemplate = value; }
+        }
+
 
         // DgTable view settings
         public bool IncludeTechnicalNameToProperShippingName { get; set; }
@@ -37,6 +44,8 @@ namespace EasyJob_ProDG.UI.Settings
             Combine2040BaysWhenSorting = false;
             LowestTierOnDeck = 72;
             ExcelTemplate.ReadTemplate();
+            ExcelReeferTemplate.ApplyTemplate(Properties.Settings.Default.ExcelReeferTemplate);
+
         }
     }
 }
