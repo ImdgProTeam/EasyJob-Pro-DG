@@ -58,10 +58,7 @@
             </behavior:Interaction.Triggers>
         </uc:AddContainerToDataGrid>
 
-        <ScrollViewer HorizontalContentAlignment="Stretch" 
-                      HorizontalScrollBarVisibility="Disabled"
-                      VerticalScrollBarVisibility="Disabled">
-            <DataGrid x:Name="MainDgTable"
+        <DataGrid x:Name="MainDgTable"
                   ItemsSource="{Binding DgPlanView}"
                   SelectedItem="{Binding SelectedDg, Mode=TwoWay}"
                   IsSynchronizedWithCurrentItem="True"
@@ -72,7 +69,7 @@
                   VerticalScrollBarVisibility="Auto"
                   
                   
-                  ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.CanContentScroll="False"
                   EnableRowVirtualization="True"
                   VirtualizingPanel.IsContainerVirtualizable="True"
                   VirtualizingPanel.IsVirtualizing="True"
@@ -97,7 +94,6 @@
                   PreviewTextInput="UserControl_PreviewTextInput"
                   UnloadingRow="MainDgTable_OnUnloadingRow"
                   behaviors:DataGridBehavior.DisplayRowNumber="True"
-                  Loaded="MainDgTable_Loaded"
                   SelectionChanged="MainDgTable_SelectionChanged"
                   >
 
@@ -855,6 +851,6 @@
                             CommandParameter="{Binding ElementName=MainDgTable, Path=SelectedItems}" />
                 </DataGrid.InputBindings>
             </DataGrid>
-        </ScrollViewer>
+
     </DockPanel>
 </UserControl>

@@ -23,6 +23,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         DataGridDgViewModel viewModel;
         private static bool IsCellEditingOn;
         private int currentRowIndex = 1;
+        private bool isDeletingRow = false;
         private double OriginalScrollPosition { get; set; }
         private bool IsResizingColumn { get; set; }
 
@@ -107,6 +108,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             //Delete row
             if (e.Key == Key.Delete)
             {
+                isDeletingRow = true;
                 return;
             }
 
@@ -242,14 +244,16 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             }
         }
 
-        private void MainDgTable_Loaded(object sender, RoutedEventArgs e)
-        {
-            //PaintAlternateColumn(Colors.LightGoldenrodYellow);
-        }
-
+        /// <summary>
+        /// Used to focus on row after deletion
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainDgTable_OnUnloadingRow(object sender, DataGridRowEventArgs e)
         {
+            if (!isDeletingRow) return;
             FocusOnRow(currentRowIndex);
+            isDeletingRow = false;
         }
 
         private void DataGrid_ScrollChanged(object sender, ScrollChangedEventArgs e)
