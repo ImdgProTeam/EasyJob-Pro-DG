@@ -2,13 +2,10 @@
 using EasyJob_ProDG.UI.ViewModel;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
-using System.ComponentModel;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -20,7 +17,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
     /// </summary>
     public partial class DataGridDg : UserControl
     {
-        DataGridDgViewModel viewModel;
         private static bool IsCellEditingOn;
         private int currentRowIndex = 1;
         private bool isDeletingRow = false;
@@ -31,45 +27,12 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         public DataGridDg()
         {
             InitializeComponent();
-            viewModel = MainDgTable.DataContext as DataGridDgViewModel;
         }
 
-        /// <summary>
-        /// TO BE CHANGED TO IMPLEMENT REQUIREMENTS OF SETTINGS
-        /// Method called when sorting requested by clicking on the column header
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainDgTable_Sorting(object sender, DataGridSortingEventArgs e)
-        {
-            if (e.Column == null) return;
-            ListCollectionView collection = CollectionViewSource.GetDefaultView(MainDgTable.ItemsSource) as ListCollectionView;
-
-            switch (e.Column.Header.ToString())
-            {
-                case "Position":
-                    SortDescription sortAscending = new SortDescription("LocationSortable", ListSortDirection.Ascending);
-                    SortDescription sortDescending = new SortDescription("LocationSortable", ListSortDirection.Descending);
-
-                    bool ascending = collection.SortDescriptions.Contains(sortAscending);
-                    if (collection.SortDescriptions.Count > 0)
-                        collection.SortDescriptions.Clear();
-                    if (ascending)
-                        collection.SortDescriptions.Add(sortDescending);
-                    else
-                        collection.SortDescriptions.Add(sortAscending);
-                    e.Handled = true;
-                    break;
-
-                default:
-                    break;
-            }
-        }
+        #region Input and cell / text select logic
 
         private void MainDgTable_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-
-            TextBox txb = sender as TextBox;
             DataGrid grid = sender as DataGrid;
             DataGridColumn column = grid?.CurrentColumn;
             currentRowIndex = grid?.SelectedIndex ?? currentRowIndex;
@@ -109,7 +72,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             if (e.Key == Key.Delete)
             {
                 isDeletingRow = true;
-                if (currentRowIndex == MainDgTable.Items.Count-1) currentRowIndex--;
+                if (currentRowIndex == MainDgTable.Items.Count - 1) currentRowIndex--;
                 return;
             }
 
@@ -146,37 +109,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
             }
         }
-
-        /// <summary>
-        /// Sets focus on a selected row by index
-        /// </summary>
-        /// <param name="rowIndex"></param>
-        private void FocusOnRow(int rowIndex)
-        {
-            try
-            {
-                var cellContent = MainDgTable.Columns[0].GetCellContent(MainDgTable.Items[rowIndex]);
-                if (cellContent?.Parent is DataGridCell cell) cell.Focus();
-            }
-            catch
-            {
-                //ignore
-            }
-        }
-
-        /// <summary>
-        /// Exports MainDataGrid as it is displayed to excel
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ExportToExcel(object sender, RoutedEventArgs e)
-        {
-            ExportDataGridToExcel.ExportToExcel(MainDgTable);
-        }
-
-
-
-        // --------------------- Event Handlers -------------------------------------
 
         /// <summary>
         /// Sets Cell into editing mode
@@ -220,28 +152,26 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             }
         }
 
+        #endregion
+
+
+        #region Focus logic
+
+
         /// <summary>
-        /// Handles verification of values added.
-        /// TO BE REPLACED WITH VM VERIFICATION
+        /// Sets focus on a selected row by index
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UserControl_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        /// <param name="rowIndex"></param>
+        private void FocusOnRow(int rowIndex)
         {
-            DataGrid grid = sender as DataGrid;
-            DataGridColumn column = grid?.CurrentColumn;
-            TextBox tBox = e.OriginalSource as TextBox;
-
-            if (column == null) return;
-
-            if (column.Header.ToString() == "UNNO" && tBox != null)
+            try
             {
-                if (tBox.Text.Length >= 4)
-                {
-                    e.Handled = true;
-                    return;
-                }
-                e.Handled = new Regex("[^0-9]+").IsMatch(e.Text);
+                var cellContent = MainDgTable.Columns[0].GetCellContent(MainDgTable.Items[rowIndex]);
+                if (cellContent?.Parent is DataGridCell cell) cell.Focus();
+            }
+            catch
+            {
+                //ignore
             }
         }
 
@@ -256,6 +186,26 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             FocusOnRow(currentRowIndex);
             isDeletingRow = false;
         }
+
+        #endregion
+
+
+        #region Export to excel
+
+        /// <summary>
+        /// Exports MainDataGrid as it is displayed to excel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExportToExcel(object sender, RoutedEventArgs e)
+        {
+            ExportDataGridToExcel.ExportToExcel(MainDgTable);
+        }
+
+        #endregion
+
+
+        #region Scroll logic
 
         private void DataGrid_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
@@ -313,6 +263,8 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             return false;
         }
 
+        #endregion
+
 
         /// <summary>
         /// Method paints each alternate column in DataGrid with specified color
@@ -326,7 +278,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                 var column = MainDgTable.Columns.FirstOrDefault(x => x.DisplayIndex == i);
                 if (column?.Visibility == Visibility.Visible)
                 {
-                    if(alt == 0)
+                    if (alt == 0)
                     {
                         alt = 1;
                         continue;

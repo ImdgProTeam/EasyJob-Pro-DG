@@ -25,6 +25,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             MainWindow.OnWindowClosingEventHandler += new MainWindow.WindowClosing(UpdateColumnSettings);
         }
 
+
         #region Column settings
         /// <summary>
         /// Loads column settings for ContainerDataTable from settings.settings
@@ -94,7 +95,9 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
         #endregion
 
- 
+
+        #region Input logic
+
         private void MainContainerDataTable_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             DataGrid grid = sender as DataGrid;
@@ -110,6 +113,10 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
         }
 
+        #endregion
+
+
+        #region Focus logic
 
         /// <summary>
         /// Sets focus on a selected row by index
@@ -138,6 +145,9 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             if (!isDeletingRow) return;
             FocusOnRow(currentRowIndex);
             isDeletingRow = false;
-        }
+        } 
+
+        #endregion
+
     }
 }

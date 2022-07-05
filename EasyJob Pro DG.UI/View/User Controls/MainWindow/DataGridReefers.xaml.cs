@@ -95,11 +95,17 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
         #endregion
 
+
+        #region Export to Excel
         private void ExportToExcel(object sender, RoutedEventArgs e)
         {
             ExportDataGridToExcel.ExportToExcel(MainReeferDataTable);
         }
 
+        #endregion
+
+
+        #region Input logic
 
         private void MainReeferDataTable_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -114,8 +120,12 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                 return;
             }
 
-       }
+        } 
 
+        #endregion
+
+
+        #region Focus logic
 
         /// <summary>
         /// Sets focus on a selected row by index
@@ -144,6 +154,9 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             if (!isDeletingRow) return;
             FocusOnRow(currentRowIndex);
             isDeletingRow = false;
-        }
+        } 
+
+        #endregion
+
     }
 }
