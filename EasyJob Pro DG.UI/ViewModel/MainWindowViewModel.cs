@@ -142,6 +142,12 @@ namespace EasyJob_ProDG.UI.ViewModel
             ApplicationClosingCommand = new DelegateCommand(OnApplicationClosing);
 
         }
+        private void SubscribeToMessenger()
+        {
+            DataMessenger.Default.Register<ShipProfileWrapperMessage>(this, OnShipProfileSaved, "ship profile saved");
+            DataMessenger.Default.Register<ConflictPanelItemViewModel>(this, OnConflictSelectionChanged,
+                "conflict selection changed");
+        }
 
         /// <summary>
         /// Updates MainWindow title
@@ -248,7 +254,33 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void OnShipProfileSaved(ShipProfileWrapperMessage obj)
         {
             GetCargoData();
-        } 
+        }
+
+        /// <summary>
+        /// Method changes SelectedItem to match with ConflictPanelItem object
+        /// </summary>
+        /// <param name="obj">Selected conflict</param>
+        private void OnConflictSelectionChanged(ConflictPanelItemViewModel obj)
+        {
+            if (obj is null)
+                return;
+
+            switch (SelectedDataGridIndex)
+            {
+                case 0:
+                    DgDataGridVM.SelectDg(obj.DgID);
+                    break;
+                case 1:
+                    reefersDataGridVM.SelectReefer(obj.ContainerNumber);
+                    break;
+                case 2:
+                    containersDataGridVM.SelectContainer(obj.ContainerNumber);
+                    break;
+                default:
+                    break;
+            }
+        }
+
         #endregion
 
 
@@ -279,15 +311,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             dialogWindowService = new DialogWindowService(owner);
 
-        }
-        #endregion
-
-
-        #region Messenger commands
-
-        private void SubscribeToMessenger()
-        {
-            DataMessenger.Default.Register<ShipProfileWrapperMessage>(this, OnShipProfileSaved, "ship profile saved");
         }
         #endregion
 

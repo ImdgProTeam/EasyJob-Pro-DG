@@ -202,6 +202,27 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         #endregion
 
+        /// <summary>
+        /// Method changes SelectedReefer to match with the selected number (e.g. with ConflictPanelItem object)
+        /// </summary>
+        /// <param name="obj">Selected container number</param>
+        internal void SelectReefer(string containerNumber)
+        {
+            SelectedReefer = null;
+            OnPropertyChanged(nameof(SelectedReefer));
+
+            //Set new selection
+            foreach (ContainerWrapper container in ReeferPlanView)
+            {
+                if (string.Equals(container.ContainerNumber, containerNumber))
+                {
+                    SelectedReefer = container;
+                    break;
+                }
+            }
+            OnPropertyChanged(nameof(SelectedReefer));
+        }
+
         #region Private methods
         //-------------- Private methods --------------------------------------------
 

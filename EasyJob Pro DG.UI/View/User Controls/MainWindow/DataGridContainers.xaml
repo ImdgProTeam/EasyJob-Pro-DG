@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
-             xmlns:attachedProperties="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties"
+             xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties"
              xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
              xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:behaviors="clr-namespace:EasyJob_ProDG.UI.Behaviors"
@@ -74,6 +74,7 @@
                   Grid.Column="0"
                   Grid.Row="0"
                   SelectionMode="Extended"
+                  ap:SelectingContainerDataGridItem.SelectingItem="{Binding SelectedContainer}"
                   SelectionChanged="MainContainerDataTable_SelectionChanged"
                   behaviors:DataGridBehavior.DisplayRowNumber="True" >
 

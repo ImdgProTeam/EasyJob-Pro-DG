@@ -87,8 +87,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             DataMessenger.Default.Register<ApplicationClosingMessage>(this, OnApplicationClosingMessageReceived, "closing");
             DataMessenger.Default.Register<CargoDataUpdated>(this, OnCargoDataUpdated, "cargodataupdated");
-            DataMessenger.Default.Register<ConflictPanelItemViewModel>(this, OnConflictSelectionChanged,
-                "conflict selection changed");
         }
 
         /// <summary>
@@ -283,6 +281,32 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         #endregion
 
+        #region Public methods
+        //--------------- Public methods -------------------------------------------
+
+        /// <summary>
+        /// Method changes SelectedDg to match with the selected DgID (e.g. with ConflictPanelItem object)
+        /// </summary>
+        /// <param name="obj">Selected dg id</param>
+        internal void SelectDg(int id)
+        {
+            SelectedDg = null;
+            OnPropertyChanged(nameof(SelectedDg));
+
+            //Set new selection
+            foreach (DgWrapper dg in DgPlanView)
+            {
+                if (dg.Model.ID == id)
+                {
+                    SelectedDg = dg;
+                    break;
+                }
+            }
+            OnPropertyChanged("SelectedDg");
+        }
+
+        #endregion
+
         #region Private methods
         //--------------- Private methods -------------------------------------------
 
@@ -332,31 +356,6 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
 
             DataMessenger.Default.Send<UpdateCargoPlan>(new UpdateCargoPlan(selectedDgArray), "Remove dg");
-        }
-
-        /// <summary>
-        /// Method changes SelectedDg to match with ConflictPanelItem object
-        /// </summary>
-        /// <param name="obj">Selected conflict</param>
-        private void OnConflictSelectionChanged(ConflictPanelItemViewModel obj)
-        {
-            if (obj == null)
-                return;
-
-            //CLear selection
-            SelectedDg = null;
-            OnPropertyChanged("SelectedDg");
-
-            //Set new selection
-            foreach (DgWrapper dg in DgPlanView)
-            {
-                if (dg.Model.ID == obj.DgID)
-                {
-                    SelectedDg = dg;
-                    break;
-                }
-            }
-            OnPropertyChanged("SelectedDg");
         }
 
         /// <summary>

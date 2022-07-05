@@ -182,6 +182,7 @@
     <Compile Include="ViewModel\ShipProfileWindowVM.cs" />
     <Compile Include="ViewModel\StatusBarViewModel.cs" />
     <Compile Include="View\AttachedProperties\EnterKeyTraversal.cs" />
+    <Compile Include="View\AttachedProperties\SelectingContainerDataGridItem.cs" />
     <Compile Include="View\AttachedProperties\SelectingDgDataGridItem.cs" />
     <Compile Include="View\Converters\AnyCellToNullConverter.cs" />
     <Compile Include="View\Converters\BooleanToVisibilityConverter.cs" />

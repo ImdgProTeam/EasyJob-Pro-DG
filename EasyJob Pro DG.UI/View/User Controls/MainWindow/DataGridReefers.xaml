@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
+             xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties" 
              xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:behaviors="clr-namespace:EasyJob_ProDG.UI.Behaviors"
              xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters" xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
@@ -77,6 +78,7 @@
                   Grid.Column="0"
                   Grid.Row="0"
                   SelectionMode="Extended"
+                  ap:SelectingContainerDataGridItem.SelectingItem="{Binding SelectedReefer}"
                   behaviors:DataGridBehavior.DisplayRowNumber="True"
                   SelectionChanged="MainReeferDataTable_SelectionChanged"
                   >
@@ -118,6 +120,13 @@
                 <Style TargetType="{x:Type CheckBox}">
                     <Setter Property="HorizontalAlignment" Value="Center"/>
                 </Style>
+                
+                <!-- CheckBox style -->
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="TextBlock.TextAlignment" Value="Right"/>
+                    <Setter Property="Padding" Value="10,1"/>
+                </Style>                
+                
 
                 <!-- Selection color -->
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
@@ -198,7 +207,7 @@
 
                 <!-- Set point -->
                 <DataGridTextColumn x:Name="setPointColumn"
-                                    Binding="{Binding SetTemperature, UpdateSourceTrigger=LostFocus}"
+                                    Binding="{Binding SetTemperature, UpdateSourceTrigger=LostFocus, StringFormat=0.0}"
                                     Header="Set point" />
 
                 <!-- Commodity -->

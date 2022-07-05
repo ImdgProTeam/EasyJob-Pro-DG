@@ -118,6 +118,27 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         public System.Windows.Visibility MenuVisibility { get; set; }
 
+        /// <summary>
+        /// Method changes SelectedContainer to match with the selected number (e.g. with ConflictPanelItem object)
+        /// </summary>
+        /// <param name="obj">Selected container number</param>
+        internal void SelectContainer(string containerNumber)
+        {
+            SelectedContainer = null;
+            OnPropertyChanged(nameof(SelectedContainer));
+
+            //Set new selection
+            foreach (ContainerWrapper container in ContainerPlanView)
+            {
+                if (string.Equals(container.ContainerNumber, containerNumber))
+                {
+                    SelectedContainer = container;
+                    break;
+                }
+            }
+            OnPropertyChanged(nameof(SelectedContainer));
+        }
+
         private void OnAddNewContainer(object obj)
         {
             //Correct location
