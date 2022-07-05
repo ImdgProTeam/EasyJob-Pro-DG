@@ -13,7 +13,6 @@ namespace EasyJob_ProDG.UI.Wrapper
     {
         //--------------- Private fields --------------------------------------------
 
-        private static bool _messageResult;
 
 
         //--------------- Public properties -----------------------------------------
@@ -26,10 +25,9 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                if (ContainerNumber == value) return;
                 var oldValue = ContainerNumber;
 
-                SetValue(value.ToUpper());
+                if(!SetValue(value.ToUpper())) return;
                 SetToAllContainersInPlan(value.ToUpper(), oldValue);
             }
         }
@@ -42,10 +40,9 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                if (Location == value) return;
                 var oldValue = Location;
 
-                SetValue(value);
+                if(!SetValue(value)) return;
                 _locationSortable = null;
 
                 if (CurrentProgramData.OwnShip != null) Model.HoldNr = CurrentProgramData.OwnShip.DefineCargoHoldNumber(Bay);
@@ -122,8 +119,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<bool>();
             set
             {
-                if (IsClosed == value) return;
-                SetValue<bool>(value);
+                if (!SetValue(value)) return;
                 SetToAllContainersInPlan(value);
                 OnPropertyChanged();
             }
@@ -146,8 +142,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<bool>();
             set
             {
-                if (IsRf == value) return;
-                SetValue(value);
+                if (!SetValue(value)) return;
                 SetToAllContainersInPlan(value);
                 OnPropertyChanged();
             }
@@ -163,8 +158,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                if (POD == value) return;
-                SetValue(value);
+                if (!SetValue(value)) return;
                 SetToAllContainersInPlan(value);
                 OnPropertyChanged();
             }
@@ -178,8 +172,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                if (FinalDestination == value) return;
-                SetValue(value);
+                if (!SetValue(value)) return;
                 SetToAllContainersInPlan(value);
                 OnPropertyChanged();
             }
@@ -193,8 +186,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                if (POL == value) return;
-                SetValue(value);
+                if (!SetValue(value)) return;
                 SetToAllContainersInPlan(value);
                 OnPropertyChanged();
             }
@@ -208,9 +200,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                if (ContainerType == value.ToUpper()) return;
-
-                SetValue(value.ToUpper());
+                if (!SetValue(value.ToUpper())) return;
                 Model.UpdateContainerType();
                 SetToAllContainersInPlan(value.ToUpper());
 
@@ -228,8 +218,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                if (Carrier == value) return;
-                SetValue(value);
+                if (!SetValue(value)) return;
                 SetToAllContainersInPlan(value);
                 OnPropertyChanged();
             }
@@ -380,6 +369,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         {
             DataMessenger.Default.Unregister(this);
         }
+
 
         //--------------- Public methods related to representation ------------------
 

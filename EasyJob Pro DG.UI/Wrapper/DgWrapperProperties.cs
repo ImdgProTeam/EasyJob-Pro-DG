@@ -93,8 +93,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<bool>();
             set
             {
-                if (IsPositionLockedForChange == value) return;
-                SetValue(value);
+                if (!SetValue(value)) return;
                 SetToAllContainersInPlan(value);
             }
         }
@@ -103,8 +102,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<bool>();
             set
             {
-                if (IsToBeKeptInPlan == value) return;
-                SetValue(value);
+                if (!SetValue(value)) return;
                 SetToAllContainersInPlan(value);
             }
         }
@@ -113,8 +111,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<bool>();
             set
             {
-                if (IsNotToImport == value) return;
-                SetValue(value);
+                if (!SetValue(value)) return;
                 if (value) IsToImport = false;
                 SetToAllContainersInPlan(value);
             }
@@ -124,8 +121,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<bool>();
             set
             {
-                if (IsToImport == value) return;
-                SetValue(value);
+                if (!SetValue(value)) return;
                 if(value) IsNotToImport = false;
                 SetToAllContainersInPlan(value);
             }
@@ -191,8 +187,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                if (POL == value) return;
-                SetValue(value);
+                if(!SetValue(value)) return;
                 if (IsInList)
                 {
                     SetToAllContainersInPlan(value);
@@ -209,8 +204,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                if (POD == value) return;
-                SetValue(value);
+                if(!SetValue(value)) return;
                 if (IsInList)
                 {
                     SetToAllContainersInPlan(value);
@@ -226,8 +220,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                if (FinalDestination == value) return;
-                SetValue(value);
+                if(!SetValue(value)) return;
                 if (IsInList)
                 {
                     SetToAllContainersInPlan(value);
@@ -243,8 +236,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                if (ContainerType == value.ToUpper()) return;
-                SetValue(value.ToUpper());
+                if (!SetValue(value.ToUpper())) return;
                 if (IsInList)
                 {
                     Model.UpdateContainerType();
@@ -264,8 +256,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<bool>();
             set
             {
-                if (IsClosed == value) return;
-                SetValue(value);
+                if (!SetValue(value)) return;
                 SetToAllContainersInPlan(value);
 
                 OnPropertyChanged($"IsOpen");
@@ -289,8 +280,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<bool>();
             set
             {
-                if (IsRf == value) return;
-                SetValue(value);
+                if (!SetValue(value)) return;
                 SetToAllContainersInPlan(value);
             }
         }
@@ -303,8 +293,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                if (Carrier == value) return;
-                SetValue(value);
+                if (!SetValue(value)) return;
                 if (IsInList)
                     SetToAllContainersInPlan(value);
             }
@@ -396,7 +385,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<string>(); }
             set
             {
-                SetValue(value);
+                if(!SetValue(value)) return;
                 if (IsInList)
                 {
                     OnUpdatePackingGroup();
@@ -410,7 +399,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<decimal>(); }
             set
             {
-                SetValue(value);
+                if(!SetValue(value)) return;
                 OnNetWeightChanged();
             }
         }
@@ -420,7 +409,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<bool>();
             set
             {
-                SetValue(value);
+                if(!SetValue(value)) return;
                 UpdateConflictList();
             }
         }
@@ -430,7 +419,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<bool>(); }
             set
             {
-                SetValue(value);
+                if(!SetValue(value)) return;
                 UpdateDgStowageConflicts();
                 OnNetWeightChanged();
             }
@@ -444,7 +433,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                 if (IsMax1L == value) return;
                 if (value && Unno != 1950) return;
 
-                SetValue(value);
+                if(!SetValue(value)) return;
                 if (value)
                 {
                     if (!Name.ToLower().Replace(" ", "").Contains("max1l")) Name += ", Max 1L";
@@ -464,8 +453,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<bool>();
             set
             {
-                if (IsWaste == value) return;
-                SetValue(value);
+                if(!SetValue(value)) return;
 
                 if (value)
                 {
@@ -484,8 +472,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<bool>(); }
             set
             {
-                if (IsStabilized == value) return;
-                SetValue(value);
+                if(!SetValue(value)) return;
 
                 UpdateDgStowageConflicts();
 
@@ -506,7 +493,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                 string oldName = Name.ToLower();
                 string newName = value.ToLower().Replace(" ", "");
 
-                SetValue(value);
+                if(!SetValue(value)) return;
                 IsNameChanged = !string.Equals(OriginalNameFromCode, value);
 
                 if (oldName.Contains("waste") && !newName.Contains("waste"))
@@ -533,7 +520,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<bool>(); }
             set
             {
-                SetValue(value);
+                if(!SetValue(value)) return;
                 OnPropertyChanged();
             }
         }
@@ -543,7 +530,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<char>(); }
             set
             {
-                SetValue(value);
+                if(!SetValue(value)) return;
                 UpdateDgStowageConflicts();
             }
         }
