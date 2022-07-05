@@ -8,15 +8,15 @@
              d:DesignHeight="450">
     <Grid Background="DarkSlateGray">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180" />
+            <ColumnDefinition Width="60" />
             <ColumnDefinition Width="150" />
             <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="120" />
-            <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="180" />
+            <ColumnDefinition Width="220" />
             <ColumnDefinition Width="100" />
             <ColumnDefinition Width="150" />
             <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="180" />
             <ColumnDefinition Width="60" />
             <ColumnDefinition />
             <ColumnDefinition />

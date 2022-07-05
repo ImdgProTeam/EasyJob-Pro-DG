@@ -14,6 +14,7 @@
         Title="{Binding WindowTitle, UpdateSourceTrigger=Default}"
         WindowStyle="ThreeDBorderWindow"
         Background="#FFC2EAF5"
+        FontFamily="{StaticResource BaseFont}"
         AllowDrop="True"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainWindowViewModel}"
         d:DataContext="{d:DesignInstance viewmodel:MainWindowViewModel, d:IsDesignTimeCreatable=True}"

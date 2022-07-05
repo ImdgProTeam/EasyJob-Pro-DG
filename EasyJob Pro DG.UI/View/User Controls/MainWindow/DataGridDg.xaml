@@ -133,14 +133,6 @@
                         <Setter Property="IsTabStop"
                             Value="False" />
                         <Setter Property="BorderThickness" Value="0"/>
-                        <!--<Style.Triggers>
-                            <DataTrigger Binding="{Binding DisplayIndex, RelativeSource={RelativeSource AncestorType={x:Type ColumnDefinition}}}" Value="1">
-                                <Setter Property="Background" Value="Red"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridColumn}}" Value="1">
-                                <Setter Property="Background" Value="Black"/>
-                            </DataTrigger>
-                        </Style.Triggers>-->
                     </Style>
 
                     <!-- TextBox style-->
@@ -164,9 +156,6 @@
 
                 </DataGrid.Resources>
 
-                <DataGrid.FontFamily>
-                    <StaticResource ResourceKey="BaseFont" />
-                </DataGrid.FontFamily>
 
                 <!-- Columns -->
                 <DataGrid.Columns>
