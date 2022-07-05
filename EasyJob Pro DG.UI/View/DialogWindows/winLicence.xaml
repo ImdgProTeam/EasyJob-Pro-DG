@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:data="clr-namespace:EasyJob_ProDG.Data;assembly=EasyJob_ProDG.Data"
-        xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows"
+        xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows" 
+        xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
         mc:Ignorable="d"
         Title="Licence" 
         Style="{StaticResource DemoWindowStyle}"
@@ -38,14 +39,7 @@
                 <TextBlock Margin="4, 4, 0, 4"
                                TextAlignment="Center"
                                Text="For renewal please contact:"/>
-                <TextBox
-                        IsReadOnly="True"
-                        Padding="5,4,10,3"
-                        HorizontalAlignment="Center"
-                         TextAlignment="Center"  
-                        Text="feedback@imdg.pro"
-                        BorderThickness="0"
-                           Foreground="Blue" Cursor="Hand"/>
+                <uc:MailToHyperlink/>
             </StackPanel>
 
         </StackPanel>

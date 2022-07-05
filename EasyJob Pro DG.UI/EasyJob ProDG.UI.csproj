@@ -235,6 +235,10 @@
     <Compile Include="View\User Controls\MainWindow\InfoBlock.xaml.cs">
       <DependentUpon>InfoBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\User Controls\Others\MailToHyperlink.xaml.cs">
+      <DependentUpon>MailToHyperlink.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User Controls\Others\MailToHyperlinkVM.cs" />
     <Compile Include="View\User Controls\SettingsWindow\SettingsExcel.xaml.cs">
       <DependentUpon>SettingsExcel.xaml</DependentUpon>
     </Compile>
@@ -398,6 +402,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User Controls\MainWindow\InfoBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User Controls\Others\MailToHyperlink.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

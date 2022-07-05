@@ -23,5 +23,6 @@ namespace EasyJob_ProDG.UI.View.UI
                 this.DragMove();
 
         }
+
     }
 }

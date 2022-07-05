@@ -4,7 +4,7 @@ using System;
 
 namespace EasyJob_ProDG.UI.View.DialogWindows
 {
-    public class WinLicenceViewModel : IDialogWindowRequestClose
+    public class WinLicenceViewModel
     {
         public static DateTime LicenceValidity => Licence.EndLicence;
 
@@ -12,7 +12,5 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         {
 
         }
-
-        public event EventHandler<DialogWindowCloseRequestedEventArgs> CloseRequested;
     }
 }
