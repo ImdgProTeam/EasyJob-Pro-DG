@@ -40,6 +40,7 @@
                    Grid.Row="0"
                    Margin="10,20,10,0">
                         Refer to the Unified Interpretation on 7.1.4.4.2 of the IMDG Code on the issue of “life-saving appliances” (MSC.1/Circ.1626).
+                        The term "life-saving appliances" means the ship's main survival craft and rescue boat(s) as required by SOLAS regulations III/21 or III/31.1 and is not intended to mean other life-saving appliances, such as lifebuoys, additional liferafts as required by SOLAS regulation III/31.3.2 and III/31.1.4 and any lifejackets and immersion suits associated with such liferafts."
         </TextBlock>
         <TextBlock Text="Enter position"
                    Margin="8,0,0,0"

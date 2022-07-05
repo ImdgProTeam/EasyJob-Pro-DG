@@ -25,7 +25,6 @@ namespace EasyJob_ProDG.UI.ViewModel
             DataMessenger.Default.Register<ConflictListToBeUpdatedMessage>(this, OnConflictListToBeUpdatedMessageReceived);
 
             DoubleClickOnSelectedItem = new DelegateCommand(NotifyOfSelectedConflict);
-            //DataMessenger.Default.Register<ConflictsList>(this, OnConflictListReceived);
             cargoDataService = new CargoDataService();
             conflictDataService = new ConflictDataService();
             GetConflicts();
