@@ -109,6 +109,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             if (e.Key == Key.Delete)
             {
                 isDeletingRow = true;
+                if (currentRowIndex == MainDgTable.Items.Count-1) currentRowIndex--;
                 return;
             }
 
@@ -312,17 +313,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             return false;
         }
 
-        private void MainDgTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                MainDgTable.ScrollIntoView(MainDgTable.SelectedItem);
-            }
-            catch
-            {
-
-            }
-        }
 
         /// <summary>
         /// Method paints each alternate column in DataGrid with specified color

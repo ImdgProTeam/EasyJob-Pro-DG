@@ -94,7 +94,6 @@
                   PreviewTextInput="UserControl_PreviewTextInput"
                   UnloadingRow="MainDgTable_OnUnloadingRow"
                   behaviors:DataGridBehavior.DisplayRowNumber="True"
-                  SelectionChanged="MainDgTable_SelectionChanged"
                   >
 
                 <DataGrid.Resources>

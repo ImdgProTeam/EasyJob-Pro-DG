@@ -80,7 +80,8 @@
                   SelectionMode="Extended"
                   ap:SelectingContainerDataGridItem.SelectingItem="{Binding SelectedReefer}"
                   behaviors:DataGridBehavior.DisplayRowNumber="True"
-                  SelectionChanged="MainReeferDataTable_SelectionChanged"
+                  PreviewKeyDown="MainReeferDataTable_PreviewKeyDown"
+                  UnloadingRow="MainReeferDataTable_UnloadingRow"
                   >
 
             <DataGrid.Resources>

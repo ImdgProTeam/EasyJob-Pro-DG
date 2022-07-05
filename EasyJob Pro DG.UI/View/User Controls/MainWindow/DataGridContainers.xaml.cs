@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.View.User_Controls
 {
@@ -13,6 +14,9 @@ namespace EasyJob_ProDG.UI.View.User_Controls
     /// </summary>
     public partial class DataGridContainers : UserControl
     {
+        private int currentRowIndex = 1;
+        private bool isDeletingRow = false;
+
         public DataGridContainers()
         {
             InitializeComponent();
@@ -87,18 +91,53 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             Properties.Settings.Default.ContainerDataTableVisibilities = string.Join(";", visibilitys);
         }
 
+
         #endregion
 
-        private void MainContainerDataTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+ 
+        private void MainContainerDataTable_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            DataGrid grid = sender as DataGrid;
+            currentRowIndex = grid?.SelectedIndex ?? currentRowIndex;
+
+            //Delete row
+            if (e.Key == Key.Delete)
+            {
+                isDeletingRow = true;
+                if (currentRowIndex == MainContainerDataTable.Items.Count - 1) currentRowIndex--;
+                return;
+            }
+
+        }
+
+
+        /// <summary>
+        /// Sets focus on a selected row by index
+        /// </summary>
+        /// <param name="rowIndex"></param>
+        private void FocusOnRow(int rowIndex)
         {
             try
             {
-                MainContainerDataTable.ScrollIntoView(MainContainerDataTable.SelectedItem);
+                var cellContent = MainContainerDataTable.Columns[0].GetCellContent(MainContainerDataTable.Items[rowIndex]);
+                if (cellContent?.Parent is DataGridCell cell) cell.Focus();
             }
             catch
             {
-
+                //ignore
             }
+        }
+
+        /// <summary>
+        /// Used to focus on row after deletion
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainContainerDataTable_UnloadingRow(object sender, DataGridRowEventArgs e)
+        {
+            if (!isDeletingRow) return;
+            FocusOnRow(currentRowIndex);
+            isDeletingRow = false;
         }
     }
 }

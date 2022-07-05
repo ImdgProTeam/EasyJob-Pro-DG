@@ -75,7 +75,8 @@
                   Grid.Row="0"
                   SelectionMode="Extended"
                   ap:SelectingContainerDataGridItem.SelectingItem="{Binding SelectedContainer}"
-                  SelectionChanged="MainContainerDataTable_SelectionChanged"
+                  UnloadingRow="MainContainerDataTable_UnloadingRow"
+                  PreviewKeyDown="MainContainerDataTable_PreviewKeyDown"
                   behaviors:DataGridBehavior.DisplayRowNumber="True" >
 
             <DataGrid.Resources>
