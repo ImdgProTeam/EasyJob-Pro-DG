@@ -95,9 +95,33 @@
                                      TextAlignment="Left"
                                      />
                             <Button x:Name="PART_buttonClear"
-                                    Content="Clear"
+                                    Content="x"
+                                    VerticalContentAlignment="Center"
                                     Height="{Binding ElementName=PART_SearchTextBox, Path=ActualHeight}"
-                                    Margin="3, 0"/>
+                                    Margin="3, 0, 10, 0">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border BorderThickness="0"
+                                                Background="Transparent"
+                                                x:Name="PART_ButtonBorder"
+                                                Padding="7,0">
+                                            <ContentPresenter/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="FontWeight" Value="DemiBold"/>
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Foreground" 
+                                                Value="LightGray"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseCaptured" Value="True">
+                                                <Setter Property="Foreground" Value="Transparent"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                         </StackPanel>
                     </Border>
                 </ControlTemplate>
