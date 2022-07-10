@@ -10,7 +10,22 @@ namespace EasyJob_ProDG.UI.View.UI
         public ShipProfileWindow()
         {
             InitializeComponent();
-            buttonBack.IsEnabled = false;
+        }
+
+        /// <summary>
+        /// Updates IsEnabled values of the buttons Next and Back
+        /// </summary>
+        private void ButtonsEnabledCheck()
+        {
+            if (tabShipProfile.SelectedIndex == 0)
+                buttonBack.IsEnabled = false;
+            else buttonBack.IsEnabled = true;
+
+            if (tabShipProfile.SelectedIndex == tabShipProfile.Items.Count - 1)
+            {
+                buttonNext.IsEnabled = false;
+            }
+            else buttonNext.IsEnabled = true;
         }
 
         private void CloseWindow(object sender, RoutedEventArgs e)
@@ -22,26 +37,16 @@ namespace EasyJob_ProDG.UI.View.UI
         {
             if (tabShipProfile.SelectedIndex > 0)
                 tabShipProfile.SelectedIndex--;
-            buttonNext.IsEnabled = true;
-            if (tabShipProfile.SelectedIndex == 0)
-                buttonBack.IsEnabled = false;
+            ButtonsEnabledCheck();
         }
 
         private void buttonNext_Click(object sender, RoutedEventArgs e)
         {
             if (tabShipProfile.SelectedIndex < tabShipProfile.Items.Count - 1)
                 tabShipProfile.SelectedIndex++;
-            buttonBack.IsEnabled = true;
-            if (tabShipProfile.SelectedIndex == tabShipProfile.Items.Count - 1)
-            {
-                buttonNext.IsEnabled = false;
-            }
+            ButtonsEnabledCheck();
         }
 
-        private void Window_Closed(object sender, System.EventArgs e)
-        {
-
-        }
 
         private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -49,6 +54,9 @@ namespace EasyJob_ProDG.UI.View.UI
                 this.DragMove();
         }
 
-
+        private void tabShipProfile_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            ButtonsEnabledCheck();
+        }
     }
 }

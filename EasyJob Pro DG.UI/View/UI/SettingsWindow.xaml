@@ -21,7 +21,8 @@
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <TabControl x:Name="tabUserSettings"
-                    Grid.Row="1">
+                    Grid.Row="1"
+                    SelectionChanged="tabUserSettings_SelectionChanged">
             <TabItem Header="Excel - DG">
                 <uc:SettingsExcel />
             </TabItem>

@@ -47,7 +47,8 @@
         <TabControl DataContext="{Binding TempShip}"
                     Name="tabShipProfile"
                     Grid.Row="1"
-                    Margin="2">
+                    Margin="2" SelectionChanged="tabShipProfile_SelectionChanged"
+                    >
 
             <!--Tab Main-->
             <TabItem Header="Main"
