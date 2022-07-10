@@ -438,7 +438,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Set: will add string dg class to allDgClasses.
         /// Get: will return string with allDgClasses listed and separated with a comma.
         /// </summary>
-        internal string AllDgClasses
+        public string AllDgClasses
         {
             get
             {
