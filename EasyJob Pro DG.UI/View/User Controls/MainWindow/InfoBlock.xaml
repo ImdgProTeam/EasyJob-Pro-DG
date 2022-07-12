@@ -5,18 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
              mc:Ignorable="d"
-             d:DesignHeight="450">
-    <Grid Background="DarkSlateGray">
+             d:DesignHeight="200">
+    <Grid Background="{StaticResource Brush.InfoBlock.Background}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="180" />
             <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="220" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="100" />
-            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="Auto" MinWidth="100"/>
             <ColumnDefinition Width="60" />
-            <ColumnDefinition Width="180" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="60" />
             <ColumnDefinition />
             <ColumnDefinition />
@@ -29,6 +29,7 @@
 
         <Grid.Resources>
             <Style TargetType="{x:Type TextBox}">
+                <Setter Property="Foreground" Value="{StaticResource Brush.InfoBlock.Foreground}"/>
                 <Setter Property="IsReadOnly" Value="True"/>
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderThickness" Value="0"/>
@@ -37,81 +38,64 @@
                 <Setter Property="Margin" Value="5"/>
             </Style>
             <Style TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="{StaticResource Brush.InfoBlock.Foreground}"/>
                 <Setter Property="Margin" Value="20, 0, 0, 0"/>
                 <Setter Property="HorizontalAlignment" Value="Right"/>
             </Style>
         </Grid.Resources>
         <Label Content="Total Dg containers"
                Grid.Row="0"
-               Grid.Column="0"
-               Foreground="AliceBlue" />
+               Grid.Column="0" />
         <TextBox Text="{Binding WorkingCargoPlan.DgContainerCount, Mode=OneWay}"
                Grid.Row="0"
-               Grid.Column="1"
-               Foreground="AliceBlue"></TextBox>
+               Grid.Column="1"></TextBox>
         <Label Content="Total Dg in list"
                Grid.Row="1"
-               Grid.Column="0"
-               Foreground="AliceBlue" />
+               Grid.Column="0" />
         <TextBox Text="{Binding WorkingCargoPlan.DgList.Count, Mode=OneWay}"
                Grid.Row="1"
-               Grid.Column="1"
-               Foreground="AliceBlue" />
+               Grid.Column="1"/>
         <Label Content="Total containers"
                Grid.Row="0"
-               Grid.Column="2"
-               Foreground="AliceBlue" />
+               Grid.Column="2"/>
         <TextBox Text="{Binding WorkingCargoPlan.Containers.Count, Mode=OneWay}"
                Grid.Row="0"
-               Grid.Column="3"
-               Foreground="AliceBlue" />
+               Grid.Column="3"/>
         <Label Content="Total reefers"
                Grid.Row="1"
-               Grid.Column="2"
-               Foreground="AliceBlue" />
+               Grid.Column="2"/>
         <TextBox Text="{Binding WorkingCargoPlan.ReeferCount, Mode=OneWay}"
                Grid.Row="1"
-               Grid.Column="3"
-               Foreground="AliceBlue" />
+               Grid.Column="3"/>
         <Label Content="Total dg net weight"
                Grid.Row="0"
-               Grid.Column="4"
-               Foreground="AliceBlue" />
+               Grid.Column="4"/>
         <TextBox Text="{Binding WorkingCargoPlan.TotalDgNetWeight, Mode=OneWay, StringFormat= # ### ##0.000}" 
                Grid.Row="0"
-               Grid.Column="5"
-               Foreground="AliceBlue" />
+               Grid.Column="5" />
         <Label Content="Total pollutants net weight"
                Grid.Row="1"
-               Grid.Column="4"
-               Foreground="AliceBlue" />
+               Grid.Column="4"/>
         <TextBox Text="{Binding WorkingCargoPlan.TotalMPNetWeight, Mode=OneWay, StringFormat=# ### ##0.000}"
                Grid.Row="1"
-               Grid.Column="5"
-               Foreground="AliceBlue" />
+               Grid.Column="5"/>
         <Label Content="Voyage number"
                Grid.Row="0"
-               Grid.Column="6"
-               Foreground="AliceBlue" />
+               Grid.Column="6"/>
         <TextBox Text="{Binding VoyageInfo.VoyageNumber, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                Grid.Row="0"
-               Grid.Column="7"
-               Foreground="AliceBlue" />
+               Grid.Column="7" />
         <Label Content="Port of departure"
                Grid.Row="0"
-               Grid.Column="8"
-               Foreground="AliceBlue" />
+               Grid.Column="8"/>
         <TextBox Text="{Binding VoyageInfo.PortOfDeparture, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                Grid.Row="0"
-               Grid.Column="9"
-               Foreground="AliceBlue" />
+               Grid.Column="9"/>
         <Label Content="Port of destination"
                Grid.Row="1"
-               Grid.Column="8"
-               Foreground="AliceBlue" />
+               Grid.Column="8"/>
         <TextBox Text="{Binding VoyageInfo.PortOfDestination, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                Grid.Row="1"
-               Grid.Column="9"
-               Foreground="AliceBlue" />
+               Grid.Column="9"/>
     </Grid>
 </UserControl>

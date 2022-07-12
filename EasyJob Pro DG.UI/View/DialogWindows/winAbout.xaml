@@ -12,7 +12,7 @@
         Width="320"
         SizeToContent="Height"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
-        WindowStyle="ThreeDBorderWindow">
+        >
 
     <Grid Margin="20, 10">
         <Grid.RowDefinitions>

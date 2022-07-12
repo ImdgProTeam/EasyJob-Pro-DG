@@ -140,7 +140,7 @@
                      Color="{StaticResource Color.Element.Main}" 
                      p:Freeze="true"/>
 
-    <!-- Menu colors -->
+    <!-- MainMenu colors -->
     <SolidColorBrush x:Key="Brush.MainMenu.Background" 
                      Color="{StaticResource Color.MainMenu.Background}"
                      p:Freeze="true"/>

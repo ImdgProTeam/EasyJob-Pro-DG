@@ -1,5 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
-    <FontFamily x:Key="BaseFont">Consolas</FontFamily>
+
+    <FontFamily x:Key="BaseFont">Segoe UI</FontFamily>
+    <FontFamily x:Key="MenuFont">Segoe UI</FontFamily>
+    <FontFamily x:Key="DataGridFont">Consolas</FontFamily>
 </ResourceDictionary>

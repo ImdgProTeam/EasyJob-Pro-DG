@@ -21,5 +21,9 @@
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
     </Style>
 
+    <Style TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="White"/>
+    </Style>
+
 
 </ResourceDictionary>

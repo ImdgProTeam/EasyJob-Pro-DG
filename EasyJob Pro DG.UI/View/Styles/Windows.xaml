@@ -17,6 +17,10 @@
                 Value="False"/>
         <Setter Property="WindowStyle"
                 Value="None"/>
+        <Setter Property="Topmost"
+                Value="True"/>
+        <Setter Property="WindowStyle"
+                Value="ThreeDBorderWindow"/>
     </Style>
 
 

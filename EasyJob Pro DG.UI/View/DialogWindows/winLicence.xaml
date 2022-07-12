@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:data="clr-namespace:EasyJob_ProDG.Data;assembly=EasyJob_ProDG.Data"
         xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows" 
         xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
         mc:Ignorable="d"
@@ -13,7 +12,7 @@
         Width="320"
         SizeToContent="Height"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
-        WindowStyle="ThreeDBorderWindow">
+        >
     <Window.DataContext>
         <local:WinLicenceViewModel/>
     </Window.DataContext>

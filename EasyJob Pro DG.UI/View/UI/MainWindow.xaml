@@ -66,11 +66,6 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-
-        <!--<Popup IsOpen="True" HorizontalAlignment="Left">
-            <TextBlock Text="This is a popup" Background="Red" FontSize="16"/>
-        </Popup>-->
-
         <!--   Main working space -->
         <DockPanel Grid.Row="0"
                    LastChildFill="True"
@@ -130,6 +125,7 @@
 
                     <!---   Black block   -->
                     <TextBlock x:Name="BlackBlock"
+                               MinHeight="{Binding ElementName=InfoBlock, Path=ActualHeight}"
                                DockPanel.Dock="Bottom"
                                Margin="2"
                                Padding="10,5,0,0"
@@ -157,7 +153,7 @@
                 <TabControl Grid.Column="0"
                             Grid.Row="0"
                             TabStripPlacement="Bottom"
-                            
+                            FontFamily="{StaticResource DataGridFont}"
                             SelectedIndex="{Binding SelectedDataGridIndex, Mode=TwoWay}">
 
                     <TabItem Header="Dangerous goods"
@@ -176,7 +172,7 @@
                 </TabControl>
 
                 <!---   Info block   -->
-                <uc:InfoBlock Grid.Row="1" />
+                <uc:InfoBlock Grid.Row="1" x:Name="InfoBlock"/>
             </Grid>
         </DockPanel>
     </Grid>

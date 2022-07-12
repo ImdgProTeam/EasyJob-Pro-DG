@@ -12,6 +12,7 @@
     <Color x:Key="Color.Text.Hint">Gray</Color>
     <Color x:Key="Color.Border.Main">Black</Color>
     
+    <!-- Main menu -->
     <Color x:Key="Color.MainMenu.Background">Black</Color>
     <Color x:Key="Color.MainMenu.TopLevel.Foreground">LightGray</Color>
     <Color x:Key="Color.MainMenu.Disabled.Foreground">Gray</Color>
@@ -21,20 +22,23 @@
     <Color x:Key="Color.MainMenu.SubLevel.Highlight.Border">Transparent</Color>
     <Color x:Key="Color.MainMenu.SubLevel.Highlight.Background">#5499c7</Color>
 
+    <!-- InfoBlock -->
     <Color x:Key="Color.InfoBlock.Background">DarkSlateGray</Color>
     <Color x:Key="Color.InfoBlock.Foreground">White</Color>
 
-    <Color x:Key="Color.Element.Main">AliceBlue</Color>
-    <Color x:Key="Color.Element.Pressed">AntiqueWhite</Color>
-    <Color x:Key="Color.Element.MouseOver">OrangeRed</Color>
-    <Color x:Key="Color.Element.Disabled">LightGray</Color>
-
+    <!-- Cargo tables -->
     <Color x:Key="Color.DgTable.Background.Gradient2">#FF8356</Color>
     <Color x:Key="Color.ReeferTable.Background.Gradient2">#85c1e9</Color>
     <Color x:Key="Color.ContainerTable.Background.Gradient2">#92A7BC</Color>
 
     <Color x:Key="Color.DgTable.AlternateRow">Beige</Color>
     <Color x:Key="Color.DgTable.HighlightRow">#5499c7</Color>
+
+    <!-- Conflicts -->
+    <Color x:Key="Color.Element.Main">AliceBlue</Color>
+    <Color x:Key="Color.Element.Pressed">AntiqueWhite</Color>
+    <Color x:Key="Color.Element.MouseOver">OrangeRed</Color>
+    <Color x:Key="Color.Element.Disabled">LightGray</Color>
 
     <Color x:Key="Color.Background.Conflicts.Item">Black</Color>
 
@@ -46,9 +50,11 @@
     <Color x:Key="Color.Text.Conflict">AntiqueWhite</Color>
     <Color x:Key="Color.Text.MouseOver">OrangeRed</Color>
 
+    <!-- Black block -->
     <Color x:Key="Color.BlackBlock.Background">Black</Color>
     <Color x:Key="Color.BlackBlock.Foreground">#5D8AA8</Color>
 
+    <!-- TextBox with Tag -->
     <Color x:Key="Color.TextBoxWithTag.Background">Transparent</Color>
     <Color x:Key="Color.TextBoxWithTag.Background.Selected">aliceblue</Color>
 </ResourceDictionary>
