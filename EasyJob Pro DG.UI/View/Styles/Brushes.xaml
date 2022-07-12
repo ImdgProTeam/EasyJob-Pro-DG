@@ -28,7 +28,15 @@
     <SolidColorBrush x:Key="Brush.SelectedItem"
                      Color="{StaticResource Color.DgTable.HighlightRow}"
                      p:Freeze="true"/>
-
+    
+    <!-- Info block -->
+    <SolidColorBrush x:Key="Brush.InfoBlock.Background"
+                     Color="{StaticResource Color.InfoBlock.Background}"
+                     p:Freeze="True"/>
+    <SolidColorBrush x:Key="Brush.InfoBlock.Foreground"
+                     Color="{StaticResource Color.InfoBlock.Foreground}"
+                     p:Freeze="True"/>
+    
     <!-- Dg Table -->
     <LinearGradientBrush x:Key="Brush.DgTable.Background"
                          StartPoint="0.0,0.0"
@@ -134,19 +142,29 @@
 
     <!-- Menu colors -->
     <SolidColorBrush x:Key="Brush.MainMenu.Background" 
-                     Color="{StaticResource Color.Border.Main}"
+                     Color="{StaticResource Color.MainMenu.Background}"
                      p:Freeze="true"/>
     <SolidColorBrush x:Key="Brush.MainMenu.TopMenuItem.Foreground"
-                     Color="{StaticResource Color.Background.Panel}"
+                     Color="{StaticResource Color.MainMenu.TopLevel.Foreground}"
                      p:Freeze="true"/>
-    <SolidColorBrush x:Key="Brush.MainMenu.MenuItem.Case1.Foreground"
-                     Color="{StaticResource Color.Text.Main}"
+    <SolidColorBrush x:Key="Brush.MainMenu.Disabled.Foreground"
+                     Color="{StaticResource Color.MainMenu.Disabled.Foreground}"
                      p:Freeze="true"/>
-    <SolidColorBrush x:Key="Brush.MainMenu.MenuItem.Case2.Foreground"
-                     Color="{StaticResource Color.DgTable.Background.Gradient2}"
+    <SolidColorBrush x:Key="Brush.MainMenu.InputGesture.Foreground"
+                     Color="{StaticResource Color.MainMenu.InputGesture.Foreground}"
                      p:Freeze="true"/>
-    <SolidColorBrush x:Key="Brush.MainMenu.MenuItem.Inactive.Foreground"
-                     Color="{StaticResource Color.Background.Panel}"
+    <SolidColorBrush x:Key="Brush.MainMenu.TopLevel.Highlight.Foreground"
+                     Color="{StaticResource Color.MainMenu.TopLevel.Highlight.Foreground}"
+                     p:Freeze="true"/>    
+    <SolidColorBrush x:Key="Brush.MainMenu.SubLevel.Highlight.Foreground"
+                     Color="{StaticResource Color.MainMenu.SubLevel.Highlight.Foreground}"
+                     p:Freeze="true"/>
+    <SolidColorBrush x:Key="Brush.MainMenu.SubLevel.Highlight.Border"
+                     Color="{StaticResource Color.MainMenu.SubLevel.Highlight.Border}"
+                     p:Freeze="true"/>
+    <SolidColorBrush x:Key="Brush.MainMenu.SubLevel.Highlight.Background"
+                     Color="{StaticResource Color.MainMenu.SubLevel.Highlight.Background}"
+                     Opacity="0.2"
                      p:Freeze="true"/>
 
     <!-- Black block colors -->

@@ -11,6 +11,18 @@
     <Color x:Key="Color.Text.Header">DimGray</Color>
     <Color x:Key="Color.Text.Hint">Gray</Color>
     <Color x:Key="Color.Border.Main">Black</Color>
+    
+    <Color x:Key="Color.MainMenu.Background">Black</Color>
+    <Color x:Key="Color.MainMenu.TopLevel.Foreground">LightGray</Color>
+    <Color x:Key="Color.MainMenu.Disabled.Foreground">Gray</Color>
+    <Color x:Key="Color.MainMenu.InputGesture.Foreground">DimGray</Color>
+    <Color x:Key="Color.MainMenu.TopLevel.Highlight.Foreground">#FF8356</Color>
+    <Color x:Key="Color.MainMenu.SubLevel.Highlight.Foreground">White</Color>
+    <Color x:Key="Color.MainMenu.SubLevel.Highlight.Border">Transparent</Color>
+    <Color x:Key="Color.MainMenu.SubLevel.Highlight.Background">#5499c7</Color>
+
+    <Color x:Key="Color.InfoBlock.Background">DarkSlateGray</Color>
+    <Color x:Key="Color.InfoBlock.Foreground">White</Color>
 
     <Color x:Key="Color.Element.Main">AliceBlue</Color>
     <Color x:Key="Color.Element.Pressed">AntiqueWhite</Color>
