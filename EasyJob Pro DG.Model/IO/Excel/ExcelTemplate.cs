@@ -9,6 +9,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
     /// </summary>
     public class ExcelTemplate
     {
+        const string TemplateExtension = ".xlt";
         static bool _templateRead = false;
 
         #region static fields - default values
@@ -249,7 +250,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
             //MessageBoxResult result = MessageBox.Show("Do you wish to save changes and update your template for further use? Y/N", String.Empty, MessageBoxButton.YesNo);
             //if (result == MessageBoxResult.Yes)
             //    Output.ThrowMessage("Your changes will be saved and template updated");
-            using (StreamWriter writer = new StreamWriter(File.Create(template.TemplateName)))
+            using (StreamWriter writer = new StreamWriter(File.Create(template.TemplateName + TemplateExtension)))
             {
                 writer.WriteLine("***Template for excel import and export ***");
                 writer.WriteLine("");

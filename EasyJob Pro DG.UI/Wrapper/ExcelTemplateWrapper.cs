@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using EasyJob_ProDG.Model.IO.Excel;
 using EasyJob_ProDG.UI.Wrapper.Dummies;
@@ -45,6 +46,30 @@ namespace EasyJob_ProDG.UI.Wrapper
             }
         }
 
+        private Dictionary<string, string> _columnPropertyNames = new()
+        {
+            { "ColumnContainerNumber", "Container Number" },
+            { "ColumnLocation", "Location" },
+            { "ColumnUnno", "UN no" },
+            { "ColumnPOL", "POL"},
+            { "ColumnPOD", "POD" },
+            { "ColumnClass", "Dg class" },
+            { "ColumnSubclass", "Sub class" },
+            { "ColumnName", "Proper shipping name" },
+            { "ColumnPkg", "Packing group" },
+            { "ColumnFP", "Flash point" },
+            { "ColumnMP", "Marine pollutant" },
+            { "ColumnLQ", "Limited quantity" },
+            { "ColumnEms", "EmS" },
+            { "ColumnRemark", "Remarks" },
+            { "ColumnNetWeight", "Net weight" },
+            { "ColumnTechName", "Technical Name" },
+            { "ColumnPackage", "Number and type of package" },
+            { "ColumnFinalDestination", "Final destination" },
+            { "ColumnOperator", "Operator" },
+            { "ColumnEmergencyContact", "Emergency contacts" }
+        };
+
         //Constructor
         public ExcelTemplateWrapper(ExcelTemplate model) : base(model)
         {
@@ -64,7 +89,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 //ignorrable properties
                 if (_ignorableProperties.Contains(property.Name)) continue;
-                ColumnProperties.Add(new ExcelColumnProperty(property.Name, (int)property.GetValue(this)));
+                ColumnProperties.Add(new ExcelColumnProperty(_columnPropertyNames[property.Name], (int)property.GetValue(this)));
             }
         }
 
@@ -118,7 +143,8 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 foreach (var modelProperty in Model.GetType().GetProperties())
                 {
-                    if (modelProperty.Name == updatedProperty.PropertyName)
+                    
+                    if (modelProperty.Name == _columnPropertyNames.FirstOrDefault(x=>x.Value == updatedProperty.PropertyName).Key)
                         typeof(ExcelTemplate).GetProperty(modelProperty.Name)?.SetValue(Model, updatedProperty.Value);
                 }
             }
