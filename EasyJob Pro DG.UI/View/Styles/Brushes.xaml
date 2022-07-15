@@ -78,9 +78,17 @@
     <SolidColorBrush x:Key="Brush.ConflictList.Items.Background"
                      Color="{StaticResource Color.Background.Conflicts.Item}" 
                      p:Freeze="true"/>
-    <SolidColorBrush x:Key="Brush.ConflictList.Text.ContainerNumber"
-                     Color="{StaticResource Color.Text.ConflictCard.ContainerNumber}" 
+    
+    <SolidColorBrush x:Key="Brush.ConflictItem.ContainerNumber.Foreground"
+                     Color="{StaticResource Color.ConflictItem.ContainerNumber.Foreground}" 
                      p:Freeze="true"/>
+    <SolidColorBrush x:Key="Brush.ConflictItem.ContainerNumber.MouseOver.Foreground"
+                     Color="{StaticResource Color.ConflictItem.ContainerNumber.MouseOver.Foreground}" 
+                     p:Freeze="true"/>
+    <SolidColorBrush x:Key="Brush.ConflictItem.ContainerNumber.Selected.Foreground"
+                     Color="{StaticResource Color.ConflictItem.ContainerNumber.Selected.Foreground}" 
+                     p:Freeze="true"/>
+    
     <SolidColorBrush x:Key="Brush.ConflictList.Text.Segregation"
                      Color="{StaticResource Color.Text.Segregation}" 
                      p:Freeze="true"/>
@@ -97,6 +105,21 @@
                      p:Freeze="true"/>
     <SolidColorBrush x:Key="Brush.Text.MouseOver"
                      Color="{StaticResource Color.Text.MouseOver}" 
+                     p:Freeze="true"/>
+    <SolidColorBrush x:Key="Brush.ConflictItem.MouseOver.Background"
+                     Color="{StaticResource Color.ConflictItem.MouseOver.Background}"
+                     p:Freeze="true"/>
+    <SolidColorBrush x:Key="Brush.ConflictItem.MouseOver.Border"
+                     Color="{StaticResource Color.ConflictItem.MouseOver.Border}"
+                     p:Freeze="true"/>
+    <SolidColorBrush x:Key="Brush.ConflictItem.MouseOver.Foreground"
+                     Color="{StaticResource Color.ConflictItem.MouseOver.Foreground}"
+                     p:Freeze="true"/>
+    <SolidColorBrush x:Key="Brush.ConflictItem.Selected.Background"
+                     Color="{StaticResource Color.ConflictItem.Selected.Background}"
+                     p:Freeze="true"/>
+    <SolidColorBrush x:Key="Brush.ConflictItem.Selected.Foreground"
+                     Color="{StaticResource Color.ConflictItem.Selected.Foreground}"
                      p:Freeze="true"/>
 
     <!-- Expander colors -->

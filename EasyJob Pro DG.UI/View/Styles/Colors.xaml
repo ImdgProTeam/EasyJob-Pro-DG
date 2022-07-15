@@ -42,13 +42,24 @@
 
     <Color x:Key="Color.Background.Conflicts.Item">Black</Color>
 
-    <Color x:Key="Color.Text.ConflictCard.ContainerNumber">White</Color>
+    <Color x:Key="Color.ConflictItem.ContainerNumber.Foreground">White</Color>
+    <Color x:Key="Color.ConflictItem.ContainerNumber.MouseOver.Foreground">Black</Color>
+    <Color x:Key="Color.ConflictItem.ContainerNumber.Selected.Foreground">White</Color>
+    
     <Color x:Key="Color.Text.Stowage">DeepSkyBlue</Color>
     <Color x:Key="Color.Text.Segregation">MediumOrchid</Color>
     <Color x:Key="Color.Text.SW19">#D5B200</Color>
     <Color x:Key="Color.Text.SW22">#5D8AA8</Color>
     <Color x:Key="Color.Text.Conflict">AntiqueWhite</Color>
     <Color x:Key="Color.Text.MouseOver">OrangeRed</Color>
+
+    <Color x:Key="Color.ConflictItem.MouseOver.Background">WhiteSmoke</Color>
+    <Color x:Key="Color.ConflictItem.MouseOver.Foreground">Black</Color>
+    <Color x:Key="Color.ConflictItem.MouseOver.Border">OrangeRed</Color>
+
+    <Color x:Key="Color.ConflictItem.Selected.Background">#5499c7</Color>
+    <Color x:Key="Color.ConflictItem.Selected.Foreground">White</Color>
+
 
     <!-- Black block -->
     <Color x:Key="Color.BlackBlock.Background">Black</Color>

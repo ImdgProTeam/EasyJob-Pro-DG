@@ -103,16 +103,4 @@
         </Style.Triggers>
     </Style>
 
-    <!-- Style for mouse hover (NOT IN USE)-->
-    <!--<Style x:Key="HeaderMouseHover"
-           TargetType="StackPanel">
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver"
-                     Value="True">
-                <Setter Property="TextBlock.Foreground"
-                        Value="DarkOrange" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>-->
-
 </ResourceDictionary>
