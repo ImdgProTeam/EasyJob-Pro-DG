@@ -86,19 +86,19 @@
         <Style.Triggers>
             <DataTrigger Binding="{Binding Path=Name}"
                                  Value="Segregation">
-                <Setter Property="Foreground" Value="{StaticResource Brush.ConflictList.Text.Segregation}"/>
+                <Setter Property="TextBox.Foreground" Value="{StaticResource Brush.ConflictList.Text.Segregation}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=Name}"
                                  Value="Stowage">
-                <Setter Property="Foreground" Value="{StaticResource Brush.ConflictList.Text.Stowage}"/>
+                <Setter Property="TextBox.Foreground" Value="{StaticResource Brush.ConflictList.Text.Stowage}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=Name}"
                                  Value="SW19">
-                <Setter Property="Foreground" Value="{StaticResource Brush.ConflictList.Text.SW19}"/>
+                <Setter Property="TextBox.Foreground" Value="{StaticResource Brush.ConflictList.Text.SW19}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=Name}"
                                  Value="SW22">
-                <Setter Property="Foreground" Value="{StaticResource Brush.ConflictList.Text.SW22}"/>
+                <Setter Property="TextBox.Foreground" Value="{StaticResource Brush.ConflictList.Text.SW22}"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>

@@ -131,5 +131,13 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                 }
             }
         }
+
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            var item = textBox.Parent as DockPanel;
+            ((ListBoxItem)item.Parent).IsSelected = true;
+
+        }
     }
 }

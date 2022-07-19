@@ -2,11 +2,26 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- Conflict list conflicts style-->
-    <Style TargetType="{x:Type TextBlock}" x:Key="ConflictTypeTrigger">
+    <Style TargetType="{x:Type TextBox}" x:Key="ConflictTypeTrigger">
         <Setter Property="TextAlignment"
                 Value="Justify" />
         <Setter Property="TextWrapping"
                 Value="Wrap" />
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="IsHitTestVisible" Value="True"/>
+        <Setter Property="Foreground" Value="Yellow"/>
+
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding 
+                                            Path=IsMouseOver}" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource Brush.ConflictItem.ContainerNumber.MouseOver.Foreground}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, 
+                                            Path=IsSelected}" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource Brush.ConflictItem.ContainerNumber.Selected.Foreground}"/>
+            </DataTrigger>
+        </Style.Triggers>
         <!--<Style.Triggers>
             -->
         <!-- Color of conflict text boxes -->
