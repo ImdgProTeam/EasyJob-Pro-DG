@@ -24,8 +24,7 @@
                         <Trigger Property="IsChecked" Value="true">
                             <Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
                         </Trigger>
-                        <Trigger Property="IsMouseOver"
-                                 Value="true">
+                        <Trigger Property="IsMouseOver" Value="true">
                             <!--<Setter Property="Stroke" TargetName="circle" Value="{StaticResource Expander.MouseOver.Circle.Stroke}"/>-->
                             <!--<Setter Property="Fill" TargetName="circle" Value="{StaticResource Expander.MouseOver.Circle.Fill}"/>-->
                             <Setter Property="Stroke"

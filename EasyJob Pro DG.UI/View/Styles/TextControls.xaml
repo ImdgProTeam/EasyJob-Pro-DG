@@ -1,52 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Conflict list conflicts style-->
-    <Style TargetType="{x:Type TextBox}" x:Key="ConflictTypeTrigger">
-        <Setter Property="TextAlignment"
-                Value="Justify" />
-        <Setter Property="TextWrapping"
-                Value="Wrap" />
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="IsHitTestVisible" Value="True"/>
-        <Setter Property="Foreground" Value="Yellow"/>
-
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding 
-                                            Path=IsMouseOver}" Value="True">
-                <Setter Property="Foreground" Value="{StaticResource Brush.ConflictItem.ContainerNumber.MouseOver.Foreground}"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, 
-                                            Path=IsSelected}" Value="True">
-                <Setter Property="Foreground" Value="{StaticResource Brush.ConflictItem.ContainerNumber.Selected.Foreground}"/>
-            </DataTrigger>
-        </Style.Triggers>
-        <!--<Style.Triggers>
-            -->
-        <!-- Color of conflict text boxes -->
-        <!--
-            <DataTrigger Binding="{Binding Path=IsSegregationConflict}"
-                         Value="true">
-                <Setter Property="Background"
-                        Value="Green" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Path=IsStowageConflict}"
-                         Value="true">
-                <Setter Property="Background"
-                        Value="DarkTurquoise" />
-            </DataTrigger>
-            
-            -->
-        <!-- Text color when mouse over -->
-        <!--
-            <Trigger Property="Control.IsMouseOver" Value="True">
-                <Setter Property="Control.Foreground" Value="CadetBlue"></Setter>
-                <Setter Property="Background" Value="DimGray" />
-            </Trigger>
-        </Style.Triggers>-->
-    </Style>
-
     <Style x:Key="TextBlockNoticeStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="Wrap"/>

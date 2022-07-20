@@ -8,10 +8,16 @@ namespace EasyJob_ProDG.UI.Wrapper
 {
     public class ExcelTemplateWrapper : ModelWrapper<ExcelTemplate>
     {
+        #region Private fields
+
         private string[] _ignorableProperties = new string[] { "Model", "Item", "ColumnProperties", "Error", "TemplateName", "StartRow", "WorkingSheet", "IsChanged", "HasErrors" };
         private string _originalWorkingSheet;
         private string _originalTemplateName;
-        private int _originalStartRow;
+        private int _originalStartRow; 
+
+        #endregion
+
+        #region Public properties
 
         //Properties
         private bool _isChanged;
@@ -51,7 +57,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             { "ColumnContainerNumber", "Container Number" },
             { "ColumnLocation", "Location" },
             { "ColumnUnno", "UN no" },
-            { "ColumnPOL", "POL"},
+            { "ColumnPOL", "POL" },
             { "ColumnPOD", "POD" },
             { "ColumnClass", "Dg class" },
             { "ColumnSubclass", "Sub class" },
@@ -68,7 +74,11 @@ namespace EasyJob_ProDG.UI.Wrapper
             { "ColumnFinalDestination", "Final destination" },
             { "ColumnOperator", "Operator" },
             { "ColumnEmergencyContact", "Emergency contacts" }
-        };
+        }; 
+
+        #endregion
+
+        #region Constructors
 
         //Constructor
         public ExcelTemplateWrapper(ExcelTemplate model) : base(model)
@@ -77,7 +87,10 @@ namespace EasyJob_ProDG.UI.Wrapper
             RememberOriginalValues();
         }
 
-        //Methods
+        #endregion
+
+
+        #region Private methods
 
         /// <summary>
         /// Adds column properties to ColumnProperties list.
@@ -111,7 +124,11 @@ namespace EasyJob_ProDG.UI.Wrapper
             StartRow = _originalStartRow;
             TemplateName = _originalTemplateName;
             WorkingSheet = _originalWorkingSheet;
-        }
+        } 
+
+        #endregion
+
+        #region Public methods
 
         /// <summary>
         /// Changes status of each property to 'not modified'
@@ -143,12 +160,17 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 foreach (var modelProperty in Model.GetType().GetProperties())
                 {
-                    
-                    if (modelProperty.Name == _columnPropertyNames.FirstOrDefault(x=>x.Value == updatedProperty.PropertyName).Key)
+
+                    if (modelProperty.Name == _columnPropertyNames.FirstOrDefault(x => x.Value == updatedProperty.PropertyName).Key)
                         typeof(ExcelTemplate).GetProperty(modelProperty.Name)?.SetValue(Model, updatedProperty.Value);
                 }
             }
-        }
+        } 
+
+        #endregion
+
+
+        #region Template properties
 
         //Template Properties
         public string TemplateName
@@ -178,11 +200,13 @@ namespace EasyJob_ProDG.UI.Wrapper
                 SetValue(value);
                 IsChanged = true;
             }
-        }
+        } 
 
-        //Column properties
+        #endregion
+
         #region Column properties
 
+        //Column properties
         public int ColumnContainerNumber
         {
             get { return GetValue<int>(); }

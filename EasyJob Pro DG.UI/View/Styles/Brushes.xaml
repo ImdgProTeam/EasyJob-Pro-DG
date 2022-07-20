@@ -9,9 +9,8 @@
     <SolidColorBrush x:Key="Brush.Background.Panel"
                      Color="{StaticResource Color.Background.Panel}" 
                      p:Freeze="true"/>
-    <SolidColorBrush x:Key="Brush.Background.Item"
-                     Color="{StaticResource Color.Background.Item}" 
-                     p:Freeze="true"/>
+
+
     <SolidColorBrush x:Key="Brush.Text.Main"
                      Color="{StaticResource Color.Text.Main}" 
                      p:Freeze="true"/>

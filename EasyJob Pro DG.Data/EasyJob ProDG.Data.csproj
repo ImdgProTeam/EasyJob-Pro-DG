@@ -47,6 +47,7 @@
     <Compile Include="Info data\IMDGCode.cs" />
     <Compile Include="Info data\SpecialProvisions.cs" />
     <Compile Include="Licence.cs" />
+    <Compile Include="LogWriter.cs" />
     <Compile Include="ProgramDefaultSettingValues.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

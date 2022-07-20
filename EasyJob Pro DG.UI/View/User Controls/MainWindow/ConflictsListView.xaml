@@ -55,8 +55,7 @@
                                                   Background="{StaticResource Brush.Background.Expander}"
                                                   Style="{StaticResource expandTitleTrigger}"
                                                   MouseEnter="Expander_MouseEnter"
-                                                  MouseLeave="Expander_MouseLeave"
-                                                  LostFocus="Expander_LostFocus">
+                                                  MouseLeave="Expander_MouseLeave">
 
                                             <Expander.Header>
                                                 <StackPanel x:Name="stpHeader"
@@ -165,7 +164,7 @@
                             </TextBlock>
 
                             <TextBox  DockPanel.Dock="Bottom"
-                                    Padding="5,5,10,2"
+                                    Padding="5,5,10,5"
                                   IsReadOnly="True"
                                   Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}">
                                 <TextBox.Resources>

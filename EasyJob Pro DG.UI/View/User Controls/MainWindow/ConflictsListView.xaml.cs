@@ -72,18 +72,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             RestoreColors(sender);
         }
 
-
-
-
-        private void Expander_LostFocus(object sender, System.Windows.RoutedEventArgs e)
-        {
-            //var expander = sender as Expander;
-            //expander.Style = (Style)FindResource("expandTitleTrigger");
-        }
-
-
-
-
         /// <summary>
         /// Method to change checkbox ellipse color
         /// </summary>
@@ -130,14 +118,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                             : Visibility.Visible;
                 }
             }
-        }
-
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            var textBox = sender as TextBox;
-            var item = textBox.Parent as DockPanel;
-            ((ListBoxItem)item.Parent).IsSelected = true;
-
         }
     }
 }
