@@ -25,6 +25,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
             StreamWriter writer = new StreamWriter(fileName);
             WriteCargoPlanAssociatedToStream(new CargoPlanAssociated(cargoPlan), writer);
             writer.Close();
+            Data.LogWriter.Write($"Condition saved as {fileName}");
         }
 
         /// <summary>
@@ -49,6 +50,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
             //{
             //    cargoPlan = new CargoPlan();
             //}
+            Data.LogWriter.Write($"Condition successfully loaded from {fileName}");
             return cargoPlan;
         }
 

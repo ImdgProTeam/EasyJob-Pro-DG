@@ -15,9 +15,11 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="fileType"></param>
         public static void CheckDgList(ICollection<Dg> dgList, byte fileType)
         {
+            //TODO: To implement checking of wrong Dg classes
+
             if (fileType != (byte)OpenFile.FileTypes.Edi) return;
             //WrongDGInfoDisplay(dgList);
-            //EnterLog(logStreamWriter, "Dg list checked");
+            Data.LogWriter.Write($"Dg list checked.");
         }
 
         /// <summary>
@@ -34,6 +36,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 Segregation.Segregate(dg, cargoPlan, ownShip);
             }
             Segregation.PostSegregation(cargoPlan, ownShip);
+            Data.LogWriter.Write($"Segregation checked.");
         }
 
         /// <summary>
@@ -41,14 +44,14 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         /// <param name="dgList"></param>
         /// <param name="dgDataBase"></param>
-        public static void UpdateDgInfo(ICollection<Dg> dgList, XDocument dgDataBase)
+        internal static void UpdateDgInfo(ICollection<Dg> dgList, XDocument dgDataBase)
         {
             foreach (Dg unit in dgList)
             {
                 unit.AssignFromDgList(xmlDoc: dgDataBase);
                 unit.AssignRowFromDOC();
             }
-            //EnterLog(logStreamWriter, "Dg info updated");
+            Data.LogWriter.Write($"Dg info updated.");
         }
 
         /// <summary>
@@ -57,7 +60,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         /// <param name="dg"></param>
         /// <param name="dgDataBase"></param>
-        public static void UpdateDgInfo(Dg dg, XDocument dgDataBase)
+        internal static void UpdateDgInfo(Dg dg, XDocument dgDataBase)
         {
             dg.Clear(dg.Unno);
             

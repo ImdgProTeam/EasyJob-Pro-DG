@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace EasyJob_ProDG.Data
@@ -17,14 +18,18 @@ namespace EasyJob_ProDG.Data
         {
             if (!isLogStarted) return;
 
+#if DEBUG
+            Debug.WriteLine("------ > " + message);
+#endif
+
             try
             {
                 using (StreamWriter sw = File.AppendText(logFileName))
                     AppendLog(message, sw);
             }
-            catch
+            catch(Exception ex)
             {
-
+                Debug.WriteLine($"!!!!! Log Write method thrown an exception - {ex.Message} - while writing message \"{message}\"");
             }
         }
 
@@ -54,6 +59,24 @@ namespace EasyJob_ProDG.Data
             }
 
             isLogStarted = true;
+
+#if DEBUG
+            Debug.WriteLine("------ > Start Application_Startup");
+#endif
+        }
+
+
+        /// <summary>
+        /// Method used to set the final lines on the log session
+        /// </summary>
+        public static void CloseLog()
+        {
+            using (TextWriter sw = File.AppendText(logFileName))
+            {
+                sw.WriteLine("<<<<< Log disconnected <<<<<");
+                sw.WriteLine(DateTime.Now.ToString(datePattern));
+                sw.WriteLine();
+            }
         }
 
         /// <summary>
@@ -67,9 +90,9 @@ namespace EasyJob_ProDG.Data
             {
                 txtWriter.WriteLine($"{DateTime.Now.ToString(datePattern)} : {message}");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Debug.WriteLine($"!!!!! Writing message \"{message}\" to Log file caused an exception {ex.Message}");
             }
         }
     }

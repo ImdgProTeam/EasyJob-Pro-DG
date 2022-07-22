@@ -119,6 +119,7 @@ namespace EasyJob_ProDG.Model.IO
             }
 
             SetFileName(GetFileNameWithExtension(fileName));
+            Data.LogWriter.Write($"CargoPlan read from {FileName}");
             return cargoPlan;
         }
 

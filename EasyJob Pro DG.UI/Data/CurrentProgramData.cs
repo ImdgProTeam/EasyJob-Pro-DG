@@ -61,15 +61,13 @@ namespace EasyJob_ProDG.UI.Data
         }
 
         /// <summary>
-        /// DEFAULT CONDITION TO BE CHANGED
         /// Loads default cargo plan, checks it and generates wrappers and conflicts.
         /// </summary>
         public void LoadData()
         {
             string openPath = ((MainWindow)Application.Current.MainWindow)?.StartupFilePath;
 
-            //FILE TO BE CHANGED
-            if (!CreateWorkingCargoPlan(openPath ?? "Working cargo plan.ejc")) return;
+            if (!CreateWorkingCargoPlan(openPath ?? Properties.Settings.Default.WorkingCargoPlanFile)) return;
         }
 
         /// <summary>
@@ -117,7 +115,6 @@ namespace EasyJob_ProDG.UI.Data
         public void FullDataReCheck()
         {
             OnShipProfileSavedUpdates();
-            //ReCheckDgWrapperList();
         }
 
         /// <summary>
@@ -155,12 +152,6 @@ namespace EasyJob_ProDG.UI.Data
         public bool ImportReeferManifestInfo(string file, bool importOnlySelected = false, string currentPort = null)
         {
             return ImportReeferManifestInfoOnExecuted(file, importOnlySelected, currentPort);
-            
-        }
-
-        public void SaveWorkingCondition()
-        {
-
         }
 
         /// <summary>

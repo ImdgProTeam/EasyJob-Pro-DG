@@ -252,7 +252,7 @@ namespace EasyJob_ProDG.Model.IO
                         }
                         catch (Exception e)
                         {
-                            ProgramFiles.EnterLog(ProgramFiles.LogStreamWriter, e.ToString());
+                            Data.LogWriter.Write($"Reading segment {segment} caused an exception {e.ToString()}");
                             dateValue = new DateTime(1900, 01, 01);
                             cargoPlan.VoyageInfo.DepartureDate = dateValue;
                             continue;

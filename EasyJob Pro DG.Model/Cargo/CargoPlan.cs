@@ -3,7 +3,6 @@ using EasyJob_ProDG.Model.IO.Excel;
 using EasyJob_ProDG.Model.Transport;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
 using static EasyJob_ProDG.Model.IO.Excel.WithXlReefers;
@@ -261,7 +260,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 DgList.Remove(dg);
                 if (container != null) container.DgCountInContainer--;
             }
-
+            Data.LogWriter.Write($"Dg data successfully imported to existing CargoPlan.");
         }
 
         /// <summary>
@@ -364,6 +363,7 @@ namespace EasyJob_ProDG.Model.Cargo
             resultingNewCargoPlan.VoyageInfo.PortOfDeparture = newPlan.VoyageInfo.PortOfDeparture;
             resultingNewCargoPlan.VoyageInfo.PortOfDestination = newPlan.VoyageInfo.PortOfDestination;
 
+            Data.LogWriter.Write($"Cargo plan successfully updated.");
             return resultingNewCargoPlan;
         }
 
@@ -405,12 +405,12 @@ namespace EasyJob_ProDG.Model.Cargo
             if (container is null) return false;
             if (string.IsNullOrEmpty(container.ContainerNumber))
             {
-                Debug.WriteLine("---> Attempt to add a container with no container number");
+                Data.LogWriter.Write($"Attempt to add a container with no container number");
                 return false;
             }
             if (Containers.ContainsUnitWithSameContainerNumberInList(container))
             {
-                Debug.WriteLine("---> Attempt to add a container with container number which is already in list");
+                Data.LogWriter.Write($"Attempt to add a container with container number which is already in list");
                 return false;
             }
             #endregion
@@ -430,14 +430,14 @@ namespace EasyJob_ProDG.Model.Cargo
             if (reefer is null) return false;
             if (string.IsNullOrEmpty(reefer.ContainerNumber))
             {
-                Debug.WriteLine("---> Attempt to add a reefer with no container number");
+                Data.LogWriter.Write($"Attempt to add a reefer with no container number");
                 return false;
             }
             #endregion
 
             if (Containers.ContainsUnitWithSameContainerNumberInList(reefer))
             {
-                Debug.WriteLine("---> Attempt to add a reefer with container number which is already in list");
+                Data.LogWriter.Write($"Attempt to add a reefer with container number which is already in list");
                 var container = Containers.FindContainerByContainerNumber(reefer);
                 if (container == null) throw new Exception($"Container with ContainerNumber {reefer.ContainerNumber} cannot be found in CargoPlan despite it was expected.");
                 container.IsRf = true;

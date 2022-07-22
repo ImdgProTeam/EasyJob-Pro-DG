@@ -510,12 +510,13 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void OnApplicationClosing(object parameter)
         {
             SaveWorkingCondition();
+            LogWriter.CloseLog();
         }
 
         private void SaveWorkingCondition()
         {
             //todo: Implement file name saving and restoring on startup
-            loadDataService.SaveFile(ProgramDefaultSettingValues.ProgramDirectory + "Working cargo plan.ejc");
+            loadDataService.SaveFile(ProgramDefaultSettingValues.ProgramDirectory + Properties.Settings.Default.WorkingCargoPlanFile);
         }
 
         private bool CanExecuteForOptionalOpen(object obj)

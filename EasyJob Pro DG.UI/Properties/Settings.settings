@@ -32,5 +32,8 @@
     <Setting Name="ExcelReeferTemplate" Type="System.String" Scope="User">
       <Value Profile="(Default)">1,1,2,3,4,5,6</Value>
     </Setting>
+    <Setting Name="WorkingCargoPlanFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Working cargo plan.ejc</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

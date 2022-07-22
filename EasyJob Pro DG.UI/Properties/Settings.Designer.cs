@@ -142,5 +142,17 @@ namespace EasyJob_ProDG.UI.Properties {
                 this["ExcelReeferTemplate"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Working cargo plan.ejc")]
+        public string WorkingCargoPlanFile {
+            get {
+                return ((string)(this["WorkingCargoPlanFile"]));
+            }
+            set {
+                this["WorkingCargoPlanFile"] = value;
+            }
+        }
     }
 }

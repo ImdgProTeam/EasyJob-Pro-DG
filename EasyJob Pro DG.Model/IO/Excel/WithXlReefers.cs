@@ -1,6 +1,5 @@
 ﻿using EasyJob_ProDG.Model.Cargo;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using ExcelApp = Microsoft.Office.Interop.Excel;
 
@@ -23,6 +22,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
         {
             bool isImported = false;
 
+            Data.LogWriter.Write($"Connecting excel file {workbook}");
             //connecting xl file
             ExcelApp.Range excelcells = null;
             ExcelApp.Application excelapp = new ExcelApp.Application { Visible = false };
@@ -36,7 +36,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 workbooks.Open(workbook, ExcelApp.XlUpdateLinks.xlUpdateLinksNever, ReadOnly: true);
                 activeWorkbook = excelapp.ActiveWorkbook;
                 excelWorksheet = activeWorkbook.Sheets[1];
-                Debug.WriteLine("---> Reading reefer data...");
+                Data.LogWriter.Write($"Reading reefer data...");
 
                 //Determine number of rows = number of reefers
                 int rowscount = WithXl.CountRows(ref excelcells, excelWorksheet, templateStartRow);
@@ -61,7 +61,12 @@ namespace EasyJob_ProDG.Model.IO.Excel
                     }
                     if (!excelReefers.Contains(cont)) excelReefers.Add(cont);
                 }
+                Data.LogWriter.Write($"Reefer manifest data read from excel.");
                 isImported = true;
+            }
+            catch
+            {
+                Data.LogWriter.Write($"Reefer manifest data reading failed!");
             }
             finally
             {
@@ -73,6 +78,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 System.Runtime.InteropServices.Marshal.FinalReleaseComObject(activeWorkbook);
                 System.Runtime.InteropServices.Marshal.FinalReleaseComObject(workbooks);
                 System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelapp);
+                Data.LogWriter.Write($"Excel file disconnected.");
             }
 
             return isImported;

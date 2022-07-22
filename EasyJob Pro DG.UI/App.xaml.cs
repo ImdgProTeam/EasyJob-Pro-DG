@@ -19,14 +19,15 @@ namespace EasyJob_ProDG.UI
         public void Application_Startup(object sender, StartupEventArgs e)
         {
             LogWriter.StartLog();
-            Debug.WriteLine("------> Start Application_Startup");
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
-#if(DEBUG)
+            #region Checking Assembly Version
+#if (DEBUG)
             Debug.WriteLine("------> Checking AssemblyVersion");
             CheckAssemblyVersion();
             Debug.WriteLine("------> Assembly version checked");
-#endif
+#endif 
+            #endregion
 
             CheckLicence();
 
@@ -34,10 +35,11 @@ namespace EasyJob_ProDG.UI
             {
                 path = e.Args[0];
             }
-            Debug.WriteLine($"------> Start file path = {path}");
+
+            LogWriter.Write($"Start file path = {path}");
 
             ApplicationMainWindow = new MainWindow(path);
-            Debug.WriteLine($"------> Application MainWindow created");
+            LogWriter.Write($"Application MainWindow created");
             path = null;
 
             ApplicationMainWindow.Show();
@@ -48,18 +50,16 @@ namespace EasyJob_ProDG.UI
         /// </summary>
         private void CheckLicence()
         {
-            Debug.WriteLine($"-----> Checking licence");
-            LogWriter.Write("Checking licence");
+            LogWriter.Write($"Checking licence");
+
             if (!Licence.IsValid())
             {
                 LogWriter.Write("Licence expired.");
-                Debug.WriteLine($"-----> Licence expired.");
-                MessageBox.Show("Your licence has expired.\nPlease contact\n\nfeedback@imdg.pro\n\nto renew your licence.", "Invalid licence");
 
+                MessageBox.Show("Your licence has expired.\nPlease contact\n\nfeedback@imdg.pro\n\nto renew your licence.", "Invalid licence");
                 Environment.Exit(0);
             }
             LogWriter.Write("-----> Licence is valid.");
-            Debug.WriteLine($"-----> Licence is valid.");
         }
 
         /// <summary>

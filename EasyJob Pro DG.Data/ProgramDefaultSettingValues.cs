@@ -9,6 +9,7 @@ namespace EasyJob_ProDG.Data
         public const string ProgramTitle = "EasyJob ProDG";
         public const string ShipProfileExtension = ".ini";
         public const string DefaultShipProfile = "ShipProfile.ini";
+        public const string DgDataBaseFile = "dglist.xml";
         public static bool AlwaysOpenDefaultProfile = true;
         public static bool Multiprofile = false;
         public static DirectoryInfo ProgramDirectory = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);

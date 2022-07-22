@@ -30,6 +30,8 @@ namespace EasyJob_ProDG.Model.IO
                 reefer.ReeferSpecial = unit.ReeferSpecial;
                 reefer.ReeferRemark = unit.ReeferRemark;
             }
+
+            Data.LogWriter.Write($"Reefer manifest info updated.");
         }
     }
 }

@@ -24,7 +24,7 @@ namespace EasyJob_ProDG.Model.Cargo
             SWgroups.Clear();
             foreach (Dg dg in cargoplan.DgList)
                 CheckUnitStowage(unit: dg, ship: ship, containers: cargoplan.Containers);
-            ProgramFiles.EnterLog(ProgramFiles.LogStreamWriter, "Stowage checked");
+            Data.LogWriter.Write($"Stowage checked");
         }
 
         /// <summary>
