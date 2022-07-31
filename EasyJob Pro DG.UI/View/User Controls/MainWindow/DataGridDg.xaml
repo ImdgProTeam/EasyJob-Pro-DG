@@ -94,92 +94,97 @@
                   behaviors:DataGridBehavior.DisplayRowNumber="True"
                   >
 
-                <DataGrid.Resources>
+            <DataGrid.Resources>
 
-                    <!-- Context menu -->
-                    <ContextMenu x:Key="DataGridColumnHeaderContextMenu"
+                <!-- Context menu -->
+                <ContextMenu x:Key="DataGridColumnHeaderContextMenu"
                              DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}"
                              ItemsSource="{Binding Columns, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}">
-                        <ContextMenu.ItemContainerStyle>
-                            <Style TargetType="MenuItem">
-                                <Setter Property="Header"
+                    <ContextMenu.ItemContainerStyle>
+                        <Style TargetType="MenuItem">
+                            <Setter Property="Header"
                                     Value="{Binding Header}" />
-                                <Setter Property="AutomationProperties.Name"
+                            <Setter Property="AutomationProperties.Name"
                                     Value="{Binding Header}" />
-                                <Setter Property="IsCheckable"
+                            <Setter Property="IsCheckable"
                                     Value="True" />
-                                <Setter Property="IsChecked"
+                            <Setter Property="IsChecked"
                                     Value="{Binding Visibility, Mode=TwoWay, Converter={StaticResource VisibilityToInverseBooleanConverter}}" />
-                                <Style.Triggers>
-                                    <Trigger Property="Header"
+                            <Style.Triggers>
+                                <Trigger Property="Header"
                                          Value="N">
-                                        <Setter Property="Visibility"
+                                    <Setter Property="Visibility"
                                             Value="Collapsed" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ContextMenu.ItemContainerStyle>
-                    </ContextMenu>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContextMenu.ItemContainerStyle>
+                </ContextMenu>
 
-                    <!-- Header style -->
-                    <Style TargetType="{x:Type DataGridColumnHeader}"
+                <!-- Header style -->
+                <Style TargetType="{x:Type DataGridColumnHeader}"
                        BasedOn="{StaticResource DataGridColumnHeaderStyle}">
-                        <Setter Property="ContextMenu"
+                    <Setter Property="ContextMenu"
                             Value="{StaticResource DataGridColumnHeaderContextMenu}" />
-                    </Style>
+                </Style>
 
-                    <!-- Cell style -->
-                    <Style TargetType="{x:Type DataGridCell}">
-                        <Setter Property="IsTabStop"
-                            Value="False" />
-                        <Setter Property="BorderThickness" Value="0"/>
-                    </Style>
+                <!-- Cell style -->
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="IsTabStop" Value="False" />
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                </Style>
 
-                    <!-- TextBox style-->
-                    <Style TargetType="{x:Type TextBox}">
-                        <!--<Setter Property="IsTabStop"
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                </Style>
+
+                <!-- TextBox style-->
+                <Style TargetType="{x:Type TextBox}">
+                    <!--<Setter Property="IsTabStop"
                             Value="True" />-->
-                        <Setter Property="Margin"
+                    <Setter Property="Margin"
                             Value="50" />
-                        <Setter Property="TextAlignment"
+                    <Setter Property="TextAlignment"
                             Value="Right" />
-                    </Style>
+                </Style>
 
-                    <!-- CheckBox style -->
-                    <Style TargetType="{x:Type CheckBox}">
-                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                    </Style>
+                <!-- CheckBox style -->
+                <Style TargetType="{x:Type CheckBox}">
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
 
-                    <!-- Selection color -->
-                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                <!-- Selection color -->
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                                  Color="{StaticResource Color.DgTable.HighlightRow}" />
 
-                </DataGrid.Resources>
+
+            </DataGrid.Resources>
 
 
-                <!-- Columns -->
-                <DataGrid.Columns>
+            <!-- Columns -->
+            <DataGrid.Columns>
 
-                    <!-- LOCATION -->
-                    <DataGridTextColumn x:Name="positionColumn"
+                <!-- LOCATION -->
+                <DataGridTextColumn x:Name="positionColumn"
                                     Binding="{Binding Location, UpdateSourceTrigger=LostFocus}"
                                         SortMemberPath="LocationSortable"
                                     Header="Position"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[0].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[0].DisplayIndex, Mode=TwoWay, FallbackValue=0}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[0].Visibility, Mode=TwoWay}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style>
-                                <!--<Setter Property="TextBox.TextAlignment"
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <!--<Setter Property="TextBox.TextAlignment"
                                             Value="Right"/>
                             <Setter Property="TextBox.Margin"
                                     Value="5"></Setter>-->
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
 
-                    <!-- CONTAINER NUMBER -->
-                    <DataGridTextColumn x:Name="numberColumn"
+                <!-- CONTAINER NUMBER -->
+                <DataGridTextColumn x:Name="numberColumn"
                                     Binding="{Binding ContainerNumber, UpdateSourceTrigger=LostFocus}"
                                     Header="Container number"
                                     MinWidth="100"
@@ -187,211 +192,211 @@
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[1].DisplayIndex, Mode=TwoWay, FallbackValue=1}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[1].Visibility, Mode=TwoWay}" />
 
-                    <!-- Carrier -->
-                    <DataGridTextColumn x:Name="carrierColumn"
+                <!-- Carrier -->
+                <DataGridTextColumn x:Name="carrierColumn"
                                     Binding="{Binding Carrier, UpdateSourceTrigger=LostFocus}"
                                     Header="Operator"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[40].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[40].DisplayIndex, Mode=TwoWay, FallbackValue=40}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[40].Visibility, Mode=TwoWay}" />
 
-                    <!-- POL -->
-                    <DataGridTextColumn x:Name="polColumn"
+                <!-- POL -->
+                <DataGridTextColumn x:Name="polColumn"
                                     Binding="{Binding POL, UpdateSourceTrigger=LostFocus}"
                                     Header="POL"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[2].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[2].DisplayIndex, Mode=TwoWay, FallbackValue=2}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[2].Visibility, Mode=TwoWay}" />
 
-                    <!-- POD -->
-                    <DataGridTextColumn x:Name="podColumn"
+                <!-- POD -->
+                <DataGridTextColumn x:Name="podColumn"
                                     Binding="{Binding POD, UpdateSourceTrigger=LostFocus}"
                                     Header="POD"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[3].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[3].DisplayIndex, Mode=TwoWay, FallbackValue=3}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[3].Visibility, Mode=TwoWay}" />
 
-                    <!-- Final destination -->
-                    <DataGridTextColumn x:Name="finalDestinationColumn"
+                <!-- Final destination -->
+                <DataGridTextColumn x:Name="finalDestinationColumn"
                                     Binding="{Binding FinalDestination, UpdateSourceTrigger=LostFocus}"
                                     Header="Final destination"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].DisplayIndex, Mode=TwoWay, FallbackValue=39}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].Visibility, Mode=TwoWay}" />
 
-                    <!-- Unno -->
-                    <DataGridTextColumn x:Name="unnoColumn"
+                <!-- Unno -->
+                <DataGridTextColumn x:Name="unnoColumn"
                                     Binding="{Binding Unno, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=\{0:0000\}}"
                                     Header="UNNO"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[4].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[4].DisplayIndex, Mode=TwoWay, FallbackValue=4}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[4].Visibility, Mode=TwoWay}" />
 
-                    <!-- Dg class -->
-                    <DataGridTextColumn x:Name="dgClassColumn"
+                <!-- Dg class -->
+                <DataGridTextColumn x:Name="dgClassColumn"
                                     Binding="{Binding DgClass, UpdateSourceTrigger=LostFocus}"
                                     Header="Dg class"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[5].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[5].DisplayIndex, Mode=TwoWay, FallbackValue=5}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[5].Visibility, Mode=TwoWay}" />
 
-                    <!-- Dg subclasses -->
-                    <DataGridTextColumn x:Name="dgSubclassColumn"
+                <!-- Dg subclasses -->
+                <DataGridTextColumn x:Name="dgSubclassColumn"
                                     Binding="{Binding DgSubclass, UpdateSourceTrigger=LostFocus}"
                                     Header="Dg subclass"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[6].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[6].DisplayIndex, Mode=TwoWay, FallbackValue=6}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[6].Visibility, Mode=TwoWay}" />
 
-                    <!-- Proper shipping name -->
-                    <DataGridTextColumn x:Name="nameColumn"
+                <!-- Proper shipping name -->
+                <DataGridTextColumn x:Name="nameColumn"
                                     Header="Proper shipping name"
                                     FocusManager.FocusedElement="{Binding ElementName=txbName}"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].DisplayIndex, Mode=TwoWay, FallbackValue=7}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Visibility, Mode=TwoWay}"
                                     Binding="{Binding Name, UpdateSourceTrigger=LostFocus}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style>
-                                <Setter Property="TextBlock.MaxHeight"
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.MaxHeight"
                                     Value="50" />
-                                <Setter Property="TextBlock.TextWrapping"
+                            <Setter Property="TextBlock.TextWrapping"
                                     Value="WrapWithOverflow" />
-                                <Setter Property="TextBlock.TextTrimming"
+                            <Setter Property="TextBlock.TextTrimming"
                                     Value="CharacterEllipsis"/>
 
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                        <DataGridTextColumn.EditingElementStyle>
-                            <Style>
-                                <Setter Property="TextBox.TextWrapping"
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style>
+                            <Setter Property="TextBox.TextWrapping"
                                     Value="WrapWithOverflow" />
-                                <Setter Property="TextBox.MaxLines"
+                            <Setter Property="TextBox.MaxLines"
                                     Value="3" />
-                            </Style>
-                        </DataGridTextColumn.EditingElementStyle>
-                    </DataGridTextColumn>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
 
-                    <!-- Packing group -->
-                    <DataGridTextColumn x:Name="pkgColumn"
+                <!-- Packing group -->
+                <DataGridTextColumn x:Name="pkgColumn"
                                     Binding="{Binding PackingGroup, UpdateSourceTrigger=LostFocus}"
                                     Header="Packing group"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[8].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[8].DisplayIndex, Mode=TwoWay, FallbackValue=8}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[8].Visibility, Mode=TwoWay}" />
 
-                    <!-- Flash point -->
-                    <DataGridTextColumn x:Name="fpColumn"
+                <!-- Flash point -->
+                <DataGridTextColumn x:Name="fpColumn"
                                     Binding="{Binding FlashPoint, UpdateSourceTrigger=LostFocus}"
                                     Header="Flash point"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[9].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[9].DisplayIndex, Mode=TwoWay, FallbackValue=9}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[9].Visibility, Mode=TwoWay}" />
 
-                    <!-- NetWt -->
-                    <DataGridTextColumn x:Name="netColumn"
+                <!-- NetWt -->
+                <DataGridTextColumn x:Name="netColumn"
                                     Binding="{Binding DgNetWeight, StringFormat=\{0:0.000\}, UpdateSourceTrigger=LostFocus}"
                                     Header="Net weight"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[10].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[10].DisplayIndex, Mode=TwoWay, FallbackValue=10}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[10].Visibility, Mode=TwoWay}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style>
-                                <Setter Property="TextBox.TextAlignment"
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBox.TextAlignment"
                                     Value="Right" />
-                                <Setter Property="TextBox.Padding"
+                            <Setter Property="TextBox.Padding"
                                     Value="5" />
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
 
-                    <!-- isLQ -->
-                    <DataGridTemplateColumn x:Name="lqColumn"
+                <!-- isLQ -->
+                <DataGridTemplateColumn x:Name="lqColumn"
                                         Header="LQ"
                                         CanUserSort="True"
                                         SortMemberPath="IsLq"
                                         Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].Width, Mode=TwoWay}"
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].DisplayIndex, Mode=TwoWay, FallbackValue=11}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].Visibility, Mode=TwoWay}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IsLq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsLq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- isRf -->
-                    <DataGridTemplateColumn x:Name="rfColumn"
+                <!-- isRf -->
+                <DataGridTemplateColumn x:Name="rfColumn"
                                         Header="Is reefer"
                                         CanUserSort="True"
                                         SortMemberPath="IsRf"
                                         Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[12].Width, Mode=TwoWay}"
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[12].DisplayIndex, Mode=TwoWay, FallbackValue=12}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[12].Visibility, Mode=TwoWay}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IsRf, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsRf, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- isMp -->
-                    <DataGridTemplateColumn x:Name="mpColumn"
+                <!-- isMp -->
+                <DataGridTemplateColumn x:Name="mpColumn"
                                         Header="Marine pollutant"
                                         CanUserSort="True"
                                         SortMemberPath="IsMp"
                                         Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[13].Width, Mode=TwoWay}"
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[13].DisplayIndex, Mode=TwoWay, FallbackValue=13}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[13].Visibility, Mode=TwoWay}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IsMp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsMp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- Properties -->
-                    <DataGridTextColumn x:Name="propertiesColumn"
+                <!-- Properties -->
+                <DataGridTextColumn x:Name="propertiesColumn"
                                     Binding="{Binding Properties}"
                                     Header="Properties"
                                     IsReadOnly="True"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[14].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[14].DisplayIndex, Mode=TwoWay, FallbackValue=14}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[14].Visibility, Mode=TwoWay}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style>
-                                <Setter Property="TextBlock.TextWrapping"
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping"
                                     Value="WrapWithOverflow" />
-                                <Setter Property="TextBox.MaxLines"
+                            <Setter Property="TextBox.MaxLines"
                                     Value="3" />
-                                <Setter Property="TextBlock.TextTrimming"
+                            <Setter Property="TextBlock.TextTrimming"
                                     Value="CharacterEllipsis"/>
-                                <!--<Setter Property="TextBlock.ToolTip"
+                            <!--<Setter Property="TextBlock.ToolTip"
                                     Value="{Binding Properties}"/>
                             <Setter Property="ToolTip.Placement"
                                     Value="Center"/>-->
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
 
-                    <!-- Special -->
-                    <DataGridTemplateColumn x:Name="specialColumn"
+                <!-- Special -->
+                <DataGridTemplateColumn x:Name="specialColumn"
                                         Header="Special"
                                         IsReadOnly="True"
                                         Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[15].Width, Mode=TwoWay}"
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[15].DisplayIndex, Mode=TwoWay, FallbackValue=15}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[15].Visibility, Mode=TwoWay}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Special}"
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Special}"
                                        TextWrapping="WrapWithOverflow"
                                        Background="{Binding}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- Stowage category -->
-                    <DataGridComboBoxColumn x:Name="stowCatColumn"
+                <!-- Stowage category -->
+                <DataGridComboBoxColumn x:Name="stowCatColumn"
                                         ItemsSource="{Binding Source={x:Static vm:DataGridDgViewModel.StowageCategories}}"
                                         SelectedItemBinding="{Binding StowageCat, UpdateSourceTrigger=PropertyChanged}"
                                         Header="Stowage category"
@@ -399,10 +404,10 @@
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[16].DisplayIndex, Mode=TwoWay, FallbackValue=16}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[16].Visibility, Mode=TwoWay}">
 
-                    </DataGridComboBoxColumn>
+                </DataGridComboBoxColumn>
 
-                    <!-- SW -->
-                    <DataGridTextColumn x:Name="swColumn"
+                <!-- SW -->
+                <DataGridTextColumn x:Name="swColumn"
                                     Binding="{Binding StowageSW}"
                                     Header="Special stowage requirements"
                                     IsReadOnly="True"
@@ -410,8 +415,8 @@
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[17].DisplayIndex, Mode=TwoWay, FallbackValue=17}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[17].Visibility, Mode=TwoWay}" />
 
-                    <!-- SG -->
-                    <DataGridTextColumn x:Name="sgColumn"
+                <!-- SG -->
+                <DataGridTextColumn x:Name="sgColumn"
                                     Binding="{Binding SegregationSG}"
                                     Header="Special segregation requirement"
                                     IsReadOnly="True"
@@ -419,182 +424,182 @@
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[18].DisplayIndex, Mode=TwoWay, FallbackValue=18}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[18].Visibility, Mode=TwoWay}" />
 
-                    <!-- Segregation groups -->
-                    <DataGridTextColumn x:Name="segrGroupColumn"
+                <!-- Segregation groups -->
+                <DataGridTextColumn x:Name="segrGroupColumn"
                                     Binding="{Binding SegregationGroup}"
                                     Header="Segregation group"
                                     IsReadOnly="True"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[19].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[19].DisplayIndex, Mode=TwoWay, FallbackValue=19}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[19].Visibility, Mode=TwoWay}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style>
-                                <Setter Property="TextBox.TextWrapping"
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBox.TextWrapping"
                                     Value="WrapWithOverflow" />
-                                <Setter Property="TextBox.MaxLines"
+                            <Setter Property="TextBox.MaxLines"
                                     Value="3" />
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
 
-                    <!-- TYPE -->
-                    <DataGridTextColumn x:Name="containerTypeColumn"
+                <!-- TYPE -->
+                <DataGridTextColumn x:Name="containerTypeColumn"
                                     Binding="{Binding ContainerType, UpdateSourceTrigger=LostFocus}"
                                     Header="Container type"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[20].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[20].DisplayIndex, Mode=TwoWay, FallbackValue=20}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[20].Visibility, Mode=TwoWay}">
 
-                        <DataGridTextColumn.ElementStyle>
-                            <Style>
-                                <Style.Triggers>
-                                    <Trigger Property="Validation.HasError"
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Style.Triggers>
+                                <Trigger Property="Validation.HasError"
                                          Value="True">
-                                        <Setter Property="TextBlock.Background"
+                                    <Setter Property="TextBlock.Background"
                                             Value="Red" />
-                                        <Setter Property="TextBlock.ToolTip"
+                                    <Setter Property="TextBlock.ToolTip"
                                             Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
 
-                    <!-- isOPEN -->
-                    <DataGridTemplateColumn x:Name="openColumn"
+                <!-- isOPEN -->
+                <DataGridTemplateColumn x:Name="openColumn"
                                         Header="Open type"
                                         CanUserSort="True"
                                         SortMemberPath="IsOpen"
                                         Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[21].Width, Mode=TwoWay}"
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[21].DisplayIndex, Mode=TwoWay, FallbackValue=21}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[21].Visibility, Mode=TwoWay}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IsOpen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsOpen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- CargoHoldNumber -->
-                    <DataGridTextColumn x:Name="cargoHoldColumn"
+                <!-- CargoHoldNumber -->
+                <DataGridTextColumn x:Name="cargoHoldColumn"
                                     Binding="{Binding HoldNr, UpdateSourceTrigger=LostFocus}"
                                     Header="Hold number"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[22].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[22].DisplayIndex, Mode=TwoWay, FallbackValue=22}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[22].Visibility, Mode=TwoWay}">
 
-                    </DataGridTextColumn>
+                </DataGridTextColumn>
 
-                    <!-- isLocked -->
-                    <DataGridTemplateColumn x:Name="isLockedColumn"
+                <!-- isLocked -->
+                <DataGridTemplateColumn x:Name="isLockedColumn"
                                         Header="Is Locked"
                                         CanUserSort="True"
                                         SortMemberPath="IsPositionLockedForChange"
                                         Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[23].Width, Mode=TwoWay}"
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[23].DisplayIndex, Mode=TwoWay, FallbackValue=23}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[23].Visibility, Mode=TwoWay}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IsPositionLockedForChange, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsPositionLockedForChange, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- isToBeKeptInPlan -->
-                    <DataGridTemplateColumn x:Name="isToBeKept"
+                <!-- isToBeKeptInPlan -->
+                <DataGridTemplateColumn x:Name="isToBeKept"
                                         Header="To be kept in plan"
                                         CanUserSort="True"
                                         SortMemberPath="IsToBeKeptInPlan"
                                         Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[24].Width, Mode=TwoWay}"
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[24].DisplayIndex, Mode=TwoWay, FallbackValue=24}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[24].Visibility, Mode=TwoWay}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IsToBeKeptInPlan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsToBeKeptInPlan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- isToImport -->
-                    <DataGridTemplateColumn x:Name="isToBeImportedColumn"
+                <!-- isToImport -->
+                <DataGridTemplateColumn x:Name="isToBeImportedColumn"
                                         Header="Import"
                                         CanUserSort="True"
                                         SortMemberPath="IsToImport"
                                         Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[41].Width, Mode=TwoWay}"
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[41].DisplayIndex, Mode=TwoWay, FallbackValue=41}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[41].Visibility, Mode=TwoWay}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IsToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- isNotToImport -->
-                    <DataGridTemplateColumn x:Name="isNotToBeImportedColumn"
+                <!-- isNotToImport -->
+                <DataGridTemplateColumn x:Name="isNotToBeImportedColumn"
                                         Header="Not to import"
                                         CanUserSort="True"
                                         SortMemberPath="IsNotToImport"
                                         Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[42].Width, Mode=TwoWay}"
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[42].DisplayIndex, Mode=TwoWay, FallbackValue=42}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[42].Visibility, Mode=TwoWay}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IsNotToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsNotToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- HasLocationChanged -->
-                    <DataGridTemplateColumn x:Name="locationChangedColumn"
+                <!-- HasLocationChanged -->
+                <DataGridTemplateColumn x:Name="locationChangedColumn"
                                         Header="Location changed"
                                         CanUserSort="True"
                                         SortMemberPath="HasLocationChanged"
                                         Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[25].Width, Mode=TwoWay}"
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[25].DisplayIndex, Mode=TwoWay, FallbackValue=25}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[25].Visibility, Mode=TwoWay}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=HasLocationChanged, UpdateSourceTrigger=PropertyChanged}"
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=HasLocationChanged, UpdateSourceTrigger=PropertyChanged}"
                                       IsEnabled="False"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- Location before restow -->
-                    <DataGridTextColumn x:Name="positionBeforeRestowColumn"
+                <!-- Location before restow -->
+                <DataGridTextColumn x:Name="positionBeforeRestowColumn"
                                     Binding="{Binding LocationBeforeRestow, Mode=OneWay}"
                                     Header="Old Position"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[43].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[43].DisplayIndex, Mode=TwoWay, FallbackValue=43}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[43].Visibility, Mode=TwoWay}"
                                     IsReadOnly="False">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style>
-                                <Setter Property="TextBlock.TextWrapping"
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping"
                                     Value="NoWrap" />
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
 
-                    <!-- isNewUnitInPlan -->
-                    <DataGridTemplateColumn x:Name="newUnitColumn"
+                <!-- isNewUnitInPlan -->
+                <DataGridTemplateColumn x:Name="newUnitColumn"
                                         Header="Is New in plan"
                                         CanUserSort="True"
                                         SortMemberPath="IsNewUnitInPlan"
                                         Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[26].Width, Mode=TwoWay}"
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[26].DisplayIndex, Mode=TwoWay, FallbackValue=26}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[26].Visibility, Mode=TwoWay}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IsNewUnitInPlan, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsNewUnitInPlan, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                       IsEnabled="False" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- HasUPDATED -->
-                    <DataGridTemplateColumn x:Name="hasUpdatedColumn"
+                <!-- HasUPDATED -->
+                <DataGridTemplateColumn x:Name="hasUpdatedColumn"
                                         Header="Has Updated"
                                         CanUserSort="True"
                                         SortMemberPath="HasUpdated"
@@ -602,31 +607,31 @@
                                         Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[27].Width, Mode=TwoWay}"
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[27].DisplayIndex, Mode=TwoWay, FallbackValue=27}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[27].Visibility, Mode=TwoWay}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding HasUpdated, Mode=OneWay}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding HasUpdated, Mode=OneWay}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- HasPodChanged -->
-                    <DataGridTemplateColumn x:Name="hasPodChangedColumn"
+                <!-- HasPodChanged -->
+                <DataGridTemplateColumn x:Name="hasPodChangedColumn"
                                         Header="POD changed"
                                         CanUserSort="True"
                                         SortMemberPath="HasPodChanged"
                                         Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[28].Width, Mode=TwoWay}"
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[28].DisplayIndex, Mode=TwoWay, FallbackValue=28}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[28].Visibility, Mode=TwoWay}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=HasPodChanged, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=HasPodChanged, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                       IsEnabled="False" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- HasContainerTypeChanged -->
-                    <DataGridTemplateColumn x:Name="hasContainerTypeChangedColumn"
+                <!-- HasContainerTypeChanged -->
+                <DataGridTemplateColumn x:Name="hasContainerTypeChangedColumn"
                                         Header="Type changed"
                                         IsReadOnly="True"
                                         CanUserSort="True"
@@ -634,94 +639,94 @@
                                         Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[29].Width, Mode=TwoWay}"
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[29].DisplayIndex, Mode=TwoWay, FallbackValue=29}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[29].Visibility, Mode=TwoWay}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding HasContainerTypeChanged, Mode=OneWay}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding HasContainerTypeChanged, Mode=OneWay}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- isMAX1L -->
-                    <DataGridTemplateColumn x:Name="isMax1LColumn"
+                <!-- isMAX1L -->
+                <DataGridTemplateColumn x:Name="isMax1LColumn"
                                         Header="Max 1L"
                                         CanUserSort="True"
                                         SortMemberPath="IsMax1L"
                                         Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[30].Width, Mode=TwoWay}"
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[30].DisplayIndex, Mode=TwoWay, FallbackValue=30}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[30].Visibility, Mode=TwoWay}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IsMax1L, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsMax1L, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- isWASTE -->
-                    <DataGridTemplateColumn x:Name="isWasteColumn"
+                <!-- isWASTE -->
+                <DataGridTemplateColumn x:Name="isWasteColumn"
                                         Header="Waste"
                                         CanUserSort="True"
                                         SortMemberPath="IsWaste"
                                         Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[31].Width, Mode=TwoWay}"
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[31].DisplayIndex, Mode=TwoWay, FallbackValue=31}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[31].Visibility, Mode=TwoWay}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IsWaste, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsWaste, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- isSTABILIZED -->
-                    <DataGridTemplateColumn x:Name="isStabilizedColumn"
+                <!-- isSTABILIZED -->
+                <DataGridTemplateColumn x:Name="isStabilizedColumn"
                                         Header="Stabilized"
                                         CanUserSort="True"
                                         SortMemberPath="IsStabilized"
                                         Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[32].Width, Mode=TwoWay}"
                                         DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[32].DisplayIndex, Mode=TwoWay, FallbackValue=32}"
                                         Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[32].Visibility, Mode=TwoWay}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IsStabilized, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsStabilized, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <!-- EMS -->
-                    <DataGridTextColumn x:Name="emsColumn"
+                <!-- EMS -->
+                <DataGridTextColumn x:Name="emsColumn"
                                     Binding="{Binding DgEMS}"
                                     Header="EmS"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[33].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[33].DisplayIndex, Mode=TwoWay, FallbackValue=33}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[33].Visibility, Mode=TwoWay}" />
 
-                    <!-- TechnicalName -->
-                    <DataGridTextColumn x:Name="technicalNameColumn"
+                <!-- TechnicalName -->
+                <DataGridTextColumn x:Name="technicalNameColumn"
                                     Header="Technical name"
                                     FocusManager.FocusedElement="{Binding ElementName=technicalNameColumn}"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[34].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[34].DisplayIndex, Mode=TwoWay, FallbackValue=34}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[34].Visibility, Mode=TwoWay}"
                                     Binding="{Binding TechnicalName, UpdateSourceTrigger=LostFocus, Mode=TwoWay}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style>
-                                <Setter Property="TextBox.TextWrapping"
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBox.TextWrapping"
                                     Value="WrapWithOverflow" />
-                                <Setter Property="TextBox.MaxLines"
+                            <Setter Property="TextBox.MaxLines"
                                     Value="2" />
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                        <DataGridTextColumn.EditingElementStyle>
-                            <Style>
-                                <Setter Property="TextBox.TextWrapping"
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style>
+                            <Setter Property="TextBox.TextWrapping"
                                     Value="WrapWithOverflow" />
-                                <Setter Property="TextBox.MaxLines"
+                            <Setter Property="TextBox.MaxLines"
                                     Value="3" />
-                            </Style>
-                        </DataGridTextColumn.EditingElementStyle>
-                    </DataGridTextColumn>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
 
-                    <!-- OriginalName -->
-                    <DataGridTextColumn x:Name="originalNameColumn"
+                <!-- OriginalName -->
+                <DataGridTextColumn x:Name="originalNameColumn"
                                     Header="Proper Shipping Name from IMDG code"
                                     FocusManager.FocusedElement="{Binding ElementName=originalNameColumn}"
                                     IsReadOnly="True"
@@ -729,115 +734,115 @@
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[35].DisplayIndex, Mode=TwoWay, FallbackValue=35}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[35].Visibility, Mode=TwoWay}"
                                     Binding="{Binding OriginalNameFromCode, Mode=OneWay}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style>
-                                <Setter Property="TextBox.TextWrapping"
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBox.TextWrapping"
                                     Value="WrapWithOverflow" />
-                                <Setter Property="TextBox.MaxLines"
+                            <Setter Property="TextBox.MaxLines"
                                     Value="2" />
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
 
-                    <!-- Packages -->
-                    <DataGridTextColumn x:Name="packagesColumn"
+                <!-- Packages -->
+                <DataGridTextColumn x:Name="packagesColumn"
                                     Header="Number and type of Packages"
                                     FocusManager.FocusedElement="{Binding ElementName=packagesColumn}"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[36].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[36].DisplayIndex, Mode=TwoWay, FallbackValue=36}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[36].Visibility, Mode=TwoWay}"
                                     Binding="{Binding NumberAndTypeOfPackages, UpdateSourceTrigger=LostFocus, Mode=TwoWay}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style>
-                                <Setter Property="TextBox.TextWrapping"
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBox.TextWrapping"
                                     Value="WrapWithOverflow" />
-                                <Setter Property="TextBox.MaxLines"
+                            <Setter Property="TextBox.MaxLines"
                                     Value="2" />
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                        <DataGridTextColumn.EditingElementStyle>
-                            <Style>
-                                <Setter Property="TextBox.TextWrapping"
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style>
+                            <Setter Property="TextBox.TextWrapping"
                                     Value="WrapWithOverflow" />
-                                <Setter Property="TextBox.MaxLines"
+                            <Setter Property="TextBox.MaxLines"
                                     Value="3" />
-                            </Style>
-                        </DataGridTextColumn.EditingElementStyle>
-                    </DataGridTextColumn>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
 
-                    <!-- EmergencyContacts -->
-                    <DataGridTextColumn x:Name="contactsColumn"
+                <!-- EmergencyContacts -->
+                <DataGridTextColumn x:Name="contactsColumn"
                                     Header="Emergency contact"
                                     FocusManager.FocusedElement="{Binding ElementName=contactsColumn}"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[37].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[37].DisplayIndex, Mode=TwoWay, FallbackValue=37}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[37].Visibility, Mode=TwoWay}"
                                     Binding="{Binding EmergencyContacts, UpdateSourceTrigger=LostFocus, Mode=TwoWay}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style>
-                                <Setter Property="TextBox.TextWrapping"
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBox.TextWrapping"
                                     Value="WrapWithOverflow" />
-                                <Setter Property="TextBox.MaxLines"
+                            <Setter Property="TextBox.MaxLines"
                                     Value="2" />
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                        <DataGridTextColumn.EditingElementStyle>
-                            <Style>
-                                <Setter Property="TextBox.TextWrapping"
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style>
+                            <Setter Property="TextBox.TextWrapping"
                                     Value="WrapWithOverflow" />
-                                <Setter Property="TextBox.MaxLines"
+                            <Setter Property="TextBox.MaxLines"
                                     Value="3" />
-                            </Style>
-                        </DataGridTextColumn.EditingElementStyle>
-                    </DataGridTextColumn>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
 
-                    <!-- Remarks -->
-                    <DataGridTextColumn x:Name="remarksColumn"
+                <!-- Remarks -->
+                <DataGridTextColumn x:Name="remarksColumn"
                                     Header="Remarks"
                                     FocusManager.FocusedElement="{Binding ElementName=remarksColumn}"
                                     Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].Width, Mode=TwoWay}"
                                     DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].DisplayIndex, Mode=TwoWay, FallbackValue=38}"
                                     Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].Visibility, Mode=TwoWay}"
                                     Binding="{Binding Remarks, UpdateSourceTrigger=LostFocus, Mode=TwoWay}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style>
-                                <Setter Property="TextBox.TextWrapping"
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBox.TextWrapping"
                                     Value="WrapWithOverflow" />
-                                <Setter Property="TextBox.MaxLines"
+                            <Setter Property="TextBox.MaxLines"
                                     Value="2" />
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                        <DataGridTextColumn.EditingElementStyle>
-                            <Style>
-                                <Setter Property="TextBox.TextWrapping"
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.EditingElementStyle>
+                        <Style>
+                            <Setter Property="TextBox.TextWrapping"
                                     Value="WrapWithOverflow" />
-                                <Setter Property="TextBox.MaxLines"
+                            <Setter Property="TextBox.MaxLines"
                                     Value="3" />
-                            </Style>
-                        </DataGridTextColumn.EditingElementStyle>
-                    </DataGridTextColumn>
+                        </Style>
+                    </DataGridTextColumn.EditingElementStyle>
+                </DataGridTextColumn>
 
-                    <DataGridTemplateColumn IsReadOnly="True" Width="500" CanUserReorder="False" CanUserResize="False"
+                <DataGridTemplateColumn IsReadOnly="True" Width="500" CanUserReorder="False" CanUserResize="False"
                                         CanUserSort="False" />
 
-                </DataGrid.Columns>
+            </DataGrid.Columns>
 
 
-                <!-- BEHAVIORS -->
-                <behavior:Interaction.Triggers>
-                    <behavior:EventTrigger EventName="SelectionChanged">
-                        <behavior:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
-                    </behavior:EventTrigger>
-                </behavior:Interaction.Triggers>
+            <!-- BEHAVIORS -->
+            <behavior:Interaction.Triggers>
+                <behavior:EventTrigger EventName="SelectionChanged">
+                    <behavior:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
+                </behavior:EventTrigger>
+            </behavior:Interaction.Triggers>
 
 
-                <!-- INPUT BINDINGS -->
-                <DataGrid.InputBindings>
-                    <KeyBinding Key="Delete"
+            <!-- INPUT BINDINGS -->
+            <DataGrid.InputBindings>
+                <KeyBinding Key="Delete"
                             Command="{Binding DeleteDg}"
                             CommandParameter="{Binding ElementName=MainDgTable, Path=SelectedItems}" />
-                </DataGrid.InputBindings>
-            </DataGrid>
+            </DataGrid.InputBindings>
+        </DataGrid>
 
     </DockPanel>
 </UserControl>

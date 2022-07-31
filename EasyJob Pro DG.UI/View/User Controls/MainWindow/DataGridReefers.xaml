@@ -58,6 +58,7 @@
                   IsSynchronizedWithCurrentItem="True"
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
+                  CanUserSortColumns="True"
                   
                   FrozenColumnCount="0"
                   ScrollViewer.CanContentScroll="True"
@@ -122,7 +123,7 @@
                     <Setter Property="HorizontalAlignment" Value="Center"/>
                 </Style>
                 
-                <!-- CheckBox style -->
+                <!-- Cell style -->
                 <Style TargetType="{x:Type DataGridCell}">
                     <Setter Property="TextBlock.TextAlignment" Value="Right"/>
                     <Setter Property="Padding" Value="10,1"/>
@@ -142,7 +143,6 @@
                 <DataGridTextColumn x:Name="positionColumn"
                                     Binding="{Binding Location, UpdateSourceTrigger=LostFocus}"
                                     Header="Position"
-                                    CanUserSort="True"
                                     SortMemberPath="LocationSortable">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -157,7 +157,6 @@
                 <!-- Is under deck -->
                 <DataGridTemplateColumn x:Name="isUnderdeckColumn"
                                         Header="Is under deck"
-                                        CanUserSort="True"
                                         SortMemberPath="IsUnderdeck">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -196,7 +195,6 @@
                 <!-- Contains Dg cargo -->
                 <DataGridTemplateColumn x:Name="containsDgColumn"
                                         Header="Contains Dg cargo"
-                                        CanUserSort="True"
                                         SortMemberPath="ContainsDgCargo">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -315,7 +313,6 @@
                 <!-- isLocked -->
                 <DataGridTemplateColumn x:Name="isLockedColumn"
                                         Header="Is Locked"
-                                        CanUserSort="True"
                                         SortMemberPath="IsPositionLockedForChange">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -327,7 +324,6 @@
                 <!-- isToImport -->
                 <DataGridTemplateColumn x:Name="isToImport"
                                         Header="Import"
-                                        CanUserSort="True"
                                         SortMemberPath="IsToImport">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -339,7 +335,6 @@
                 <!-- isNotToImport -->
                 <DataGridTemplateColumn x:Name="isNotToImport"
                                         Header="Not to import"
-                                        CanUserSort="True"
                                         SortMemberPath="IsToNotImport">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -351,7 +346,6 @@
                 <!-- isToBeKeptInPlan -->
                 <DataGridTemplateColumn x:Name="isToBeKept"
                                         Header="To be kept in plan"
-                                        CanUserSort="True"
                                         SortMemberPath="IsToBeKeptInPlan">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -364,7 +358,6 @@
                 <DataGridTemplateColumn x:Name="locationChangedColumn"
                                         Header="Location changed"
                                         IsReadOnly="True"
-                                        CanUserSort="True"
                                         SortMemberPath="HasLocationChanged">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -391,7 +384,6 @@
                 <DataGridTemplateColumn x:Name="newUnitColumn"
                                         Header="Is New in plan"
                                         IsReadOnly="True"
-                                        CanUserSort="True"
                                         SortMemberPath="IsNewUnitInPlan">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -404,7 +396,6 @@
                 <!-- HasPodChanged -->
                 <DataGridTemplateColumn x:Name="hasPodChangedColumn"
                                         Header="POD changed"
-                                        CanUserSort="True"
                                         SortMemberPath="HasPodChanged"
                                         IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
@@ -419,7 +410,6 @@
                 <DataGridTemplateColumn x:Name="hasContainerTypeChangedColumn"
                                         Header="Type changed"
                                         IsReadOnly="True"
-                                        CanUserSort="True"
                                         SortMemberPath="HasContainerTypeChanged">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

@@ -46,7 +46,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICollectionView DgPlanView => dgPlanView?.View;
         public DgWrapper SelectedDg { get; set; }
         public List<DgWrapper> SelectedDgArray { get; set; }
-        public DgSortOrderPattern DgSortOrderDirection { get; set; }
         public bool IsTechnicalNameIncluded { get; set; }
 
 
