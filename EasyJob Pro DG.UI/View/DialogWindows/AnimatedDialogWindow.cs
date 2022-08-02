@@ -5,12 +5,19 @@ using System.Windows;
 
 namespace EasyJob_ProDG.UI.View.DialogWindows
 {
+    /// <summary>
+    /// Window class with In and Out animation added.
+    /// Also defines DragMove (Window_MouseLeftButtonDown) and CloseWindow methods that can be reffered to through xaml.
+    /// </summary>
     public class AnimatedDialogWindow : Window
     {
-        public AnimationTypes DialogWindowLoadAnimation { get; set; } = AnimationTypes.FadeIn;
-        public AnimationTypes DialogWindowUnloadAnimation { get; set; } = AnimationTypes.FadeOut;
-        public float FadeInSeconds { get; set; } = 0.4f;
-        public float FadeOutSeconds { get; set; } = 0.6f;
+        private AnimationTypes DialogWindowLoadAnimation { get; set; } = AnimationTypes.FadeIn;
+        private AnimationTypes DialogWindowUnloadAnimation { get; set; } = AnimationTypes.FadeOut;
+        private float FadeInSeconds { get; set; } = 0.4f;
+        private float FadeOutSeconds { get; set; } = 0.6f;
+
+
+        #region Constructors
 
         public AnimatedDialogWindow()
         {
@@ -32,22 +39,14 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
             DialogWindowUnloadAnimation = dialogWindowUnloadAnimation;
         }
 
+        #endregion
 
 
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            await AnimateIn();
-        }
-        private async void Window_Closing(object sender, CancelEventArgs e)
-        {
-            e.Cancel = true;
-            await AnimateOut();
-            this.Closing -= Window_Closing;
-            this.Close();
-        }
-
-
-        public async Task AnimateIn()
+        /// <summary>
+        /// Switching opening animation.
+        /// </summary>
+        /// <returns>None.</returns>
+        private async Task AnimateIn()
         {
             if (this.DialogWindowLoadAnimation == AnimationTypes.None) return;
 
@@ -61,7 +60,11 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
             }
         }
 
-        public async Task AnimateOut()
+        /// <summary>
+        /// Switching closing animation.
+        /// </summary>
+        /// <returns>None.</returns>
+        private async Task AnimateOut()
         {
             if (this.DialogWindowUnloadAnimation == AnimationTypes.None) return;
 
@@ -74,5 +77,53 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
                     return;
             }
         }
+
+
+        /// <summary>
+        /// Defines Window.Loaded logic.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            await AnimateIn();
+        }
+
+        /// <summary>
+        /// Defines Window closing logic.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Window_Closing(object sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
+            await AnimateOut();
+            this.Closing -= Window_Closing;
+            this.Close();
+        }
+
+
+        /// <summary>
+        /// Method to DragMove the window while left mouse button pressed.
+        /// MouseLeftButtonDown="Window_MouseLeftButtonDown" shall be defined in xaml.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ButtonState == System.Windows.Input.MouseButtonState.Pressed)
+                this.DragMove();
+        }
+
+        /// <summary>
+        /// Reference method to define Close button Click event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void CloseWindow(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
     }
 }

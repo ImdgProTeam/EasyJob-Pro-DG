@@ -44,10 +44,12 @@
                         VerticalAlignment="Bottom"
                         HorizontalAlignment="Center">
                 <Button Name="btnClose"
+                        IsCancel="True"
+                        IsDefault="True"
                         Style="{StaticResource BasicButton}"
                         Width="80"
                         Content="Close"
-                        Click="btnClose_Click"/>
+                        Click="CloseWindow"/>
             </StackPanel>
         </Grid>
 

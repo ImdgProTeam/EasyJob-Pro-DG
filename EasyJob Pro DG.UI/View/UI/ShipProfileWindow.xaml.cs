@@ -29,11 +29,6 @@ namespace EasyJob_ProDG.UI.View.UI
             else buttonNext.IsEnabled = true;
         }
 
-        private void CloseWindow(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
         private void buttonBack_Click(object sender, RoutedEventArgs e)
         {
             if (tabShipProfile.SelectedIndex > 0)
@@ -46,13 +41,6 @@ namespace EasyJob_ProDG.UI.View.UI
             if (tabShipProfile.SelectedIndex < tabShipProfile.Items.Count - 1)
                 tabShipProfile.SelectedIndex++;
             ButtonsEnabledCheck();
-        }
-
-
-        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            if (e.ButtonState == System.Windows.Input.MouseButtonState.Pressed)
-                this.DragMove();
         }
 
         private void tabShipProfile_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
