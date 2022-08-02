@@ -78,5 +78,19 @@ namespace EasyJob_ProDG.UI.View.Animations
             Storyboard.SetTargetProperty(animation, new PropertyPath("Opacity"));
             storyboard.Children.Add(animation);
         }
+
+        public static void AddFadeOut(this Storyboard storyboard, float seconds, float decelerationRatio = 0.9f)
+        {
+            var animation = new DoubleAnimation
+            {
+                Duration = new Duration(TimeSpan.FromSeconds(seconds)),
+                From = 1,
+                To = 0,
+                DecelerationRatio = decelerationRatio
+            };
+
+            Storyboard.SetTargetProperty(animation, new PropertyPath("Opacity"));
+            storyboard.Children.Add(animation);
+        }
     }
 }

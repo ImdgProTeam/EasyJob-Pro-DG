@@ -6,7 +6,9 @@
         SlideAndFadeInFromRight = 1,
         SlideAndFadeInFromLeft = 2,
         SlideAndFadeInFromTop = 3,
-        SlideAndFadeInFromBottom = 4
+        SlideAndFadeInFromBottom = 4,
+        FadeIn = 5,
+        FadeOut = 6
 
     }
 }

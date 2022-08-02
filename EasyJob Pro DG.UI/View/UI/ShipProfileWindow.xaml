@@ -1,4 +1,4 @@
-﻿<Window x:Class="EasyJob_ProDG.UI.View.UI.ShipProfileWindow"
+﻿<dw:AnimatedDialogWindow x:Class="EasyJob_ProDG.UI.View.UI.ShipProfileWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,6 +6,7 @@
         xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
+        xmlns:dw="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows"
         mc:Ignorable="d"
         Title="Ship Profile"
         Height="500"
@@ -131,4 +132,4 @@
             <i:InvokeCommandAction Command="{Binding WindowClosed}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-</Window>
+</dw:AnimatedDialogWindow>

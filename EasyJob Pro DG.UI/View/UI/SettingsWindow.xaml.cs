@@ -1,11 +1,12 @@
-﻿using System.Windows;
+﻿using EasyJob_ProDG.UI.View.DialogWindows;
+using System.Windows;
 
 namespace EasyJob_ProDG.UI.View.UI
 {
     /// <summary>
     /// Логика взаимодействия для SettingsWindow.xaml
     /// </summary>
-    public partial class SettingsWindow : Window
+    public partial class SettingsWindow : AnimatedDialogWindow
     {
         public SettingsWindow()
         {
