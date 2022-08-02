@@ -1,13 +1,11 @@
-﻿using System.Windows.Controls;
-
-namespace EasyJob_ProDG.UI.View.User_Controls
+﻿namespace EasyJob_ProDG.UI.View.User_Controls
 {
     /// <summary>
     /// Логика взаимодействия для InfoBlock.xaml
     /// </summary>
-    public partial class InfoBlock : UserControl
+    public partial class InfoBlock : AnimatedUserControl
     {
-        public InfoBlock()
+        public InfoBlock() :base(Animations.AnimationTypes.SlideAndFadeInFromBottom)
         {
             InitializeComponent();
         }

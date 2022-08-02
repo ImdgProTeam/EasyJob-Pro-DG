@@ -9,7 +9,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
     /// <summary>
     /// Логика взаимодействия для ListBoxConflicts.xaml
     /// </summary>
-    public partial class ConflictsListView : UserControl
+    public partial class ConflictsListView : AnimatedUserControl
     {
         
         //Brushes
@@ -22,7 +22,8 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         bool lockChange;
 
 
-        public ConflictsListView()
+        public ConflictsListView() 
+            : base(Animations.AnimationTypes.SlideAndFadeInFromRight)
         {
             InitializeComponent();
             _hover = (Brush)this.FindResource("Brush.Text.MouseOver");
@@ -119,5 +120,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                 }
             }
         }
+
     }
 }

@@ -181,6 +181,9 @@
     <Compile Include="ViewModel\SettingsWindowVM.cs" />
     <Compile Include="ViewModel\ShipProfileWindowVM.cs" />
     <Compile Include="ViewModel\StatusBarViewModel.cs" />
+    <Compile Include="View\Animations\AnimationTypes.cs" />
+    <Compile Include="View\Animations\StoryboardHelpers.cs" />
+    <Compile Include="View\Animations\UserControlAnimations.cs" />
     <Compile Include="View\AttachedProperties\EnterKeyTraversal.cs" />
     <Compile Include="View\AttachedProperties\SelectingContainerDataGridItem.cs" />
     <Compile Include="View\AttachedProperties\SelectingDgDataGridItem.cs" />
@@ -223,6 +226,7 @@
       <DependentUpon>ShipProfileWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogWindows\WinLoginViewModel.cs" />
+    <Compile Include="View\User Controls\AnimatedUserControl.cs" />
     <Compile Include="View\User Controls\MainWindow\AddContainerToDataGrid.cs">
       <DependentUpon>AddContainerGrid.xaml</DependentUpon>
     </Compile>

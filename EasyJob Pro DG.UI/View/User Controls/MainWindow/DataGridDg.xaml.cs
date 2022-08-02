@@ -15,7 +15,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
     /// <summary>
     /// Логика взаимодействия для DgDataGrid.xaml
     /// </summary>
-    public partial class DataGridDg : UserControl
+    public partial class DataGridDg : AnimatedUserControl
     {
         private static bool IsCellEditingOn;
         private int currentRowIndex = 1;
@@ -24,7 +24,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         private bool IsResizingColumn { get; set; }
 
 
-        public DataGridDg()
+        public DataGridDg() : base(Animations.AnimationTypes.SlideAndFadeInFromLeft)
         {
             InitializeComponent();
         }
