@@ -122,6 +122,8 @@
     <Compile Include="for experiments 2.xaml.cs">
       <DependentUpon>for experiments 2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Security\IHavePassword.cs" />
+    <Compile Include="Security\SecureStringHelpers.cs" />
     <Compile Include="Services\DialogServices\IDialogWindowRequestClose.cs" />
     <Compile Include="Services\FirstStartServices\ExtensionRegistryHelper.cs" />
     <Compile Include="Services\FirstStartServices\FirstStartService.cs" />
@@ -186,6 +188,7 @@
     <Compile Include="View\Animations\DialogWindowAnimations.cs" />
     <Compile Include="View\Animations\UserControlAnimations.cs" />
     <Compile Include="View\AttachedProperties\EnterKeyTraversal.cs" />
+    <Compile Include="View\AttachedProperties\PasswordBoxProperties.cs" />
     <Compile Include="View\AttachedProperties\SelectingContainerDataGridItem.cs" />
     <Compile Include="View\AttachedProperties\SelectingDgDataGridItem.cs" />
     <Compile Include="View\Converters\AnyCellToNullConverter.cs" />

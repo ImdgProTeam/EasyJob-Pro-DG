@@ -127,6 +127,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             OpenUserSettingsWindowCommand = new DelegateCommand(OpenUserSettingsWindowExecuted);
             ShowAboutCommand = new DelegateCommand(ShowAboutExecuted);
             ShowLicenseDialogCommand = new DelegateCommand(ShowLicenseDialogExecuted);
+            ShowLoginWindowCommand = new DelegateCommand(ShowLoginWindowOnExecuted);
             OpenFileCommand = new DelegateCommand(OpenOnExecuted);
             SaveFileCommand = new DelegateCommand(SaveOnExecuted);
             UpdateConditionCommand = new DelegateCommand(UpdateConditionOnExecuted, CanExecuteForOptionalOpen);
@@ -142,6 +143,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             ApplicationClosingCommand = new DelegateCommand(OnApplicationClosing);
 
         }
+
         private void SubscribeToMessenger()
         {
             DataMessenger.Default.Register<ShipProfileWrapperMessage>(this, OnShipProfileSaved, "ship profile saved");
@@ -555,6 +557,21 @@ namespace EasyJob_ProDG.UI.ViewModel
             //    }
             //}
         }
+
+        private void ShowLoginWindowOnExecuted(object obj)
+        {
+            //windowDialogService.ShowDialog(new winLogin());
+            var viewModel = new WinLoginViewModel();
+            var result = dialogWindowService.ShowDialog(viewModel);
+
+            if (result.HasValue)
+            {
+                if (result.Value)
+                {
+
+                }
+            }
+        }
         #endregion
 
 
@@ -565,6 +582,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand OpenUserSettingsWindowCommand { get; private set; }
         public ICommand ShowAboutCommand { get; private set; }
         public ICommand ShowLicenseDialogCommand { get; private set; }
+        public ICommand ShowLoginWindowCommand { get; private set; }
         public ICommand OpenFileCommand { get; set; }
         public ICommand SaveFileCommand { get; set; }
         public ICommand UpdateConditionCommand { get; set; }
