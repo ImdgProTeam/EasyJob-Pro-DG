@@ -4,6 +4,9 @@ using System.Windows.Controls;
 
 namespace EasyJob_ProDG.UI.View.AttachedProperties
 {
+    /// <summary>
+    /// Attached property on DgWrapper allowing to scroll and focus on selected item in DgDataGrid
+    /// </summary>
     public class SelectingDgDataGridItem
     {
         /// <summary>

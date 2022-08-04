@@ -4,6 +4,9 @@ using System.Windows.Controls;
 
 namespace EasyJob_ProDG.UI.View.AttachedProperties
 {
+    /// <summary>
+    /// Attached property on ContainerWrapper allowing to scroll and focus on selected item in DataGrid
+    /// </summary>
     public class SelectingContainerDataGridItem
     {
         /// <summary>
