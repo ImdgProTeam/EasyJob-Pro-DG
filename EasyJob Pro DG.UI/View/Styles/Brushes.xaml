@@ -199,10 +199,17 @@
     
     <!-- Controls colors -->
     <SolidColorBrush x:Key="Brush.TextBoxWithTag.Background"
-                     Color="{StaticResource Color.TextBoxWithTag.Background}"/>
+                     Color="{StaticResource Color.TextBoxWithTag.Background}"
+                     p:Freeze="true"/>
     <SolidColorBrush x:Key="Brush.TextBoxWithTag.Background.Selected"
-                     Color="{StaticResource Color.TextBoxWithTag.Background.Selected}"/>
+                     Color="{StaticResource Color.TextBoxWithTag.Background.Selected}"
+                     p:Freeze="true"/>
     <SolidColorBrush x:Key="Brush.TextBoxWithTag.Hint"
-                     Color="{StaticResource Color.Text.Hint}"/>
-
+                     Color="{StaticResource Color.Text.Hint}"
+                     p:Freeze="true"/>
+    
+    <!-- Toolbox Windows brushes -->
+    <SolidColorBrush x:Key="Brush.ToolboxWindow.Background"
+                     Color="{StaticResource Color.ToolboxWindow.Background}"
+                     p:Freeze="true"/>
 </ResourceDictionary>

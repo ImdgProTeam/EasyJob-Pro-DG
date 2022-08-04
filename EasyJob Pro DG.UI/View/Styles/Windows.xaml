@@ -27,16 +27,12 @@
     <!-- ****************************************** -->
     <!--   Tool Window  -->
     <!-- ****************************************** -->
-    <Style x:Key="ToolWindowStyle"
-           TargetType="Window">
-        <Setter Property="WindowState"
-                Value="Normal" />
-        <Setter Property="WindowStyle"
-                Value="None" />
-        <Setter Property="Background"
-                Value="DarkGray" />
-        <Setter Property="BorderThickness"
-                Value="1" />
+    <Style x:Key="ToolWindowStyle" TargetType="Window">
+        <Setter Property="WindowState" Value="Normal" />
+        <Setter Property="WindowStyle" Value="None" />
+        <Setter Property="AllowsTransparency" Value="True"/>
+        <Setter Property="Background" Value="{StaticResource Brush.ToolboxWindow.Background}" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="WindowChrome.CaptionHeight" Value="0"/>
     </Style>
 </ResourceDictionary>

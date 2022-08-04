@@ -66,13 +66,13 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <!---   Status bar   -->
+        <uc:MVStatusBar DockPanel.Dock="Bottom" Panel.ZIndex="1"/>
+
         <!--   Main working space -->
         <DockPanel Grid.Row="0"
                    LastChildFill="True"
                    >
-
-            <!---   Status bar   -->
-            <uc:MVStatusBar DockPanel.Dock="Bottom" />
 
             <!-- Main menu -->
             <StackPanel DockPanel.Dock="Top"

@@ -68,4 +68,9 @@
     <!-- TextBox with Tag -->
     <Color x:Key="Color.TextBoxWithTag.Background">Transparent</Color>
     <Color x:Key="Color.TextBoxWithTag.Background.Selected">aliceblue</Color>
+    
+    <!-- Toolbox window colors -->
+    <Color x:Key="Color.ToolboxWindow.Background">DarkGray</Color>
+    
+    
 </ResourceDictionary>
