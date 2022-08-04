@@ -204,11 +204,13 @@
     <Compile Include="View\Converters\VisibilityToInverseBooleanConverter.cs" />
     <Compile Include="View\Converters\ZeroNullStringToFalse.cs" />
     <Compile Include="View\Converters\ZeroToNullConverter.cs" />
+    <Compile Include="View\DialogWindows\AnimatedDialogResultWindow.cs" />
     <Compile Include="View\DialogWindows\AnimatedDialogWindow.cs" />
     <Compile Include="View\DialogWindows\DialogWindowOptions.xaml.cs">
       <DependentUpon>DialogWindowOptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogWindows\DialogWindowOptionsViewModel.cs" />
+    <Compile Include="View\DialogWindows\FeaturedDialogWindow.cs" />
     <Compile Include="View\DialogWindows\winLicence.xaml.cs">
       <DependentUpon>winLicence.xaml</DependentUpon>
     </Compile>

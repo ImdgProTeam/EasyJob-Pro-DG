@@ -35,7 +35,7 @@ namespace EasyJob_ProDG.UI.Services.DialogServices
                 viewModel.CloseRequested -= handler;
 
                 dialog.DialogResult = e.DialogResult;
-                dialog.Close();
+                //dialog.Close();
 
             };
             viewModel.CloseRequested += handler;

@@ -9,7 +9,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
     /// Window class with In and Out animation added.
     /// Also defines DragMove (Window_MouseLeftButtonDown) and CloseWindow methods that can be reffered to through xaml.
     /// </summary>
-    public class AnimatedDialogWindow : Window
+    public class AnimatedDialogWindow : FeaturedDialogWindow
     {
         private AnimationTypes DialogWindowLoadAnimation { get; set; } = AnimationTypes.FadeIn;
         private AnimationTypes DialogWindowUnloadAnimation { get; set; } = AnimationTypes.FadeOut;
@@ -94,7 +94,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void Window_Closing(object sender, CancelEventArgs e)
+        protected virtual async void Window_Closing(object sender, CancelEventArgs e)
         {
             e.Cancel = true;
             await AnimateOut();
@@ -102,28 +102,6 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
             this.Close();
         }
 
-
-        /// <summary>
-        /// Method to DragMove the window while left mouse button pressed.
-        /// MouseLeftButtonDown="Window_MouseLeftButtonDown" shall be defined in xaml.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            if (e.ButtonState == System.Windows.Input.MouseButtonState.Pressed)
-                this.DragMove();
-        }
-
-        /// <summary>
-        /// Reference method to define Close button Click event.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void CloseWindow(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
 
     }
 }
