@@ -7,17 +7,15 @@ namespace EasyJob_ProDG.UI.Wrapper
     public class ExcelReeferTemplateWrapper : ModelWrapper<ExcelReeferTemplate>
     {
         private string _originalTemplateName;
-        private byte _originalStartRow;
+        private byte _StartRow;
 
         //Constructor
         public ExcelReeferTemplateWrapper(ExcelReeferTemplate model) : base(model)
         {
             GenerateColumnProperties();
-            RememberOriginalValues();
+            GetMainTemplateProperties();
         }
 
-
-        private ObservableCollection<ExcelColumnProperty> _columnProperties;
         public ObservableCollection<ExcelColumnProperty> ColumnProperties
         {
             get
@@ -30,9 +28,11 @@ namespace EasyJob_ProDG.UI.Wrapper
                 OnPropertyChanged();
             }
         }
+        private ObservableCollection<ExcelColumnProperty> _columnProperties;
 
-
-        private bool _isChanged;
+        /// <summary>
+        /// Indicates if the template has been changed
+        /// </summary>
         public bool IsChanged
         {
             get
@@ -49,7 +49,12 @@ namespace EasyJob_ProDG.UI.Wrapper
                 _isChanged = value;
             }
         }
+        private bool _isChanged;
 
+        /// <summary>
+        /// Returns template values as a string joined with ','
+        /// </summary>
+        /// <returns>Template string</returns>
         internal string GetTemplateString()
         {
             return string.Join(",", Model.GetTemplate);
@@ -71,21 +76,12 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Saves original values in memory
-        /// </summary>
-        private void RememberOriginalValues()
-        {
-            _originalStartRow = StartRow;
-            _originalTemplateName = TemplateName;
-        }
-
-        /// <summary>
         /// Restores original values from memory
         /// </summary>
-        private void RestoreOriginalValues()
+        private void GetMainTemplateProperties()
         {
-            StartRow = _originalStartRow;
-            TemplateName = _originalTemplateName;
+            StartRow = Model.GetTemplate[0];
+            //Template name not implemented
         }
 
         /// <summary>
@@ -106,13 +102,13 @@ namespace EasyJob_ProDG.UI.Wrapper
         public void CancelChanges()
         {
             GenerateColumnProperties();
-            RestoreOriginalValues();
+            GetMainTemplateProperties();
         }
 
         /// <summary>
         /// Saves column properties values in Model properties
         /// </summary>
-        public void UploadChangesFromColumnProperties()
+        private void UploadChangesFromColumnProperties()
         {
             int i = 1;
             foreach (var updatedProperty in ColumnProperties)
@@ -121,9 +117,21 @@ namespace EasyJob_ProDG.UI.Wrapper
             }
         }
 
+        /// <summary>
+        /// Saves all the changes to Model template.
+        /// </summary>
+        public void UploadTemplateChanges()
+        {
+            Model.StartRow = StartRow;
+            UploadChangesFromColumnProperties();
+        }
 
 
         //Template Properties
+        /// <summary>
+        /// Title of Template to use in case of multiple templates.
+        /// Not implemented.
+        /// </summary>
         public string TemplateName
         {
             get { return GetValue<string>(); }
@@ -134,12 +142,17 @@ namespace EasyJob_ProDG.UI.Wrapper
                 IsChanged = true;
             }
         }
+
+        /// <summary>
+        /// The Row of excel sheet from which needed to start reading reefers info.
+        /// </summary>
         public byte StartRow
         {
-            get { return GetValue<byte>(); }
+            get { return _StartRow; }
             set
             {
-                SetValue(value);
+                if (_StartRow == value) return;
+                _StartRow = value;
                 IsChanged = true;
             }
         }

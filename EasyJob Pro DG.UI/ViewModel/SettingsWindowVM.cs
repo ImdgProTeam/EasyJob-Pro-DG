@@ -94,13 +94,13 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             if (changedExcelTemplate)
             {
-                ExcelTemplateDisplay.UploadChangesFromColumnProperties();
+                ExcelTemplateDisplay.UploadTemplateChanges();
                 uiSettingsService.SaveExcelTemplate(settings.ExcelTemplate);
             }
             if (changedReeferExcelTemplate)
             {
 
-                ExcelReeferTemplateDisplay.UploadChangesFromColumnProperties();
+                ExcelReeferTemplateDisplay.UploadTemplateChanges();
                 uiSettingsService.SaveReeferExcelTemplate(ExcelReeferTemplateDisplay.GetTemplateString());
             }
 

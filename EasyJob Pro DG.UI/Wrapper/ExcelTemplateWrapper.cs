@@ -11,9 +11,9 @@ namespace EasyJob_ProDG.UI.Wrapper
         #region Private fields
 
         private string[] _ignorableProperties = new string[] { "Model", "Item", "ColumnProperties", "Error", "TemplateName", "StartRow", "WorkingSheet", "IsChanged", "HasErrors" };
-        private string _originalWorkingSheet;
-        private string _originalTemplateName;
-        private int _originalStartRow; 
+        private string _workingSheet;
+        private string _templateName;
+        private int _startRow; 
 
         #endregion
 
@@ -84,7 +84,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         public ExcelTemplateWrapper(ExcelTemplate model) : base(model)
         {
             AutoGenerateColumnProperties();
-            RememberOriginalValues();
+            GetMainTemplateValues();
         }
 
         #endregion
@@ -109,22 +109,38 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <summary>
         /// Saves original values in memory
         /// </summary>
-        private void RememberOriginalValues()
+        private void GetMainTemplateValues()
         {
-            _originalStartRow = StartRow;
-            _originalTemplateName = TemplateName;
-            _originalWorkingSheet = WorkingSheet;
+            _startRow = Model.StartRow;
+            _templateName = Model.TemplateName;
+            _workingSheet = Model.WorkingSheet;
         }
 
         /// <summary>
-        /// Restores original values from memory
+        /// Saves main template properties to the Model.
         /// </summary>
-        private void RestoreOriginalValues()
+        private void SaveMainTemplateProperties()
         {
-            StartRow = _originalStartRow;
-            TemplateName = _originalTemplateName;
-            WorkingSheet = _originalWorkingSheet;
-        } 
+            Model.StartRow = _startRow;
+            Model.TemplateName = _templateName;
+            Model.WorkingSheet = _workingSheet;
+        }
+
+        /// <summary>
+        /// Saves column properties values in Model properties
+        /// </summary>
+        private void UploadChangesFromColumnProperties()
+        {
+            foreach (var updatedProperty in ColumnProperties)
+            {
+                foreach (var modelProperty in Model.GetType().GetProperties())
+                {
+
+                    if (modelProperty.Name == _columnPropertyNames.FirstOrDefault(x => x.Value == updatedProperty.PropertyName).Key)
+                        typeof(ExcelTemplate).GetProperty(modelProperty.Name)?.SetValue(Model, updatedProperty.Value);
+                }
+            }
+        }
 
         #endregion
 
@@ -148,24 +164,18 @@ namespace EasyJob_ProDG.UI.Wrapper
         public void CancelChanges()
         {
             AutoGenerateColumnProperties();
-            RestoreOriginalValues();
+            GetMainTemplateValues();
         }
 
-        /// <summary>
-        /// Saves column properties values in Model properties
-        /// </summary>
-        public void UploadChangesFromColumnProperties()
-        {
-            foreach (var updatedProperty in ColumnProperties)
-            {
-                foreach (var modelProperty in Model.GetType().GetProperties())
-                {
 
-                    if (modelProperty.Name == _columnPropertyNames.FirstOrDefault(x => x.Value == updatedProperty.PropertyName).Key)
-                        typeof(ExcelTemplate).GetProperty(modelProperty.Name)?.SetValue(Model, updatedProperty.Value);
-                }
-            }
-        } 
+        /// <summary>
+        /// Saves all the changes to Model template.
+        /// </summary>
+        public void UploadTemplateChanges()
+        {
+            SaveMainTemplateProperties();
+            UploadChangesFromColumnProperties();
+        }
 
         #endregion
 
@@ -173,31 +183,46 @@ namespace EasyJob_ProDG.UI.Wrapper
         #region Template properties
 
         //Template Properties
+
+        /// <summary>
+        /// Name of excel template in use in case of multiple templates option.
+        /// Not implemented.
+        /// </summary>
         public string TemplateName
         {
-            get { return GetValue<string>(); }
+            get { return _templateName; }
             set
             {
-                SetValue(value);
-                OnPropertyChanged();
+                if(_templateName == value) return;
+                _templateName = value;
                 IsChanged = true;
             }
         }
+
+        /// <summary>
+        /// Row in excel worksheet from which needed to start reading dg cargo information.
+        /// </summary>
         public int StartRow
         {
-            get { return GetValue<int>(); }
+            get { return _startRow; }
             set
             {
-                SetValue(value);
+                if (_startRow == value) return;
+                _startRow = value;
                 IsChanged = true;
             }
         }
+
+        /// <summary>
+        /// Name of excel sheet in the workbook containing dg information to read.
+        /// </summary>
         public string WorkingSheet
         {
-            get { return GetValue<string>(); }
+            get { return _workingSheet; }
             set
             {
-                SetValue(value);
+                if (value == _workingSheet) return;
+                _workingSheet = value;
                 IsChanged = true;
             }
         } 

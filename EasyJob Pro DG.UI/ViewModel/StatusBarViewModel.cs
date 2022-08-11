@@ -1,4 +1,5 @@
 ﻿using EasyJob_ProDG.UI.Utility;
+using System;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
@@ -75,12 +76,19 @@ namespace EasyJob_ProDG.UI.ViewModel
             IsInProgress = true;
 
             _worker = new BackgroundWorker();
+            _worker.WorkerReportsProgress = true;
             _worker.DoWork += new DoWorkEventHandler(worker_DoWork);
+            //_worker.ProgressChanged += this.ProgressChanged;
             _worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
             _worker.WorkerSupportsCancellation = true;
 
             _worker.RunWorkerAsync();
         }
+
+        //private void ProgressChanged(object sender, ProgressChangedEventArgs e)
+        //{
+        //    this.ProgressPercentage = e.ProgressPercentage;
+        //}
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -93,6 +101,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 if (ProgressPercentage < _setValue)
                     ProgressPercentage++;
+                (sender as BackgroundWorker).ReportProgress(ProgressPercentage);
                 Thread.Sleep(delay);
             }
         }
