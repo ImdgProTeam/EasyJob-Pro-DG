@@ -99,7 +99,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         private void HeaderTextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
             DockPanel panel = null;
-            TextBlock txbText = null;
+            TextBox txbText = null;
 
             if (sender is TextBlock txbSender)
             {
@@ -111,7 +111,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                 if (panel != null)
                 {
 
-                    txbText = panel.Children[panel.Children.Count - 1] as TextBlock;
+                    txbText = panel.Children[panel.Children.Count - 1] as TextBox;
 
                     if (txbText != null) txbText.Visibility = 
                         txbText.Visibility == Visibility.Visible 
