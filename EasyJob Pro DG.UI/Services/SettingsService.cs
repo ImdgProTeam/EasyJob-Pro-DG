@@ -3,8 +3,6 @@ using EasyJob_ProDG.Model.IO.Excel;
 
 namespace EasyJob_ProDG.UI.Services
 {
-
-
     public class SettingsService : ISettingsService
     {
         static IUserUISettings _uiSettings = new UserUISettings();

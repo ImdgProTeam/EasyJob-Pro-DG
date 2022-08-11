@@ -537,7 +537,23 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         private void OpenUserSettingsWindowExecuted(object parameters)
         {
-            windowDialogService.ShowDialog(new SettingsWindow());
+            int selectedTab;
+            switch ((string)parameters)
+            {
+                case "ExcelDg":
+                    selectedTab = 0;
+                    break;
+                case "ExcelReefers":
+                    selectedTab = 1;
+                    break;
+
+                case null:
+                default:
+                    selectedTab = 0;
+                    break;
+            }
+
+            windowDialogService.ShowDialog(new SettingsWindow(selectedTab));
         }
         private void ShowAboutExecuted(object parameters)
         {
@@ -560,7 +576,6 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private void ShowLoginWindowOnExecuted(object obj)
         {
-            //windowDialogService.ShowDialog(new winLogin());
             var viewModel = new WinLoginViewModel();
             var result = dialogWindowService.ShowDialog(viewModel);
 

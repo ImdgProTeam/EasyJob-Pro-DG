@@ -14,6 +14,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         ISettingsService uiSettingsService = new SettingsService();
         UserUISettings settings;
 
+        public enum Tabs
+        {
+            ExcelDG = 0,
+            ExcelReefers = 1
+        }
+
         /// <summary>
         /// Property contains all available excel column numbers.
         /// (Is used by View).

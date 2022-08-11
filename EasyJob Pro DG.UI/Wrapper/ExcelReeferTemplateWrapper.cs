@@ -6,8 +6,14 @@ namespace EasyJob_ProDG.UI.Wrapper
 {
     public class ExcelReeferTemplateWrapper : ModelWrapper<ExcelReeferTemplate>
     {
+        #region Private fields
+
         private string _originalTemplateName;
         private byte _StartRow;
+
+        #endregion
+
+        #region Constructor
 
         //Constructor
         public ExcelReeferTemplateWrapper(ExcelReeferTemplate model) : base(model)
@@ -15,6 +21,95 @@ namespace EasyJob_ProDG.UI.Wrapper
             GenerateColumnProperties();
             GetMainTemplateProperties();
         }
+
+        #endregion
+
+
+        #region Private methods
+
+        /// <summary>
+        /// Adds column properties to ColumnProperties list.
+        /// </summary>
+        private void GenerateColumnProperties()
+        {
+            ColumnProperties = null;
+            ColumnProperties.Add(new ExcelColumnProperty("Container number", Model.GetTemplate[1]));
+            ColumnProperties.Add(new ExcelColumnProperty("Commodity", Model.GetTemplate[2]));
+            ColumnProperties.Add(new ExcelColumnProperty("Set temp", Model.GetTemplate[3]));
+            ColumnProperties.Add(new ExcelColumnProperty("Vent settings", Model.GetTemplate[4]));
+            ColumnProperties.Add(new ExcelColumnProperty("Special", Model.GetTemplate[5]));
+            ColumnProperties.Add(new ExcelColumnProperty("Remarks", Model.GetTemplate[6]));
+
+        }
+
+        /// <summary>
+        /// Restores original values from memory
+        /// </summary>
+        private void GetMainTemplateProperties()
+        {
+            StartRow = Model.GetTemplate[0];
+            //Template name not implemented
+        }
+
+        /// <summary>
+        /// Saves column properties values in Model properties
+        /// </summary>
+        private void UploadChangesFromColumnProperties()
+        {
+            int i = 1;
+            foreach (var updatedProperty in ColumnProperties)
+            {
+                Model.GetTemplate[i++] = (byte)updatedProperty.Value;
+            }
+        }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Returns template values as a string joined with ','
+        /// </summary>
+        /// <returns>Template string</returns>
+        internal string GetTemplateString()
+        {
+            return string.Join(",", Model.GetTemplate);
+        }
+
+        /// <summary>
+        /// Changes status of each property to 'not modified'
+        /// </summary>
+        public void ResetAllChangeIndicators()
+        {
+            IsChanged = false;
+            foreach (var property in ColumnProperties)
+            {
+                property.IsModified = false;
+            }
+        }
+
+        /// <summary>
+        /// Restores initial values
+        /// </summary>
+        public void CancelChanges()
+        {
+            GenerateColumnProperties();
+            GetMainTemplateProperties();
+        }
+
+        /// <summary>
+        /// Saves all the changes to Model template.
+        /// </summary>
+        public void UploadTemplateChanges()
+        {
+            Model.StartRow = StartRow;
+            UploadChangesFromColumnProperties();
+        }
+
+        #endregion
+
+
+        #region Public properties
 
         public ObservableCollection<ExcelColumnProperty> ColumnProperties
         {
@@ -51,81 +146,9 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
         private bool _isChanged;
 
-        /// <summary>
-        /// Returns template values as a string joined with ','
-        /// </summary>
-        /// <returns>Template string</returns>
-        internal string GetTemplateString()
-        {
-            return string.Join(",", Model.GetTemplate);
-        }
+        #endregion
 
-        /// <summary>
-        /// Adds column properties to ColumnProperties list.
-        /// </summary>
-        private void GenerateColumnProperties()
-        {
-            ColumnProperties = null;
-            ColumnProperties.Add(new ExcelColumnProperty("Container number", Model.GetTemplate[1]));
-            ColumnProperties.Add(new ExcelColumnProperty("Commodity", Model.GetTemplate[2]));
-            ColumnProperties.Add(new ExcelColumnProperty("Set temp", Model.GetTemplate[3]));
-            ColumnProperties.Add(new ExcelColumnProperty("Vent settings", Model.GetTemplate[4]));
-            ColumnProperties.Add(new ExcelColumnProperty("Special", Model.GetTemplate[5]));
-            ColumnProperties.Add(new ExcelColumnProperty("Remarks", Model.GetTemplate[6]));
-
-        }
-
-        /// <summary>
-        /// Restores original values from memory
-        /// </summary>
-        private void GetMainTemplateProperties()
-        {
-            StartRow = Model.GetTemplate[0];
-            //Template name not implemented
-        }
-
-        /// <summary>
-        /// Changes status of each property to 'not modified'
-        /// </summary>
-        public void ResetAllChangeIndicators()
-        {
-            IsChanged = false;
-            foreach (var property in ColumnProperties)
-            {
-                property.IsModified = false;
-            }
-        }
-
-        /// <summary>
-        /// Restores initial values
-        /// </summary>
-        public void CancelChanges()
-        {
-            GenerateColumnProperties();
-            GetMainTemplateProperties();
-        }
-
-        /// <summary>
-        /// Saves column properties values in Model properties
-        /// </summary>
-        private void UploadChangesFromColumnProperties()
-        {
-            int i = 1;
-            foreach (var updatedProperty in ColumnProperties)
-            {
-                Model.GetTemplate[i++] = (byte)updatedProperty.Value;
-            }
-        }
-
-        /// <summary>
-        /// Saves all the changes to Model template.
-        /// </summary>
-        public void UploadTemplateChanges()
-        {
-            Model.StartRow = StartRow;
-            UploadChangesFromColumnProperties();
-        }
-
+        #region Template properties
 
         //Template Properties
         /// <summary>
@@ -155,6 +178,9 @@ namespace EasyJob_ProDG.UI.Wrapper
                 _StartRow = value;
                 IsChanged = true;
             }
-        }
+        } 
+
+        #endregion
+
     }
 }

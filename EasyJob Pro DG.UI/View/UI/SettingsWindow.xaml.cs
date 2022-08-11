@@ -13,6 +13,12 @@ namespace EasyJob_ProDG.UI.View.UI
             InitializeComponent();
         }
 
+        public SettingsWindow(int selectedTab = 0)
+        {
+            InitializeComponent();
+            tabUserSettings.SelectedIndex = selectedTab;
+        }
+
         /// <summary>
         /// Updates IsEnabled values of the buttons Next and Back
         /// </summary>
