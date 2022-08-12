@@ -11,18 +11,18 @@ namespace EasyJob_ProDG.UI.View.User_Controls
     /// </summary>
     public partial class ConflictsListView : AnimatedUserControl
     {
-        
+
         //Brushes
         Brush _original;
         private Brush uncheckedColor = Brushes.Red;
         private Brush checkedColor = Brushes.GreenYellow;
         readonly Brush _hover;
-        
+
         //Booleans
         bool lockChange;
 
 
-        public ConflictsListView() 
+        public ConflictsListView()
             : base(Animations.AnimationTypes.SlideAndFadeInFromRight)
         {
             InitializeComponent();
@@ -113,9 +113,9 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
                     txbText = panel.Children[panel.Children.Count - 1] as TextBox;
 
-                    if (txbText != null) txbText.Visibility = 
-                        txbText.Visibility == Visibility.Visible 
-                            ? Visibility.Collapsed 
+                    if (txbText != null) txbText.Visibility =
+                        txbText.Visibility == Visibility.Visible
+                            ? Visibility.Collapsed
                             : Visibility.Visible;
                 }
             }

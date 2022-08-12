@@ -7,6 +7,8 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 {
     public class AnimatedUserControl : UserControl
     {
+        private bool _isAnimatedEachTime;
+
         public AnimationTypes UserControlLoadAnimation { get; set; } = AnimationTypes.None;
         public AnimationTypes UserControlUnloadAnimation { get; set; } = AnimationTypes.None;
         public float SlideInSeconds { get; set; }
@@ -20,16 +22,21 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             this.Loaded += UserControl_Loaded;
         }
 
-        public AnimatedUserControl(AnimationTypes userControlLoadAnimation, float slideInSeconds = 1.5f, AnimationTypes userControlUnloadAnimation = AnimationTypes.None) 
+        public AnimatedUserControl(AnimationTypes userControlLoadAnimation, float slideInSeconds = 1.5f, 
+                                    AnimationTypes userControlUnloadAnimation = AnimationTypes.None, bool isAnimatedEachTime = false)
             : this()
         {
             SlideInSeconds = slideInSeconds;
             UserControlLoadAnimation = userControlLoadAnimation;
             UserControlUnloadAnimation = userControlUnloadAnimation;
+
+            _isAnimatedEachTime = isAnimatedEachTime;
         }
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            if(!_isAnimatedEachTime)
+                Loaded -= UserControl_Loaded;
             await AnimateIn();
         }
 
