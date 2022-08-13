@@ -53,6 +53,10 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void GetConflicts()
         {
             Conflicts = conflictDataService.GetConflicts();
+            foreach (var conflict in Conflicts)
+            {
+                conflict.RefreshConflictText();
+            }
         }
 
         public void NotifyOfSelectedConflict(object parameters)

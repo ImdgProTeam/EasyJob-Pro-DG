@@ -7,9 +7,6 @@ namespace EasyJob_ProDG.UI.Data
 {
     public class ConflictsList : ObservableCollection<ConflictPanelItemViewModel>
     {
-        // ---------------- Private fields ------------------------------------------
-        private static bool _isTempConflictsCreating;
-
         // ---------------- Public constructors -------------------------------------
         public ConflictsList() { }
 
@@ -25,7 +22,6 @@ namespace EasyJob_ProDG.UI.Data
             //When open new file
             if (dgList.IsCollectionNew)
             {
-                if (this.Count > 0) UnregisterInMessenger();
                 Clear();
                 CreateAllConflicts(dgList);
                 dgList.IsCollectionNew = false;
@@ -37,9 +33,7 @@ namespace EasyJob_ProDG.UI.Data
                 ConflictsList tempConflicts = new ConflictsList();
 
                 //create temporary list of conflicts
-                _isTempConflictsCreating = true;
                 tempConflicts.CreateAllConflicts(dgList);
-                _isTempConflictsCreating = false;
 
                 //update conflict list and remove temp list
                 UpdateConflictList(dgList, tempConflicts);
@@ -60,7 +54,6 @@ namespace EasyJob_ProDG.UI.Data
                 var conflict = this[n];
                 if(conflict.IsStowageConflict && conflict.DgID == unit.Model.ID)
                 {
-                    conflict.UnregisterInMessenger();
                     Remove(conflict);
                     n--;
                 }
@@ -218,7 +211,6 @@ namespace EasyJob_ProDG.UI.Data
                 }
 
                 //If not found - remove the conflict
-                this[i - c].UnregisterInMessenger();
                 RemoveAt(i - c);
                 c++;
             }
@@ -231,25 +223,12 @@ namespace EasyJob_ProDG.UI.Data
         }
 
         /// <summary>
-        /// Unregisters each conflict in DataMessenger
-        /// </summary>
-        private void UnregisterInMessenger()
-        {
-            foreach (var conflict in this)
-            {
-                conflict.UnregisterInMessenger();
-            }
-        }
-
-
-        /// <summary>
         /// Method add a new ConflictPanelItem to ConflictList, if it does not already exist
         /// </summary>
         /// <param name="conf"></param>
         private void AddNewConflict(ConflictPanelItemViewModel conf)
         {
             if (Contains(conf)) return;
-            if (!_isTempConflictsCreating) conf.RegisterInMessenger();
             Add(conf);
         }
 
