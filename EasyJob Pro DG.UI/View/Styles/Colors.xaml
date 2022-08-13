@@ -11,6 +11,7 @@
     <Color x:Key="Color.Text.Header">DimGray</Color>
     <Color x:Key="Color.Text.Hint">Gray</Color>
     <Color x:Key="Color.Border.Main">Black</Color>
+    <Color x:Key="Color.Spinner">LightGray</Color>
     
     <!-- Main menu -->
     <Color x:Key="Color.MainMenu.Background">Black</Color>

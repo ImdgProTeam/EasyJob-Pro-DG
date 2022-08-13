@@ -27,7 +27,11 @@
     <SolidColorBrush x:Key="Brush.SelectedItem"
                      Color="{StaticResource Color.DgTable.HighlightRow}"
                      p:Freeze="true"/>
-    
+
+    <SolidColorBrush x:Key="Brush.Spinner"
+                     Color="{StaticResource Color.Spinner}"
+                     p:Freeze ="true"/>
+
     <!-- Info block -->
     <SolidColorBrush x:Key="Brush.InfoBlock.Background"
                      Color="{StaticResource Color.InfoBlock.Background}"

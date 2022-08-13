@@ -12,6 +12,7 @@ using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.View.UI;
 using EasyJob_ProDG.UI.Wrapper;
+using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -53,6 +54,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         public int SelectedDataGridIndex { get; set; }
         public DataGridDgViewModel DgDataGridVM => ViewModelLocator.DataGridDgViewModel;
 
+        public bool IsLoading { get; set; } = true;
+
         #endregion
 
 
@@ -70,6 +73,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             LoadData();
 
             SetWindowTitle();
+
+            IsLoading = false;
         }
 
         #endregion
@@ -173,11 +178,13 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="currentPort">For import: Only current port of loading items will be imported.</param>
         private void OpenNewFile(string file, OpenFile.OpenOption openOption = OpenFile.OpenOption.Open, bool importOnlySelected = false, string currentPort = null)
         {
+            SetIsLoading(true);
             StatusBarControl.ChangeBarSet(25);
             if (!loadDataService.OpenNewFile(file, openOption, importOnlySelected, currentPort))
             {
                 _messageDialogService.ShowOkDialog("File can not be opened", "Error");
                 StatusBarControl.Cancel();
+                SetIsLoading(false);
             }
             StatusBarControl.ChangeBarSet(70);
             GetCargoData();
@@ -186,6 +193,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             StatusBarControl.ChangeBarSet(90);
             DataMessenger.Default.Send<CargoDataUpdated>(new CargoDataUpdated(), "cargodataupdated");
             StatusBarControl.ChangeBarSet(100);
+            SetIsLoading(false);
         }
 
         /// <summary>
@@ -224,15 +232,18 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="file">Excel file containing manifest info</param>
         private void ImportReeferManifestInfo(string file, bool importOnlySelected = false, string currentPort = null)
         {
+            SetIsLoading(true);
             StatusBarControl.StartProgressBar(10, "Importing...");
             if (!loadDataService.ImportReeferManifestInfo(file, importOnlySelected, currentPort))
             {
                 _messageDialogService.ShowOkDialog("Manifest file can not be read", "Error");
                 StatusBarControl.Cancel();
+                SetIsLoading(false);
             }
             StatusBarControl.ChangeBarSet(90);
             DataMessenger.Default.Send<CargoDataUpdated>(new CargoDataUpdated(), "reeferinfoupdated");
             StatusBarControl.ChangeBarSet(100);
+            SetIsLoading(false);
         }
         #endregion
 
@@ -255,7 +266,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void OnShipProfileSaved(ShipProfileWrapperMessage obj)
         {
-            GetCargoData();
+            WrapMethodWithIsLoading(GetCargoData);
         }
 
         /// <summary>
@@ -285,6 +296,26 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         #endregion
 
+        /// <summary>
+        /// Sets IsLoading to true before execution of the method, then to false afterwards.
+        /// </summary>
+        /// <param name="method">Method to be executed</param>
+        private void WrapMethodWithIsLoading(Action method)
+        {
+            SetIsLoading(true);
+            method.Invoke();
+            SetIsLoading(false);
+        }
+
+        /// <summary>
+        /// Sets IsLoading to true or false and raises OnPropertyChanged.
+        /// </summary>
+        /// <param name="isLoading"></param>
+        private void SetIsLoading(bool isLoading)
+        {
+            IsLoading=isLoading;
+            OnPropertyChanged(nameof(IsLoading));
+        }
 
         #region Window dialog service
         /// <summary>
@@ -325,7 +356,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void ExportToExcelOnExecuted(object obj)
         {
-            loadDataService.ExportToExcel(WorkingCargoPlan);
+           Action d = delegate () { loadDataService.ExportToExcel(WorkingCargoPlan); };
+           WrapMethodWithIsLoading(d);
         }
 
         /// <summary>
@@ -334,7 +366,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj">Owner window</param>
         private void OpenOnExecuted(object obj)
         {
-            //StatusBarControl.StartProgressBar(0, "Opening...");
             if (!DialogOpenFile.OpenFileWithDialog(obj, out var file))
             {
                 StatusBarControl.Cancel();
@@ -441,7 +472,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             if (DialogSaveFile.SaveFileWithDialog(out var fileName))
             {
-                loadDataService.SaveFile(fileName);
+                Action d = delegate () { loadDataService.SaveFile(fileName); };
+                WrapMethodWithIsLoading(d);
             }
 
             SetWindowTitle();

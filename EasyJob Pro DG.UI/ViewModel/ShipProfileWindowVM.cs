@@ -9,7 +9,6 @@ using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Wrapper;
 using EasyJob_ProDG.UI.Wrapper.Dummies;
-using System;
 using System.ComponentModel;
 using System.Windows.Input;
 
@@ -19,10 +18,12 @@ namespace EasyJob_ProDG.UI.ViewModel
     {
         readonly ShipProfileDataService _shipProfileDataService;
         private bool _isWindowLoaded;
-        private bool _isChangeCancelled;
 
         public ShipProfileWrapper TempShip { get; set; }
         public OuterRowWrapper NewOuterRow { get; private set; } = new OuterRowWrapper();
+
+
+        #region Constructors
 
         // ---- Constructors --------------------------------------------------------------
 
@@ -38,9 +39,11 @@ namespace EasyJob_ProDG.UI.ViewModel
             RegisterMessages();
         }
 
+        #endregion
 
-        // ---- Methods --------------------------------------------------------------
-        
+
+        #region Start up logic
+
         /// <summary>
         /// Creates TempShip from current ShipProfile
         /// </summary>
@@ -75,11 +78,14 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         private void RegisterMessages()
         {
-            //DataMessenger.Default.Register<CancelChangesMessage>(this, OnCancelChangesMessageReceived, "ship profile");
             DataMessenger.Default.Register<ShipProfileWrapperMessage>(this, OnOuterRowChanged, "Outer row changed");
             DataMessenger.Default.Register<MessageFromDummy>(this, OnDummyAccommodationChanged, "Dummy Accommodation changed");
         }
 
+        #endregion
+
+
+        #region Sea-side methods
 
         // ---- Sea sides methods --------------------------------------
 
@@ -141,6 +147,9 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
         }
 
+        #endregion
+
+        #region Accommodation methods
 
         // ---- Accommodation methods -----------------------------------
 
@@ -170,6 +179,9 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         }
 
+        #endregion
+
+        #region Cell position Properties and mehtods
 
         // ---- CellPosition Properties and methods ------------------------------
 
@@ -245,15 +257,17 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         private bool CanAddCellLSA(object obj) => !CellLSA.HasErrorOrEmpty;
 
+        #endregion
+
+
+        #region Events
 
         // ---- Events and their methods ---------------------------------------------------------------
 
         private void OnWindowLoaded(object obj)
         {
             _isWindowLoaded = true;
-            _isChangeCancelled = false;
             CreateAccommodationDummyObservableCollection();
-            //CreateHoldsObservableCollection();
         }
 
         private void OnWindowClosed(object obj)
@@ -265,18 +279,18 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             _shipProfileDataService.SaveShipProfile();
             GetNewShipProfileVM();
-
             _isWindowLoaded = false;
-            _isChangeCancelled = true;
         }
 
         private void CancelChanges(object parameter)
         {
             TempShip = _shipProfileDataService.CreateShipProfileWrapper();
             _isWindowLoaded = false;
-            _isChangeCancelled = true;
-        }
+        } 
 
+        #endregion
+
+        #region Commands
 
         //-------------- Commands ----------------- //
 
@@ -288,6 +302,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand AddCellHeatedStructuresCommand { get; set; }
         public ICommand AddCellLSACommand { get; set; }
 
+        #endregion
+
+        #region IDataErrorInfo
 
         //------------- IDataErrorInfo -------------//
 
@@ -321,6 +338,8 @@ namespace EasyJob_ProDG.UI.ViewModel
                     return string.Empty;
             }
         }
+
+        #endregion
 
     }
 }

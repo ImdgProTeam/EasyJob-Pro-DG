@@ -111,9 +111,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Compile Include="Behaviors\DataGridBehaviors.cs" />
-    <Compile Include="Behaviors\SelectTextOnFocusBehavior.cs" />
-    <Compile Include="Behaviors\TakeFocusAndSelectTextOnVisibleBehavior.cs" />
+    <Compile Include="View\Behaviors\DataGridBehaviors.cs" />
+    <Compile Include="View\Behaviors\SelectTextOnFocusBehavior.cs" />
+    <Compile Include="View\Behaviors\TakeFocusAndSelectTextOnVisibleBehavior.cs" />
     <Compile Include="Data\DataHelper.cs" />
     <Compile Include="Data\DialogSaveFile.cs" />
     <Compile Include="Data\DialogOpenFile.cs" />
@@ -245,6 +245,9 @@
     </Compile>
     <Compile Include="View\User Controls\MainWindow\InfoBlock.xaml.cs">
       <DependentUpon>InfoBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User Controls\MainWindow\Spinner.xaml.cs">
+      <DependentUpon>Spinner.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User Controls\Others\MailToHyperlink.xaml.cs">
       <DependentUpon>MailToHyperlink.xaml</DependentUpon>
@@ -416,6 +419,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\User Controls\MainWindow\Spinner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\User Controls\Others\MailToHyperlink.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -518,6 +525,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="View\Styles\Fonts\fontawesome-webfont.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

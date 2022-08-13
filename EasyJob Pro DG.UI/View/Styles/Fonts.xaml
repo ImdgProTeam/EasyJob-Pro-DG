@@ -4,4 +4,7 @@
     <FontFamily x:Key="BaseFont">Segoe UI</FontFamily>
     <FontFamily x:Key="MenuFont">Segoe UI</FontFamily>
     <FontFamily x:Key="DataGridFont">Consolas</FontFamily>
+    <FontFamily x:Key="IconsFont">pack://appliction;,,,/View/Styles/Fonts/#FontAwesome</FontFamily>
+    <FontFamily x:Key="Sample">c:\repos\easyjob pro dg\easyjob pro dg.ui\view\styles\fonts\fontawesome-webfont.ttf
+</FontFamily>
 </ResourceDictionary>
