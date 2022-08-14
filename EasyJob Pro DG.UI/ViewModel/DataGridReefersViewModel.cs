@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DialogServices;
@@ -19,6 +20,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         IMessageDialogService _messageDialogService => MessageDialogService.Connect();
 
         private readonly CollectionViewSource reeferPlanView = new CollectionViewSource();
+        Dispatcher dispatecher;
 
         //--------------- Public properties -----------------------------------------
         public CargoPlanWrapper CargoPlan
@@ -40,6 +42,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         // ---------- Constructor ---------------
         public DataGridReefersViewModel()
         {
+            dispatecher = Dispatcher.CurrentDispatcher;
+
             SetDataView();
             RegisterInDataMessenger();
             LoadCommands();
@@ -252,10 +256,13 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj">none</param>
         private void OnCargoDataUpdated(CargoDataUpdated obj)
         {
-            SetDataView();
-            OnPropertyChanged($"CargoPlan");
-            OnPropertyChanged("ReeferPlanView");
-            ReeferPlanView.Refresh();
+            dispatecher.Invoke(() =>
+            {
+                SetDataView();
+                OnPropertyChanged($"CargoPlan");
+                OnPropertyChanged("ReeferPlanView");
+                ReeferPlanView.Refresh();
+            });
         }
 
         /// <summary>
@@ -264,9 +271,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void OnReeferInfoUpdated(CargoDataUpdated obj)
         {
-            SetDataView();
-            OnPropertyChanged("ReeferPlanView");
-            ReeferPlanView.Refresh();
+            dispatecher.Invoke(() =>
+            {
+                SetDataView();
+                OnPropertyChanged("ReeferPlanView");
+                ReeferPlanView.Refresh();
+            });
         }
 
         private void OnSelectionChanged(object obj)

@@ -1,11 +1,11 @@
-﻿using System.Collections.ObjectModel;
-using EasyJob_ProDG.Model.Cargo;
-using EasyJob_ProDG.UI.Wrapper;
+﻿using EasyJob_ProDG.Model.Cargo;
+using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.ViewModel;
+using EasyJob_ProDG.UI.Wrapper;
 
 namespace EasyJob_ProDG.UI.Data
 {
-    public class ConflictsList : ObservableCollection<ConflictPanelItemViewModel>
+    public class ConflictsList : AsyncObservableCollection<ConflictPanelItemViewModel>
     {
         // ---------------- Public constructors -------------------------------------
         public ConflictsList() { }
@@ -22,21 +22,12 @@ namespace EasyJob_ProDG.UI.Data
             //When open new file
             if (dgList.IsCollectionNew)
             {
-                Clear();
-                CreateAllConflicts(dgList);
-                dgList.IsCollectionNew = false;
+                CreateConflictListForNewCollection(dgList);
             }
             //When modifying working dg list
             else
             {
-                //creating new conflict list to compare with the old one
-                ConflictsList tempConflicts = new ConflictsList();
-
-                //create temporary list of conflicts
-                tempConflicts.CreateAllConflicts(dgList);
-
-                //update conflict list and remove temp list
-                UpdateConflictList(dgList, tempConflicts);
+                UpdateConflictListForCurrentDgList(dgList);
             }
         }
 
@@ -46,23 +37,8 @@ namespace EasyJob_ProDG.UI.Data
         /// <param name="unit"></param>
         public void UpdateDgWrapperStowageConfilicts(DgWrapper unit)
         {
-            ushort iterations = (ushort)this.Count;
-
-            //Clear unit associated stowage conflicts
-            for(ushort i=0, n=0; i < iterations; i++, n++)
-            {
-                var conflict = this[n];
-                if(conflict.IsStowageConflict && conflict.DgID == unit.Model.ID)
-                {
-                    Remove(conflict);
-                    n--;
-                }
-            }
-
-            CreateStowageConflict(unit);
-            CreateSwConflicts(unit);
+            UpdateUnitStowageConflicts(unit);
         }
-
 
 
         // ---------------- Private methods -----------------------------------------
@@ -76,6 +52,58 @@ namespace EasyJob_ProDG.UI.Data
             CreateStowageConflictList(dgList);
             CreateSegregationConflictList(dgList);
             CreateSwConflicts();
+        }
+
+        /// <summary>
+        /// Updates existing ConflictsList with changes from DgList.
+        /// </summary>
+        /// <param name="dgList">Modified DgList.</param>
+        /// <returns></returns>
+        private void UpdateConflictListForCurrentDgList(DgWrapperList dgList)
+        {
+            //creating new conflict list to compare with the old one
+            ConflictsList tempConflicts = new ConflictsList();
+
+            //create temporary list of conflicts
+            tempConflicts.CreateAllConflicts(dgList);
+
+            //update conflict list and remove temp list
+            UpdateConflictList(dgList, tempConflicts);
+        }
+
+        /// <summary>
+        /// Creates new conflict list for new DgList.
+        /// </summary>
+        /// <param name="dgList">New DgList</param>
+        /// <returns></returns>
+        private void CreateConflictListForNewCollection(DgWrapperList dgList)
+        {
+            Clear();
+            CreateAllConflicts(dgList);
+            dgList.IsCollectionNew = false;
+        }
+
+        /// <summary>
+        /// Updates only stowage conflicts for the selected DgWrapper.
+        /// </summary>
+        /// <param name="unit">DgWrapper which stowage conflicts shall be updated.</param>
+        private void UpdateUnitStowageConflicts(DgWrapper unit)
+        {
+            ushort iterations = (ushort)this.Count;
+
+            //Clear unit associated stowage conflicts
+            for (ushort i = 0, n = 0; i < iterations; i++, n++)
+            {
+                var conflict = this[n];
+                if (conflict.IsStowageConflict && conflict.DgID == unit.Model.ID)
+                {
+                    Remove(conflict);
+                    n--;
+                }
+            }
+
+            CreateStowageConflict(unit);
+            CreateSwConflicts(unit);
         }
 
         /// <summary>
@@ -116,7 +144,7 @@ namespace EasyJob_ProDG.UI.Data
                     GroupParam =
                         "SW19 For batteries transported in accordance with special provisions 376 or 377, category C, unless transported on a short international voyage. Please check cargo documents of the following units: "
                 };
-                AddNewConflict(conf); 
+                AddNewConflict(conf);
             }
             foreach (var unit in specialGroups.ListSW22List)
             {

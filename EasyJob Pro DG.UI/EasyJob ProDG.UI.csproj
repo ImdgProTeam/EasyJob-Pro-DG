@@ -111,6 +111,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="Utility\AsyncObservableCollection.cs" />
     <Compile Include="View\Behaviors\DataGridBehaviors.cs" />
     <Compile Include="View\Behaviors\SelectTextOnFocusBehavior.cs" />
     <Compile Include="View\Behaviors\TakeFocusAndSelectTextOnVisibleBehavior.cs" />

@@ -14,10 +14,10 @@ using System.IO;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Xml.Serialization;
-using static EasyJob_ProDG.UI.Settings.UserUISettings;
 using System.Diagnostics;
 using System.Windows;
 using EasyJob_ProDG.UI.Data;
+using System.Windows.Threading;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
@@ -27,6 +27,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private SettingsService uiSettings;
         private IMessageDialogService _messageDialogService => MessageDialogService.Connect();
         private readonly CollectionViewSource dgPlanView = new CollectionViewSource();
+        Dispatcher dispatcher;
 
         private const byte totalNumberOfColumns = 44;
 
@@ -52,6 +53,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         //--------------- Constructor -----------------------------------------------
         public DataGridDgViewModel()
         {
+            dispatcher = Dispatcher.CurrentDispatcher;
+
             LoadServices();
 
             RegisterInDataMessenger();
@@ -363,9 +366,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj">none</param>
         private void OnCargoDataUpdated(CargoDataUpdated obj)
         {
-            SetDataView();
-            OnPropertyChanged($"CargoPlan");
-            OnPropertyChanged("DgPlanView");
+            dispatcher.Invoke(() =>
+            {
+                SetDataView();
+                OnPropertyChanged($"CargoPlan");
+                OnPropertyChanged("DgPlanView");
+            });
         }
 
         private void OnSelectionChanged(object obj)

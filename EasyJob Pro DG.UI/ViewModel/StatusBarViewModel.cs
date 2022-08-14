@@ -1,5 +1,4 @@
 ﻿using EasyJob_ProDG.UI.Utility;
-using System;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;

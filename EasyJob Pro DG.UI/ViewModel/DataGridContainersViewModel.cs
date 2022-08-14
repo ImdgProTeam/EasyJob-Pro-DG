@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DialogServices;
@@ -18,6 +19,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         SettingsService uiSettings;
         IMessageDialogService _messageDialogService => MessageDialogService.Connect();
         private readonly CollectionViewSource containerPlanView = new CollectionViewSource();
+        Dispatcher dispatcher;
 
         //--------------- Public properties -----------------------------------------
         public CargoPlanWrapper CargoPlan
@@ -34,9 +36,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         public UserUISettings.DgSortOrderPattern ContainerSortOrderDirection { get; set; }
 
 
+
         // ---------- Constructor ---------------
         public DataGridContainersViewModel()
         {
+            dispatcher = Dispatcher.CurrentDispatcher;
+
             SetDataView();
             RegisterInDataMessenger();
             LoadCommands();
@@ -184,6 +189,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         private void SetDataView()
         {
+
             containerPlanView.Source = CargoPlan.Containers;
         }
 
@@ -232,9 +238,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj">none</param>
         private void OnCargoDataUpdated(CargoDataUpdated obj)
         {
-            SetDataView();
-            OnPropertyChanged($"CargoPlan");
-            OnPropertyChanged("ContainerPlanView");
+            dispatcher.Invoke(() =>
+            {
+                SetDataView();
+                OnPropertyChanged($"CargoPlan");
+                OnPropertyChanged("ContainerPlanView");
+            });
         }
 
         /// <summary>

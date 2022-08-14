@@ -1,6 +1,9 @@
-﻿using System;
+﻿using EasyJob_ProDG.Data;
+using EasyJob_ProDG.UI.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,12 +16,17 @@ namespace EasyJob_ProDG.UI.Utility
     /// </summary>
     public static class ExportDataGridToExcel
     {
+        private static MainWindowViewModel MainWindowVM => ViewModelLocator.MainWindowViewModel;
+
         /// <summary>
         /// Exports data from DataGrid as it is displayed.
         /// </summary>
         /// <param name="dataGrid">DataGrid containing data to export.</param>
         public static void ExportToExcel(DataGrid dataGrid)
         {
+            MainWindowVM.StatusBarControl.StartProgressBar(10, "Exporting...");
+            MainWindowVM.SetIsLoading(true);
+
             ListCollectionView collection = CollectionViewSource.GetDefaultView(dataGrid.ItemsSource) as ListCollectionView;
             if (collection == null) return;
 
@@ -28,6 +36,8 @@ namespace EasyJob_ProDG.UI.Utility
             Excel.Worksheet sheet = (Excel.Worksheet)workbook.Sheets[1];
 
             ColumnProperty[] columnProperties = new ColumnProperty[dataGrid.Columns.Count];
+
+            MainWindowVM.StatusBarControl.ChangeBarSet(20);
 
             //set correct columns order
             foreach (var column in dataGrid.Columns)
@@ -48,57 +58,68 @@ namespace EasyJob_ProDG.UI.Utility
                 }
             }
 
-            //Column headers and width
-            int subtraction = 0;
-            for (int i = 0; i < dataGrid.Columns.Count; i++)
-            {
-                //clear invisible columns
-                if (columnProperties[i] == null)
+            MainWindowVM.StatusBarControl.ChangeBarSet(40);
+
+            Task.Run(() =>
+            { //Column headers and width
+                int subtraction = 0;
+                int statusBarIncrement = 90 / dataGrid.Columns.Count;
+
+                for (int i = 0; i < dataGrid.Columns.Count; i++)
                 {
-                    subtraction++;
-                    continue;
-                }
-
-                Excel.Range range = (Excel.Range)sheet.Cells[1, i + 1 - subtraction];
-                sheet.Cells[1, i + 1 - subtraction].Font.Bold = true;
-                sheet.Columns[i + 1 - subtraction].ColumnWidth = columnProperties[i].ColumnWidth;
-                if (string.IsNullOrEmpty(columnProperties[i].ColumnPropertyName))
-                {
-                    subtraction++;
-                    continue;
-                }
-
-                range.Value2 = columnProperties[i].ColumnHeader;
-
-
-                //create records
-                for (int j = 0; j < collection.Count; j++)
-                {
-                    string value;
-                    try
+                    //clear invisible columns
+                    if (columnProperties[i] == null)
                     {
-                        var item = collection.GetItemAt(j);
-                        PropertyInfo property = item.GetType().GetProperty(columnProperties[i].ColumnPropertyName);
-                        if (property == null) continue;
+                        subtraction++;
+                        continue;
+                    }
 
-                        if (Object.ReferenceEquals(property?.PropertyType, typeof(Boolean)))
-                        {
-                            value = (bool)property?.GetValue(item) ? "Y" : "";
-                        }
-                        else
-                        {
-                            value = property?.GetValue(item)?.ToString();
-                        }
-                        range = (Excel.Range)sheet.Cells[j + 2, i + 1 - subtraction];
-                        range.Value2 = value;
-                    }
-                    catch
+                    Excel.Range range = (Excel.Range)sheet.Cells[1, i + 1 - subtraction];
+                    sheet.Cells[1, i + 1 - subtraction].Font.Bold = true;
+                    sheet.Columns[i + 1 - subtraction].ColumnWidth = columnProperties[i].ColumnWidth;
+                    if (string.IsNullOrEmpty(columnProperties[i].ColumnPropertyName))
                     {
-                        //ignore
+                        subtraction++;
+                        continue;
                     }
+
+                    range.Value2 = columnProperties[i].ColumnHeader;
+
+
+                    //create records
+                    for (int j = 0; j < collection.Count; j++)
+                    {
+                        string value;
+                        try
+                        {
+                            var item = collection.GetItemAt(j);
+                            PropertyInfo property = item.GetType().GetProperty(columnProperties[i].ColumnPropertyName);
+                            if (property == null) continue;
+
+                            if (Object.ReferenceEquals(property?.PropertyType, typeof(Boolean)))
+                            {
+                                value = (bool)property?.GetValue(item) ? "Y" : "";
+                            }
+                            else
+                            {
+                                value = property?.GetValue(item)?.ToString();
+                            }
+                            range = (Excel.Range)sheet.Cells[j + 2, i + 1 - subtraction];
+                            range.Value2 = value;
+                        }
+                        catch (Exception ex)
+                        {
+                            LogWriter.Write($"Exception {ex.Message} called while exporting dataGrid to excel.");
+                        }
+                    }
+
+                    MainWindowVM.StatusBarControl.ProgressPercentage += statusBarIncrement;
                 }
-            }
-            excel.Visible = true;
+                excel.Visible = true;
+
+                MainWindowVM.StatusBarControl.ChangeBarSet(100);
+                MainWindowVM.SetIsLoading(false);
+            });
         }
 
 
