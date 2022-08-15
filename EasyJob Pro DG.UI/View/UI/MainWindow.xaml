@@ -66,11 +66,6 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <uc:Spinner VerticalAlignment="Center" HorizontalAlignment="Center" Panel.ZIndex="10"
-                    IsHitTestVisible="False"
-                    Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
-        </uc:Spinner>
-
         <!---   Status bar   -->
         <uc:MVStatusBar DockPanel.Dock="Bottom" Panel.ZIndex="1"/>
 
@@ -97,6 +92,13 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
+                <!-- Spinner -->
+                <uc:Spinner VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Panel.ZIndex="10"
+                    IsHitTestVisible="False"
+                    Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            Grid.ColumnSpan="2">
+                </uc:Spinner>
+                
                 <DockPanel Grid.Column="2"
                            Grid.RowSpan="2"
                            LastChildFill="True">

@@ -137,9 +137,9 @@ namespace EasyJob_ProDG.UI.ViewModel
             OpenFileCommand = new DelegateCommand(OpenOnExecuted);
             SaveFileCommand = new DelegateCommand(SaveOnExecuted);
             UpdateConditionCommand = new DelegateCommand(UpdateConditionOnExecuted, CanExecuteForOptionalOpen);
-            ImportDataCommand = new DelegateCommand(ImportInfoOnExecuted, CanExecuteForOptionalOpen);
-            ImportDataOnlyPolCommand = new DelegateCommand(ImportInfoOnlyPolOnExecuted, CanExecuteForOptionalOpen);
-            ImportDataOnlySelectedCommand = new DelegateCommand(ImportInfoOnlySelectedOnExecuted, CanExecuteForOptionalOpen);
+            ImportDataCommand = new DelegateCommand(ImportInfoOnExecuted, CanImportDgInfo);
+            ImportDataOnlyPolCommand = new DelegateCommand(ImportInfoOnlyPolOnExecuted, CanImportDgInfo);
+            ImportDataOnlySelectedCommand = new DelegateCommand(ImportInfoOnlySelectedOnExecuted, CanImportDgInfoOnlySelected);
             ImportReeferManifestInfoCommand = new DelegateCommand(ImportReeferManifestInfoOnExecuted, CanAddReeferManifestInfo);
             ImportReeferManifestInfoOnlySelectedCommand = new DelegateCommand(ImportReeferManifestInfoOnlySelectedOnExecuted, CanAddReeferManifestInfoOnlySelected);
             ImportReeferManifestInfoOnlyPolCommand = new DelegateCommand(ImportReeferManifestInfoOnlyPolOnExecuted, CanAddReeferManifestInfo);
@@ -169,7 +169,9 @@ namespace EasyJob_ProDG.UI.ViewModel
 
 
         #region Working with files private methods
+
         //---------- Working with files
+
         /// <summary>
         /// Opens condition from the file.
         /// </summary>
@@ -187,18 +189,17 @@ namespace EasyJob_ProDG.UI.ViewModel
                 _messageDialogService.ShowOkDialog("File can not be opened", "Error");
                 StatusBarControl.Cancel();
                 SetIsLoading(false);
+                return;
             }
             StatusBarControl.ChangeBarSet(70);
 
 
-            GetCargoData();
+            await Task.Run(()=> GetCargoData());
+            StatusBarControl.ChangeBarSet(90);
 
             SetWindowTitle();
-            StatusBarControl.ChangeBarSet(90);
-            //DataMessenger.Default.Send<CargoDataUpdated>(new CargoDataUpdated(), "cargodataupdated");
             StatusBarControl.ChangeBarSet(100);
             SetIsLoading(false);
-
         }
 
         /// <summary>
@@ -231,6 +232,20 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         /// <summary>
+        /// Common method for import Dg info.
+        /// </summary>
+        /// <param name="owner">Owner window for dialog window.</param>
+        /// <param name="importOnlySelected">True: only selected for import items will be imported.</param>
+        /// <param name="currentPort">If set, only selected items will be imported</param>
+        private void ImportFileDgInfo(object owner, bool importOnlySelected = false, string currentPort = null)
+        {
+            if (!DialogOpenFile.OpenFileWithDialog(owner, out var file)) return;
+
+            StatusBarControl.StartProgressBar(10, "Importing...");
+            Task.Run(() => OpenNewFile(file, OpenFile.OpenOption.Import, importOnlySelected, currentPort));
+        }
+
+        /// <summary>
         /// Returns true if Reefer manifest info successfully imported from the file and Reefers properties updated
         /// </summary>
         /// <param name="file">Excel file containing manifest info</param>
@@ -252,8 +267,10 @@ namespace EasyJob_ProDG.UI.ViewModel
         #endregion
 
 
-        #region Private methods
-        //---------- Private methods ------------------------------
+        #region Private UI methods
+
+        //----- Private UI methods ------------------------------
+
         /// <summary>
         /// Calls OnPropertyChange for main public properties
         /// </summary>
@@ -358,6 +375,8 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         #region Command methods
 
+        // ----- Export to excel -----
+
         /// <summary>
         /// Calls export to excel method
         /// </summary>
@@ -367,6 +386,9 @@ namespace EasyJob_ProDG.UI.ViewModel
             Action d = delegate () { loadDataService.ExportToExcel(WorkingCargoPlan); };
             Task.Run(() => WrapMethodWithIsLoading(d)).ConfigureAwait(false);
         }
+
+
+        // ----- Open file -----
 
         /// <summary>
         /// Method will call dialog service to choose a file to open and open it
@@ -383,12 +405,31 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         /// <summary>
+        /// Method initiates OpenFile when a file dropped onto the MainWindow
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void OnFileDrop(object sender, DragEventArgs e)
+        {
+            var filePathArray = (string[])e.Data.GetData(DataFormats.FileDrop);
+            string file = filePathArray?[0];
+
+            if (filePathArray != null && File.Exists(file) && DialogOpenFile.ConfirmFileType(file))
+            {
+                OpenFileWithOptionsChoice(filePathArray[0]);
+            }
+        }
+
+
+        // ----- Import Dg info
+
+        /// <summary>
         /// Imports Dg and reefer data to update existing cargo plan
         /// </summary>
         /// <param name="obj"></param>
         private void ImportInfoOnExecuted(object obj)
         {
-            ImportFileInfoOnExecuted(obj);
+            ImportFileDgInfo(obj);
         }
 
         /// <summary>
@@ -397,7 +438,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void ImportInfoOnlyPolOnExecuted(object obj)
         {
-            ImportFileInfoOnExecuted(obj, false, VoyageInfo.PortOfDeparture);
+            ImportFileDgInfo(obj, false, VoyageInfo.PortOfDeparture);
         }
 
         /// <summary>
@@ -406,33 +447,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void ImportInfoOnlySelectedOnExecuted(object obj)
         {
-            ImportFileInfoOnExecuted(obj, true);
+            ImportFileDgInfo(obj, true);
         }
 
-        /// <summary>
-        /// Common method for import Dg info.
-        /// </summary>
-        /// <param name="owner">Owner window for dialog window.</param>
-        /// <param name="importOnlySelected">True: only selected for import items will be imported.</param>
-        /// <param name="currentPort">If set, only selected items will be imported</param>
-        private void ImportFileInfoOnExecuted(object owner, bool importOnlySelected = false, string currentPort = null)
-        {
-            if (!DialogOpenFile.OpenFileWithDialog(owner, out var file)) return;
 
-            StatusBarControl.StartProgressBar(10, "Importing...");
-            Task.Run(() => OpenNewFile(file, OpenFile.OpenOption.Import, importOnlySelected, currentPort));
-        }
-
-        private bool CanAddReeferManifestInfo(object obj)
-        {
-            return WorkingCargoPlan.ReeferCount > 0;
-        }
-        private bool CanAddReeferManifestInfoOnlySelected(object obj)
-        {
-            if (CanAddReeferManifestInfo(obj))
-                return WorkingCargoPlan.Reefers.Any(x => x.IsToImport == true);
-            return false;
-        }
+        // ----- Import manifest info -----
 
         /// <summary>
         /// Opens dialog to choose excel file with reefer manifests and imports reefer info
@@ -464,6 +483,9 @@ namespace EasyJob_ProDG.UI.ViewModel
             Task.Run(() => ImportReeferManifestInfo(file, true));
         }
 
+
+        // ----- Update condition -----
+
         /// <summary>
         /// Updates existing cargo plan with new plan
         /// </summary>
@@ -474,6 +496,9 @@ namespace EasyJob_ProDG.UI.ViewModel
             StatusBarControl.StartProgressBar(10, "Updating...");
             Task.Run(() => OpenNewFile(file, OpenFile.OpenOption.Update));
         }
+
+
+        // ----- Save condition -----
 
         /// <summary>
         /// Method calls dialog to choose file name and location to save the condition.
@@ -490,21 +515,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             SetWindowTitle();
         }
 
-        /// <summary>
-        /// Method initiates OpenFile when a file dropped onto the MainWindow
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void OnFileDrop(object sender, DragEventArgs e)
-        {
-            var filePathArray = (string[])e.Data.GetData(DataFormats.FileDrop);
-            string file = filePathArray?[0];
 
-            if (filePathArray != null && File.Exists(file) && DialogOpenFile.ConfirmFileType(file))
-            {
-                OpenFileWithOptionsChoice(filePathArray[0]);
-            }
-        }
+        // ----- Add items -----
 
         /// <summary>
         /// Shifts view to DgDataGrid and calls DisplayAddMenu from DgDataGridVM
@@ -519,7 +531,6 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             DgDataGridVM.OnDisplayAddDgMenu(container);
         }
-        private bool CanAddNewDg(object obj) => true;
 
         /// <summary>
         /// Gets SelectedUnit as Container from SelectedDataGrid.
@@ -540,6 +551,9 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
         }
 
+
+        // ----- Re-check condition
+
         /// <summary>
         /// Calls Re-check of condition conflicts
         /// </summary>
@@ -548,6 +562,38 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
         }
+
+        #endregion
+
+        #region Command CanExecute methods
+
+        //----- Add Dg -----
+        private bool CanAddNewDg(object obj) => true;
+
+        //----- Import Dg -----
+        private bool CanImportDgInfo(object obj)
+        {
+            return CanExecuteForOptionalOpen(obj);
+        }
+        private bool CanImportDgInfoOnlySelected(object obj)
+        {
+            if (CanImportDgInfo(obj))
+                return WorkingCargoPlan.DgList.Any(x => x.IsToImport == true);
+            return false;
+        }
+
+        //----- Import Reefer manifest -----
+        private bool CanAddReeferManifestInfo(object obj)
+        {
+            return CanExecuteForOptionalOpen(obj) && WorkingCargoPlan.ReeferCount > 0;
+        }
+        private bool CanAddReeferManifestInfoOnlySelected(object obj)
+        {
+            if (CanAddReeferManifestInfo(obj))
+                return WorkingCargoPlan.Reefers.Any(x => x.IsToImport == true);
+            return false;
+        }
+
         #endregion
 
 

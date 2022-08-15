@@ -62,6 +62,7 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             //creating cargo plan from file
             var cargoPlan = OpenFile.ReadCargoPlanFromFile(fileName, ownShip);
+            if (cargoPlan is null || cargoPlan.IsEmpty) return cargoPlan;
 
             //Updating cargo plan from database
             HandlingDg.UpdateDgInfo(cargoPlan.DgList, dgDataBase);

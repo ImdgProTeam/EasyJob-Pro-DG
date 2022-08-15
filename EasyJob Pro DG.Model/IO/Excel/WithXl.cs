@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using EasyJob_ProDG.Data;
 using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.Model.Cargo;
 using ExcelApp = Microsoft.Office.Interop.Excel;
@@ -293,6 +294,10 @@ namespace EasyJob_ProDG.Model.IO.Excel
                     if (!containers.Contains(cont)) containers.Add(cont);
                 }
             }
+            catch(Exception ex)
+            {
+                LogWriter.Write($"Attempt to read excel workbook {workbook} thrown an exception {ex.Message}.");
+            }
             finally
             {
                 //excelapp.Windows[1].Close(false);
@@ -309,6 +314,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
 
 
                 System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelapp);
+
             }
 
             return resultDgList;

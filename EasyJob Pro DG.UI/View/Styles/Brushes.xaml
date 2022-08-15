@@ -28,9 +28,12 @@
                      Color="{StaticResource Color.DgTable.HighlightRow}"
                      p:Freeze="true"/>
 
-    <SolidColorBrush x:Key="Brush.Spinner"
-                     Color="{StaticResource Color.Spinner}"
-                     p:Freeze ="true"/>
+    <LinearGradientBrush x:Key="Brush.Spinner"
+                        
+                     p:Freeze ="true">
+        <GradientStop Color="{StaticResource Color.Spinner}" Offset="1"/>
+        <GradientStop Color="Transparent" Offset="0"/>
+    </LinearGradientBrush>
 
     <!-- Info block -->
     <SolidColorBrush x:Key="Brush.InfoBlock.Background"
