@@ -4,5 +4,6 @@
     {
         void LoadData();
         void ConnectProgramFiles();
+        void LoadBlankCargoPlan();
     }
 }

@@ -27,6 +27,7 @@ namespace EasyJob_ProDG.UI.Data
         CargoPlanWrapper GetCargoPlan();
         ShipProfile GetShipProfile();
         XDocument GetDgDataBase();
+        void LoadBlankCargoPlan();
         bool OpenNewFile(string file, OpenFile.OpenOption openOption, bool onlySelected = false, string currentPort=null);
         bool UpdateWithNewFile(string file);
         void SaveFile(string fileName);

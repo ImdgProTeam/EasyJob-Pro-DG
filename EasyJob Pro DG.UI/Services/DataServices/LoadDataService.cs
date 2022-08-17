@@ -42,5 +42,10 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         {
             return _currentProgramData.ImportReeferManifestInfo(file, importOnlySelected, currentPort);
         }
+
+        public void LoadBlankCargoPlan()
+        {
+            _currentProgramData.LoadBlankCargoPlan();
+        }
     }
 }

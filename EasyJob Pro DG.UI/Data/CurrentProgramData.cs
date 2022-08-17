@@ -117,6 +117,11 @@ namespace EasyJob_ProDG.UI.Data
             OnShipProfileSavedUpdates();
         }
 
+        public void LoadBlankCargoPlan()
+        {
+            CreateBlankCargoPlan();
+        }
+
         /// <summary>
         /// Opens new condition from a readable file on disk.
         /// </summary>
@@ -165,6 +170,18 @@ namespace EasyJob_ProDG.UI.Data
 
 
         // ----------- Private methods --------------------------------------------------
+
+        /// <summary>
+        /// Creates new CargoPlan with no cargo in it.
+        /// </summary>
+        private void CreateBlankCargoPlan()
+        {
+            _workingCargoPlan = new CargoPlan();
+            WorkingCargoPlan?.Destructor();
+            WorkingCargoPlan = new CargoPlanWrapper(_workingCargoPlan);
+            Conflicts.Clear();
+        }
+
 
         /// <summary>
         /// Reads a file and creates cargo plan, wrappers, checks them and generates conflicts.
@@ -291,6 +308,8 @@ namespace EasyJob_ProDG.UI.Data
 
 
         // ---------------- Delegates and events and their methods --------------------------------
+
+
 
         /// <summary>
         /// Catching exceptions while creating new CargoPlan from file.
