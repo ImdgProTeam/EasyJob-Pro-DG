@@ -1,7 +1,10 @@
-﻿using EasyJob_ProDG.UI.Utility;
+﻿using EasyJob_ProDG.Data;
+using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.View.UI;
 using EasyJob_ProDG.UI.ViewModel;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,7 +30,82 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         public DataGridDg() : base(Animations.AnimationTypes.SlideAndFadeInFromLeft)
         {
             InitializeComponent();
+
+            LoadColumnSettings();
+
+            MainWindow.OnWindowClosingEventHandler += new MainWindow.WindowClosing(UpdateColumnSettings);
         }
+
+
+        #region Column settings
+
+        /// <summary>
+        /// Loads column settings for DgDataTable from settings.settings
+        /// </summary>
+        private void LoadColumnSettings()
+        {
+            var displayIndexes = Properties.Settings.Default.DgDataTableDisplayIndex.Split(';');
+            var widths = Properties.Settings.Default.DgDataTableWidth.Split(';');
+            var visibilitys = Properties.Settings.Default.DgDataTableVisibilities.Split(';');
+
+            if (displayIndexes.Count() != MainDgTable.Columns.Count) return;
+
+            try
+            {
+                int index;
+                double width;
+
+                for (int i = 0; i < displayIndexes.Count(); i++)
+                {
+                    index = int.Parse(displayIndexes[i]);
+                    if (index < 0) throw new ArgumentOutOfRangeException(nameof(index), "Negative display index");
+                    MainDgTable.Columns[i].DisplayIndex = index;
+
+                    width = double.Parse(widths[i]);
+                    if (width < 0) throw new ArgumentOutOfRangeException(nameof(width), "Negative column width");
+                    MainDgTable.Columns[i].Width = width;
+
+                    MainDgTable.Columns[i].Visibility = (System.Windows.Visibility)Enum.Parse(typeof(System.Windows.Visibility), visibilitys[i]);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write($"-----> Restoring of DgDataTable column settings caused an exception: {ex.Message}");
+                int i = 0;
+                foreach (var column in MainDgTable.Columns)
+                {
+                    column.DisplayIndex = i;
+                    column.Width = DataGridLength.Auto;
+                    column.Visibility = Visibility.Visible;
+                    i++;
+                }
+                LogWriter.Write("-----> Default columns in DgDataTable created");
+            }
+        }
+
+        /// <summary>
+        /// Updates settings.settings with DgDataTable actual column settings
+        /// </summary>
+        private void UpdateColumnSettings()
+        {
+            List<int> displayIndexes = new List<int>();
+            List<double> widths = new List<double>();
+            List<string> visibilitys = new List<string>();
+
+            foreach (var column in MainDgTable.Columns)
+            {
+                displayIndexes.Add(column.DisplayIndex);
+                widths.Add(column.ActualWidth);
+                visibilitys.Add(column.Visibility.ToString());
+            }
+
+            Properties.Settings.Default.DgDataTableDisplayIndex = String.Join(";", displayIndexes);
+            Properties.Settings.Default.DgDataTableWidth = String.Join(";", widths);
+            Properties.Settings.Default.DgDataTableVisibilities = string.Join(";", visibilitys);
+        }
+
+        #endregion
+
 
         #region Input and cell / text select logic
 
@@ -190,21 +268,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         #endregion
 
 
-        #region Export to excel
-
-        /// <summary>
-        /// Exports MainDataGrid as it is displayed to excel
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ExportToExcel(object sender, RoutedEventArgs e)
-        {
-            ExportDataGridToExcel.ExportToExcel(MainDgTable);
-        }
-
-        #endregion
-
-
         #region Scroll logic
 
         private void DataGrid_ScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -261,6 +324,21 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             }
 
             return false;
+        }
+
+        #endregion
+
+
+        #region Export to excel
+
+        /// <summary>
+        /// Exports MainDataGrid as it is displayed to excel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExportToExcel(object sender, RoutedEventArgs e)
+        {
+            ExportDataGridToExcel.ExportToExcel(MainDgTable);
         }
 
         #endregion

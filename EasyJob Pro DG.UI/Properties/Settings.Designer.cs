@@ -154,5 +154,41 @@ namespace EasyJob_ProDG.UI.Properties {
                 this["WorkingCargoPlanFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DgDataTableDisplayIndex {
+            get {
+                return ((string)(this["DgDataTableDisplayIndex"]));
+            }
+            set {
+                this["DgDataTableDisplayIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DgDataTableWidth {
+            get {
+                return ((string)(this["DgDataTableWidth"]));
+            }
+            set {
+                this["DgDataTableWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DgDataTableVisibilities {
+            get {
+                return ((string)(this["DgDataTableVisibilities"]));
+            }
+            set {
+                this["DgDataTableVisibilities"] = value;
+            }
+        }
     }
 }

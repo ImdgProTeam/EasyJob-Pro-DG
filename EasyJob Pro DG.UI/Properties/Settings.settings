@@ -35,5 +35,14 @@
     <Setting Name="WorkingCargoPlanFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">Working cargo plan.ejc</Value>
     </Setting>
+    <Setting Name="DgDataTableDisplayIndex" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DgDataTableWidth" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DgDataTableVisibilities" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>
