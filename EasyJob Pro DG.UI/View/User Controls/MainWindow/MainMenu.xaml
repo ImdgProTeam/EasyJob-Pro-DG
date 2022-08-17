@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls" 
              mc:Ignorable="d"
              FontFamily="{StaticResource MenuFont}"
+             FontSize="{StaticResource StandardMenuFontSize}"
              Foreground="{StaticResource Brush.MainMenu.TopMenuItem.Foreground}"
              >
     <UserControl.Resources>
@@ -295,10 +296,10 @@
               Height="auto"
               Width="auto">
 
+            <!-- File -->
             <MenuItem Header="File">
-
                 <MenuItem Header="New"
-                          Command="New" />
+                          Command="{Binding NewCargoPlanCommand}" />
                 <MenuItem Header="_Open"
                           Command="{Binding OpenFileCommand}"
                           InputGestureText="Ctrl+O"
@@ -319,6 +320,7 @@
                           InputGestureText="Ctrl+Q" />
             </MenuItem>
 
+            <!-- Dangerous cargo -->
             <MenuItem Header="Dangerous cargo">
                 <MenuItem Header="_Recheck conflicts"
                           Command="{Binding ReCheckCommand}"
@@ -357,6 +359,7 @@
                 </MenuItem>
             </MenuItem>
 
+            <!-- Reefers -->
             <MenuItem Header="Reefers">
                 <MenuItem Header="Import manifest info"
                       Command="{Binding ImportReeferManifestInfoCommand}"/>
@@ -370,6 +373,15 @@
                           CommandParameter="ExcelReefers"/>
             </MenuItem>
 
+            <!-- Summary -->
+            <MenuItem Header="Summary">
+                <MenuItem Header="Cargo summary"
+                      Command="{Binding ShowCargoSummaryCommand}"/>
+                <MenuItem Header="IMDG summary"
+                          Command="{Binding ShowDgCargoSummaryCommand}"/>
+            </MenuItem>
+
+            <!-- Settings -->
             <MenuItem Header="Settings">
                 <MenuItem Header="Edit Ship Profile"
                           Command="{Binding OpenShipProfileWindowCommand}" />
@@ -377,6 +389,7 @@
                           Command="{Binding OpenUserSettingsWindowCommand}" />
             </MenuItem>
 
+            <!-- Help -->
             <MenuItem Header="Help">
                 <MenuItem Header="License"
                           Command="{Binding ShowLicenseDialogCommand}"></MenuItem>
@@ -385,6 +398,7 @@
                 <!--<MenuItem Header="Login"
                           Command="{Binding ShowLoginWindowCommand}"></MenuItem>-->
             </MenuItem>
+            
         </Menu>
     </Grid>
 </local:AnimatedUserControl>
