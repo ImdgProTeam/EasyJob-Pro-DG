@@ -11,6 +11,7 @@ using EasyJob_ProDG.UI.Settings;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.View.UI;
+using EasyJob_ProDG.UI.View.User_Controls;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.IO;
@@ -134,6 +135,9 @@ namespace EasyJob_ProDG.UI.ViewModel
             ShowAboutCommand = new DelegateCommand(ShowAboutExecuted);
             ShowLicenseDialogCommand = new DelegateCommand(ShowLicenseDialogExecuted);
             ShowLoginWindowCommand = new DelegateCommand(ShowLoginWindowOnExecuted);
+            ShowCargoSummaryCommand = new DelegateCommand(ShowCargoSummaryCommandOnExecuted);
+            ShowDgCargoSummaryCommand = new DelegateCommand(ShowDgCargoSummaryCommandOnExecuted);
+            NewCargoPlanCommand = new DelegateCommand(NewCargoPlanCommandOnExecuted);
             OpenFileCommand = new DelegateCommand(OpenOnExecuted);
             SaveFileCommand = new DelegateCommand(SaveOnExecuted);
             UpdateConditionCommand = new DelegateCommand(UpdateConditionOnExecuted, CanExecuteForOptionalOpen);
@@ -359,6 +363,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             dialogWindowService.Register<WinLoginViewModel, winLogin>();
             dialogWindowService.Register<DialogWindowOptionsViewModel, DialogWindowOptions>();
+            dialogWindowService.Register<CargoReportViewModel, CargoReport>();
         }
 
         /// <summary>
@@ -385,6 +390,21 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             Action d = delegate () { loadDataService.ExportToExcel(WorkingCargoPlan); };
             Task.Run(() => WrapMethodWithIsLoading(d)).ConfigureAwait(false);
+        }
+
+
+        // ----- New CargoPlan -----
+
+        /// <summary>
+        /// Creates a new blank cargo plan with no cargo in it.
+        /// </summary>
+        /// <param name="obj"></param>
+        private void NewCargoPlanCommandOnExecuted(object obj)
+        {
+            if (_messageDialogService.ShowYesNoDialog($"Are you sure that you want to create a new blank cargo plan?", "Create new cargo plan")
+                == MessageDialogResult.No) return;
+            loadDataService.LoadBlankCargoPlan();
+            GetCargoData();
         }
 
 
@@ -676,30 +696,64 @@ namespace EasyJob_ProDG.UI.ViewModel
                 }
             }
         }
+
+
+        // ----- Summary -----
+
+        private void ShowDgCargoSummaryCommandOnExecuted(object obj)
+        {
+
+        }
+
+        private void ShowCargoSummaryCommandOnExecuted(object obj)
+        {
+            var cargoReportViewModel = new CargoReportViewModel(VoyageInfo);
+            cargoReportViewModel.CreateReport(WorkingCargoPlan.Model);
+            dialogWindowService.ShowDialog(cargoReportViewModel);
+        }
+
         #endregion
 
 
         #region Commands
-        public ICommand AddNewDgCommand { get; set; }
-        public ICommand ReCheckCommand { get; set; }
+
+        // ----- Main Window controls commands -----
+        public ICommand AddNewDgCommand { get; private set; }
+        public ICommand ReCheckCommand { get; private set; }
+
+        // ----- Display utility windows commands -----
         public ICommand OpenShipProfileWindowCommand { get; private set; }
         public ICommand OpenUserSettingsWindowCommand { get; private set; }
         public ICommand ShowAboutCommand { get; private set; }
         public ICommand ShowLicenseDialogCommand { get; private set; }
         public ICommand ShowLoginWindowCommand { get; private set; }
-        public ICommand OpenFileCommand { get; set; }
-        public ICommand SaveFileCommand { get; set; }
-        public ICommand UpdateConditionCommand { get; set; }
-        public ICommand ImportDataCommand { get; set; }
-        public ICommand ImportDataOnlyPolCommand { get; set; }
-        public ICommand ImportDataOnlySelectedCommand { get; set; }
-        public ICommand ImportReeferManifestInfoCommand { get; set; }
-        public ICommand ImportReeferManifestInfoOnlySelectedCommand { get; set; }
-        public ICommand ImportReeferManifestInfoOnlyPolCommand { get; set; }
 
-        public ICommand ExportToExcelCommand { get; set; }
-        public ICommand SelectionChangedCommand { get; set; }
-        public ICommand ApplicationClosingCommand { get; set; }
+        // ----- Summary commands -----
+        public ICommand ShowCargoSummaryCommand { get; private set; }   
+        public ICommand ShowDgCargoSummaryCommand { get; private set; }
+
+        // ----- Files commands -----
+        public ICommand NewCargoPlanCommand { get; private set; }
+        public ICommand OpenFileCommand { get; private set; }
+        public ICommand SaveFileCommand { get; private set; }
+        public ICommand UpdateConditionCommand { get; private set; }
+
+        // ----- Import Dg commands -----
+        public ICommand ImportDataCommand { get; private set; }
+        public ICommand ImportDataOnlyPolCommand { get; private set; }
+        public ICommand ImportDataOnlySelectedCommand { get; private set; }
+
+        // ----- Import Reefer manifests commands -----
+        public ICommand ImportReeferManifestInfoCommand { get; private set; }
+        public ICommand ImportReeferManifestInfoOnlySelectedCommand { get; private set; }
+        public ICommand ImportReeferManifestInfoOnlyPolCommand { get; private set; }
+
+        // ----- Export to excel command -----
+        public ICommand ExportToExcelCommand { get; private set; }
+
+        // ----- Various commands -----
+        public ICommand SelectionChangedCommand { get; private set; }
+        public ICommand ApplicationClosingCommand { get; private set; }
 
 
         // ----------- Registered commands ------------------------------------------

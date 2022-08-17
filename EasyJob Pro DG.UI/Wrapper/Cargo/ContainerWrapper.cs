@@ -45,7 +45,8 @@ namespace EasyJob_ProDG.UI.Wrapper
                 if(!SetValue(value)) return;
                 _locationSortable = null;
 
-                if (CurrentProgramData.OwnShip != null) Model.HoldNr = CurrentProgramData.OwnShip.DefineCargoHoldNumber(Bay);
+                if (CurrentProgramData.OwnShip != null) 
+                    Model.HoldNr = CurrentProgramData.OwnShip.DefineCargoHoldNumber(Bay);
                 SetToAllContainersInPlan(GetValue<string>(), oldValue);
                 RefreshLocation();
             }

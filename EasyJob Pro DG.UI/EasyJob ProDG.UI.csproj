@@ -112,6 +112,8 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Utility\AsyncObservableCollection.cs" />
+    <Compile Include="View\DialogWindows\Summaries\CargoReportViewModel.cs" />
+    <Compile Include="View\DialogWindows\Summaries\PortValues.cs" />
     <Compile Include="View\Behaviors\DataGridBehaviors.cs" />
     <Compile Include="View\Behaviors\SelectTextOnFocusBehavior.cs" />
     <Compile Include="View\Behaviors\TakeFocusAndSelectTextOnVisibleBehavior.cs" />
@@ -165,25 +167,25 @@
     <Compile Include="Utility\Messages\UpdateCargoPlan.cs" />
     <Compile Include="Utility\NotifyDataErrorInfoBase.cs" />
     <Compile Include="Utility\ViewModelLocator.cs" />
-    <Compile Include="ViewModel\ConflictPanelItemVM.cs" />
+    <Compile Include="ViewModel\MainWindow\ConflictPanelItemVM.cs" />
     <Compile Include="Data\ConflictsList.cs" />
-    <Compile Include="ViewModel\ConflictsListViewModel.cs" />
-    <Compile Include="ViewModel\DataGridContainersViewModel.cs" />
-    <Compile Include="ViewModel\DataGridDgViewModel.cs" />
+    <Compile Include="ViewModel\MainWindow\ConflictsListViewModel.cs" />
+    <Compile Include="ViewModel\MainWindow\DataGridContainersViewModel.cs" />
+    <Compile Include="ViewModel\MainWindow\DataGridDgViewModel.cs" />
     <Compile Include="for experiments.xaml.cs">
       <DependentUpon>for experiments.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\DgWrapperList.cs" />
-    <Compile Include="ViewModel\DataGridReefersViewModel.cs" />
-    <Compile Include="ViewModel\IConflictListViewModel.cs" />
+    <Compile Include="ViewModel\MainWindow\DataGridReefersViewModel.cs" />
+    <Compile Include="ViewModel\MainWindow\IConflictListViewModel.cs" />
     <Compile Include="Data\VentilationRequirements.cs" />
     <Compile Include="Utility\Observable.cs" />
     <Compile Include="Services\DialogServices\WindowDialogService.cs" />
     <Compile Include="Services\DataServices\CargoDataService.cs" />
     <Compile Include="Services\DataServices\ICargoDataService.cs" />
-    <Compile Include="ViewModel\SettingsWindowVM.cs" />
-    <Compile Include="ViewModel\ShipProfileWindowVM.cs" />
-    <Compile Include="ViewModel\StatusBarViewModel.cs" />
+    <Compile Include="ViewModel\Settings\SettingsWindowVM.cs" />
+    <Compile Include="ViewModel\Settings\ShipProfileWindowVM.cs" />
+    <Compile Include="ViewModel\MainWindow\StatusBarViewModel.cs" />
     <Compile Include="View\Animations\AnimationTypes.cs" />
     <Compile Include="View\Animations\StoryboardHelpers.cs" />
     <Compile Include="View\Animations\DialogWindowAnimations.cs" />
@@ -205,13 +207,13 @@
     <Compile Include="View\Converters\VisibilityToInverseBooleanConverter.cs" />
     <Compile Include="View\Converters\ZeroNullStringToFalse.cs" />
     <Compile Include="View\Converters\ZeroToNullConverter.cs" />
-    <Compile Include="View\DialogWindows\AnimatedDialogResultWindow.cs" />
-    <Compile Include="View\DialogWindows\AnimatedDialogWindow.cs" />
+    <Compile Include="View\DialogWindows\Base\AnimatedDialogResultWindow.cs" />
+    <Compile Include="View\DialogWindows\Base\AnimatedDialogWindow.cs" />
     <Compile Include="View\DialogWindows\DialogWindowOptions.xaml.cs">
       <DependentUpon>DialogWindowOptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogWindows\DialogWindowOptionsViewModel.cs" />
-    <Compile Include="View\DialogWindows\FeaturedDialogWindow.cs" />
+    <Compile Include="View\DialogWindows\Base\FeaturedDialogWindow.cs" />
     <Compile Include="View\DialogWindows\winLicence.xaml.cs">
       <DependentUpon>winLicence.xaml</DependentUpon>
     </Compile>
@@ -288,7 +290,7 @@
       <DependentUpon>winLogin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utility\DelegateCommand.cs" />
-    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\MainWindow\MainWindowViewModel.cs" />
     <Compile Include="Services\DialogServices\IMessageDialogService.cs" />
     <Compile Include="Services\DialogServices\MessageDialogService.cs" />
     <Compile Include="View\User Controls\MainWindow\DataGridDg.xaml.cs">
@@ -306,24 +308,27 @@
     <Compile Include="View\User Controls\ShipProfileWindow\TabHolds.xaml.cs">
       <DependentUpon>TabHolds.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Wrapper\CargoPlanUnitPropertyChanger.cs" />
-    <Compile Include="Wrapper\CargoPlanWrapper.cs" />
-    <Compile Include="Wrapper\ConflictWrapper.cs" />
-    <Compile Include="Wrapper\ContainerWrapper.cs" />
-    <Compile Include="Wrapper\DgWrapper.cs" />
-    <Compile Include="Wrapper\DgWrapperMethods.cs" />
-    <Compile Include="Wrapper\DgWrapperProperties.cs" />
-    <Compile Include="Wrapper\DOCWrapper.cs" />
+    <Compile Include="View\DialogWindows\Summaries\CargoReport.xaml.cs">
+      <DependentUpon>CargoReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wrapper\Cargo\CargoPlanUnitPropertyChanger.cs" />
+    <Compile Include="Wrapper\Cargo\CargoPlanWrapper.cs" />
+    <Compile Include="Wrapper\Cargo\ConflictWrapper.cs" />
+    <Compile Include="Wrapper\Cargo\ContainerWrapper.cs" />
+    <Compile Include="Wrapper\Cargo\DgWrapper.cs" />
+    <Compile Include="Wrapper\Cargo\DgWrapperMethods.cs" />
+    <Compile Include="Wrapper\Cargo\DgWrapperProperties.cs" />
+    <Compile Include="Wrapper\Ship Profile\DOCWrapper.cs" />
     <Compile Include="Wrapper\Dummies\DummyAccommodation.cs" />
     <Compile Include="Wrapper\Dummies\DummyCargoHold.cs" />
-    <Compile Include="Wrapper\CellPositionWrapper.cs" />
+    <Compile Include="Wrapper\Ship Profile\CellPositionWrapper.cs" />
     <Compile Include="Wrapper\Dummies\DummyDOCRow.cs" />
     <Compile Include="Wrapper\Dummies\ExcelColumnProperty.cs" />
-    <Compile Include="Wrapper\ExcelReeferTemplateWrapper.cs" />
-    <Compile Include="Wrapper\ExcelTemplateWrapper.cs" />
+    <Compile Include="Wrapper\Settings\ExcelReeferTemplateWrapper.cs" />
+    <Compile Include="Wrapper\Settings\ExcelTemplateWrapper.cs" />
     <Compile Include="Wrapper\ModelWrapper.cs" />
-    <Compile Include="Wrapper\OuterRowWrapper.cs" />
-    <Compile Include="Wrapper\ShipProfileWrapper.cs" />
+    <Compile Include="Wrapper\Ship Profile\OuterRowWrapper.cs" />
+    <Compile Include="Wrapper\Ship Profile\ShipProfileWrapper.cs" />
     <Page Include="for experiments 2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -491,6 +496,10 @@
     <Page Include="View\User Controls\ShipProfileWindow\TabHolds.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\Summaries\CargoReport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

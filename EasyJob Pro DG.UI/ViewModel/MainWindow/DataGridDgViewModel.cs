@@ -1,22 +1,17 @@
-﻿using EasyJob_ProDG.Data;
+﻿using EasyJob_ProDG.UI.Data;
+using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Settings;
 using EasyJob_ProDG.UI.Utility;
-using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Wrapper;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Xml.Serialization;
-using System.Diagnostics;
-using System.Windows;
-using EasyJob_ProDG.UI.Data;
 using System.Windows.Threading;
 
 namespace EasyJob_ProDG.UI.ViewModel
@@ -59,8 +54,6 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             RegisterInDataMessenger();
 
-            LoadColumnSettings();
-
             LoadCommands();
 
             SetDataView();
@@ -89,34 +82,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             DataMessenger.Default.Register<ApplicationClosingMessage>(this, OnApplicationClosingMessageReceived, "closing");
             DataMessenger.Default.Register<CargoDataUpdated>(this, OnCargoDataUpdated, "cargodataupdated");
-        }
-
-        /// <summary>
-        /// Loads column settings from file for DgDataGrid.
-        /// Number of settings hard coded.
-        /// </summary>
-        private void LoadColumnSettings()
-        {
-            try
-            {
-                XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<DgTableColumnSettings>));
-                using (Stream s = File.OpenRead(ProgramDefaultSettingValues.ProgramDirectory + "columnsettings.xml"))
-                    ColumnSettings = (ObservableCollection<DgTableColumnSettings>)xs.Deserialize(s);
-
-                if (ColumnSettings.Count != totalNumberOfColumns)
-                    throw new Exception("Number of columns read from settings file is wrong.");
-                Debug.WriteLine("----> Column settings successfully loaded.");
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("---> Number of columns read from settings file is wrong.");
-                ColumnSettings = new ObservableCollection<DgTableColumnSettings>();
-                for (int i = 0; i < totalNumberOfColumns; i++)
-                {
-                    ColumnSettings.Add(new DgTableColumnSettings(i));
-                }
-                Debug.WriteLine("----> Default column settings created.");
-            }
         }
 
         /// <summary>
@@ -395,20 +360,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void OnApplicationClosingMessageReceived(ApplicationClosingMessage obj)
         {
-            WriteColumnSettings();
         }
 
-        /// <summary>
-        /// Saves current DgDataGrid column settings on disk
-        /// </summary>
-        private void WriteColumnSettings()
-        {
-            XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<DgTableColumnSettings>));
-            using (Stream s = File.Create(ProgramDefaultSettingValues.ProgramDirectory + "columnsettings.xml"))
-            {
-                xs.Serialize(s, ColumnSettings);
-            }
-        }
         #endregion
 
 
