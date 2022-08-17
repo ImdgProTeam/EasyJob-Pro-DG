@@ -5,22 +5,15 @@
     <!-- ****************************************** -->
     <!--   Window  -->
     <!-- ****************************************** -->
-    <Style x:Key="DemoWindowStyle"
-           TargetType="Window">
-        <Setter Property="FontFamily"
-                Value="Arial" />
-        <Setter Property="FontSize"
-                Value="12" />
-        <Setter Property="ResizeMode"
-                Value="NoResize"/>
-        <Setter Property="ShowInTaskbar"
-                Value="False"/>
-        <Setter Property="WindowStyle"
-                Value="None"/>
-        <Setter Property="Topmost"
-                Value="True"/>
-        <Setter Property="WindowStyle"
-                Value="ThreeDBorderWindow"/>
+    <Style x:Key="DemoWindowStyle" TargetType="Window">
+        <Setter Property="FontFamily" Value="{StaticResource BaseFont}" />
+        <Setter Property="FontSize" Value="{StaticResource StandardFontSize}" />
+        <Setter Property="ResizeMode" Value="NoResize"/>
+        <Setter Property="ShowInTaskbar" Value="False"/>
+        <Setter Property="Topmost" Value="True"/>
+        <Setter Property="WindowStyle" Value="None"/>
+        <Setter Property="AllowsTransparency" Value="True"/>
+        <Setter Property="SizeToContent" Value="Height"/>
     </Style>
 
 
@@ -34,5 +27,16 @@
         <Setter Property="Background" Value="{StaticResource Brush.ToolboxWindow.Background}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="WindowChrome.CaptionHeight" Value="0"/>
+    </Style>
+
+    <!-- ****************************************** -->
+    <!--   Summary Window  -->
+    <!-- ****************************************** -->
+    <Style x:Key="SummaryWindowStyle"
+           TargetType="Window" BasedOn="{StaticResource DemoWindowStyle}">
+        <Setter Property="ResizeMode" Value="CanResizeWithGrip"/>
+        <Setter Property="ShowInTaskbar" Value="True"/>
+        <Setter Property="Topmost" Value="True"/>
+        <Setter Property="Background" Value="{StaticResource Brush.ToolboxWindow.Background}" />
     </Style>
 </ResourceDictionary>

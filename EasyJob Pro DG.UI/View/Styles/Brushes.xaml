@@ -214,7 +214,10 @@
     <SolidColorBrush x:Key="Brush.TextBoxWithTag.Hint"
                      Color="{StaticResource Color.Text.Hint}"
                      p:Freeze="true"/>
-    
+    <SolidColorBrush x:Key="Brush.Button.Background"
+                     Color="{StaticResource Color.Button.Background}"
+                     p:Freeze="True"/>
+
     <!-- Toolbox Windows brushes -->
     <SolidColorBrush x:Key="Brush.ToolboxWindow.Background"
                      Color="{StaticResource Color.ToolboxWindow.Background}"

@@ -15,6 +15,7 @@
         WindowStyle="ThreeDBorderWindow"
         Background="#FFC2EAF5"
         FontFamily="{StaticResource BaseFont}"
+        FontSize="{StaticResource StandardFontSize}"
         AllowDrop="True"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainWindowViewModel}"
         d:DataContext="{d:DesignInstance viewmodel:MainWindowViewModel, d:IsDesignTimeCreatable=True}"
@@ -113,7 +114,7 @@
                             <TextBlock Text="List of conflicts"
                                    Margin="0,0,0,5"
                                    Padding="40,0,5,0"
-                                   FontSize="14"
+                                   FontSize="{StaticResource StandardButtonFontSize}"
                                    VerticalAlignment="Bottom"
                                    HorizontalAlignment="Center"
                                    FontWeight="DemiBold"
@@ -161,6 +162,7 @@
                             Grid.Row="0"
                             TabStripPlacement="Bottom"
                             FontFamily="{StaticResource DataGridFont}"
+                            FontSize="{StaticResource StandardDataGridFontSize}"
                             SelectedIndex="{Binding SelectedDataGridIndex, Mode=TwoWay}">
 
                     <TabItem Header="Dangerous goods"

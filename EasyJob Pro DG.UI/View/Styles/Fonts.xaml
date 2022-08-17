@@ -1,10 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <FontFamily x:Key="BaseFont">Segoe UI</FontFamily>
     <FontFamily x:Key="MenuFont">Segoe UI</FontFamily>
     <FontFamily x:Key="DataGridFont">Consolas</FontFamily>
     <FontFamily x:Key="IconsFont">pack://appliction;,,,/View/Styles/Fonts/#FontAwesome</FontFamily>
-    <FontFamily x:Key="Sample">c:\repos\easyjob pro dg\easyjob pro dg.ui\view\styles\fonts\fontawesome-webfont.ttf
-</FontFamily>
+    <FontFamily x:Key="Sample">c:\repos\easyjob pro dg\easyjob pro dg.ui\view\styles\fonts\fontawesome-webfont.ttf</FontFamily>
+
+    <system:Double x:Key="StandardFontSize">13</system:Double>
+    <system:Double x:Key="StandardDataGridFontSize">12</system:Double>
+    <system:Double x:Key="StandardButtonFontSize">14</system:Double>
+    <system:Double x:Key="StandardMenuFontSize">13</system:Double>
 </ResourceDictionary>

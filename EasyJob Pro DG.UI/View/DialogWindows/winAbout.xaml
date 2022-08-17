@@ -10,17 +10,25 @@
         Title="About ProDG" 
         Style="{StaticResource DemoWindowStyle}"
         WindowStartupLocation="CenterScreen"
-        Width="320"
         SizeToContent="Height"
+        Width="320"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         >
 
-    <Grid Margin="20, 10">
+    <Grid>
         <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0">
+
+        <Border Background="{StaticResource Brush.ToolboxWindow.Background}" Margin="0" BorderThickness="0"
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=dw:AnimatedDialogWindow}}" Padding="10"
+                   TextBlock.FontWeight="SemiBold"/>
+        </Border>
+        
+        <StackPanel Grid.Row="1" Margin="20, 10">
                 <TextBlock Margin="4"
                            TextWrapping="Wrap"
                            TextAlignment="Center"
@@ -39,8 +47,9 @@
             </StackPanel>
 
             </StackPanel>
+        
             <StackPanel Margin="8"
-                        Grid.Row="1"
+                        Grid.Row="2"
                         VerticalAlignment="Bottom"
                         HorizontalAlignment="Center">
                 <Button Name="btnClose"
