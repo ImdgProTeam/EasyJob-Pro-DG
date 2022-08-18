@@ -34,9 +34,14 @@
     <!-- ****************************************** -->
     <Style x:Key="SummaryWindowStyle"
            TargetType="Window" BasedOn="{StaticResource DemoWindowStyle}">
-        <Setter Property="ResizeMode" Value="CanResizeWithGrip"/>
+        <Setter Property="ResizeMode" Value="CanResize"/>
         <Setter Property="ShowInTaskbar" Value="True"/>
         <Setter Property="Topmost" Value="True"/>
         <Setter Property="Background" Value="{StaticResource Brush.ToolboxWindow.Background}" />
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CornerRadius="0" GlassFrameThickness="1" UseAeroCaptionButtons="False"/>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

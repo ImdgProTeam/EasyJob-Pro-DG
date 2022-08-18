@@ -24,6 +24,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- Capture -->
@@ -48,6 +49,7 @@
         <DataGrid x:Name="CargoReportDataGrid" Grid.Row="2" Grid.ColumnSpan="2"
                   ItemsSource="{Binding CargoValuesView}" AutoGenerateColumns="False"
                   GridLinesVisibility="None" CanUserAddRows="False" CanUserDeleteRows="False" 
+                  CanUserReorderColumns="False"
                   MaxColumnWidth="200" MinColumnWidth="16"
                   Margin="2">
 
@@ -128,8 +130,11 @@
                     </Setter>
                 </Style>
             </DataGrid.Resources>
+            
+            <!-- Columns -->
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="30" CanUserSort="True" SortMemberPath="IsSelectedSortable">
+                <DataGridTemplateColumn x:Name="columnIsSelected"
+                                        Width="30" CanUserSort="True" SortMemberPath="IsSelectedSortable">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsHitTestVisible="True" 
@@ -138,23 +143,72 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Port code" Binding="{Binding Port}" IsReadOnly="True" Width="90" x:Name="PortColumn"/>
-                <DataGridTextColumn Header="Containers" Binding="{Binding Containers}" Width="80"/>
-                <DataGridTextColumn Header="Dg containers" Binding="{Binding DgContainers}" Width="80"/>
-                <DataGridTextColumn Header="Reefers" Binding="{Binding Rf}" Width="100"/>
-                <DataGridTextColumn Header="Dg net weight" Binding="{Binding DgNetWt, StringFormat=0.000}" 
+                <DataGridTextColumn x:Name="PortColumn"
+                                    Header="Port code" 
+                                    Binding="{Binding Port}" IsReadOnly="True" Width="90" />
+                <DataGridTextColumn x:Name="columnContainerCount"
+                                    Header="Containers" 
+                                    Binding="{Binding Containers}" Width="80"/>
+                <DataGridTextColumn x:Name="columnDgContainerCount"
+                                    Header="Dg containers" 
+                                    Binding="{Binding DgContainers}" Width="80"/>
+                <DataGridTextColumn x:Name="columnReefersCount"
+                                    Header="Reefers"
+                                    Binding="{Binding Rf}" Width="100"/>
+                <DataGridTextColumn x:Name="columnDgNetWeight"
+                                    Header="Dg net weight" 
+                                    Binding="{Binding DgNetWt, StringFormat=0.000}" 
                                     CellStyle="{StaticResource DataCellTextAlignmentRight}"
                                     Width="100"/>
-                <DataGridTextColumn Header="Marine pollutants weight" Binding="{Binding MP, StringFormat=0.000}" 
+                <DataGridTextColumn x:Name="columnMPWeight"
+                                    Header="Marine pollutants weight" 
+                                    Binding="{Binding MP, StringFormat=0.000}" 
                                     CellStyle="{StaticResource DataCellTextAlignmentRight}"
                                     Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
 
+        <!-- Totals -->
+        <Grid Grid.Row="3" Grid.ColumnSpan="2"
+            HorizontalAlignment="Stretch" Background="{StaticResource Brush.Background.Panel}">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{Binding ActualWidth, ElementName=columnIsSelected}"/>
+                <ColumnDefinition Width="{Binding ActualWidth, ElementName=PortColumn}"/>
+                <ColumnDefinition Width="{Binding ActualWidth, ElementName=columnContainerCount}"/>
+                <ColumnDefinition Width="{Binding ActualWidth, ElementName=columnDgContainerCount}"/>
+                <ColumnDefinition Width="{Binding ActualWidth, ElementName=columnReefersCount}"/>
+                <ColumnDefinition Width="{Binding ActualWidth, ElementName=columnDgNetWeight}"/>
+                <ColumnDefinition Width="{Binding ActualWidth, ElementName=columnMPWeight}"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="Padding" Value="0, 5"/>
+                    <Setter Property="TextAlignment" Value="Center"/>
+                </Style>
+            </Grid.Resources>
+
+            <TextBlock Text="Total:" Grid.Column="1"
+                       TextAlignment="Right"
+                       FontWeight="DemiBold"
+                       />
+
+            <TextBlock Text="{Binding TotalContainers}" Grid.Column="2"/>
+            <TextBlock Text="{Binding TotalDgContainers}" Grid.Column="3"/>
+            <TextBlock Text="{Binding TotalRf}" Grid.Column="4"/>
+            <TextBlock Text="{Binding TotalDgNetWt, StringFormat=0.000, FallbackValue=0.000}" Grid.Column="5"
+                       TextAlignment="Right"/>
+            <TextBlock Text="{Binding TotalMPWeight, StringFormat=0.000, FallbackValue=0.000}" Grid.Column="6"
+                       TextAlignment="Right"/>
+        </Grid>
+
         <!-- Control buttons -->
         <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right"
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Grid.ColumnSpan="2">
             <StackPanel.Resources>
                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BasicButton}">

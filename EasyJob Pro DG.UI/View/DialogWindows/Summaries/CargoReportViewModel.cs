@@ -71,6 +71,69 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         #endregion
 
 
+
+        #region Public Total Properties and methods
+
+        public int TotalContainers { get; private set; }
+        public int TotalRf { get; private set; }
+        public int TotalDgContainers { get; private set; }
+        public decimal TotalDgNetWt { get; private set; }
+        public decimal TotalMPWeight { get; private set; }
+
+        /// <summary>
+        /// Sets correct totals display values.
+        /// </summary>
+        private void SetTotals()
+        {
+            ResetTotals();
+            CountTotals();
+            RefreshTotals();
+        }
+
+        /// <summary>
+        /// Counts the totals values from the <see cref="CargoValuesView"/>
+        /// </summary>
+        private void CountTotals()
+        {
+            if (CargoValuesView == null) return;
+
+            foreach (PortValues port in CargoValuesView)
+            {
+                TotalContainers += port.Containers;
+                TotalRf += port.Rf;
+                TotalDgContainers += port.DgContainers;
+                TotalDgNetWt += port.DgNetWt;
+                TotalMPWeight += port.MP;
+            }
+        }
+
+        /// <summary>
+        /// Resets all totals to 0
+        /// </summary>
+        private void ResetTotals()
+        {
+            TotalContainers = 0;
+            TotalRf = 0;
+            TotalDgContainers = 0;
+            TotalDgNetWt = 0;
+            TotalMPWeight = 0;
+        }
+
+        /// <summary>
+        /// Calls OnPropertyChanged for each of totals properties
+        /// </summary>
+        private void RefreshTotals()
+        {
+            OnPropertyChanged(nameof(TotalContainers));
+            OnPropertyChanged(nameof(TotalDgContainers));
+            OnPropertyChanged(nameof(TotalRf));
+            OnPropertyChanged(nameof(TotalDgNetWt));
+            OnPropertyChanged(nameof(TotalMPWeight));
+        }
+
+        #endregion
+
+
         #region Public methods
 
         /// <summary>
@@ -85,6 +148,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
             SetDisplayValues();
             SaveFullCargoReport();
             SetDataView();
+            SetTotals();
         }
 
         #endregion
@@ -124,6 +188,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
                 selectedPortOptionIndex = value;
                 SetCargoValueFilteredByPort(selectedPortOptionIndex);
                 CargoValuesView?.Refresh();
+                SetTotals();
             }
         }
         private int selectedPortOptionIndex = 0;
@@ -375,6 +440,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
             }
             if (isPortOfDepartureSet || isPortOfDestinationSet)
                 CargoValuesView?.Refresh();
+            SetTotals();
         }
 
         /// <summary>
