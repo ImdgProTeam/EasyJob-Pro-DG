@@ -57,15 +57,9 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
 
             //Set commands
             SwitchLoadingCommand = new DelegateCommand(SwitchLoadingOnExecuted);
-            ExportToExcelCommand = new DelegateCommand(ExportToExcelOnExecuted);
 
             //Set Filter event
             cargoValuesView.Filter += OnCargoValuesFiltered;
-        }
-
-        private void ExportToExcelOnExecuted(object obj)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion
@@ -490,6 +484,6 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         #endregion
 
         public ICommand SwitchLoadingCommand { get; private set; }
-        public ICommand ExportToExcelCommand { get; private set; }
+
     }
 }

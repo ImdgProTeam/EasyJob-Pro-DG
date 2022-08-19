@@ -300,11 +300,9 @@ namespace EasyJob_ProDG.Model.IO.Excel
             }
             finally
             {
-                //excelapp.Windows[1].Close(false);
-                //excelapp.Quit();
                 activeWorkbook.Close(null, null, null);
                 if (workbooks != null) workbooks.Close();
-                //excelapp.Windows[1].Close(false);
+
                 excelapp.Quit();
                 RunGarbageCollector();
                 System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelcells);

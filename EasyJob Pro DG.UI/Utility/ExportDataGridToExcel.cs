@@ -22,18 +22,14 @@ namespace EasyJob_ProDG.UI.Utility
         /// Exports data from DataGrid as it is displayed.
         /// </summary>
         /// <param name="dataGrid">DataGrid containing data to export.</param>
-        public static void ExportToExcel(DataGrid dataGrid)
+        /// <param name="addSummary">If true, total sum of each column (starting from B) will be added after the last row.</param>
+        public static void ExportToExcel(DataGrid dataGrid, bool addSummary = false)
         {
             MainWindowVM.StatusBarControl.StartProgressBar(10, "Exporting...");
             MainWindowVM.SetIsLoading(true);
 
             ListCollectionView collection = CollectionViewSource.GetDefaultView(dataGrid.ItemsSource) as ListCollectionView;
             if (collection == null) return;
-
-            Excel.Application excel = new Excel.Application();
-            excel.Visible = false;
-            Excel.Workbook workbook = excel.Workbooks.Add(System.Reflection.Missing.Value);
-            Excel.Worksheet sheet = (Excel.Worksheet)workbook.Sheets[1];
 
             ColumnProperty[] columnProperties = new ColumnProperty[dataGrid.Columns.Count];
 
@@ -49,7 +45,8 @@ namespace EasyJob_ProDG.UI.Utility
                 {
                     columnProperties[index] = new ColumnProperty();
                     columnProperties[index].ColumnHeader = column.Header?.ToString() ?? null;
-                    columnProperties[index].ColumnPropertyName = PropertiesDictionary[column.Header?.ToString()] ?? column.Header?.ToString();
+                    columnProperties[index].ColumnPropertyName = String.IsNullOrEmpty(column.Header?.ToString()) ? String.Empty
+                        : PropertiesDictionary[column.Header?.ToString()] ?? column.Header?.ToString();
                     columnProperties[index].ColumnWidth = (int)column.ActualWidth / 8;
                 }
                 catch
@@ -58,12 +55,20 @@ namespace EasyJob_ProDG.UI.Utility
                 }
             }
 
-            MainWindowVM.StatusBarControl.ChangeBarSet(40);
+            int statusBarIncrement = 50 / dataGrid.Columns.Count;
+            MainWindowVM.StatusBarControl.ChangeBarSet(30);
 
+            //Excel
             Task.Run(() =>
             { //Column headers and width
+
+                Excel.Application excel = new Excel.Application();
+                excel.Visible = false;
+                Excel.Workbook workbook = excel.Workbooks.Add(System.Reflection.Missing.Value);
+                Excel.Worksheet sheet = (Excel.Worksheet)workbook.Sheets[1];
+                MainWindowVM.StatusBarControl.ChangeBarSet(40);
+
                 int subtraction = 0;
-                int statusBarIncrement = 90 / dataGrid.Columns.Count;
 
                 for (int i = 0; i < dataGrid.Columns.Count; i++)
                 {
@@ -115,11 +120,38 @@ namespace EasyJob_ProDG.UI.Utility
 
                     MainWindowVM.StatusBarControl.ProgressPercentage += statusBarIncrement;
                 }
+
+
+                //Summary
+                if (addSummary)
+                {
+                    try
+                    {
+                        //Row header
+                        Excel.Range range = (Excel.Range)sheet.Cells[collection.Count + 2, 1];
+                        range.Value2 = "Total:";
+                        range.HorizontalAlignment = HorizontalAlignment.Right;
+                        range.Font.Bold = true;
+
+                        for (int i = 2; i < dataGrid.Columns.Count + 1 - subtraction; i++)
+                        {
+                            range = (Excel.Range)sheet.Cells[collection.Count + 2, i];
+                            string formula = $"=SUM({(char)(i + 64)}2:{(char)(i + 64)}{collection.Count + 1})";
+                            range.Formula = formula;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LogWriter.Write($"Exception {ex.Message} called while creating summary row in excel.");
+                    }
+                }
+
                 excel.Visible = true;
 
                 MainWindowVM.StatusBarControl.ChangeBarSet(100);
                 MainWindowVM.SetIsLoading(false);
             });
+
         }
 
 
@@ -161,7 +193,15 @@ namespace EasyJob_ProDG.UI.Utility
             {"Technical name", "TechnicalName"},
             {"UNNO", "Unno"},
             {"Vent", "VentSetting" },
-            {"Waste", "IsWaste"}
+            {"Waste", "IsWaste"},
+
+            // Cargo summary
+            {"Port code", "Port" },
+            {"Containers", "Containers" },
+            {"Dg containers", "DgContainers" },
+            {"Reefers", "Rf" },
+            {"Dg net weight", "DgNetWt" },
+            {"Marine pollutants weight", "MP" },
         };
 
         /// <summary>

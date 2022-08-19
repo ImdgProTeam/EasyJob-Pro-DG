@@ -217,7 +217,7 @@
                     <Setter Property="MinWidth" Value="90"/>
                 </Style>
             </StackPanel.Resources>
-            <Button Content="To Excel" Command="{Binding ExportToExcelCommand}"/>
+            <Button Content="To Excel" Click="ExportToExcel"/>
             <Button Content="Close" Click="CloseWindow" IsCancel="True"/>
         </StackPanel>
     </Grid>
