@@ -50,6 +50,7 @@
     <Compile Include="LogWriter.cs" />
     <Compile Include="ProgramDefaultSettingValues.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatusBarReporter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Documentation\ReadMe.txt" />

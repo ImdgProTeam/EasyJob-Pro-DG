@@ -1,4 +1,7 @@
-﻿using System;
+﻿//Data.StatusBarReporter.ReportPercentage
+// is used to report present status to Status bar of the main window.
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -27,12 +30,12 @@ namespace EasyJob_ProDG.Model.IO.Excel
         {
             bool isTemplateRead = template.ReadTemplate();
 
-            //Change template or use default
-            if (isTemplateRead)
+            if (!isTemplateRead)
             {
-                Output.ThrowMessage(
-                    "Template will be used to create dg list in excel.");
+                Data.LogWriter.Write($"Excel template has not been read. The default template will be used to create the excel file.");
             }
+
+            Data.StatusBarReporter.ReportPercentage = 20;
 
             //Creating workbook
             ExcelApp.Application excelApp = new ExcelApp.Application { Visible = false, SheetsInNewWorkbook = 1 };
@@ -55,6 +58,8 @@ namespace EasyJob_ProDG.Model.IO.Excel
 
             };
 
+            Data.StatusBarReporter.ReportPercentage = 25;
+
             #region Headings row
             //Creating heading titles
             for (int i = 1; i <= template.MaxColumnNumber; i++)
@@ -68,6 +73,17 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 if (columnWidth[x] != 0) excelCells.ColumnWidth = columnWidth[x];
                 excelCells.Value2 = titles[x];
             }
+
+            Data.StatusBarReporter.ReportPercentage = 30;
+            #endregion
+
+            #region Setting StatusBar increment values
+            //setting to set status bar increment value for a single row
+            float tempStatusBarIncrementValue = 65f / dgList.Count;
+            float tempIncrementAccummulation = 0.0f;
+            int statusBarIncrementValue = 0;
+            if (tempStatusBarIncrementValue > 1)
+                statusBarIncrementValue = 65 / dgList.Count; 
             #endregion
 
             #region Filling table
@@ -181,10 +197,25 @@ namespace EasyJob_ProDG.Model.IO.Excel
 
                     excelCells.Value2 = value;
                 }
+
+                //Status bar update
+                if (Data.StatusBarReporter.ReportPercentage < 95)
+                {
+                    if (statusBarIncrementValue == 0)
+                    {
+                        tempIncrementAccummulation += tempStatusBarIncrementValue;
+                        if (tempIncrementAccummulation < 1) continue;
+                        Data.StatusBarReporter.ReportPercentage++;
+                        tempIncrementAccummulation--;
+                    }
+                    else 
+                        Data.StatusBarReporter.ReportPercentage += statusBarIncrementValue;
+                }
             }
             #endregion
 
             excelApp.Visible = true;
+            Data.StatusBarReporter.ReportPercentage = 100;
         }
 
         /// <summary>
@@ -203,12 +234,11 @@ namespace EasyJob_ProDG.Model.IO.Excel
 
             bool isTemplateRead = template.ReadTemplate();
 
-            if (isTemplateRead)
+            if (!isTemplateRead)
             {
-                Output.ThrowMessage(
-                    "Template will be used to read excel file. Press any key to continue. " +
-                    "\nTo change the template press '1'");
+                Data.LogWriter.Write($"Excel template has not been read. The default template will be used to read excel file.");
             }
+            Data.StatusBarReporter.ReportPercentage = 30;
 
             //connecting xl file
             ExcelApp.Range excelcells = null;
@@ -224,9 +254,17 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 activeWorkbook = excelapp.ActiveWorkbook;
                 excelWorksheet = ChooseCorrectSheet(activeWorkbook, template.WorkingSheet);
                 Data.LogWriter.Write("Reading DG data...");
+                Data.StatusBarReporter.ReportPercentage = 40;
 
                 //Determine number of rows = number of dg
                 int rowscount = CountRows(ref excelcells, excelWorksheet);
+
+                //Setting StatusBar increment value
+                float tempStatusBarIncrementValue = 30f / rowscount;
+                float tempIncrementAccummulation = 0.0f;
+                int statusBarIncrementValue = 0;
+                if (tempStatusBarIncrementValue > 1)
+                    statusBarIncrementValue = 30 / rowscount;
 
                 //Create dg list & container list
                 for (int line = 0; line < rowscount; line++)
@@ -300,6 +338,20 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         containers.Add(cont);
                     }
                     else container.DgCountInContainer++;
+
+                    //Status bar update
+                    if (Data.StatusBarReporter.ReportPercentage < 75)
+                    {
+                        if (statusBarIncrementValue == 0)
+                        {
+                            tempIncrementAccummulation += tempStatusBarIncrementValue;
+                            if (tempIncrementAccummulation < 1) continue;
+                            Data.StatusBarReporter.ReportPercentage++;
+                            tempIncrementAccummulation--;
+                        }
+                        else
+                            Data.StatusBarReporter.ReportPercentage += statusBarIncrementValue;
+                    }
                 }
             }
             catch (Exception ex)

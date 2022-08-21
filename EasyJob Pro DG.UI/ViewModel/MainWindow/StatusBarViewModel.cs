@@ -7,6 +7,21 @@ namespace EasyJob_ProDG.UI.ViewModel
 {
     public class StatusBarViewModel : Observable
     {
+        ///// <summary>
+        ///// Static Property used to connect StatusBar updates from various Projects.
+        ///// </summary>
+        //public static int StaticReportValue
+        //{
+        //    set
+        //    {
+        //        _staticReportValue = value;
+        //        OnStaticReportValueChanged();
+        //    }
+        //}
+        //private static int _staticReportValue;
+        private static int _dataReporterValue => EasyJob_ProDG.Data.StatusBarReporter.ReportPercentage;
+
+        private static StatusBarViewModel _staticReportViewModelInstance = null;
         private BackgroundWorker _worker;
 
         private int _Max = 100;
@@ -55,9 +70,13 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         public StatusBarViewModel()
         {
+            if(_staticReportViewModelInstance == null)
+                _staticReportViewModelInstance = this;
             ProgressBarVisible = Visibility.Collapsed;
             ProgressPercentage = 0;
             StatusBarText = "";
+
+            EasyJob_ProDG.Data.StatusBarReporter.ReportPercentageChanged += OnStaticReportValueChanged;
         }
 
         private void Increment()
@@ -77,17 +96,12 @@ namespace EasyJob_ProDG.UI.ViewModel
             _worker = new BackgroundWorker();
             _worker.WorkerReportsProgress = true;
             _worker.DoWork += new DoWorkEventHandler(worker_DoWork);
-            //_worker.ProgressChanged += this.ProgressChanged;
             _worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
             _worker.WorkerSupportsCancellation = true;
 
             _worker.RunWorkerAsync();
         }
 
-        //private void ProgressChanged(object sender, ProgressChangedEventArgs e)
-        //{
-        //    this.ProgressPercentage = e.ProgressPercentage;
-        //}
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -144,6 +158,14 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             _worker?.CancelAsync();
             Completed();
+        }
+
+        /// <summary>
+        /// Sets ProgressBar Percentage on StaticReportValue changed.
+        /// </summary>
+        private static void OnStaticReportValueChanged()
+        {
+            _staticReportViewModelInstance.ProgressPercentage = _dataReporterValue;
         }
     }
 }

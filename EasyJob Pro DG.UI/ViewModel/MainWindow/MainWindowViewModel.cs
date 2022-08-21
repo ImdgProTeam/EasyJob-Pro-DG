@@ -29,6 +29,7 @@ namespace EasyJob_ProDG.UI.ViewModel
     public class MainWindowViewModel : Observable
     {
         #region Private fields
+
         LoadDataService loadDataService;
         WindowDialogService windowDialogService;
         CargoDataService cargoDataService;
@@ -40,10 +41,12 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private DataGridReefersViewModel reefersDataGridVM => ViewModelLocator.DataGridReefersViewModel;
         private DataGridContainersViewModel containersDataGridVM => ViewModelLocator.DataGridContainersViewModel;
+
         #endregion
 
 
         #region Public properties to be used in View
+
         public string WindowTitle { get; private set; }
         public ConflictsList Conflicts { get; set; }
         public VentilationRequirements Vents { get; set; }
@@ -112,13 +115,11 @@ namespace EasyJob_ProDG.UI.ViewModel
                 Environment.Exit(0);
             }
 
-
             loadDataService.LoadData();
 
             UISettings = uiSettingsService.GetSettings();
 
             GetCargoData();
-
         }
 
         /// <summary>
@@ -206,7 +207,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 SetIsLoading(false);
                 return;
             }
-            StatusBarControl.ChangeBarSet(70);
+            StatusBarControl.ChangeBarSet(80);
 
 
             await Task.Run(()=> GetCargoData());
@@ -280,6 +281,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             StatusBarControl.ChangeBarSet(100);
             SetIsLoading(false);
         }
+
         #endregion
 
 
@@ -406,6 +408,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void ExportToExcelOnExecuted(object obj)
         {
+            StatusBarControl.StartProgressBar(10, "Exporting to excel...");
             Action d = delegate () { loadDataService.ExportToExcel(WorkingCargoPlan); };
             Task.Run(() => WrapMethodWithIsLoading(d)).ConfigureAwait(false);
         }
@@ -653,6 +656,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             bool canExecute = WorkingCargoPlan != null && !WorkingCargoPlan.IsEmpty;
             return canExecute;
         }
+
         #endregion
 
 

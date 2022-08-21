@@ -437,7 +437,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                 if(!SetValue(value)) return;
                 if (value)
                 {
-                    if (!Name.ToLower().Replace(" ", "").Contains("max1l")) Name += ", Max 1L";
+                    if (!Name.ToLower().Replace(" ", "").Replace(".","").Contains("max1l")) Name += ", Max 1L";
                     if (IsWaste) IsWaste = false;
                 }
                 else
@@ -491,8 +491,8 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<string>(); }
             set
             {
-                string oldName = Name.ToLower();
-                string newName = value.ToLower().Replace(" ", "");
+                string oldName = Name.ToLower().Replace(" ", "").Replace(".", ""); ;
+                string newName = value.ToLower().Replace(" ", "").Replace(".", "");
 
                 if(!SetValue(value)) return;
                 IsNameChanged = !string.Equals(OriginalNameFromCode, value);
