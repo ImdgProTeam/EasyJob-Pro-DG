@@ -3,7 +3,7 @@
     public interface ILoadDataService
     {
         void LoadData();
-        void ConnectProgramFiles();
+        bool ConnectProgramFiles();
         void LoadBlankCargoPlan();
     }
 }

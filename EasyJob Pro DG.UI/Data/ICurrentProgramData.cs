@@ -17,7 +17,7 @@ namespace EasyJob_ProDG.UI.Data
     {
         ShipProfileDataService ShipProfileDataService { get; set; }
 
-        void ConnectProgramFiles();
+        bool ConnectProgramFiles();
         void LoadData();
         void ReCheckDgWrapperStowage(DgWrapper dgWrapper);
         void ReCheckDgWrapperList();

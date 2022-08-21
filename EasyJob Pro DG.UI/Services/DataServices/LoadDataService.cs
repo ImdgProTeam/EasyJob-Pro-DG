@@ -1,6 +1,6 @@
 ﻿using EasyJob_ProDG.Model.IO;
 using EasyJob_ProDG.UI.Data;
-using EasyJob_ProDG.UI.Wrapper;
+
 
 namespace EasyJob_ProDG.UI.Services.DataServices
 {
@@ -10,17 +10,21 @@ namespace EasyJob_ProDG.UI.Services.DataServices
 
         public LoadDataService()
         {
-            //currentProgramData = currentProgramData;
+
         }
 
         public void LoadData()
         {
             _currentProgramData.LoadData();
         }
-
-        public void ConnectProgramFiles()
+        
+        /// <summary>
+        /// Connects ShipProfile and Dg DataBase from Program files.
+        /// </summary>
+        /// <returns>False if Dg DataBase has not been connected.</returns>
+        public bool ConnectProgramFiles()
         {
-            _currentProgramData.ConnectProgramFiles();
+            return _currentProgramData.ConnectProgramFiles();
         }
 
         public bool OpenNewFile(string file, OpenFile.OpenOption openOption, bool importOnlySelected = false, string currentPort = null)
@@ -33,7 +37,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
             _currentProgramData.SaveFile(fileName);
         }
 
-        public void ExportToExcel(CargoPlanWrapper cargo)
+        public void ExportToExcel(Wrapper.CargoPlanWrapper cargo)
         {
             _currentProgramData.ExportDgListToExcel(cargo);
         }

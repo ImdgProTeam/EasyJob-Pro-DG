@@ -14,11 +14,7 @@ using EasyJob_ProDG.Model.Transport;
 using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Wrapper;
-using System.Text;
-using System.Windows;
-using System.Xml.Linq;
-using EasyJob_ProDG.UI.View.UI;
-using EasyJob_ProDG.Data;
+
 
 namespace EasyJob_ProDG.UI.Data
 {
@@ -27,7 +23,7 @@ namespace EasyJob_ProDG.UI.Data
         // ----------- Private fields --------- ----------------------------------------
 
         private static CargoPlan _workingCargoPlan;
-        private static XDocument _dgDataBase;
+        private static System.Xml.Linq.XDocument _dgDataBase;
         private static IShipProfileDataService _shipProfileDataService;
 
         // ----------- Public use program files ----------------------------------------
@@ -52,13 +48,13 @@ namespace EasyJob_ProDG.UI.Data
         /// <summary>
         /// Connects DgDataBase, ShipProfile. Initiates EventSupervisor.
         /// </summary>
-        public void ConnectProgramFiles()
+        public bool ConnectProgramFiles()
         {
-            ////Connect program files
-            ProgramFiles.Connect(out OwnShip, out _dgDataBase);
-
             //Initiate EventSupervisor
             EventSupervisor evS = new EventSupervisor();
+
+            ////Connect program files
+            return ProgramFiles.Connect(out OwnShip, out _dgDataBase);
         }
 
         /// <summary>
@@ -66,11 +62,11 @@ namespace EasyJob_ProDG.UI.Data
         /// </summary>
         public void LoadData()
         {
-            string openPath = ((MainWindow)Application.Current.MainWindow)?.StartupFilePath;
+            string openPath = ((View.UI.MainWindow)System.Windows.Application.Current.MainWindow)?.StartupFilePath;
 
             if (!CreateWorkingCargoPlan(openPath ?? Properties.Settings.Default.WorkingCargoPlanFile))
             {
-                LogWriter.Write("Blank condition will be created.");
+                EasyJob_ProDG.Data.LogWriter.Write("Blank condition will be created.");
                 _workingCargoPlan = new CargoPlan();
                 WorkingCargoPlan = new CargoPlanWrapper(_workingCargoPlan);
             }
@@ -386,80 +382,9 @@ namespace EasyJob_ProDG.UI.Data
             return OwnShip;
         }
 
-        public XDocument GetDgDataBase()
+        public System.Xml.Linq.XDocument GetDgDataBase()
         {
             return _dgDataBase;
-        }
-
-
-        // ---------------- Various not in use methods ------------------------------------------
-
-        /// <summary>
-        /// Method created to test changes in ShipProfileVM
-        /// </summary>
-        public void TestShipProfile()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Ship name: " + OwnShip.ShipName);
-            sb.AppendLine("Call sign: " + OwnShip.CallSign);
-            sb.AppendLine("Number of holds: " + OwnShip.NumberOfHolds);
-            sb.AppendLine("Reefer facing: " + OwnShip.RfMotor);
-            sb.AppendLine("Row 00: " + OwnShip.Row00Exists);
-            sb.AppendLine("Passenger " + OwnShip.Passenger);
-            sb.AppendLine("Number of accommodations: " + OwnShip.NumberOfAccommodations);
-            int i = 0;
-            foreach (var record in OwnShip.Holds)
-            {
-                sb.AppendLine("Hold " + i + " bays: " + record.FirstBay + " " + record.LastBay);
-                i++;
-            }
-            string message = "";
-            foreach (var record in OwnShip.AccommodationBays)
-            {
-                message += record + " ";
-            }
-            sb.AppendLine("Accommodation bays: " + message);
-            message = "";
-            foreach (var record in OwnShip.Accommodation)
-            {
-                message += record + " ";
-            }
-            sb.AppendLine("Accommodation bays: " + message);
-            sb.AppendLine("Seasides: ");
-            foreach (var record in OwnShip.SeaSides)
-            {
-                sb.AppendLine(record.Bay + " " + record.PortMost + " " + record.StarboardMost);
-            }
-            sb.AppendLine("Living quarters: ");
-            foreach (var record in OwnShip.LivingQuartersList)
-            {
-                sb.AppendLine(record.ToString());
-            }
-            sb.AppendLine("HeatedStructures: ");
-            foreach (var record in OwnShip.HeatedStructuresList)
-            {
-                sb.AppendLine(record.ToString());
-            }
-            sb.AppendLine("LSA: ");
-            foreach (var record in OwnShip.LSAList)
-            {
-                sb.AppendLine(record.ToString());
-            }
-            sb.AppendLine("DOC:");
-            for (byte h = 0; h < OwnShip.Doc.NumberOfRows; h++)
-            {
-                sb.AppendLine("Hold " + h);
-                for (byte c = 0; c < OwnShip.Doc.NumberOfClasses; c++)
-                {
-                    sb.Append(OwnShip.Doc.DOCtable[h, c] + " ");
-                }
-                sb.AppendLine();
-            }
-
-            //ship.Doc = ship.Doc;
-            //ship.ErrorList = shipWrapper.ErrorList;
-
-            MessageBox.Show(sb.ToString());
         }
 
 

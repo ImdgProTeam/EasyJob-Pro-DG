@@ -56,6 +56,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         public int SelectedDataGridIndex { get; set; }
         public DataGridDgViewModel DgDataGridVM => ViewModelLocator.DataGridDgViewModel;
 
+        /// <summary>
+        /// Property indicating if any loading/saving etc. process is running at the moment.
+        /// </summary>
         public bool IsLoading { get; set; } = true;
 
         #endregion
@@ -101,7 +104,15 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void LoadData()
         {
             uiSettingsService.LoadSettigs();
-            loadDataService.ConnectProgramFiles();
+
+            //Connecting Program files
+            if (!loadDataService.ConnectProgramFiles())
+            {
+                _messageDialogService.ShowOkDialog("The program is unable to connect DataBase file.\nProDG will be stopped and closed.", "Error");
+                Environment.Exit(0);
+            }
+
+
             loadDataService.LoadData();
 
             UISettings = uiSettingsService.GetSettings();
@@ -380,6 +391,12 @@ namespace EasyJob_ProDG.UI.ViewModel
 
 
         #region Command methods
+
+        // ----- Close Application -----
+        private void CloseApplication()
+        {
+            Application.Current.Shutdown();
+        }
 
         // ----- Export to excel -----
 
@@ -764,7 +781,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 return new DelegateCommand((obj) =>
                 {
-                    Application.Current.Shutdown();
+                    CloseApplication();
                 });
             }
         }

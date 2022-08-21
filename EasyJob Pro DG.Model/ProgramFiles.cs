@@ -1,5 +1,4 @@
 ﻿using EasyJob_ProDG.Data;
-using EasyJob_ProDG.Model.Transport;
 using System;
 using System.IO;
 using System.Text;
@@ -12,6 +11,8 @@ namespace EasyJob_ProDG.Model
         public static StringBuilder TextToExport;
         internal static XDocument DgDataBase;
 
+        private static bool hasDataBaseBeenSuccesfullyConnected = false;
+
         // ----------------------- STATIC METHODS ---------------------------------------------------------------------------------
 
         // ------------------ Methods supporting the run of the program -----------------------------------------------------------
@@ -19,10 +20,14 @@ namespace EasyJob_ProDG.Model
         /// <summary>
         /// Method connects ShipProfile and dgDataBase to program.
         /// </summary>
-        /// <param name="ownship"></param>
-        /// <param name="dgDataBase"></param>
-        /// <returns></returns>            
-        public static void Connect(out Transport.ShipProfile ownship, out XDocument dgDataBase)
+        /// <param name="ownship">ShipProfile which can be used after it is connected from the file.</param>
+        /// <param name="dgDataBase">Dg DataBase to be used after it is read from a file.</param>
+        /// <returns>
+        /// True, if DataBase has been succesfully connected.
+        /// In case of problems with ShipProfile - default ship profile will be returned.
+        /// In case of problems with dgDataBase - null will be returned.
+        /// </returns>            
+        public static bool Connect(out Transport.ShipProfile ownship, out XDocument dgDataBase)
         {
             ownship = Transport.ShipProfile.ReadShipProfile
                 (ProgramDefaultSettingValues.DefaultShipProfile, ProgramDefaultSettingValues.AlwaysOpenDefaultProfile);
@@ -30,7 +35,8 @@ namespace EasyJob_ProDG.Model
 
             DgDataBase = GetXmlDoc(ProgramDefaultSettingValues.DgDataBaseFile);
             dgDataBase = DgDataBase;
-            LogWriter.Write("Database connected");
+
+            return hasDataBaseBeenSuccesfullyConnected;
         }
 
         /// <summary>
@@ -38,7 +44,7 @@ namespace EasyJob_ProDG.Model
         /// </summary>
         /// <param name="docName"></param>
         /// <returns></returns>
-        internal static XDocument GetXmlDoc(string docName)
+        private static XDocument GetXmlDoc(string docName)
         {
             try
             {
@@ -53,17 +59,19 @@ namespace EasyJob_ProDG.Model
                     LogWriter.Write("Wrong dglist.xml version is used");
                     throw new Exception("Dg database has wrong format or corrupt.");
                 }
+
+                hasDataBaseBeenSuccesfullyConnected = true;
+                LogWriter.Write("Database connected");
                 return xmlDoc;
             }
             catch (FileNotFoundException ex)
             {
-                //TODO: Implement warning when no or old database connected
-                Output.ThrowMessage(ex.Message);
+                LogWriter.Write($"Database file {docName} not found.");
                 return null;
             }
             catch (Exception ex)
             {
-                Output.ThrowMessage(ex.Message);
+                LogWriter.Write($"Reading database file {docName} thrown exception: {ex.Message}.");
                 return null;
             }
         }
@@ -73,12 +81,12 @@ namespace EasyJob_ProDG.Model
         /// </summary>
         /// <param name="ship"></param>
         /// <param name="ShipProfileName"></param>
-        public static void SaveShipProfile(ShipProfile ship, string ShipProfileName = null)
+        public static void SaveShipProfile(Transport.ShipProfile ship, string ShipProfileName = null)
         {
             string _fileName = ShipProfileName;
             if (_fileName == null || ProgramDefaultSettingValues.AlwaysOpenDefaultProfile)
                 _fileName = ProgramDefaultSettingValues.DefaultShipProfile.Replace(ProgramDefaultSettingValues.ShipProfileExtension, "");
-            ShipProfile.WriteShipProfile(_fileName, ship);
+            Transport.ShipProfile.WriteShipProfile(_fileName, ship);
         }
     }
 }
