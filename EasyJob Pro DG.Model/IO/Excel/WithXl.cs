@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using EasyJob_ProDG.Data;
+using System.Linq;
 using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.Model.Cargo;
 using ExcelApp = Microsoft.Office.Interop.Excel;
@@ -223,7 +223,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 workbooks.Open(workbook, ExcelApp.XlUpdateLinks.xlUpdateLinksNever, ReadOnly: true);
                 activeWorkbook = excelapp.ActiveWorkbook;
                 excelWorksheet = ChooseCorrectSheet(activeWorkbook, template.WorkingSheet);
-                Output.ThrowMessage("Reading DG data...");
+                Data.LogWriter.Write("Reading DG data...");
 
                 //Determine number of rows = number of dg
                 int rowscount = CountRows(ref excelcells, excelWorksheet);
@@ -245,7 +245,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         else if (col == template.ColumnPOD) cont.POD = excelcells.Value2;
                         else if (col == template.ColumnUnno)
                         {
-                            unit.Unno = Convert.ToInt16(excelcells.Value2);
+                            unit.Unno = Convert.ToUInt16(excelcells.Value2);
                             unit.AssignSegregationGroup();
                         }
                         else if (col == template.ColumnClass)
@@ -291,12 +291,20 @@ namespace EasyJob_ProDG.Model.IO.Excel
                     cont.HoldNr = ship.DefineCargoHoldNumber(cont.Bay);
                     unit.CopyContainerInfo(cont);
                     resultDgList.Add(unit);
-                    if (!containers.Contains(cont)) containers.Add(cont);
+
+                    //Update containers
+                    var container = containers.FirstOrDefault(c => string.Equals(c.ContainerNumber, cont.ContainerNumber, StringComparison.OrdinalIgnoreCase));
+                    if (container == null)
+                    {
+                        cont.DgCountInContainer++;
+                        containers.Add(cont);
+                    }
+                    else container.DgCountInContainer++;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                LogWriter.Write($"Attempt to read excel workbook {workbook} thrown an exception {ex.Message}.");
+                Data.LogWriter.Write($"Attempt to read excel workbook {workbook} thrown an exception {ex.Message}.");
             }
             finally
             {

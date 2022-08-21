@@ -161,7 +161,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <summary>
         /// Calls OnPropertyChanged on CargoPlan count values
         /// </summary>
-        private void UpdateCargoPlanValues()
+        internal void UpdateCargoPlanValues()
         {
             OnPropertyChanged("ContainerCount");
             OnPropertyChanged("ReeferCount");

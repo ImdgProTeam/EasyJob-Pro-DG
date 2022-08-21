@@ -231,6 +231,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
             else
             {
+                StatusBarControl.StartProgressBar(10, "Opening...");
                 await Task.Run(() => OpenNewFile(file));
             }
         }

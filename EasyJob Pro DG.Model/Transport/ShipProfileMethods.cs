@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using EasyJob_ProDG.Data;
+using System;
 using System.IO;
 using System.Reflection;
-using EasyJob_ProDG.Data;
 
 namespace EasyJob_ProDG.Model.Transport
 {
@@ -49,6 +47,7 @@ namespace EasyJob_ProDG.Model.Transport
                 ErrorList = "seasides";
                 result = false;
             }
+            //checking that at least one record covers all bays.
             foreach (OuterRow orow in SeaSides)
             {
                 if (orow.Bay == 0)
@@ -92,30 +91,30 @@ namespace EasyJob_ProDG.Model.Transport
                 Output.ThrowMessage("Ship configuration file not found.\nA default ship profile configuration will be loaded. That will affect the accuracy of stowage and segregation check.");
                 LogWriter.Write($"File {fileName} does not exist.");
                 LogWriter.Write($"Default Ship profile will be loaded");
-                return new ShipProfile();
+                return new ShipProfile()
+                {
+                    isDefault = true
+                };
             }
+
             //Case if file found and read
             ShipProfile ship = new ShipProfile(fileName);
-            if (!ship._filecorrupt) 
+            if (!ship._filecorrupt)
             {
                 LogWriter.Write($"Ship profile is succesfully read from file {fileName}.");
-                return ship; 
+                if (ship.containsErrors)
+                {
+                    LogWriter.Write("ShipProfile contains errors.");
+                }
+                return ship;
             }
-            //Errors encountered while reading the file
-            Output.ThrowMessage("Ship settings file was read with errors. A default ship profile configuration will be loaded. That will affect the accuracy of stowage and segregation check.");
-            //result = MessageBox.Show("Ship settings file was read with errors. Would you like to change it? Y/N?\n(It may take some time and will require from you detailed information regarding your ship)", "Error message", MessageBoxButton.YesNo);
-            //Option chosen to change configuration
-            //if (result == MessageBoxResult.Yes)
-            //{
-            //    MessageBox.Show("Not implemented");
-            //    return ship;
-            //}
-            //Loading of default ship profile
-            //MessageBox.Show("A default ship profile configuration will be loaded. That will affect the accuracy of stowage and segregation check.");
 
             LogWriter.Write($"Ship profile read from file {fileName} is corrupt.");
             LogWriter.Write("Default Ship profile will be loaded");
-            return new ShipProfile();
+            return new ShipProfile()
+            {
+                isDefault = true
+            };
         }
 
         /// <summary>
@@ -188,7 +187,7 @@ namespace EasyJob_ProDG.Model.Transport
                 writer.WriteLine("\n***ShipProfile***");
 
             }
-            LogWriter.Write($"Ship profile successfully writted to {fname}");
+            LogWriter.Write($"Ship profile successfully written to {fname}");
         }
 
     }

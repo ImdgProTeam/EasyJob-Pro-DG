@@ -36,21 +36,22 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         /// <returns>Plain CargoPlan</returns>
         public static CargoPlan LoadCondition(string fileName, ShipProfile ship)
         {
-            CargoPlan cargoPlan;
-            //try
-            //{
+            CargoPlan cargoPlan = null;
+
             StreamReader reader = new StreamReader(fileName);
-
-
-            cargoPlan = CreateCargoPlanFromStream(reader, ship);
-
-            reader.Close();
-            //}
-            //catch
-            //{
-            //    cargoPlan = new CargoPlan();
-            //}
-            Data.LogWriter.Write($"Condition successfully loaded from {fileName}");
+            try
+            {
+                cargoPlan = CreateCargoPlanFromStream(reader, ship);
+                Data.LogWriter.Write($"Condition successfully loaded from {fileName}");
+            }
+            catch (Exception ex)
+            {
+                Data.LogWriter.Write($"Exception {ex.Message} was thrown while attempting to read {fileName}.");
+            }
+            finally
+            {
+                reader.Close();
+            }
             return cargoPlan;
         }
 
@@ -131,7 +132,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         /// <param name="line">line to be converted</param>
         /// <param name="cargoPlan">CargoPlan to add unit</param>
         /// <param name="ship">ship profile</param>
-        private static void AddUnitToCargoPlan(byte ejcVersion, string line, CargoPlan cargoPlan, ShipProfile ship )
+        private static void AddUnitToCargoPlan(byte ejcVersion, string line, CargoPlan cargoPlan, ShipProfile ship)
         {
             switch (ejcVersion)
             {

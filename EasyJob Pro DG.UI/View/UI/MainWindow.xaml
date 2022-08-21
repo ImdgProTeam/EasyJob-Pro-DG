@@ -104,7 +104,7 @@
                            Grid.RowSpan="2"
                            LastChildFill="True">
 
-                    <!-- Update button -->
+                    <!-- Conflict list header and Update button -->
                     <Grid DockPanel.Dock="Top">
                         <Grid>
                             <Grid.ColumnDefinitions>

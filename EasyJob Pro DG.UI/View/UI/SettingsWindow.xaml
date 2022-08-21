@@ -16,11 +16,16 @@
     
      <Grid Margin="2">
         <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="5"/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
+
+        <!-- Capture -->
+        <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=dw:AnimatedDialogWindow, Mode=FindAncestor}}"
+                   Style="{StaticResource WindowTitleTextBlock}"/>
+
         <TabControl x:Name="tabUserSettings"
                     Grid.Row="1"
                     SelectionChanged="tabUserSettings_SelectionChanged">

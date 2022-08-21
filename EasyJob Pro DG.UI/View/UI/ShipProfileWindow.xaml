@@ -21,10 +21,8 @@
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}"
                BasedOn="{StaticResource TextBoxWithTag}">
-            <Setter Property="VerticalAlignment"
-                    Value="Center" />
-            <Setter Property="TextAlignment"
-                    Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="TextAlignment" Value="Center" />
             <Setter Property="TextWrapping" Value="NoWrap"/>
         </Style>
         <Style TargetType="{x:Type Label}">
@@ -39,11 +37,15 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="10"></RowDefinition>
             <RowDefinition Height="35"></RowDefinition>
         </Grid.RowDefinitions>
+
+        <!-- Capture -->
+        <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=dw:AnimatedDialogWindow, Mode=FindAncestor}}"
+                   Style="{StaticResource WindowTitleTextBlock}"/>
 
         <TabControl DataContext="{Binding TempShip}"
                     Name="tabShipProfile"
@@ -115,11 +117,6 @@
                     Grid.ColumnSpan="2"
                     Click="CloseWindow"
                     TabIndex="10">
-                <behavior:Interaction.Triggers>
-                    <behavior:EventTrigger EventName="Click">
-                        <behavior:InvokeCommandAction Command="{Binding SaveCommand}" />
-                    </behavior:EventTrigger>
-                </behavior:Interaction.Triggers>
             </Button>
         </UniformGrid>
     </Grid>

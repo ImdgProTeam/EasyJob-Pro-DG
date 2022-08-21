@@ -18,6 +18,7 @@ using System.Text;
 using System.Windows;
 using System.Xml.Linq;
 using EasyJob_ProDG.UI.View.UI;
+using EasyJob_ProDG.Data;
 
 namespace EasyJob_ProDG.UI.Data
 {
@@ -67,7 +68,12 @@ namespace EasyJob_ProDG.UI.Data
         {
             string openPath = ((MainWindow)Application.Current.MainWindow)?.StartupFilePath;
 
-            if (!CreateWorkingCargoPlan(openPath ?? Properties.Settings.Default.WorkingCargoPlanFile)) return;
+            if (!CreateWorkingCargoPlan(openPath ?? Properties.Settings.Default.WorkingCargoPlanFile))
+            {
+                LogWriter.Write("Blank condition will be created.");
+                _workingCargoPlan = new CargoPlan();
+                WorkingCargoPlan = new CargoPlanWrapper(_workingCargoPlan);
+            }
         }
 
         /// <summary>

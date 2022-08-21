@@ -1,4 +1,5 @@
-﻿using EasyJob_ProDG.Model.Cargo;
+﻿using EasyJob_ProDG.Data;
+using EasyJob_ProDG.Model.Cargo;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,6 +15,8 @@ namespace EasyJob_ProDG.Model.Transport
         private byte _accommodation;
         private List<byte> _accommodation12;
         private bool _filecorrupt;
+        private bool containsErrors;
+        private bool isDefault;
 
         /// <summary>
         /// List contains list of errors found by CheckShipProfile method
@@ -30,13 +33,23 @@ namespace EasyJob_ProDG.Model.Transport
 
         //--------------- Properties and a method to set and get ship profile items ----------------------------------
 
+        #region Public ShipProfile properties
         // -------------- Public properties -------------------
 
+        /// <summary>
+        /// <see langword="true"/>if ShipProfile contains errors.
+        /// </summary>
+        public bool ContainsErrors => containsErrors;
+
+        /// <summary>
+        /// <see langword="true"/>if default ShipProfile has been loaded due to corrupt or missing file.
+        /// </summary>
+        public bool IsDefault => isDefault;
         public string ShipName { get; set; }
         public string CallSign
         {
             get { return _callsign; }
-            set { _callsign = value.ToUpper(); }
+            set { _callsign = value?.ToUpper() ?? ""; }
         }
         public byte NumberOfHolds { get; set; }
         public byte RfMotor { get; set; }
@@ -67,46 +80,20 @@ namespace EasyJob_ProDG.Model.Transport
                     result += result == "" ? "" : ", " + str;
                 return result;
             }
-        }
+        } 
+        #endregion
 
-        // ------------- Set only properties ------------------
 
-        internal CellPosition LivingQuarters
-        {
-            set { LivingQuartersList.Add(value); }
-        }
-        internal CellPosition HeatedStructures
-        {
-            set { HeatedStructuresList.Add(value); }
-        }
-        internal CellPosition LSA
-        {
-            set { LSAList.Add(value); }
-        }
 
-        // --------------- Methods ---------------------------
-
-        public void SetAccommodation(byte bay)
-        {
-            _accommodation = bay;
-            if (AccommodationBays.Contains(0)) AccommodationBays.Remove(0);
-            AccommodationBays.Add(bay % 2 == 0 ? (byte)(bay + 1) : bay);
-            if (Accommodation == null) Accommodation = new List<byte>();
-            if (Accommodation.Contains(bay)) return;
-            Accommodation.Add(bay);
-            Accommodation.Add((byte)(bay + 1));
-            Accommodation.Add((byte)(bay + 2));
-            Accommodation.Add((byte)(bay + 3));
-            if (bay % 2 != 0) Accommodation.Add((byte)(bay - 1));
-            if (bay % 2 == 0) Accommodation.Add((byte)(bay + 4));
-        }
+        #region Constructors
 
         // ------------------------------ Ship profile constructors ------------------------------------------------------
 
         /// <summary>
         /// Constructor reads ShipProfile.ini and creates Ship model as per content
         /// </summary>
-        /// <param name="shipFile"></param>
+        /// <param name="shipFile">File path.</param>
+        /// <param name="containsErrors">out parameter: True if errors appeared on checking ShipProfile after reading.</param>
         public ShipProfile(string shipFile)
         {
             SetDefaultValues();
@@ -114,16 +101,58 @@ namespace EasyJob_ProDG.Model.Transport
             Exception ex = new Exception();
             ReadShipProfileFromFile(shipFile, ex);
 
+            //checking profile for errors and assigning respective value to out parameter.
             if (!CheckErrorsInShipProfile())
-            {
-                //TO BE IMPLEMENTED
-                throw new NotImplementedException("Method to correct errors in ship profile not implemented");
-                //MessageBoxResult result = MessageBox.Show("Errors occurred while opening file. Do you wish to check them? Y/N", "Error message", MessageBoxButton.YesNo);
-                //if(result == MessageBoxResult.Yes) MessageBox.Show("Not implemented");
-            }
-
+                containsErrors = true;
+            else containsErrors = false;
         }
 
+        /// <summary>
+        /// Additional constructor to create a new file
+        /// </summary>
+        /// <param name="shipName"></param>
+        /// <param name="passenger"></param>
+        public ShipProfile(string shipName, bool passenger)
+        {
+            ShipName = shipName;
+            Passenger = passenger;
+            SeaSides = new List<OuterRow>();
+            LivingQuartersList = new List<CellPosition>();
+            HeatedStructuresList = new List<CellPosition>();
+            LSAList = new List<CellPosition>();
+            RfMotor = (byte)MotorFacing.NotDefined;
+            Row00Exists = true;
+            AccommodationBays = new List<byte>();
+            _errorList = new List<string>();
+        }
+
+        /// <summary>
+        /// Constructor for default ship with one cargo hold
+        /// </summary>
+        public ShipProfile()
+        {
+            AccommodationBays = new List<byte>();
+            SetAccommodation(100);
+            NumberOfHolds = 1;
+            Holds = new List<CargoHold>(NumberOfHolds);
+            Holds.Add(new CargoHold(1, 100));
+            LivingQuartersList = new List<CellPosition>();
+            LivingQuarters = new CellPosition(99, 199, 199, 199, 00);
+            HeatedStructuresList = new List<CellPosition>();
+            HeatedStructures = new CellPosition(99, 199, 199, 199, 0);
+            LSAList = new List<CellPosition>();
+            LSA = new CellPosition(99, 199, 199, 199, 0);
+            Row00Exists = true;
+            RfMotor = (byte)MotorFacing.NotDefined;
+            SeaSides = new List<OuterRow> { new OuterRow(0, 99, 99) };
+            Doc = new DOC(NumberOfHolds);
+            _errorList = new List<string>();
+        }
+
+
+        /// <summary>
+        /// Initializes fields with default values in order to get them ready for further update.
+        /// </summary>
         private void SetDefaultValues()
         {
             _filecorrupt = false;
@@ -136,9 +165,20 @@ namespace EasyJob_ProDG.Model.Transport
             Row00Exists = true;
             AccommodationBays = new List<byte>() { 0 };
             NumberOfHolds = 1;
-            Holds = new List<CargoHold>{ new CargoHold(1, 199) };
+            Holds = new List<CargoHold> { new CargoHold(1, 199) };
             Doc = new DOC(2);
         }
+
+        #endregion
+
+
+        #region Private methods
+
+        /// <summary>
+        /// Reads ShipProfile from a file.
+        /// </summary>
+        /// <param name="shipFile"></param>
+        /// <param name="ex"></param>
         private void ReadShipProfileFromFile(string shipFile, Exception ex)
         {
             int linecount = 0;
@@ -150,7 +190,11 @@ namespace EasyJob_ProDG.Model.Transport
                     {
                         var line = reader.ReadLine();
                         if (linecount == 0 && line != "***ShipProfile***")
-                            throw new Exception("Ship profile file is wrong or modified.");
+                        {
+                            LogWriter.Write("Ship profile file is wrong or modified.");
+                            _filecorrupt = true;
+                            return;
+                        }
                         if (line != null && !line.StartsWith("//") && line.Length != 0 && line.Contains("="))
                         {
                             line = line.Replace("=  ", "=").Replace("= ", "=");
@@ -265,68 +309,61 @@ namespace EasyJob_ProDG.Model.Transport
                     catch
                     {
                         ErrorList = ex.Source;
-                        Output.ThrowMessage("An error occurred while opening the ship profile.");
+                        LogWriter.Write("An error occurred while opening the ship profile.");
                         _filecorrupt = true;
                     }
 
                     linecount++;
                 }
-
-                //Style.AnswerStyle("\nShip profile loaded...\n");
             }
-        }
-
-
-
-        /// <summary>
-        /// Additional constructor to create a new file
-        /// </summary>
-        /// <param name="shipName"></param>
-        /// <param name="passenger"></param>
-        public ShipProfile(string shipName, bool passenger)
-        {
-            ShipName = shipName;
-            Passenger = passenger;
-            SeaSides = new List<OuterRow>();
-            LivingQuartersList = new List<CellPosition>();
-            HeatedStructuresList = new List<CellPosition>();
-            LSAList = new List<CellPosition>();
-            RfMotor = (byte)MotorFacing.NotDefined;
-            Row00Exists = true;
-            AccommodationBays = new List<byte>();
-            _errorList = new List<string>();
-        }
-
-        /// <summary>
-        /// Constructor for default ship with one cargo hold
-        /// </summary>
-        public ShipProfile()
-        {
-            AccommodationBays = new List<byte>();
-            SetAccommodation(100);
-            NumberOfHolds = 1;
-            Holds = new List<CargoHold>(NumberOfHolds);
-            Holds.Add(new CargoHold(1, 100));
-            LivingQuartersList = new List<CellPosition>();
-            LivingQuarters = new CellPosition(99, 199, 199, 199, 00);
-            HeatedStructuresList = new List<CellPosition>();
-            HeatedStructures = new CellPosition(99, 199, 199, 199, 0);
-            LSAList = new List<CellPosition>();
-            LSA = new CellPosition(99, 199, 199, 199, 0);
-            Row00Exists = true;
-            RfMotor = (byte)MotorFacing.NotDefined;
-            SeaSides = new List<OuterRow> { new OuterRow(0, 99, 99) };
-            Doc = new DOC(NumberOfHolds);
-            _errorList = new List<string>();
         }
 
 
         // ----------------- Supportive methods to determine certain locations of given units ----------------------------
 
+
+        // ------------- Set only properties ------------------
+
+        private CellPosition LivingQuarters
+        {
+            set { LivingQuartersList.Add(value); }
+        }
+        private CellPosition HeatedStructures
+        {
+            set { HeatedStructuresList.Add(value); }
+        }
+        private CellPosition LSA
+        {
+            set { LSAList.Add(value); }
+        }
+
+        // --------------- Methods ---------------------------
+        // ----- Private -----
+
+        /// <summary>
+        /// Method determines if dg unit falls within given list of positions
+        /// </summary>
+        /// <param name="container"></param>
+        /// <param name="cells"></param>
+        /// <returns></returns>
+        private bool IsWithinCells(ILocationOnBoard container, List<CellPosition> cells)
+        {
+            foreach (CellPosition cell in cells)
+                if (cell == container)
+                    return true;
+            return false;
+        }
+
+        #endregion
+
+        #region Internal and Public methods
+
+        // ----- Internal -----
+
         internal bool IsInLivingQuarters(ILocationOnBoard container)
         {
             //Clear of accommodation
-            return Accommodation.Contains(container.Bay) || IsWithinCells(container, LivingQuartersList);
+            return (Accommodation != null && Accommodation.Contains(container.Bay)) || IsWithinCells(container, LivingQuartersList);
         }
 
         internal bool IsInHeatedStructures(Dg dg)
@@ -427,39 +464,6 @@ namespace EasyJob_ProDG.Model.Transport
         }
 
         /// <summary>
-        /// The Method defines in which cargo hold locates the bay. This is literally, in which cargo hold or over which cargo hold is a container loaction
-        /// </summary>
-        /// <param name="bay"></param>
-        /// <returns></returns>
-        public byte DefineCargoHoldNumber(byte bay)
-        {
-            byte chNr = 0;
-            for (int i = 0; i < Holds.Count; i++)
-            {
-                if (bay <= Holds[i].LastBay && bay >= Holds[i].FirstBay)
-                {
-                    chNr = (byte)(i + 1);
-                    break;
-                }
-            }
-            return chNr;
-        }
-
-        /// <summary>
-        /// Method determines if dg unit falls within given list of positions
-        /// </summary>
-        /// <param name="container"></param>
-        /// <param name="cells"></param>
-        /// <returns></returns>
-        private bool IsWithinCells(ILocationOnBoard container, List<CellPosition> cells)
-        {
-            foreach (CellPosition cell in cells)
-                if (cell == container)
-                    return true;
-            return false;
-        }
-
-        /// <summary>
         /// Method determines if given bay exists in seaSides.
         /// </summary>
         /// <param name="bay"></param>
@@ -484,6 +488,49 @@ namespace EasyJob_ProDG.Model.Transport
 
             return false;
         }
+
+
+        // ----- Public -----
+
+        /// <summary>
+        /// The Method defines in which cargo hold locates the bay. This is literally, in which cargo hold or over which cargo hold is a container loaction
+        /// </summary>
+        /// <param name="bay"></param>
+        /// <returns></returns>
+        public byte DefineCargoHoldNumber(byte bay)
+        {
+            byte chNr = 0;
+            for (int i = 0; i < Holds.Count; i++)
+            {
+                if (bay <= Holds[i].LastBay && bay >= Holds[i].FirstBay)
+                {
+                    chNr = (byte)(i + 1);
+                    break;
+                }
+            }
+            return chNr;
+        }
+
+        /// <summary>
+        /// Sets bays numbers surrounding Accommodation.
+        /// </summary>
+        /// <param name="bay"></param>
+        public void SetAccommodation(byte bay)
+        {
+            _accommodation = bay;
+            if (AccommodationBays.Contains(0)) AccommodationBays.Remove(0);
+            AccommodationBays.Add(bay % 2 == 0 ? (byte)(bay + 1) : bay);
+            if (Accommodation == null) Accommodation = new List<byte>();
+            if (Accommodation.Contains(bay)) return;
+            Accommodation.Add(bay);
+            Accommodation.Add((byte)(bay + 1));
+            Accommodation.Add((byte)(bay + 2));
+            Accommodation.Add((byte)(bay + 3));
+            if (bay % 2 != 0) Accommodation.Add((byte)(bay - 1));
+            if (bay % 2 == 0) Accommodation.Add((byte)(bay + 4));
+        }
+
+        #endregion
 
     }
 }

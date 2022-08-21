@@ -28,7 +28,7 @@
         </Grid.RowDefinitions>
 
         <!-- Capture -->
-        <TextBlock Text="{Binding Title}" Padding="10" TextBlock.FontWeight="SemiBold"/>
+        <TextBlock Text="{Binding Title}" Style="{StaticResource WindowTitleTextBlock}"/>
 
         <!-- Left column -->
         <ComboBox x:Name="cmbSelectPort" 

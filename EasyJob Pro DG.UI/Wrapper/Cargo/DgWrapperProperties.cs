@@ -282,6 +282,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 if (!SetValue(value)) return;
                 SetToAllContainersInPlan(value);
+
             }
         }
 
