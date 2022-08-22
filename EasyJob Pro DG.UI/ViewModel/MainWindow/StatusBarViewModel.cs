@@ -7,18 +7,6 @@ namespace EasyJob_ProDG.UI.ViewModel
 {
     public class StatusBarViewModel : Observable
     {
-        ///// <summary>
-        ///// Static Property used to connect StatusBar updates from various Projects.
-        ///// </summary>
-        //public static int StaticReportValue
-        //{
-        //    set
-        //    {
-        //        _staticReportValue = value;
-        //        OnStaticReportValueChanged();
-        //    }
-        //}
-        //private static int _staticReportValue;
         private static int _dataReporterValue => EasyJob_ProDG.Data.StatusBarReporter.ReportPercentage;
 
         private static StatusBarViewModel _staticReportViewModelInstance = null;

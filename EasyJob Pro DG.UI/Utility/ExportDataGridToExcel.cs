@@ -55,8 +55,10 @@ namespace EasyJob_ProDG.UI.Utility
                 }
             }
 
-            int statusBarIncrement = 50 / dataGrid.Columns.Count;
-            MainWindowVM.StatusBarControl.ChangeBarSet(30);
+            //setting to set status bar increment value for a single row
+            int statusBarIncrementValue = 50 / dataGrid.Columns.Count;
+
+            MainWindowVM.StatusBarControl.ChangeBarSet(25);
 
             //Excel
             Task.Run(() =>
@@ -75,6 +77,10 @@ namespace EasyJob_ProDG.UI.Utility
                     //clear invisible columns
                     if (columnProperties[i] == null)
                     {
+                        //Status bar update
+                        if (MainWindowVM.StatusBarControl.ProgressPercentage < 95)
+                            MainWindowVM.StatusBarControl.ProgressPercentage += statusBarIncrementValue;
+
                         subtraction++;
                         continue;
                     }
@@ -84,6 +90,10 @@ namespace EasyJob_ProDG.UI.Utility
                     sheet.Columns[i + 1 - subtraction].ColumnWidth = columnProperties[i].ColumnWidth;
                     if (string.IsNullOrEmpty(columnProperties[i].ColumnPropertyName))
                     {
+                        //Status bar update
+                        if (MainWindowVM.StatusBarControl.ProgressPercentage < 95)
+                            MainWindowVM.StatusBarControl.ProgressPercentage += statusBarIncrementValue;
+                        
                         subtraction++;
                         continue;
                     }
@@ -118,7 +128,10 @@ namespace EasyJob_ProDG.UI.Utility
                         }
                     }
 
-                    MainWindowVM.StatusBarControl.ProgressPercentage += statusBarIncrement;
+                    //Status bar update
+                    if (MainWindowVM.StatusBarControl.ProgressPercentage < 95)
+                        MainWindowVM.StatusBarControl.ProgressPercentage += statusBarIncrementValue;
+                    
                 }
 
 

@@ -78,18 +78,18 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         {
             //Update ship with changed values from wrapper
             UpdateLoadedShipProfile();
+            EasyJob_ProDG.Data.StatusBarReporter.ReportPercentage = 20;
 
             //Write ShipProfile on disk
             ProgramFiles.SaveShipProfile(_ship, _shipWrapper.ProfileName);
+            EasyJob_ProDG.Data.StatusBarReporter.ReportPercentage = 50;
 
             //Call full data re-check in CargoPlan
             _currentProgramData.FullDataReCheck();
+            EasyJob_ProDG.Data.StatusBarReporter.ReportPercentage = 80;
 
             //Sending notification message to DataMessenger
             DataMessenger.Default.Send(new ShipProfileWrapperMessage(), "ship profile saved");
-
-            //Message can be displayed as a test
-            //currentProgramData.TestShipProfile();
         }
 
         /// <summary>

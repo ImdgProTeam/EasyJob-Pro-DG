@@ -11,7 +11,6 @@ using EasyJob_ProDG.UI.Settings;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.View.UI;
-using EasyJob_ProDG.UI.View.User_Controls;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.IO;

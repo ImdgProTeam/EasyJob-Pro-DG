@@ -10,6 +10,7 @@ using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Wrapper;
 using EasyJob_ProDG.UI.Wrapper.Dummies;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.ViewModel
@@ -18,6 +19,7 @@ namespace EasyJob_ProDG.UI.ViewModel
     {
         readonly ShipProfileDataService _shipProfileDataService;
         private bool _isWindowLoaded;
+        private MainWindowViewModel mainWindowViewModel => ViewModelLocator.MainWindowViewModel;
 
         public ShipProfileWrapper TempShip { get; set; }
         public OuterRowWrapper NewOuterRow { get; private set; } = new OuterRowWrapper();
@@ -277,16 +279,34 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private void SaveChanges(object obj)
         {
+
+            Task.Run(DoSavingJob);
+
+        }
+
+        private void DoSavingJob()
+        {
+            //Setting the window is loading mode and starting status bar
+            mainWindowViewModel.SetIsLoading(true);
+            mainWindowViewModel.StatusBarControl.StartProgressBar(10, "Saving ShipProfile...");
+
+            //saving job
             _shipProfileDataService.SaveShipProfile();
+
+            mainWindowViewModel.StatusBarControl.ProgressPercentage = 90;
             GetNewShipProfileVM();
             _isWindowLoaded = false;
+
+            //Completing with visual loading effects
+            mainWindowViewModel.StatusBarControl.ProgressPercentage = 100;
+            mainWindowViewModel.SetIsLoading(false);
         }
 
         private void CancelChanges(object parameter)
         {
             TempShip = _shipProfileDataService.CreateShipProfileWrapper();
             _isWindowLoaded = false;
-        } 
+        }
 
         #endregion
 

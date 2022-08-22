@@ -2,13 +2,18 @@
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.ViewModel;
 using EasyJob_ProDG.UI.Wrapper;
+using System.Windows.Threading;
 
 namespace EasyJob_ProDG.UI.Data
 {
     public class ConflictsList : AsyncObservableCollection<ConflictPanelItemViewModel>
     {
         // ---------------- Public constructors -------------------------------------
-        public ConflictsList() { }
+        public ConflictsList()
+        {
+            dispatcher = Dispatcher.CurrentDispatcher;
+        }
+        private Dispatcher dispatcher;
 
 
         // ---------------- Public methods ------------------------------------------
@@ -19,16 +24,18 @@ namespace EasyJob_ProDG.UI.Data
         /// <param name="dgList">DgWrapperList to be checked for conflicts</param>
         public void CreateConflictList(DgWrapperList dgList)
         {
-            //When open new file
-            if (dgList.IsCollectionNew)
-            {
-                CreateConflictListForNewCollection(dgList);
-            }
-            //When modifying working dg list
-            else
-            {
-                UpdateConflictListForCurrentDgList(dgList);
-            }
+            dispatcher.Invoke(() =>
+            { //When open new file
+                if (dgList.IsCollectionNew)
+                {
+                    CreateConflictListForNewCollection(dgList);
+                }
+                //When modifying working dg list
+                else
+                {
+                    UpdateConflictListForCurrentDgList(dgList);
+                }
+            });
         }
 
         /// <summary>
@@ -78,6 +85,7 @@ namespace EasyJob_ProDG.UI.Data
         /// <returns></returns>
         private void CreateConflictListForNewCollection(DgWrapperList dgList)
         {
+
             Clear();
             CreateAllConflicts(dgList);
             dgList.IsCollectionNew = false;
