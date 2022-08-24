@@ -17,7 +17,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         ShipProfileWrapper _shipWrapper;
 
 
-        // ------------------------- Public properties ------------------------------        
+        // ------------------------- Public properties ------------------------------
 
         // ------------------------- Public methods ---------------------------------
 
@@ -121,8 +121,8 @@ namespace EasyJob_ProDG.UI.Services.DataServices
 
 
             _ship.NumberOfAccommodations = _shipWrapper.NumberOfAccommodations;
-            _ship.AccommodationBays.Clear();
-            _ship.Accommodation.Clear();
+            _ship.AccommodationBays?.Clear();
+            _ship.Accommodation?.Clear();
             foreach (var dummy in _shipWrapper.AccommodationBaysObservable)
             {
                 _ship.SetAccommodation(dummy.Bay);

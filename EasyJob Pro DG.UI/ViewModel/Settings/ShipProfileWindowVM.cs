@@ -277,13 +277,18 @@ namespace EasyJob_ProDG.UI.ViewModel
             //throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Called when 'Save' button is clicked.
+        /// </summary>
+        /// <param name="obj"></param>
         private void SaveChanges(object obj)
         {
-
             Task.Run(DoSavingJob);
-
         }
 
+        /// <summary>
+        /// Saves changes to ShipProfile and updates the interface.
+        /// </summary>
         private void DoSavingJob()
         {
             //Setting the window is loading mode and starting status bar
@@ -302,6 +307,10 @@ namespace EasyJob_ProDG.UI.ViewModel
             mainWindowViewModel.SetIsLoading(false);
         }
 
+        /// <summary>
+        /// Called when 'Cancel' button is clicked.
+        /// </summary>
+        /// <param name="parameter"></param>
         private void CancelChanges(object parameter)
         {
             TempShip = _shipProfileDataService.CreateShipProfileWrapper();

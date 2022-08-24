@@ -19,7 +19,8 @@
         AllowDrop="True"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainWindowViewModel}"
         d:DataContext="{d:DesignInstance viewmodel:MainWindowViewModel, d:IsDesignTimeCreatable=True}"
-        Closing="ClosingApplication">
+        Closing="ClosingApplication"
+        >
 
     <Window.InputBindings>
         <KeyBinding Key="Q"
@@ -49,6 +50,9 @@
     </Window.Resources>
 
     <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding MainWindowLoadedCommand}"/>
+        </i:EventTrigger>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding ApplicationClosingCommand}" />
         </i:EventTrigger>

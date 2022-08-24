@@ -4,6 +4,9 @@ using System.Windows;
 
 namespace EasyJob_ProDG.UI.Services.DialogServices
 {
+    /// <summary>
+    /// Service to display windows in dialog mode with IDialogWindowRequestClose interface.
+    /// </summary>
     public class DialogWindowService : IDialogWindowService
     {
         private readonly Window owner;
@@ -33,10 +36,7 @@ namespace EasyJob_ProDG.UI.Services.DialogServices
             handler = (sender, e) =>
             {
                 viewModel.CloseRequested -= handler;
-
                 dialog.DialogResult = e.DialogResult;
-                //dialog.Close();
-
             };
             viewModel.CloseRequested += handler;
 

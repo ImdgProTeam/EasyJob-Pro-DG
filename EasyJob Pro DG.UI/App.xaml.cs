@@ -31,6 +31,8 @@ namespace EasyJob_ProDG.UI
 
             CheckLicence();
 
+            FirstTimeStart();
+
             if (e.Args.Length > 0)
             {
                 path = e.Args[0];
@@ -43,6 +45,21 @@ namespace EasyJob_ProDG.UI
             path = null;
 
             ApplicationMainWindow.Show();
+
+
+        }
+
+        /// <summary>
+        /// Actions required when the program is started for the very first time.
+        /// </summary>
+        private void FirstTimeStart()
+        {
+            //UI.Properties.Settings.Default.FirstTimeStart = true;
+            if (EasyJob_ProDG.UI.Properties.Settings.Default.FirstTimeStart)
+            {
+                Services.FirstStartService.DoFirstStart();
+                EasyJob_ProDG.UI.Properties.Settings.Default.FirstTimeStart = false;
+            }
         }
 
         /// <summary>

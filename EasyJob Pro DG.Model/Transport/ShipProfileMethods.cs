@@ -93,6 +93,7 @@ namespace EasyJob_ProDG.Model.Transport
                 LogWriter.Write($"Default Ship profile will be loaded");
                 return new ShipProfile()
                 {
+                    isShipProfileNotFound = true,
                     isDefault = true
                 };
             }

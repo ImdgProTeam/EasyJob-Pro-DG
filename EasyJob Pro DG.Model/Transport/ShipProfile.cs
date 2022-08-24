@@ -17,6 +17,7 @@ namespace EasyJob_ProDG.Model.Transport
         private bool _filecorrupt;
         private bool containsErrors;
         private bool isDefault;
+        private bool isShipProfileNotFound;
 
         /// <summary>
         /// List contains list of errors found by CheckShipProfile method
@@ -45,6 +46,10 @@ namespace EasyJob_ProDG.Model.Transport
         /// <see langword="true"/>if default ShipProfile has been loaded due to corrupt or missing file.
         /// </summary>
         public bool IsDefault => isDefault;
+        /// <summary>
+        /// Indicates that the ship profile .ini file has not been found.
+        /// </summary>
+        public bool IsShipProfileNotFound => isShipProfileNotFound;
         public string ShipName { get; set; }
         public string CallSign
         {

@@ -11,8 +11,35 @@
         <Border VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                 BorderBrush="Transparent" BorderThickness="0"
                 Background="Orange"
-                Opacity="0.2"/>
-        <TextBlock Text="&#xf110;" 
+                Opacity="0.2">
+            <Border.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Style.Triggers>
+                        <Trigger Property="IsVisible" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="(Border.Opacity)"
+                                            From="0" To="0.2" Duration="0:0:1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="(Border.Opacity)"
+                                            To="0" Duration="0:0:1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Resources>
+        </Border>
+        <TextBlock Text="&#xf1ce;" 
                        FontSize="80"
                        FontWeight="UltraLight"
                        FontFamily="{StaticResource IconsFont}"

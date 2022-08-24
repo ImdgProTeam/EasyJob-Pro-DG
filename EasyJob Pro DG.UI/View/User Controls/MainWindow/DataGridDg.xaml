@@ -140,21 +140,24 @@
 
                 <Style TargetType="{x:Type TextBlock}">
                     <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="Padding" Value="5,0"/>
                 </Style>
 
                 <!-- TextBox style-->
                 <Style TargetType="{x:Type TextBox}">
                     <!--<Setter Property="IsTabStop"
                             Value="True" />-->
-                    <Setter Property="Margin"
-                            Value="50" />
-                    <Setter Property="TextAlignment"
-                            Value="Right" />
+                    <Setter Property="Margin" Value="50" />
+                    <Setter Property="TextAlignment" Value="Right" />
                 </Style>
 
                 <!-- CheckBox style -->
                 <Style TargetType="{x:Type CheckBox}">
                     <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
+
+                <Style TargetType="{x:Type ComboBox}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 </Style>
 
                 <!-- Selection color -->
@@ -332,6 +335,8 @@
                                     Header="Properties"
                                     IsReadOnly="True"
                                     MaxWidth="{StaticResource MaxColumnWidth}"
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                    
                                     >
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -341,6 +346,7 @@
                                     Value="3" />
                             <Setter Property="TextBlock.TextTrimming"
                                     Value="CharacterEllipsis"/>
+                            <Setter Property="TextBlock.TextAlignment" Value="Justify"/>
                             <!--<Setter Property="TextBlock.ToolTip"
                                     Value="{Binding Properties}"/>
                             <Setter Property="ToolTip.Placement"
@@ -368,8 +374,8 @@
                                         ItemsSource="{Binding Source={x:Static vm:DataGridDgViewModel.StowageCategories}}"
                                         SelectedItemBinding="{Binding StowageCat, UpdateSourceTrigger=PropertyChanged}"
                                         Header="Stowage category"
+                                        
                                         >
-
                 </DataGridComboBoxColumn>
 
                 <!-- SW -->

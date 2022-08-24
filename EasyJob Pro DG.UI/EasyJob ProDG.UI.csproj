@@ -112,6 +112,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Utility\AsyncObservableCollection.cs" />
+    <Compile Include="View\DialogWindows\Info\WelcomeWindow.xaml.cs">
+      <DependentUpon>WelcomeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogWindows\Info\WelcomeWindowVM.cs" />
     <Compile Include="View\DialogWindows\Summaries\CargoReportViewModel.cs" />
     <Compile Include="View\DialogWindows\Summaries\PortValues.cs" />
     <Compile Include="View\Behaviors\DataGridBehaviors.cs" />
@@ -214,10 +218,10 @@
     </Compile>
     <Compile Include="View\DialogWindows\DialogWindowOptionsViewModel.cs" />
     <Compile Include="View\DialogWindows\Base\FeaturedDialogWindow.cs" />
-    <Compile Include="View\DialogWindows\winLicence.xaml.cs">
+    <Compile Include="View\DialogWindows\Info\winLicence.xaml.cs">
       <DependentUpon>winLicence.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DialogWindows\WinLicenceViewModel.cs" />
+    <Compile Include="View\DialogWindows\Info\WinLicenceViewModel.cs" />
     <Compile Include="View\Sort\ContainerLeftToRightComparer.cs" />
     <Compile Include="View\Sort\LeftToRightComparer.cs" />
     <Compile Include="View\Sort\LocationCompararABC.cs" />
@@ -235,7 +239,7 @@
     <Compile Include="View\UI\ShipProfileWindow.xaml.cs">
       <DependentUpon>ShipProfileWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DialogWindows\WinLoginViewModel.cs" />
+    <Compile Include="View\DialogWindows\Info\WinLoginViewModel.cs" />
     <Compile Include="View\User Controls\AnimatedUserControl.cs" />
     <Compile Include="View\User Controls\MainWindow\AddContainerToDataGrid.cs">
       <DependentUpon>AddContainerGrid.xaml</DependentUpon>
@@ -283,10 +287,10 @@
     <Compile Include="View\User Controls\ShipProfileWindow\TabMain.xaml.cs">
       <DependentUpon>TabMain.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DialogWindows\winAbout.xaml.cs">
+    <Compile Include="View\DialogWindows\Info\winAbout.xaml.cs">
       <DependentUpon>winAbout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DialogWindows\winLogin.xaml.cs">
+    <Compile Include="View\DialogWindows\Info\winLogin.xaml.cs">
       <DependentUpon>winLogin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utility\DelegateCommand.cs" />
@@ -341,7 +345,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DialogWindows\winLicence.xaml">
+    <Page Include="View\DialogWindows\Info\WelcomeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\Info\winLicence.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -469,11 +477,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DialogWindows\winAbout.xaml">
+    <Page Include="View\DialogWindows\Info\winAbout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DialogWindows\winLogin.xaml">
+    <Page Include="View\DialogWindows\Info\winLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

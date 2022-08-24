@@ -12,6 +12,7 @@
         <Setter Property="WindowStyle" Value="None"/>
         <Setter Property="AllowsTransparency" Value="True"/>
         <Setter Property="SizeToContent" Value="Height"/>
+        <Setter Property="Topmost" Value="True"/>
     </Style>
 
 

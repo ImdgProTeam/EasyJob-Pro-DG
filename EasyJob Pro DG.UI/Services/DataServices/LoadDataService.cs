@@ -8,6 +8,9 @@ namespace EasyJob_ProDG.UI.Services.DataServices
     {
         readonly ICurrentProgramData _currentProgramData = new CurrentProgramData();
 
+        public bool IsShipProfileNotFound => _currentProgramData.GetShipProfile().IsShipProfileNotFound;
+        public bool IsShipProfileDefault => _currentProgramData.GetShipProfile().IsDefault;
+
         public LoadDataService()
         {
 

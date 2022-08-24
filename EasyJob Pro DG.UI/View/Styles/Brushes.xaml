@@ -2,6 +2,20 @@
                     xmlns:p="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.Styles">
+    <!-- Basic colors -->
+    <SolidColorBrush x:Key="Brush.Basic.Orange"
+                     Color="{StaticResource Color.Basic.Orange}"
+                     p:Freeze="True"/>
+    <SolidColorBrush x:Key="Brush.Basic.Hyperlink.Blue"
+                     Color="{StaticResource Color.Basic.Hyperlink.Blue}"
+                     p:Freeze="True"/>
+    <SolidColorBrush x:Key="Brush.Basic.Gray"
+                     Color="{StaticResource Color.Basic.Gray}"
+                     p:Freeze="True"/>
+    <SolidColorBrush x:Key="Brush.Basic.LightGray"
+                     Color="{StaticResource Color.Basic.LightGray}"
+                     p:Freeze="True"/>
+
     <!-- Main colors -->
     <SolidColorBrush x:Key="Brush.Background.Main"
                      Color="{StaticResource Color.Background.Main}" 
@@ -28,9 +42,8 @@
                      Color="{StaticResource Color.DgTable.HighlightRow}"
                      p:Freeze="true"/>
 
-    <LinearGradientBrush x:Key="Brush.Spinner"
-                        
-                     p:Freeze ="true">
+    <!-- Spinner -->
+    <LinearGradientBrush x:Key="Brush.Spinner" p:Freeze ="true">
         <GradientStop Color="{StaticResource Color.Spinner}" Offset="1"/>
         <GradientStop Color="Transparent" Offset="0"/>
     </LinearGradientBrush>

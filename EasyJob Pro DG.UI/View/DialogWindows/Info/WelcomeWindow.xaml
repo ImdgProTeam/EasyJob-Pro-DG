@@ -1,0 +1,89 @@
+﻿<local:AnimatedDialogResultWindow x:Class="EasyJob_ProDG.UI.View.DialogWindows.WelcomeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows"
+        mc:Ignorable="d"
+        Height="520" Width="450"
+        SizeToContent="Manual"
+        Style="{StaticResource DemoWindowStyle}"
+        WindowStartupLocation="CenterScreen"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        d:DataContext="{d:DesignInstance local:WelcomeWindowVM, IsDesignTimeCreatable=True}">
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBlock}" x:Key="JustifyTextStyle">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="TextAlignment" Value="Justify"/>
+            <Setter Property="Padding" Value="20, 2"/>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}" x:Key="HeaderTextStyle">
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="0, 10"/>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}" x:Key="SignatureTextStyle">
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource Brush.Basic.Orange}"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Setter Property="Padding" Value="20, 5, 20, 15"/>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}" x:Key="CenterTextStyle">
+            <Setter Property="TextWrapping" Value="NoWrap"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}" x:Key="BottomTextStyle">
+            <Setter Property="TextWrapping" Value="NoWrap"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="20, 5"/>
+            <Setter Property="FontStyle" Value="Oblique"/>
+            <Setter Property="Foreground" Value="{StaticResource Brush.Basic.Gray}"/>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource JustifyTextStyle}"/>
+    </Window.Resources>
+    <Grid VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Welcome message -->
+        <StackPanel Grid.Row="0" Margin="0,5">
+            <TextBlock Text="{Binding Message1}" Style="{StaticResource HeaderTextStyle}"/>
+            <TextBlock Text="{Binding Message2}"/>
+            <TextBlock Text="{Binding Message3}"/>
+            <TextBlock Text="{Binding Message4}"/>
+            <TextBlock Text="{Binding Message5}"/>
+            <TextBlock Text="{Binding Message6}"/>
+            <TextBlock Text="{Binding Signature}" Style="{StaticResource SignatureTextStyle}"/>
+        </StackPanel>
+
+        <!-- Setup ship profile-->
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="0,5">
+            <TextBlock Text="{Binding Suggestion}"/>
+            <Button Content="Set up Ship profile"
+                    Command="{Binding OpenShipProfileSettingsCommand}"/>
+        </StackPanel>
+
+        <!-- Contact -->
+        <StackPanel Grid.Row="2" VerticalAlignment="Center">
+            <TextBlock Text="{Binding Contacts1}" Style="{StaticResource CenterTextStyle}"/>
+            <TextBlock Style="{StaticResource CenterTextStyle}">
+                <Hyperlink NavigateUri="{Binding HyperlinkUri}" RequestNavigate="Hyperlink_RequestNavigate">
+                    imdg.pro
+                </Hyperlink>
+            </TextBlock>
+            <TextBlock Text="{Binding Contacts2}" Style="{StaticResource CenterTextStyle}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Orientation="Vertical" VerticalAlignment="Bottom">
+            <Button Content="Close"
+                    IsCancel="True"/>
+            <TextBlock Text="{Binding Disclamer}" Style="{StaticResource BottomTextStyle}"/>
+        </StackPanel>
+
+    </Grid>
+</local:AnimatedDialogResultWindow>

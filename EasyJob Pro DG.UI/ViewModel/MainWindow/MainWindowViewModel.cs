@@ -82,8 +82,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             SetWindowTitle();
 
             IsLoading = false;
-        }
 
+        }
         #endregion
 
         //-----------------------------------------------------------------------------------------------------------------------------
@@ -139,6 +139,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         private void LoadCommands()
         {
+            MainWindowLoadedCommand = new DelegateCommand(MainWindowLoadedCommandExecuted);
             AddNewDgCommand = new DelegateCommand(OnAddNewDg, CanAddNewDg);
             ReCheckCommand = new DelegateCommand(OnReCheckRequested);
             OpenShipProfileWindowCommand = new DelegateCommand(OpenShipProfileWindowExecuted);
@@ -180,6 +181,20 @@ namespace EasyJob_ProDG.UI.ViewModel
             WindowTitle = _titleService.GetTitle();
             OnPropertyChanged("WindowTitle");
         }
+
+        /// <summary>
+        /// Called on MainWindow Loaded event via Command
+        /// </summary>
+        /// <param name="obj"></param>
+        private void MainWindowLoadedCommandExecuted(object obj)
+        {
+            //Welcome window
+            if (loadDataService.IsShipProfileNotFound || Services.FirstStartService.IsTheFirstStart)
+            {
+                ShowWelcomeWindow();
+            }
+        }
+
         #endregion
 
 
@@ -216,6 +231,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             StatusBarControl.ChangeBarSet(100);
             SetIsLoading(false);
         }
+
 
         /// <summary>
         /// If Working plan exists, offers options on how to open the file
@@ -374,6 +390,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         private void RegisterDialogServiceRelations()
         {
+            dialogWindowService.Register<WelcomeWindowVM, WelcomeWindow>();
             dialogWindowService.Register<WinLoginViewModel, winLogin>();
             dialogWindowService.Register<DialogWindowOptionsViewModel, DialogWindowOptions>();
             dialogWindowService.Register<CargoReportViewModel, CargoReport>();
@@ -703,7 +720,6 @@ namespace EasyJob_ProDG.UI.ViewModel
             //    }
             //}
         }
-
         private void ShowLoginWindowOnExecuted(object obj)
         {
             var viewModel = new WinLoginViewModel();
@@ -715,6 +731,21 @@ namespace EasyJob_ProDG.UI.ViewModel
                 {
 
                 }
+            }
+        }
+        private void ShowWelcomeWindow()
+        {
+            var viewModel = new WelcomeWindowVM();
+            bool? dialogResult = dialogWindowService.ShowDialog(viewModel);
+
+            if (dialogResult.HasValue)
+            {
+                if (dialogResult.Value)
+                {
+                    OpenShipProfileWindowExecuted(null);
+                    return;
+                }
+                return;
             }
         }
 
@@ -775,6 +806,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         // ----- Various commands -----
         public ICommand SelectionChangedCommand { get; private set; }
         public ICommand ApplicationClosingCommand { get; private set; }
+        public ICommand MainWindowLoadedCommand { get; private set; }
 
 
         // ----------- Registered commands ------------------------------------------
