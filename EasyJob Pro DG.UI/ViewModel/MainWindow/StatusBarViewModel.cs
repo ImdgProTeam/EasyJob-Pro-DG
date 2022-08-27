@@ -7,7 +7,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 {
     public class StatusBarViewModel : Observable
     {
-        private static int _dataReporterValue => EasyJob_ProDG.Data.StatusBarReporter.ReportPercentage;
+        private static int _dataReporterValue => EasyJob_ProDG.Data.ProgressBarReporter.ReportPercentage;
 
         private static StatusBarViewModel _staticReportViewModelInstance = null;
         private BackgroundWorker _worker;
@@ -64,7 +64,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             ProgressPercentage = 0;
             StatusBarText = "";
 
-            EasyJob_ProDG.Data.StatusBarReporter.ReportPercentageChanged += OnStaticReportValueChanged;
+            EasyJob_ProDG.Data.ProgressBarReporter.ReportPercentageChanged += OnStaticReportValueChanged;
         }
 
         private void Increment()

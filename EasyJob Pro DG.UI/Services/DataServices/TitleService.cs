@@ -7,7 +7,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
 {
     internal class TitleService : ITitleService
     {
-        private ICurrentProgramData _currentProgramData = new CurrentProgramData();
+        private ICurrentProgramData _currentProgramData = CurrentProgramData.GetCurrentProgramData();
 
         public string GetTitle()
         {

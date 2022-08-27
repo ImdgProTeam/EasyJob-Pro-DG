@@ -29,7 +29,7 @@ namespace EasyJob_ProDG.UI.Data
         // ----------- Public use program files ----------------------------------------
 
         public static ShipProfile OwnShip;
-        public string ConditionFileName => OpenFile.FileName;
+        public string ConditionFileName {get; private set;}
 
         // ----------- Public properties to be used in view ----------------------------
 
@@ -69,6 +69,7 @@ namespace EasyJob_ProDG.UI.Data
                 EasyJob_ProDG.Data.LogWriter.Write("Blank condition will be created.");
                 _workingCargoPlan = new CargoPlan();
                 WorkingCargoPlan = new CargoPlanWrapper(_workingCargoPlan);
+                ConditionFileName = "Blank";
             }
         }
 
@@ -208,6 +209,8 @@ namespace EasyJob_ProDG.UI.Data
             Conflicts.CreateConflictList(WorkingCargoPlan.DgList);
             Vents.Check();
 
+            ConditionFileName = OpenFile.FileName;
+
             return true;
         }
 
@@ -327,7 +330,9 @@ namespace EasyJob_ProDG.UI.Data
             try
             {
 #endif
-            return CreateWorkingCargoPlan(file, openOption, importOnlySelected, currentPort);
+            bool result = CreateWorkingCargoPlan(file, openOption, importOnlySelected, currentPort);
+            ConditionFileName = OpenFile.FileName;
+            return result;
 #if !DEBUG
         }
             catch
@@ -346,7 +351,9 @@ namespace EasyJob_ProDG.UI.Data
         {
             try
             {
-                return UpdateWorkingCargoPlan(file);
+                bool result = UpdateWorkingCargoPlan(file);
+                ConditionFileName = OpenFile.FileName;
+                return result;
             }
             catch
             {
@@ -357,6 +364,7 @@ namespace EasyJob_ProDG.UI.Data
         private void SaveOnExecuted(string fileName)
         {
             ExportCondition.SaveFile(_workingCargoPlan, fileName);
+            ConditionFileName = OpenFile.FileName;
         }
 
 
@@ -393,9 +401,17 @@ namespace EasyJob_ProDG.UI.Data
         /// <summary>
         /// Empty constructor
         /// </summary>
-        public CurrentProgramData()
+        private CurrentProgramData()
         {
-            // Empty constructor
+
+        }
+
+        private static CurrentProgramData instance = null;
+        public static CurrentProgramData GetCurrentProgramData()
+        {
+            if(instance == null) 
+                instance = new CurrentProgramData();
+            return instance;
         }
     }
 }

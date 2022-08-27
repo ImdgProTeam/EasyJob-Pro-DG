@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyJob_ProDG.Data
 {
-    public static class StatusBarReporter
+    /// <summary>
+    /// The reporter is used as an assistant to tranmit the progress
+    /// to ProgressBar (or any other subscriber) in UI.
+    /// </summary>
+    public static class ProgressBarReporter
     {
         private static int reportPercentage;
 

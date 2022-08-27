@@ -4,11 +4,10 @@ namespace EasyJob_ProDG.UI.Services.DataServices
 {
     internal class ConflictDataService : IConflictDataService
     {
-        ICurrentProgramData currentProgramData = new CurrentProgramData();
+        ICurrentProgramData currentProgramData => CurrentProgramData.GetCurrentProgramData();
 
         public ConflictDataService()
         {
-            this.currentProgramData = currentProgramData;
         }
 
         public ConflictsList GetConflicts()

@@ -35,7 +35,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 Data.LogWriter.Write($"Excel template has not been read. The default template will be used to create the excel file.");
             }
 
-            Data.StatusBarReporter.ReportPercentage = 20;
+            Data.ProgressBarReporter.ReportPercentage = 20;
 
             //Creating workbook
             ExcelApp.Application excelApp = new ExcelApp.Application { Visible = false, SheetsInNewWorkbook = 1 };
@@ -58,7 +58,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
 
             };
 
-            Data.StatusBarReporter.ReportPercentage = 25;
+            Data.ProgressBarReporter.ReportPercentage = 25;
 
             #region Headings row
             //Creating heading titles
@@ -74,7 +74,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 excelCells.Value2 = titles[x];
             }
 
-            Data.StatusBarReporter.ReportPercentage = 30;
+            Data.ProgressBarReporter.ReportPercentage = 30;
             #endregion
 
             #region Setting StatusBar increment values
@@ -199,23 +199,23 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 }
 
                 //Status bar update
-                if (Data.StatusBarReporter.ReportPercentage < 95)
+                if (Data.ProgressBarReporter.ReportPercentage < 95)
                 {
                     if (statusBarIncrementValue == 0)
                     {
                         tempIncrementAccummulation += tempStatusBarIncrementValue;
                         if (tempIncrementAccummulation < 1) continue;
-                        Data.StatusBarReporter.ReportPercentage++;
+                        Data.ProgressBarReporter.ReportPercentage++;
                         tempIncrementAccummulation--;
                     }
                     else 
-                        Data.StatusBarReporter.ReportPercentage += statusBarIncrementValue;
+                        Data.ProgressBarReporter.ReportPercentage += statusBarIncrementValue;
                 }
             }
             #endregion
 
             excelApp.Visible = true;
-            Data.StatusBarReporter.ReportPercentage = 100;
+            Data.ProgressBarReporter.ReportPercentage = 100;
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
             {
                 Data.LogWriter.Write($"Excel template has not been read. The default template will be used to read excel file.");
             }
-            Data.StatusBarReporter.ReportPercentage = 30;
+            Data.ProgressBarReporter.ReportPercentage = 30;
 
             //connecting xl file
             ExcelApp.Range excelcells = null;
@@ -254,7 +254,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 activeWorkbook = excelapp.ActiveWorkbook;
                 excelWorksheet = ChooseCorrectSheet(activeWorkbook, template.WorkingSheet);
                 Data.LogWriter.Write("Reading DG data...");
-                Data.StatusBarReporter.ReportPercentage = 40;
+                Data.ProgressBarReporter.ReportPercentage = 40;
 
                 //Determine number of rows = number of dg
                 int rowscount = CountRows(ref excelcells, excelWorksheet);
@@ -340,17 +340,17 @@ namespace EasyJob_ProDG.Model.IO.Excel
                     else container.DgCountInContainer++;
 
                     //Status bar update
-                    if (Data.StatusBarReporter.ReportPercentage < 75)
+                    if (Data.ProgressBarReporter.ReportPercentage < 75)
                     {
                         if (statusBarIncrementValue == 0)
                         {
                             tempIncrementAccummulation += tempStatusBarIncrementValue;
                             if (tempIncrementAccummulation < 1) continue;
-                            Data.StatusBarReporter.ReportPercentage++;
+                            Data.ProgressBarReporter.ReportPercentage++;
                             tempIncrementAccummulation--;
                         }
                         else
-                            Data.StatusBarReporter.ReportPercentage += statusBarIncrementValue;
+                            Data.ProgressBarReporter.ReportPercentage += statusBarIncrementValue;
                     }
                 }
             }

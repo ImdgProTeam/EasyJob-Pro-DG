@@ -9,13 +9,13 @@ namespace EasyJob_ProDG.UI.Data
         /// </summary>
         /// <param name="fileName">Returns given file name in out parameter</param>
         /// <returns>Returns true if file 'Save' button pressed</returns>
-        public static bool SaveFileWithDialog(out string fileName)
+        public static bool SaveFileWithDialog(ref string fileName)
         {
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "EasyJob Condition File (*.ejc)|*.ejc";
             dialog.OverwritePrompt = true;
             dialog.AddExtension = true;
-            dialog.FileName = "test";
+            dialog.FileName = fileName;
 
             bool result = (bool)dialog.ShowDialog();
             fileName = dialog.FileName;

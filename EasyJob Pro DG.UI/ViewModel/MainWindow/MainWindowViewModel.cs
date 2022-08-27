@@ -224,7 +224,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             StatusBarControl.ChangeBarSet(80);
 
 
-            await Task.Run(()=> GetCargoData());
+            await Task.Run(() => GetCargoData());
             StatusBarControl.ChangeBarSet(90);
 
             SetWindowTitle();
@@ -563,13 +563,81 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void SaveOnExecuted(object obj)
         {
-            if (DialogSaveFile.SaveFileWithDialog(out var fileName))
+            //suggested file name
+            string fileName = GetSuggestedFileName();
+
+            if (DialogSaveFile.SaveFileWithDialog(ref fileName))
             {
-                Action d = delegate () { loadDataService.SaveFile(fileName); };
+                Action d = delegate () 
+                { 
+                    loadDataService.SaveFile(fileName); 
+                    SetWindowTitle();
+                };
                 Task.Run(() => WrapMethodWithIsLoading(d));
             }
 
-            SetWindowTitle();
+            
+        }
+
+        /// <summary>
+        /// Suggests the fileName when saving condition based on voyage info.
+        /// </summary>
+        /// <returns></returns>
+        private string GetSuggestedFileName()
+        {
+            string suggestion = string.Empty;
+            var conditionName = cargoDataService.ConditionFileName;
+            if(conditionName.EndsWith(ProgramDefaultSettingValues.ConditionFileExtension) && !string.Equals(conditionName, Properties.Settings.Default.WorkingCargoPlanFile))
+                return conditionName;
+
+            conditionName = conditionName.ToUpper().Replace(" ","").Replace("-","").Replace("_","");
+            if (!string.IsNullOrEmpty(conditionName))
+            {
+                if (conditionName.Contains("PREFINAL"))
+                {
+                    suggestion = "Pre-Final";
+                }
+                else if (conditionName.Contains("FINAL"))
+                {
+                    suggestion = "Final";
+                }
+                else if (conditionName.Contains("PRESTOW"))
+                {
+                    suggestion = "Prestow";
+                }
+                else if (conditionName.Contains("STOWAGE"))
+                {
+                    suggestion = "Stowage";
+                }
+                else if (conditionName.Contains("LOAD"))
+                {
+                    suggestion = "Load";
+                }
+                else if (conditionName.Contains("PRE"))
+                {
+                    suggestion = "Prestow";
+                }
+                if (conditionName.Contains("UPDATED"))
+                {
+                    suggestion += "Updated";
+                }
+                else if (conditionName.Contains("UPDATE"))
+                {
+                    suggestion += "Update";
+                }
+                else if (conditionName.Contains("CORRECTED"))
+                {
+                    suggestion += "Corrected";
+                }
+                else if (conditionName.Contains("CORRECT"))
+                {
+                    suggestion += "Correcte";
+                }
+            }
+
+            return VoyageInfo.VoyageNumber + " "
+            + VoyageInfo.PortOfDeparture + " "
+            + suggestion;
         }
 
 
@@ -781,7 +849,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand ShowLoginWindowCommand { get; private set; }
 
         // ----- Summary commands -----
-        public ICommand ShowCargoSummaryCommand { get; private set; }   
+        public ICommand ShowCargoSummaryCommand { get; private set; }
         public ICommand ShowDgCargoSummaryCommand { get; private set; }
 
         // ----- Files commands -----
