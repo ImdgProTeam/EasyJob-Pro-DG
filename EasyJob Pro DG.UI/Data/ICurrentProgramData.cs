@@ -29,7 +29,6 @@ namespace EasyJob_ProDG.UI.Data
         XDocument GetDgDataBase();
         void LoadBlankCargoPlan();
         bool OpenNewFile(string file, OpenFile.OpenOption openOption, bool onlySelected = false, string currentPort=null);
-        bool UpdateWithNewFile(string file);
         void SaveFile(string fileName);
         void ExportDgListToExcel(CargoPlanWrapper cargo);
         bool ImportReeferManifestInfo(string file, bool importOnlySelected, string currentPort);

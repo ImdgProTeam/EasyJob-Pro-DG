@@ -20,29 +20,43 @@ namespace EasyJob_ProDG.UI.Data
 {
     public class CurrentProgramData : ICurrentProgramData
     {
+        #region Private fields
         // ----------- Private fields --------- ----------------------------------------
 
         private static CargoPlan _workingCargoPlan;
         private static System.Xml.Linq.XDocument _dgDataBase;
-        private static IShipProfileDataService _shipProfileDataService;
+        private static IShipProfileDataService _shipProfileDataService; 
 
+        #endregion
+
+        #region Public program files
         // ----------- Public use program files ----------------------------------------
 
         public static ShipProfile OwnShip;
-        public string ConditionFileName {get; private set;}
+        #endregion
 
+        #region Public properties
         // ----------- Public properties to be used in view ----------------------------
 
         public static ConflictsList Conflicts = new ConflictsList();
         public static VentilationRequirements Vents = new VentilationRequirements();
         public static CargoPlanWrapper WorkingCargoPlan;
+
+        /// <summary>
+        /// Current working condition file name
+        /// </summary>
+        public string ConditionFileName { get; private set; } 
+
         public ShipProfileDataService ShipProfileDataService
         {
             get => (ShipProfileDataService)_shipProfileDataService;
             set => _shipProfileDataService = value;
-        }
+        } 
+
+        #endregion
 
 
+        #region Public methods
         // ----------- Public methods --------------------------------------------------
 
         /// <summary>
@@ -94,7 +108,7 @@ namespace EasyJob_ProDG.UI.Data
         /// <param name="unit"></param>
         public void ReCheckDgWrapperStowage(DgWrapper unit)
         {
-            if(unit == null) return;
+            if (unit == null) return;
             ReCheckDgStowage(unit.Model, WorkingCargoPlan.Model);
 
             Conflicts.UpdateDgWrapperStowageConfilicts(unit);
@@ -147,16 +161,6 @@ namespace EasyJob_ProDG.UI.Data
             SaveOnExecuted(fileName);
         }
 
-        /// <summary>
-        /// Opens new condition file and updates current condition highlighting the changes
-        /// </summary>
-        /// <param name="fileName">Readable file with full path</param>
-        /// <returns>True if updated successfully</returns>
-        public bool UpdateWithNewFile(string fileName)
-        {
-            return UpdatedOnExecuted(fileName);
-        }
-
         public bool ImportReeferManifestInfo(string file, bool importOnlySelected = false, string currentPort = null)
         {
             return ImportReeferManifestInfoOnExecuted(file, importOnlySelected, currentPort);
@@ -169,9 +173,12 @@ namespace EasyJob_ProDG.UI.Data
         public void ExportDgListToExcel(CargoPlanWrapper cargoPlan)
         {
             Model.IO.Excel.WithXl.Export(cargoPlan.ExtractPocoDgList());
-        }
+        } 
+
+        #endregion
 
 
+        #region Private methods
         // ----------- Private methods --------------------------------------------------
 
         /// <summary>
@@ -184,7 +191,6 @@ namespace EasyJob_ProDG.UI.Data
             WorkingCargoPlan = new CargoPlanWrapper(_workingCargoPlan);
             Conflicts.Clear();
         }
-
 
         /// <summary>
         /// Reads a file and creates cargo plan, wrappers, checks them and generates conflicts.
@@ -211,18 +217,6 @@ namespace EasyJob_ProDG.UI.Data
 
             ConditionFileName = OpenFile.FileName;
 
-            return true;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        private bool UpdateWorkingCargoPlan(string file)
-        {
-            _workingCargoPlan = new CargoPlan();//WorkingCargoPlan.Model.UpdateCargoPlan(file, OwnShip, _dgDataBase);
-            ReCheckDgList(_workingCargoPlan);
             return true;
         }
 
@@ -311,11 +305,6 @@ namespace EasyJob_ProDG.UI.Data
             }
         }
 
-
-        // ---------------- Delegates and events and their methods --------------------------------
-
-
-
         /// <summary>
         /// Catching exceptions while creating new CargoPlan from file.
         /// </summary>
@@ -342,31 +331,16 @@ namespace EasyJob_ProDG.UI.Data
 #endif
         }
 
-        /// <summary>
-        /// Catching exceptions while updating cargo plan from file
-        /// </summary>
-        /// <param name="file">Readable file with full path</param>
-        /// <returns>True if updated successfully</returns>
-        private bool UpdatedOnExecuted(string file)
-        {
-            try
-            {
-                bool result = UpdateWorkingCargoPlan(file);
-                ConditionFileName = OpenFile.FileName;
-                return result;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         private void SaveOnExecuted(string fileName)
         {
             ExportCondition.SaveFile(_workingCargoPlan, fileName);
             ConditionFileName = OpenFile.FileName;
-        }
+        } 
 
+        #endregion
+
+
+        #region Get data methods
 
         // ---------------- Get data methods ------------------------------------------------------
 
@@ -393,9 +367,12 @@ namespace EasyJob_ProDG.UI.Data
         public System.Xml.Linq.XDocument GetDgDataBase()
         {
             return _dgDataBase;
-        }
+        } 
+
+        #endregion
 
 
+        #region Constructors and Singleton
         // ---------------- Constructors --------------------------------------------------------
 
         /// <summary>
@@ -409,9 +386,11 @@ namespace EasyJob_ProDG.UI.Data
         private static CurrentProgramData instance = null;
         public static CurrentProgramData GetCurrentProgramData()
         {
-            if(instance == null) 
+            if (instance == null)
                 instance = new CurrentProgramData();
             return instance;
-        }
+        } 
+
+        #endregion
     }
 }
