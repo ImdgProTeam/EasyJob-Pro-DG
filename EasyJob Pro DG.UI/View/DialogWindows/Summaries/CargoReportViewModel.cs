@@ -20,7 +20,8 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         private Voyage voyage;
         private CargoPlan plan;
         private bool isPortOfDepartureSet = false;
-        private bool isPortOfDestinationSet = false; 
+        private bool isPortOfDestinationSet = false;
+        private bool isRequiresViewUpdateOnChanges = false;
 
         #endregion
 
@@ -63,7 +64,6 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         }
 
         #endregion
-
 
 
         #region Public Total Properties and methods
@@ -162,9 +162,9 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
                 $"Port of destination: {voyage.PortOfDestination}",
                 "Only loading ports",
                 "Only discharging ports",
-                "Only selected" };
+                "Only selected to be displayed",
+                "Only selected - to and from cargo"};
         }
-        private List<string> portOptions;
 
 
         /// <summary>
@@ -207,10 +207,14 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
                     if (!isPortOfDestinationSet)
                         CreateReportWithSpecifiedPortOfDestination(voyage.PortOfDestination);
                     break;
+                //Selected ports - all in and out cargo
+                case 6:
+                    CreateReportForSelectedPorts();
+                    break;
 
                 //all other cases - restore full view
                 default:
-                    if (isPortOfDepartureSet || isPortOfDestinationSet) RestoreFullView();
+                    if (isPortOfDepartureSet || isPortOfDestinationSet || isRequiresViewUpdateOnChanges) RestoreFullView();
                     break;
             }
         }
@@ -264,6 +268,10 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
                 //Only selected ports
                 case 5:
                     if (p.IsSelected) return;
+                    break;
+                //Only selected - all in and out ports
+                case 6:
+                    if (p.Containers > 0) return;
                     break;
 
                 //no filter / all ports
@@ -378,6 +386,60 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         }
 
         /// <summary>
+        /// Create a specific report for the selected ports (including all in and out cargo and respective ports).
+        /// </summary>
+        private void CreateReportForSelectedPorts()
+        {
+            isRequiresViewUpdateOnChanges = true;
+            CountReportValuesForSelectedPorts();
+            SetDisplayValues();
+        }
+
+        /// <summary>
+        /// Count values from <see cref="CargoPlan"/> for all selected ports in <see cref="CargoValues"/>
+        /// </summary>
+        private void CountReportValuesForSelectedPorts()
+        {
+            if (plan == null) return;
+            var selectedPorts = GetSelectedPortsList();
+            if (CargoValues.Count > 0) CargoValues.Clear();
+
+            foreach (var container in plan.Containers)
+            {
+                foreach (var port in selectedPorts)
+                {
+                    if (!string.Equals(container.POL, port) && !string.Equals(container.POD, port)) continue;
+                    AddContainer(container);
+                }
+            }
+            foreach (var dg in plan.DgList)
+            {
+                foreach (var port in selectedPorts)
+                {
+                    if (!string.Equals(dg.POL, port) && !string.Equals(dg.POD, port)) continue;
+                    AddDg(dg);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns the enumeration of SelectedPorts
+        /// </summary>
+        /// <returns></returns>
+        private List<string> GetSelectedPortsList()
+        {
+            List<string> result = new();
+            foreach (var port in CargoValues)
+            {
+                if (port.IsSelected)
+                {
+                    result.Add(port.Port);
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
         /// Adds Dg values to respective ports (POL and POD).
         /// </summary>
         /// <param name="dg"></param>
@@ -432,7 +494,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
             {
                 port.SetLoadingOrDischargingValues(IsLoading);
             }
-            if (isPortOfDepartureSet || isPortOfDestinationSet)
+            if (isPortOfDepartureSet || isPortOfDestinationSet || isRequiresViewUpdateOnChanges)
                 CargoValuesView?.Refresh();
             SetTotals();
         }
@@ -477,8 +539,10 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
             }
             SetDisplayValues();
 
+            //reset all relevant flags
             isPortOfDepartureSet = false;
             isPortOfDestinationSet = false;
+            isRequiresViewUpdateOnChanges = false;
         }
 
         #endregion
