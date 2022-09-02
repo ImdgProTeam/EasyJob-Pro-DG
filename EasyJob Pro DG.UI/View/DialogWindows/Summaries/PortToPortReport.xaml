@@ -1,0 +1,96 @@
+﻿<local:AnimatedDialogWindow x:Class="EasyJob_ProDG.UI.View.DialogWindows.PortToPortReport"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows"
+        mc:Ignorable="d"
+        Title="{Binding Title}"
+        Style="{StaticResource SummaryWindowStyle}"
+        WindowStartupLocation="CenterScreen"
+        Width="750"
+        Height="400"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Capture -->
+        <TextBlock Text="{Binding Title}" Style="{StaticResource WindowTitleTextBlock}"
+                   HorizontalAlignment="Left"/>
+        
+        <!-- Left column -->
+        <ComboBox x:Name="cmbSelectPort" 
+                  Width="200"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Bottom"
+                  ItemsSource="{Binding DisplayReportOptions}"
+                  SelectedIndex="{Binding SelectedDisplayOptionIndex, Mode=TwoWay}" 
+                  Padding="8, 3" Margin="5, 0"
+                  Grid.Row="1"/>
+
+
+        <!-- Information grid -->
+        <DataGrid x:Name="CargoReportDataGrid" Grid.Row="2"
+                  ItemsSource="{Binding CollectionView}" 
+                  AutoGenerateColumns="True"
+                  IsReadOnly="True"
+                  FrozenColumnCount="2"
+                  GridLinesVisibility="None" CanUserAddRows="False" CanUserDeleteRows="False" 
+                  MaxColumnWidth="250" MinColumnWidth="16"
+                  ColumnWidth="100"
+                  Margin="2">
+
+            <DataGrid.Resources>
+                <!-- Cell style -->
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="IsTabStop" Value="False" />
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="Padding" Value="0, 10, 10, 10"/>
+                    <Setter Property="TextBlock.TextAlignment" Value="Right"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                <Border Padding="{TemplateBinding Padding}" 
+                                        Background="{TemplateBinding Background}"
+                                        SnapsToDevicePixels="True">
+                                    <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+
+                <!-- Header style -->
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </DataGrid.Resources>
+
+        </DataGrid>
+
+
+        <!-- Control buttons -->
+        <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Grid.Row="3">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Padding" Value="10, 3"/>
+                    <Setter Property="Margin" Value="2"/>
+                    <Setter Property="MinWidth" Value="90"/>
+                </Style>
+            </StackPanel.Resources>
+            <Button Content="To Excel" Click="ExportToExcel"/>
+            <Button Content="Close" Click="CloseWindow" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</local:AnimatedDialogWindow>

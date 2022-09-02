@@ -377,6 +377,8 @@
             <MenuItem Header="Summary">
                 <MenuItem Header="Cargo summary"
                       Command="{Binding ShowCargoSummaryCommand}"/>
+                <MenuItem Header="Port to port summary"
+                      Command="{Binding ShowPortToPortReportCommand}"/>
                 <MenuItem Header="IMDG summary"
                           Command="{Binding ShowDgCargoSummaryCommand}"/>
             </MenuItem>

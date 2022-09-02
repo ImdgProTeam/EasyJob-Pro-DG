@@ -29,7 +29,12 @@ namespace EasyJob_ProDG.UI.Utility
             MainWindowVM.SetIsLoading(true);
 
             ListCollectionView collection = CollectionViewSource.GetDefaultView(dataGrid.ItemsSource) as ListCollectionView;
-            if (collection == null) return;
+            if (collection == null) 
+            {
+                MainWindowVM.StatusBarControl.Cancel();
+                MainWindowVM.SetIsLoading(false);
+                return; 
+            }
 
             ColumnProperty[] columnProperties = new ColumnProperty[dataGrid.Columns.Count];
 

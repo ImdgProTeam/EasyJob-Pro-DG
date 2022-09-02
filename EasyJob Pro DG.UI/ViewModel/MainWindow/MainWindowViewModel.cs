@@ -148,6 +148,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             ShowLicenseDialogCommand = new DelegateCommand(ShowLicenseDialogExecuted);
             ShowLoginWindowCommand = new DelegateCommand(ShowLoginWindowOnExecuted);
             ShowCargoSummaryCommand = new DelegateCommand(ShowCargoSummaryCommandOnExecuted);
+            ShowPortToPortReportCommand = new DelegateCommand(ShowPortToPortReportCommandOnExecuted);
             ShowDgCargoSummaryCommand = new DelegateCommand(ShowDgCargoSummaryCommandOnExecuted);
             NewCargoPlanCommand = new DelegateCommand(NewCargoPlanCommandOnExecuted);
             OpenFileCommand = new DelegateCommand(OpenOnExecuted);
@@ -832,6 +833,13 @@ namespace EasyJob_ProDG.UI.ViewModel
             dialogWindowService.ShowDialog(cargoReportViewModel);
         }
 
+        private void ShowPortToPortReportCommandOnExecuted(object obj)
+        {
+            var portToPortReportViewModel = new PortToPortReportViewModel();
+            portToPortReportViewModel.CreateReport(WorkingCargoPlan.Model);
+            windowDialogService.ShowDialog(new PortToPortReport(), portToPortReportViewModel);
+        }
+
         #endregion
 
 
@@ -850,6 +858,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         // ----- Summary commands -----
         public ICommand ShowCargoSummaryCommand { get; private set; }
+        public ICommand ShowPortToPortReportCommand { get; private set; }   
         public ICommand ShowDgCargoSummaryCommand { get; private set; }
 
         // ----- Files commands -----
