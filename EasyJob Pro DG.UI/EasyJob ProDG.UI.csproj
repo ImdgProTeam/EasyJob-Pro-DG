@@ -112,6 +112,8 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Utility\AsyncObservableCollection.cs" />
+    <Compile Include="View\Animations\FrameworkElementAnimations.cs" />
+    <Compile Include="View\AttachedProperties\FrameworkElementsAnimationAttachedProperties.cs" />
     <Compile Include="View\DialogWindows\Info\WelcomeWindow.xaml.cs">
       <DependentUpon>WelcomeWindow.xaml</DependentUpon>
     </Compile>

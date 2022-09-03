@@ -52,9 +52,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public CargoPlanWrapper WorkingCargoPlan { get; set; }
         public Voyage VoyageInfo => WorkingCargoPlan.VoyageInfo ?? null;
         public UserUISettings UISettings { get; set; }
-        public DgWrapper SelectedDg { get; set; }
         public StatusBarViewModel StatusBarControl { get; set; }
-        public GridLength ConflictColumnWidth { get; set; }
         public int SelectedDataGridIndex { get; set; }
         public DataGridDgViewModel DgDataGridVM => ViewModelLocator.DataGridDgViewModel;
 
@@ -62,6 +60,20 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// Property indicating if any loading/saving etc. process is running at the moment.
         /// </summary>
         public bool IsLoading { get; set; } = true;
+
+        /// <summary>
+        /// Property indicating if dimmed overlay shall be visible due to inactive main window.
+        /// </summary>
+        public bool IsDimmedOverlayVisible
+        {
+            get => isDimmedOverlayVisible;
+            set 
+            {
+                isDimmedOverlayVisible = value;
+                OnPropertyChanged(nameof(IsDimmedOverlayVisible));
+            }
+        }
+        private bool isDimmedOverlayVisible;
 
         #endregion
 
@@ -235,10 +247,11 @@ namespace EasyJob_ProDG.UI.ViewModel
 
 
         /// <summary>
-        /// If Working plan exists, offers options on how to open the file
+        /// If Working plan exists, offers options on how to open the file.
+        /// Opening asyncronously.
         /// </summary>
         /// <param name="file">Any readable file</param>
-        private async Task OpenFileWithOptionsChoice(string file)
+        private async Task OpenFileWithOptionsChoiceAsync(string file)
         {
             if (CanExecuteForOptionalOpen(null))
             {
@@ -459,7 +472,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 StatusBarControl.Cancel();
                 return;
             }
-            OpenFileWithOptionsChoice(file);
+            OpenFileWithOptionsChoiceAsync(file);
         }
 
         /// <summary>
@@ -474,7 +487,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             if (filePathArray != null && File.Exists(file) && DialogOpenFile.ConfirmFileType(file))
             {
-                OpenFileWithOptionsChoice(filePathArray[0]);
+                OpenFileWithOptionsChoiceAsync(filePathArray[0]);
             }
         }
 
@@ -569,15 +582,15 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             if (DialogSaveFile.SaveFileWithDialog(ref fileName))
             {
-                Action d = delegate () 
-                { 
-                    loadDataService.SaveFile(fileName); 
+                Action d = delegate ()
+                {
+                    loadDataService.SaveFile(fileName);
                     SetWindowTitle();
                 };
                 Task.Run(() => WrapMethodWithIsLoading(d));
             }
 
-            
+
         }
 
         /// <summary>
@@ -588,10 +601,10 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             string suggestion = string.Empty;
             var conditionName = cargoDataService.ConditionFileName;
-            if(conditionName.EndsWith(ProgramDefaultSettingValues.ConditionFileExtension) && !string.Equals(conditionName, Properties.Settings.Default.WorkingCargoPlanFile))
+            if (conditionName.EndsWith(ProgramDefaultSettingValues.ConditionFileExtension) && !string.Equals(conditionName, Properties.Settings.Default.WorkingCargoPlanFile))
                 return conditionName;
 
-            conditionName = conditionName.ToUpper().Replace(" ","").Replace("-","").Replace("_","");
+            conditionName = conditionName.ToUpper().Replace(" ", "").Replace("-", "").Replace("_", "");
             if (!string.IsNullOrEmpty(conditionName))
             {
                 if (conditionName.Contains("PREFINAL"))
@@ -858,7 +871,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         // ----- Summary commands -----
         public ICommand ShowCargoSummaryCommand { get; private set; }
-        public ICommand ShowPortToPortReportCommand { get; private set; }   
+        public ICommand ShowPortToPortReportCommand { get; private set; }
         public ICommand ShowDgCargoSummaryCommand { get; private set; }
 
         // ----- Files commands -----

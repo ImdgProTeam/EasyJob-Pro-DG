@@ -1,5 +1,4 @@
 ﻿using EasyJob_ProDG.UI.Services.DialogServices;
-using EasyJob_ProDG.UI.Utility;
 
 namespace EasyJob_ProDG.UI.View.DialogWindows
 {
@@ -15,7 +14,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
 
         private void ExportToExcel(object sender, System.Windows.RoutedEventArgs e)
         {
-            ExportDataGridToExcel.ExportToExcel(CargoReportDataGrid, addSummary: false);
+            throw new System.Exception("Function not implemented for this report.");
         }
     }
 }

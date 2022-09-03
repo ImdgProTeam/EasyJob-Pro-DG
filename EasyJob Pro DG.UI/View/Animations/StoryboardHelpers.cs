@@ -71,7 +71,6 @@ namespace EasyJob_ProDG.UI.View.Animations
             {
                 Duration = new Duration(TimeSpan.FromSeconds(seconds)),
                 From = 0,
-                To = 1,
                 DecelerationRatio = decelerationRatio
             };
 
@@ -84,7 +83,6 @@ namespace EasyJob_ProDG.UI.View.Animations
             var animation = new DoubleAnimation
             {
                 Duration = new Duration(TimeSpan.FromSeconds(seconds)),
-                From = 1,
                 To = 0,
                 DecelerationRatio = decelerationRatio
             };

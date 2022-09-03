@@ -6,6 +6,7 @@
         xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.UI"
         xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
+        xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties" 
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
         xmlns:viewmodel="clr-namespace:EasyJob_ProDG.UI.ViewModel"
@@ -19,6 +20,8 @@
         AllowDrop="True"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainWindowViewModel}"
         d:DataContext="{d:DesignInstance viewmodel:MainWindowViewModel, d:IsDesignTimeCreatable=True}"
+        Activated="Window_Activated"
+        Deactivated="Window_Deactivated"
         Closing="ClosingApplication"
         >
 
@@ -188,6 +191,14 @@
                 <uc:InfoBlock Grid.Row="1" x:Name="InfoBlock"/>
             </Grid>
         </DockPanel>
+        
+        <!-- Dimmed overlay for modal windows -->
+        <Border Background="LightSlateGray"
+                Opacity="0.3"
+                IsHitTestVisible="False"
+                Visibility="Collapsed"
+                ap:FrameworkElementsAnimationAttachedProperties.AnimateFadeInAndOut="{Binding IsDimmedOverlayVisible}"/>
+
     </Grid>
 </Window>
 

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using EasyJob_ProDG.UI.ViewModel;
+using System.ComponentModel;
 using System.Windows;
 
 namespace EasyJob_ProDG.UI.View.UI
@@ -70,6 +71,7 @@ namespace EasyJob_ProDG.UI.View.UI
         }
         #endregion
 
+        #region Window event handlers
         private void ClosingApplication(object sender, CancelEventArgs e)
         {
             OnWindowClosingEventHandler.Invoke();
@@ -77,6 +79,18 @@ namespace EasyJob_ProDG.UI.View.UI
             SaveConflictColumnWidth();
             SaveCurrentWindowLocationToSettings();
         }
+
+        private void Window_Activated(object sender, System.EventArgs e)
+        {
+            (DataContext as MainWindowViewModel).IsDimmedOverlayVisible = false;
+        }
+
+        private void Window_Deactivated(object sender, System.EventArgs e)
+        {
+            (DataContext as MainWindowViewModel).IsDimmedOverlayVisible = true;
+        } 
+
+        #endregion
 
 
         // --------- Events -----------------------------------------------
