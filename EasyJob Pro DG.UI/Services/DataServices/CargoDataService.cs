@@ -26,6 +26,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
             currentProgramData.ReCheckDgWrapperStowage(dgWrapper);
         }
 
-        internal string ConditionFileName => currentProgramData.ConditionFileName;
+        public string ConditionFileName => currentProgramData.ConditionFileName;
+
     }
 }

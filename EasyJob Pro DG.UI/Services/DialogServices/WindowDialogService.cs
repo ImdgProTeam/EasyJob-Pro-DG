@@ -3,9 +3,10 @@
 namespace EasyJob_ProDG.UI.Services.DialogServices
 {
     /// <summary>
-    /// Service is to display Windows in dialog mode without any additional functionality.
+    /// Service is to display Windows in dialog mode with or without binding to ViewModel 
+    /// and without any additional functionality.
     /// </summary>
-    class WindowDialogService
+    class WindowDialogService : IWindowDialogService
     {
         /// <summary>
         /// Displays window.

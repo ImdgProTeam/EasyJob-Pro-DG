@@ -64,7 +64,7 @@ namespace EasyJob_ProDG.Model
                 LogWriter.Write("Database connected");
                 return xmlDoc;
             }
-            catch (FileNotFoundException ex)
+            catch (FileNotFoundException)
             {
                 LogWriter.Write($"Database file {docName} not found.");
                 return null;

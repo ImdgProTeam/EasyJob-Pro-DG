@@ -1,5 +1,4 @@
-﻿using EasyJob_ProDG.UI.Utility;
-using System;
+﻿using System;
 using System.Reflection;
 using static EasyJob_ProDG.UI.View.DialogWindows.PortToPortReportViewModel;
 
@@ -10,7 +9,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
     /// <summary>
     /// Class contains all reportable values for a single POL with single POD (one reporting cell)
     /// </summary>
-    public class SinglePortReportValue : Observable
+    public class SinglePortReportValue
     {
         /// <summary>
         /// POD of the cell
@@ -75,7 +74,6 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
                     break;
             }
             DisplayValue = resultValue;
-            OnPropertyChanged(nameof(DisplayValue));
         }
 
         /// <summary>
@@ -116,7 +114,6 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
                     break;
             }
             DisplayValue = result;
-            OnPropertyChanged(nameof(DisplayValue));
         }
 
         /// <summary>

@@ -8,8 +8,6 @@
         Title="{Binding Title}"
         Style="{StaticResource SummaryWindowStyle}"
         WindowStartupLocation="CenterScreen"
-        Width="750"
-        Height="400"
         MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -30,7 +28,7 @@
         <ComboBox x:Name="cmbSelectPort" 
                   Width="200"
                   HorizontalAlignment="Left"
-                  VerticalAlignment="Bottom"
+                  VerticalContentAlignment="Bottom"
                   ItemsSource="{Binding DisplayReportOptions}"
                   SelectedIndex="{Binding SelectedDisplayOptionIndex, Mode=TwoWay}" 
                   Padding="8, 3" Margin="5, 0"
@@ -41,33 +39,14 @@
         <DataGrid x:Name="CargoReportDataGrid" Grid.Row="2"
                   ItemsSource="{Binding CollectionView}" 
                   AutoGenerateColumns="True"
-                  IsReadOnly="True"
                   FrozenColumnCount="2"
-                  GridLinesVisibility="None" CanUserAddRows="False" CanUserDeleteRows="False" 
-                  MaxColumnWidth="250" MinColumnWidth="16"
                   ColumnWidth="100"
-                  Margin="2">
+                  Style="{StaticResource DataGridSummaryStyle}">
 
             <DataGrid.Resources>
                 <!-- Cell style -->
-                <Style TargetType="{x:Type DataGridCell}">
-                    <Setter Property="IsTabStop" Value="False" />
-                    <Setter Property="BorderThickness" Value="0"/>
-                    <Setter Property="Margin" Value="0"/>
-                    <Setter Property="Padding" Value="0, 10, 10, 10"/>
-                    <Setter Property="TextBlock.TextAlignment" Value="Right"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                <Border Padding="{TemplateBinding Padding}" 
-                                        Background="{TemplateBinding Background}"
-                                        SnapsToDevicePixels="True">
-                                    <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
+                <Style TargetType="{x:Type DataGridCell}" 
+                       BasedOn="{StaticResource DataGridCellInSummaryStyle}"/>
 
                 <!-- Header style -->
                 <Style TargetType="{x:Type DataGridColumnHeader}">

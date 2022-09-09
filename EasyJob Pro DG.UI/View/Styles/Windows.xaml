@@ -36,6 +36,8 @@
         <Setter Property="ResizeMode" Value="CanResize"/>
         <Setter Property="ShowInTaskbar" Value="True"/>
         <Setter Property="Background" Value="{StaticResource Brush.ToolboxWindow.Background}" />
+        <Setter Property="Width" Value="750"/>
+        <Setter Property="Height" Value="400"/>
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome CornerRadius="0" GlassFrameThickness="1" UseAeroCaptionButtons="False"/>
