@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using static EasyJob_ProDG.UI.View.DialogWindows.PortToPortReportViewModel;
 
 namespace EasyJob_ProDG.UI.View.DialogWindows
@@ -11,6 +10,8 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
     /// </summary>
     public class SinglePortReportValue
     {
+        const string _FORMATDECIMAL = Settings.UserUISettings._FORMATDECIMAL;
+
         /// <summary>
         /// POD of the cell
         /// </summary>
@@ -19,7 +20,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         /// <summary>
         /// Value to be displayed in the report
         /// </summary>
-        public string DisplayValue { get; set; } = "0";
+        public string DisplayValue { get; set; }
 
         /// <summary>
         /// Constructor
@@ -28,6 +29,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         internal SinglePortReportValue(string portCode)
         {
             Port = portCode ?? string.Empty;
+            DisplayValue = ContainersCount.ToString();
         }
 
         internal uint ContainersCount = 0;
@@ -65,7 +67,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
                     }
                 case "Decimal":
                     {
-                        resultValue = String.Format("{0:# ### ##0.000}", value);
+                        resultValue = ((decimal)value).ToString(_FORMATDECIMAL);
                         break;
                     }
 
@@ -101,13 +103,13 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
                     result = $"Not implemented";
                     break;
                 case ReportOptions.DgNetWeightAndMP:
-                    result = $"{DgNetWeight,13:# ### ##0.000} / {MPNetWeight,13:# ### ##0.000}";
+                    result = $"{DgNetWeight.ToString(_FORMATDECIMAL),13} / {MPNetWeight.ToString(_FORMATDECIMAL),13}";
                     break;
                 case ReportOptions.DgCountAndDgNetWeight:
-                    result = $"{DgContainersCount,4} / {DgNetWeight,13:# ### ##0.000}";
+                    result = $"{DgContainersCount,4} / {DgNetWeight.ToString(_FORMATDECIMAL),13}";
                     break;
                 case ReportOptions.DgCountAndDgNetWeightAndMP:
-                    result = $"{DgContainersCount,4} / {DgNetWeight,13:# ### ##0.000} / {MPNetWeight,13:# ### ##0.000}";
+                    result = $"{DgContainersCount,4} / {DgNetWeight.ToString(_FORMATDECIMAL),13} / {MPNetWeight.ToString(_FORMATDECIMAL),13}";
                     break;
                 default:
                     result = "0";

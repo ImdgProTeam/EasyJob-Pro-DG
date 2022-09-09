@@ -1,4 +1,5 @@
 ﻿using EasyJob_ProDG.Model.Cargo;
+using EasyJob_ProDG.UI.View.DialogWindows.Summaries;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,9 +8,12 @@ using System.Windows.Data;
 
 namespace EasyJob_ProDG.UI.View.DialogWindows
 {
-    public partial class PortToPortReportViewModel
+    public class PortToPortReportViewModel
     {
-        #region Private fields
+        #region Private fields and constants
+
+        internal const string _TOTAL = "Total";
+        internal const string _POL = "POL";
 
         private List<ReportDisplayPort> displayPorts;
         private readonly CollectionViewSource displayValuesView = new CollectionViewSource();
@@ -61,7 +65,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         public void CreateReport(CargoPlan cargoPlan)
         {
             displayPorts = new List<ReportDisplayPort>();
-            totalPorts = new ReportDisplayPort("Total");
+            totalPorts = new ReportDisplayPort(_TOTAL);
             portOfDischarging = new();
 
             CountReportValues(cargoPlan);
@@ -84,12 +88,12 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
             TableData = new();
 
             //default columns
-            AddColumnWithStringValues("POL", TableData, 0);
-            AddColumn("Total", TableData, 1);
+            TableData.AddColumnWithStringValues(_POL, 0);
+            TableData.AddColumn<SinglePortReportValue>(_TOTAL, 1);
 
             foreach (var port in portOfDischarging)
             {
-                AddColumn(port, TableData);
+                TableData.AddColumn<SinglePortReportValue>(port);
             }
 
             //filling the table
@@ -100,9 +104,9 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
                 foreach (DataColumn header in TableData.Columns)
                 {
                     //POL column
-                    if (string.Equals(header.ColumnName, "POL"))
+                    if (string.Equals(header.ColumnName, _POL))
                     {
-                        values.Add(new SinglePortReportValue("POL") { DisplayValue = port.Port }); ;
+                        values.Add(new SinglePortReportValue(_POL) { DisplayValue = port.Port }); ;
                         continue;
                     }
 
@@ -125,68 +129,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
                     }
                 }
 
-                AddRow(TableData, values.ToArray());
-            }
-        }
-
-        /// <summary>
-        /// Adds column to DataTable based on SinglePortReportValue commodity.
-        /// </summary>
-        /// <typeparam name="TData"></typeparam>
-        /// <param name="columnName"></param>
-        /// <param name="dataTable"></param>
-        /// <param name="columnIndex"></param>
-        private void AddColumn(string columnName, DataTable dataTable, int columnIndex = -1)
-        {
-            DataColumn column = new DataColumn(columnName, typeof(SinglePortReportValue));
-            dataTable.Columns.Add(column);
-            if (columnIndex > -1)
-            {
-                column.SetOrdinal(columnIndex);
-            }
-            int newColumnIndex = dataTable.Columns.IndexOf(column);
-            foreach (DataRow row in dataTable.Rows)
-            {
-                row[newColumnIndex] = default(SinglePortReportValue);
-            }
-        }
-
-        /// <summary>
-        /// Adds column to DataTable.
-        /// </summary>
-        /// <typeparam name="TData"></typeparam>
-        /// <param name="columnName"></param>
-        /// <param name="dataTable"></param>
-        /// <param name="columnIndex"></param>
-        private void AddColumnWithStringValues(string columnName, DataTable dataTable, int columnIndex = -1)
-        {
-            DataColumn column = new DataColumn(columnName, typeof(string));
-            dataTable.Columns.Add(column);
-            if (columnIndex > -1)
-            {
-                column.SetOrdinal(columnIndex);
-            }
-            int newColumnIndex = dataTable.Columns.IndexOf(column);
-            foreach (DataRow row in dataTable.Rows)
-            {
-                row[newColumnIndex] = default(string);
-            }
-        }
-
-        /// <summary>
-        /// Adds row to DataTable.
-        /// </summary>
-        /// <param name="targetDataTable"></param>
-        /// <param name="columnValues"></param>
-        private void AddRow(DataTable targetDataTable, params object[] columnValues)
-        {
-            DataRow rowModelWithCurrentColumns = targetDataTable.NewRow();
-            targetDataTable.Rows.Add(rowModelWithCurrentColumns);
-
-            for (int columnIndex = 0; columnIndex < targetDataTable.Columns.Count; columnIndex++)
-            {
-                var s = columnValues[columnIndex];
-                rowModelWithCurrentColumns[columnIndex] = s;
+                TableData.AddRow(values.ToArray());
             }
         }
 
@@ -276,22 +219,22 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
             switch (selectedDisplayOptionIndex)
             {
                 case (byte)ReportOptions.ContainersLoaded:
-                    propertyName = "ContainersLoadedCount";
+                    propertyName = nameof(SinglePortReportValue.ContainersLoadedCount);
                     break;
                 case (byte)ReportOptions.ContainersEmpty:
-                    propertyName = "ContainersEmptyCount";
+                    propertyName = nameof(SinglePortReportValue.ContainersEmptyCount);
                     break;
                 case (byte)ReportOptions.Reefers:
-                    propertyName = "ReefersCount";
+                    propertyName = nameof(SinglePortReportValue.ReefersCount);
                     break;
                 case (byte)ReportOptions.Weight:
-                    propertyName = "ContainersWeight";
+                    propertyName = nameof(SinglePortReportValue.ContainersWeight);
                     break;
                 case (byte)ReportOptions.DgCount:
-                    propertyName = "DgContainersCount";
+                    propertyName = nameof(SinglePortReportValue.DgContainersCount);
                     break;
                 case (byte)ReportOptions.DgNetWeight:
-                    propertyName = "DgNetWeight";
+                    propertyName = nameof(SinglePortReportValue.DgNetWeight);
                     break;
                 case (byte)ReportOptions.ContainersTotal20And40:
                 case (byte)ReportOptions.Containers20And40:
@@ -306,7 +249,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
                     break;
                 case (byte)ReportOptions.Containers:
                 default:
-                    propertyName = "ContainersCount";
+                    propertyName = nameof(SinglePortReportValue.ContainersCount);
                     break;
 
             }
@@ -400,6 +343,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         {
             displayValuesView.Source = TableData;
         }
+
         #endregion
 
     }

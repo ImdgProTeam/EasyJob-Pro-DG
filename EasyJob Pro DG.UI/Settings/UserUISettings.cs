@@ -24,12 +24,12 @@ namespace EasyJob_ProDG.UI.Settings
         {
             get { if (_excelReeferTemplate == null) { _excelReeferTemplate = new ExcelReeferTemplate(); } return _excelReeferTemplate; }
             set { _excelReeferTemplate = value; }
-        } 
+        }
         #endregion
 
 
-        // DgTable view settings
-        public bool IncludeTechnicalNameToProperShippingName { get; set; }
+
+        internal const string _FORMATDECIMAL = "# ### ##0.000";
 
 
         // -------------- Main methods ----------------------------------------------

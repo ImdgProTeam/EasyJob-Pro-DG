@@ -121,10 +121,17 @@
     </Compile>
     <Compile Include="View\DialogWindows\Info\WelcomeWindowVM.cs" />
     <Compile Include="View\DialogWindows\Summaries\CargoReportViewModel.cs" />
+    <Compile Include="View\DialogWindows\Summaries\Supporting classes\DataTableHelpers.cs" />
+    <Compile Include="View\DialogWindows\Summaries\DgSummaryReport.xaml.cs">
+      <DependentUpon>DgSummaryReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogWindows\Summaries\DgSummaryReportViewModel.cs" />
     <Compile Include="View\DialogWindows\Summaries\PortToPortReport.xaml.cs">
       <DependentUpon>PortToPortReport.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogWindows\Summaries\PortToPortReportViewModel.cs" />
+    <Compile Include="View\DialogWindows\Summaries\Supporting classes\SingleClassReportValue.cs" />
+    <Compile Include="View\DialogWindows\Summaries\Supporting classes\SinglePortClassReportValue.cs" />
     <Compile Include="View\DialogWindows\Summaries\Supporting classes\ReportDisplayPort.cs" />
     <Compile Include="View\DialogWindows\Summaries\Supporting classes\SinglePortReportValue.cs" />
     <Compile Include="View\DialogWindows\Summaries\Supporting classes\PortValues.cs" />
@@ -360,6 +367,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DialogWindows\Info\winLicence.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\Summaries\DgSummaryReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

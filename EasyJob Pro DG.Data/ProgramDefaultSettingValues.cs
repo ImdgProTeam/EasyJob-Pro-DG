@@ -20,6 +20,7 @@ namespace EasyJob_ProDG.Data
 
         public const byte lowestTier = 72;
 
+
         /// <summary>
         /// Returns current program version
         /// </summary>

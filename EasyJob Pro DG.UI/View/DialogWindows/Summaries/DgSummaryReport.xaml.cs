@@ -4,18 +4,18 @@ using System.Windows;
 namespace EasyJob_ProDG.UI.View.DialogWindows
 {
     /// <summary>
-    /// Логика взаимодействия для PortToPortReport.xaml
+    /// Логика взаимодействия для DgSummaryReport.xaml
     /// </summary>
-    public partial class PortToPortReport : AnimatedDialogWindow, IDialogWindow
+    public partial class DgSummaryReport : AnimatedDialogWindow, IDialogWindow
     {
-        public PortToPortReport()
+        public DgSummaryReport()
         {
             InitializeComponent();
         }
 
         private void ExportToExcel(object sender, System.Windows.RoutedEventArgs e)
         {
-            MessageBox.Show("Not implemented for this report.", "Error", button: MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            MessageBox.Show("Not implemented for this report.", "Error", button:MessageBoxButton.OK, MessageBoxImage.Exclamation);
         }
     }
 }

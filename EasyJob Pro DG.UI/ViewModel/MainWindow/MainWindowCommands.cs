@@ -522,7 +522,9 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private void ShowDgCargoSummaryCommandOnExecuted(object obj)
         {
-
+            var dgSummaryReport = new DgSummaryReportViewModel(VoyageInfo);
+            dgSummaryReport.CreateReport(WorkingCargoPlan.Model);
+            windowDialogService.ShowDialog(new DgSummaryReport(), dgSummaryReport);
         }
 
         private void ShowCargoSummaryCommandOnExecuted(object obj)
