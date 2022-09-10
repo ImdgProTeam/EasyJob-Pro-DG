@@ -50,7 +50,8 @@
             <Label Content="Unno*"
                    FontWeight="DemiBold"
                    Visibility="{Binding IsAddDg, ElementName=Control, Converter={StaticResource BTVConverter}}"/>
-            <TextBox Width="100" 
+            <TextBox x:Name="txbUnno"
+                Width="100" 
                     Text="{Binding UNNO, ElementName=Control, UpdateSourceTrigger=PropertyChanged,
                                           StringFormat=\{0:0000\}}"
                      Visibility="{Binding IsAddDg, ElementName=Control, Converter={StaticResource BTVConverter}}"

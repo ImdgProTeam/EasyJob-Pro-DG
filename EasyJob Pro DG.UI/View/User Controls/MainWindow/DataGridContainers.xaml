@@ -26,6 +26,11 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Right">
 
+            <Button Content="Add Dg"
+                    Command="{Binding AddNewDgCommand}"
+                    Width="100"
+                    Margin="1" />
+            
             <Button Content="Add"
                     Command="{Binding DisplayAddContainerMenuCommand}"
                     Width="100"

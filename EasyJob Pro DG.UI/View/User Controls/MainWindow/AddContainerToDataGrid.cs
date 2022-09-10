@@ -208,7 +208,15 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         {
             if ((bool)e.NewValue)
             {
-                if (!txbContainerNumber.Focus())
+                if(txbContainerNumber.Text != string.Empty)
+                {
+                    if (!txbUnno.Focus())
+                    {
+                        txbUnno.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Input,
+                            new ThreadStart(delegate() { txbUnno.Focus(); }));
+                    }
+                }
+                else if (!txbContainerNumber.Focus())
                 {
                     txbContainerNumber.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Input, 
                         new ThreadStart(delegate () { txbContainerNumber.Focus(); }));

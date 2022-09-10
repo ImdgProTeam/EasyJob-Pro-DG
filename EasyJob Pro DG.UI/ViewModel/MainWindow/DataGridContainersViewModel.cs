@@ -92,7 +92,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         #endregion
 
-        #region AddReefer Logic
+        #region AddContainer Logic
         public bool CanUserAddContainer => !string.IsNullOrEmpty(ContainerToAddNumber);
 
         string containerToAddNumber;
@@ -182,6 +182,21 @@ namespace EasyJob_ProDG.UI.ViewModel
             MenuVisibility = System.Windows.Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// Switches to add a new Dg in DataGridDg with selected container number.
+        /// </summary>
+        /// <param name="obj"></param>
+        private void OnAddNewDg(object obj)
+        {
+           ViewModelLocator.MainWindowViewModel.AddNewDgCommand.Execute(obj);
+        }
+
+
+        private bool CanAddNewDg(object obj)
+        {
+            return SelectedContainer != null;
+        }
+
         #endregion
 
         /// <summary>
@@ -207,6 +222,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void LoadCommands()
         {
             AddNewContainerCommand = new DelegateCommand(OnAddNewContainer);
+            AddNewDgCommand = new DelegateCommand(OnAddNewDg, CanAddNewDg);
             DisplayAddContainerMenuCommand = new DelegateCommand(OnDisplayAddContainerMenu);
             SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
             DeleteContainerCommand = new DelegateCommand(OnDeleteContainersRequested);
@@ -272,6 +288,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         //--------------- Commands ----------------------------------------
         public ICommand SelectionChangedCommand { get; private set; }
         public ICommand AddNewContainerCommand { get; private set; }
+        public ICommand AddNewDgCommand { get; private set; }
         public ICommand DisplayAddContainerMenuCommand { get; private set; }
         public ICommand DeleteContainerCommand { get; private set; }
         #endregion
