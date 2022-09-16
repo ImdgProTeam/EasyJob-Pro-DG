@@ -9,9 +9,18 @@ namespace EasyJob_ProDG.Data
 
         public static DateTime EndLicence => Endlicence;
 
+        /// <summary>
+        /// <see langword="true"/> if licence is valid.
+        /// </summary>
+        /// <returns></returns>
         public static bool IsValid()
         {
             return DateTime.Now < Endlicence;
         }
+
+        public static string LicenceText
+            => "\tThe users are free to utilize this version of EasyJob ProDG Pro software aquired from the official sources in their professional or any other tasks within the licence period without any limitations and at their own risk.\n"
+            + "\tNo parts of the code as well as no files forming part of this software can be reproduces or published anywhere without written permission received from any email registred in @imdg.pro domain.\n"
+            + "\tThe users are encouraged to share their experience in use of this software with other users as well as with imdg.pro team, and inform other potential users of the software.";
     }
 }

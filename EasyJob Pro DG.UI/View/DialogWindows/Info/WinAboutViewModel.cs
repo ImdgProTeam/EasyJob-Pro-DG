@@ -1,24 +1,17 @@
 ﻿using EasyJob_ProDG.Data;
 using EasyJob_ProDG.UI.Utility;
-using System;
 using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.View.DialogWindows
 {
-    public class WinLicenceViewModel
+    public class WinAboutViewModel
     {
-        /// <summary>
-        /// End date and time of current licence.
-        /// </summary>
-        public static DateTime LicenceValidity => Licence.EndLicence;
+        public static string Description 
+            => "Software is designed for automatic checking of stowage and segregation of dangerous goods on container ships in accordance with the requirements of IMDG Code " 
+            + ProgramDefaultSettingValues.codeAmmendmentVersion;
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public WinLicenceViewModel() 
-        {
-
-        }
+        public static string ProgramVersion
+            => "EasyJob ProDG Pro version " + ProgramDefaultSettingValues.ReleaseVersion;
 
         /// <summary>
         /// Shows the agreement window

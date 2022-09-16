@@ -27,11 +27,6 @@ namespace EasyJob_ProDG.UI.Services
                 MessageBox.Show("Cannot register program extension");
             }
 
-            //SetUp column settings
-
-            //Setup ship profile
-
-            //Setup default settings
         }
     }
 }

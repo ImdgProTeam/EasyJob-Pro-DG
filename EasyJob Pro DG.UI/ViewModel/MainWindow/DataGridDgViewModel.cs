@@ -24,8 +24,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         private readonly CollectionViewSource dgPlanView = new CollectionViewSource();
         Dispatcher dispatcher;
 
-        private const byte totalNumberOfColumns = 44;
-
         //--------------- Public static properties ----------------------------------
         public static IList<char> StowageCategories => new List<char>() { 'A', 'B', 'C', 'D', 'E' };
 
@@ -61,7 +59,6 @@ namespace EasyJob_ProDG.UI.ViewModel
             SetVisualElements();
 
             dgPlanView.Filter += OnDgListFiltered;
-
         }
 
 
@@ -364,7 +361,6 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         #endregion
 
-
         #region Commands
         //--------------- Commands --------------------------------------------------
 
@@ -374,13 +370,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand DeleteDg { get; private set; }
         public ICommand AddDgCommand { get; private set; }
         public ICommand DisplayAddDgMenuCommand { get; private set; }
-        #endregion
-
-        #region Events
-        //--------------- Events ----------------------------------------------------
-
-        public delegate void SelectionChanged(object obj);
-        public static event SelectionChanged OnSelectionChangedEventHandler = null;
         #endregion
     }
 

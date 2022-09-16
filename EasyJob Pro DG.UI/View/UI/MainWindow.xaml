@@ -93,7 +93,7 @@
             <Grid x:Name="WorkingGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition MinWidth="120"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -107,7 +107,7 @@
                             Grid.ColumnSpan="2">
                 </uc:Spinner>
                 
-                <DockPanel Grid.Column="2"
+                <DockPanel Grid.Column="1"
                            Grid.RowSpan="2"
                            LastChildFill="True">
 

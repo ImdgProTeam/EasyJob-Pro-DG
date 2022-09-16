@@ -52,6 +52,10 @@
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 </Style>
+
+                <!-- Selection color -->
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                 Color="{StaticResource Color.DgTable.HighlightRow}" />
             </DataGrid.Resources>
 
         </DataGrid>

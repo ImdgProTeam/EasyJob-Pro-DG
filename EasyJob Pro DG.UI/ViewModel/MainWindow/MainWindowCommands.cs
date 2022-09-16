@@ -8,10 +8,8 @@ using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.View.UI;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -515,6 +513,12 @@ namespace EasyJob_ProDG.UI.ViewModel
                 }
                 return;
             }
+        }
+
+        internal void ShowLicenceAgreement(bool isFirstStart = false)
+        {
+            var viewModel = new LicenceAgreementViewModel(isFirstStart);
+            windowDialogService.ShowDialog(new LicenceAgreement(), viewModel);
         }
 
 

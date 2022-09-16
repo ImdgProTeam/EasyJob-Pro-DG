@@ -8,7 +8,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
     public class WelcomeWindowVM : IDialogWindowRequestClose
     {
         public string Message1 { get; }
-            = "Welcome to ProDG Pro!";
+            = "Welcome to EasyJob ProDG Pro!";
         public string Message2 { get; }
             = "     Thank you for using this software!";
         public string Message3 { get; }

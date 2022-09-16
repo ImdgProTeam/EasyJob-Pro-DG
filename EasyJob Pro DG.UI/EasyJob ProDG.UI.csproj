@@ -116,10 +116,15 @@
     <Compile Include="ViewModel\MainWindow\MainWindowCommands.cs" />
     <Compile Include="View\Animations\FrameworkElementAnimations.cs" />
     <Compile Include="View\AttachedProperties\FrameworkElementsAnimationAttachedProperties.cs" />
+    <Compile Include="View\DialogWindows\Info\LicenceAgreement.xaml.cs">
+      <DependentUpon>LicenceAgreement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogWindows\Info\LicenceAgreementViewModel.cs" />
     <Compile Include="View\DialogWindows\Info\WelcomeWindow.xaml.cs">
       <DependentUpon>WelcomeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogWindows\Info\WelcomeWindowVM.cs" />
+    <Compile Include="View\DialogWindows\Info\WinAboutViewModel.cs" />
     <Compile Include="View\DialogWindows\Summaries\CargoReportViewModel.cs" />
     <Compile Include="View\DialogWindows\Summaries\Supporting classes\DataTableHelpers.cs" />
     <Compile Include="View\DialogWindows\Summaries\DgSummaryReport.xaml.cs">
@@ -359,6 +364,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DialogWindows\DialogWindowOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\Info\LicenceAgreement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

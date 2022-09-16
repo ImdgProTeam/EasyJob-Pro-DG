@@ -14,7 +14,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         private AnimationTypes DialogWindowLoadAnimation { get; set; } = AnimationTypes.FadeIn;
         private AnimationTypes DialogWindowUnloadAnimation { get; set; } = AnimationTypes.FadeOut;
         private float FadeInSeconds { get; set; } = 0.4f;
-        private float FadeOutSeconds { get; set; } = 0.6f;
+        private float FadeOutSeconds { get; set; } = 0.2f;
 
 
         #region Constructors

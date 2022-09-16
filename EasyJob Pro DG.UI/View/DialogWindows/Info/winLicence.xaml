@@ -32,10 +32,17 @@
         </Border>
 
         <StackPanel Grid.Row="1"  Margin="20, 10">
-            <TextBlock Margin="4"
+            <TextBlock Margin="20, 4"
                            TextWrapping="Wrap"
                            TextAlignment="Center"
-                           Text="This is a tester alfa-version of the ProDG software." />
+                           Text="This is a tester beta-version of the EasyJob ProDG Pro software." />
+            <Button VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Margin="0 5 0 10"
+                    Content="Show agreement"
+                    Command="{Binding ShowAgreement}"
+                    Style="{StaticResource ButtonAsLinkStyle}"/>
+
             <TextBlock Margin="4"
                            TextAlignment="Center"
                            Text="Your licence is valid until" />

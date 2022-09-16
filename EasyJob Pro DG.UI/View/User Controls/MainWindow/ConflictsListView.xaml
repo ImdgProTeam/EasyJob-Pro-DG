@@ -171,7 +171,8 @@
                                 <TextBox.Resources>
                                     <Style TargetType="TextBox">
                                         <Setter Property="TextAlignment" Value="Justify" />
-                                        <Setter Property="TextWrapping" Value="Wrap" />
+                                        <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+                                        <Setter Property="MaxLines" Value="8" />
                                         <Setter Property="Background" Value="Transparent"/>
                                         <Setter Property="BorderThickness" Value="0"/>
                                         <Setter Property="IsHitTestVisible" Value="False"/>

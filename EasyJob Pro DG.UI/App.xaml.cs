@@ -1,4 +1,6 @@
 ﻿using EasyJob_ProDG.Data;
+using EasyJob_ProDG.UI.Services.DialogServices;
+using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.View.UI;
 using System;
 using System.Diagnostics;
@@ -55,11 +57,31 @@ namespace EasyJob_ProDG.UI
         private void FirstTimeStart()
         {
             //UI.Properties.Settings.Default.FirstTimeStart = true;
-            if (EasyJob_ProDG.UI.Properties.Settings.Default.FirstTimeStart)
+            
+            //If not the first start -> return
+            if (!EasyJob_ProDG.UI.Properties.Settings.Default.FirstTimeStart)
+                return;
+
+            //Sign agreement
+            Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            var viewModel = new LicenceAgreementViewModel(true);
+            var window = new LicenceAgreement();
+            window.DataContext = viewModel;
+            window.ShowDialog();
+            if (!viewModel.Result.HasValue || !viewModel.Result.Value)
             {
-                Services.FirstStartService.DoFirstStart();
-                EasyJob_ProDG.UI.Properties.Settings.Default.FirstTimeStart = false;
+                Environment.Exit(0);
             }
+
+            //Switch to normal window
+            Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+            Current.MainWindow = ApplicationMainWindow;
+            
+            //Register extension
+            Services.FirstStartService.DoFirstStart();
+
+            //Complete the first start
+            EasyJob_ProDG.UI.Properties.Settings.Default.FirstTimeStart = false;
         }
 
         /// <summary>

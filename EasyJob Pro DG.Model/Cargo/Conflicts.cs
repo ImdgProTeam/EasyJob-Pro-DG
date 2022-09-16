@@ -9,6 +9,7 @@ namespace EasyJob_ProDG.Model.Cargo
         // ---------- private fields --------------------------------
 
 
+        #region Public fields
         // ---------- public fields ---------------------------------
         public bool FailedStowage => StowageConflictsList?.Count > 0;
         public bool FailedSegregation => SegregationConflictsList?.Count > 0;
@@ -16,8 +17,10 @@ namespace EasyJob_ProDG.Model.Cargo
 
 
         public readonly List<string> StowageConflictsList;
-        public readonly List<SegregationConflict> SegregationConflictsList;
+        public readonly List<SegregationConflict> SegregationConflictsList; 
+        #endregion
 
+        #region Constructors
 
         // ---------- Constructor ----------------------------------
         public Conflicts()
@@ -25,6 +28,10 @@ namespace EasyJob_ProDG.Model.Cargo
             StowageConflictsList = new List<string>();
             SegregationConflictsList = new List<SegregationConflict>();
         }
+
+        #endregion
+
+        #region Add/Replace conflict logic
 
         // --- Methods to add/remove/replace conflicts in the list ---
         public void AddStowConflict(string code)
@@ -94,9 +101,9 @@ namespace EasyJob_ProDG.Model.Cargo
             if (dg.Conflicts == null) return;
 
             foreach (SegregationConflict conf in dg.Conflicts.SegregationConflictsList)
-            { 
-                conf.Code = newCode; 
-                foreach(SegregationConflict mutualConflict in conf.DgInConflict.Conflicts.SegregationConflictsList)
+            {
+                conf.Code = newCode;
+                foreach (SegregationConflict mutualConflict in conf.DgInConflict.Conflicts.SegregationConflictsList)
                 {
                     if (mutualConflict.ConflictContainerNr == dg.ContainerNumber)
                         mutualConflict.Code = newCode;
@@ -104,6 +111,10 @@ namespace EasyJob_ProDG.Model.Cargo
             }
         }
 
+
+        #endregion
+
+        #region Contains method logic
 
         // --------- Contains methods -------------------------------
         public bool Contains(Dg b)
@@ -138,7 +149,10 @@ namespace EasyJob_ProDG.Model.Cargo
                     return true;
             return false;
         }
+        #endregion
 
+
+        #region Display conflicts
 
         // --------- Methods to display conflicts ------------------
         public string ShowStowageConflicts()
@@ -193,6 +207,10 @@ namespace EasyJob_ProDG.Model.Cargo
                    (FailedSegregation ? ($"segregation " + temp) : "");
         }
 
+        #endregion
+
+
+        #region SegregationConflict class
         // --------- Supporting class Segregstion Conflict ---------
         public class SegregationConflict
         {
@@ -217,5 +235,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 ConflictContainerClassStr = unit.DgClass + subclass;
             }
         }
+
+        #endregion
     }
 }

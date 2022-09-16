@@ -1,11 +1,11 @@
 ﻿namespace EasyJob_ProDG.UI.View.DialogWindows
 {
     /// <summary>
-    /// Логика взаимодействия для winAbout.xaml
+    /// Interaction logic for LicenceAgreement.xaml
     /// </summary>
-    public partial class winAbout : AnimatedDialogWindow
+    public partial class LicenceAgreement : AnimatedDialogWindow
     {
-        public winAbout()
+        public LicenceAgreement()
         {
             InitializeComponent();
         }
