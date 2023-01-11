@@ -6,7 +6,7 @@ namespace EasyJob_ProDG.Data
 {
     public static class ProgramDefaultSettingValues
     {
-        public const string ProgramTitle = "EasyJob ProDG";
+        public const string ProgramTitle = "EasyJob ProDG Pro";
         public const string ShipProfileExtension = ".ini";
         public const string DefaultShipProfile = "ShipProfile.ini";
         public const string DgDataBaseFile = "dglist.xml";

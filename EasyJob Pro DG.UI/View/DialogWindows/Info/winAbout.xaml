@@ -45,7 +45,7 @@
                            Text="{Binding Description}" 
                        Margin="4,4,4,20"/>
             <TextBlock Text="{Binding ProgramVersion}"/>
-            <TextBlock Text="Copyright imdg.pro (c) 2018 - 2022" />
+            <TextBlock Text="Copyright imdg.pro (c) 2018 - 2023" />
             <StackPanel Orientation="Horizontal"
                             Margin ="0, 10,0,0">
                 <TextBlock Margin="4, 4, 0, 4"

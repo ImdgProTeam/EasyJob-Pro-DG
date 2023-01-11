@@ -1,5 +1,4 @@
 ﻿using EasyJob_ProDG.Data;
-using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.View.UI;
 using System;
@@ -57,7 +56,7 @@ namespace EasyJob_ProDG.UI
         private void FirstTimeStart()
         {
             //UI.Properties.Settings.Default.FirstTimeStart = true;
-            
+
             //If not the first start -> return
             if (!EasyJob_ProDG.UI.Properties.Settings.Default.FirstTimeStart)
                 return;
@@ -76,7 +75,7 @@ namespace EasyJob_ProDG.UI
             //Switch to normal window
             Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
             Current.MainWindow = ApplicationMainWindow;
-            
+
             //Register extension
             Services.FirstStartService.DoFirstStart();
 
