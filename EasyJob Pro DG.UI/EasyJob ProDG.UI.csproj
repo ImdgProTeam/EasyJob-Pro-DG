@@ -61,10 +61,10 @@
     <ApplicationIcon>imdg1.good.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>995773992F1359DC75985927692F79A4CD3BC0E7</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>5A68D8808ABAC358F067C0B6BFCCE1ACE171CF66</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>EasyJob ProDG.UI_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>EasyJob ProDG.UI_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -562,6 +562,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="EasyJob ProDG.UI_1_TemporaryKey.pfx" />
     <None Include="EasyJob ProDG.UI_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\EasyJob_Pro_DG.UI.ViewModel.ConflictListViewModel.datasource" />

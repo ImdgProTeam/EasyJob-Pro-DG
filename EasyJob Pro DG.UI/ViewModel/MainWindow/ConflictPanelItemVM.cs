@@ -96,7 +96,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 else return "Stowage";
             }
         }
-        public bool ShowExpanded => false;
+
 
         // --------------- Public constructors ----------------------------------
 
@@ -126,6 +126,15 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             string result = ContainerNumber + " in " + Location + " unno " + Unno + (IsSegregationConflict ? (" in conf with" + ConflictingDgNumber) : null);
             return result;
+        }
+
+        public bool Equals(ConflictPanelItemViewModel conflict)
+        {
+            return this.ContainerNumber == conflict.ContainerNumber
+                && this.Location == conflict.Location
+                && this.Unno == conflict.Unno
+                && Code == conflict.Code
+                && DgID == conflict.DgID;
         }
 
 

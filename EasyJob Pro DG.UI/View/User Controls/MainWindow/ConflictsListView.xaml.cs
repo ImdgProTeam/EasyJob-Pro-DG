@@ -92,18 +92,18 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
 
         /// <summary>
-        /// Method to collapse conflict description on click on header
+        /// Method to collapse conflict description on click on header (container number)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void HeaderTextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             DockPanel panel = null;
             TextBox txbText = null;
 
-            if (sender is TextBlock txbSender)
+            if (sender is Grid gridSender)
             {
-                panel = txbSender.Parent as DockPanel;
+                panel = gridSender.Parent as DockPanel;
             }
 
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -120,6 +120,5 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                 }
             }
         }
-
     }
 }

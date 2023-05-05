@@ -88,7 +88,7 @@
                         <StackPanel Orientation="Horizontal" Margin="{TemplateBinding Padding}">
                             <Label Content="Search"/>
                             <TextBox x:Name="PART_SearchTextBox"
-                                     Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                                     Text="{Binding Text, Delay=500, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                      TextWrapping="NoWrap"
                                      Margin="3, 3"
                                      MinWidth="80"

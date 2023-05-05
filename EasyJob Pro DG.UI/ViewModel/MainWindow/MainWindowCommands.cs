@@ -383,7 +383,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void OnReCheckRequested(object obj)
         {
-            DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
+            DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage(true));
         }
 
         #endregion

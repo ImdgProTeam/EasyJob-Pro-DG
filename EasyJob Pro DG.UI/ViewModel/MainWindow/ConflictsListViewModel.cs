@@ -3,6 +3,8 @@ using EasyJob_ProDG.UI.Utility;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using EasyJob_ProDG.UI.Services.DataServices;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
@@ -12,6 +14,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         //readonly fields
         readonly CargoDataService cargoDataService;
         readonly ConflictDataService conflictDataService;
+        private List<ConflictPanelItemViewModel> deletedConflicts = new List<ConflictPanelItemViewModel>();
 
 
         //public properties
@@ -25,9 +28,13 @@ namespace EasyJob_ProDG.UI.ViewModel
             DataMessenger.Default.Register<ConflictListToBeUpdatedMessage>(this, OnConflictListToBeUpdatedMessageReceived);
 
             DoubleClickOnSelectedItem = new DelegateCommand(NotifyOfSelectedConflict);
+            RemoveConflictCommand = new DelegateCommand(RemoveConflict);
+            RemoveSimilarConflictCommand = new DelegateCommand(RemoveSimilarConflicts);
+
             cargoDataService = new CargoDataService();
             conflictDataService = new ConflictDataService();
             GetConflicts();
+
         }
 
 
@@ -45,7 +52,11 @@ namespace EasyJob_ProDG.UI.ViewModel
                 cargoDataService.ReCheckDgWrapperStowage(obj.dgWrapper);
                 return;
             }
-            
+
+            if (obj.FullListToBeUpdated)
+            {
+                deletedConflicts.Clear();
+            }
             cargoDataService.ReCheckDgList();
             GetConflicts();
         }
@@ -53,6 +64,20 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void GetConflicts()
         {
             Conflicts = conflictDataService.GetConflicts();
+            
+            if(deletedConflicts.Count > 0)
+            {
+                for (int i = 0; i < Conflicts.Count; i++)
+                {
+                    var conflict = Conflicts[i];
+                    if(deletedConflicts.Any(c => c.Equals(conflict)))
+                    {
+                        Conflicts.Remove(conflict);
+                        i--;
+                    }
+                }
+            }
+
             foreach (var conflict in Conflicts)
             {
                 conflict.RefreshConflictText();
@@ -64,8 +89,42 @@ namespace EasyJob_ProDG.UI.ViewModel
             DataMessenger.Default.Send(SelectedConflict, "conflict selection changed");
         }
 
+        public void RemoveConflict(object parameter)
+        {
+            var conflict = parameter as ConflictPanelItemViewModel;
+            if (conflict == null) return;
+
+            deletedConflicts.Add(conflict);
+            Conflicts.Remove(conflict);
+        }
+
+        public void RemoveSimilarConflicts(object parameter)
+        {
+            var conflict = parameter as ConflictPanelItemViewModel;
+            if (conflict == null) return;
+
+            var code = conflict.Code;
+            for (int i = 0; i < Conflicts.Count; i++)
+            {
+                conflict = Conflicts[i];
+                if (conflict.Code == code)
+                {
+                    deletedConflicts.Add(conflict);
+                    Conflicts.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
+
+        internal void ClearDeletedConflictsList()
+        {
+            deletedConflicts.Clear();
+        }
+
 
         //Commands
         public ICommand DoubleClickOnSelectedItem { get; set; }
+        public ICommand RemoveConflictCommand { get; set; }
+        public ICommand RemoveSimilarConflictCommand { get; set; }
     }
 }

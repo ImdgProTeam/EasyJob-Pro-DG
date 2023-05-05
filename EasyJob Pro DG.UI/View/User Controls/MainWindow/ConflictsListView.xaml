@@ -43,7 +43,7 @@
                  Margin="0,0,2,0"
                  Padding="2"
                  Grid.Row="0"
-                 Background="{StaticResource Brush.Background.Main}">
+                 Background="{StaticResource Brush.Background.Main}" d:ItemsSource="{d:SampleData ItemCount=5}">
 
             <ListBox.GroupStyle>
                 <GroupStyle>
@@ -103,7 +103,7 @@
                         <Border.Resources>
                             <Style TargetType="{x:Type Border}">
                                 <Setter Property="Background" Value="{StaticResource Brush.ConflictList.Items.Background}"/>
-                                <Setter Property="BorderThickness" Value="0.5"/>
+                                <Setter Property="BorderThickness" Value="0"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Background" Value="{StaticResource Brush.ConflictItem.MouseOver.Background}"/>
@@ -123,48 +123,77 @@
 
                         <DockPanel Height="NaN">
 
-                            <CheckBox IsChecked="False"
-                                  HorizontalAlignment="Left"
-                                  Margin="4,4,0,0"
-                                  DockPanel.Dock="Right"
-                                  VerticalAlignment="Top">
-                                <CheckBox.Template>
-                                    <ControlTemplate>
-                                        <Ellipse x:Name="CheckedConflictEllipse"
+                            <Grid
+                                DockPanel.Dock="Top"
+                                HorizontalAlignment="Stretch"
+                                MouseDown="Grid_MouseDown"
+                                IsHitTestVisible="True"
+                                >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="20"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Text="{Binding ContainerNumber, UpdateSourceTrigger=PropertyChanged}"
+                                    Margin="5,2">
+                                    <TextBlock.Resources>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Style.Setters>
+                                                <Setter Property="TextElement.Foreground" Value="{StaticResource Brush.ConflictItem.ContainerNumber.Foreground}"/>
+                                            </Style.Setters>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, 
+                                            Path=IsMouseOver}" Value="True">
+                                                    <Setter Property="Foreground" Value="{StaticResource Brush.ConflictItem.ContainerNumber.MouseOver.Foreground}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, 
+                                            Path=IsSelected}" Value="True">
+                                                    <Setter Property="Foreground" Value="{StaticResource Brush.ConflictItem.ContainerNumber.Selected.Foreground}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Resources>
+                                </TextBlock>
+
+                                <TextBlock  HorizontalAlignment="Stretch" Margin="0"/>
+
+                                <CheckBox IsChecked="False"
+                                  HorizontalAlignment="Right"
+                                  Margin="0,4,0,0"
+                                  VerticalAlignment="Top"
+                                          Grid.Column="2">
+                                    <CheckBox.Template>
+                                        <ControlTemplate>
+                                            <Ellipse x:Name="CheckedConflictEllipse"
                                              Height="10"
                                              Width="10"
                                              Fill="Red"
                                              MouseDown="Ellipse_MouseDown">
-                                        </Ellipse>
-                                    </ControlTemplate>
-                                </CheckBox.Template>
-                            </CheckBox>
+                                            </Ellipse>
+                                        </ControlTemplate>
+                                    </CheckBox.Template>
+                                </CheckBox>
 
-                            <TextBlock
-                                    DockPanel.Dock="Top"
-                                    Text="{Binding ContainerNumber, UpdateSourceTrigger=PropertyChanged}"
-                                    MouseDown="HeaderTextBlock_MouseDown"
-                                    Margin="2">
-                                <TextBlock.Resources>
-                                    <Style TargetType="{x:Type TextBlock}">
-                                        <Style.Setters>
-                                            <Setter Property="TextElement.Foreground" Value="{StaticResource Brush.ConflictItem.ContainerNumber.Foreground}"/>
-                                        </Style.Setters>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, 
-                                            Path=IsMouseOver}" Value="True">
-                                                <Setter Property="Foreground" Value="{StaticResource Brush.ConflictItem.ContainerNumber.MouseOver.Foreground}"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, 
-                                            Path=IsSelected}" Value="True">
-                                                <Setter Property="Foreground" Value="{StaticResource Brush.ConflictItem.ContainerNumber.Selected.Foreground}"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Resources>
-                            </TextBlock>
+                                <Button 
+                                    Content="x" Width="20" Height="20"
+                                    Margin="0,-1,-3,0"
+                                    Padding="0, -4, 0, 0"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Right"
+                                    Grid.Column="3"
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    Foreground="AliceBlue"
+                                    Command="{Binding ConflictListViewModel.RemoveConflictCommand, Source={StaticResource ViewModelLocator}}"
+                                              CommandParameter="{Binding}"/>
+
+                            </Grid>
 
                             <TextBox  DockPanel.Dock="Bottom"
+                                      Margin="0,0,10,0"
                                     Padding="5,5,10,5"
                                   IsReadOnly="True"
                                   Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}">
@@ -193,8 +222,15 @@
                                     </Style>
                                 </TextBox.Resources>
                             </TextBox>
-
                         </DockPanel>
+
+                        <Border.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Remove this and similar conflicts"
+                                              Command="{Binding ConflictListViewModel.RemoveSimilarConflictCommand, Source={StaticResource ViewModelLocator}}"
+                                              CommandParameter="{Binding}"/>
+                            </ContextMenu>
+                        </Border.ContextMenu>
                     </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>

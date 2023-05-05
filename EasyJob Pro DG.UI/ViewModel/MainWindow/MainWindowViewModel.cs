@@ -131,6 +131,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         private void GetCargoData()
         {
+            //Clear deleted conflicts list on opening of new condition
+            ViewModelLocator.ConflictListViewModel?.ClearDeletedConflictsList();
+
             //Get data from cargoDataService
             WorkingCargoPlan = cargoDataService.GetCargoPlan();
             Conflicts = conflictDataService.GetConflicts();
