@@ -1,9 +1,11 @@
 ﻿using EasyJob_ProDG.Model.IO;
+using EasyJob_ProDG.Model.IO.Excel;
 using EasyJob_ProDG.Model.Transport;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using static EasyJob_ProDG.Model.IO.Excel.WithXlReefers;
 
 namespace EasyJob_ProDG.Model.Cargo
 {
@@ -22,6 +24,19 @@ namespace EasyJob_ProDG.Model.Cargo
                 foreach (var dg in DgList)
                 {
                     sum += dg.DgNetWeight;
+                }
+                return sum;
+            }
+        }
+        public decimal TotalMPNetWeight
+        {
+            get
+            {
+                decimal sum = 0M;
+                foreach (var dg in DgList)
+                {
+                    if(dg.IsMp)
+                        sum += dg.DgNetWeight;
                 }
                 return sum;
             }
@@ -47,6 +62,7 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             //creating cargo plan from file
             var cargoPlan = OpenFile.ReadCargoPlanFromFile(fileName, ownShip);
+            if (cargoPlan is null || cargoPlan.IsEmpty) return cargoPlan;
 
             //Updating cargo plan from database
             HandlingDg.UpdateDgInfo(cargoPlan.DgList, dgDataBase);
@@ -62,6 +78,22 @@ namespace EasyJob_ProDG.Model.Cargo
 
             //result
             return cargoPlan;
+        }
+
+        /// <summary>
+        /// Updates Reefers with manifest info from excel file
+        /// </summary>
+        /// <param name="fileName">Excel file with manifest info - path.</param>
+        /// <returns>True if imported and updated successfully.</returns>
+        public bool ImportReeferManifestInfoFromExcel(string fileName, bool importOnlySelected = false, string currentPort = null)
+        {
+            List<Container> tempList = new List<Container>();
+
+            if (!tempList.ImportReeferInfoFromExcel(fileName)) return false;
+
+            Reefers.UpdateReeferManifestInfo(tempList, importOnlySelected, currentPort);
+
+            return true;
         }
 
         /// <summary>
@@ -229,7 +261,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 DgList.Remove(dg);
                 if (container != null) container.DgCountInContainer--;
             }
-
+            Data.LogWriter.Write($"Dg data successfully imported to existing CargoPlan.");
         }
 
         /// <summary>
@@ -332,9 +364,96 @@ namespace EasyJob_ProDG.Model.Cargo
             resultingNewCargoPlan.VoyageInfo.PortOfDeparture = newPlan.VoyageInfo.PortOfDeparture;
             resultingNewCargoPlan.VoyageInfo.PortOfDestination = newPlan.VoyageInfo.PortOfDestination;
 
+            Data.LogWriter.Write($"Cargo plan successfully updated.");
             return resultingNewCargoPlan;
         }
 
+        #region Add/Remove methods
+        //----------- Add/Remove methods -------------------------------------------------------------------
+
+        /// <summary>
+        /// Adds new Dg to CargoPlan
+        /// </summary>
+        /// <param name="dg">New dg to be added to plan</param>
+        public void AddDg(Dg dg, XDocument dgDataBase)
+        {
+            if (dg == null || string.IsNullOrEmpty(dg.ContainerNumber)) return;
+
+            var container = Containers.FindContainerByContainerNumber(dg);
+            if (container is null)
+            {
+                container = (Container)dg;
+                Containers.Add(container);
+                if (dg.IsRf) Reefers.Add(container);
+            }
+            else
+            {
+                dg.CopyContainerInfo(container);
+            }
+            dg.UpdateDgInfo(dgDataBase);
+            DgList.Add(dg);
+            container.DgCountInContainer++;
+        }
+
+        /// <summary>
+        /// Adds new container to CargoPlan
+        /// </summary>
+        /// <param name="container">Container to add to the plan. Container number shall be unique.</param>
+        /// <returns>True if container succesfully added to CargoPlan</returns>
+        public bool AddContainer(Container container)
+        {
+            #region Safety checks
+            if (container is null) return false;
+            if (string.IsNullOrEmpty(container.ContainerNumber))
+            {
+                Data.LogWriter.Write($"Attempt to add a container with no container number");
+                return false;
+            }
+            if (Containers.ContainsUnitWithSameContainerNumberInList(container))
+            {
+                Data.LogWriter.Write($"Attempt to add a container with container number which is already in list");
+                return false;
+            }
+            #endregion
+
+            Containers.Add(container);
+            if (container.IsRf) Reefers.Add(container);
+            return true;
+        }
+
+        /// <summary>
+        /// Adds new reefer to CargoPlan
+        /// </summary>
+        /// <param name="container">Reefer container to be added. Container number shall be unique.</param>
+        public bool AddReefer(Container reefer)
+        {
+            #region Safety checks
+            if (reefer is null) return false;
+            if (string.IsNullOrEmpty(reefer.ContainerNumber))
+            {
+                Data.LogWriter.Write($"Attempt to add a reefer with no container number");
+                return false;
+            }
+            #endregion
+
+            if (Containers.ContainsUnitWithSameContainerNumberInList(reefer))
+            {
+                Data.LogWriter.Write($"Attempt to add a reefer with container number which is already in list");
+                var container = Containers.FindContainerByContainerNumber(reefer);
+                if (container == null) throw new Exception($"Container with ContainerNumber {reefer.ContainerNumber} cannot be found in CargoPlan despite it was expected.");
+                container.IsRf = true;
+                reefer.CopyContainerInfo(container);
+            }
+            else
+            {
+                reefer.IsRf = true;
+                Containers.Add(reefer);
+            }
+            Reefers.Add(reefer);
+            return true;
+        } 
+
+        #endregion
 
 
         // -------------- Supporting methods ----------------------------------------

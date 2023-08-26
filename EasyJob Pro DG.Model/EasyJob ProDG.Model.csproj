@@ -51,17 +51,23 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cargo\CargoPlanExtensionMethods.cs" />
+    <Compile Include="Cargo\DgConflictMethods.cs" />
     <Compile Include="Cargo\ICargoPlan.cs" />
     <Compile Include="Cargo\IContainer.cs" />
     <Compile Include="Cargo\ILocationOnBoard.cs" />
     <Compile Include="Cargo\IReefer.cs" />
     <Compile Include="Cargo\LocationOnBoard.cs" />
     <Compile Include="Cargo\RandomizeID.cs" />
+    <Compile Include="Cargo\SegregationExtensionMethods.cs" />
     <Compile Include="IO\EasyJobCondition\CargoPlanAssociated.cs" />
     <Compile Include="IO\EasyJobCondition\ConditionUnit.cs" />
     <Compile Include="IO\EasyJobCondition\EasyJobCondition.cs" />
     <Compile Include="IO\EasyJobCondition\RecordsCreator.cs" />
+    <Compile Include="IO\Excel\ExcelReeferTemplate.cs" />
     <Compile Include="IO\Excel\ExcelTemplate.cs" />
+    <Compile Include="IO\Excel\WithXlReefers.cs" />
+    <Compile Include="IO\ImportUpdateExtensions.cs" />
     <Compile Include="IO\IUpdatable.cs" />
     <Compile Include="IO\OpenFile.cs" />
     <Compile Include="IO\ReadBaplieFile.cs" />

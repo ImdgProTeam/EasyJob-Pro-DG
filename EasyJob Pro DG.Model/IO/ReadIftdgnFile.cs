@@ -55,10 +55,12 @@ namespace EasyJob_ProDG.Model.IO
                         if (segment.Contains("IFTDGN"))
                             isIftdn = true;
                         break;
+
                     case "BGM":
                         if (segment.StartsWith("BGM"))
                             started = true;
                         continue;
+
                     case "EQD":
                         if (segment.Substring(4, 2) == "CN")
                         {
@@ -107,14 +109,15 @@ namespace EasyJob_ProDG.Model.IO
                     case "GID":
                         dgUnit = new Dg();
 
-                        byte indexOf2ndPlus = (byte)segment.IndexOf('+', 4);
-                        byte lengthOfNumberOfPackages = (byte)(segment.IndexOf(':', 0) - indexOf2ndPlus - 1);
-                        byte lengthOfKindOfPackages = (byte)(segment.IndexOf(':', segment.IndexOf(':') + 1) - segment.IndexOf(':', 0) - 1);
+                        var fields = segment.Split('+');
 
-                        dgUnit.numberOfPackages = lengthOfKindOfPackages < 1 ? (ushort)0 
-                            : ushort.Parse(segment.Substring(indexOf2ndPlus + 1, lengthOfNumberOfPackages));
-                        dgUnit.typeOfPackages = lengthOfKindOfPackages < 1 ? "" : segment.Substring(segment.IndexOf(':', 0) + 1, lengthOfKindOfPackages);
-                        dgUnit.typeOfPackagesDescription = segment.LastIndexOf(':') < 1 ? "" : segment.Substring(segment.LastIndexOf(':') + 1);
+                        if (fields[2].Length == 0) break;
+                        if (!fields[2].Contains(':')) break;
+
+                        var packages = fields[2].Split(':');
+                        ushort.TryParse(packages[0], out dgUnit.numberOfPackages);
+                        dgUnit.typeOfPackages = packages[1];
+                        dgUnit.typeOfPackagesDescription = packages[packages.Length - 1];
 
                         dgUnit.MergePackagesInfo();
                         break;
@@ -268,10 +271,6 @@ namespace EasyJob_ProDG.Model.IO
                     default:
                         break;
                 }
-
-
-
-
             }
         }
 

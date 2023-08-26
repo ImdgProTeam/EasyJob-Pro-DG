@@ -6,5 +6,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
     {
         CargoPlanWrapper GetCargoPlan();
         void ReCheckDgList();
+
+        string ConditionFileName { get; }
     }
 }

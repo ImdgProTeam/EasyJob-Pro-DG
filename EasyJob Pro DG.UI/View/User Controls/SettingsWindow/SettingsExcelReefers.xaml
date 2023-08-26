@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="EasyJob_ProDG.UI.View.User_Controls.SettingsExcelReefers"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls" 
+             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="400"
+             DataContext="{Binding}">
+    
+    <UserControl.Resources>
+        <converters:ExcelColumnNumberConverter x:Key="ColumnNumberConverter" />
+    </UserControl.Resources>
+    
+    <Grid Margin="2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="156" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="Margin" Value="10,0"/>
+
+            </Style>
+            <Style x:Key="TableTitle" TargetType="{x:Type Label}">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="Margin" Value="0,0,0,-3"/>
+
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}"
+                   BasedOn="{StaticResource TextBoxWithTag}">
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="MaxWidth" Value="180"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Style.Triggers>
+
+                </Style.Triggers>
+            </Style>
+
+        </Grid.Resources>
+
+
+        <Label Content="Template Name" 
+               Grid.Row="0"
+               Grid.Column="0"/>
+        <TextBox x:Name="txbTemplateName"
+                Text="{Binding ExcelReeferTemplateDisplay.TemplateName}" 
+                 Tag="Enter new template name"
+                IsReadOnly="True"
+                 Grid.Row="0"
+                 Grid.Column="1"/>
+        
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="2"
+                   Style="{StaticResource TextBlockNoticeStyle}">
+            <TextBlock.Text>
+                Values on this page will be used to read reefer manifest from excel.\n
+                Only first excel sheet in workbook will be checked.
+            </TextBlock.Text>
+        </TextBlock>
+        
+        <Label Content="Start from row"
+               Grid.Row="3"
+               Grid.Column="0" />
+        <TextBox Text="{Binding ExcelReeferTemplateDisplay.StartRow}"
+                 Tag="Enter the first row number"
+                 Grid.Row="3"
+                 Grid.Column="1" />
+
+        <Label Content="Excel sheet columns" 
+               Style="{StaticResource TableTitle}"
+               Grid.Row="4"
+               Grid.ColumnSpan="2"/>
+
+        <DataGrid ItemsSource="{Binding ExcelReeferTemplateDisplay.ColumnProperties, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False"
+                  Grid.Row="5"
+                  Grid.ColumnSpan="2"
+                  IsTabStop="False"
+                  Margin="5,0">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Property"
+                                    IsReadOnly="True" 
+                                    KeyboardNavigation.IsTabStop="False"
+                                    KeyboardNavigation.TabNavigation="None"
+                                    Width="150"
+                                    Binding="{Binding PropertyName, Mode=OneWay}"/>
+                <DataGridTemplateColumn Header="Column"
+                                        IsReadOnly="False"
+                                        Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=SettingsWindowVM.Columns}"
+                                        SelectedValue="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ColumnNumberConverter}}"
+                                        />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Column"
+                                    IsReadOnly="False"
+                                    Width="*"
+                                    Binding="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

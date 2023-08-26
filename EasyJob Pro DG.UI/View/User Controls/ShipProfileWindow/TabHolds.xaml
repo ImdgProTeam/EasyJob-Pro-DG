@@ -10,8 +10,29 @@
              d:DesignWidth="800"
              DataContext="{Binding}">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel>
+        <DockPanel Margin="5">
+        <TextBlock Style="{StaticResource TextBlockNoticeStyle}"
+                   DockPanel.Dock="Top">
+            Enter the first and the last bay of each cargo hold.
+        </TextBlock>
+            <StackPanel DockPanel.Dock="Bottom">
+                <!--Number of holds-->
+                <Label x:Name="labelNumberOfHolds"
+                   Content="Number of cargo holds"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   Margin="2,10,0,0"
+                   Grid.Column="0"
+                   Grid.Row="8" />
+                <cc:NumericalTextBoxWithButtons Text="{Binding NumberOfHolds}"
+                                            MinValue="0"
+                                            MaxValue="12"
+                                            Grid.Column="1"
+                                            Grid.Row="8"
+                                            TabIndex="10" 
+                                                HorizontalAlignment="Right"
+                                                Margin="0,0,4,10"/>
+            </StackPanel>
             <DataGrid ItemsSource="{Binding HoldsObservable, Mode=TwoWay}"
                       CanUserAddRows="False"
                       CanUserReorderColumns="False"
@@ -45,21 +66,6 @@
 
                 </DataGrid.Columns>
             </DataGrid>
-            
-            <!--Number of holds-->
-            <Label x:Name="labelNumberOfHolds"
-                   Content="Number of cargo holds"
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Center"
-                   Margin="2,2,0,0"
-                   Grid.Column="0"
-                   Grid.Row="8" />
-            <cc:NumericalTextBoxWithButtons Text="{Binding NumberOfHolds}"
-                                            MinValue="0"
-                                            MaxValue="12"
-                                            Grid.Column="1"
-                                            Grid.Row="8"
-                                            TabIndex="10" />
-        </StackPanel>
-    </ScrollViewer>
+
+        </DockPanel>
 </UserControl>

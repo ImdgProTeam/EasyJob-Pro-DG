@@ -17,7 +17,8 @@ namespace EasyJob_ProDG.Model.IO
             Excel,
             Ejc,
             IFTDGN,
-            Other
+            Other,
+            None
         }
 
         public enum OpenOption : byte
@@ -74,6 +75,12 @@ namespace EasyJob_ProDG.Model.IO
         /// <returns></returns>
         public static CargoPlan ReadCargoPlanFromFile(string fileName, ShipProfile ownShip)
         {
+            if (string.IsNullOrEmpty(fileName) || !File.Exists(fileName))
+            {
+                Data.LogWriter.Write($"File {fileName} cannot be found.");
+                return null;
+            }
+
             var fileType = DefineFileType(fileName);
             CargoPlan cargoPlan = new CargoPlan();
             bool isIftdgn = false;
@@ -118,6 +125,7 @@ namespace EasyJob_ProDG.Model.IO
             }
 
             SetFileName(GetFileNameWithExtension(fileName));
+            Data.LogWriter.Write($"CargoPlan read from {FileName}");
             return cargoPlan;
         }
 

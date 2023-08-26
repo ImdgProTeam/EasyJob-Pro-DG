@@ -4,6 +4,7 @@ using System.Windows.Data;
 
 namespace EasyJob_ProDG.UI.View.Converters
 {
+    [ValueConversion(typeof(int),typeof(char))]
     public class ExcelColumnNumberConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

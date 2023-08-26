@@ -1,6 +1,10 @@
-﻿using System;
+﻿//Data.StatusBarReporter.ReportPercentage
+// is used to report present status to Status bar of the main window.
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.Model.Cargo;
 using ExcelApp = Microsoft.Office.Interop.Excel;
@@ -26,12 +30,12 @@ namespace EasyJob_ProDG.Model.IO.Excel
         {
             bool isTemplateRead = template.ReadTemplate();
 
-            //Change template or use default
-            if (isTemplateRead)
+            if (!isTemplateRead)
             {
-                Output.ThrowMessage(
-                    "Template will be used to create dg list in excel.");
+                Data.LogWriter.Write($"Excel template has not been read. The default template will be used to create the excel file.");
             }
+
+            Data.ProgressBarReporter.ReportPercentage = 20;
 
             //Creating workbook
             ExcelApp.Application excelApp = new ExcelApp.Application { Visible = false, SheetsInNewWorkbook = 1 };
@@ -54,6 +58,8 @@ namespace EasyJob_ProDG.Model.IO.Excel
 
             };
 
+            Data.ProgressBarReporter.ReportPercentage = 25;
+
             #region Headings row
             //Creating heading titles
             for (int i = 1; i <= template.MaxColumnNumber; i++)
@@ -67,6 +73,17 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 if (columnWidth[x] != 0) excelCells.ColumnWidth = columnWidth[x];
                 excelCells.Value2 = titles[x];
             }
+
+            Data.ProgressBarReporter.ReportPercentage = 30;
+            #endregion
+
+            #region Setting StatusBar increment values
+            //setting to set status bar increment value for a single row
+            float tempStatusBarIncrementValue = 65f / dgList.Count;
+            float tempIncrementAccummulation = 0.0f;
+            int statusBarIncrementValue = 0;
+            if (tempStatusBarIncrementValue > 1)
+                statusBarIncrementValue = 65 / dgList.Count; 
             #endregion
 
             #region Filling table
@@ -180,10 +197,25 @@ namespace EasyJob_ProDG.Model.IO.Excel
 
                     excelCells.Value2 = value;
                 }
+
+                //Status bar update
+                if (Data.ProgressBarReporter.ReportPercentage < 95)
+                {
+                    if (statusBarIncrementValue == 0)
+                    {
+                        tempIncrementAccummulation += tempStatusBarIncrementValue;
+                        if (tempIncrementAccummulation < 1) continue;
+                        Data.ProgressBarReporter.ReportPercentage++;
+                        tempIncrementAccummulation--;
+                    }
+                    else 
+                        Data.ProgressBarReporter.ReportPercentage += statusBarIncrementValue;
+                }
             }
             #endregion
 
             excelApp.Visible = true;
+            Data.ProgressBarReporter.ReportPercentage = 100;
         }
 
         /// <summary>
@@ -202,12 +234,11 @@ namespace EasyJob_ProDG.Model.IO.Excel
 
             bool isTemplateRead = template.ReadTemplate();
 
-            if (isTemplateRead)
+            if (!isTemplateRead)
             {
-                Output.ThrowMessage(
-                    "Template will be used to read excel file. Press any key to continue. " +
-                    "\nTo change the template press '1'");
+                Data.LogWriter.Write($"Excel template has not been read. The default template will be used to read excel file.");
             }
+            Data.ProgressBarReporter.ReportPercentage = 30;
 
             //connecting xl file
             ExcelApp.Range excelcells = null;
@@ -222,10 +253,18 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 workbooks.Open(workbook, ExcelApp.XlUpdateLinks.xlUpdateLinksNever, ReadOnly: true);
                 activeWorkbook = excelapp.ActiveWorkbook;
                 excelWorksheet = ChooseCorrectSheet(activeWorkbook, template.WorkingSheet);
-                Output.ThrowMessage("Reading DG data...");
+                Data.LogWriter.Write("Reading DG data...");
+                Data.ProgressBarReporter.ReportPercentage = 40;
 
                 //Determine number of rows = number of dg
                 int rowscount = CountRows(ref excelcells, excelWorksheet);
+
+                //Setting StatusBar increment value
+                float tempStatusBarIncrementValue = 30f / rowscount;
+                float tempIncrementAccummulation = 0.0f;
+                int statusBarIncrementValue = 0;
+                if (tempStatusBarIncrementValue > 1)
+                    statusBarIncrementValue = 30 / rowscount;
 
                 //Create dg list & container list
                 for (int line = 0; line < rowscount; line++)
@@ -244,7 +283,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         else if (col == template.ColumnPOD) cont.POD = excelcells.Value2;
                         else if (col == template.ColumnUnno)
                         {
-                            unit.Unno = Convert.ToInt16(excelcells.Value2);
+                            unit.Unno = Convert.ToUInt16(excelcells.Value2);
                             unit.AssignSegregationGroup();
                         }
                         else if (col == template.ColumnClass)
@@ -290,16 +329,40 @@ namespace EasyJob_ProDG.Model.IO.Excel
                     cont.HoldNr = ship.DefineCargoHoldNumber(cont.Bay);
                     unit.CopyContainerInfo(cont);
                     resultDgList.Add(unit);
-                    if (!containers.Contains(cont)) containers.Add(cont);
+
+                    //Update containers
+                    var container = containers.FirstOrDefault(c => string.Equals(c.ContainerNumber, cont.ContainerNumber, StringComparison.OrdinalIgnoreCase));
+                    if (container == null)
+                    {
+                        cont.DgCountInContainer++;
+                        containers.Add(cont);
+                    }
+                    else container.DgCountInContainer++;
+
+                    //Status bar update
+                    if (Data.ProgressBarReporter.ReportPercentage < 75)
+                    {
+                        if (statusBarIncrementValue == 0)
+                        {
+                            tempIncrementAccummulation += tempStatusBarIncrementValue;
+                            if (tempIncrementAccummulation < 1) continue;
+                            Data.ProgressBarReporter.ReportPercentage++;
+                            tempIncrementAccummulation--;
+                        }
+                        else
+                            Data.ProgressBarReporter.ReportPercentage += statusBarIncrementValue;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Data.LogWriter.Write($"Attempt to read excel workbook {workbook} thrown an exception {ex.Message}.");
             }
             finally
             {
-                //excelapp.Windows[1].Close(false);
-                //excelapp.Quit();
                 activeWorkbook.Close(null, null, null);
                 if (workbooks != null) workbooks.Close();
-                //excelapp.Windows[1].Close(false);
+
                 excelapp.Quit();
                 RunGarbageCollector();
                 System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelcells);
@@ -309,6 +372,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
 
 
                 System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelapp);
+
             }
 
             return resultDgList;
@@ -323,13 +387,15 @@ namespace EasyJob_ProDG.Model.IO.Excel
         /// <param name="excelCells"></param>
         /// <param name="excelWorksheet"></param>
         /// <returns></returns>
-        private static int CountRows(ref ExcelApp.Range excelCells, ExcelApp.Worksheet excelWorksheet)
+        internal static int CountRows(ref ExcelApp.Range excelCells, ExcelApp.Worksheet excelWorksheet, int startRow = 0)
         {
             bool stop = false;
             int rowsCount = 0;
+            int startRowUsed = startRow == 0 ? template.StartRow : startRow;
+
             while (!stop)
             {
-                excelCells = excelWorksheet.Cells[template.StartRow + rowsCount, template.ColumnContainerNumber];
+                excelCells = excelWorksheet.Cells[startRowUsed + rowsCount, startRow == 0 ? template.ColumnContainerNumber : 1];
                 stop = excelCells.Value2 == null;
                 if (!stop) rowsCount++;
             }

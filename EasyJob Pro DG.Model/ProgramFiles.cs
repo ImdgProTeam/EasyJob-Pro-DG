@@ -1,7 +1,5 @@
 ﻿using EasyJob_ProDG.Data;
-using EasyJob_ProDG.Model.Transport;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Xml.Linq;
@@ -10,9 +8,10 @@ namespace EasyJob_ProDG.Model
 {
     public static class ProgramFiles
     {
-        public static StreamWriter LogStreamWriter;
         public static StringBuilder TextToExport;
         internal static XDocument DgDataBase;
+
+        private static bool hasDataBaseBeenSuccesfullyConnected = false;
 
         // ----------------------- STATIC METHODS ---------------------------------------------------------------------------------
 
@@ -21,18 +20,23 @@ namespace EasyJob_ProDG.Model
         /// <summary>
         /// Method connects ShipProfile and dgDataBase to program.
         /// </summary>
-        /// <param name="ownship"></param>
-        /// <param name="dgDataBase"></param>
-        /// <returns></returns>            
-        public static void Connect(out Transport.ShipProfile ownship, out XDocument dgDataBase)
+        /// <param name="ownship">ShipProfile which can be used after it is connected from the file.</param>
+        /// <param name="dgDataBase">Dg DataBase to be used after it is read from a file.</param>
+        /// <returns>
+        /// True, if DataBase has been succesfully connected.
+        /// In case of problems with ShipProfile - default ship profile will be returned.
+        /// In case of problems with dgDataBase - null will be returned.
+        /// </returns>            
+        public static bool Connect(out Transport.ShipProfile ownship, out XDocument dgDataBase)
         {
             ownship = Transport.ShipProfile.ReadShipProfile
                 (ProgramDefaultSettingValues.DefaultShipProfile, ProgramDefaultSettingValues.AlwaysOpenDefaultProfile);
-            EnterLog(LogStreamWriter, "Ship profile loaded");
+            LogWriter.Write("Ship profile loaded");
 
-            DgDataBase = GetXmlDoc("dglist.xml");
+            DgDataBase = GetXmlDoc(ProgramDefaultSettingValues.DgDataBaseFile);
             dgDataBase = DgDataBase;
-            EnterLog(LogStreamWriter, "Database connected");
+
+            return hasDataBaseBeenSuccesfullyConnected;
         }
 
         /// <summary>
@@ -40,7 +44,7 @@ namespace EasyJob_ProDG.Model
         /// </summary>
         /// <param name="docName"></param>
         /// <returns></returns>
-        internal static XDocument GetXmlDoc(string docName)
+        private static XDocument GetXmlDoc(string docName)
         {
             try
             {
@@ -48,24 +52,26 @@ namespace EasyJob_ProDG.Model
                     (Path.Combine(ProgramDefaultSettingValues.ProgramDirectory.ToString()) + docName);
 
                 //checking xml version
-                Debug.WriteLine("------> Checking dglist.xml version");
+                LogWriter.Write("Checking dglist.xml version...");
                 string xmlVersion = (string)xmlDoc.Root.Attribute("version");
                 if (xmlVersion != ProgramDefaultSettingValues.xmlDgListVersion)
                 {
-                    Debug.WriteLine("------> Wrong dglist.xml version is used");
+                    LogWriter.Write("Wrong dglist.xml version is used");
                     throw new Exception("Dg database has wrong format or corrupt.");
                 }
-                Debug.WriteLine("------> dglist.xml connected");
+
+                hasDataBaseBeenSuccesfullyConnected = true;
+                LogWriter.Write("Database connected");
                 return xmlDoc;
             }
-            catch (FileNotFoundException ex)
+            catch (FileNotFoundException)
             {
-                Output.ThrowMessage(ex.Message);
+                LogWriter.Write($"Database file {docName} not found.");
                 return null;
             }
             catch (Exception ex)
             {
-                Output.ThrowMessage(ex.Message);
+                LogWriter.Write($"Reading database file {docName} thrown exception: {ex.Message}.");
                 return null;
             }
         }
@@ -75,43 +81,12 @@ namespace EasyJob_ProDG.Model
         /// </summary>
         /// <param name="ship"></param>
         /// <param name="ShipProfileName"></param>
-        public static void SaveShipProfile(ShipProfile ship, string ShipProfileName = null)
+        public static void SaveShipProfile(Transport.ShipProfile ship, string ShipProfileName = null)
         {
             string _fileName = ShipProfileName;
             if (_fileName == null || ProgramDefaultSettingValues.AlwaysOpenDefaultProfile)
                 _fileName = ProgramDefaultSettingValues.DefaultShipProfile.Replace(ProgramDefaultSettingValues.ShipProfileExtension, "");
-            ShipProfile.WriteShipProfile(_fileName, ship);
-        }
-
-
-        // ---------------- Static methods for creation and maintaining of the error log -------------------------------------------
-
-        public static void EnterLog(StreamWriter stream, string message)
-        {
-            stream?.WriteLine("{0:O}\t{1}", DateTime.Now, message);
-        }
-
-        public static void CreateLog(StreamWriter stream, string arg = null)
-        {
-            stream?.WriteLine("Program activated @ {0:O}", DateTime.Now);
-            stream?.WriteLine("activation method: {0}", arg ?? "executable");
-            //stream?.WriteLine("Licence expire on: {0:R}", EasyJob_Pro_DG.UI.Licence.EndLicence);
-            stream?.WriteLine();
-        }
-
-        private static void LogErrorMesage(Exception ex)
-        {
-            EnterLog(LogStreamWriter, "Exception caught");
-            LogStreamWriter.WriteLine("exception data {0}", ex);
-            LogStreamWriter.WriteLine("exception message {0}", ex.Message);
-            LogStreamWriter.WriteLine("exception data {0}", ex.Data);
-            LogStreamWriter.WriteLine("exception source {0}", ex.Source);
-            LogStreamWriter.WriteLine("exception target {0}", ex.TargetSite);
-            LogStreamWriter.WriteLine("exception inner {0}", ex.InnerException);
-            string msg = "An error occurred when running Pro DG!" +
-                         "\nPlease contact feedback@imdg.pro for further assistance" +
-                         "\nExtremely sorry for inconvenience...";
-            Output.ThrowMessage(msg);
+            Transport.ShipProfile.WriteShipProfile(_fileName, ship);
         }
     }
 }

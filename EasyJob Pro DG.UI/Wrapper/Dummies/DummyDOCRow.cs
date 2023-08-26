@@ -64,7 +64,11 @@ namespace EasyJob_ProDG.UI.Wrapper.Dummies
         public byte Value
         {
             get { return _value; }
-            set { _value = value; }
+            set
+            {
+                _value = value;
+                OnPropertyChanged();
+            }
         }
 
         public DummyRowValue()

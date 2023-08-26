@@ -7,10 +7,17 @@
     {
         public string SegrClass;
         public byte SegrCase;
+
         public SegregatorException (string _class, byte segrCase)
         {
             SegrClass = _class;
             SegrCase = segrCase;
+        }
+
+        public SegregatorException(string _class, Segregation.SegregationCase segrCase)
+        {
+            SegrClass = _class;
+            SegrCase = (byte)segrCase;
         }
 
         /// <summary>

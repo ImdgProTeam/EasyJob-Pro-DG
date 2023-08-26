@@ -25,6 +25,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
             StreamWriter writer = new StreamWriter(fileName);
             WriteCargoPlanAssociatedToStream(new CargoPlanAssociated(cargoPlan), writer);
             writer.Close();
+            Data.LogWriter.Write($"Condition saved as {fileName}");
         }
 
         /// <summary>
@@ -35,20 +36,22 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         /// <returns>Plain CargoPlan</returns>
         public static CargoPlan LoadCondition(string fileName, ShipProfile ship)
         {
-            CargoPlan cargoPlan;
-            //try
-            //{
+            CargoPlan cargoPlan = null;
+
             StreamReader reader = new StreamReader(fileName);
-
-
-            cargoPlan = CreateCargoPlanFromStream(reader, ship);
-
-            reader.Close();
-            //}
-            //catch
-            //{
-            //    cargoPlan = new CargoPlan();
-            //}
+            try
+            {
+                cargoPlan = CreateCargoPlanFromStream(reader, ship);
+                Data.LogWriter.Write($"Condition successfully loaded from {fileName}");
+            }
+            catch (Exception ex)
+            {
+                Data.LogWriter.Write($"Exception {ex.Message} was thrown while attempting to read {fileName}.");
+            }
+            finally
+            {
+                reader.Close();
+            }
             return cargoPlan;
         }
 
@@ -85,7 +88,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         {
             CargoPlan cargoPlan = new CargoPlan();
             byte ejcVersion = 0;
-            bool readingCondition = false;
+            bool readingCondition;
 
             while (true)
             {
@@ -98,46 +101,14 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                 //ENTER VERSION VALIDATION
                 else if (line.StartsWith("v. "))
                 {
-                    switch (line.Remove(0, 3))
-                    {
-                        case "0.8b":
-                            ejcVersion = (byte)ConditionVersion.V08b;
-                            continue;
-                        case "0.8c":
-                            ejcVersion = (byte)ConditionVersion.V08c;
-                            continue;
-                        case "0.89":
-                            ejcVersion = (byte)ConditionVersion.V089;
-                            continue;
-                        case "0.90":
-                            ejcVersion = (byte)ConditionVersion.V090;
-                            continue;
-                        default:
-                            continue;
-                    }
+                    ejcVersion = DefineConditionVersion(line.Remove(0, 3));
                 }
 
                 //New record
                 else if (line.StartsWith("C:"))
                 {
-                    //Define version of a condition file for proper parsing
-                    switch (ejcVersion)
-                    {
-                        case (byte)ConditionVersion.V08b:
-                            AddUnitToCargoPlanV08b(line, cargoPlan, ship);
-                            continue;
-                        case (byte)ConditionVersion.V08c:
-                            AddUnitToCargoPlanV08c(line, cargoPlan, ship);
-                            continue;
-                        case (byte)ConditionVersion.V089:
-                            AddUnitToCargoPlanV089(line, cargoPlan, ship);
-                            continue;
-                        case (byte)ConditionVersion.V090:
-                            AddUnitToCargoPlanV090(line, cargoPlan, ship);
-                            continue;
-                        default:
-                            continue;
-                    }
+                    AddUnitToCargoPlan(ejcVersion, line, cargoPlan, ship);
+                    continue;
                 }
 
                 //Voyage info
@@ -151,10 +122,36 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                 else if (line == "| CPE |") break;
 
             }
-
             return cargoPlan;
         }
 
+        /// <summary>
+        /// Chooses appropriate method to convert line and add it to cargoPlan
+        /// </summary>
+        /// <param name="ejcVersion">byte version</param>
+        /// <param name="line">line to be converted</param>
+        /// <param name="cargoPlan">CargoPlan to add unit</param>
+        /// <param name="ship">ship profile</param>
+        private static void AddUnitToCargoPlan(byte ejcVersion, string line, CargoPlan cargoPlan, ShipProfile ship)
+        {
+            switch (ejcVersion)
+            {
+                case (byte)ConditionVersion.V08b:
+                    AddUnitToCargoPlanV08b(line, cargoPlan, ship);
+                    break;
+                case (byte)ConditionVersion.V08c:
+                    AddUnitToCargoPlanV08c(line, cargoPlan, ship);
+                    break;
+                case (byte)ConditionVersion.V089:
+                    AddUnitToCargoPlanV089(line, cargoPlan, ship);
+                    break;
+                case (byte)ConditionVersion.V090:
+                    AddUnitToCargoPlanV090(line, cargoPlan, ship);
+                    break;
+                default:
+                    break;
+            }
+        }
 
         /// <summary>
         /// Reads line related to Voyage and updates respective voyage properties.
@@ -172,7 +169,386 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
             voyage.PortOfDestination = readVoyage[2];
         }
 
+        /// <summary>
+        /// Parses a single line of .ejc and converts it into Container, Reefer and Dg and records to cargo plan
+        /// </summary>
+        /// <param name="line">The line will be parsed and converted into new instances</param>
+        /// <param name="cargoPlan">New instances will be recorded in the cargoPlan</param>
+        /// <param name="ship">Current ShipProfile</param>
+        private static void AddUnitToCargoPlanV090(string line, CargoPlan cargoPlan, ShipProfile ship = null)
+        {
 
+            string[] segmentArray = line.Split('|');
+            var container = new Container();
+            Dg dg = new Dg();
+            int count = 0;
+
+            foreach (var segment in segmentArray)
+            {
+                switch (count)
+                {
+                    #region Container
+                    case 0: //Container number
+                        {
+                            if (!segment.StartsWith("C:")) break;
+                            container.ContainerNumber = segment.Remove(0, 2);
+                            count++;
+                            break;
+                        }
+                    case 1: //Location
+                        {
+                            container.Location = segment;
+                            if (ship != null)
+                            {
+                                container.HoldNr = ship.DefineCargoHoldNumber(container.Bay);
+                            }
+                            count++;
+                            break;
+                        }
+                    case 2: //POL
+                        {
+                            container.POL = segment;
+                            count++;
+                            break;
+                        }
+                    case 3: //POD
+                        {
+                            container.POD = segment;
+                            count++;
+                            break;
+                        }
+                    case 4: //FinalDestination
+                        {
+                            container.FinalDestination = segment;
+                            count++;
+                            break;
+                        }
+                    case 5: //Carrier
+                        {
+                            container.Carrier = segment;
+                            count++;
+                            break;
+                        }
+                    case 6: //Type
+                        {
+                            container.ContainerType = segment;
+                            count++;
+                            break;
+                        }
+                    case 7: //IsClosed
+                        {
+                            container.IsClosed = segment != "O";
+                            count++;
+                            break;
+                        }
+                    case 8: //Container remarks
+                        {
+                            container.Remarks = ConvertNewLineSymbolsOfRecord(segment);
+                            count++;
+                            break;
+                        }
+                    case 9: //Old location
+                        {
+                            container.LocationBeforeRestow = segment;
+                            count++;
+                            break;
+                        }
+                    #endregion
+
+
+                    #region IUpdatable
+                    case 10: //IsLocked
+                        {
+                            if (segment.StartsWith("U:"))
+                            {
+                                container.IsPositionLockedForChange = int.Parse(segment.Remove(0, 2)) == 1;
+                                count++;
+                            }
+                            else throw new Exception("Condition file you're trying to read is possibly corrupt or wrong version");
+                            break;
+                        }
+                    case 11: //IsToBeKeptInPlan
+                        {
+                            container.IsToBeKeptInPlan = int.Parse(segment) == 1;
+                            count++;
+                            break;
+                        }
+                    case 12: //IsToImport
+                        {
+                            container.IsToImport = int.Parse(segment) == 1;
+                            count++;
+                            break;
+                        }
+                    case 13: //IsNotToImport
+                        {
+                            container.IsNotToImport = int.Parse(segment) == 1;
+                            count++;
+                            break;
+                        }
+                    case 14: //IsNewInPlan
+                        {
+                            container.IsNewUnitInPlan = int.Parse(segment) == 1;
+                            count++;
+                            break;
+                        }
+                    case 15: //HasLocationChanged
+                        {
+                            container.HasLocationChanged = int.Parse(segment) == 1;
+                            count++;
+                            break;
+                        }
+                    case 16: //HasUpdated
+                        {
+                            container.HasUpdated = int.Parse(segment) == 1;
+                            count++;
+                            break;
+                        }
+                    case 17: //HasPodChanged
+                        {
+                            container.HasPodChanged = int.Parse(segment) == 1;
+                            count++;
+                            break;
+                        }
+                    case 18: //HasContainerTypeChanged
+                        {
+                            container.HasContainerTypeChanged = int.Parse(segment) == 1;
+                            count++;
+                            break;
+                        }
+                    #endregion
+
+                    //reserved positions
+                    case 19:
+                        count = 20;
+                        goto case 20;
+
+                    #region case 20 Reefer (or Dg)
+                    //Reefer or Dg
+                    case 20: //Reefer: Set Point
+                        {
+                            //In case of reefer
+                            if (segment.StartsWith("R:"))
+                            {
+                                container.IsRf = true;
+                                container.ResetReefer();
+
+                                container.SetTemperature = double.Parse(segment.Remove(0, 2));
+
+                                count++;
+                            }
+
+                            //In case of Dg
+                            else if (segment.StartsWith("D:"))
+                            {
+                                count = 40;
+                                goto case 40;
+                            }
+
+                            break;
+                        }
+                    case 21: //Vent settings
+                        {
+                            container.VentSetting = segment;
+                            count++;
+                            break;
+                        }
+                    case 22: //Commodity
+                        {
+                            container.Commodity = ConvertNewLineSymbolsOfRecord(segment);
+                            count++;
+                            break;
+                        }
+                    case 23: //Loading temperature
+                        {
+                            container.LoadTemperature = double.Parse(segment);
+                            count++;
+                            break;
+                        }
+                    case 24: //Special
+                        {
+                            container.ReeferSpecial = ConvertNewLineSymbolsOfRecord(segment);
+                            count++;
+                            break;
+                        }
+                    case 25: //Reefer remark
+                        {
+                            container.ReeferRemark = ConvertNewLineSymbolsOfRecord(segment);
+
+                            cargoPlan.Reefers.Add(container);
+
+                            count++;
+                            break;
+                        }
+                    #endregion
+
+                    //reserved
+                    case 26:
+                        count = 40;
+                        goto case 40;
+
+                    #region Dg
+                    case 40: //Unno
+                        {
+                            if (segment.StartsWith("D:"))
+                            {
+                                dg = new Dg()
+                                {
+                                    Unno = ushort.Parse(segment.Remove(0, 2))
+                                };
+                                dg.AssignSegregationGroup();
+                                count++;
+                            }
+                            break;
+                        }
+                    case 41: //DgClass
+                        {
+                            dg.DgClass = segment;
+                            count++;
+                            break;
+                        }
+                    case 42: //DgSubClasses
+                        {
+                            dg.DgSubclass = segment;
+                            count++;
+                            break;
+                        }
+                    case 43: //Net weight
+                        {
+                            dg.DgNetWeight = decimal.Parse(segment);
+                            count++;
+                            break;
+                        }
+                    case 44: //Packing group
+                        {
+                            dg.PackingGroup = segment;
+                            count++;
+                            break;
+                        }
+                    case 45: //Flash point
+                        {
+                            dg.FlashPoint = segment;
+                            count++;
+                            break;
+                        }
+                    case 46: //Marine pollutant
+                        {
+                            dg.IsMp = (segment == "P");
+                            dg.mpDetermined = true;
+                            count++;
+                            break;
+                        }
+                    case 47: //Limited quantity
+                        {
+                            dg.IsLq = (segment == "LQ");
+                            count++;
+                            break;
+                        }
+                    case 48: //ProperShippingName
+                        {
+                            if (!segment.StartsWith("\"(")) break;
+                            dg.Name = ConvertNewLineSymbolsOfRecord
+                                (segment.Replace("\"(", "").Replace(")\"", ""));
+                            count++;
+                            break;
+                        }
+                    case 49: //Technical name
+                        {
+                            dg.TechnicalName = ConvertNewLineSymbolsOfRecord(segment);
+                            count++;
+                            break;
+                        }
+                    case 50: //IsNameChanged
+                        {
+                            dg.IsNameChanged = (segment == "Y");
+                            count++;
+                            break;
+
+                        }
+                    case 51: //IsTechnicalNameIncluded
+                        {
+                            dg.IsTechnicalNameIncluded = (segment == "Y");
+                            count++;
+                            break;
+
+                        }
+                    case 52: //Stowage category
+                        {
+                            dg.StowageCat = Char.Parse(segment.Replace("'", ""));
+                            count++;
+                            break;
+                        }
+                    case 53: //Max 1 l
+                        {
+                            dg.IsMax1L = int.Parse(segment) == 1;
+                            count++;
+                            break;
+                        }
+                    case 54: //IsWaste
+                        {
+                            dg.IsWaste = (segment == "W");
+                            count++;
+                            break;
+                        }
+                    case 55: //Ems
+                        {
+                            dg.DgEMS = segment;
+                            count++;
+                            break;
+                        }
+                    case 56: //Segregation group
+                        {
+                            dg.SegregationGroup = segment;
+                            count++;
+                            break;
+                        }
+                    case 57: //Packages
+                        {
+                            dg.NumberAndTypeOfPackages = ConvertNewLineSymbolsOfRecord(segment);
+                            count++;
+                            break;
+                        }
+                    case 58: //Emergency contacts
+                        {
+                            dg.EmergencyContacts = ConvertNewLineSymbolsOfRecord(segment);
+                            count++;
+                            break;
+                        }
+                    case 59: //Dg remarks
+                        {
+                            dg.Remarks = ConvertNewLineSymbolsOfRecord(segment);
+                            count++;
+                            break;
+                        }
+
+                    //In case there are more than one Dg in Container
+                    case 60:
+                        {
+                            if (segment.StartsWith("D:"))
+                            {
+                                AddDgToCargoPlan(dg, container, cargoPlan);
+                                count = 40;
+                                goto case 40;
+                            }
+                            break;
+                        }
+                    #endregion
+
+                    default:
+                        continue;
+                }
+
+            }
+
+            cargoPlan.Containers.Add(container);
+
+            if (count > 41)
+            {
+                AddDgToCargoPlan(dg, container, cargoPlan);
+            }
+
+        }
+
+        #region Old Versions of AddUnitToCargoPlan
         // -------------- VARIOUS VERSIONS OF EJC -----------------------------------
 
         /// <summary>
@@ -990,385 +1366,8 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                 AddDgToCargoPlan(dg, container, cargoPlan);
             }
         }
+        #endregion
 
-        /// <summary>
-        /// Parses a single line of .ejc and converts it into Container, Reefer and Dg and records to cargo plan
-        /// </summary>
-        /// <param name="line">The line will be parsed and converted into new instances</param>
-        /// <param name="cargoPlan">New instances will be recorded in the cargoPlan</param>
-        /// <param name="ship">Current ShipProfile</param>
-        private static void AddUnitToCargoPlanV090(string line, CargoPlan cargoPlan, ShipProfile ship = null)
-        {
-
-            string[] segmentArray = line.Split('|');
-            var container = new Container();
-            Dg dg = new Dg();
-            int count = 0;
-
-            foreach (var segment in segmentArray)
-            {
-                switch (count)
-                {
-                    #region Container
-                    case 0: //Container number
-                        {
-                            if (!segment.StartsWith("C:")) break;
-                            container.ContainerNumber = segment.Remove(0, 2);
-                            count++;
-                            break;
-                        }
-                    case 1: //Location
-                        {
-                            container.Location = segment;
-                            if (ship != null)
-                            {
-                                container.HoldNr = ship.DefineCargoHoldNumber(container.Bay);
-                            }
-                            count++;
-                            break;
-                        }
-                    case 2: //POL
-                        {
-                            container.POL = segment;
-                            count++;
-                            break;
-                        }
-                    case 3: //POD
-                        {
-                            container.POD = segment;
-                            count++;
-                            break;
-                        }
-                    case 4: //FinalDestination
-                        {
-                            container.FinalDestination = segment;
-                            count++;
-                            break;
-                        }
-                    case 5: //Carrier
-                        {
-                            container.Carrier = segment;
-                            count++;
-                            break;
-                        }
-                    case 6: //Type
-                        {
-                            container.ContainerType = segment;
-                            count++;
-                            break;
-                        }
-                    case 7: //IsClosed
-                        {
-                            container.IsClosed = segment != "O";
-                            count++;
-                            break;
-                        }
-                    case 8: //Container remarks
-                        {
-                            container.Remarks = ConvertNewLineSymbolsOfRecord(segment);
-                            count++;
-                            break;
-                        }
-                    case 9: //Old location
-                        {
-                            container.LocationBeforeRestow = segment;
-                            count++;
-                            break;
-                        }
-                    #endregion
-
-
-                    #region IUpdatable
-                    case 10: //IsLocked
-                        {
-                            if (segment.StartsWith("U:"))
-                            {
-                                container.IsPositionLockedForChange = int.Parse(segment.Remove(0, 2)) == 1;
-                                count++;
-                            }
-                            else throw new Exception("Condition file you're trying to read is possibly corrupt or wrong version");
-                            break;
-                        }
-                    case 11: //IsToBeKeptInPlan
-                        {
-                            container.IsToBeKeptInPlan = int.Parse(segment) == 1;
-                            count++;
-                            break;
-                        }
-                    case 12: //IsToImport
-                        {
-                            container.IsToImport = int.Parse(segment) == 1;
-                            count++;
-                            break;
-                        }
-                    case 13: //IsNotToImport
-                        {
-                            container.IsNotToImport = int.Parse(segment) == 1;
-                            count++;
-                            break;
-                        }
-                    case 14: //IsNewInPlan
-                        {
-                            container.IsNewUnitInPlan = int.Parse(segment) == 1;
-                            count++;
-                            break;
-                        }
-                    case 15: //HasLocationChanged
-                        {
-                            container.HasLocationChanged = int.Parse(segment) == 1;
-                            count++;
-                            break;
-                        }
-                    case 16: //HasUpdated
-                        {
-                            container.HasUpdated = int.Parse(segment) == 1;
-                            count++;
-                            break;
-                        }
-                    case 17: //HasPodChanged
-                        {
-                            container.HasPodChanged = int.Parse(segment) == 1;
-                            count++;
-                            break;
-                        }
-                    case 18: //HasContainerTypeChanged
-                        {
-                            container.HasContainerTypeChanged = int.Parse(segment) == 1;
-                            count++;
-                            break;
-                        }
-                    #endregion
-
-                    //reserved positions
-                    case 19:
-                        count = 20;
-                        goto case 20;
-
-                    #region case 20 Reefer (or Dg)
-                    //Reefer or Dg
-                    case 20: //Reefer: Set Point
-                        {
-                            //In case of reefer
-                            if (segment.StartsWith("R:"))
-                            {
-                                container.IsRf = true;
-                                container.ResetReefer();
-
-                                container.SetTemperature = double.Parse(segment.Remove(0, 2));
-
-                                count++;
-                            }
-
-                            //In case of Dg
-                            else if (segment.StartsWith("D:"))
-                            {
-                                count = 40;
-                                goto case 40;
-                            }
-
-                            break;
-                        }
-                    case 21: //Vent settings
-                        {
-                            container.VentSetting = segment;
-                            count++;
-                            break;
-                        }
-                    case 22: //Commodity
-                        {
-                            container.Commodity = ConvertNewLineSymbolsOfRecord(segment);
-                            count++;
-                            break;
-                        }
-                    case 23: //Loading temperature
-                        {
-                            container.LoadTemperature = double.Parse(segment);
-                            count++;
-                            break;
-                        }
-                    case 24: //Special
-                        {
-                            container.ReeferSpecial = ConvertNewLineSymbolsOfRecord(segment);
-                            count++;
-                            break;
-                        }
-                    case 25: //Reefer remark
-                        {
-                            container.ReeferRemark = ConvertNewLineSymbolsOfRecord(segment);
-
-                            cargoPlan.Reefers.Add(container);
-
-                            count++;
-                            break;
-                        }
-                    #endregion
-
-                    //reserved
-                    case 26:
-                        count = 40;
-                        goto case 40;
-
-                    #region Dg
-                    case 40: //Unno
-                        {
-                            if (segment.StartsWith("D:"))
-                            {
-                                dg = new Dg()
-                                {
-                                    Unno = ushort.Parse(segment.Remove(0, 2))
-                                };
-                                dg.AssignSegregationGroup();
-                                count++;
-                            }
-                            break;
-                        }
-                    case 41: //DgClass
-                        {
-                            dg.DgClass = segment;
-                            count++;
-                            break;
-                        }
-                    case 42: //DgSubClasses
-                        {
-                            dg.DgSubclass = segment;
-                            count++;
-                            break;
-                        }
-                    case 43: //Net weight
-                        {
-                            dg.DgNetWeight = decimal.Parse(segment);
-                            count++;
-                            break;
-                        }
-                    case 44: //Packing group
-                        {
-                            dg.PackingGroup = segment;
-                            count++;
-                            break;
-                        }
-                    case 45: //Flash point
-                        {
-                            dg.FlashPoint = segment;
-                            count++;
-                            break;
-                        }
-                    case 46: //Marine pollutant
-                        {
-                            dg.IsMp = (segment == "P");
-                            dg.mpDetermined = true;
-                            count++;
-                            break;
-                        }
-                    case 47: //Limited quantity
-                        {
-                            dg.IsLq = (segment == "LQ");
-                            count++;
-                            break;
-                        }
-                    case 48: //ProperShippingName
-                        {
-                            if (!segment.StartsWith("\"(")) break;
-                            dg.Name = ConvertNewLineSymbolsOfRecord
-                                (segment.Replace("\"(", "").Replace(")\"", ""));
-                            count++;
-                            break;
-                        }
-                    case 49: //Technical name
-                        {
-                            dg.TechnicalName = ConvertNewLineSymbolsOfRecord(segment);
-                            count++;
-                            break;
-                        }
-                    case 50: //IsNameChanged
-                        {
-                            dg.IsNameChanged = (segment == "Y");
-                            count++;
-                            break;
-
-                        }
-                    case 51: //IsTechnicalNameIncluded
-                        {
-                            dg.IsTechnicalNameIncluded = (segment == "Y");
-                            count++;
-                            break;
-
-                        }
-                    case 52: //Stowage category
-                        {
-                            dg.StowageCat = Char.Parse(segment.Replace("'", ""));
-                            count++;
-                            break;
-                        }
-                    case 53: //Max 1 l
-                        {
-                            dg.IsMax1L = int.Parse(segment) == 1;
-                            count++;
-                            break;
-                        }
-                    case 54: //IsWaste
-                        {
-                            dg.IsWaste = (segment == "W");
-                            count++;
-                            break;
-                        }
-                    case 55: //Ems
-                        {
-                            dg.DgEMS = segment;
-                            count++;
-                            break;
-                        }
-                    case 56: //Segregation group
-                        {
-                            dg.SegregationGroup = segment;
-                            count++;
-                            break;
-                        }
-                    case 57: //Packages
-                        {
-                            dg.NumberAndTypeOfPackages = ConvertNewLineSymbolsOfRecord(segment);
-                            count++;
-                            break;
-                        }
-                    case 58: //Emergency contacts
-                        {
-                            dg.EmergencyContacts = ConvertNewLineSymbolsOfRecord(segment);
-                            count++;
-                            break;
-                        }
-                    case 59: //Dg remarks
-                        {
-                            dg.Remarks = ConvertNewLineSymbolsOfRecord(segment);
-                            count++;
-                            break;
-                        }
-
-                    //In case there are more than one Dg in Container
-                    case 60:
-                        {
-                            if (segment.StartsWith("D:"))
-                            {
-                                AddDgToCargoPlan(dg, container, cargoPlan);
-                                count = 40;
-                                goto case 40;
-                            }
-                            break;
-                        }
-                    #endregion
-
-                    default:
-                        continue;
-                }
-
-            }
-
-            cargoPlan.Containers.Add(container);
-
-            if (count > 41)
-            {
-                AddDgToCargoPlan(dg, container, cargoPlan);
-            }
-
-        }
 
         // -------------- Supporting methods ----------------------------------------
 
@@ -1507,8 +1506,9 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         /// <returns>Original line without new line symbols.</returns>
         private static string RemoveNewLines(string line)
         {
-            return line.Replace("\n", "").Replace("\r", "");
+            return line?.Replace("\n", "").Replace("\r", "");
         }
+
 
         // -------------- Versions enumeration --------------------------------------
 
@@ -1521,6 +1521,27 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
             V08c,
             V089,
             V090
+        }
+
+        /// <summary>
+        /// Returns number of condition version in ConditionVersion enum
+        /// </summary>
+        /// <param name="version">input string</param>
+        /// <returns></returns>
+        private static byte DefineConditionVersion(string version)
+        {
+            switch (version)
+            {
+                case "0.8b":
+                    return (byte)ConditionVersion.V08b;
+                case "0.8c":
+                    return (byte)ConditionVersion.V08c;
+                case "0.89":
+                    return (byte)ConditionVersion.V089;
+                case "0.90":
+                default:
+                    return (byte)ConditionVersion.V090;
+            }
         }
     }
 }

@@ -12,12 +12,12 @@ namespace EasyJob_ProDG.UI.Services.DataServices
     {
         // ------------------------- Private fields ---------------------------------
 
-        readonly ICurrentProgramData _currentProgramData = new CurrentProgramData();
+        readonly ICurrentProgramData _currentProgramData = CurrentProgramData.GetCurrentProgramData();
         ShipProfile _ship;
         ShipProfileWrapper _shipWrapper;
 
 
-        // ------------------------- Public properties ------------------------------        
+        // ------------------------- Public properties ------------------------------
 
         // ------------------------- Public methods ---------------------------------
 
@@ -78,18 +78,18 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         {
             //Update ship with changed values from wrapper
             UpdateLoadedShipProfile();
+            EasyJob_ProDG.Data.ProgressBarReporter.ReportPercentage = 20;
 
             //Write ShipProfile on disk
             ProgramFiles.SaveShipProfile(_ship, _shipWrapper.ProfileName);
+            EasyJob_ProDG.Data.ProgressBarReporter.ReportPercentage = 50;
 
             //Call full data re-check in CargoPlan
             _currentProgramData.FullDataReCheck();
+            EasyJob_ProDG.Data.ProgressBarReporter.ReportPercentage = 80;
 
             //Sending notification message to DataMessenger
             DataMessenger.Default.Send(new ShipProfileWrapperMessage(), "ship profile saved");
-
-            //Message can be displayed as a test
-            //currentProgramData.TestShipProfile();
         }
 
         /// <summary>
@@ -121,8 +121,8 @@ namespace EasyJob_ProDG.UI.Services.DataServices
 
 
             _ship.NumberOfAccommodations = _shipWrapper.NumberOfAccommodations;
-            _ship.AccommodationBays.Clear();
-            _ship.Accommodation.Clear();
+            _ship.AccommodationBays?.Clear();
+            _ship.Accommodation?.Clear();
             foreach (var dummy in _shipWrapper.AccommodationBaysObservable)
             {
                 _ship.SetAccommodation(dummy.Bay);

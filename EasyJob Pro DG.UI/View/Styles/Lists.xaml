@@ -2,14 +2,5 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:EasyJob_ProDG.UI.View">
 
-    <!--Style of conflict messages (text blocks) displaying-->
-    <Style TargetType="ListBoxItem">
-        <Setter Property="Background" Value="DarkGray"></Setter>
-        <Style.Triggers>
-            <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="Yellow"></Setter>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
+  
 </ResourceDictionary>

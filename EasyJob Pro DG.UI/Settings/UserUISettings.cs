@@ -10,6 +10,7 @@ namespace EasyJob_ProDG.UI.Settings
         public bool Combine2040BaysWhenSorting { get; private set; }
         public byte LowestTierOnDeck { get; private set; }
 
+        #region ExcelTemplates
         //Excel
         private ExcelTemplate _excelTemplate;
         public ExcelTemplate ExcelTemplate
@@ -18,9 +19,17 @@ namespace EasyJob_ProDG.UI.Settings
             set { _excelTemplate = value; }
         }
 
+        private ExcelReeferTemplate _excelReeferTemplate;
+        public ExcelReeferTemplate ExcelReeferTemplate
+        {
+            get { if (_excelReeferTemplate == null) { _excelReeferTemplate = new ExcelReeferTemplate(); } return _excelReeferTemplate; }
+            set { _excelReeferTemplate = value; }
+        }
+        #endregion
 
-        // DgTable view settings
-        public bool IncludeTechnicalNameToProperShippingName { get; set; }
+
+
+        internal const string _FORMATDECIMAL = "# ### ##0.000";
 
 
         // -------------- Main methods ----------------------------------------------
@@ -37,6 +46,8 @@ namespace EasyJob_ProDG.UI.Settings
             Combine2040BaysWhenSorting = false;
             LowestTierOnDeck = 72;
             ExcelTemplate.ReadTemplate();
+            ExcelReeferTemplate.ApplyTemplate(Properties.Settings.Default.ExcelReeferTemplate);
+
         }
     }
 }

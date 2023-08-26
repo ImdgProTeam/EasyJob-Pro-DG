@@ -212,7 +212,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="dgFromImdgCode">Dg record from IMDG code from which classes will be copied.</param>
         private void UpdateDgClassAndSubclass(bool unitIsNew, Dg dgFromImdgCode)
         {
-            if (unitIsNew)
+            if (unitIsNew || string.IsNullOrEmpty(DgClass))
             {
                 DgClass = dgFromImdgCode.dgclass;
 
@@ -230,6 +230,7 @@ namespace EasyJob_ProDG.Model.Cargo
                                 "Caution! For correct assigning of dg class and subrisk of AEROSOLS " +
                                 "(UNNO 1950) in unit {0} refer to DG manifest and special provision 63 " +
                                 "of IMDG code Ch 3.", ContainerNumber);
+                        //TODO: Replace Output
                     }
                     //Unno 2037
                     else if (dgFromImdgCode.Unno == 2037)
@@ -241,7 +242,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     else differentClass = true;
                 }
             }
-                if (dgsubclass.Count == 0) DgSubclassArray = dgFromImdgCode.dgsubclass.ToArray();
+            if (dgsubclass.Count == 0) DgSubclassArray = dgFromImdgCode.dgsubclass.ToArray();
         }
 
         /// <summary>
@@ -251,7 +252,7 @@ namespace EasyJob_ProDG.Model.Cargo
         private void UpdateOtherInformation(Dg dgFromImdgCode)
         {
             packingGroup = packingGroup != 0 ? packingGroup : dgFromImdgCode.packingGroup;
-            if(string.IsNullOrEmpty(DgEMS)) DgEMS = dgFromImdgCode.DgEMS;
+            if (string.IsNullOrEmpty(DgEMS)) DgEMS = dgFromImdgCode.DgEMS;
             IsMp = mpDetermined ? IsMp : dgFromImdgCode.IsMp;
             special = dgFromImdgCode.special;
             stowageSW = dgFromImdgCode.stowageSW;
@@ -263,19 +264,5 @@ namespace EasyJob_ProDG.Model.Cargo
             OriginalNameFromCode = dgFromImdgCode.Name;
             Properties = dgFromImdgCode.Properties;
         }
-
-        ///// <summary>
-        ///// Set value IsStabilizedWordInProperShippingName to true, if word "Stabilized" contained in dg list
-        ///// </summary>
-        //private void SetStabilizedValueIfContainedInDgList()
-        //{
-        //    if (!Name.ToLower().Contains("stabilized"))
-        //    {
-        //        isStabilizedWordInProperShippingName = false;
-        //        return;
-        //    }
-        //    isStabilizedWordInProperShippingName = true;
-        //    isStabilizedWordAddedToProperShippingName = false;
-        //}
     }
 }

@@ -9,6 +9,7 @@ namespace EasyJob_ProDG.Model.Cargo
         // ---------- private fields --------------------------------
 
 
+        #region Public fields
         // ---------- public fields ---------------------------------
         public bool FailedStowage => StowageConflictsList?.Count > 0;
         public bool FailedSegregation => SegregationConflictsList?.Count > 0;
@@ -16,8 +17,10 @@ namespace EasyJob_ProDG.Model.Cargo
 
 
         public readonly List<string> StowageConflictsList;
-        public readonly List<SegregationConflict> SegregationConflictsList;
+        public readonly List<SegregationConflict> SegregationConflictsList; 
+        #endregion
 
+        #region Constructors
 
         // ---------- Constructor ----------------------------------
         public Conflicts()
@@ -26,14 +29,18 @@ namespace EasyJob_ProDG.Model.Cargo
             SegregationConflictsList = new List<SegregationConflict>();
         }
 
+        #endregion
+
+        #region Add/Replace conflict logic
+
         // --- Methods to add/remove/replace conflicts in the list ---
         public void AddStowConflict(string code)
         {
-            if(!StowageConflictsList.Contains(code)) StowageConflictsList.Add(code);
+            if (!StowageConflictsList.Contains(code)) StowageConflictsList.Add(code);
         }
         public void AddSegrConflict(string code, Dg unit)
         {
-            if(!Contains(code, unit)) SegregationConflictsList.Add(new SegregationConflict (code, unit));
+            if (!Contains(code, unit)) SegregationConflictsList.Add(new SegregationConflict(code, unit));
         }
 
         /// <summary>
@@ -60,8 +67,8 @@ namespace EasyJob_ProDG.Model.Cargo
 
                 //remove conflict from b
                 if (b.IsConflicted && b.Conflicts.Contains(a)) foreach (SegregationConflict bconf in b.Conflicts.SegregationConflictsList)
-                    if (bconf.ConflictContainerNr == a.ContainerNumber)
-                        b.Conflicts.SegregationConflictsList.Remove(bconf);
+                        if (bconf.ConflictContainerNr == a.ContainerNumber)
+                            b.Conflicts.SegregationConflictsList.Remove(bconf);
             }
         }
 
@@ -84,6 +91,30 @@ namespace EasyJob_ProDG.Model.Cargo
                 }
         }
 
+        /// <summary>
+        /// Finds all segregation conflicts and replaces their codes with the newCode on both conflicted units.
+        /// </summary>
+        /// <param name="dg">Dg to search segregation conflicts in.</param>
+        /// <param name="newCode">New code to be set for all conflicts.</param>
+        internal static void ReplaceAllSegregationConflicts(Dg dg, string newCode)
+        {
+            if (dg.Conflicts == null) return;
+
+            foreach (SegregationConflict conf in dg.Conflicts.SegregationConflictsList)
+            {
+                conf.Code = newCode;
+                foreach (SegregationConflict mutualConflict in conf.DgInConflict.Conflicts.SegregationConflictsList)
+                {
+                    if (mutualConflict.ConflictContainerNr == dg.ContainerNumber)
+                        mutualConflict.Code = newCode;
+                }
+            }
+        }
+
+
+        #endregion
+
+        #region Contains method logic
 
         // --------- Contains methods -------------------------------
         public bool Contains(Dg b)
@@ -118,16 +149,19 @@ namespace EasyJob_ProDG.Model.Cargo
                     return true;
             return false;
         }
+        #endregion
 
+
+        #region Display conflicts
 
         // --------- Methods to display conflicts ------------------
         public string ShowStowageConflicts()
         {
             string result = null;
-            foreach(string s in StowageConflictsList)
+            foreach (string s in StowageConflictsList)
             {
                 if (s.StartsWith("SW19") || s.StartsWith("SW22")) continue;
-                if(s.StartsWith("SW") || s.StartsWith("H"))
+                if (s.StartsWith("SW") || s.StartsWith("H"))
                 {
                     result += s + " " + CodesDictionary.Stowage[s] + ". ";
                 }
@@ -144,15 +178,15 @@ namespace EasyJob_ProDG.Model.Cargo
 
             foreach (SegregationConflict s in SegregationConflictsList)
             {
-                string  codeDiscr = s.Code.StartsWith("SGC") 
-                    ? CodesDictionary.ConflictCodes[s.Code] 
+                string codeDiscr = s.Code.StartsWith("SGC")
+                    ? CodesDictionary.ConflictCodes[s.Code]
                     : CodesDictionary.Segregation[s.Code];
-                result += s.ConflictContainerLocation 
-                          +" (class " + s.ConflictContainerClassStr 
+                result += s.ConflictContainerLocation
+                          + " (class " + s.ConflictContainerClassStr
                           + (s.ConflictContainerClassStr == "Reefer"
                               ? ""
-                              : (" unno " + s.ConflictContainerUnno)) 
-                          + ") " + s.Code + " - " + codeDiscr+"\n";
+                              : (" unno " + s.ConflictContainerUnno))
+                          + ") " + s.Code + " - " + codeDiscr + "\n";
             }
             return result;
         }
@@ -173,6 +207,10 @@ namespace EasyJob_ProDG.Model.Cargo
                    (FailedSegregation ? ($"segregation " + temp) : "");
         }
 
+        #endregion
+
+
+        #region SegregationConflict class
         // --------- Supporting class Segregstion Conflict ---------
         public class SegregationConflict
         {
@@ -185,7 +223,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
             internal SegregationConflict(string code, Dg unit)
             {
-                string subclass="";
+                string subclass = "";
                 Code = code;
                 DgInConflict = unit;
                 ConflictContainerNr = unit.ContainerNumber;
@@ -197,5 +235,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 ConflictContainerClassStr = unit.DgClass + subclass;
             }
         }
+
+        #endregion
     }
 }

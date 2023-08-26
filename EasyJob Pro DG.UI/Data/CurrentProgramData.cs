@@ -14,62 +14,77 @@ using EasyJob_ProDG.Model.Transport;
 using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Wrapper;
-using System.Text;
-using System.Windows;
-using System.Xml.Linq;
-using EasyJob_ProDG.UI.View.UI;
+
 
 namespace EasyJob_ProDG.UI.Data
 {
     public class CurrentProgramData : ICurrentProgramData
     {
+        #region Private fields
         // ----------- Private fields --------- ----------------------------------------
 
         private static CargoPlan _workingCargoPlan;
-        private static XDocument _dgDataBase;
-        private static IShipProfileDataService _shipProfileDataService;
+        private static System.Xml.Linq.XDocument _dgDataBase;
+        private static IShipProfileDataService _shipProfileDataService; 
 
+        #endregion
+
+        #region Public program files
         // ----------- Public use program files ----------------------------------------
 
         public static ShipProfile OwnShip;
-        public string ConditionFileName => OpenFile.FileName;
+        #endregion
 
+        #region Public properties
         // ----------- Public properties to be used in view ----------------------------
 
         public static ConflictsList Conflicts = new ConflictsList();
         public static VentilationRequirements Vents = new VentilationRequirements();
         public static CargoPlanWrapper WorkingCargoPlan;
+
+        /// <summary>
+        /// Current working condition file name
+        /// </summary>
+        public string ConditionFileName { get; private set; } 
+
         public ShipProfileDataService ShipProfileDataService
         {
             get => (ShipProfileDataService)_shipProfileDataService;
             set => _shipProfileDataService = value;
-        }
+        } 
+
+        #endregion
 
 
+        #region Public methods
         // ----------- Public methods --------------------------------------------------
 
         /// <summary>
         /// Connects DgDataBase, ShipProfile. Initiates EventSupervisor.
         /// </summary>
-        public void ConnectProgramFiles()
+        public bool ConnectProgramFiles()
         {
-            ////Connect program files
-            ProgramFiles.Connect(out OwnShip, out _dgDataBase);
-
             //Initiate EventSupervisor
             EventSupervisor evS = new EventSupervisor();
+
+            ////Connect program files
+            return ProgramFiles.Connect(out OwnShip, out _dgDataBase);
         }
 
         /// <summary>
-        /// DEFAULT CONDITION TO BE CHANGED
         /// Loads default cargo plan, checks it and generates wrappers and conflicts.
         /// </summary>
         public void LoadData()
         {
-            string openPath = ((MainWindow)Application.Current.MainWindow)?.StartupFilePath;
+            string openPath = ((View.UI.MainWindow)System.Windows.Application.Current.MainWindow)?.StartupFilePath;
 
-            //FILE TO BE CHANGED
-            if (!CreateWorkingCargoPlan(openPath ?? "Working cargo plan.ejc")) return;
+            if (!CreateWorkingCargoPlan(openPath ?? Properties.Settings.Default.WorkingCargoPlanFile))
+            {
+                EasyJob_ProDG.Data.LogWriter.Write("Blank condition will be created.");
+                _workingCargoPlan = new CargoPlan();
+                WorkingCargoPlan = new CargoPlanWrapper(_workingCargoPlan);
+                ConditionFileName = "Blank";
+            }
         }
 
         /// <summary>
@@ -93,7 +108,7 @@ namespace EasyJob_ProDG.UI.Data
         /// <param name="unit"></param>
         public void ReCheckDgWrapperStowage(DgWrapper unit)
         {
-            if(unit == null) return;
+            if (unit == null) return;
             ReCheckDgStowage(unit.Model, WorkingCargoPlan.Model);
 
             Conflicts.UpdateDgWrapperStowageConfilicts(unit);
@@ -117,7 +132,11 @@ namespace EasyJob_ProDG.UI.Data
         public void FullDataReCheck()
         {
             OnShipProfileSavedUpdates();
-            //ReCheckDgWrapperList();
+        }
+
+        public void LoadBlankCargoPlan()
+        {
+            CreateBlankCargoPlan();
         }
 
         /// <summary>
@@ -142,21 +161,9 @@ namespace EasyJob_ProDG.UI.Data
             SaveOnExecuted(fileName);
         }
 
-        /// <summary>
-        /// Opens new condition file and updates current condition highlighting the changes
-        /// </summary>
-        /// <param name="fileName">Readable file with full path</param>
-        /// <returns>True if updated successfully</returns>
-        public bool UpdateWithNewFile(string fileName)
+        public bool ImportReeferManifestInfo(string file, bool importOnlySelected = false, string currentPort = null)
         {
-            return UpdatedOnExecuted(fileName);
-        }
-
-
-
-        public void SaveWorkingCondition()
-        {
-
+            return ImportReeferManifestInfoOnExecuted(file, importOnlySelected, currentPort);
         }
 
         /// <summary>
@@ -166,10 +173,24 @@ namespace EasyJob_ProDG.UI.Data
         public void ExportDgListToExcel(CargoPlanWrapper cargoPlan)
         {
             Model.IO.Excel.WithXl.Export(cargoPlan.ExtractPocoDgList());
-        }
+        } 
+
+        #endregion
 
 
+        #region Private methods
         // ----------- Private methods --------------------------------------------------
+
+        /// <summary>
+        /// Creates new CargoPlan with no cargo in it.
+        /// </summary>
+        private void CreateBlankCargoPlan()
+        {
+            _workingCargoPlan = new CargoPlan();
+            WorkingCargoPlan?.Destructor();
+            WorkingCargoPlan = new CargoPlanWrapper(_workingCargoPlan);
+            Conflicts.Clear();
+        }
 
         /// <summary>
         /// Reads a file and creates cargo plan, wrappers, checks them and generates conflicts.
@@ -194,19 +215,21 @@ namespace EasyJob_ProDG.UI.Data
             Conflicts.CreateConflictList(WorkingCargoPlan.DgList);
             Vents.Check();
 
+            ConditionFileName = OpenFile.FileName;
+
             return true;
         }
 
         /// <summary>
-        /// 
+        /// Imports manifest info from excel file and updates Reefers with its data..
         /// </summary>
-        /// <param name="file"></param>
+        /// <param name="file">Excel file path containing manifest info.</param>
+        /// <param name="importOnlySelected">If selected, then import only selected reefers info.</param>
+        /// <param name="currentPort">If not null (by default null), then only current POL reefers will be updated.</param>
         /// <returns></returns>
-        private bool UpdateWorkingCargoPlan(string file)
+        private bool ImportReeferManifestInfoOnExecuted(string file, bool importOnlySelected, string currentPort)
         {
-            _workingCargoPlan = new CargoPlan();//WorkingCargoPlan.Model.UpdateCargoPlan(file, OwnShip, _dgDataBase);
-            ReCheckDgList(_workingCargoPlan);
-            return true;
+            return _workingCargoPlan.ImportReeferManifestInfoFromExcel(file, importOnlySelected, currentPort);
         }
 
         /// <summary>
@@ -282,9 +305,6 @@ namespace EasyJob_ProDG.UI.Data
             }
         }
 
-
-        // ---------------- Delegates and events and their methods --------------------------------
-
         /// <summary>
         /// Catching exceptions while creating new CargoPlan from file.
         /// </summary>
@@ -299,7 +319,9 @@ namespace EasyJob_ProDG.UI.Data
             try
             {
 #endif
-            return CreateWorkingCargoPlan(file, openOption, importOnlySelected, currentPort);
+            bool result = CreateWorkingCargoPlan(file, openOption, importOnlySelected, currentPort);
+            ConditionFileName = OpenFile.FileName;
+            return result;
 #if !DEBUG
         }
             catch
@@ -309,28 +331,16 @@ namespace EasyJob_ProDG.UI.Data
 #endif
         }
 
-        /// <summary>
-        /// Catching exceptions while updating cargo plan from file
-        /// </summary>
-        /// <param name="file">Readable file with full path</param>
-        /// <returns>True if updated successfully</returns>
-        private bool UpdatedOnExecuted(string file)
-        {
-            try
-            {
-                return UpdateWorkingCargoPlan(file);
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         private void SaveOnExecuted(string fileName)
         {
             ExportCondition.SaveFile(_workingCargoPlan, fileName);
-        }
+            ConditionFileName = OpenFile.FileName;
+        } 
 
+        #endregion
+
+
+        #region Get data methods
 
         // ---------------- Get data methods ------------------------------------------------------
 
@@ -354,91 +364,33 @@ namespace EasyJob_ProDG.UI.Data
             return OwnShip;
         }
 
-        public XDocument GetDgDataBase()
+        public System.Xml.Linq.XDocument GetDgDataBase()
         {
             return _dgDataBase;
-        }
+        } 
+
+        #endregion
 
 
-        // ---------------- Various not in use methods ------------------------------------------
-
-        /// <summary>
-        /// Method created to test changes in ShipProfileVM
-        /// </summary>
-        public void TestShipProfile()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Ship name: " + OwnShip.ShipName);
-            sb.AppendLine("Call sign: " + OwnShip.CallSign);
-            sb.AppendLine("Number of holds: " + OwnShip.NumberOfHolds);
-            sb.AppendLine("Reefer facing: " + OwnShip.RfMotor);
-            sb.AppendLine("Row 00: " + OwnShip.Row00Exists);
-            sb.AppendLine("Passenger " + OwnShip.Passenger);
-            sb.AppendLine("Number of accommodations: " + OwnShip.NumberOfAccommodations);
-            int i = 0;
-            foreach (var record in OwnShip.Holds)
-            {
-                sb.AppendLine("Hold " + i + " bays: " + record.FirstBay + " " + record.LastBay);
-                i++;
-            }
-            string message = "";
-            foreach (var record in OwnShip.AccommodationBays)
-            {
-                message += record + " ";
-            }
-            sb.AppendLine("Accommodation bays: " + message);
-            message = "";
-            foreach (var record in OwnShip.Accommodation)
-            {
-                message += record + " ";
-            }
-            sb.AppendLine("Accommodation bays: " + message);
-            sb.AppendLine("Seasides: ");
-            foreach (var record in OwnShip.SeaSides)
-            {
-                sb.AppendLine(record.Bay + " " + record.PortMost + " " + record.StarboardMost);
-            }
-            sb.AppendLine("Living quarters: ");
-            foreach (var record in OwnShip.LivingQuartersList)
-            {
-                sb.AppendLine(record.ToString());
-            }
-            sb.AppendLine("HeatedStructures: ");
-            foreach (var record in OwnShip.HeatedStructuresList)
-            {
-                sb.AppendLine(record.ToString());
-            }
-            sb.AppendLine("LSA: ");
-            foreach (var record in OwnShip.LSAList)
-            {
-                sb.AppendLine(record.ToString());
-            }
-            sb.AppendLine("DOC:");
-            for (byte h = 0; h < OwnShip.Doc.NumberOfRows; h++)
-            {
-                sb.AppendLine("Hold " + h);
-                for (byte c = 0; c < OwnShip.Doc.NumberOfClasses; c++)
-                {
-                    sb.Append(OwnShip.Doc.DOCtable[h, c] + " ");
-                }
-                sb.AppendLine();
-            }
-
-            //ship.Doc = ship.Doc;
-            //ship.ErrorList = shipWrapper.ErrorList;
-
-            MessageBox.Show(sb.ToString());
-        }
-
-
+        #region Constructors and Singleton
         // ---------------- Constructors --------------------------------------------------------
 
         /// <summary>
         /// Empty constructor
         /// </summary>
-        public CurrentProgramData()
+        private CurrentProgramData()
         {
-            // Empty constructor
+
         }
+
+        private static CurrentProgramData instance = null;
+        public static CurrentProgramData GetCurrentProgramData()
+        {
+            if (instance == null)
+                instance = new CurrentProgramData();
+            return instance;
+        } 
+
+        #endregion
     }
 }

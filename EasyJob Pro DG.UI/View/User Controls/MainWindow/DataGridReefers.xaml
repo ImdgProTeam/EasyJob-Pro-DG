@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
+             xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties" 
+             xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:behaviors="clr-namespace:EasyJob_ProDG.UI.Behaviors"
              xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters" xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
              mc:Ignorable="d"
@@ -18,36 +20,73 @@
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
             <cc:SearchBox Text="{Binding TextToFilter}"/>
-
         </StackPanel>
 
-        <DataGrid x:Name="MainContainerDataTable"
+        <StackPanel DockPanel.Dock="Bottom"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+
+            <Button Content="Add"
+                    Command="{Binding DisplayAddReeferMenuCommand}"
+                    Width="100"
+                    Margin="1" />
+            <Button Content="To Excel"
+                    Click="ExportToExcel"
+                    Width="100"
+                    Margin="1" />
+        </StackPanel>
+
+        <!-- Add reefer -->
+        <local:AddContainerToDataGrid 
+            Title="Add Reefer container |"
+            IsAddDg="False"
+            Visibility="{Binding MenuVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            ContainerNumber="{Binding ReeferToAddNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Location="{Binding ReeferToAddLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            CanUserAdd="{Binding CanUserAddReefer, UpdateSourceTrigger=PropertyChanged}"
+            DockPanel.Dock="Bottom">
+            <behavior:Interaction.Triggers>
+                <behavior:EventTrigger EventName="AddItem">
+                    <behavior:InvokeCommandAction Command="{Binding AddNewReeferCommand}"/>
+                </behavior:EventTrigger>
+            </behavior:Interaction.Triggers>
+        </local:AddContainerToDataGrid>
+
+        <DataGrid x:Name="MainReeferDataTable"
                   ItemsSource="{Binding ReeferPlanView}"
                   SelectedItem="{Binding SelectedReefer, Mode=TwoWay}"
                   IsSynchronizedWithCurrentItem="True"
-                  FrozenColumnCount="0"
                   AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserSortColumns="True"
+                  
+                  FrozenColumnCount="0"
                   ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.IsDeferredScrollingEnabled="False"
                   EnableRowVirtualization="True"
                   VirtualizingPanel.IsContainerVirtualizable="True"
                   VirtualizingPanel.IsVirtualizing="True"
-                  VirtualizingPanel.VirtualizationMode="Standard"
-                  VirtualizingPanel.ScrollUnit="Pixel"
-                  CanUserAddRows="True"
+                  VirtualizingPanel.VirtualizationMode="Recycling"
+                  VirtualizingPanel.ScrollUnit="Item"
+                  
                   HeadersVisibility="All"
                   AlternationCount="2"
+                  GridLinesVisibility="None"
                   Background="{StaticResource Brush.ReeferTable.Background}"
                   RowBackground="Transparent"
                   AlternatingRowBackground="{StaticResource Brush.DgTable.AlternateRow}"
-                  Opacity="0.6"
+                  Opacity="1"
                   Grid.Column="0"
                   Grid.Row="0"
                   SelectionMode="Extended"
-                  behaviors:DataGridBehavior.DisplayRowNumber="True">
-
+                  ap:SelectingContainerDataGridItem.SelectingItem="{Binding SelectedReefer}"
+                  behaviors:DataGridBehavior.DisplayRowNumber="True"
+                  PreviewKeyDown="MainReeferDataTable_PreviewKeyDown"
+                  UnloadingRow="MainReeferDataTable_UnloadingRow"
+                  >
 
             <DataGrid.Resources>
-                
+
                 <ContextMenu x:Key="DataGridReefersColumnHeaderContextMenu"
                              DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}"
                              ItemsSource="{Binding Columns, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}">
@@ -79,14 +118,23 @@
                             Value="{StaticResource DataGridReefersColumnHeaderContextMenu}" />
                 </Style>
 
+                <!-- CheckBox style -->
+                <Style TargetType="{x:Type CheckBox}">
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
+                
+                <!-- Cell style -->
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="TextBlock.TextAlignment" Value="Right"/>
+                    <Setter Property="Padding" Value="10,1"/>
+                </Style>                
+                
+
+                <!-- Selection color -->
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                 Color="{StaticResource Color.DgTable.HighlightRow}" />
 
             </DataGrid.Resources>
-
-            <DataGrid.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel/>
-                </ItemsPanelTemplate>
-            </DataGrid.ItemsPanel>
 
             <!-- Columns -->
             <DataGrid.Columns>
@@ -95,11 +143,7 @@
                 <DataGridTextColumn x:Name="positionColumn"
                                     Binding="{Binding Location, UpdateSourceTrigger=LostFocus}"
                                     Header="Position"
-                                    CanUserSort="True"
                                     SortMemberPath="LocationSortable">
-                    <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[0].Width, Mode=TwoWay}"
-                                DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[0].DisplayIndex, Mode=TwoWay, FallbackValue=0}"
-                                Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[0].Visibility, Mode=TwoWay}">-->
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <!--<Setter Property="TextBox.TextAlignment"
@@ -113,11 +157,7 @@
                 <!-- Is under deck -->
                 <DataGridTemplateColumn x:Name="isUnderdeckColumn"
                                         Header="Is under deck"
-                                        CanUserSort="True"
                                         SortMemberPath="IsUnderdeck">
-                    <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].Width, Mode=TwoWay}"
-                                        DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].DisplayIndex, Mode=TwoWay, FallbackValue=11}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].Visibility, Mode=TwoWay}">-->
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=IsUnderdeck, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -131,50 +171,31 @@
                                     Binding="{Binding ContainerNumber, UpdateSourceTrigger=LostFocus}"
                                     Header="Container number"
                                     MinWidth="100" />
-                <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[1].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[1].DisplayIndex, Mode=TwoWay, FallbackValue=1}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[1].Visibility, Mode=TwoWay}" />-->
 
                 <!-- Carrier -->
                 <DataGridTextColumn x:Name="carrierColumn"
                                     Binding="{Binding Carrier, UpdateSourceTrigger=LostFocus}"
                                     Header="Operator" />
-                <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].DisplayIndex, Mode=TwoWay, FallbackValue=39}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].Visibility, Mode=TwoWay}" /-->
 
                 <!-- POL -->
                 <DataGridTextColumn x:Name="polColumn"
                                     Binding="{Binding POL, UpdateSourceTrigger=LostFocus}"
                                     Header="POL" />
-                <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[2].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[2].DisplayIndex, Mode=TwoWay, FallbackValue=2}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[2].Visibility, Mode=TwoWay}" />-->
 
                 <!-- POD -->
                 <DataGridTextColumn x:Name="podColumn"
                                     Binding="{Binding POD, UpdateSourceTrigger=LostFocus}"
                                     Header="POD" />
-                <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[3].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[3].DisplayIndex, Mode=TwoWay, FallbackValue=3}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[3].Visibility, Mode=TwoWay}" />-->
 
                 <!-- Final destination -->
                 <DataGridTextColumn x:Name="finalDestinationColumn"
                                     Binding="{Binding FinalDestination, UpdateSourceTrigger=LostFocus}"
                                     Header="Final destination" />
-                <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].DisplayIndex, Mode=TwoWay, FallbackValue=38}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].Visibility, Mode=TwoWay}" />-->
 
                 <!-- Contains Dg cargo -->
                 <DataGridTemplateColumn x:Name="containsDgColumn"
                                         Header="Contains Dg cargo"
-                                        CanUserSort="True"
                                         SortMemberPath="ContainsDgCargo">
-                    <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].Width, Mode=TwoWay}"
-                                        DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].DisplayIndex, Mode=TwoWay, FallbackValue=11}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].Visibility, Mode=TwoWay}">-->
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=ContainsDgCargo, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -185,7 +206,7 @@
 
                 <!-- Set point -->
                 <DataGridTextColumn x:Name="setPointColumn"
-                                    Binding="{Binding SetTemperature, UpdateSourceTrigger=LostFocus}"
+                                    Binding="{Binding SetTemperature, UpdateSourceTrigger=LostFocus, StringFormat=0.0}"
                                     Header="Set point" />
 
                 <!-- Commodity -->
@@ -193,9 +214,6 @@
                                     Header="Commodity"
                                     FocusManager.FocusedElement="{Binding ElementName=txbName}"
                                     Binding="{Binding Commodity, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
-                    <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Width, Mode=TwoWay}"
-                                DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].DisplayIndex, Mode=TwoWay, FallbackValue=7}"
-                                Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Visibility, Mode=TwoWay}"-->
 
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -220,9 +238,6 @@
                                     Header="Vent"
                                     FocusManager.FocusedElement="{Binding ElementName=txbName}"
                                     Binding="{Binding VentSetting, UpdateSourceTrigger=LostFocus}">
-                    <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Width, Mode=TwoWay}"
-                                DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].DisplayIndex, Mode=TwoWay, FallbackValue=7}"
-                                Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Visibility, Mode=TwoWay}"-->
 
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -252,9 +267,6 @@
                                     Header="Special"
                                     FocusManager.FocusedElement="{Binding ElementName=txbName}"
                                     Binding="{Binding ReeferSpecial, UpdateSourceTrigger=LostFocus}">
-                    <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Width, Mode=TwoWay}"
-                                DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].DisplayIndex, Mode=TwoWay, FallbackValue=7}"
-                                Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Visibility, Mode=TwoWay}"-->
 
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -276,12 +288,9 @@
 
                 <!-- Reefer remark -->
                 <DataGridTextColumn x:Name="remarkColumn"
-                                    Header="Remarks"
+                                    Header="Remark"
                                     FocusManager.FocusedElement="{Binding ElementName=txbName}"
                                     Binding="{Binding ReeferRemark, UpdateSourceTrigger=LostFocus}">
-                    <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Width, Mode=TwoWay}"
-                                DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].DisplayIndex, Mode=TwoWay, FallbackValue=7}"
-                                Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[7].Visibility, Mode=TwoWay}"-->
 
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -304,7 +313,6 @@
                 <!-- isLocked -->
                 <DataGridTemplateColumn x:Name="isLockedColumn"
                                         Header="Is Locked"
-                                        CanUserSort="True"
                                         SortMemberPath="IsPositionLockedForChange">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -313,10 +321,31 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
+                <!-- isToImport -->
+                <DataGridTemplateColumn x:Name="isToImport"
+                                        Header="Import"
+                                        SortMemberPath="IsToImport">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- isNotToImport -->
+                <DataGridTemplateColumn x:Name="isNotToImport"
+                                        Header="Not to import"
+                                        SortMemberPath="IsToNotImport">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsNotToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
                 <!-- isToBeKeptInPlan -->
                 <DataGridTemplateColumn x:Name="isToBeKept"
                                         Header="To be kept in plan"
-                                        CanUserSort="True"
                                         SortMemberPath="IsToBeKeptInPlan">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -329,7 +358,6 @@
                 <DataGridTemplateColumn x:Name="locationChangedColumn"
                                         Header="Location changed"
                                         IsReadOnly="True"
-                                        CanUserSort="True"
                                         SortMemberPath="HasLocationChanged">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -356,7 +384,6 @@
                 <DataGridTemplateColumn x:Name="newUnitColumn"
                                         Header="Is New in plan"
                                         IsReadOnly="True"
-                                        CanUserSort="True"
                                         SortMemberPath="IsNewUnitInPlan">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -369,7 +396,6 @@
                 <!-- HasPodChanged -->
                 <DataGridTemplateColumn x:Name="hasPodChangedColumn"
                                         Header="POD changed"
-                                        CanUserSort="True"
                                         SortMemberPath="HasPodChanged"
                                         IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
@@ -384,16 +410,30 @@
                 <DataGridTemplateColumn x:Name="hasContainerTypeChangedColumn"
                                         Header="Type changed"
                                         IsReadOnly="True"
-                                        CanUserSort="True"
                                         SortMemberPath="HasContainerTypeChanged">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding HasContainerTypeChanged, Mode=OneWay}" />
+                            <CheckBox IsChecked="{Binding HasContainerTypeChanged, Mode=OneWay}" 
+                                      IsEnabled="False"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
             </DataGrid.Columns>
+
+            <!-- BEHAVIORS -->
+            <behavior:Interaction.Triggers>
+                <behavior:EventTrigger EventName="SelectionChanged">
+                    <behavior:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
+                </behavior:EventTrigger>
+            </behavior:Interaction.Triggers>
+
+            <!-- INPUT BINDINGS -->
+            <DataGrid.InputBindings>
+                <KeyBinding Key="Delete"
+                            Command="{Binding DeleteReefersCommand}"
+                            CommandParameter="{Binding ElementName=MainReeferDataTable, Path=SelectedItems}" />
+            </DataGrid.InputBindings>
         </DataGrid>
     </DockPanel>
 </UserControl>

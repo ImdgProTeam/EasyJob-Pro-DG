@@ -61,10 +61,10 @@
     <ApplicationIcon>imdg1.good.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>995773992F1359DC75985927692F79A4CD3BC0E7</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>5A68D8808ABAC358F067C0B6BFCCE1ACE171CF66</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>EasyJob ProDG.UI_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>EasyJob ProDG.UI_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -111,9 +111,39 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Compile Include="Behaviors\DataGridBehaviors.cs" />
-    <Compile Include="Behaviors\SelectTextOnFocusBehavior.cs" />
-    <Compile Include="Behaviors\TakeFocusAndSelectTextOnVisibleBehavior.cs" />
+    <Compile Include="Services\DialogServices\IWindowDialogService.cs" />
+    <Compile Include="Utility\AsyncObservableCollection.cs" />
+    <Compile Include="ViewModel\MainWindow\MainWindowCommands.cs" />
+    <Compile Include="View\Animations\FrameworkElementAnimations.cs" />
+    <Compile Include="View\AttachedProperties\FrameworkElementsAnimationAttachedProperties.cs" />
+    <Compile Include="View\DialogWindows\Info\LicenceAgreement.xaml.cs">
+      <DependentUpon>LicenceAgreement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogWindows\Info\LicenceAgreementViewModel.cs" />
+    <Compile Include="View\DialogWindows\Info\WelcomeWindow.xaml.cs">
+      <DependentUpon>WelcomeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogWindows\Info\WelcomeWindowVM.cs" />
+    <Compile Include="View\DialogWindows\Info\WinAboutViewModel.cs" />
+    <Compile Include="View\DialogWindows\Summaries\CargoReportViewModel.cs" />
+    <Compile Include="View\DialogWindows\Summaries\Supporting classes\DataTableHelpers.cs" />
+    <Compile Include="View\DialogWindows\Summaries\DgSummaryReport.xaml.cs">
+      <DependentUpon>DgSummaryReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogWindows\Summaries\DgSummaryReportViewModel.cs" />
+    <Compile Include="View\DialogWindows\Summaries\PortToPortReport.xaml.cs">
+      <DependentUpon>PortToPortReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogWindows\Summaries\PortToPortReportViewModel.cs" />
+    <Compile Include="View\DialogWindows\Summaries\Supporting classes\SingleClassReportValue.cs" />
+    <Compile Include="View\DialogWindows\Summaries\Supporting classes\SinglePortClassReportValue.cs" />
+    <Compile Include="View\DialogWindows\Summaries\Supporting classes\ReportDisplayPort.cs" />
+    <Compile Include="View\DialogWindows\Summaries\Supporting classes\SinglePortReportValue.cs" />
+    <Compile Include="View\DialogWindows\Summaries\Supporting classes\PortValues.cs" />
+    <Compile Include="View\Behaviors\DataGridBehaviors.cs" />
+    <Compile Include="View\Behaviors\SelectTextOnFocusBehavior.cs" />
+    <Compile Include="View\Behaviors\TakeFocusAndSelectTextOnVisibleBehavior.cs" />
+    <Compile Include="Data\DataHelper.cs" />
     <Compile Include="Data\DialogSaveFile.cs" />
     <Compile Include="Data\DialogOpenFile.cs" />
     <Compile Include="Data\CurrentProgramData.cs" />
@@ -121,10 +151,13 @@
     <Compile Include="for experiments 2.xaml.cs">
       <DependentUpon>for experiments 2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Security\IHavePassword.cs" />
+    <Compile Include="Security\SecureStringHelpers.cs" />
     <Compile Include="Services\DialogServices\IDialogWindowRequestClose.cs" />
     <Compile Include="Services\FirstStartServices\ExtensionRegistryHelper.cs" />
     <Compile Include="Services\FirstStartServices\FirstStartService.cs" />
     <Compile Include="Utility\ExportDataGridToExcel.cs" />
+    <Compile Include="Utility\ExtensionMethods.cs" />
     <Compile Include="Utility\Messages\ApplicationClosingMessage.cs" />
     <Compile Include="Utility\Messages\CancelChangesMessage.cs" />
     <Compile Include="Utility\Messages\ConflictListToBeUpdatedMessage.cs" />
@@ -140,10 +173,10 @@
     <Compile Include="Services\DataServices\ILoadDataService.cs" />
     <Compile Include="Services\DataServices\ITitleService.cs" />
     <Compile Include="Services\DataServices\TitleService.cs" />
-    <Compile Include="Services\DialogServices\DialogWindowService.cs" />
+    <Compile Include="Services\DialogServices\MappedDialogWindowService.cs" />
     <Compile Include="Services\DialogServices\IDialogWindow.cs" />
     <Compile Include="Services\DialogServices\DialogWindowCloseRequestedEventArgs.cs" />
-    <Compile Include="Services\DialogServices\IDialogWindowService.cs" />
+    <Compile Include="Services\DialogServices\IMappedDialogWindowService.cs" />
     <Compile Include="Services\ISettingsService.cs" />
     <Compile Include="Services\DataServices\IShipProfileDataService.cs" />
     <Compile Include="Services\Log\LogService.cs" />
@@ -160,40 +193,57 @@
     <Compile Include="Utility\Messages\UpdateCargoPlan.cs" />
     <Compile Include="Utility\NotifyDataErrorInfoBase.cs" />
     <Compile Include="Utility\ViewModelLocator.cs" />
-    <Compile Include="ViewModel\ConflictPanelItemVM.cs" />
+    <Compile Include="ViewModel\MainWindow\ConflictPanelItemVM.cs" />
     <Compile Include="Data\ConflictsList.cs" />
-    <Compile Include="ViewModel\ConflictsListViewModel.cs" />
-    <Compile Include="ViewModel\DataGridContainersViewModel.cs" />
-    <Compile Include="ViewModel\DataGridDgViewModel.cs" />
+    <Compile Include="ViewModel\MainWindow\ConflictsListViewModel.cs" />
+    <Compile Include="ViewModel\MainWindow\DataGridContainersViewModel.cs" />
+    <Compile Include="ViewModel\MainWindow\DataGridDgViewModel.cs" />
     <Compile Include="for experiments.xaml.cs">
       <DependentUpon>for experiments.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\DgWrapperList.cs" />
-    <Compile Include="ViewModel\DataGridReefersViewModel.cs" />
-    <Compile Include="ViewModel\IConflictListViewModel.cs" />
+    <Compile Include="ViewModel\MainWindow\DataGridReefersViewModel.cs" />
+    <Compile Include="ViewModel\MainWindow\IConflictListViewModel.cs" />
     <Compile Include="Data\VentilationRequirements.cs" />
     <Compile Include="Utility\Observable.cs" />
     <Compile Include="Services\DialogServices\WindowDialogService.cs" />
     <Compile Include="Services\DataServices\CargoDataService.cs" />
     <Compile Include="Services\DataServices\ICargoDataService.cs" />
-    <Compile Include="ViewModel\SettingsWindowVM.cs" />
-    <Compile Include="ViewModel\ShipProfileWindowVM.cs" />
-    <Compile Include="ViewModel\StatusBarViewModel.cs" />
+    <Compile Include="ViewModel\Settings\SettingsWindowVM.cs" />
+    <Compile Include="ViewModel\Settings\ShipProfileWindowVM.cs" />
+    <Compile Include="ViewModel\MainWindow\StatusBarViewModel.cs" />
+    <Compile Include="View\Animations\AnimationTypes.cs" />
+    <Compile Include="View\Animations\StoryboardHelpers.cs" />
+    <Compile Include="View\Animations\DialogWindowAnimations.cs" />
+    <Compile Include="View\Animations\UserControlAnimations.cs" />
     <Compile Include="View\AttachedProperties\EnterKeyTraversal.cs" />
+    <Compile Include="View\AttachedProperties\PasswordBoxProperties.cs" />
+    <Compile Include="View\AttachedProperties\SelectingContainerDataGridItem.cs" />
     <Compile Include="View\AttachedProperties\SelectingDgDataGridItem.cs" />
     <Compile Include="View\Converters\AnyCellToNullConverter.cs" />
     <Compile Include="View\Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="View\Converters\boolToNegativeConverter.cs" />
+    <Compile Include="View\Converters\BoolInversionConverter.cs" />
     <Compile Include="View\Converters\CellToTextConverter.cs" />
+    <Compile Include="View\Converters\CompositeConverter.cs" />
+    <Compile Include="View\Converters\ConverterBase.cs" />
+    <Compile Include="View\Converters\DummyConverter.cs" />
     <Compile Include="View\Converters\ExcelColumnNumberConverter.cs" />
     <Compile Include="View\Converters\HoldsToVisibilityConverter.cs" />
+    <Compile Include="View\Converters\ToggleButtonDOCConverter.cs" />
     <Compile Include="View\Converters\VisibilityToInverseBooleanConverter.cs" />
     <Compile Include="View\Converters\ZeroNullStringToFalse.cs" />
     <Compile Include="View\Converters\ZeroToNullConverter.cs" />
+    <Compile Include="View\DialogWindows\Base\AnimatedDialogResultWindow.cs" />
+    <Compile Include="View\DialogWindows\Base\AnimatedDialogWindow.cs" />
     <Compile Include="View\DialogWindows\DialogWindowOptions.xaml.cs">
       <DependentUpon>DialogWindowOptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogWindows\DialogWindowOptionsViewModel.cs" />
+    <Compile Include="View\DialogWindows\Base\FeaturedDialogWindow.cs" />
+    <Compile Include="View\DialogWindows\Info\winLicence.xaml.cs">
+      <DependentUpon>winLicence.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogWindows\Info\WinLicenceViewModel.cs" />
     <Compile Include="View\Sort\ContainerLeftToRightComparer.cs" />
     <Compile Include="View\Sort\LeftToRightComparer.cs" />
     <Compile Include="View\Sort\LocationCompararABC.cs" />
@@ -211,7 +261,11 @@
     <Compile Include="View\UI\ShipProfileWindow.xaml.cs">
       <DependentUpon>ShipProfileWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DialogWindows\WinLoginViewModel.cs" />
+    <Compile Include="View\DialogWindows\Info\WinLoginViewModel.cs" />
+    <Compile Include="View\User Controls\AnimatedUserControl.cs" />
+    <Compile Include="View\User Controls\MainWindow\AddContainerToDataGrid.cs">
+      <DependentUpon>AddContainerGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\User Controls\MainWindow\DataGridContainers.xaml.cs">
       <DependentUpon>DataGridContainers.xaml</DependentUpon>
     </Compile>
@@ -221,8 +275,21 @@
     <Compile Include="View\User Controls\MainWindow\InfoBlock.xaml.cs">
       <DependentUpon>InfoBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\User Controls\MainWindow\Spinner.xaml.cs">
+      <DependentUpon>Spinner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User Controls\Others\MailToHyperlink.xaml.cs">
+      <DependentUpon>MailToHyperlink.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User Controls\Others\MailToHyperlinkVM.cs" />
     <Compile Include="View\User Controls\SettingsWindow\SettingsExcel.xaml.cs">
       <DependentUpon>SettingsExcel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User Controls\SettingsWindow\SettingsExcelReefers.xaml.cs">
+      <DependentUpon>SettingsExcelReefers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User Controls\ShipProfileWindow\HowToEnterPosition.xaml.cs">
+      <DependentUpon>HowToEnterPosition.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User Controls\ShipProfileWindow\TabDimensions.xaml.cs">
       <DependentUpon>TabDimensions.xaml</DependentUpon>
@@ -242,14 +309,14 @@
     <Compile Include="View\User Controls\ShipProfileWindow\TabMain.xaml.cs">
       <DependentUpon>TabMain.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DialogWindows\winAbout.xaml.cs">
+    <Compile Include="View\DialogWindows\Info\winAbout.xaml.cs">
       <DependentUpon>winAbout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DialogWindows\winLogin.xaml.cs">
+    <Compile Include="View\DialogWindows\Info\winLogin.xaml.cs">
       <DependentUpon>winLogin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utility\DelegateCommand.cs" />
-    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\MainWindow\MainWindowViewModel.cs" />
     <Compile Include="Services\DialogServices\IMessageDialogService.cs" />
     <Compile Include="Services\DialogServices\MessageDialogService.cs" />
     <Compile Include="View\User Controls\MainWindow\DataGridDg.xaml.cs">
@@ -267,21 +334,27 @@
     <Compile Include="View\User Controls\ShipProfileWindow\TabHolds.xaml.cs">
       <DependentUpon>TabHolds.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Wrapper\CargoPlanUnitPropertyChanger.cs" />
-    <Compile Include="Wrapper\CargoPlanWrapper.cs" />
-    <Compile Include="Wrapper\ConflictWrapper.cs" />
-    <Compile Include="Wrapper\ContainerWrapper.cs" />
-    <Compile Include="Wrapper\DgWrapper.cs" />
-    <Compile Include="Wrapper\DOCWrapper.cs" />
+    <Compile Include="View\DialogWindows\Summaries\CargoReport.xaml.cs">
+      <DependentUpon>CargoReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wrapper\Cargo\CargoPlanUnitPropertyChanger.cs" />
+    <Compile Include="Wrapper\Cargo\CargoPlanWrapper.cs" />
+    <Compile Include="Wrapper\Cargo\ConflictWrapper.cs" />
+    <Compile Include="Wrapper\Cargo\ContainerWrapper.cs" />
+    <Compile Include="Wrapper\Cargo\DgWrapper.cs" />
+    <Compile Include="Wrapper\Cargo\DgWrapperMethods.cs" />
+    <Compile Include="Wrapper\Cargo\DgWrapperProperties.cs" />
+    <Compile Include="Wrapper\Ship Profile\DOCWrapper.cs" />
     <Compile Include="Wrapper\Dummies\DummyAccommodation.cs" />
     <Compile Include="Wrapper\Dummies\DummyCargoHold.cs" />
-    <Compile Include="Wrapper\CellPositionWrapper.cs" />
+    <Compile Include="Wrapper\Ship Profile\CellPositionWrapper.cs" />
     <Compile Include="Wrapper\Dummies\DummyDOCRow.cs" />
     <Compile Include="Wrapper\Dummies\ExcelColumnProperty.cs" />
-    <Compile Include="Wrapper\ExcelTemplateWrapper.cs" />
+    <Compile Include="Wrapper\Settings\ExcelReeferTemplateWrapper.cs" />
+    <Compile Include="Wrapper\Settings\ExcelTemplateWrapper.cs" />
     <Compile Include="Wrapper\ModelWrapper.cs" />
-    <Compile Include="Wrapper\OuterRowWrapper.cs" />
-    <Compile Include="Wrapper\ShipProfileWrapper.cs" />
+    <Compile Include="Wrapper\Ship Profile\OuterRowWrapper.cs" />
+    <Compile Include="Wrapper\Ship Profile\ShipProfileWrapper.cs" />
     <Page Include="for experiments 2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -291,6 +364,26 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DialogWindows\DialogWindowOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\Info\LicenceAgreement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\Info\WelcomeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\Info\winLicence.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\Summaries\DgSummaryReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\Summaries\PortToPortReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -358,6 +451,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\User Controls\MainWindow\AddContainerGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\User Controls\MainWindow\DataGridContainers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -370,7 +467,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\User Controls\MainWindow\Spinner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User Controls\Others\MailToHyperlink.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\User Controls\SettingsWindow\SettingsExcel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User Controls\SettingsWindow\SettingsExcelReefers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User Controls\ShipProfileWindow\HowToEnterPosition.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -398,11 +511,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DialogWindows\winAbout.xaml">
+    <Page Include="View\DialogWindows\Info\winAbout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DialogWindows\winLogin.xaml">
+    <Page Include="View\DialogWindows\Info\winLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -426,6 +539,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DialogWindows\Summaries\CargoReport.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -445,6 +562,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="EasyJob ProDG.UI_1_TemporaryKey.pfx" />
     <None Include="EasyJob ProDG.UI_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\EasyJob_Pro_DG.UI.ViewModel.ConflictListViewModel.datasource" />
@@ -460,13 +578,12 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="View\Styles\Fonts\fontawesome-webfont.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Startup\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="View\UI\imdg.good.ico" />
   </ItemGroup>

@@ -17,7 +17,7 @@ namespace EasyJob_ProDG.UI.Data
     {
         ShipProfileDataService ShipProfileDataService { get; set; }
 
-        void ConnectProgramFiles();
+        bool ConnectProgramFiles();
         void LoadData();
         void ReCheckDgWrapperStowage(DgWrapper dgWrapper);
         void ReCheckDgWrapperList();
@@ -27,10 +27,12 @@ namespace EasyJob_ProDG.UI.Data
         CargoPlanWrapper GetCargoPlan();
         ShipProfile GetShipProfile();
         XDocument GetDgDataBase();
+        void LoadBlankCargoPlan();
         bool OpenNewFile(string file, OpenFile.OpenOption openOption, bool onlySelected = false, string currentPort=null);
-        bool UpdateWithNewFile(string file);
         void SaveFile(string fileName);
         void ExportDgListToExcel(CargoPlanWrapper cargo);
+        bool ImportReeferManifestInfo(string file, bool importOnlySelected, string currentPort);
+
         string ConditionFileName { get; }
 
     }

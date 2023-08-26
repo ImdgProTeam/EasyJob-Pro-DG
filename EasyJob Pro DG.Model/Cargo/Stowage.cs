@@ -7,14 +7,11 @@ namespace EasyJob_ProDG.Model.Cargo
 {
     public partial class Stowage
     {
-        private const string stow = "stowage";
+        private const string STOW = "stowage";
         public static SpecialStowageGroups SWgroups = new SpecialStowageGroups(true);
-
-        public ShipProfile Ship;
 
         public Stowage()
         {
-            Ship = new ShipProfile();
         }
 
         /// <summary>
@@ -27,7 +24,7 @@ namespace EasyJob_ProDG.Model.Cargo
             SWgroups.Clear();
             foreach (Dg dg in cargoplan.DgList)
                 CheckUnitStowage(unit: dg, ship: ship, containers: cargoplan.Containers);
-            ProgramFiles.EnterLog(ProgramFiles.LogStreamWriter, "Stowage checked");
+            Data.LogWriter.Write($"Stowage checked");
         }
 
         /// <summary>
@@ -43,13 +40,13 @@ namespace EasyJob_ProDG.Model.Cargo
 
             //Check special stowage
             foreach (string sscode in unit.StowageSWList)
-                unit.AddConflict(SpecialStowageCheck(sscode, unit, containers, ship), stow, sscode);
+                unit.AddConflict(SpecialStowageCheck(sscode, unit, containers, ship), STOW, sscode);
 
             //Check stowage category
-            unit.AddConflict(StowageCatCheck(unit), stow, "SSC1");
+            unit.AddConflict(StowageCatCheck(unit), STOW, "SSC1");
 
             //Check against DOC
-            unit.AddConflict(!CheckDoc(unit, ship), stow, "SSC2");
+            unit.AddConflict(!CheckDoc(unit, ship), STOW, "SSC2");
 
             //Check in respect of explosives
             CheckStowageOfExplosives(unit, ship);
@@ -104,7 +101,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     if (!dg.IsClosed) result = true;
                     break;
                 case '5':
-                    if(!dg.IsClosed || dg.IsUnderdeck) result = true;
+                    if (!dg.IsClosed || dg.IsUnderdeck) result = true;
                     break;
                 default: break;
             }
@@ -121,27 +118,32 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <returns></returns>
         public static bool CheckProtectedUnit(Dg unit, ICollection<Container> containers, bool row00Exists)
         {
-            bool result=false;
+            //reset any previous protection
+            bool result = false;
             int protectedFromSides = 0;
             bool protectedFromTop = false;
+            unit.Surrounded = string.Empty;
+            string top = "Nil", left = "Nil", right = "Nil";
 
-            //Checks only containers on deck
-            //implementation for containers of the same Size
-            var units = (from entry in containers
-                where entry.Bay <= (unit.Bay + 1) && 
-                      entry.Bay >= (unit.Bay - 1) && 
-                      entry.IsUnderdeck == false
-                select entry);
+            //Checks only containers on deck in the same bay
+            var units = from entry in containers
+                         where entry.Bay <= (unit.Bay + 1) &&
+                               entry.Bay >= (unit.Bay - 1) &&
+                               entry.IsUnderdeck == false
+                         select entry;
 
             foreach (var entry in units)
             {
                 //check if entry is the same container with reference unit
                 if (entry.Location == unit.Location) continue;
+
                 //check if protected from top - if already protected then will skip protection
-                if (entry.Row == unit.Row && (entry.Tier > unit.Tier) && !protectedFromTop)
+                if (!protectedFromTop && entry.Row == unit.Row && (entry.Tier > unit.Tier))
                 {
                     protectedFromTop = true;
-                    unit.Surrounded += " top by "+entry.Location;
+                    top = entry.Location;
+
+                    //checking if already fully protected => return result
                     if (protectedFromSides == 4)
                     {
                         result = true;
@@ -149,32 +151,65 @@ namespace EasyJob_ProDG.Model.Cargo
                     }
                     continue;
                 }
+
                 //check if in the same Tier and entry is next to reference unit
-                if (entry.Tier == unit.Tier && protectedFromSides < 4)
+                if (protectedFromSides < 4 && entry.Tier == unit.Tier)
                 {
-                    if ((entry.Row - 2 == unit.Row) || (entry.Row + 2 == unit.Row) ||
-                        (entry.Row == 0 && unit.Row == 1) || (entry.Row == 1 && unit.Row == 0) ||
-                        (entry.Row == 1 && unit.Row == 2 && !row00Exists) ||
+                    bool _isProtected = true;
+                    if (entry.Row - 2 == unit.Row)
+                    {
+                        if (unit.Row % 2 == 0)
+                            SetSideProtectedEntry(ref left, entry.Location);
+                        else
+                            SetSideProtectedEntry(ref right, entry.Location);
+                    }
+                    else if (entry.Row + 2 == unit.Row)
+                    {
+                        if (unit.Row % 2 == 0)
+                            SetSideProtectedEntry(ref right, entry.Location);
+                        else
+                            SetSideProtectedEntry(ref left, entry.Location);
+                    }
+                    else if ((entry.Row == 0 && unit.Row == 1) ||
                         (entry.Row == 2 && unit.Row == 1 && !row00Exists))
+                    {
+                        SetSideProtectedEntry(ref left, entry.Location);
+                    }
+                    else if ((entry.Row == 1 && unit.Row == 0) ||
+                        (entry.Row == 1 && unit.Row == 2 && !row00Exists))
+                    {
+                        SetSideProtectedEntry(ref right, entry.Location);
+                    }
+                    else
+                    {
+                        //no protection
+                        _isProtected = false;
+                    }
+
+                    if (_isProtected)
                     {
                         if (entry.Size == 40 || entry.Size == unit.Size)
                         {
                             protectedFromSides += 2;
-                            unit.Surrounded += " side by " + entry.Location;
                         }
                         else
                         {
                             protectedFromSides++;
-                            unit.Surrounded += " side by " + entry.Location;
                         }
                     }
                 }
+
                 //check for cummulutive result
-                result = (protectedFromSides == 4 && protectedFromTop);
+                result = protectedFromSides == 4 && protectedFromTop;
                 if (result) break;
             }
+
+            //finalizing Surrounding and returning the result
+            unit.Surrounded = $"port by {left}, starboard by {right}, top by {top}";
+
             return result;
         }
+
 
         /// <summary>
         /// Method to check compliant stowage with DOC
@@ -187,7 +222,7 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             //Transport.ShipProfile _ship = ship;
             var hold = dg.IsUnderdeck ? dg.HoldNr : 0;
-            byte fromtable = ship.Doc.DOCtable[hold,dg.DgRowInDOC];
+            byte fromtable = ship.Doc.DOCtable[hold, dg.DgRowInDOC];
             return fromtable != 0;
         }
 
@@ -219,15 +254,48 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             if (IMDGCode.Fishmeal.Contains(unit.Unno))
             {
-                unit.AddConflict(stow, "SSC3");
-                unit.AddConflict(unit.IsUnderdeck, stow, "SSC3a");
-                unit.AddConflict(CheckNotProtectedFromSourceOfHeat(unit, containers, ship), stow, "SSC3b");
+                unit.AddConflict(STOW, "SSC3");
+                unit.AddConflict(unit.IsUnderdeck, STOW, "SSC3a");
+                unit.AddConflict(CheckNotProtectedFromSourceOfHeat(unit, containers, ship), STOW, "SSC3b");
             }
             if (IMDGCode.AmmoniumNitrate.Contains(unit.Unno))
             {
-                unit.AddConflict(stow, "SSC4");
+                unit.AddConflict(STOW, "SSC4");
             }
+            if (unit.IsAsCoolantOrConditioner)
+            {
+                ReplaceStowageConflicts(unit, "EXC9", "SSC2");
+            }
+            if (unit.Unno == 1415 || unit.Unno == 1418)
+            {
+                unit.AddConflict(STOW, "FF1");
+            }
+        }
 
+        /// <summary>
+        /// Removes any stowage conflict of the unit with [single] newCode with exception of exceptCode. 
+        /// If no conflict has been removed, the newCode will not be set.
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <param name="newCode">New code to be set.</param>
+        /// <param name="exceptCode">Code which will be ignorred and will remain in Conflicts of the unit.</param>
+        private static void ReplaceStowageConflicts(Dg unit, string newCode, string exceptCode = "none")
+        {
+            if (!unit.IsConflicted || !unit.Conflicts.FailedStowage) return;
+
+            bool removed = false;
+            for (byte i = 0; i < unit.Conflicts.StowageConflictsList.Count; i++)
+            {
+                var conflict = unit.Conflicts.StowageConflictsList[i];
+                if (conflict != exceptCode)
+                {
+                    unit.RemoveStowageConflict(conflict);
+                    i--;
+                    removed = true;
+                }
+            }
+            if (removed)
+                unit.AddConflict(STOW, newCode);
         }
 
         /// <summary>
@@ -241,8 +309,8 @@ namespace EasyJob_ProDG.Model.Cargo
                  unit.Unno != 2814 && unit.Unno != 2900 && unit.Unno != 3549) return;
 
             char[] categories = new char[] { 'A', 'B', 'E' };
-            unit.AddConflict(categories.Contains(unit.StowageCat),stow, "SSC5a");
-            unit.AddConflict(ship.IsOnSeaSide(unit), stow, "SSC5");
+            unit.AddConflict(categories.Contains(unit.StowageCat), STOW, "SSC5a");
+            unit.AddConflict(ship.IsOnSeaSide(unit), STOW, "SSC5");
         }
 
         /// <summary>
@@ -262,7 +330,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     bays.Add((byte)(accBay + 1 - i));
                 }
             }
-            unit.AddConflict(bays.Contains(unit.Bay), stow, "SCC8");
+            unit.AddConflict(bays.Contains(unit.Bay), STOW, "SCC8");
         }
 
         /// <summary>
@@ -272,14 +340,30 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="ship"></param>
         private static void CheckStowageOfExplosives(Dg unit, ShipProfile ship)
         {
+            if (string.IsNullOrEmpty(unit.DgClass)) return;
+
             //Class 1 general stowage
             //Not less than 12 m from Living quarters and LSA
             //Not less than 2,4 m from ship side
             if (unit.DgClass.StartsWith("1") && !unit.DgClass.StartsWith("1.4"))
             {
-                unit.AddConflict(ship.IsNotClearOfLSA(unit), stow, "SSC6");
-                unit.AddConflict(ship.IsOnSeaSide(unit), stow, "SSC7");
+                unit.AddConflict(ship.IsNotClearOfLSA(unit), STOW, "SSC6");
+                unit.AddConflict(ship.IsOnSeaSide(unit), STOW, "SSC7");
             }
+        }
+
+
+        /// <summary>
+        /// Sets 'protected from' side value with correct language and spacing.
+        /// </summary>
+        /// <param name="side"></param>
+        /// <param name="value"></param>
+        private static void SetSideProtectedEntry(ref string side, string value)
+        {
+            if (string.Equals(side, "Nil"))
+                side = value;
+            else
+                side += " and " + value;
         }
 
     }

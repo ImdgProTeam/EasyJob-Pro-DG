@@ -3,8 +3,6 @@ using EasyJob_ProDG.Model.IO.Excel;
 
 namespace EasyJob_ProDG.UI.Services
 {
-
-
     public class SettingsService : ISettingsService
     {
         static IUserUISettings _uiSettings = new UserUISettings();
@@ -26,9 +24,13 @@ namespace EasyJob_ProDG.UI.Services
 
         public void SaveExcelTemplate(object template)
         {
-
             ExcelTemplate temp = template as ExcelTemplate;
             if (temp != null) ExcelTemplate.WriteTemplate(temp);
+        }
+
+        public void SaveReeferExcelTemplate(string template)
+        {
+            Properties.Settings.Default.ExcelReeferTemplate = template;
         }
     }
 }

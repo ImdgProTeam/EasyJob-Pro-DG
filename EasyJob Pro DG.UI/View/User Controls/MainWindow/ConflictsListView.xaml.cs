@@ -1,45 +1,33 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace EasyJob_ProDG.UI.View.User_Controls
 {
     /// <summary>
     /// Логика взаимодействия для ListBoxConflicts.xaml
     /// </summary>
-    public partial class ConflictsListView : UserControl
+    public partial class ConflictsListView : AnimatedUserControl
     {
-        private DispatcherTimer timer;
-        
+
         //Brushes
         Brush _original;
         private Brush uncheckedColor = Brushes.Red;
         private Brush checkedColor = Brushes.GreenYellow;
         readonly Brush _hover;
-        
+
         //Booleans
         bool lockChange;
 
 
         public ConflictsListView()
+            : base(Animations.AnimationTypes.SlideAndFadeInFromRight)
         {
             InitializeComponent();
             _hover = (Brush)this.FindResource("Brush.Text.MouseOver");
 
-            timer = new DispatcherTimer
-            {
-                Interval = new TimeSpan(0,0,0,0,20)
-            };
-            timer.Tick += TimerOnTick;
-        }
-
-        private void TimerOnTick(object sender, EventArgs e)
-        {
-            //
         }
 
 
@@ -85,18 +73,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             RestoreColors(sender);
         }
 
-
-
-
-        private void Expander_LostFocus(object sender, System.Windows.RoutedEventArgs e)
-        {
-            //var expander = sender as Expander;
-            //expander.Style = (Style)FindResource("expandTitleTrigger");
-        }
-
-
-
-
         /// <summary>
         /// Method to change checkbox ellipse color
         /// </summary>
@@ -116,18 +92,18 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
 
         /// <summary>
-        /// Method to collapse conflict description on click on header
+        /// Method to collapse conflict description on click on header (container number)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void HeaderTextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             DockPanel panel = null;
-            TextBlock txbText = null;
+            TextBox txbText = null;
 
-            if (sender is TextBlock txbSender)
+            if (sender is Grid gridSender)
             {
-                panel = txbSender.Parent as DockPanel;
+                panel = gridSender.Parent as DockPanel;
             }
 
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -135,11 +111,11 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                 if (panel != null)
                 {
 
-                    txbText = panel.Children[panel.Children.Count - 1] as TextBlock;
+                    txbText = panel.Children[panel.Children.Count - 1] as TextBox;
 
-                    if (txbText != null) txbText.Visibility = 
-                        txbText.Visibility == Visibility.Visible 
-                            ? Visibility.Collapsed 
+                    if (txbText != null) txbText.Visibility =
+                        txbText.Visibility == Visibility.Visible
+                            ? Visibility.Collapsed
                             : Visibility.Visible;
                 }
             }

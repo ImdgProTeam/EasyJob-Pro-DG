@@ -5,7 +5,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
 {
     class DgDataBaseDataService : IDgDataBaseDataService
     {
-        ICurrentProgramData currentProgramData = new CurrentProgramData();
+        ICurrentProgramData currentProgramData => CurrentProgramData.GetCurrentProgramData();
 
         public DgDataBaseDataService()
         {

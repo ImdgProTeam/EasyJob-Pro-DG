@@ -1,4 +1,5 @@
 ﻿using EasyJob_ProDG.Data;
+using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.View.UI;
 using System;
 using System.Diagnostics;
@@ -18,26 +19,85 @@ namespace EasyJob_ProDG.UI
 
         public void Application_Startup(object sender, StartupEventArgs e)
         {
-            Debug.WriteLine("------> Start Application_Startup");
+            LogWriter.StartLog();
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
-#if(DEBUG)
+            #region Checking Assembly Version
+#if (DEBUG)
             Debug.WriteLine("------> Checking AssemblyVersion");
             CheckAssemblyVersion();
             Debug.WriteLine("------> Assembly version checked");
-#endif
+#endif 
+            #endregion
+
+            CheckLicence();
+
+            FirstTimeStart();
 
             if (e.Args.Length > 0)
             {
                 path = e.Args[0];
             }
-            Debug.WriteLine($"------> Start file path = {path}");
+
+            LogWriter.Write($"Start file path = {path}");
 
             ApplicationMainWindow = new MainWindow(path);
-            Debug.WriteLine($"------> Application MainWindow created");
+            LogWriter.Write($"Application MainWindow created");
             path = null;
 
             ApplicationMainWindow.Show();
+
+
+        }
+
+        /// <summary>
+        /// Actions required when the program is started for the very first time.
+        /// </summary>
+        private void FirstTimeStart()
+        {
+            //UI.Properties.Settings.Default.FirstTimeStart = true;
+
+            //If not the first start -> return
+            if (!EasyJob_ProDG.UI.Properties.Settings.Default.FirstTimeStart)
+                return;
+
+            //Sign agreement
+            Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            var viewModel = new LicenceAgreementViewModel(true);
+            var window = new LicenceAgreement();
+            window.DataContext = viewModel;
+            window.ShowDialog();
+            if (!viewModel.Result.HasValue || !viewModel.Result.Value)
+            {
+                Environment.Exit(0);
+            }
+
+            //Switch to normal window
+            Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+            Current.MainWindow = ApplicationMainWindow;
+
+            //Register extension
+            Services.FirstStartService.DoFirstStart();
+
+            //Complete the first start
+            EasyJob_ProDG.UI.Properties.Settings.Default.FirstTimeStart = false;
+        }
+
+        /// <summary>
+        /// Checking the licence is valid
+        /// </summary>
+        private void CheckLicence()
+        {
+            LogWriter.Write($"Checking licence");
+
+            if (!Licence.IsValid())
+            {
+                LogWriter.Write("Licence expired.");
+
+                MessageBox.Show("Your licence has expired.\nPlease contact\n\nfeedback@imdg.pro\n\nto renew your licence.", "Invalid licence");
+                Environment.Exit(0);
+            }
+            LogWriter.Write("-----> Licence is valid.");
         }
 
         /// <summary>

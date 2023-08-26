@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace EasyJob_ProDG.UI.Services.FirstStartServices
+namespace EasyJob_ProDG.UI.Services
 {
     class ExtensionRegistryHelper
     {

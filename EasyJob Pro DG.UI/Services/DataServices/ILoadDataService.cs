@@ -2,7 +2,11 @@
 {
     public interface ILoadDataService
     {
+        bool IsShipProfileNotFound { get; }
+        bool IsShipProfileDefault { get; }
+
         void LoadData();
-        void ConnectProgramFiles();
+        bool ConnectProgramFiles();
+        void LoadBlankCargoPlan();
     }
 }

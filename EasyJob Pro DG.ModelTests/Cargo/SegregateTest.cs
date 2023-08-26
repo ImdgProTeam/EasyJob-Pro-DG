@@ -27,9 +27,6 @@ namespace EasyJob_ProDG.ModelTests.Cargo
         ///Method defines Bay, Row and Tier
         static void DefineContainerLocation(Dg dg)
         {
-            dg.Bay = Convert.ToByte(dg.Location.Substring(0, 2));
-            dg.Row = Convert.ToByte(dg.Location.Substring(2, 2));
-            dg.Tier = Convert.ToByte(dg.Location.Substring(4, 2));
             dg.IsUnderdeck = dg.Tier < 78 ? true : false;
             dg.Size = (byte)(dg.Bay % 2 == 0 ? 40 : 20);
             dg.HoldNr = ship.DefineCargoHoldNumber(dg.Bay);
@@ -136,35 +133,46 @@ namespace EasyJob_ProDG.ModelTests.Cargo
 
         }
 
+
+        public void TestDgValidValues(Dg unit, ref int result, byte holdNr = 2, int dgClassCount = 1, bool isUnderdeck = false, byte size = 40)
+        {
+
+            if (string.Equals(unit.DgClass, unit.AllDgClassesList[0])) result++;
+            Debug.WriteLine(string.Format("Unit dg class is {0}", unit.DgClass));
+            Debug.WriteLine(string.Format("All dg classes: {0}", unit.AllDgClasses));
+            Debug.WriteLine(string.Format("First dg class: {0}", unit.AllDgClassesList[0]));
+
+
+            if (unit.AllDgClassesList.Count == dgClassCount) result++;
+            Debug.WriteLine("All dg classes count is {0}", unit.AllDgClassesList.Count);
+
+            Debug.WriteLine(string.Format("Container location is {0}", unit.Location));
+            if (unit.Bay == Convert.ToByte(unit.Location.Replace(" ", "").Substring(0, 3))) result++;
+            Debug.WriteLine("Bay = {0}, substring = {1}", unit.Bay, Convert.ToByte(unit.Location.Replace(" ","").Substring(0, 3)));
+            if (unit.Row == Convert.ToByte(unit.Location.Replace(" ", "").Substring(3, 2))) result++;
+            Debug.WriteLine("Row = {0}, substring = {1}", unit.Row, Convert.ToByte(unit.Location.Replace(" ", "").Substring(3, 2)));
+            if (unit.Tier == Convert.ToByte(unit.Location.Replace(" ", "").Substring(5, 2))) result++;
+            Debug.WriteLine("Tier = {0}, substring = {1}", unit.Tier, Convert.ToByte(unit.Location.Replace(" ", "").Substring(5, 2)));
+            Debug.WriteLine("Dg IsUnderdeck: {0}", unit.IsUnderdeck);
+            if (unit.IsUnderdeck == isUnderdeck) result++;
+            Debug.WriteLine("Dg is in hold {0}", unit.HoldNr);
+            if (unit.HoldNr == holdNr) result++;
+            Debug.WriteLine("Dg container Size is {0}", unit.Size);
+            if (unit.Size == size) result++;
+
+
+            Debug.WriteLine("Result = {0}", result);
+            Assert.AreEqual(result, 8);
+
+        }
+
         [TestMethod]
-        public void TestDgValidValues()
+        public void TestDg1ValidValues()
         {
             int result = 0;
             Dg unit = dgList[0];
 
-            if (unit.DgClass == unit.AllDgClassesList[0]) result++;
-            Debug.WriteLine("Unit dg class is {0}", unit.DgClass);
-            Debug.WriteLine("All dg classes: {0}", unit.AllDgClassesList);
-            Debug.WriteLine("First dg class: {0}", unit.AllDgClassesList[0]);
-
-
-            if (unit.AllDgClassesList.Count == 1) result++;
-            Debug.WriteLine("All dg classes count is {0}", unit.AllDgClassesList.Count);
-
-
-            if (unit.Bay == Convert.ToByte(unit.Location.Substring(0, 2))) result++;
-            Debug.WriteLine("Bay = {0}, substring = {1}", unit.Bay, Convert.ToByte(unit.Location.Substring(0, 2)));
-            if (unit.Row == Convert.ToByte(unit.Location.Substring(2, 2))) result++;
-            if (unit.Tier == Convert.ToByte(unit.Location.Substring(4, 2))) result++;
-            Debug.WriteLine("Dg IsUnderdeck: {0}", unit.IsUnderdeck);
-            if (!unit.IsUnderdeck) result++;
-            Debug.WriteLine("Dg is in hild {0}", unit.HoldNr);
-            if (unit.HoldNr == 2) result++;
-            Debug.WriteLine("Dg container Size is {0}", unit.Size);
-            if (unit.Size == 40) result++;
-
-
-            Debug.WriteLine("Result = {0}", result);
+            TestDgValidValues(unit, ref result);
             Assert.AreEqual(result, 8);
 
         }
@@ -175,29 +183,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
             int result = 0;
             Dg unit = dgList[3];
 
-            if (unit.DgClass == unit.AllDgClassesList[0]) result++;
-            Debug.WriteLine("Unit dg class is {0}", unit.DgClass);
-            Debug.WriteLine("All dg classes: {0}", unit.AllDgClassesList);
-            Debug.WriteLine("First dg class: {0}", unit.AllDgClassesList[0]);
-
-
-            if (unit.AllDgClassesList.Count == 2) result++;
-            Debug.WriteLine("All dg classes count is {0}", unit.AllDgClassesList.Count);
-
-
-            if (unit.Bay == Convert.ToByte(unit.Location.Substring(0, 2))) result++;
-            Debug.WriteLine("Bay = {0}, substring = {1}", unit.Bay, Convert.ToByte(unit.Location.Substring(0, 2)));
-            if (unit.Row == Convert.ToByte(unit.Location.Substring(2, 2))) result++;
-            if (unit.Tier == Convert.ToByte(unit.Location.Substring(4, 2))) result++;
-            Debug.WriteLine("Dg IsUnderdeck: {0}", unit.IsUnderdeck);
-            if (unit.IsUnderdeck) result++;
-            Debug.WriteLine("Dg is in hild {0}", unit.HoldNr);
-            if (unit.HoldNr == 3) result++;
-            Debug.WriteLine("Dg container Size is {0}", unit.Size);
-            if (unit.Size == 20) result++;
-
-
-            Debug.WriteLine("Result = {0}", result);
+            TestDgValidValues(unit, ref result, holdNr: 3, dgClassCount: 2, isUnderdeck: true, size: 20)  ;
             Assert.AreEqual(result, 8);
 
         }

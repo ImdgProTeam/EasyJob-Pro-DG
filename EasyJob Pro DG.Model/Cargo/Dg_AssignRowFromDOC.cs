@@ -8,6 +8,7 @@
         // ReSharper disable once InconsistentNaming
         public void AssignRowFromDOC()
         {
+            if (string.IsNullOrEmpty(dgclass)) return;
             if(dgclass.Substring(0,1)=="1") DgRowInDOC = (byte)(dgclass == "1.4S" ? 1 : 0);
             else switch (dgclass)
             {

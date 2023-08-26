@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="EasyJob_ProDG.UI.View.User_Controls.MailToHyperlink"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="200"
+             x:Name="UserControlMTH">
+    <UserControl.DataContext>
+        <local:MailToHyperlinkVM/>
+    </UserControl.DataContext>
+    <TextBlock
+        Padding="{Binding Padding, ElementName=UserControlMTH}"
+        VerticalAlignment="{Binding VerticalAlignment, ElementName=UserControlMTH}"
+        HorizontalAlignment="Stretch"
+        TextAlignment="Center">
+        <Hyperlink NavigateUri="{Binding HyperlinkUri}" RequestNavigate="OnNavigate">
+              feedback@imdg.pro
+        </Hyperlink>
+    </TextBlock>
+</UserControl>

@@ -1,0 +1,37 @@
+﻿<local:AnimatedDialogWindow x:Class="EasyJob_ProDG.UI.View.DialogWindows.LicenceAgreement"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows" xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
+                            mc:Ignorable="d"
+        Title="LicenceAgreement"
+        d:Height="450"
+        Width="400"
+        SizeToContent="Height"
+        Style="{StaticResource DemoWindowStyle}"
+        WindowStartupLocation="CenterScreen"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        d:DataContext="{d:DesignInstance local:LicenceAgreementViewModel, IsDesignTimeCreatable=True}">
+    <local:AnimatedDialogWindow.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolVisiblilityConverter"/>
+        <converters:BoolInversionConverter x:Key="InverseBoolConverter"/>
+    </local:AnimatedDialogWindow.Resources>
+    <StackPanel Margin="10 10 10 20">
+        <TextBlock Text="Agreement"
+                   TextAlignment="Center"
+                   FontWeight="SemiBold"/>
+        <TextBlock Text="{Binding LicenceText}"
+                   TextWrapping="Wrap"
+                   TextAlignment="Justify"
+                 Padding="25" LineHeight="22"/>
+        <Button Content="Accept" Command="{Binding AcceptCommand}"
+                Click="CloseWindow"
+                IsCancel="{Binding IsFirstStart, Converter={StaticResource InverseBoolConverter}}"
+                IsDefault="{Binding IsFirstStart, Converter={StaticResource InverseBoolConverter}}"/>
+        <Button Content="Decline" IsCancel="True"
+                Command="{Binding DeclineCommand}"
+                Click="CloseWindow"
+                Visibility="{Binding IsFirstStart, Converter={StaticResource BoolVisiblilityConverter}}"/>
+    </StackPanel>
+</local:AnimatedDialogWindow>

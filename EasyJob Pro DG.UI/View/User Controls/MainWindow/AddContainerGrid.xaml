@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="EasyJob_ProDG.UI.View.User_Controls.AddContainerToDataGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="800" 
+             IsVisibleChanged="UserControl_IsVisibleChanged" 
+             x:Name="Control"
+             >
+
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BTVConverter" />
+    </UserControl.Resources>
+
+    <Grid DockPanel.Dock="Bottom">
+
+        <Grid.Resources>
+            <Style TargetType="Label">
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="TextAlignment" Value="Right"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <Label Content="{Binding ElementName=Control, Path=Title, UpdateSourceTrigger=PropertyChanged}"/>
+            
+            <Label Content="Container number*"
+                   FontWeight="DemiBold"/>
+            <TextBox x:Name="txbContainerNumber"
+                     Width="100" 
+                     Text="{Binding ContainerNumber, ElementName=Control, UpdateSourceTrigger=PropertyChanged}"
+                     CharacterCasing="Upper"
+                     PreviewTextInput="ContainerNumber_PreviewTextInput"/>
+
+            <Label Content="Position"/>
+            <TextBox Width="100"
+                Text="{Binding Location, ElementName=Control, UpdateSourceTrigger=PropertyChanged}"
+                PreviewTextInput="Location_PreviewTextInput"/>
+
+            <Label Content="Unno*"
+                   FontWeight="DemiBold"
+                   Visibility="{Binding IsAddDg, ElementName=Control, Converter={StaticResource BTVConverter}}"/>
+            <TextBox x:Name="txbUnno"
+                Width="100" 
+                    Text="{Binding UNNO, ElementName=Control, UpdateSourceTrigger=PropertyChanged,
+                                          StringFormat=\{0:0000\}}"
+                     Visibility="{Binding IsAddDg, ElementName=Control, Converter={StaticResource BTVConverter}}"
+                     PreviewTextInput="UNNO_PreviewTextInput" 
+                     PreviewKeyDown="UNNO_PreviewKeyDown"
+                     GotFocus="TextBox_GotFocus"
+                     SelectionChanged="TextBox_SelectionChanged"/>
+            
+            <Button Content="Add"
+                    IsEnabled="{Binding CanUserAdd, ElementName=Control}"
+                    IsDefault="True"
+                    Margin="5"
+                    Width="50"
+                    Background="{Binding ElementName=Control, Path=Background}" Click="Button_Click_1"/>
+            
+            <Button Content="x"
+                    IsCancel="True"
+                    Click="Button_Click"
+                    Width="20"
+                    HorizontalAlignment="Right"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Top"
+                    Margin="20, 5, 5, 5"
+                    Background="{Binding ElementName=Control, Path=Background}"
+                    BorderThickness="0"/>
+            
+        </StackPanel>
+
+    </Grid>
+</UserControl>

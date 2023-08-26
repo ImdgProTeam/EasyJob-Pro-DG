@@ -5,6 +5,7 @@ using System.Windows.Data;
 
 namespace EasyJob_ProDG.UI.View.Converters
 {
+    [ValueConversion(typeof(bool), typeof(Visibility))]
     public class BooleanToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

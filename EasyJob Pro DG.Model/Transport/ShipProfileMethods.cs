@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using EasyJob_ProDG.Data;
+using System;
 using System.IO;
 using System.Reflection;
-using EasyJob_ProDG.Data;
 
 namespace EasyJob_ProDG.Model.Transport
 {
@@ -49,6 +47,7 @@ namespace EasyJob_ProDG.Model.Transport
                 ErrorList = "seasides";
                 result = false;
             }
+            //checking that at least one record covers all bays.
             foreach (OuterRow orow in SeaSides)
             {
                 if (orow.Bay == 0)
@@ -90,32 +89,33 @@ namespace EasyJob_ProDG.Model.Transport
                 ////Loading of default shipprofile
                 //MessageBox.Show("A default ship profile configuration will be loaded. That will affect the accuracy of stowage and segregation check.");
                 Output.ThrowMessage("Ship configuration file not found.\nA default ship profile configuration will be loaded. That will affect the accuracy of stowage and segregation check.");
-                Debug.WriteLine($"------> File {fileName} does not exist.");
-                Debug.WriteLine("------> Default Ship profile will be loaded");
-                return new ShipProfile();
+                LogWriter.Write($"File {fileName} does not exist.");
+                LogWriter.Write($"Default Ship profile will be loaded");
+                return new ShipProfile()
+                {
+                    isShipProfileNotFound = true,
+                    isDefault = true
+                };
             }
+
             //Case if file found and read
             ShipProfile ship = new ShipProfile(fileName);
-            if (!ship._filecorrupt) 
+            if (!ship._filecorrupt)
             {
-                Debug.WriteLine($"------> Ship profile is succesfully read from file {fileName}.");
-                return ship; 
+                LogWriter.Write($"Ship profile is succesfully read from file {fileName}.");
+                if (ship.containsErrors)
+                {
+                    LogWriter.Write("ShipProfile contains errors.");
+                }
+                return ship;
             }
-            //Errors encountered while reading the file
-            Output.ThrowMessage("Ship settings file was read with errors. A default ship profile configuration will be loaded. That will affect the accuracy of stowage and segregation check.");
-            //result = MessageBox.Show("Ship settings file was read with errors. Would you like to change it? Y/N?\n(It may take some time and will require from you detailed information regarding your ship)", "Error message", MessageBoxButton.YesNo);
-            //Option chosen to change configuration
-            //if (result == MessageBoxResult.Yes)
-            //{
-            //    MessageBox.Show("Not implemented");
-            //    return ship;
-            //}
-            //Loading of default ship profile
-            //MessageBox.Show("A default ship profile configuration will be loaded. That will affect the accuracy of stowage and segregation check.");
 
-            Debug.WriteLine($"------> Ship profile read from file {fileName} is corrupt.");
-            Debug.WriteLine("------> Default Ship profile will be loaded");
-            return new ShipProfile();
+            LogWriter.Write($"Ship profile read from file {fileName} is corrupt.");
+            LogWriter.Write("Default Ship profile will be loaded");
+            return new ShipProfile()
+            {
+                isDefault = true
+            };
         }
 
         /// <summary>
@@ -188,37 +188,7 @@ namespace EasyJob_ProDG.Model.Transport
                 writer.WriteLine("\n***ShipProfile***");
 
             }
-        }
-
-        /// <summary>
-        /// Method used when create ship profile process aborted. It implements changes already made and the remaining fields updates with default values.
-        /// </summary>
-        /// <returns></returns>
-        public static ShipProfile ReturnNull(ShipProfile ship)
-        {
-            Output.ThrowMessage("\nShip profile setting process is cancelled. The made changes will be considered, the remaining will be assigned with default values.\n");
-            if (ship == null) return new ShipProfile();
-            ship.NumberOfHolds = ship.NumberOfHolds == 0 ? (byte)1 : ship.NumberOfHolds;
-            ship.Holds = ship.Holds ?? new List<CargoHold>(ship.NumberOfHolds);
-            byte last = 1;
-            for (int i = 0; i < ship.NumberOfHolds; i++)
-            {
-                ship.Holds[i] = ship.Holds[i] ?? new CargoHold(last, (byte)(last + 99));
-                last = ship.Holds[i].LastBay;
-            }
-            ship.NumberOfAccommodations = ship.NumberOfAccommodations == 0 ? (byte)1 : ship.NumberOfAccommodations;
-            ship.LivingQuartersList = ship.LivingQuartersList ?? new List<CellPosition> { new CellPosition(99, 199, 199, 199, 0) };
-            ship.HeatedStructuresList = ship.HeatedStructuresList ?? new List<CellPosition> { new CellPosition(99, 199, 199, 199, 0) };
-            ship.LSAList = ship.LSAList ?? new List<CellPosition> { new CellPosition(99, 199, 199, 199, 0) };
-            ship.SeaSides = ship.SeaSides ?? new List<OuterRow>() { new OuterRow(0, 99, 99) };
-            if (ship.Doc == null)
-            {
-                ship.Doc = new DOC(ship.NumberOfHolds);
-                for (byte i = 0; i <= ship.NumberOfHolds; i++)
-                    ship.Doc.SetDOCTableRow("1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1", i);
-            }
-            if (ship.Accommodation == null) ship.SetAccommodation(199);
-            return ship;
+            LogWriter.Write($"Ship profile successfully written to {fname}");
         }
 
     }

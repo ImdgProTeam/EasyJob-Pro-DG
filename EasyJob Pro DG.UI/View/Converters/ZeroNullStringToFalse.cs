@@ -4,6 +4,7 @@ using System.Windows.Data;
 
 namespace EasyJob_ProDG.UI.View.Converters
 {
+    [ValueConversion(typeof(string),typeof(bool))]
     public class ZeroNullStringToFalseConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

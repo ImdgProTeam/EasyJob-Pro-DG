@@ -51,6 +51,7 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cargo\ContainerTests.cs" />
     <Compile Include="Cargo\SegregateTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

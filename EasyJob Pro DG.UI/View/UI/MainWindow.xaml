@@ -6,6 +6,7 @@
         xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.UI"
         xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
+        xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties" 
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
         xmlns:viewmodel="clr-namespace:EasyJob_ProDG.UI.ViewModel"
@@ -13,10 +14,16 @@
         Icon="imdg.good.ico"
         Title="{Binding WindowTitle, UpdateSourceTrigger=Default}"
         WindowStyle="ThreeDBorderWindow"
+        Background="#FFC2EAF5"
+        FontFamily="{StaticResource BaseFont}"
+        FontSize="{StaticResource StandardFontSize}"
         AllowDrop="True"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainWindowViewModel}"
         d:DataContext="{d:DesignInstance viewmodel:MainWindowViewModel, d:IsDesignTimeCreatable=True}"
-        Closing="ClosingApplication">
+        Activated="Window_Activated"
+        Deactivated="Window_Deactivated"
+        Closing="ClosingApplication"
+        >
 
     <Window.InputBindings>
         <KeyBinding Key="Q"
@@ -42,10 +49,13 @@
     </Window.InputBindings>
 
     <Window.Resources>
-
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
 
     <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding MainWindowLoadedCommand}"/>
+        </i:EventTrigger>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding ApplicationClosingCommand}" />
         </i:EventTrigger>
@@ -64,59 +74,78 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-
-        <!--<Popup IsOpen="True" HorizontalAlignment="Left">
-            <TextBlock Text="This is a popup" Background="Red" FontSize="16"/>
-        </Popup>-->
+        <!---   Status bar   -->
+        <uc:MVStatusBar DockPanel.Dock="Bottom" Panel.ZIndex="1"/>
 
         <!--   Main working space -->
         <DockPanel Grid.Row="0"
                    LastChildFill="True"
-                   Background="#FFC2EAF5">
-            <!---   Status bar   -->
-            <uc:MVStatusBar DockPanel.Dock="Bottom" />
+                   >
 
+            <!-- Main menu -->
             <StackPanel DockPanel.Dock="Top"
                         Background="Black">
                 <!---   Main menu   -->
                 <uc:MainMenu />
             </StackPanel>
 
-            <TextBlock DockPanel.Dock="Bottom"
-                       Background="Black"
-                       Margin="0,2,0,0" />
-
-
+            <!-- Main working grid-->
             <Grid x:Name="WorkingGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <!--<ColumnDefinition Width="Auto" />-->
-                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition MinWidth="120"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <DockPanel Grid.Column="2"
+                <!-- Spinner -->
+                <uc:Spinner VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Panel.ZIndex="10"
+                    IsHitTestVisible="False"
+                    Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            Grid.ColumnSpan="2">
+                </uc:Spinner>
+                
+                <DockPanel Grid.Column="1"
                            Grid.RowSpan="2"
                            LastChildFill="True">
 
-                    <!-- Update button -->
-                    <Grid DockPanel.Dock="Bottom"
-                          Height="50">
-                        <Button Content="Re-check"
-                                Margin="2"
+                    <!-- Conflict list header and Update button -->
+                    <Grid DockPanel.Dock="Top">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="List of conflicts"
+                                   Margin="0,0,0,5"
+                                   Padding="40,0,5,0"
+                                   FontSize="{StaticResource StandardButtonFontSize}"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center"
+                                   FontWeight="DemiBold"
+                                   Grid.Column="0">
+                            </TextBlock>
+                            <Button Content="Re-check"
+                                MaxWidth="100"
+                                MaxHeight="30"
+                                Margin="5"
+                                    Padding="20, 5"
+                                    VerticalContentAlignment="Center"
+                                    Grid.Column="1"
                                 Command="{Binding ReCheckCommand}" />
+                        </Grid>
                     </Grid>
 
                     <!---   Black block   -->
                     <TextBlock x:Name="BlackBlock"
+                               MinHeight="{Binding ElementName=InfoBlock, Path=ActualHeight}"
                                DockPanel.Dock="Bottom"
                                Margin="2"
                                Padding="10,5,0,0"
-                               Background="Black"
-                               Foreground="Blue"
+                               Background="{StaticResource Brush.BlackBlock.Background}"
+                               Foreground="{StaticResource Brush.BlackBlock.Foreground}"
                                Text="{Binding Vents.VentHoldsFullText}"
                                TextWrapping="WrapWithOverflow"
                                TextAlignment="Left" />
@@ -138,23 +167,38 @@
 
                 <TabControl Grid.Column="0"
                             Grid.Row="0"
-                            TabStripPlacement="Bottom">
-                    <TabItem Header="Dangerous goods">
+                            TabStripPlacement="Bottom"
+                            FontFamily="{StaticResource DataGridFont}"
+                            FontSize="{StaticResource StandardDataGridFontSize}"
+                            SelectedIndex="{Binding SelectedDataGridIndex, Mode=TwoWay}">
+
+                    <TabItem Header="Dangerous goods"
+                             Background="{StaticResource Brush.DgTable.Background}">
                         <uc:DataGridDg x:Name="MainDataGrid" />
                     </TabItem>
-                    <TabItem Header="Reefers">
+                    <TabItem Header="Reefers"
+                             Background="{StaticResource Brush.ReeferTable.Background}">
                         <uc:DataGridReefers/>
                     </TabItem>
-                    <TabItem Header="Containers">
+                    <TabItem Header="Containers"
+                             Background="{StaticResource Brush.ContainerTable.Background}">
                         <uc:DataGridContainers/>
 
                     </TabItem>
                 </TabControl>
 
                 <!---   Info block   -->
-                <uc:InfoBlock Grid.Row="1" />
+                <uc:InfoBlock Grid.Row="1" x:Name="InfoBlock"/>
             </Grid>
         </DockPanel>
+        
+        <!-- Dimmed overlay for modal windows -->
+        <Border Background="LightSlateGray"
+                Opacity="0.3"
+                IsHitTestVisible="False"
+                Visibility="Collapsed"
+                ap:FrameworkElementsAnimationAttachedProperties.AnimateFadeInAndOut="{Binding IsDimmedOverlayVisible}"/>
+
     </Grid>
 </Window>
 

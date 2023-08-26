@@ -5,11 +5,10 @@ namespace EasyJob_ProDG.UI.Services.DataServices
 {
     public class CargoDataService : ICargoDataService
     {
-        ICurrentProgramData currentProgramData = new CurrentProgramData();
+        ICurrentProgramData currentProgramData => CurrentProgramData.GetCurrentProgramData();
 
         public CargoDataService()
         {
-            //this.currentProgramData = currentProgramData;
         }
 
         public CargoPlanWrapper GetCargoPlan()
@@ -26,5 +25,8 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         {
             currentProgramData.ReCheckDgWrapperStowage(dgWrapper);
         }
+
+        public string ConditionFileName => currentProgramData.ConditionFileName;
+
     }
 }

@@ -140,43 +140,43 @@ namespace EasyJob_ProDG.Model.Cargo
             };
 
             if (acids.Contains(Unno))
-                segregationGroup.Add(1);
+                segregationGroupsListBytes.Add(1);
             if (ammoniumCompounds.Contains(Unno))
-                segregationGroup.Add(2);
+                segregationGroupsListBytes.Add(2);
             if (bromates.Contains(Unno))
-                segregationGroup.Add(3);
+                segregationGroupsListBytes.Add(3);
             if (chlorates.Contains(Unno))
-                segregationGroup.Add(4);
+                segregationGroupsListBytes.Add(4);
             if (chlorites.Contains(Unno))
-                segregationGroup.Add(5);
+                segregationGroupsListBytes.Add(5);
             if (cyanides.Contains(Unno))
-                segregationGroup.Add(6);
+                segregationGroupsListBytes.Add(6);
             if (heavyMetals.Contains(Unno))
-                segregationGroup.Add(7);
+                segregationGroupsListBytes.Add(7);
             if (hypochlorites.Contains(Unno))
-                segregationGroup.Add(8);
+                segregationGroupsListBytes.Add(8);
             if (lead.Contains(Unno))
-                segregationGroup.Add(9);
+                segregationGroupsListBytes.Add(9);
             if (hydrocarbons.Contains(Unno))
-                segregationGroup.Add(10);
+                segregationGroupsListBytes.Add(10);
             if (mercury.Contains(Unno))
-                segregationGroup.Add(11);
+                segregationGroupsListBytes.Add(11);
             if (nitrites.Contains(Unno))
-                segregationGroup.Add(12);
+                segregationGroupsListBytes.Add(12);
             if (perchlorates.Contains(Unno))
-                segregationGroup.Add(13);
+                segregationGroupsListBytes.Add(13);
             if (permanganates.Contains(Unno))
-                segregationGroup.Add(14);
+                segregationGroupsListBytes.Add(14);
             if (powderedMetals.Contains(Unno))
-                segregationGroup.Add(15);
+                segregationGroupsListBytes.Add(15);
             if (peroxides.Contains(Unno))
-                segregationGroup.Add(16);
+                segregationGroupsListBytes.Add(16);
             if (azides.Contains(Unno))
-                segregationGroup.Add(17);
+                segregationGroupsListBytes.Add(17);
             if (alkalis.Contains(Unno))
-                segregationGroup.Add(18);
+                segregationGroupsListBytes.Add(18);
             if (strongAcids.Contains(Unno))
-                segregationGroup.Add(19);
+                segregationGroupsListBytes.Add(19);
         }
     }
 }

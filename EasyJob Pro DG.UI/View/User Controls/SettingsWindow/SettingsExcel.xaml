@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
              xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300"
@@ -12,21 +11,7 @@
     <UserControl.Resources>
         <converters:ExcelColumnNumberConverter x:Key="ColumnNumberConverter" />
     </UserControl.Resources>
-    <Grid>
-        <!--<ListBox ItemsSource="{Binding ExcelTemplateDisplay.ColumnProperties}" 
-                 >
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Property}" 
-                               Width="200"/>
-                        <TextBlock Text="{Binding Value}"
-                                   Margin="10, 0"/>
-                    </StackPanel>
-
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>-->
+    <Grid Margin="2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="156" />
             <ColumnDefinition Width="*" />
@@ -35,43 +20,81 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions>        
+
+        <Grid.Resources>
+            
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="Margin" Value="10,0"/>
+                
+            </Style>
+            <Style x:Key="TableTitle" TargetType="{x:Type Label}">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="Margin" Value="0,0,0,-3"/>
+
+            </Style>
+            
+            <Style TargetType="{x:Type TextBox}"
+                   BasedOn="{StaticResource TextBoxWithTag}">
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="MaxWidth" Value="180"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Style.Triggers>
+
+                </Style.Triggers>
+            </Style>
+            
+        </Grid.Resources>
+
 
         <Label Content="Template Name" 
                Grid.Row="0"
                Grid.Column="0"/>
         <TextBox x:Name="txbTemplateName"
                 Text="{Binding ExcelTemplateDisplay.TemplateName}" 
-                 VerticalContentAlignment="Center"
+                 Tag="Enter new template name"
+                IsReadOnly="True"
                  Grid.Row="0"
                  Grid.Column="1"/>
-
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="2"
+                   Style="{StaticResource TextBlockNoticeStyle}">
+            <TextBlock.Text>
+                Values on this page will be used to read DG list from excel as well as to generate an excel DG list in required format.
+            </TextBlock.Text>
+        </TextBlock>
         <Label Content="Excel sheet name"
-               Grid.Row="1"
+               Grid.Row="2"
                Grid.Column="0" />
         <TextBox x:Name="txbSheetName"
                  Text="{Binding ExcelTemplateDisplay.WorkingSheet}"
-                 VerticalContentAlignment="Center"
-                 Grid.Row="1"
+                 Tag="Enter excel sheet name"
+                 Grid.Row="2"
                  Grid.Column="1" />
         
         <Label Content="Start from row"
-               Grid.Row="2"
+               Grid.Row="3"
                Grid.Column="0" />
         <TextBox Text="{Binding ExcelTemplateDisplay.StartRow}"
-                 VerticalContentAlignment="Center"
-                 Grid.Row="2"
+                 Tag="Enter the first row number"
+                 Grid.Row="3"
                  Grid.Column="1" />
 
         <Label Content="Excel sheet columns" 
-               Grid.Row="3"/>
+               Style="{StaticResource TableTitle}"
+               Grid.Row="4"
+               Grid.ColumnSpan="2"/>
+        
         <DataGrid ItemsSource="{Binding ExcelTemplateDisplay.ColumnProperties, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False"
-                  Grid.Row="4"
+                  Grid.Row="5"
                   Grid.ColumnSpan="2"
-                  IsTabStop="False">
+                  IsTabStop="False"
+                  Margin="5,0">
             
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Property"
@@ -80,11 +103,18 @@
                                     KeyboardNavigation.TabNavigation="None"
                                     Width="150"
                                     Binding="{Binding PropertyName, Mode=OneWay}"/>
-                <DataGridComboBoxColumn Header="Column"
-                                        ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=SettingsWindowVM.Columns}"
-                                        SelectedValueBinding="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ColumnNumberConverter}}"
+                <DataGridTemplateColumn Header="Column"
                                         IsReadOnly="False"
-                                        Width="*"/>
+                                        Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=SettingsWindowVM.Columns}"
+                                        SelectedValue="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ColumnNumberConverter}}"
+                                        />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
                 <DataGridTextColumn Header="Column"
                                     IsReadOnly="False"
                                     Width="*"

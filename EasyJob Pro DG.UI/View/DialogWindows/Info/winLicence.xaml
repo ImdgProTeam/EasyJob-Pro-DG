@@ -1,0 +1,75 @@
+﻿<local:AnimatedDialogWindow x:Class="EasyJob_ProDG.UI.View.DialogWindows.winLicence"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows" 
+        xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
+        mc:Ignorable="d"
+        Title="Licence" 
+        Style="{StaticResource DemoWindowStyle}"
+        WindowStartupLocation="CenterScreen"
+        SizeToContent="Height"
+        Width="320"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        >
+    <Window.DataContext>
+        <local:WinLicenceViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <!-- Capture -->
+        <Border Background="{StaticResource Brush.ToolboxWindow.Background}" Margin="0" BorderThickness="0"
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=local:AnimatedDialogWindow}}" Padding="10"
+                   TextBlock.FontWeight="SemiBold"/>
+        </Border>
+
+        <StackPanel Grid.Row="1"  Margin="20, 10">
+            <TextBlock Margin="20, 4"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center"
+                           Text="This is a tester beta-version of the EasyJob ProDG Pro software." />
+            <Button VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Margin="0 5 0 10"
+                    Content="Show agreement"
+                    Command="{Binding ShowAgreement}"
+                    Style="{StaticResource ButtonAsLinkStyle}"/>
+
+            <TextBlock Margin="4"
+                           TextAlignment="Center"
+                           Text="Your licence is valid until" />
+            <TextBlock Margin="4"
+                           TextAlignment="Center"
+                           Text="{Binding LicenceValidity}" />
+            <StackPanel Orientation="Vertical"
+                            Margin ="0, 10,0,0">
+                <TextBlock Margin="4, 4, 0, 4"
+                               TextAlignment="Center"
+                               Text="For renewal please contact:"/>
+                <uc:MailToHyperlink/>
+            </StackPanel>
+
+        </StackPanel>
+        <StackPanel Margin="8"
+                        Grid.Row="2"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Center">
+            <Button Name="btnClose"
+                    IsCancel="True"
+                    IsDefault="True"
+                        Style="{StaticResource BasicButton}"
+                        Width="80"
+                        Content="Close"
+                        Click="CloseWindow"/>
+        </StackPanel>
+    </Grid>
+
+</local:AnimatedDialogWindow>

@@ -252,7 +252,7 @@ namespace EasyJob_ProDG.Model.IO
                         }
                         catch (Exception e)
                         {
-                            ProgramFiles.EnterLog(ProgramFiles.LogStreamWriter, e.ToString());
+                            Data.LogWriter.Write($"Reading segment {segment} caused an exception {e.ToString()}");
                             dateValue = new DateTime(1900, 01, 01);
                             cargoPlan.VoyageInfo.DepartureDate = dateValue;
                             continue;
@@ -409,8 +409,8 @@ namespace EasyJob_ProDG.Model.IO
                 }
             }
             //DG subclasses
-            if (dgSegment.Length <= 9) return true;
-            dgUnit.DgSubclassArray = dgSegment[9].Split(':');
+            if (dgSegment.Length <= 10) return true;
+            dgUnit.DgSubclassArray = dgSegment[10].Split(':');
             return true;
         }
 

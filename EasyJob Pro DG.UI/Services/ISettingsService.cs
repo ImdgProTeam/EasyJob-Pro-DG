@@ -7,5 +7,6 @@ namespace EasyJob_ProDG.UI.Services
         void LoadSettigs();
         UserUISettings GetSettings();
         void SaveExcelTemplate(object parameter);
+        void SaveReeferExcelTemplate(string template);
     }
 }

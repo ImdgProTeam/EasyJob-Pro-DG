@@ -1,17 +1,19 @@
-﻿using System.Collections.ObjectModel;
-using EasyJob_ProDG.Model.Cargo;
-using EasyJob_ProDG.UI.Wrapper;
+﻿using EasyJob_ProDG.Model.Cargo;
+using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.ViewModel;
+using EasyJob_ProDG.UI.Wrapper;
+using System.Windows.Threading;
 
 namespace EasyJob_ProDG.UI.Data
 {
-    public class ConflictsList : ObservableCollection<ConflictPanelItemViewModel>
+    public class ConflictsList : AsyncObservableCollection<ConflictPanelItemViewModel>
     {
-        // ---------------- Private fields ------------------------------------------
-        private static bool _isTempConflictsCreating;
-
         // ---------------- Public constructors -------------------------------------
-        public ConflictsList() { }
+        public ConflictsList()
+        {
+            dispatcher = Dispatcher.CurrentDispatcher;
+        }
+        private Dispatcher dispatcher;
 
 
         // ---------------- Public methods ------------------------------------------
@@ -22,28 +24,18 @@ namespace EasyJob_ProDG.UI.Data
         /// <param name="dgList">DgWrapperList to be checked for conflicts</param>
         public void CreateConflictList(DgWrapperList dgList)
         {
-            //When open new file
-            if (dgList.IsCollectionNew)
-            {
-                if (this.Count > 0) UnregisterInMessenger();
-                Clear();
-                CreateAllConflicts(dgList);
-                dgList.IsCollectionNew = false;
-            }
-            //When modifying working dg list
-            else
-            {
-                //creating new conflict list to compare with the old one
-                ConflictsList tempConflicts = new ConflictsList();
-
-                //create temporary list of conflicts
-                _isTempConflictsCreating = true;
-                tempConflicts.CreateAllConflicts(dgList);
-                _isTempConflictsCreating = false;
-
-                //update conflict list and remove temp list
-                UpdateConflictList(dgList, tempConflicts);
-            }
+            dispatcher.Invoke(() =>
+            { //When open new file
+                if (dgList.IsCollectionNew)
+                {
+                    CreateConflictListForNewCollection(dgList);
+                }
+                //When modifying working dg list
+                else
+                {
+                    UpdateConflictListForCurrentDgList(dgList);
+                }
+            });
         }
 
         /// <summary>
@@ -52,24 +44,8 @@ namespace EasyJob_ProDG.UI.Data
         /// <param name="unit"></param>
         public void UpdateDgWrapperStowageConfilicts(DgWrapper unit)
         {
-            ushort iterations = (ushort)this.Count;
-
-            //Clear unit associated stowage conflicts
-            for(ushort i=0, n=0; i < iterations; i++, n++)
-            {
-                var conflict = this[n];
-                if(conflict.IsStowageConflict && conflict.DgID == unit.Model.ID)
-                {
-                    conflict.UnregisterInMessenger();
-                    Remove(conflict);
-                    n--;
-                }
-            }
-
-            CreateStowageConflict(unit);
-            CreateSwConflicts(unit);
+            UpdateUnitStowageConflicts(unit);
         }
-
 
 
         // ---------------- Private methods -----------------------------------------
@@ -83,6 +59,59 @@ namespace EasyJob_ProDG.UI.Data
             CreateStowageConflictList(dgList);
             CreateSegregationConflictList(dgList);
             CreateSwConflicts();
+        }
+
+        /// <summary>
+        /// Updates existing ConflictsList with changes from DgList.
+        /// </summary>
+        /// <param name="dgList">Modified DgList.</param>
+        /// <returns></returns>
+        private void UpdateConflictListForCurrentDgList(DgWrapperList dgList)
+        {
+            //creating new conflict list to compare with the old one
+            ConflictsList tempConflicts = new ConflictsList();
+
+            //create temporary list of conflicts
+            tempConflicts.CreateAllConflicts(dgList);
+
+            //update conflict list and remove temp list
+            UpdateConflictList(dgList, tempConflicts);
+        }
+
+        /// <summary>
+        /// Creates new conflict list for new DgList.
+        /// </summary>
+        /// <param name="dgList">New DgList</param>
+        /// <returns></returns>
+        private void CreateConflictListForNewCollection(DgWrapperList dgList)
+        {
+
+            Clear();
+            CreateAllConflicts(dgList);
+            dgList.IsCollectionNew = false;
+        }
+
+        /// <summary>
+        /// Updates only stowage conflicts for the selected DgWrapper.
+        /// </summary>
+        /// <param name="unit">DgWrapper which stowage conflicts shall be updated.</param>
+        private void UpdateUnitStowageConflicts(DgWrapper unit)
+        {
+            ushort iterations = (ushort)this.Count;
+
+            //Clear unit associated stowage conflicts
+            for (ushort i = 0, n = 0; i < iterations; i++, n++)
+            {
+                var conflict = this[n];
+                if (conflict.IsStowageConflict && conflict.DgID == unit.Model.ID)
+                {
+                    Remove(conflict);
+                    n--;
+                }
+            }
+
+            CreateStowageConflict(unit);
+            CreateSwConflicts(unit);
         }
 
         /// <summary>
@@ -123,7 +152,7 @@ namespace EasyJob_ProDG.UI.Data
                     GroupParam =
                         "SW19 For batteries transported in accordance with special provisions 376 or 377, category C, unless transported on a short international voyage. Please check cargo documents of the following units: "
                 };
-                AddNewConflict(conf); 
+                AddNewConflict(conf);
             }
             foreach (var unit in specialGroups.ListSW22List)
             {
@@ -218,7 +247,6 @@ namespace EasyJob_ProDG.UI.Data
                 }
 
                 //If not found - remove the conflict
-                this[i - c].UnregisterInMessenger();
                 RemoveAt(i - c);
                 c++;
             }
@@ -231,25 +259,12 @@ namespace EasyJob_ProDG.UI.Data
         }
 
         /// <summary>
-        /// Unregisters each conflict in DataMessenger
-        /// </summary>
-        private void UnregisterInMessenger()
-        {
-            foreach (var conflict in this)
-            {
-                conflict.UnregisterInMessenger();
-            }
-        }
-
-
-        /// <summary>
         /// Method add a new ConflictPanelItem to ConflictList, if it does not already exist
         /// </summary>
         /// <param name="conf"></param>
         private void AddNewConflict(ConflictPanelItemViewModel conf)
         {
             if (Contains(conf)) return;
-            if (!_isTempConflictsCreating) conf.RegisterInMessenger();
             Add(conf);
         }
 
