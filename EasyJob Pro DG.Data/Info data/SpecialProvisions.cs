@@ -28,7 +28,7 @@ namespace EasyJob_ProDG.Data.Info_data
               .4 Gases of class 2.3 shall not be used as a propellant in an aerosol dispenser;
               .5 Where the contents other than the propellant of aerosol dispensers to be ejected are classified as class 6.1 packing groups II or III or class 8 packing groups II or III, the aerosol shall have a subsidiary hazard of class 6.1 or class 8;
               .6 Aerosols with contents meeting the criteria for packing group I for toxicity or corrosivity shall be prohibited from transport;
-              .7 Except for consignments transported in limited quantities(see chapter 3.4), packages containing aerosols shall bear labels for the primary hazard and for the subsidiary hazard(s), if any.
+              .7 Except for consignments transported in limited quantities(see chapter 3.4)}, packages containing aerosols shall bear labels for the primary hazard and for the subsidiary hazard(s)}, if any.
               Flammable components are flammable liquids, flammable solids or flammable gases and gas mixtures as defined in notes 1 to 3 of subsection 31.1.3 of part III of the Manual of Tests and Criteria.  This designation does not cover pyrophoric, self-heating or water-reactive substances. The chemical heat of combustion shall be determined by one of the following methods: ASTM D 240, ISO/FDIS 13943:1999 (E/F) 86.1 to 86.3 or NFPA 30B."},
             {65, @"Hydrogen peroxide aqueous solutions with less than 8% hydrogen peroxide are not subject to the  provisions of this Code."},
             {66, @"Cinnabar is not subject to the provisions of this Code."},
@@ -36,7 +36,7 @@ namespace EasyJob_ProDG.Data.Info_data
             {113, @"The transport of chemically unstable mixtures is prohibited."},
             {117, @"Only regulated when transported by sea."},
             {119, @"Refrigerating machines and refrigerating-machinery components including machines or other appliances which have been designed for the specific purpose of keeping food or other items at a low temperature in an internal compartment, and air-conditioning units.Refrigerating machines and refrigerating-machine components are not subject to the provisions of this Code if they contain less than 12 kg of gas in class 2.2 or less than 12 L of ammonia solution(UN 2672)."},
-            {122, @"The subsidiary hazard(s), the control and emergency temperatures, if any, and the generic entry number for each of the currently assigned organic peroxide formulations are given in 2.5.3.2.4, 4.1.4.2 packing instruction IBC520 and 4.2.5.2.6 portable tank instruction T23."},
+            {122, @"The subsidiary hazard(s)}, the control and emergency temperatures, if any, and the generic entry number for each of the currently assigned organic peroxide formulations are given in 2.5.3.2.4, 4.1.4.2 packing instruction IBC520 and 4.2.5.2.6 portable tank instruction T23."},
             {123, @"Only regulated when transported by air or by sea."},
             {127, @"Other inert material or inert material mixture may be used at the discretion of the competent authority, provided this inert material has identical phlegmatizing properties."},
             { 131, @"The phlegmatized substance shall be significantly less sensitive than dry PETN."},
@@ -102,9 +102,7 @@ namespace EasyJob_ProDG.Data.Info_data
             unless the battery is afforded equivalent protection by the equipment in which it is contained. When packages are placed in an overpack, the lithium battery mark shall either be clearly visible or be reproduced on the outside of the overpack and the overpack shall be marked with the word 'OVERPACK'. The lettering of the 'OVERPACK' mark shall be at least 12 mm high;
             .6 Each package shall be marked with the appropriate lithium battery mark, as illustrated in
             5.2.1.10;
-            Note 1: The provisions concerning marking in special provision 188 of amendment 37-14 of the
-            Code may continue to be applied until 31 December 2018.
-            Note 2: Packages containing lithium batteries packed in conformity with the provisions of part 4, chapter 11, packing instructions 965 or 968, Section IB
+            Note: Packages containing lithium batteries packed in conformity with the provisions of part 4, chapter 11, packing instructions 965 or 968, Section IB
             of the ICAO Technical Instructions for the Safe Transport of Dangerous Goods by Air that bear the mark as shown in 5.2.1.10 (lithium battery mark)
             and the label shown in 5.2.2.2.2, Model No. 9A shall be deemed to meet the provisions of this special provision.
             This requirement does not apply to:
@@ -131,14 +129,12 @@ namespace EasyJob_ProDG.Data.Info_data
             provisions of this Code."},
             { 191, @"Receptacles with a capacity not exceeding 50 mL containing only non-toxic constituents are not
             subject to the provisions of this Code."},
-            { 193, "This entry may only be used for ammonium nitrate based compound fertilizers. They shall be classified in accordance with the procedure as set out in the Manual of Tests and Criteria, part III, section 39."},
-            {
-            194, @"The control and emergency temperatures, if any, and the generic entry number for each of the
+            {193, "This entry may only be used for ammonium nitrate based compound fertilizers. They shall be classified in accordance with the procedure as set out in the Manual of Tests and Criteria, part III, section 39."},
+            {194, @"The control and emergency temperatures, if any, and the generic entry number for each of the
             currently assigned self-reactive substances are given in 2.4.2.3.2.3."},
-            { 195, @"For certain organic peroxides types B or C, a smaller packaging than that allowed by packing
+            {195, @"For certain organic peroxides types B or C, a smaller packaging than that allowed by packing
             methods OP5 or OP6 respectively has to be used (see 4.1.7 and 2.5.3.2.4)."},
-            {
-            196, @"Formulations which, in laboratory testing, neither detonate in the cavitated state nor deflagrate,
+            {196, @"Formulations which, in laboratory testing, neither detonate in the cavitated state nor deflagrate,
             which show no effect when heated under confinement and which exhibit no explosive power may be
             transported under this entry.The formulation must also be thermally stable(i.e.the SADT is 60°C or
             higher for a 50 kg package). Formulations not meeting these criteria shall be transported under the
@@ -160,7 +156,7 @@ namespace EasyJob_ProDG.Data.Info_data
             Lighters shall not contain more than 10 g of liquefied petroleum gas.Lighter refills shall not contain
             more than 65 g of liquefied petroleum gas."},
             {203, @"This entry shall not be used for polychlorinated biphenyls, UN 2315."},
-            {204, @"Articles containing smoke-producing substance(s) corrosive according to the criteria for class 8 shall be labelled with a “CORROSIVE” subsidiary hazard label(Model No. 8, see 5.2.2.2.2).\nArticles containing smoke-producing substance(s) toxic by inhalation according to the criteria for class 6.1 shall be labelled with a “TOXIC” subsidiary hazard label(Model No. 6.1, see 5.2.2.2.2), except that those manufactured before 31 December 2016 may be transported until 1 January 2019 without a “TOXIC” subsidiary hazard label."},
+            {204, @"Articles containing smoke-producing substance(s) corrosive according to the criteria for class 8 shall be labelled with a “CORROSIVE” subsidiary hazard label(Model No. 8, see 5.2.2.2.2).\nArticles containing smoke-producing substance(s) toxic by inhalation according to the criteria for class 6.1 shall be labelled with a “TOXIC” subsidiary hazard label(Model No. 6.1, see 5.2.2.2.2)}, except that those manufactured before 31 December 2016 may be transported until 1 January 2019 without a “TOXIC” subsidiary hazard label."},
             {205, @"This entry shall not be used for PENTACHLOROPHENOL, UN 3155."},
             {207, @"Plastics moulding compounds may be made from polystyrene, poly(methyl methacrylate) or other polymeric material."},
             {208, @"The commercial grade of calcium nitrate fertilizer, when consisting mainly of a double salt (calcium nitrate and ammonium nitrate) containing not more than 10% ammonium nitrate and at least 12% water of crystallization, is not subject to the provisions of this Code."},
@@ -177,12 +173,13 @@ namespace EasyJob_ProDG.Data.Info_data
             {224, @"Unless it can be demonstrated by testing that the sensitivity of the substance in its frozen state is no greater than in its liquid state, the substance shall remain liquid during normal transport conditions. It shall not freeze at temperatures above -15°C."},
             {225, @"Fire extinguishers under this entry may include installed actuating cartridges (cartridges, power device of division 1.4C or 1.4S) without changing the classification of class 2.2 provided the total quantity of deflagrating(propellant) explosives does not exceed 3.2 g per extinguishing unit.Fire extinguishers shall be manufactured, tested, approved and labelled according to the provisions applied in the country of manufacture.\nNote: “Provisions applied in the country of manufacture” means the provisions applicable in the country of manufacture or those applicable in the country of use.
                 Fire extinguishers under this entry include:
-            \n.1 portable fire extinguishers for manual handling and operation;
-            \n.2 fire extinguishers for installation in aircraft;
-            \n.3 fire extinguishers mounted on wheels for manual handling;
-            \n.4 fire extinguishing equipment or machinery mounted on wheels or wheeled platforms or units transported similar to(small) trailers; and
-            \n.5 fire extinguishers composed of a non-rollable pressure drum and equipment, and handled, e.g. by fork lift or crane when loaded or unloaded.
-            \nNote: Pressure receptacles which contain gases for use in the above-mentioned extinguishers or for use in stationary fire-fighting installations shall meet the requirements in chapter 6.2 and all requirements applicable to the relevant dangerous goods when these pressure receptacles are transported separately."},
+                .1 portable fire extinguishers for manual handling and operation;
+                   Note: This entry applies to portable fire extinguishers, even if some components that are necessary for their proper functioning (e.g. hoses and nozzles) are temporarily detached, as long as the safety of the pressurized extinguishing agent containers is not compromised and the fire extinguishers continue to be identified as a portable fire extinguisher.""
+                .2 fire extinguishers for installation in aircraft;
+                .3 fire extinguishers mounted on wheels for manual handling;
+                .4 fire extinguishing equipment or machinery mounted on wheels or wheeled platforms or units transported similar to(small) trailers; and
+                .5 fire extinguishers composed of a non-rollable pressure drum and equipment, and handled, e.g. by fork lift or crane when loaded or unloaded.
+                   Note: Pressure receptacles which contain gases for use in the above-mentioned extinguishers or for use in stationary fire-fighting installations shall meet the requirements in chapter 6.2 and all requirements applicable to the relevant dangerous goods when these pressure receptacles are transported separately."},
             {226, @"Formulations of these substances containing not less than 30% non-volatile, non-flammable phlegmatizer are not subject to the provisions of this Code."},
             {227, @"When phlegmatized with water and inorganic inert material, the content of urea nitrate may not exceed 75% by mass and the mixture shall not be capable of being detonated by the series 1, type (a) test in the Manual of Tests and Criteria, part I."},
             {228, @"Mixtures not meeting the criteria for flammable gases (class 2.1) shall be transported under UN 3163."},
@@ -235,7 +232,7 @@ namespace EasyJob_ProDG.Data.Info_data
             and closed as to prevent the release of the dangerous goods under normal conditions of transport.
             Batteries installed in vehicles are not subject to the provisions of this Code."},
             {240, "Deleted." },
-            {241, @"The formulation shall be prepared so that it remains homogeneous and does not separate during transport.Formulations with low nitrocellulose contents and not showing dangerous properties when tested for their liability to detonate, deflagrate or explode when heated under defined confinement by tests of test series 1(a), 2(b) and 2(c) respectively in the Manual of Tests and Criteria, part I and not being a flammable solid when tested in accordance with test No. 1 in the Manual of Tests and Criteria, part III, paragraph 33.2.1.4 (chips, if necessary, crushed and sieved to a particle size of less than 1.25 mm) are not subject to the provisions of this Code."},
+            {241, @"The formulation shall be prepared so that it remains homogeneous and does not separate during transport.Formulations with low nitrocellulose contents and not showing dangerous properties when tested for their liability to detonate, deflagrate or explode when heated under defined confinement by tests of test series 1(a)}, 2(b) and 2(c) respectively in the Manual of Tests and Criteria, part I and not being a flammable solid when tested in accordance with test No. 1 in the Manual of Tests and Criteria, part III, paragraph 33.2.1.4 (chips, if necessary, crushed and sieved to a particle size of less than 1.25 mm) are not subject to the provisions of this Code."},
             {242, @"Sulphur is not subject to the provisions of this Code when it has been formed to a specific shape (such as prills, granules, pellets, pastilles or flakes)."},
             {243, @"Gasoline, motor spirit and petrol for use in spark-ignition engines (e.g. in automobiles, stationary engines and other engines) shall be assigned to this entry regardless of variations in volatility."},
             {244, @"This entry includes materials and substances such as aluminium dross, aluminium skimmings, spent cathodes, spent potliner and aluminium salt slags.
@@ -245,7 +242,7 @@ namespace EasyJob_ProDG.Data.Info_data
             \n.2 sufficient ullage(not less than 3%) shall be left to allow for the expansion of the liquid;
             \n.3 the wooden barrels shall be transported with the bungholes pointing upwards;
             \n.4 the wooden barrels shall be transported in containers meeting the provisions of the International
-            \nConvention for Safe Containers(CSC 1972), as amended, and each wooden barrel shall be secured in custom-made cradles and be wedged by appropriate means to prevent it from being displaced in any way during transport; and
+            \nConvention for Safe Containers(CSC 1972)}, as amended, and each wooden barrel shall be secured in custom-made cradles and be wedged by appropriate means to prevent it from being displaced in any way during transport; and
             \n.5 when carried on board ships, the containers shall be stowed in open cargo spaces or in enclosed cargo spaces complying with the requirements for class 3 flammable liquids with a flashpoint of 23°C c.c.or less in regulation II-2/19 of SOLAS, 74, as amended or regulation II-2/54 of SOLAS 74, as amended by the resolutions indicated in II-2/1.2.1, as applicable."},
             {249, @"Ferrocerium, stabilized against corrosion, with a minimum iron content of 10% is not subject to the provisions of this Code."},
             {250, @"This entry may only be used for samples of chemicals taken for analysis in connection with the implementation of the Convention on the Prohibition of the Development, Production, Stockpiling and Use of Chemical Weapons and on their Destruction. The transport of substances under this entry shall be in accordance with the chain of custody and security procedures specified by the Organization for the Prohibition of Chemical Weapons.
@@ -337,7 +334,7 @@ namespace EasyJob_ProDG.Data.Info_data
             according to column 2 in the Dangerous Goods List of chapter 3.2, and the substance shall be
             transported in accordance with the provisions applicable to that UN number.An example of the
             information shown on the dangerous goods transport document is:
-            UN 1993, Flammable liquid, N.O.S. (ethanol and toluene mixture), Radioactive material, excepted
+            UN 1993, Flammable liquid, N.O.S. (ethanol and toluene mixture)}, Radioactive material, excepted
             package – limited quantity of material, class 3, PG II.
             In addition, the provisions of 2.7.2.4.1 shall apply;
             .3 the provisions of chapter 3.4 for the transport of dangerous goods packed in limited quantities
@@ -419,13 +416,12 @@ namespace EasyJob_ProDG.Data.Info_data
             on the basis of the results of appropriate tests according to part I of the Manual of Tests and Criteria.
             Packaging shall ensure that the percentage of diluent does not fall below that stated in the competent
             authority approval at any time during transport."},
-            {
-            314, @".1 These substances are liable to exothermic decomposition at elevated temperatures.
+            {314, @".1 These substances are liable to exothermic decomposition at elevated temperatures.
             Decomposition can be initiated by heat or by impurities (e.g.powdered metals (iron, manganese,
             cobalt, magnesium) and their compounds).
             .2 During the course of transport, these substances shall be shaded from direct sunlight and all
             sources of heat and be placed in adequately ventilated areas."},
-            { 315, @"This entry shall not be used for class 6.1 substances which meet the inhalation toxicity criteria for
+            {315, @"This entry shall not be used for class 6.1 substances which meet the inhalation toxicity criteria for
             packing group I described in 2.6.2.2.4.3."},
             {316, @"This entry applies only to calcium hypochlorite, dry, when transported in non-friable tablet form."},
             {317, @"“Fissile-excepted” applies only to those fissile materials and packages containing fissile material
@@ -436,8 +432,7 @@ namespace EasyJob_ProDG.Data.Info_data
             inclusion in category A and assignment to UN 2814 or UN 2900, the words “suspected category A
             infectious substance” shall be shown, in parentheses, following the proper shipping name on the
             transport document, but not on the outer packagings."},
-            {
-            319, @"Substances packed and packages marked in accordance with packing instruction P650 are not
+            {319, @"Substances packed and packages marked in accordance with packing instruction P650 are not
             subject to any other provisions of this Code."},
             { 321, @"These storage systems shall always be considered as containing hydrogen."},
             { 322, @"When transported in non-friable tablet form, these goods are assigned to packing group III."},
@@ -481,16 +476,14 @@ namespace EasyJob_ProDG.Data.Info_data
             of an environmentally hazardous liquid assigned to UN 3082, absorbed into a solid material but with
             no free liquid in the packet or article, or containing less than 10 g of an environmentally hazardous
             solid assigned to UN 3077, are not subject to the provisions of this Code."},
-            {
-            338, @"Each fuel cell cartridge transported under this entry and designed to contain a liquefied flammable
+            {338, @"Each fuel cell cartridge transported under this entry and designed to contain a liquefied flammable
             gas shall:
             .1 be capable of withstanding, without leakage or bursting, a pressure of at least two times the
             equilibrium pressure of the contents at 55°C;
             .2 not contain more than 200 mL liquefied flammable gas, the vapour pressure of which shall not
             exceed 1 000 kPa at 55°C; and
             .3 pass the hot water bath test prescribed in 6.2.4.1 of chapter 6.2."},
-            {
-            339, @"Fuel cell cartridges containing hydrogen in a metal hydride transported under this entry shall have a
+            {339, @"Fuel cell cartridges containing hydrogen in a metal hydride transported under this entry shall have a
             water capacity less than or equal to 120 mL.The pressure in the fuel cell cartridge shall not exceed
             5 MPa at 55°C.The design type shall withstand, without leaking or bursting, a pressure of two (2)
             times the design pressure of the cartridge at 55°C or 200 kPa more than the design pressure of the
@@ -598,15 +591,15 @@ namespace EasyJob_ProDG.Data.Info_data
             ammonium salt are not to be accepted for transport."},
             {354, @"This substance is toxic by inhalation."},
             {355, @"Oxygen cylinders for emergency use transported under this entry may include installed actuating
-            cartridges (cartridges, power device of class 1.4, compatibility group C or S), without changing the
+            cartridges (cartridges, power device of class 1.4, compatibility group C or S)}, without changing the
             classification of class 2.2 provided the total quantity of deflagrating(propellant) explosives does not
             exceed 3.2 g per oxygen cylinder.The cylinders with the installed actuating cartridges as prepared
             for transport shall have an effective means of preventing inadvertent activation."},
-            { 356 , @"Metal hydride storage systems installed in vehicles, vessels, machinery, engines or aircraft or in completed components or intended to be installed in vehicles, vessels, machinery, engines or aircraft shall be approved by the competent authority before acceptance for transport. The transport document shall include an indication that the package was approved by the competent authority or a copy of the competent authority approval shall accompany each consignment."},
-            { 357, @"Petroleum crude oil containing hydrogen sulphide in sufficient concentration that vapours evolved
+            {356 , @"Metal hydride storage systems installed in vehicles, vessels, machinery, engines or aircraft or in completed components or intended to be installed in vehicles, vessels, machinery, engines or aircraft shall be approved by the competent authority before acceptance for transport. The transport document shall include an indication that the package was approved by the competent authority or a copy of the competent authority approval shall accompany each consignment."},
+            {357, @"Petroleum crude oil containing hydrogen sulphide in sufficient concentration that vapours evolved
             from the crude oil can present an inhalation hazard shall be consigned under the entry UN 3494
             PETROLEUM SOUR CRUDE OIL, FLAMMABLE, TOXIC."},
-            { 358, @"Nitroglycerin solution in alcohol with more than 1% but not more than 5% nitroglycerin may be
+            {358, @"Nitroglycerin solution in alcohol with more than 1% but not more than 5% nitroglycerin may be
             classified in class 3 and assigned to UN 3064 provided all the requirements of packing instruction
             P300 are complied with."},
             {359, @"Nitroglycerin solution in alcohol with more than 1% but not more than 5% nitroglycerin shall be
@@ -670,10 +663,10 @@ namespace EasyJob_ProDG.Data.Info_data
             \n.4 in addition, chemicals under pressure with components meeting the properties of: class 1, explosives; class 3, liquid desensitized explosives; class 4.1, self-reactive substances and solid desensitized explosives; class 4.2, substances liable to spontaneous combustion; class 4.3, substances which, in contact with water, emit flammable gases; class 5.1, oxidizing substances; class 5.2, organic peroxides; class 6.2, Infectious substances or class 7, Radioactive material, shall not be used for transport under this proper shipping name; 
             \n.5 substances to which PP86 or TP7 are assigned in column 9 and column 14 of the Dangerous Goods List in chapter 3.2 and therefore require air to be eliminated from the vapour space, shall not be used for transport under this UN number but shall be transported under their respective UN numbers as listed in the Dangerous Goods List of chapter 3.2." },
             { 363, @"This entry may only be used when the conditions of this special provision are met. No other provisions of this Code apply, except for special provision 972, chapter 5.4, part 7 and columns 16a and 16b of the Dangerous Goods List.
-            .1 This entry applies to engines or machinery, powered by fuels classified as dangerous goods via internal combustion systems or fuel cells(e.g.combustion engines, generators, compressors, turbines, heating units, etc.), except those which are assigned under UN 3166 or UN 3363;
+            .1 This entry applies to engines or machinery, powered by fuels classified as dangerous goods via internal combustion systems or fuel cells(e.g.combustion engines, generators, compressors, turbines, heating units, etc.)}, except those which are assigned under UN 3166 or UN 3363;
             .2 Engines or machinery which are empty of liquid or gaseous fuels and which do not contain other dangerous goods, are not subject to this Code.
             Note 1: An engine or machinery is considered to be empty of liquid fuel when the liquid fuel tank has been drained and the engine or machinery cannot be operated due to a lack of fuel.Engine or machinery components such as fuel lines, fuel filters and injectors do not need to be cleaned, drained or purged to be considered empty of liquid fuels. In addition, the liquid fuel tank does not need to be cleaned or purged.
-            Note 2: An engine or machinery is considered to be empty of gaseous fuels when the gaseous fuel tanks are empty of liquid (for liquefied gases), the positive pressure in the tanks does not exceed 2 bar and the fuel shut-off or isolation valve is closed and secured.
+            Note 2: An engine or machinery is considered to be empty of gaseous fuels when the gaseous fuel tanks are empty of liquid (for liquefied gases)}, the positive pressure in the tanks does not exceed 2 bar and the fuel shut-off or isolation valve is closed and secured.
             .3 Engines and machinery containing fuels meeting the classification criteria of class 3, shall be consigned under the entries UN No. 3528 ENGINE, INTERNAL COMBUSTION, FLAMMABLE LIQUID POWERED or UN 3528 ENGINE, FUEL CELL, FLAMMABLE LIQUID POWERED or UN 3528 MACHINERY, INTERNAL COMBUSTION, FLAMMABLE LIQUID POWERED or UN 3528 MACHINERY, FUEL CELL, FLAMMABLE LIQUID POWERED, as appropriate.
             .4 Engines and machinery containing fuels meeting the classification criteria of class 2.1, shall be consigned under the entries UN 3529 ENGINE, INTERNAL COMBUSTION, FLAMMABLE GAS POWERED or UN 3529 ENGINE, FUEL CELL, FLAMMABLE GAS POWERED or UN 3529 MACHINERY, INTERNAL COMBUSTION, FLAMMABLE GAS POWERED or UN 3529 MACHINERY, FUEL CELL, FLAMMABLE GAS POWERED, as appropriate.\nEngines and machinery powered by both a flammable gas and a flammable liquid shall be consigned under the appropriate UN 3529 entry.
             .5 Engines and machinery containing liquid fuels meeting the classification criteria of 2.9.3 for environmentally hazardous substances and not meeting the classification criteria of any other class or division, shall be consigned under the entries UN 3530 ENGINE, INTERNAL COMBUSTION or UN 3530 MACHINERY, INTERNAL COMBUSTION, as appropriate.
@@ -715,13 +708,13 @@ namespace EasyJob_ProDG.Data.Info_data
             \n\t.3 each article shall be manufactured in such a way that unintentional firing or release is avoided under normal conditions of handling, packing, transport and use.This may be fulfilled by an additional locking device linked to the activator;
             \n\t.4 each article shall be manufactured in such a way as to prevent hazardous projections of the pressure receptacle or parts of the pressure receptacle;
             \n\t.5 each pressure receptacle shall be manufactured from material which will not fragment upon rupture;
-            \n\t.6 the design type of the article shall be subjected to a fire test.For this test, the provisions of paragraphs 16.6.1.2 except subparagraph (g), 16.6.1.3.1 to 16.6.1.3.6, 16.6.1.3.7 (b) and 16.6.1.3.8 of the Manual of Tests and Criteria shall be applied. It shall be demonstrated that the article relieves its pressure by means of a fire degradable seal or other pressure relief device, in such a way that the pressure receptacle will not fragment and that the article or fragments of the article do not rocket more than 10 m; and
+            \n\t.6 the design type of the article shall be subjected to a fire test.For this test, the provisions of paragraphs 16.6.1.2 except subparagraph (g)}, 16.6.1.3.1 to 16.6.1.3.6, 16.6.1.3.7 (b) and 16.6.1.3.8 of the Manual of Tests and Criteria shall be applied. It shall be demonstrated that the article relieves its pressure by means of a fire degradable seal or other pressure relief device, in such a way that the pressure receptacle will not fragment and that the article or fragments of the article do not rocket more than 10 m; and
             \n\t.7 the design type of the article shall be subjected to the following test. A stimulating mechanism shall be used to initiate one article in the middle of the packaging. There shall be no hazardous effects outside the package such as disruption of the package, metal fragments or a receptacle which passes through the packaging.
             \n.2 The manufacturer shall produce technical documentation of the design type, manufacture as well as the tests and their results. The manufacturer shall apply procedures to ensure that articles produced in series are made of good quality, conform to the design type and are able to meet the requirements in .1. The manufacturer shall provide such information to the competent authority on request."},
             {372, @"This entry applies to asymmetric capacitors with an energy storage capacity greater than 0.3 Wh. Capacitors with an energy storage capacity of 0.3 Wh or less are not subject to the provisions of this Code.
             \nEnergy storage capacity means the energy stored in a capacitor, as calculated according to the following equation:
              \nWh = 1/2Cn(Ur^2-Ul^2) / 3,600
-            \nusing the nominal capacitance(CN), rated voltage(UR) and rated lower limit voltage(UL).
+            \nusing the nominal capacitance(CN)}, rated voltage(UR) and rated lower limit voltage(UL).
             \nAll asymmetric capacitors to which this entry applies shall meet the following conditions:
             \n.1 capacitors or modules shall be protected against short circuit;
             \n.2 capacitors shall be designed and constructed to safely relieve pressure that may build up in use, through a vent or a weak point in the capacitor casing.Any liquid which is released upon venting shall be contained by packaging or by equipment in which a capacitor is installed;
@@ -796,7 +789,7 @@ namespace EasyJob_ProDG.Data.Info_data
             Radiation detectors, including detectors in radiation detection systems, are not subject to any other
             requirements of this Code if the detectors meet the requirements in .1 to .6 above and the capacity
             of detector receptacles does not exceed 50 ml."},
-            { 379, @"Anhydrous ammonia adsorbed on a solid or absorbed in a solid contained in ammonia dispensing systems or receptacles intended to form part of such systems are not subject to the other provisions of this Code if the following conditions are observed:
+            {379, @"Anhydrous ammonia adsorbed on a solid or absorbed in a solid contained in ammonia dispensing systems or receptacles intended to form part of such systems are not subject to the other provisions of this Code if the following conditions are observed:
             .1 The adsorption or absorption presents the following properties:
                 .1 the pressure at a temperature of 20°C in the receptacle is less than 0.6 bar;
                 .2 the pressure at a temperature of 35°C in the receptacle is less than 1 bar;
@@ -813,7 +806,7 @@ namespace EasyJob_ProDG.Data.Info_data
             The properties of mechanical strength mentioned in this special provision shall be tested using a prototype of a receptacle and/or dispenser filled to nominal capacity, by increasing the temperature until the specified pressures are reached.
             The test results shall be documented, shall be traceable and shall be communicated to the relevant authorities upon request."},
             {381, @"Large packagings conforming to the packing group III performance level used in accordance with
-            packing instruction LP02 of 4.1.4.3, as prescribed in the IMDG Code(amendment 37-14), may be
+            packing instruction LP02 of 4.1.4.3, as prescribed in the IMDG Code(amendment 37-14)}, may be
             used until 31 December 2022."},
             {382, @"Polymeric beads may be made from polystyrene, poly(methyl methacrylate) or other polymeric
             material.When it can be demonstrated that no flammable vapour, resulting in a flammable atmosphere,
@@ -834,7 +827,7 @@ namespace EasyJob_ProDG.Data.Info_data
             into consideration include, but are not limited to, the capacity and geometry of the packaging, IBC
             or tank and the effect of any insulation present, the temperature of the substance when offered for
             transport, the duration of the journey and the ambient temperature conditions typically encountered
-            in the journey (considering also the season of year), the effectiveness and other properties of the
+            in the journey (considering also the season of year)}, the effectiveness and other properties of the
             stabilizer employed, applicable operational controls imposed by regulation (e.g. requirements to
             protect from sources of heat, including other cargo transported at a temperature above ambient)
             and any other relevant factors.”"},
@@ -843,13 +836,13 @@ namespace EasyJob_ProDG.Data.Info_data
             Vehicles powered by a fuel cell engine shall be assigned to the entries UN 3166 VEHICLE, FUEL CELL, FLAMMABLE GAS POWERED or UN 3166 VEHICLE, FUEL CELL, FLAMMABLE LIQUID POWERED, as appropriate.These entries include hybrid electric vehicles powered by both a fuel cell and an internal combustion engine with wet batteries, sodium batteries, lithium metal batteries or lithium ion batteries, transported with the battery(ies) installed.
             Other vehicles which contain an internal combustion engine shall be assigned to the entries UN 3166 VEHICLE, FLAMMABLE GAS POWERED or UN 3166 VEHICLE, FLAMMABLE LIQUID POWERED, as appropriate. These entries include hybrid electric vehicles powered by both an internal combustion engine and wet batteries, sodium batteries, lithium metal batteries or lithium ion batteries, transported with the battery(ies) installed. If a vehicle is powered by a flammable liquid and a flammable gas internal combustion engine, it shall be assigned to UN 3166 VEHICLE, FLAMMABLE GAS POWERED.
             Entry UN 3171 only applies to vehicles powered by wet batteries, sodium batteries, lithium metal batteries or lithium ion batteries and equipment powered by wet batteries or sodium batteries transported with these batteries installed.
-            For the purpose of this special provision, vehicles are self-propelled apparatus designed to carry one or more persons or goods. Examples of such vehicles are cars, motorcycles, scooters, three- and four-wheeled vehicles or motorcycles, trucks, locomotives, bicycles (pedal cycles with a motor) and other vehicles of this type (e.g. self-balancing vehicles or vehicles not equipped with at least one seating position), wheelchairs, lawn tractors, self-propelled farming and construction equipment, boats and aircraft. This includes vehicles transported in a packaging. In this case some parts of the vehicle may be detached from its frame to fit into the packaging.
+            For the purpose of this special provision, vehicles are self-propelled apparatus designed to carry one or more persons or goods. Examples of such vehicles are cars, motorcycles, scooters, three- and four-wheeled vehicles or motorcycles, trucks, locomotives, bicycles (pedal cycles with a motor) and other vehicles of this type (e.g. self-balancing vehicles or vehicles not equipped with at least one seating position)}, wheelchairs, lawn tractors, self-propelled farming and construction equipment, boats and aircraft. This includes vehicles transported in a packaging. In this case some parts of the vehicle may be detached from its frame to fit into the packaging.
             Examples of equipment are lawnmowers, cleaning machines or model boats and model aircraft.
             Equipment powered by lithium metal batteries or lithium ion batteries shall be assigned to the entries UN 3091 LITHIUM METAL BATTERIES CONTAINED IN EQUIPMENT or UN 3091 LITHIUM METAL BATTERIES PACKED WITH EQUIPMENT or UN 3481 LITHIUM ION BATTERIES CONTAINED IN EQUIPMENT or UN 3481 LITHIUM ION BATTERIES PACKED WITH EQUIPMENT, as appropriate. Lithium ion batteries or lithium metal batteries installed in a cargo transport unit and designed only to provide power external to the cargo transport unit shall be assigned to the entry UN 3536 LITHIUM BATTERIES INSTALLED IN CARGO TRANSPORT UNIT lithium ion batteries or lithium metal batteries.
             Dangerous goods, such as batteries, airbags, fire extinguishers, compressed gas accumulators, safety devices and other integral components of the vehicle that are necessary for the operation of the vehicle or for the safety of its operator or passengers, shall be securely installed in the vehicle and are not otherwise subject to this Code."},
 
             { 389, @"This entry only applies to lithium ion batteries or lithium metal batteries installed in a cargo transport unit and designed only to provide power external to the cargo transport unit. The lithium batteries shall meet the requirements of 2.9.4.1 to .7 and contain the necessary systems to prevent overcharge and overdischarge between the batteries.
-            \nThe batteries shall be securely attached to the interior structure of the cargo transport unit (e.g. by means of placement in racks, cabinets, etc.) in such a manner as to prevent short circuits, accidental operation, and significant movement relative to the cargo transport unit under the shocks, loadings and vibrations normally incident to transport. Dangerous goods necessary for the safe and proper operation of the cargo transport unit (e.g. fire-extinguishing systems and air-conditioning systems), shall be properly secured to or installed in the cargo transport unit and are not otherwise subject to this Code.
+            \nThe batteries shall be securely attached to the interior structure of the cargo transport unit (e.g. by means of placement in racks, cabinets, etc.) in such a manner as to prevent short circuits, accidental operation, and significant movement relative to the cargo transport unit under the shocks, loadings and vibrations normally incident to transport. Dangerous goods necessary for the safe and proper operation of the cargo transport unit (e.g. fire-extinguishing systems and air-conditioning systems)}, shall be properly secured to or installed in the cargo transport unit and are not otherwise subject to this Code.
             \nDangerous goods not necessary for the safe and proper operation of the cargo transport unit shall not be transported within the cargo transport unit.
             \nThe batteries inside the cargo transport unit are not subject to marking or labelling requirements. The cargo transport unit shall display the UN number in accordance with 5.3.2.1.2 and be placarded on two opposing sides in accordance with 5.3.1.1.2."},
             { 390, @"When a package contains a combination of lithium batteries contained in equipment and lithium batteries packed with equipment, the following requirements apply for the purposes of package marking and documentation:
@@ -892,7 +885,7 @@ namespace EasyJob_ProDG.Data.Info_data
             \n.2 the fuel gas containment systems shall be leakproof and shall not exhibit any signs of external damage which may affect their safety;
             \nNote 1: Criteria may be found in standard ISO 11623:2015
             \nTransportable gas cylinders – Periodic inspection and testing of composite gas cylinders (or ISO 19078:2013 Gas cylinders – Inspection of the cylinder installation, and requalification of high pressure cylinders for the onboard storage of natural gas as a fuel for automotive vehicles).
-            \nNote 2: If the fuel gas containment systems are not leakproof or are overfilled or if they exhibit damage that could affect their safety (e.g. in case of a safety-related recall), they shall only be carried in salvage pressure receptacles in conformity with this Code.
+            \nNote 2: If the fuel gas containment systems are not leakproof or are overfilled or if they exhibit damage that could affect their safety (e.g. in case of a safety-related recall)}, they shall only be carried in salvage pressure receptacles in conformity with this Code.
             \n.3 if a fuel gas containment system is equipped with two valves or more integrated in line, the two valves shall be closed as to be gastight under normal conditions of transport. If only one valve exists or only one valve works, all openings with the exception of the opening of the pressure relief device shall be closed as to be gastight under normal conditions of transport;
             \n.4 fuel gas containment systems shall be transported in such a way as to prevent obstruction of the pressure relief device or any damage to the valves and any other pressurised part of the fuel gas containment systems and unintentional release of the gas under normal conditions of transport. The fuel gas containment system shall be secured in order to prevent slipping, rolling or vertical movement;
             \n.5 valves shall be protected by one of the methods described in 4.1.6.1.8.1 to 4.1.6.1.8.5;
@@ -907,6 +900,15 @@ namespace EasyJob_ProDG.Data.Info_data
             { 393, @"The nitrocellulose shall meet the criteria of the Bergmann-Junk test or methyl violet paper test in the Manual of Tests and Criteria Appendix 10. Tests of type 3 (c) need not be applied." },
             { 394, @"The nitrocellulose shall meet the criteria of the Bergmann-Junk test or methyl violet paper test in the Manual of Tests and Criteria Appendix 10." },
             { 395, @"This entry shall only be used for solid medical waste of category A transported for disposal." },
+            { 396, @"Large and robust articles may be transported with connected gas cylinders with the valves open regardless of 4.1.6.1.5 provided:
+                    .1 the gas cylinders contain nitrogen of UN 1066 or compressed gas of UN 1956 or compressed air of UN 1002;
+                    .2 the gas cylinders are connected with the article through pressure regulators and fixed piping in such a way that the pressure of the gas (gauge pressure) in the article does not exceed 35 kPa (0.35 bar);
+                    .3 the gas cylinders are properly secured so that they cannot move in relation to the article and are fitted with strong and pressure resistant hoses and pipes;
+                    .4 the gas cylinders, pressure regulators, piping and other components are protected from damage and impacts during transport by wooden crates or other suitable means;
+                    .5 the transport document includes the following statement: ""Transport in accordance with special provision 396.""; and
+                    .6 cargo transport units containing articles transported with cylinders with open valves containing a gas presenting a risk of asphyxiation are well ventilated and are marked in accordance with 5.5.3.6." },
+            { 397, @"Mixtures of nitrogen and oxygen containing not less than 19.5% and not more than 23.5% oxygen by volume may be transported under this entry when no other oxidizing gases are present. A division 5.1 subsidiary hazard label is not required for any concentrations within this limit." },
+            { 398, @"This entry applies to mixtures of butylenes, 1-butylene, cis-2-butylene and trans-2-butylene. For isobutylene, see UN 1055." },
 
             { 900, @"The transport of the following substances is prohibited:
                 AMMONIUM HYPOCHLORITE
@@ -947,7 +949,7 @@ namespace EasyJob_ProDG.Data.Info_data
             { 923, @"The temperature shall be checked regularly." },
             { 925, @"The provisions of this Code do not apply to:
                 – non-activated carbon blacks of mineral origin;
-                – a consignment of carbon if it passes the tests for self-heating substances as reflected in the Manual of Tests and Criteria (see 33.3.1.3.3), and is accompanied by a certificate from a laboratory accredited by the competent authority, stating that the product to be loaded has been correctly sampled by trained staff from that laboratory and that the sample was correctly tested and has passed the test; and
+                – a consignment of carbon if it passes the tests for self-heating substances as reflected in the Manual of Tests and Criteria (see 33.3.1.3.3)}, and is accompanied by a certificate from a laboratory accredited by the competent authority, stating that the product to be loaded has been correctly sampled by trained staff from that laboratory and that the sample was correctly tested and has passed the test; and
                 – carbons made by a steam activation process." },
             { 926, @"This substance shall preferably have been weathered for not less than one month before shipment unless a certificate from a person recognized by the competent authority of the country of shipment states a maximum moisture content of 5%." },
             { 927, @"p -Nitrosodimethylaniline, wetted with more than 50% water is not subject to the provisions of this Code." },
@@ -981,7 +983,7 @@ namespace EasyJob_ProDG.Data.Info_data
                 In addition, for vehicles powered solely by lithium batteries and hybrid electric vehicles powered by both an internal combustion engine and lithium metal or ion batteries, the lithium batteries shall meet the provisions of 2.9.4, except that 2.9.4.1 and 2.9.4.7 do not apply when pre-production prototype batteries or batteries of a small production run, consisting of not more than 100 batteries, are installed in the vehicle and the vehicle is manufactured and approved according to the provisions applied in the country of manufacture or country of use.Where a lithium battery installed in a vehicle is damaged or defective, the battery shall be removed.
                 .2 vehicles powered by a flammable liquid fuel with a flashpoint of 38°C or above, there are no 3 leaks in any portion of the fuel system, the fuel tank(s) contains 450 L of fuel or less and installed batteries are protected from short-circuit;
                 .3 vehicles powered by a flammable liquid fuel with a flashpoint less than 38°C, the fuel tank(s) are empty and installed batteries are protected from short circuit.Vehicles are considered to be empty of flammable liquid fuel when the fuel tank has been drained and the vehicles cannot be operated due to a lack of fuel. Engine components such as fuel lines, fuel filters and injectors do not need to be cleaned, drained or purged to be considered empty.The fuel tank does not need to be cleaned or purged;
-                .4 vehicles powered by a flammable gas(liquefied or compressed), the fuel tank(s) are empty and the positive pressure in the tank does not exceed 2 bar, the fuel shut-off or isolation valve is closed and secured, and installed batteries are protected from short circuit;
+                .4 vehicles powered by a flammable gas(liquefied or compressed)}, the fuel tank(s) are empty and the positive pressure in the tank does not exceed 2 bar, the fuel shut-off or isolation valve is closed and secured, and installed batteries are protected from short circuit;
                 .5 vehicles solely powered by a wet or dry electric storage battery or a sodium battery, and the battery is protected from short circuit." },
 
             { 962, @"Vehicles, not meeting the conditions of special provision 961 shall be assigned to class 9 and shall meet the following requirements:

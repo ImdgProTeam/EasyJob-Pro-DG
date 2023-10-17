@@ -8,7 +8,7 @@ namespace EasyJob_ProDG.UI.View.Sort
     {
         public int Compare(ILocationOnBoard x, ILocationOnBoard y)
         {
-            return Compare(x, y, true, ProgramDefaultSettingValues.lowestTier);
+            return Compare(x, y, true, ProgramDefaultSettingValues.lowestTierOnDeck);
         }
 
         public int Compare(ILocationOnBoard x, ILocationOnBoard y, bool combine4020, byte lowestTier)

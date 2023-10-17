@@ -95,7 +95,8 @@ namespace EasyJob_ProDG.Model.Cargo
                 record.Name = entry.Element("name").Value;
 
                 array = entry.Attribute("specialprovisions").Value.Split(' ');
-                foreach (string x in array) record.special.Add(x != "–" ? Convert.ToUInt16(x) : (ushort)0);
+                foreach (string x in array) 
+                    record.special.Add(x != "–" ? Convert.ToUInt16(x) : (ushort)0);
 
                 record.StowageCat = (entry.Element("Stowage").Attribute("category").Value).Length > 1 ?
                                     (entry.Element("Stowage").Attribute("category").Value)[1] :

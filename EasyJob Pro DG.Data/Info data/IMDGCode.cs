@@ -2,9 +2,9 @@
 
 namespace EasyJob_ProDG.Data.Info_data
 {
-    public static class IMDGCode
+    public static partial class IMDGCode
     {
-        public const ushort MaxUnnoNumber = 3549;
+        public const ushort MaxUnnoNumber = 3550;
         public static List<string> AllValidDgClasses = new List<string>()
         {
             "1.1", "1.2", "1.3", "1.4", "1.5", "1.6",
@@ -133,110 +133,6 @@ namespace EasyJob_ProDG.Data.Info_data
         public static char[] ExplosivesCompatibilityGroupCodes = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'N', 'S' }; 
         #endregion
 
-        #region Segregation groups
-        public enum SegregationGroup : byte
-        {
-            acids = 1,
-            ammonium_compounds,
-            bromates,
-            chlorates,
-            chlorites,
-            cyanides,
-            heavy_metals_and_their_salts,
-            hypochlorites,
-            lead_and_its_compounds,
-            liquid_halogenated_hydrocarbons,
-            mercury_and_mercury_compounds,
-            nitrites_and_their_mixtures,
-            perchlorates,
-            permanganates,
-            powdered_metals,
-            peroxides,
-            azides,
-            alkalis,
-            strong_acids
-        }
-
-        public static string[] SegregationGroups =
-        {
-            "none",
-            "SGG1 - acids",
-            "SGG2 - ammonium compounds",
-            "SGG3 - bromates",
-            "SGG4 - chlorates",
-            "SGG5 - chlorites",
-            "SGG6 - cyanides",
-            "SGG7 - heavy metals and their salts",
-            "SGG8 - hypochlorites",
-            "SGG9 - lead and its compounds",
-            "SGG10 - liquid halogenated hydrocarbons",
-            "SGG11 - mercury and mercury compounds",
-            "SGG12 - nitrites and their mixtures",
-            "SGG13 - perchlorates",
-            "SGG14 - permanganates",
-            "SGG15 - powdered metals",
-            "SGG16 - peroxides",
-            "SGG17 - azides",
-            "SGG18 - alkalis",
-            "SGG1a - strong acids"
-        };
-
-        public static string[] SegregationGroupsCodes =
-        {
-            "none",
-            "SGG1",
-            "SGG2",
-            "SGG3",
-            "SGG4",
-            "SGG5",
-            "SGG6",
-            "SGG7",
-            "SGG8",
-            "SGG9",
-            "SGG10",
-            "SGG11",
-            "SGG12",
-            "SGG13",
-            "SGG14",
-            "SGG15",
-            "SGG16",
-            "SGG17",
-            "SGG18",
-            "SGG1a"
-        };
-
-        public static Dictionary<string, string> SegregationGroupMatch = new Dictionary<string, string>()
-        {
-            {"acids", "SGG1 - acids"},
-            {"ammoniumcompounds", "SGG2 - ammonium compounds"},
-            {"bromates", "SGG3 - bromates"},
-            {"chlorates", "SGG4 - chlorates"},
-            {"chlorites", "SGG5 - chlorites"},
-            {"cyanides", "SGG6 - cyanides"},
-            {"heavymetals", "SGG7 - heavy metals and their salts"},
-            {"heavymetalsandtheirsalts", "SGG7 - heavy metals and their salts"},
-            {"hypochlorites", "SGG8 - hypochlorites"},
-            {"lead", "SGG9 - lead and its compounds"},
-            {"leadcompounds", "SGG9 - lead and its compounds"},
-            {"leadanditscompounds", "SGG9 - lead and its compounds"},
-            {"liquidhalogenatedhydrocarbons", "SGG10 - liquid halogenated hydrocarbons"},
-            {"mercury", "SGG11 - mercury and mercury compounds"},
-            {"mercurycompounds", "SGG11 - mercury and mercury compounds"},
-            {"mercuryandmercurycompounds", "SGG11 - mercury and mercury compounds"},
-            {"nitrites", "SGG12 - nitrites and their mixtures"},
-            {"nitritesmixtures", "SGG12 - nitrites and their mixtures"},
-            {"nitrites and their mixtures", "SGG12 - nitrites and their mixtures"},
-            {"perchlorates", "SGG13 - perchlorates"},
-            {"permanganates", "SGG14 - permanganates"},
-            {"powderedmetals", "SGG15 - powdered metals"},
-            {"peroxides", "SGG16 - peroxides"},
-            {"azides", "SGG17 - azides"},
-            {"alkalis", "SGG18 - alkalis"},
-            {"strongacids", "SGG1a - strong acids"}
-
-        };
-        #endregion
-
         #region DOC classes
         public static List<string> DOCclasses = new List<string>()
         {
@@ -298,7 +194,7 @@ namespace EasyJob_ProDG.Data.Info_data
         public static string[] DOCadditional =
         {
             "Goods of class 1 shall not be stowed within a horizontal distance of 6m from potential sources of fire, machinery exhausts, galley uptakes, lockers used for combustible stores or other potential sources of ignition and not less than a horizontal distance of 8 meters from the brige, living quarters and life-saving appliances.",
-            "When dangerous goods are classes 2.1,2.3,3,4,5,6.1(B),6.1(D),8(B),8(C), and 9 are carried under deck, they are to be carried out in closed freight containers only.",
+            "When dangerous goods are classes 2.1,2.3,3,4,5,6.1(B)},6.1(D)},8(B)},8(C)}, and 9 are carried under deck, they are to be carried out in closed freight containers only.",
             "For classes 2,3,4 liquids,5.1 liquids, 6.1, and 8 and 9 when carried in closed freight containers in purpose built dedicated container cargo spaces, the ventilation rate may be reduced to not less than two air exchanges per hour.",
             "Power ventilation is not required for class 4 (solid) and 5.1 (liquid) when carried out in closed freight containers",
             "Stowage of class 5.2 underdeck is prohibited",
@@ -339,19 +235,19 @@ namespace EasyJob_ProDG.Data.Info_data
         #region Paragraphs quotes
         public static Dictionary<string, string> Paragraphs = new Dictionary<string, string>
         {
-            { "1.1.1.7", "Dangerous goods, that are only asphyxiant (which dilute or replace the oxygen normally in the atmosphere), when used in cargo transport units for cooling or conditioning purposes are only subject to the provisions of section 5.5.3." },
+            { "1.1.1.7", "Dangerous goods, that are only asphyxiant (which dilute or replace the oxygen normally in the atmosphere)}, when used in cargo transport units for cooling or conditioning purposes are only subject to the provisions of section 5.5.3." },
             {"5.5.3.2.1", "Cargo transport units containing substances used for cooling or conditioning purposes (other than fumigation) during transport are not subject to any provisions of this Code other than those of this section." },
             { "7.1.4.4.5","Transport to or from offshore oil platforms, mobile offshore drilling units and other offshore installations \nNotwithstanding the stowage category indicated in column 16a of the Dangerous Goods List, UN 0124 JET PERFORATING GUNS, CHARGED, and UN 0494 JET PERFORATING GUNS, CHARGED, transported to or from offshore oil platforms, mobile offshore drilling units and other offshore installations may be stowed on deck in offshore well tool pallets, cradles or baskets provided that: \n.1 initiation devices shall be segregated from each other and from any jet perforating guns in accordance with the provisions of 7.2.7, and from any other dangerous goods in accordance with the provisions of 7.2.4 and 7.6.3.2, unless otherwise approved by the competent authority; \n.2 jet perforating guns shall be securely held in place during transport; \n.3 each shaped charge affixed to any gun shall not contain more than 112 g of explosives; \n.4 each shaped charge, if not completely enclosed in glass or metal, shall be fully protected by a metal cover following installation in the gun; \n.5 both ends of jet perforating guns shall be protected by means of steel end caps allowing for pressure release in the event of fire; \n.6 the total explosive content shall not exceed 95 kg per well tool pallet, cradle or basket; and \n.7 where more than one well tool pallet, cradle or basket is stowed \"on deck\", a minimum horizontal distance of 3 m shall be observed between them." },
             {"7.1.4.7", "Stowage of stabilized dangerous goods \nSubstances, for which the word \"STABILIZED\" is added as part of the proper shipping name of the substances in accordance with 3.1.2.6, Stowage Category D and SW1 shall apply." },
-            {"7.4.1.4", @"For stowage of AMMONIUM NITRATE (UN 1942), AMMONIUM NITRATE BASED FERTILIZER (UN 2067 AND 2071) in containers, the applicable provisions of 7.6.2.8.4 and 7.6.2.11.1 also apply." },
-            {"7.4.1.3", @"For stowage of FISHMEAL, UNSTABILIZED (UN 1374), FISHMEAL, STABILIZED (UN 2216) and KRILL MEAL (UN 3497) in containers, the provisions of 7.6.2.7.2.2 also apply." },
+            {"7.4.1.4", @"For stowage of AMMONIUM NITRATE (UN 1942)}, AMMONIUM NITRATE BASED FERTILIZER (UN 2067 AND 2071) in containers, the applicable provisions of 7.6.2.8.4 and 7.6.2.11.1 also apply." },
+            {"7.4.1.3", @"For stowage of FISHMEAL, UNSTABILIZED (UN 1374)}, FISHMEAL, STABILIZED (UN 2216) and KRILL MEAL (UN 3497) in containers, the provisions of 7.6.2.7.2.2 also apply." },
             { "7.6.2.8.4", @"UN 1942 AMMONIUM NITRATE and UN 2067 AMMONIUM NITRATE BASED FERTILIZER may be stowed under deck in a clean cargo space capable of being opened up in an emergency. The possible need to open hatches in case of fire to provide maximum ventilation and to apply water in an emergency and the consequent risk to the stability of the ship through flooding of cargo space shall be considered before loading." },
             {"7.6.2.11.1", @"Stowage provisions for AMMONIUM NITRATE BASED FERTILIZER, UN 2071
-                \n7.6.2.11.1.1 AMMONIUM NITRATE BASED FERTILIZER, UN 2071 shall be stowed in a clean cargo space capable of being opened up in an emergency. In the case of bagged fertilizer or fertilizer in containers or in bulk containers, it is sufficient if, in the case of an emergency, the cargo is accessible through free approaches (hatch entries), and mechanical ventilation enables the master to exhaust any gases or fumes resulting from decomposition. The possible need to open hatches in case of fire to provide maximum ventilation and to apply water in an emergency, and the consequent risk to the stability of the ship through flooding of the cargo space, shall be considered before loading.
-                \n7.6.2.11.1.2 If suppression of decomposition should prove impracticable (such as in bad weather), there would not necessarily be immediate danger to the structure of the ship. However, the residue left after decomposition may have only half the mass of the original cargo; this loss of mass may also affect the stability of the ship and shall be considered before loading.
+                \n7.6.2.11.1.1 AMMONIUM NITRATE BASED FERTILIZER, UN 2071 shall be stowed in a clean cargo space capable of being opened up in an emergency. In the case of bagged fertilizer or fertilizer in containers or in bulk containers, it is sufficient if, in the case of an emergency, the cargo is accessible through free approaches (hatch entries)}, and mechanical ventilation enables the master to exhaust any gases or fumes resulting from decomposition. The possible need to open hatches in case of fire to provide maximum ventilation and to apply water in an emergency, and the consequent risk to the stability of the ship through flooding of the cargo space, shall be considered before loading.
+                \n7.6.2.11.1.2 If suppression of decomposition should prove impracticable (such as in bad weather)}, there would not necessarily be immediate danger to the structure of the ship. However, the residue left after decomposition may have only half the mass of the original cargo; this loss of mass may also affect the stability of the ship and shall be considered before loading.
                 \n7.6.2.11.1.3 AMMONIUM NITRATE BASED FERTILIZER, UN 2071 shall be stowed out of direct contact with a metal engine-room bulkhead.In the case of bagged material, this may be done, for example, by using wooden boards to provide an air space between the bulkhead and the cargo.This requirement need not apply to short international voyages.
                 \n7.6.2.11.1.4 In the case of ships not fitted with smoke-detecting or other suitable devices, arrangements shall be made during the voyage to inspect cargo spaces containing these fertilizers at intervals not exceeding 4 h (such as to sniff at the ventilators serving them) to ensure early detection of decomposition should that occur." },
-            {"7.6.2.7.2", @"Stowage provisions for FISHMEAL, UNSTABILIZED (UN 1374), FISHMEAL, STABILIZED (UN 2216, class 9) and KRILL MEAL(UN 3497)
+            {"7.6.2.7.2", @"Stowage provisions for FISHMEAL, UNSTABILIZED (UN 1374)}, FISHMEAL, STABILIZED (UN 2216, class 9) and KRILL MEAL(UN 3497)
                 \n7.6.2.7.2.2 For containers:
                 \n.1 After packing, the doors and other openings shall be sealed to prevent the penetration of air into the unit.
                 \n.2 Temperature readings in the hold shall be taken once a day early in the morning during the voyage and recorded.

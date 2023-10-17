@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Cargo\CargoPlanExtensionMethods.cs" />
     <Compile Include="Cargo\DgConflictMethods.cs" />
+    <Compile Include="Cargo\HandleDgList.cs" />
     <Compile Include="Cargo\ICargoPlan.cs" />
     <Compile Include="Cargo\IContainer.cs" />
     <Compile Include="Cargo\ILocationOnBoard.cs" />
@@ -78,10 +79,9 @@
     <Compile Include="Cargo\Container.cs" />
     <Compile Include="Cargo\CargoPlan.cs" />
     <Compile Include="Cargo\Dg.cs" />
-    <Compile Include="Cargo\Dg_AssignSegregationGroup.cs" />
     <Compile Include="Cargo\Dg_AssignRowFromDOC.cs" />
     <Compile Include="Cargo\Dg_AssignFromDgList.cs" />
-    <Compile Include="Cargo\HandlingDg.cs" />
+    <Compile Include="Cargo\HandleDg.cs" />
     <Compile Include="Output.cs" />
     <Compile Include="ProgramFiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

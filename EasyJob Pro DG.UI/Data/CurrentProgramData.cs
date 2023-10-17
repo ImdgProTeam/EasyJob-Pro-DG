@@ -38,8 +38,8 @@ namespace EasyJob_ProDG.UI.Data
         #region Public properties
         // ----------- Public properties to be used in view ----------------------------
 
-        public static ConflictsList Conflicts = new ConflictsList();
-        public static VentilationRequirements Vents = new VentilationRequirements();
+        public static ConflictsList Conflicts = new();
+        public static VentilationRequirements Vents = new();
         public static CargoPlanWrapper WorkingCargoPlan;
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace EasyJob_ProDG.UI.Data
         public bool ConnectProgramFiles()
         {
             //Initiate EventSupervisor
-            EventSupervisor evS = new EventSupervisor();
+            EventSupervisor evS = new();
 
             ////Connect program files
             return ProgramFiles.Connect(out OwnShip, out _dgDataBase);
@@ -263,7 +263,7 @@ namespace EasyJob_ProDG.UI.Data
         /// <param name="ownShip">Current ShipProfile</param>
         private void CheckSegregation(CargoPlan cargoPlan, ShipProfile ownShip)
         {
-            HandlingDg.CheckSegregation(cargoPlan, ownShip);
+            Model.Cargo.HandleDgList.CheckSegregation(cargoPlan, ownShip);
             //enterlog(logstreamwriter, "segregation checked");
         }
 

@@ -39,7 +39,7 @@ namespace EasyJob_ProDG.Model.Cargo
             Bay = byte.Parse(_cntrLocation.Remove(_cntrLocation.Length - 4));
             Row = byte.Parse(_cntrLocation.Remove(0, _cntrLocation.Length - 4).Remove(2));
             Tier = byte.Parse(_cntrLocation.Remove(0, _cntrLocation.Length - 2));
-            IsUnderdeck = Tier < ProgramDefaultSettingValues.lowestTier;
+            IsUnderdeck = Tier < ProgramDefaultSettingValues.lowestTierOnDeck;
             Size = (byte)(Bay % 2 == 0 ? 40 : 20);
         }
     }

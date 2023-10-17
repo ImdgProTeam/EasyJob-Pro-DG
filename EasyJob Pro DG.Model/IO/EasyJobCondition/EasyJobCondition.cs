@@ -95,20 +95,20 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                 var line = reader.ReadLine();
                 if (line == null) break;
 
+                //New record
+                if (line.StartsWith("C:"))
+                {
+                    AddUnitToCargoPlan(ejcVersion, line, cargoPlan, ship);
+                    continue;
+                }
+
                 //DETERMINE COMMENCEMENT OF CONDITION
-                if (line == "| CPC |") readingCondition = true;
+                else if (line == "| CPC |") readingCondition = true;
 
                 //ENTER VERSION VALIDATION
                 else if (line.StartsWith("v. "))
                 {
                     ejcVersion = DefineConditionVersion(line.Remove(0, 3));
-                }
-
-                //New record
-                else if (line.StartsWith("C:"))
-                {
-                    AddUnitToCargoPlan(ejcVersion, line, cargoPlan, ship);
-                    continue;
                 }
 
                 //Voyage info

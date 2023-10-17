@@ -42,6 +42,8 @@ namespace EasyJob_ProDG.Model.Cargo
             }
         }
         public bool IsEmpty => Containers.Count <= 0 && DgList.Count <= 0 && Reefers.Count <= 0;
+        internal bool HasNonamers;
+        internal int NextNonamerNumber;
 
 
         // -------------- Main methods ----------------------------------------------
@@ -65,8 +67,8 @@ namespace EasyJob_ProDG.Model.Cargo
             if (cargoPlan is null || cargoPlan.IsEmpty) return cargoPlan;
 
             //Updating cargo plan from database
-            HandlingDg.UpdateDgInfo(cargoPlan.DgList, dgDataBase);
-            HandlingDg.CheckDgList(cargoPlan.DgList, (byte)OpenFile.FileTypes.Edi);
+            HandleDg.UpdateDgInfo(cargoPlan.DgList, dgDataBase);
+            HandleDgList.CheckDgList(cargoPlan.DgList, (byte)OpenFile.FileTypes.Edi);
 
             //Choose what to do with new plan according to OpenOptions
             if (openOption == OpenFile.OpenOption.Update) cargoPlan = existingCargoPlan.UpdateCargoPlan(cargoPlan);
@@ -505,6 +507,8 @@ namespace EasyJob_ProDG.Model.Cargo
             {
                 resultingCargoPlan.Reefers.Add(container);
                 sourceCargoPlan.Reefers.Remove(container);
+
+                //TODO: Causes error when container numbers are missing
                 additionalCargoPlanToBeCleared?.Reefers.Remove(additionalCargoPlanToBeCleared.Reefers.SingleOrDefault
                     (r => string.Equals(r.ContainerNumber, container.ContainerNumber)));
             }
@@ -599,6 +603,7 @@ namespace EasyJob_ProDG.Model.Cargo
             Reefers = new List<Container>();
             Containers = new List<Container>();
             VoyageInfo = new Voyage();
+            HasNonamers = false;
         }
     }
 }

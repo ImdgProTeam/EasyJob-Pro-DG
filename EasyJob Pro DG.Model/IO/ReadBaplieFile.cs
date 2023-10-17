@@ -19,15 +19,11 @@ namespace EasyJob_ProDG.Model.IO
         readonly EdiSegmentArray _segmentArray;
         private readonly ShipProfile _ship;
 
-        public int ContainerCount;
-        public int DgContainerCount;
-        public int RfContainerCount;
-        public int ContainersLoaded;
-        public int DgContainersLoaded;
-        public int RfContainersLoaded;
         private CargoPlan cargoPlan;
         public List<string> WrongList;
-        public int WrongContainers;
+        public int WrongContainersCount;
+
+        private const string SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         #endregion
 
         public CargoPlan GetCargoPlan()
@@ -59,16 +55,10 @@ namespace EasyJob_ProDG.Model.IO
             _segmentArray = new EdiSegmentArray(text);
             reader.Close();
 
-            //Print working information
-            //Output.DisplayLine("\nTotal {0} segments.", segmentArray.count);
-            //Output.Display("\nTotal {0} containers.", segmentArray.containerCount.ToString());
-            //Output.DisplayLine("\nEnd of Reader.\nPress any key to complete container list");
-            //Output.ReadKey();
-
             //Create container list
             cargoPlan = new CargoPlan();
             WrongList = new List<string>();
-            WrongContainers = 0;
+            WrongContainersCount = 0;
 
             if (!isIftdgn)
                 if (!DefineSegments())
@@ -76,8 +66,8 @@ namespace EasyJob_ProDG.Model.IO
                     isIftdgn = true;
                 }
 
-            if(isIftdgn) 
-                 cargoPlan = ReadIftdgnFile.ReadSegments(_segmentArray, _ship);
+            if (isIftdgn)
+                cargoPlan = ReadIftdgnFile.ReadSegments(_segmentArray, _ship);
 
             //Print wrong container numbers info
             //if (wrongContainers > 0)
@@ -90,21 +80,11 @@ namespace EasyJob_ProDG.Model.IO
             //        foreach (string number in wrongList)
             //            Style.GreenStyle(number);
             //}
-
-            //Gathering summary of containers
-            foreach (Container unit in cargoPlan.Containers)
-            {
-                if (unit.POL != cargoPlan.VoyageInfo.PortOfDeparture) continue;
-                ContainersLoaded++;
-                if (unit.DgCountInContainer > 0)
-                    DgContainersLoaded++;
-                if (unit.IsRf)
-                    RfContainersLoaded++;
-            }
         }
 
         /// <summary>
-        /// Method defines what information is contained in a segment and updates respective fields of dg list, container list or vessel information
+        /// Method defines what information is contained in a segment and updates respective fields of dg list, 
+        /// container list or vessel information
         /// </summary>
         private bool DefineSegments()
         {
@@ -146,7 +126,6 @@ namespace EasyJob_ProDG.Model.IO
                             //Container location
                             if (a.Location != null)
                             {
-                                ContainerCount++;
                                 //if (!a.typeRecognized && a.DgInContainer > 0)
                                 //{
                                 //    Style.FontColor("Red");
@@ -262,33 +241,32 @@ namespace EasyJob_ProDG.Model.IO
 
                     #region DG
                     case "DGS":
-                        if(a.DgCountInContainer == 0) DgContainerCount++;
                         a.DgCountInContainer++;
                         Dg dgUnit = new Dg();
 
                         //copy general container info into Dg
                         dgUnit.CopyContainerInfo(a);
                         //Gather all dg information from ediSegment and copy it to dgList
-                        if(ReadDgSegment(segment, dgUnit))
+                        if (ReadDgSegment(segment, dgUnit))
                             cargoPlan.DgList.Add(dgUnit);
                         break;
                     #endregion
 
                     #region Equipment
                     case "EQD":
-                        if (segment.Substring(4, 2) == "CN")
+                        string[] subsegments = segment.Split('+');
+                        if (!string.Equals(subsegments[1], "CN")) break;
+
+                        a.ContainerNumber = subsegments[2].Replace(" ", "");
+                        if (a.ContainerNumber.Length == 0) NameNonamer(a);
+                        else if (a.ContainerNumber.Length != 11)
                         {
-                            segment = segment.Replace(" ", "");
-                            a.ContainerNumber = segment.Substring(7, segment.IndexOf("+", 7, StringComparison.Ordinal) - 7);
-                            if (a.ContainerNumber.Contains('+') || a.ContainerNumber.Length < 11)
-                            {
-                                //Output.DisplayLine("Wrong container Nr: {0}",
-                                WrongList.Add(segment.Substring(7, segment.IndexOf('+', 7) - 7));
-                                WrongContainers++;
-                                //Output.ReadKey();
-                            }
-                            a.ContainerType = segment.Substring(segment.IndexOf("+", 7, StringComparison.Ordinal) + 1, 4);
+                            //Output.DisplayLine("Wrong container Nr: {0}",
+                            WrongList.Add(segment.Substring(7, segment.IndexOf('+', 7) - 7));
+                            WrongContainersCount++;
                         }
+
+                        a.ContainerType = subsegments[3].Replace(" ", "");
                         break;
                     #endregion
 
@@ -307,11 +285,35 @@ namespace EasyJob_ProDG.Model.IO
                         break;
 
                     case "RFF+VO":
-                        if(string.IsNullOrEmpty(cargoPlan.VoyageInfo.VoyageNumber))
+                        if (string.IsNullOrEmpty(cargoPlan.VoyageInfo.VoyageNumber))
                             cargoPlan.VoyageInfo.VoyageNumber = segment.Substring(7);
                         break;
 
                     case "FTX":
+                        bool hasReadLq = false;
+                        bool hasReadMp = false;
+
+                        if (UserSettings.ReadLQfromBaplie)
+                            if (segment.Contains("LQ") || segment.Replace(" ", "").Contains("LTDQTY"))
+                                hasReadLq = true;
+
+                        if (UserSettings.ReadMPfromBaplie)
+                            if (segment.Replace(" ", "").Contains("MARPOL"))
+                                hasReadMp = true;
+
+                        if (!hasReadMp && !hasReadLq) break;
+
+                        if (a.DgCountInContainer > 0)
+                        {
+                            var unit = cargoPlan.DgList[cargoPlan.DgList.Count - 1];
+                            if (hasReadLq) unit.IsLq = true;
+                            if (hasReadMp)
+                            {
+                                unit.IsMp = true;
+                                unit.mpDetermined = true;
+                            }
+                        }
+
                         break;
                     case "DIM":
                         break;
@@ -319,13 +321,12 @@ namespace EasyJob_ProDG.Model.IO
 
                     #region Reefes
                     case "TMP":
-                        RfContainerCount++;
                         a.IsRf = true;
-                        string temp = segment.Substring(6);//.Replace('.', ',');
+                        string temp = segment.Substring(6);
 
                         double tmp;
                         temp = temp.Remove(temp.IndexOf(':'));
-                        bool isParsed = double.TryParse(temp, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign,CultureInfo.CreateSpecificCulture("en-GB"), out tmp);
+                        bool isParsed = double.TryParse(temp, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.CreateSpecificCulture("en-GB"), out tmp);
                         if (!isParsed) tmp = -99;
 
                         if (segment.Contains("CEL"))
@@ -348,6 +349,55 @@ namespace EasyJob_ProDG.Model.IO
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Creates an unique consequitive name for <see cref="Container"/> a without number in accordance with naming rules.
+        /// </summary>
+        /// <param name="a"></param>
+        private void NameNonamer(Container a)
+        {
+            if (a.ContainerNumber is not null && !string.Equals(a.ContainerNumber, string.Empty)) return;
+
+            cargoPlan.HasNonamers = true;
+            a.ContainerNumber = ProgramDefaultSettingValues.NoNamePrefix + GenerateNextNonamerNumber(cargoPlan.NextNonamerNumber++);
+        }
+
+        /// <summary>
+        /// Generates consequtive next number based on argument value. 
+        /// </summary>
+        /// <param name="next">Integer value to be used to generate unique number.</param>
+        /// <returns>Unique string consisting of three chars.</returns>
+        private string GenerateNextNonamerNumber(int next)
+        {
+            if (next < 1000) return next.ToString("000");
+
+            int numberOfVariants = SYMBOLS.Length;
+            int exceed = next - 1000;
+
+            byte numberOfLetters = exceed < numberOfVariants * 100 ? (byte)1
+                : exceed < numberOfVariants * numberOfVariants * 10 + numberOfVariants * 100 ? (byte)2
+                : (byte)3;
+
+            int firstDivider = numberOfLetters == 1 ? 100
+                : numberOfLetters == 2
+                ? numberOfVariants * 10 : numberOfVariants * numberOfVariants;
+            int secondDivider = numberOfLetters < 3 ? 10 : numberOfVariants;
+            int value = numberOfLetters == 1 ? exceed
+                : numberOfLetters == 2 ? exceed - numberOfVariants * 100
+                : exceed - numberOfVariants * numberOfVariants * 10 - numberOfVariants * 100;
+
+            int[] calculatedValues = new int[3];
+            calculatedValues[0] = value / firstDivider;
+            calculatedValues[1] = value % firstDivider / secondDivider;
+            calculatedValues[2] = value % firstDivider % secondDivider;
+
+            char[] result = new char[3];
+            result[0] = SYMBOLS[calculatedValues[0]];
+            result[1] = numberOfLetters == 1 ? Char.Parse(calculatedValues[1].ToString()) : SYMBOLS[calculatedValues[1]];
+            result[2] = numberOfLetters < 3 ? Char.Parse(calculatedValues[2].ToString()) : SYMBOLS[calculatedValues[2]];
+
+            return new string(result);
         }
 
         /// <summary>
@@ -404,8 +454,6 @@ namespace EasyJob_ProDG.Model.IO
                 if (dgSegment.Length > 8 && dgSegment[8] != "")
                 {
                     Output.ThrowMessage(dgSegment[8]);
-                    //Output.DisplayLine(dgSegment[8]);
-                    //Output.ReadKey();
                 }
             }
             //DG subclasses
@@ -433,7 +481,7 @@ namespace EasyJob_ProDG.Model.IO
                     string temp = ems;
                     for (int i = 3; i > 0; i--)
                     {
-                        if(i%2 != 0)
+                        if (i % 2 != 0)
                             temp = temp.Insert(i, " - ");
                         else
                         {
@@ -446,6 +494,14 @@ namespace EasyJob_ProDG.Model.IO
             }
 
             return ems;
+        }
+
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
+        public ReadBaplieFile()
+        {
+
         }
     }
 }

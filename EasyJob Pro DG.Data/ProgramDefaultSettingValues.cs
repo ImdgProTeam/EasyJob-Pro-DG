@@ -13,12 +13,13 @@ namespace EasyJob_ProDG.Data
         public static bool AlwaysOpenDefaultProfile = true;
         public static bool Multiprofile = false;
         public static DirectoryInfo ProgramDirectory = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
-        public const string xmlDgListVersion = "2.1";
-        public const string codeAmmendmentVersion = "40-20";
-        public const string codeYear = "2020";
+        public const string xmlDgListVersion = "2.2";
+        public const string codeAmmendmentVersion = "41-22";
+        public const string codeYear = "2022";
         public const string ConditionFileExtension = ".ejc";
+        public const string NoNamePrefix = "+NONAME+";
 
-        public const byte lowestTier = 72;
+        public const byte lowestTierOnDeck = 72;
 
 
         /// <summary>

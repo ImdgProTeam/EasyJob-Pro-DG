@@ -1,10 +1,9 @@
 ﻿using EasyJob_ProDG.Model.IO;
 using System.Collections.Generic;
-using System.Xml.Linq;
 
 namespace EasyJob_ProDG.Model.Cargo
 {
-    public static class HandlingDg
+    public static class HandleDgList
     {
         //------------------- Supportive methods to work with Dg list --------------------------------------------------------------
 
@@ -28,7 +27,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="cargoPlan"></param>
         /// <param name="ownShip"></param>
         /// <param name="reefers"></param>
-        public static void CheckSegregation(CargoPlan cargoPlan, Transport.ShipProfile ownShip)
+        public static void CheckSegregation(this CargoPlan cargoPlan, Transport.ShipProfile ownShip)
         {
             Segregation.AssignSegregatorClassesAndGroups(cargoPlan.DgList);
             foreach (Dg dg in cargoPlan.DgList)
@@ -38,37 +37,5 @@ namespace EasyJob_ProDG.Model.Cargo
             Segregation.PostSegregation(cargoPlan, ownShip);
             Data.LogWriter.Write($"Segregation checked.");
         }
-
-        /// <summary>
-        /// Method applies the information from all available sources to units in dg list
-        /// </summary>
-        /// <param name="dgList"></param>
-        /// <param name="dgDataBase"></param>
-        internal static void UpdateDgInfo(ICollection<Dg> dgList, XDocument dgDataBase)
-        {
-            foreach (Dg unit in dgList)
-            {
-                unit.AssignFromDgList(xmlDoc: dgDataBase);
-                unit.AssignRowFromDOC();
-            }
-            Data.LogWriter.Write($"Dg info updated.");
-        }
-
-        /// <summary>
-        /// Method will reset available data and update information from dataBase
-        /// on a selected dg, if Unno is recognized
-        /// </summary>
-        /// <param name="dg"></param>
-        /// <param name="dgDataBase"></param>
-        internal static void UpdateDgInfo(Dg dg, XDocument dgDataBase)
-        {
-            dg.Clear(dg.Unno);
-            
-            if (!Validators.UnnoValidator.Validate(dg.Unno)) return;
-            dg.AssignFromDgList(xmlDoc: dgDataBase, unitIsNew: true);
-            dg.AssignRowFromDOC();
-            dg.AssignSegregationGroup();
-        }
-
     }
 }

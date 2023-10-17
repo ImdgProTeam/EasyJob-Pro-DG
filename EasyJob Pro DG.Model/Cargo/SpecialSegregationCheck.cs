@@ -421,10 +421,6 @@ namespace EasyJob_ProDG.Model.Cargo
                     case "SG73": //[Reserved]
                         break;
 
-                    case "SG75": //Stow “separated from” strong acids.
-                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.strong_acids, SegregationCase.SeparatedFrom, sscode, ship);
-                        break;
-
                     case "SG78": //Stow “separated longitudinally by an intervening complete compartment or hold from” division 1.1, 1.2, and 1.5.
                         CheckSegregationWithClasses(a, dglist, new[] { "1.1", "1.2", "1.5" }, 
                                                 SegregationCase.SeparatedLongitudinallyByCompleteCompartmentFrom, sscode, ship);
@@ -454,15 +450,13 @@ namespace EasyJob_ProDG.Model.Cargo
             if (a == b || b.IsLq) return;
             foreach (byte s in b.SegregationGroupList)
             {
-                if (s != (byte)segregationGroup &&
-                    s != (segregationGroup == IMDGCode.SegregationGroup.acids ? (byte)IMDGCode.SegregationGroup.strong_acids : 0)) continue;
+                if (s != (byte)segregationGroup) continue;
                 conf = SegregationConflictCheck(a, b, (byte)segregationCase, ship);
                 a.AddConflict(conf, segr, sscode, b);
 
                 //For acids & alkalis cases of class 8 - 7.2.6.5
                 if (conf &&
                     (segregationGroup == IMDGCode.SegregationGroup.acids
-                    || segregationGroup == IMDGCode.SegregationGroup.strong_acids
                     || segregationGroup == IMDGCode.SegregationGroup.alkalis))
                     CheckClass8CanBeStowedTogether(a, b);
                 break;

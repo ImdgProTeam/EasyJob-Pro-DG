@@ -136,12 +136,11 @@ namespace EasyJob_ProDG.Model.Cargo
             a.ContainerTypeRecognized = false;
             a.IsClosed = true;
 
-            foreach (CodesDictionary.ContainerType t in CodesDictionary.ContainerTypes)
+            var type = CodesDictionary.ContainerType.GetContainerType(a.ContainerType);
+            if( type != null)
             {
-                if (t.Code != a.ContainerType) continue;
-                a.IsClosed = t.Closed;
+                a.IsClosed = type.IsClosed;
                 a.ContainerTypeRecognized = true;
-                break;
             }
         }
 

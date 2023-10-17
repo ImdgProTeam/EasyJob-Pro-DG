@@ -173,7 +173,6 @@ namespace EasyJob_ProDG.Model.IO
                                 }
                                 catch (Exception)
                                 {
-
                                     Debug.WriteLine($">>>>>>>IFTDGN segregation group record thrown an exception: {segregationGroupFromSegmentFinal}");
                                 }
                             }

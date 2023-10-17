@@ -181,20 +181,22 @@ namespace EasyJob_ProDG.Model.Cargo
             }
             set
             {
-                byte segregationGroupIndex;
+                byte segregationGroupIndex = 0;
 
                 //By full group title as mentioned in IMDG code
-                if (IMDGCode.SegregationGroups.Contains(value) &&
-                   !segregationGroupsListBytes.Contains((byte)Array.IndexOf(IMDGCode.SegregationGroups, value)))
+                if (IMDGCode.SegregationGroups.Contains(value))
                 {
-                    segregationGroupsListBytes.Add((byte)Array.IndexOf(IMDGCode.SegregationGroups, value));
+                    segregationGroupIndex = (byte)Array.IndexOf(IMDGCode.SegregationGroups, value);
                 }
                 //By code only
                 else if (IMDGCode.SegregationGroupsCodes.Contains(value))
                 {
                     segregationGroupIndex = (byte)Array.IndexOf(IMDGCode.SegregationGroupsCodes, value);
-                    if (!segregationGroupsListBytes.Contains(segregationGroupIndex))
-                        segregationGroupsListBytes.Add(segregationGroupIndex);
+                }
+                //By index in dictionary
+                else if (byte.TryParse(value, out segregationGroupIndex)) 
+                {
+
                 }
                 //Parse multiple values
                 else if (value.Contains(","))
@@ -203,15 +205,13 @@ namespace EasyJob_ProDG.Model.Cargo
                     {
                         SegregationGroup = group;
                     }
+                    return;
                 }
-                //By index in dictionary
-                else if (byte.TryParse(value, out segregationGroupIndex))
-                {
-                    if (!segregationGroupsListBytes.Contains(segregationGroupIndex))
-                        segregationGroupsListBytes.Add(segregationGroupIndex);
-                }
+                // Else - handle obsolete groups
+                else segregationGroupIndex = HandleObsoleteGroups(value);
 
-
+                if (segregationGroupIndex > 0 && !segregationGroupsListBytes.Contains(segregationGroupIndex))
+                    segregationGroupsListBytes.Add(segregationGroupIndex);
             }
         }
 
@@ -220,6 +220,8 @@ namespace EasyJob_ProDG.Model.Cargo
             set
             {
                 if (segregationGroupsListBytes.Contains(value)) return;
+                if (value > IMDGCode.SegregationGroupsNumber)
+                    value = HandleObsoleteGroups(value);
                 segregationGroupsListBytes.Add(value);
             }
         }
@@ -650,7 +652,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="dgDataBase"></param>
         public void UpdateDgInfo(XDocument dgDataBase)
         {
-            HandlingDg.UpdateDgInfo(this, dgDataBase);
+            HandleDg.UpdateDgInfo(this, dgDataBase);
         }
 
         /// <summary>
@@ -731,6 +733,27 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             Remarks = dgCopyFrom.Remarks;
             EmergencyContacts = dgCopyFrom.EmergencyContacts;
+        }
+
+        /// <summary>
+        /// Method ensures compatibility with older conditions saved
+        /// </summary>
+        /// <param name="groupNr"></param>
+        /// <returns></returns>
+        private byte HandleObsoleteGroups(object value)
+        {
+            byte result;
+            if (value is byte || value is int)
+            {
+                //Strong acids removed in 41-22
+                result = (byte)((int)value == 19 ? 1 : 0);
+            }
+            else
+            {
+                //Strong acids removed in 41-22
+                result = (byte)(string.Equals(value.ToString(), "SGG1a") ? 1 : 0);
+            }
+            return result;
         }
 
 

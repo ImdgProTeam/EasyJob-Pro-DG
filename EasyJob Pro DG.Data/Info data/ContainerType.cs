@@ -13,11 +13,21 @@ namespace EasyJob_ProDG.Data.Info_data
             public int Length { get; }
             public double Height { get; }
             public string Group { get; }
-            public bool Closed { get; }
+            public bool IsClosed { get; }
 
 
-            // -------- public constructors --------------------
+            // ----- Public methods -----
+            public static ContainerType GetContainerType(string code)
+            {
+                if(ContainerTypes.TryGetValue(code, out ContainerType containerType)) 
+                    return containerType;
+                return null;
+            }
 
+            
+            // -------- private constructors --------------------
+
+            #region Methods to create ContainerTypes
             /// <summary>
             /// Creates a new instance of ContainerType class
             /// </summary>
@@ -27,21 +37,21 @@ namespace EasyJob_ProDG.Data.Info_data
             /// <param name="height">Container height</param>
             /// <param name="group">Container type group</param>
             /// <param name="closed">True if it is closed type container</param>
-            public ContainerType(string code, string descr, int length, double height, string group, bool closed)
+            internal ContainerType(string code, string descr, int length, double height, string group, bool closed)
             {
                 Code = code;
                 Description = descr;
                 Length = length;
                 Height = height;
                 Group = group;
-                Closed = closed;
+                IsClosed = closed;
             }
 
             /// <summary>
             /// Parses line from dictionary and creates an instance
             /// </summary>
             /// <param name="line">Line from CodesDictionary</param>
-            public ContainerType(string line)
+            internal ContainerType(string line)
             {
                 string[] temp = line.Split(',');
                 Code = temp[0];
@@ -50,9 +60,9 @@ namespace EasyJob_ProDG.Data.Info_data
 
                 Height = Double.Parse(temp[3].Replace('.', ','));
                 Group = temp[4];
-                Closed = Convert.ToBoolean(temp[5]);
+                IsClosed = Convert.ToBoolean(temp[5]);
             }
-
+            #endregion
         }
     }
 }

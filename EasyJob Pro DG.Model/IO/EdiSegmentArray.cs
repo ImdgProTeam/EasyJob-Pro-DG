@@ -5,10 +5,21 @@
     /// </summary>
     internal class EdiSegmentArray
     {
-        public string[] Array;
-        public int ContainerCount;
+        /// <summary>
+        /// Array of EDI segments
+        /// </summary>
+        public readonly string[] Array;
+        public readonly int ContainerCount;
+
+        /// <summary>
+        /// Count of EDI segments
+        /// </summary>
         public int Count { get; }
 
+        /// <summary>
+        /// Creates an array of EDI segments from text
+        /// </summary>
+        /// <param name="text">Text read from edi</param>
         public EdiSegmentArray(string text)
         {
             Array = text.Split('\'');

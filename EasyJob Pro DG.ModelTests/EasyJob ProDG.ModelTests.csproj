@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Cargo\ContainerTests.cs" />
     <Compile Include="Cargo\SegregateTest.cs" />
+    <Compile Include="IO\ReadBaplieFileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

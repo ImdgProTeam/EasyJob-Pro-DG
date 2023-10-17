@@ -1,6 +1,6 @@
 ﻿PLEASE READ SOME IMPORTANT NOTES BELOW FOR BETTER UNDERSTANDING OF "PRO DG" PERFORMANCE CAPABILITIES
 
-VERSION: IMDG CODE 2016 Edition, Amendments 38-16 with Corrigenda of December 2017 corrections applied.
+VERSION: IMDG CODE 2022 Edition, Amendments 41-22.
 
 The "Pro DG" software works with .edi or excel files and creates a container list. Then checking of stowage and segregation according to IMDG code and taking into account ship design and other cargo will be carried out. Finally, the list of possible conflicts will be displayed. That is the responsibility of the user to make a decision referring to advice given by "Pro DG" and based on the all other available information, such as cargo manifests, charterer's/owners instructions, better knowledge of vessel design and, of course, own experience. The only result of the software cannot be deemed as the final one.
 
