@@ -27,7 +27,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
         ///Method defines Bay, Row and Tier
         static void DefineContainerLocation(Dg dg)
         {
-            dg.IsUnderdeck = dg.Tier < 78 ? true : false;
+            dg.IsUnderdeck = dg.Tier < 78;
             dg.Size = (byte)(dg.Bay % 2 == 0 ? 40 : 20);
             dg.HoldNr = ship.DefineCargoHoldNumber(dg.Bay);
         }

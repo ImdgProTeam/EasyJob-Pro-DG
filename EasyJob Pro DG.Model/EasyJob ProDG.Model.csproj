@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cargo\CargoPlanExtensionMethods.cs" />
+    <Compile Include="Cargo\ContainerAbstract.cs" />
     <Compile Include="Cargo\DgConflictMethods.cs" />
     <Compile Include="Cargo\HandleDgList.cs" />
     <Compile Include="Cargo\ICargoPlan.cs" />

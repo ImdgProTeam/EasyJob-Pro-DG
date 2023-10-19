@@ -6,6 +6,7 @@
         bool IsRf { get; set; }
         bool ContainerTypeRecognized { get; set; }
         string ContainerNumber { get; set; }
+        bool HasNoNumber { get; }
         string POD { get; set; }
         string POL { get; set; }
         string FinalDestination { get; set; }

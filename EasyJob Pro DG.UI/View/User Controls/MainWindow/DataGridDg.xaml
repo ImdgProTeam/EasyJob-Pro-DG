@@ -19,6 +19,7 @@
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel}">
     <UserControl.Resources>
         <converters:VisibilityToInverseBooleanConverter x:Key="VisibilityToInverseBooleanConverter" />
+        <converters:BoolInversionConverter x:Key="BoolInversionConverter" />
         <converters:DummyConverter x:Key="DummyConverter"/>
     </UserControl.Resources>
 
@@ -458,7 +459,10 @@
                                         >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=IsPositionLockedForChange, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <CheckBox 
+                                IsChecked="{Binding Path=IsPositionLockedForChange, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                IsEnabled="{Binding Path=HasNoNumber, Converter={StaticResource BoolInversionConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -471,7 +475,10 @@
                                         >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=IsToBeKeptInPlan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <CheckBox 
+                                IsChecked="{Binding Path=IsToBeKeptInPlan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                IsEnabled="{Binding Path=HasNoNumber, Converter={StaticResource BoolInversionConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -484,7 +491,10 @@
                                         >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=IsToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <CheckBox 
+                                IsChecked="{Binding Path=IsToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                IsEnabled="{Binding Path=HasNoNumber, Converter={StaticResource BoolInversionConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -497,7 +507,10 @@
                                         >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=IsNotToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <CheckBox 
+                                IsChecked="{Binding Path=IsNotToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                IsEnabled="{Binding Path=HasNoNumber, Converter={StaticResource BoolInversionConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

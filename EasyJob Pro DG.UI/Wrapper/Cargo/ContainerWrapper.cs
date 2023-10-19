@@ -28,6 +28,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                 var oldValue = ContainerNumber;
 
                 if(!SetValue(value.ToUpper())) return;
+                OnPropertyChanged(nameof(HasNoNumber));
                 SetToAllContainersInPlan(value.ToUpper(), oldValue);
             }
         }
@@ -225,6 +226,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             }
         }
 
+        public bool HasNoNumber => GetValue<bool>();
         #endregion
 
         #region IReefer properties
@@ -348,7 +350,8 @@ namespace EasyJob_ProDG.UI.Wrapper
         {
             get => GetValue<string>();
             set { }
-        } 
+        }
+
         #endregion
 
 

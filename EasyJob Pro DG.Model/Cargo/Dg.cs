@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace EasyJob_ProDG.Model.Cargo
 {
-    public partial class Dg : LocationOnBoard, IContainer, IO.IUpdatable
+    public partial class Dg : ContainerAbstract, IO.IUpdatable
     {
         #region Fields Declarations
         //Read from edi.
@@ -330,19 +330,6 @@ namespace EasyJob_ProDG.Model.Cargo
         public bool IsNameChanged { get; set; }
         public bool IsTechnicalNameIncluded { get; set; }
         public string Surrounded { get; set; }
-
-
-        // -------------- Properties copied from Container class ---------------------------
-
-        public string ContainerNumber { get; set; }
-        public string ContainerType { get; set; }
-        public bool ContainerTypeRecognized { get; set; }
-        public bool IsClosed { get; set; }
-        public bool IsRf { get; set; }
-        public string POL { get; set; }
-        public string POD { get; set; }
-        public string FinalDestination { get; set; }
-        public string Carrier { get; set; }
 
 
         //--------------- Readonly properties -----------------------------------------------
@@ -774,22 +761,6 @@ namespace EasyJob_ProDG.Model.Cargo
             return dg?.ConvertToContainer();
         }
         #endregion
-
-
-        #region IUpdatable
-        // -------------- IUpdatable ------------------------------------------------
-        public bool IsToBeKeptInPlan { get; set; }
-        public bool IsPositionLockedForChange { get; set; }
-        public bool IsToImport { get; set; }
-        public bool IsNotToImport { get; set; }
-        public bool IsNewUnitInPlan { get; set; }
-        public bool HasLocationChanged { get; set; }
-        public bool HasUpdated { get; set; }
-        public bool HasPodChanged { get; set; }
-        public bool HasContainerTypeChanged { get; set; }
-        public string LocationBeforeRestow { get; set; }
-        #endregion
-
 
     }
 }

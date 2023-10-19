@@ -4,25 +4,15 @@
 namespace EasyJob_ProDG.Model.Cargo
 {
 
-    public class Container : LocationOnBoard, IContainer, IReefer, IO.IUpdatable
+    public class Container : ContainerAbstract, IReefer
     {
         #region Public properties
         // -------------- public properties -----------------------------------------
 
-        public bool IsClosed { get; set; }
-        public bool IsRf { get; set; }
-        public bool ContainerTypeRecognized { get; set; }
         public byte DgCountInContainer { get; set; }
 
-        public string Carrier { get; set; }
-        public string FinalDestination { get; set; }
-
-        public string ContainerNumber { get; set; }
-        public string POD { get; set; }
-        public string POL { get; set; }
-
         private string _type;
-        public string ContainerType
+        public override string ContainerType
         {
             get => _type;
             set
@@ -33,23 +23,7 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
         public string Remarks { get; set; }
-        #endregion
 
-
-        #region IUpdatable
-        // -------------- IUpdatable ------------------------------------------------
-
-        public bool IsToBeKeptInPlan { get; set; }
-        public bool IsPositionLockedForChange { get; set; }
-        public bool IsToImport { get; set; }
-        public bool IsNotToImport { get; set; }
-        public bool IsNewUnitInPlan { get; set; }
-        public bool HasLocationChanged { get; set; }
-        public bool HasUpdated { get; set; }
-        public bool HasPodChanged { get; set; }
-        public bool HasContainerTypeChanged { get; set; }
-
-        public string LocationBeforeRestow { get; set; }
         #endregion
 
 
@@ -62,6 +36,7 @@ namespace EasyJob_ProDG.Model.Cargo
         public string VentSetting { get; set; }
         public string ReeferSpecial { get; set; }
         public string ReeferRemark { get; set; }
+
 
         /// <summary>
         /// Removes all reefer-related property values.

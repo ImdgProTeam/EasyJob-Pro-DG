@@ -35,14 +35,18 @@ namespace EasyJob_ProDG.Model.Cargo
                 decimal sum = 0M;
                 foreach (var dg in DgList)
                 {
-                    if(dg.IsMp)
+                    if (dg.IsMp)
                         sum += dg.DgNetWeight;
                 }
                 return sum;
             }
         }
         public bool IsEmpty => Containers.Count <= 0 && DgList.Count <= 0 && Reefers.Count <= 0;
-        internal bool HasNonamers;
+
+        /// <summary>
+        /// True if <see cref="CargoPlan"/> contains <see cref="Container"/>s without numbers.
+        /// </summary>
+        internal bool HasNonamers => Containers.Any(c => c.HasNoNumber);
         internal int NextNonamerNumber;
 
 
@@ -71,7 +75,8 @@ namespace EasyJob_ProDG.Model.Cargo
             HandleDgList.CheckDgList(cargoPlan.DgList, (byte)OpenFile.FileTypes.Edi);
 
             //Choose what to do with new plan according to OpenOptions
-            if (openOption == OpenFile.OpenOption.Update) cargoPlan = existingCargoPlan.UpdateCargoPlan(cargoPlan);
+            if (openOption == OpenFile.OpenOption.Update)
+                cargoPlan = existingCargoPlan.UpdateCargoPlan(cargoPlan);
             else if (openOption == OpenFile.OpenOption.Import)
             {
                 existingCargoPlan.ImportDgData(cargoPlan, importOnlySelected, currentPort);
@@ -270,7 +275,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Compares present and new CargoPlan.
         /// Items existing in both plans transferred from original to result without changes, but with changed location (if not locked).
         /// New items from the new plan (if not found in original) transferred from new plan to result.
-        /// Items marked IsToBeKeptInPlan will be transferred with no change to result.
+        /// Items marked IsToBeKeptInPlan will be transferred with no change to result if not existing in newPlan.
         /// </summary>
         /// <param name="newPlan">CargoPlan with which the existing one will be compared to</param>
         /// <returns>New resulting CargoPlan</returns>
@@ -285,32 +290,15 @@ namespace EasyJob_ProDG.Model.Cargo
 
             List<string> originalContainerNumberList = Containers.Select(c => c.ContainerNumber).ToList();
 
-            #region ToBeKeptInPlan
             //Creating list and dealing with containers selected to be kept in plan
-            List<string> containerNumbersToBeKeptInPlan = new List<string>();
-            List<Container> containersToBeKeptInPlan = existingCargoPlan.Containers.Where(c => c.IsToBeKeptInPlan).ToList();
-            foreach (var container in containersToBeKeptInPlan)
-            {
-                ClearUnitUpdates(container);
-                ShiftContainerToResultingCargoPlan(existingCargoPlan, container, resultingNewCargoPlan, false, newPlan);
-                originalContainerNumberList.Remove(container.ContainerNumber);
-                existingCargoPlan.Containers.Remove(container);
-                containerNumbersToBeKeptInPlan.Add(container.ContainerNumber);
-            }
-            #endregion
+            List<Container> containersToBeKeptInPlan = existingCargoPlan.Containers.Where(c => c.IsToBeKeptInPlan && !c.HasNoNumber).ToList();
 
             //Main updating operation
             foreach (var newContainer in newPlan.Containers)
             {
-                //if already added to the plan as toBeKeptInPlan
-                if (containerNumbersToBeKeptInPlan.Contains(newContainer.ContainerNumber))
-                {
-                    containerNumbersToBeKeptInPlan.Remove(newContainer.ContainerNumber);
-                    continue;
-                }
-
-                //check for existing unit
-                bool unitFound = originalContainerNumberList.Contains(newContainer.ContainerNumber);
+                //check for existing unit (only units with proper number)
+                bool unitFound = !newContainer.HasNoNumber && originalContainerNumberList.Contains(newContainer.ContainerNumber);
+                bool unitLocationOccupied = false;
 
                 //if unit is found
                 if (unitFound)
@@ -318,13 +306,12 @@ namespace EasyJob_ProDG.Model.Cargo
                     {
                         var existingContainer = existingCargoPlan.Containers.ElementAt(i);
 
-                        //if to remain in list
-                        if (existingContainer.IsToBeKeptInPlan) continue;
-
                         //check if units ContainerNumbers match
                         if (!string.Equals(existingContainer.ContainerNumber, newContainer.ContainerNumber)) continue;
 
                         ClearUnitUpdates(existingContainer);
+                        if (existingContainer.IsToBeKeptInPlan)
+                            containersToBeKeptInPlan.Remove(existingContainer);
 
                         //check for changed location
                         existingContainer.HasLocationChanged = !string.Equals(newContainer.Location, existingContainer.Location) &&
@@ -352,14 +339,65 @@ namespace EasyJob_ProDG.Model.Cargo
                         ShiftContainerToResultingCargoPlan(existingCargoPlan, existingContainer, resultingNewCargoPlan, false, newPlan);
                         existingCargoPlan.Containers.Remove(existingContainer);
                         originalContainerNumberList.Remove(existingContainer.ContainerNumber);
+
                         break;
                     }
 
+                // if no number
+                else if (existingCargoPlan.HasNonamers && newContainer.HasNoNumber)
+                {
+
+                    for (int i = 0; i < existingCargoPlan.Containers.Count; i++)
+                    {
+                        var existingContainer = existingCargoPlan.Containers.ElementAt(i);
+
+                        //check if units ContainerNumbers match
+                        if (!string.Equals(existingContainer.Location, newContainer.Location)) continue;
+                        unitLocationOccupied = true;
+
+                        if (existingContainer.HasNoNumber)
+                        {
+                            //check for changes
+                            if (!string.Equals(newContainer.POD, existingContainer.POD))
+                            {
+                                newContainer.HasPodChanged = true;
+                                newContainer.POD = newContainer.POD;
+                            }
+                            if (!string.Equals(newContainer.ContainerType, existingContainer.ContainerType))
+                            {
+                                newContainer.HasContainerTypeChanged = true;
+                                newContainer.ContainerType = newContainer.ContainerType;
+                            }
+
+                            //add unit to the plan
+                            newContainer.IsNewUnitInPlan = false;
+                            ShiftContainerToResultingCargoPlan(existingCargoPlan, newContainer, resultingNewCargoPlan, false, newPlan);
+                            existingCargoPlan.Containers.Remove(existingContainer);
+                            originalContainerNumberList.Remove(existingContainer.ContainerNumber);
+                            i--;
+                        }
+                        else
+                        {
+                            // If existing container has a ContainerNumber it will remain in existingPlan until the end of cycle.
+                            // Only the newContainer will be added in the same location.
+                            ShiftContainerToResultingCargoPlan(newPlan, newContainer, resultingNewCargoPlan);
+                        }
+                        break;
+                    }
+                }
+
                 //if not found - add new item
-                else
+                if (!unitFound && !unitLocationOccupied)
+                { 
                     ShiftContainerToResultingCargoPlan(newPlan, newContainer, resultingNewCargoPlan);
+                }
             }
 
+            //Remaining containers to be kept in plan
+            foreach (var container in containersToBeKeptInPlan)
+            {
+                ShiftContainerToResultingCargoPlan(existingCargoPlan, container, resultingNewCargoPlan, false);
+            }
 
             //voyage
             resultingNewCargoPlan.VoyageInfo.VoyageNumber = newPlan.VoyageInfo.VoyageNumber;
@@ -441,8 +479,7 @@ namespace EasyJob_ProDG.Model.Cargo
             if (Containers.ContainsUnitWithSameContainerNumberInList(reefer))
             {
                 Data.LogWriter.Write($"Attempt to add a reefer with container number which is already in list");
-                var container = Containers.FindContainerByContainerNumber(reefer);
-                if (container == null) throw new Exception($"Container with ContainerNumber {reefer.ContainerNumber} cannot be found in CargoPlan despite it was expected.");
+                var container = Containers.FindContainerByContainerNumber(reefer) ?? throw new Exception($"Container with ContainerNumber {reefer.ContainerNumber} cannot be found in CargoPlan despite it was expected.");
                 container.IsRf = true;
                 reefer.CopyContainerInfo(container);
             }
@@ -453,7 +490,7 @@ namespace EasyJob_ProDG.Model.Cargo
             }
             Reefers.Add(reefer);
             return true;
-        } 
+        }
 
         #endregion
 
@@ -498,7 +535,8 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="resultingCargoPlan">To which plan container needs to be added</param>
         /// <param name="containerIsNew">Shall container be marked as IsNewUnitInPlan</param>
         /// <param name="additionalCargoPlanToBeCleared"></param>
-        private static void ShiftContainerToResultingCargoPlan(CargoPlan sourceCargoPlan, Container container, CargoPlan resultingCargoPlan, bool containerIsNew = true, CargoPlan additionalCargoPlanToBeCleared = null)
+        private static void ShiftContainerToResultingCargoPlan(CargoPlan sourceCargoPlan, Container container, CargoPlan resultingCargoPlan,
+                                                              bool containerIsNew = true, CargoPlan additionalCargoPlanToBeCleared = null)
         {
             //Add new Container
             container.IsNewUnitInPlan = containerIsNew;
@@ -508,7 +546,6 @@ namespace EasyJob_ProDG.Model.Cargo
                 resultingCargoPlan.Reefers.Add(container);
                 sourceCargoPlan.Reefers.Remove(container);
 
-                //TODO: Causes error when container numbers are missing
                 additionalCargoPlanToBeCleared?.Reefers.Remove(additionalCargoPlanToBeCleared.Reefers.SingleOrDefault
                     (r => string.Equals(r.ContainerNumber, container.ContainerNumber)));
             }
@@ -577,6 +614,7 @@ namespace EasyJob_ProDG.Model.Cargo
             }
 
             returnPlan.VoyageInfo = VoyageInfo;
+            //returnPlan.HasNonamers = HasNonamers;
 
             return returnPlan;
         }
@@ -603,7 +641,7 @@ namespace EasyJob_ProDG.Model.Cargo
             Reefers = new List<Container>();
             Containers = new List<Container>();
             VoyageInfo = new Voyage();
-            HasNonamers = false;
+            //HasNonamers = false;
         }
     }
 }

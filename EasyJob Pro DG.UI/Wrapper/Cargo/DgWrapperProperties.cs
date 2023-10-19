@@ -175,6 +175,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                 var oldValue = ContainerNumber;
                 if (oldValue == value) return;
                 SetValue(value.ToUpper());
+                OnPropertyChanged(nameof(HasNoNumber));
                 SetToAllContainersInPlan(value.ToUpper(), oldValue);
             }
         }
@@ -300,6 +301,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             }
         }
 
+        public bool HasNoNumber => GetValue<bool>();
         public bool ContainerTypeRecognized { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         #endregion
 

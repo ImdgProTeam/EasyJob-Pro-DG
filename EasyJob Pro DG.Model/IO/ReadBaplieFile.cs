@@ -231,7 +231,7 @@ namespace EasyJob_ProDG.Model.IO
                         }
                         catch (Exception e)
                         {
-                            Data.LogWriter.Write($"Reading segment {segment} caused an exception {e.ToString()}");
+                            Data.LogWriter.Write($"Reading segment {segment} caused an exception {e}");
                             dateValue = new DateTime(1900, 01, 01);
                             cargoPlan.VoyageInfo.DepartureDate = dateValue;
                             continue;
@@ -359,7 +359,7 @@ namespace EasyJob_ProDG.Model.IO
         {
             if (a.ContainerNumber is not null && !string.Equals(a.ContainerNumber, string.Empty)) return;
 
-            cargoPlan.HasNonamers = true;
+            //cargoPlan.HasNonamers = true;
             a.ContainerNumber = ProgramDefaultSettingValues.NoNamePrefix + GenerateNextNonamerNumber(cargoPlan.NextNonamerNumber++);
         }
 

@@ -361,7 +361,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
             finally
             {
                 activeWorkbook.Close(null, null, null);
-                if (workbooks != null) workbooks.Close();
+                workbooks?.Close();
 
                 excelapp.Quit();
                 RunGarbageCollector();
