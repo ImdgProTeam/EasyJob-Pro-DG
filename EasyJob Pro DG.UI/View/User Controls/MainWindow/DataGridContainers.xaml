@@ -169,7 +169,7 @@
 
                 <!-- CONTAINER NUMBER -->
                 <DataGridTextColumn x:Name="numberColumn"
-                                    Binding="{Binding ContainerNumber, UpdateSourceTrigger=LostFocus}"
+                                    Binding="{Binding DisplayContainerNumber, UpdateSourceTrigger=LostFocus}"
                                     Header="Container number"
                                     MinWidth="100" />
                 <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[1].Width, Mode=TwoWay}"

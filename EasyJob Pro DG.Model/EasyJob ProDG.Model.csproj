@@ -100,7 +100,6 @@
     <Compile Include="Transport\OuterRow.cs" />
     <Compile Include="Transport\Voyage.cs" />
     <Compile Include="Validators\DgClassValidator.cs" />
-    <Compile Include="IO\Excel\WithExcelConsoleMethods.cs" />
     <Compile Include="IO\Excel\WithXl.cs" />
     <Compile Include="IO\Excel\WithXLAssistToRead.cs" />
     <Compile Include="Transport\DOC.cs" />

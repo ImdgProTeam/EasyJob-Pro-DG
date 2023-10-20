@@ -1,4 +1,6 @@
-﻿namespace EasyJob_ProDG.Model.Cargo
+﻿using EasyJob_ProDG.Data;
+
+namespace EasyJob_ProDG.Model.Cargo
 {
     public abstract class ContainerAbstract : LocationOnBoard, IContainer, IO.IUpdatable
     {
@@ -8,6 +10,7 @@
         public bool IsRf { get; set; }
         public bool ContainerTypeRecognized { get; set; }
         public string ContainerNumber { get; set; }
+        public string DisplayContainerNumber => UserSettings.ContainerNumberToDisplay(ContainerNumber);
         public bool HasNoNumber => string.IsNullOrEmpty(ContainerNumber)
                                 || ContainerNumber.StartsWith(Data.ProgramDefaultSettingValues.NoNamePrefix);
         public virtual string ContainerType { get; set; }

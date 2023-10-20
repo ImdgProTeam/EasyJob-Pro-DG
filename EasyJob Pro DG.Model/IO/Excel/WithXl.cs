@@ -106,7 +106,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                             excelCells.NumberFormat = "000000";
                             break;
                         case 3:
-                            value = dg.ContainerNumber;
+                            value = dg.DisplayContainerNumber;
                             excelCells.HorizontalAlignment = ExcelApp.Constants.xlLeft;
                             break;
                         case 4:
@@ -277,7 +277,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         excelcells = excelWorksheet.Cells[row, col];
                         if (excelcells.Value2 == null) continue;
 
-                        if (col == template.ColumnContainerNumber) cont.ContainerNumber = excelcells.Value2;
+                        if (col == template.ColumnContainerNumber) cont.ContainerNumber = (string)(excelcells.Value2).Replace(" ","");
                         else if (col == template.ColumnLocation) cont.Location = Convert.ToString(excelcells.Value2);
                         else if (col == template.ColumnPOL) cont.POL = excelcells.Value2;
                         else if (col == template.ColumnPOD) cont.POD = excelcells.Value2;
@@ -369,10 +369,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelWorksheet);
                 System.Runtime.InteropServices.Marshal.FinalReleaseComObject(activeWorkbook);
                 System.Runtime.InteropServices.Marshal.FinalReleaseComObject(workbooks);
-
-
                 System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelapp);
-
             }
 
             return resultDgList;

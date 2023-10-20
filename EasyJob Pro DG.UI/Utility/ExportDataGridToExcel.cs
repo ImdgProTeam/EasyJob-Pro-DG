@@ -179,7 +179,7 @@ namespace EasyJob_ProDG.UI.Utility
         private static readonly Dictionary<string, string> PropertiesDictionary = new Dictionary<string, string>()
         {
             {"Commodity", "Commodity" },
-            {"Container number", "ContainerNumber"},
+            {"Container number", "DisplayContainerNumber"},
             {"Container type", "ContainerType"},
             {"Contains Dg cargo", "ContainsDgCargo" },
             {"Dg class", "DgClass"},

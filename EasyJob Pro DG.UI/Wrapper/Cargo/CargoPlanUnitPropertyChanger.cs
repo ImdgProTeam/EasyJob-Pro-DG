@@ -178,17 +178,20 @@ namespace EasyJob_ProDG.UI.Wrapper
 
             foreach (var container in _cargoPlanWrapper.Containers)
             {
+                if (container.ContainerNumber == value) container.Refresh();
                 if (container.ContainerNumber != oldValue) continue;
                 if (container.ContainerNumber != value)
                     container.ContainerNumber = value;
-                else container.Refresh();
+                container.Refresh();
             }
 
             foreach (var reefer in _cargoPlanWrapper.Reefers)
             {
+                if (reefer.ContainerNumber == value) reefer.Refresh();
                 if (reefer.ContainerNumber != oldValue) continue;
                 if (reefer.ContainerNumber != value)
                     reefer.ContainerNumber = value;
+                reefer.Refresh();
             }
         }
 

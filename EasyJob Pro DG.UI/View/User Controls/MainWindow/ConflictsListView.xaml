@@ -130,15 +130,16 @@
                                 IsHitTestVisible="True"
                                 >
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition/>
                                     <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition />
                                     <ColumnDefinition Width="20"/>
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock
-                                    Text="{Binding ContainerNumber, UpdateSourceTrigger=PropertyChanged}"
-                                    Margin="5,2">
+                                    Text="{Binding DisplayContainerNumber, UpdateSourceTrigger=PropertyChanged}"
+                                    Margin="5,2"
+                                    Grid.Column="1">
                                     <TextBlock.Resources>
                                         <Style TargetType="{x:Type TextBlock}">
                                             <Style.Setters>
@@ -158,13 +159,11 @@
                                     </TextBlock.Resources>
                                 </TextBlock>
 
-                                <TextBlock  HorizontalAlignment="Stretch" Margin="0"/>
-
                                 <CheckBox IsChecked="False"
-                                  HorizontalAlignment="Right"
-                                  Margin="0,4,0,0"
+                                  HorizontalAlignment="Left"
+                                  Margin="5, 6, 0, 0"
                                   VerticalAlignment="Top"
-                                          Grid.Column="2">
+                                          Grid.Column="0">
                                     <CheckBox.Template>
                                         <ControlTemplate>
                                             <Ellipse x:Name="CheckedConflictEllipse"

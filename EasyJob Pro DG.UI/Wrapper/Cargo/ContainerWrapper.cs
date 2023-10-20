@@ -6,6 +6,7 @@ using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.View.Sort;
 using System.Runtime.CompilerServices;
 using Container = EasyJob_ProDG.Model.Cargo.Container;
+using EasyJob_ProDG.Data;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
@@ -26,10 +27,24 @@ namespace EasyJob_ProDG.UI.Wrapper
             set
             {
                 var oldValue = ContainerNumber;
+                var newValue = value.ToUpper();
 
-                if(!SetValue(value.ToUpper())) return;
+                if(!SetValue(newValue)) return;
                 OnPropertyChanged(nameof(HasNoNumber));
-                SetToAllContainersInPlan(value.ToUpper(), oldValue);
+                SetToAllContainersInPlan(newValue, oldValue);
+                //OnPropertyChanged(nameof(DisplayContainerNumber));
+            }
+        }
+
+        /// <summary>
+        /// ContainerNumber in format in accordance with UserSettings selected.
+        /// </summary>
+        public string DisplayContainerNumber
+        {
+            get => UserSettings.ContainerNumberToDisplay(ContainerNumber);
+            set
+            {
+                ContainerNumber = UserSettings.ContainerNumberFromDisplay(value);
             }
         }
 
@@ -385,6 +400,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             OnPropertyChanged("ContainsDgCargo");
             OnPropertyChanged("DgCountInContainer");
             OnPropertyChanged("ContainerNumber");
+            OnPropertyChanged(nameof(DisplayContainerNumber));
             OnPropertyChanged("POL");
             OnPropertyChanged("POD");
             OnPropertyChanged("Type");

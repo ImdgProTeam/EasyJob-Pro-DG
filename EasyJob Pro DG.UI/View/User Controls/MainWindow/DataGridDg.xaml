@@ -190,7 +190,7 @@
 
                 <!-- CONTAINER NUMBER -->
                 <DataGridTextColumn x:Name="numberColumn"
-                                    Binding="{Binding ContainerNumber, UpdateSourceTrigger=LostFocus}"
+                                    Binding="{Binding DisplayContainerNumber, UpdateSourceTrigger=LostFocus}"
                                     Header="Container number"
                                     MinWidth="100"
                                     />

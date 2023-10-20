@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace CustomControlLib
 {
@@ -23,9 +22,7 @@ namespace CustomControlLib
             var txbSearch = GetTemplateChild(searchTextBox) as TextBox;
             ButtonClear = GetTemplateChild(buttonClear) as Button;
             this.GotFocus += SearchBox_GotFocus;
-            this.KeyUp += SearchBox_KeyUp;
         }
-
 
 
         #region Button
@@ -64,12 +61,19 @@ namespace CustomControlLib
 
         private static void OnTextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            SearchBox searchBox = (SearchBox)d;
+            if (searchBox is null) return;
+
+            searchBox.SetButtonEnabled();
         }
 
         public string Text
         {
             get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            set
+            {
+                SetValue(TextProperty, value);
+            }
         }
         #endregion
 
@@ -78,12 +82,6 @@ namespace CustomControlLib
         private void OnButtonClick()
         {
             Text = string.Empty;
-            SetButtonEnabled();
-        }
-
-        private void SearchBox_KeyUp(object sender, KeyEventArgs e)
-        {
-            SetButtonEnabled();
         }
 
         private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
@@ -98,7 +96,7 @@ namespace CustomControlLib
         {
             if (ButtonClear is null) return;
             ButtonClear.IsEnabled = !string.IsNullOrEmpty(Text);
-        } 
+        }
         #endregion
     }
 }

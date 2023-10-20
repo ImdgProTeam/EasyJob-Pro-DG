@@ -1,4 +1,5 @@
-﻿using EasyJob_ProDG.Model.Cargo;
+﻿using EasyJob_ProDG.Data;
+using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO;
 using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.View.Sort;
@@ -173,10 +174,26 @@ namespace EasyJob_ProDG.UI.Wrapper
             set
             {
                 var oldValue = ContainerNumber;
-                if (oldValue == value) return;
-                SetValue(value.ToUpper());
+                var newValue = value.ToUpper();
+
+                if (string.Equals(newValue, oldValue)) return;
+
+                SetValue(newValue);
                 OnPropertyChanged(nameof(HasNoNumber));
-                SetToAllContainersInPlan(value.ToUpper(), oldValue);
+                SetToAllContainersInPlan(newValue, oldValue);
+                OnPropertyChanged(nameof(DisplayContainerNumber));
+            }
+        }
+
+        /// <summary>
+        /// ContainerNumber in format in accordance with UserSettings selected.
+        /// </summary>
+        public string DisplayContainerNumber
+        {
+            get => UserSettings.ContainerNumberToDisplay(ContainerNumber);
+            set
+            {
+                ContainerNumber = UserSettings.ContainerNumberFromDisplay(value);
             }
         }
 

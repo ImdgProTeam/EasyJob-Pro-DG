@@ -34,19 +34,19 @@ namespace EasyJob_ProDG.UI.ViewModel
                         "SW19 For batteries transported in accordance with special provisions 376 or 377, " +
                         "category C, unless transported on a short international voyage.\n" +
                         "Please check cargo documents of the units " +
-                        _dgUnit.ContainerNumber + " in " + _dgUnit.Location;
+                        _dgUnit.DisplayContainerNumber + " in " + _dgUnit.Location;
                 }
                 if (Code.StartsWith("SW22"))
                 {
                     return
                         "SW22 For WASTE AEROSOLS: category C, clear of living quarters.\n" +
                         "Please check cargo documents of the unit " +
-                        _dgUnit.ContainerNumber + " in " + _dgUnit.Location;
+                        _dgUnit.DisplayContainerNumber + " in " + _dgUnit.Location;
                 }
 
-                string result = "Unit " + _dgUnit.ContainerNumber + " (class " + _dgUnit.AllDgClasses + $" unno {_dgUnit.Unno:0000}) in " + _dgUnit.Location;
+                string result = "Unit " + _dgUnit.DisplayContainerNumber + " (class " + _dgUnit.AllDgClasses + $" unno {_dgUnit.Unno:0000}) in " + _dgUnit.Location;
                 if (_segrConflict)
-                    result += " is in conflict with " + _dgB.ContainerNumber + " (class " + _dgB.AllDgClasses + (_dgB.DgClass == "Reefer" ? "Reefer" : $" unno {_dgB.Unno:0000}") + ") in " + _dgB.Location;
+                    result += " is in conflict with " + _dgB.DisplayContainerNumber + " (class " + _dgB.AllDgClasses + (_dgB.DgClass == "Reefer" ? "Reefer" : $" unno {_dgB.Unno:0000}") + ") in " + _dgB.Location;
                 else result += ":";
                 result += " " + Description;
                 return result;
@@ -58,12 +58,13 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         public int Unno => _dgUnit.Unno;
         public string ContainerNumber => _dgUnit.ContainerNumber;
+        public string DisplayContainerNumber => _dgUnit.DisplayContainerNumber;
         public int DgID => _dgUnit.Model.ID;
         public string Location => _dgUnit.Location;
         public string Code { get; }
         public string GroupParam { get; set; }
         public int ConflictingDgUnno => _dgB?.Unno ?? 0;
-        public string ConflictingDgNumber => _dgB?.ContainerNumber;
+        public string ConflictingDgNumber => _dgB?.DisplayContainerNumber;
         public string ConflictingDgLocation => _dgB?.Location;
         public string Description
         {
@@ -117,6 +118,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             OnPropertyChanged(nameof(Text));
             OnPropertyChanged(nameof(ContainerNumber));
+            OnPropertyChanged(nameof(DisplayContainerNumber));
         }
 
 
@@ -124,7 +126,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         public override string ToString()
         {
-            string result = ContainerNumber + " in " + Location + " unno " + Unno + (IsSegregationConflict ? (" in conf with" + ConflictingDgNumber) : null);
+            string result = DisplayContainerNumber + " in " + Location + " unno " + Unno + (IsSegregationConflict ? (" in conf with" + ConflictingDgNumber) : null);
             return result;
         }
 
