@@ -382,45 +382,11 @@ namespace EasyJob_ProDG.Model.Cargo
         public List<byte> SegregationGroupList => segregationGroupsListBytes;
 
 
-        // -------------- inherited properties ----------------------------------------------
-
-        public new bool IsUnderdeck
-        {
-            get { return base.IsUnderdeck; }
-            set { base.IsUnderdeck = value; }
-        }
-        public new byte Bay
-        {
-            get { return base.Bay; }
-            set { base.Bay = value; }
-        }
-        public new byte HoldNr
-        {
-            get { return base.HoldNr; }
-            set { base.HoldNr = value; }
-        }
-        public new byte Row
-        {
-            get { return base.Row; }
-            set { base.Row = value; }
-        }
-        public new byte Size
-        {
-            get { return base.Size; }
-            set { base.Size = value; }
-        }
-        public new byte Tier
-        {
-            get { return base.Tier; }
-            set { base.Tier = value; }
-        }
-
         #endregion
 
         #region Other properties
         // ------------------- Other properties --------------------------------------------        
 
-        internal byte[] ALocation => new[] { Bay, Row, Tier };
         internal List<string> AllDgClassesList => allDgClasses;
 
         /// <summary>
@@ -496,11 +462,6 @@ namespace EasyJob_ProDG.Model.Cargo
             AssignSegregationTableRowNumber();
         }
 
-        public Dg(ushort unno, XDocument dgDataBase)
-        {
-            Unno = unno;    
-            this.UpdateDgInfo(dgDataBase);
-        }
         #endregion
 
 
@@ -573,11 +534,6 @@ namespace EasyJob_ProDG.Model.Cargo
             ContainerType = a.ContainerType;
             Location = a.Location;
             LocationBeforeRestow = a.LocationBeforeRestow;
-            Bay = a.Bay;
-            Row = a.Row;
-            Tier = a.Tier;
-            IsUnderdeck = a.IsUnderdeck;
-            Size = a.Size;
             HoldNr = a.HoldNr;
             IsClosed = a.IsClosed;
             POD = a.POD;
@@ -608,11 +564,6 @@ namespace EasyJob_ProDG.Model.Cargo
                 ContainerNumber = this.ContainerNumber,
                 ContainerType = this.ContainerType,
                 Location = this.Location,
-                Bay = this.Bay,
-                Row = this.Row,
-                Tier = this.Tier,
-                IsUnderdeck = this.IsUnderdeck,
-                Size = this.Size,
                 HoldNr = this.HoldNr,
                 IsClosed = this.IsClosed,
                 POD = this.POD,
@@ -686,14 +637,6 @@ namespace EasyJob_ProDG.Model.Cargo
             CompatibilityGroup = dg.CompatibilityGroup;
             SegregatorClass = dg.SegregatorClass;
 
-        }
-
-        /// <summary>
-        /// Calls method from Container class to update container type.
-        /// </summary>
-        public void UpdateContainerType()
-        {
-            Container.UpdateContainerType(this);
         }
 
         /// <summary>

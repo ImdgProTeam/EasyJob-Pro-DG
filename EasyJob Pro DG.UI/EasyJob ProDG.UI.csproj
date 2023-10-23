@@ -337,6 +337,7 @@
     <Compile Include="View\DialogWindows\Summaries\CargoReport.xaml.cs">
       <DependentUpon>CargoReport.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Wrapper\Cargo\AbstractContainerWrapper.cs" />
     <Compile Include="Wrapper\Cargo\CargoPlanUnitPropertyChanger.cs" />
     <Compile Include="Wrapper\Cargo\CargoPlanWrapper.cs" />
     <Compile Include="Wrapper\Cargo\ConflictWrapper.cs" />

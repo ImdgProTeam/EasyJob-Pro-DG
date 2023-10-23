@@ -9,12 +9,12 @@ namespace EasyJob_ProDG.Model.Cargo
         private string _cntrLocation; //LOC+147+BBBRRTT::5'
 
         // ---------- public properties -----------------------
-        public bool IsUnderdeck { get; set; }
-        public byte Bay { get; set; }
+        public byte Size { get; private set; }
+        public byte Bay { get; private set; }
+        public byte Row { get; private set; }
+        public byte Tier { get; private set; }
+        public bool IsUnderdeck { get; private set; } = false;
         public byte HoldNr { get; set; }
-        public byte Row { get; set; }
-        public byte Size { get; set; }
-        public byte Tier { get; set; }
 
         /// <summary>
         /// Set: will record location and update fields row, bay, underdeck etc.
@@ -34,7 +34,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <summary>
         /// Parses string location into bay, row and tier, defines isUnderDeck and size
         /// </summary>
-        public void DefineContainerLocation()
+        private void DefineContainerLocation()
         {
             Bay = byte.Parse(_cntrLocation.Remove(_cntrLocation.Length - 4));
             Row = byte.Parse(_cntrLocation.Remove(0, _cntrLocation.Length - 4).Remove(2));

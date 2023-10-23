@@ -3,12 +3,12 @@
     public interface ILocationOnBoard
     {
         // ---------- public properties -----------------------
-        bool IsUnderdeck { get; set; }
-        byte Bay { get; set; }
-        byte HoldNr { get; set; }
-        byte Row { get; set; }
-        byte Size { get; set; }
-        byte Tier { get; set; }
+        byte Bay { get; }
+        byte Row { get; }
+        byte Tier { get; }
+        byte Size { get; }
+        bool IsUnderdeck { get;  }
+        byte HoldNr { get; }
         string Location { get; set; }
     }
 }

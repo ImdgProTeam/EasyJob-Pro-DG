@@ -2,12 +2,13 @@
 using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO;
 using EasyJob_ProDG.UI.Services.DataServices;
+using EasyJob_ProDG.UI.Wrapper.Cargo;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
-    public partial class DgWrapper : ModelWrapper<Dg>, ILocationOnBoard, IContainer, IUpdatable
+    public partial class DgWrapper : AbstractContainerWrapper<Dg>
     {
         private static readonly DgDataBaseDataService dgDataBaseDataService = new DgDataBaseDataService();
         private readonly XDocument _dgDataBase = dgDataBaseDataService.GetDgDataBase();

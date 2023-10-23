@@ -12,9 +12,6 @@ namespace EasyJob_ProDG.UI.View.Sort
 
         public SortableLocation(ILocationOnBoard wrapper)
         {
-            Bay = wrapper.Bay;
-            Row = wrapper.Row;
-            Tier = wrapper.Tier;
             Location = wrapper.Location;
         }
 

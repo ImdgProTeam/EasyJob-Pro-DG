@@ -83,20 +83,16 @@ namespace EasyJob_ProDG.Model.IO
 
             var fileType = DefineFileType(fileName);
             CargoPlan cargoPlan = new CargoPlan();
-            bool isIftdgn = false;
+            bool isIftdgn = fileType == FileTypes.IFTDGN;
 
             switch (fileType)
             {
                 //open .edi
                 case FileTypes.Other:
                 case FileTypes.Edi:
-                    var edi = new ReadBaplieFile(fileName, ownShip, ref isIftdgn);
-                    cargoPlan = edi.GetCargoPlan();
-                    break;
-
                 case FileTypes.IFTDGN:
-                    isIftdgn = true;
-                    cargoPlan = new ReadBaplieFile(fileName, ownShip, ref isIftdgn).GetCargoPlan();
+                    ReadBaplieFile.ReadBaplie(fileName, ownShip, ref isIftdgn);
+                    cargoPlan = ReadBaplieFile.GetCargoPlan();
                     break;
 
                 //open excel

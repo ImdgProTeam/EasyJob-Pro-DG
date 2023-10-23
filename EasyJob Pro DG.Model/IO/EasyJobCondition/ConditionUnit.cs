@@ -5,11 +5,6 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
 {
     internal class ConditionUnit : Container
     {
-        internal ConditionUnit() : base()
-        {
-
-        }
-
         protected internal List<Dg> DgCargoInContainer;
 
         /// <summary>
@@ -51,7 +46,6 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
 
                 DgCountInContainer = container.DgCountInContainer,
                 IsRf = container.IsRf,
-                IsUnderdeck = container.IsUnderdeck,
                 ContainerTypeRecognized = container.ContainerTypeRecognized,
             };
         }
@@ -86,7 +80,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                 HasContainerTypeChanged = dg.HasContainerTypeChanged,
 
                 IsRf = dg.IsRf,
-                IsUnderdeck = dg.IsUnderdeck,
+                //IsUnderdeck = dg.IsUnderdeck,
                 ContainerTypeRecognized = dg.ContainerTypeRecognized
             };
         }
@@ -189,5 +183,14 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
 
             return dg;
         }
+
+        #region Constructor
+
+        internal ConditionUnit() : base()
+        {
+
+        } 
+
+        #endregion
     }
 }

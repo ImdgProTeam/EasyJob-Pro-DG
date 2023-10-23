@@ -1,18 +1,19 @@
 ﻿using EasyJob_ProDG.Model.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Reflection;
 
 namespace EasyJob_ProDG.ModelTests.IO
 {
     [TestClass]
     public class ReadBaplieFileTests
     {
-        PrivateObject privateObject;
-        ReadBaplieFile instance;
+        MethodInfo method;
 
         public ReadBaplieFileTests()
         {
-            instance = new ReadBaplieFile();
-            privateObject = new PrivateObject(instance);   
+            Type type = typeof(ReadBaplieFile);
+            method = type.GetMethod("GenerateNextNonamerNumber", BindingFlags.NonPublic | BindingFlags.Static);
         }
 
         [TestMethod]
@@ -25,7 +26,7 @@ namespace EasyJob_ProDG.ModelTests.IO
 
             for (int i=0; i<inputs.Length; i++)
             {
-                var returnValue = privateObject.Invoke("GenerateNextNonamerNumber", inputs[i]);
+                var returnValue = (string)method.Invoke(null, new object[] { inputs[i] });
                 Assert.AreEqual(returnValue, expectedResults[i]);
             }
         }

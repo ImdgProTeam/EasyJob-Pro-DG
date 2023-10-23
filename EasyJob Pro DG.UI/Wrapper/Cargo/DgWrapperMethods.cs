@@ -1,24 +1,16 @@
 ﻿using EasyJob_ProDG.Model.Cargo;
-using EasyJob_ProDG.Model.IO;
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.Wrapper.Cargo;
 using System;
 using System.Runtime.CompilerServices;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
-    public partial class DgWrapper : ModelWrapper<Dg>, ILocationOnBoard, IContainer, IUpdatable
+    public partial class DgWrapper : AbstractContainerWrapper<Dg>
     {
         #region Public methods
         // --------------- Methods ---------------------------------------
-
-        /// <summary>
-        /// Clears and registrations and subscriptions, e.g. before deleting
-        /// </summary>
-        internal void ClearSubscriptions()
-        {
-            DataMessenger.Default.Unregister(this);
-        }
 
         /// <summary>
         /// Compiles location of input of bay, row or tier
@@ -168,35 +160,12 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Calls OnPropertyChanged for all location related properties
-        /// </summary>
-        private void UpdateLocationPresentation()
-        {
-            OnPropertyChanged("Location");
-            OnPropertyChanged("Bay");
-            OnPropertyChanged("Row");
-            OnPropertyChanged("Tier");
-            OnPropertyChanged("HoldNr");
-            OnPropertyChanged("IsUnderdeck");
-            OnPropertyChanged("Size");
-            OnPropertyChanged("LocationSortable");
-        }
-
-        /// <summary>
-        /// Calls OnPropertyChanged for IsRf property
-        /// </summary>
-        public void UpdateReeferProperty()
-        {
-            OnPropertyChanged(nameof(IsRf));
-        }
-
-        /// <summary>
         /// Sends message to synchronise changes with CargoPlan
         /// </summary>
         /// <param name="value">new value set</param>
         /// <param name="oldValue">old value</param>
         /// <param name="propertyName">property that is changed</param>
-        private void SetToAllContainersInPlan(object value, object oldValue = null, [CallerMemberName] string propertyName = null)
+        protected override void SetToAllContainersInPlan(object value, object oldValue = null, [CallerMemberName] string propertyName = null)
         {
             DataMessenger.Default.Send(new CargoPlanUnitPropertyChanged(this, value, oldValue, propertyName));
         }

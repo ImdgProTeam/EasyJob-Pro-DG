@@ -29,10 +29,7 @@ namespace EasyJob_ProDG.UI.Data
 
             foreach (var dg in dgList)
             {
-                DgWrapper dgW = new DgWrapper(dg)
-                {
-                    IsInList = true
-                };
+                DgWrapper dgW = new DgWrapper(dg);
                 Add(dgW);
             }
         }

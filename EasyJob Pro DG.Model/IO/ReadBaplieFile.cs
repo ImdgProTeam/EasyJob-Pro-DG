@@ -10,50 +10,43 @@ using EasyJob_ProDG.Model.Transport;
 namespace EasyJob_ProDG.Model.IO
 {
     /// <summary>
-    /// Class contains methods to read and parse .edi file and create dg list, list of all containers and reefer list. As well, voyage data will be updated from the .edi file.
+    /// Class contains methods to read and parse .edi file and create dg list, list of all containers and reefer list. 
+    /// As well, voyage data will be updated from the .edi file.
     /// </summary>
-    public class ReadBaplieFile
+    public static class ReadBaplieFile
     {
         #region fields
-        private string _segmentDef;
-        readonly EdiSegmentArray _segmentArray;
-        private readonly ShipProfile _ship;
+        private static string _segmentDef;
+        private static EdiSegmentArray _segmentArray;
+        private static ShipProfile _ship;
 
-        private CargoPlan cargoPlan;
-        public List<string> WrongList;
-        public int WrongContainersCount;
+        private static CargoPlan cargoPlan;
+        private static List<string> WrongList;
+        private static int WrongContainersCount;
 
         private const string SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         #endregion
 
-        public CargoPlan GetCargoPlan()
+        public static CargoPlan GetCargoPlan()
         {
             return cargoPlan;
         }
-
-        public Voyage GetVoyage()
+        public static Voyage GetVoyage()
         {
             return cargoPlan.VoyageInfo;
         }
 
         /// <summary>
-        /// The constructor will read .edi file, define segment information, and will display working information and summary.
+        /// Creates <see cref="CargoPlan"/> and <see cref="Voyage"/> from baplie file.
         /// </summary>
         /// <param name="file"></param>
         /// <param name="ship"></param>
-        public ReadBaplieFile(string file, ShipProfile ship, ref bool isIftdgn)
+        /// <param name="isIftdgn">If the file is IFTDGN file. If it is declared as false when it actually is, it will be read as IFTDGN.</param>
+        public static void ReadBaplie(string file, ShipProfile ship, ref bool isIftdgn)
         {
-            //TODO: Change constructor to method returning CargoPlan
-
             _ship = ship;
 
-            //read from file
-            var reader = new StreamReader(file);
-            string text = reader.ReadToEnd();
-            text = text.Replace("\r", "");
-            text = text.Replace("\n", "");
-            _segmentArray = new EdiSegmentArray(text);
-            reader.Close();
+            CreateSegmentArrayFromBaplieFile(file);
 
             //Create container list
             cargoPlan = new CargoPlan();
@@ -62,31 +55,97 @@ namespace EasyJob_ProDG.Model.IO
 
             if (!isIftdgn)
                 if (!DefineSegments())
-                {
                     isIftdgn = true;
-                }
 
             if (isIftdgn)
                 cargoPlan = ReadIftdgnFile.ReadSegments(_segmentArray, _ship);
-
-            //Print wrong container numbers info
-            //if (wrongContainers > 0)
-            //{
-            //    Style.ErrorStyle(string.Concat("\nContainers with wrong number: ", wrongContainers));
-            //    Program.textToExport.AppendLine().Append("Containers with wrong number: " + wrongContainers)
-            //        .AppendLine();
-            //    Style.QuestionStyle("Do you want to print the list? Y/N");
-            //    if (Output.IfReadKey('y', false))
-            //        foreach (string number in wrongList)
-            //            Style.GreenStyle(number);
-            //}
         }
+
+        /// <summary>
+        /// Creates <see cref="_segmentArray"/> from baplie file.
+        /// </summary>
+        /// <param name="file">Baplie file.</param>
+        private static void CreateSegmentArrayFromBaplieFile(string file)
+        {
+            //read from file
+            using var reader = new StreamReader(file);
+            {
+                string text = reader.ReadToEnd();
+                text = text.Replace("\r", "").Replace("\n", "");
+                _segmentArray = new EdiSegmentArray(text);
+                reader.Close();
+            }
+        }
+
+
+        /// <summary>
+        /// Method to read segment containing dg information and to add the information to dg unit.
+        /// </summary>
+        /// <param name="segment"></param>
+        /// <param name="dgUnit"></param>
+        internal static bool ReadDgSegment(string segment, Dg dgUnit)
+        {
+            string[] dgSegment = segment.Split('+');
+
+            try
+            {
+                //DG CLASS
+                dgUnit.DgClass = dgSegment[2].Contains(':')
+                    ? dgSegment[2].Substring(0, dgSegment[2].IndexOf(':'))
+                    : dgSegment[2];
+                dgUnit.AssignSegregationTableRowNumber();
+                dgUnit.DefineCompatibilityGroup();
+
+                //DG UNNO
+                dgUnit.Unno = Convert.ToUInt16(dgSegment[3]);
+                dgUnit.AssignSegregationGroup();
+            }
+            catch
+            {
+                if (string.IsNullOrEmpty(dgUnit.DgClass)) return false;
+                dgUnit.Unno = 0;
+                return true;
+            }
+
+            //DG FLASH POINT
+            if (dgSegment.Length <= 4) return true;
+            try
+            {
+                if (dgSegment[4].Contains(":CEL")) dgUnit.FlashPointDouble = (Convert.ToDouble(dgSegment[4].Substring
+                    (0, dgSegment[4].IndexOf(':'))));
+                else if (dgSegment[4].Contains(":FAH")) dgUnit.FlashPointDouble = AdditionalFunctions.ToCelcium(Convert.ToDouble
+                    (dgSegment[4].Substring(0, dgSegment[4].IndexOf(':'))));
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
+
+            //DG Packing group
+            if (dgSegment.Length <= 5) return true;
+            dgUnit.PackingGroup = dgSegment[5];
+
+            if (dgSegment.Length > 6)
+            {
+                //DG EMS
+                dgUnit.DgEMS = FormatEms(dgSegment[6]);
+                if (dgSegment.Length > 8 && dgSegment[8] != "")
+                {
+                    Output.ThrowMessage(dgSegment[8]);
+                }
+            }
+            //DG subclasses
+            if (dgSegment.Length <= 10) return true;
+            dgUnit.DgSubclassArray = dgSegment[10].Split(':');
+            return true;
+        }
+
 
         /// <summary>
         /// Method defines what information is contained in a segment and updates respective fields of dg list, 
         /// container list or vessel information
         /// </summary>
-        private bool DefineSegments()
+        private static bool DefineSegments()
         {
             Container a = new Container();
             int dateLevel = 0;
@@ -107,71 +166,8 @@ namespace EasyJob_ProDG.Model.IO
 
                     #region Location
                     case "LOC":
-                        if (segment.StartsWith("LOC+5"))
-                        {
-                            //Port of departure
-                            if (segment.Substring(6).Contains(":"))
-                                segment = segment.Substring(0, segment.IndexOf(':'));
-                            cargoPlan.VoyageInfo.PortOfDeparture = segment.Length > 10 ? segment.Substring(6, 5) : segment.Substring(6, segment.Length - 6);
-                            break;
-                        }
-                        else if (segment.StartsWith("LOC+61"))
-                        {
-                            //Next port of call
-                            cargoPlan.VoyageInfo.PortOfDestination = segment.Length > 11 ? segment.Substring(7, 5) : segment.Substring(7, segment.Length - 7);
-                            break;
-                        }
-                        else if (segment.StartsWith("LOC+147"))
-                        {
-                            //Container location
-                            if (a.Location != null)
-                            {
-                                //if (!a.typeRecognized && a.DgInContainer > 0)
-                                //{
-                                //    Style.FontColor("Red");
-                                //    Output.DisplayLine(
-                                //        "Attention! Container {0} has not recognized type {1}. It will be considered as 'closed freight container'", new string[] { a.Number, a.ctnrType });
-                                //    Output.ReadKey();
-
-                                //}
-                            }
-                            a = new Container { Location = segment.Substring(8, 7) };
-                            a.HoldNr = _ship.DefineCargoHoldNumber(a.Bay);
-                            cargoPlan.Containers.Add(a);
-                            break;
-                        }
-                        else if (segment.StartsWith("LOC+6+"))
-                        {
-                            //POL
-                            a.POL = segment.Length > 10 ? segment.Substring(6, 5) : segment.Substring(6, segment.Length - 6);
-                            break;
-                        }
-                        else if (segment.StartsWith("LOC+9+"))
-                        {
-                            //POL
-                            a.POL = segment.Length > 10 ? segment.Substring(6, 5) : segment.Substring(6, segment.Length - 6);
-                            break;
-                        }
-                        else if (segment.StartsWith("LOC+11"))
-                        {
-                            //POD
-                            a.POD = segment.Length > 11 ? segment.Substring(7, 5) : segment.Substring(7);
-                            break;
-                        }
-                        else if (segment.StartsWith("LOC+12"))
-                        {
-                            //POD
-                            a.POD = segment.Length > 11 ? segment.Substring(7, 5) : segment.Substring(7, segment.Length - 7);
-                            break;
-                        }
-                        else if (segment.StartsWith("LOC+83"))
-                        {
-                            //Final destination
-                            a.FinalDestination = segment.Length > 11 ? segment.Substring(7, 5) : segment.Substring(7, segment.Length - 7);
-                            break;
-                        }
-                        else
-                            break;
+                            ReadLOCsegment(ref a, segment);
+                        break;
                     #endregion
 
                     #region Dates
@@ -261,7 +257,6 @@ namespace EasyJob_ProDG.Model.IO
                         if (a.ContainerNumber.Length == 0) NameNonamer(a);
                         else if (a.ContainerNumber.Length != 11)
                         {
-                            //Output.DisplayLine("Wrong container Nr: {0}",
                             WrongList.Add(segment.Substring(7, segment.IndexOf('+', 7) - 7));
                             WrongContainersCount++;
                         }
@@ -352,14 +347,77 @@ namespace EasyJob_ProDG.Model.IO
         }
 
         /// <summary>
+        /// Assignes correct value to LOC-related Container and Voyage properties from LOC segment.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="segment"></param>
+        private static void ReadLOCsegment(ref Container a, string segment)
+        {
+            switch (segment.Split('+')[1])
+            {
+                //Port of departure
+                case "5":
+                    cargoPlan.VoyageInfo.PortOfDeparture = ParseLOCsegment(segment);
+                    break;
+
+                //Next port of call
+                case "61":
+                    cargoPlan.VoyageInfo.PortOfDestination = ParseLOCsegment(segment);
+                    break;
+
+                //Container location
+                case "147":
+                    {
+                        a = new Container { Location = ParseLOCsegment(segment) };
+                        a.HoldNr = _ship.DefineCargoHoldNumber(a.Bay);
+                        cargoPlan.Containers.Add(a);
+                        break;
+                    }
+
+                //POL
+                case "6":
+                case "9":
+                    a.POL = ParseLOCsegment(segment);
+                    break;
+
+                //POD
+                case "11":
+                case "12":
+                    a.POD = ParseLOCsegment(segment);
+                    break;
+
+                //Final destination
+                case "83":
+                    a.FinalDestination = ParseLOCsegment(segment);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Withdraws meaningful part of an LOC segment
+        /// </summary>
+        /// <param name="segment"></param>
+        /// <returns></returns>
+        private static string ParseLOCsegment(string segment)
+        {
+            var subsegments = segment.Split('+');
+            var result = subsegments[2].Contains(":")
+                ? subsegments[2].Split(':')[0]
+                : subsegments[2];
+            return result;
+        }
+
+        /// <summary>
         /// Creates an unique consequitive name for <see cref="Container"/> a without number in accordance with naming rules.
         /// </summary>
         /// <param name="a"></param>
-        private void NameNonamer(Container a)
+        private static void NameNonamer(Container a)
         {
             if (a.ContainerNumber is not null && !string.Equals(a.ContainerNumber, string.Empty)) return;
 
-            //cargoPlan.HasNonamers = true;
             a.ContainerNumber = ProgramDefaultSettingValues.NoNamePrefix + GenerateNextNonamerNumber(cargoPlan.NextNonamerNumber++);
         }
 
@@ -368,7 +426,7 @@ namespace EasyJob_ProDG.Model.IO
         /// </summary>
         /// <param name="next">Integer value to be used to generate unique number.</param>
         /// <returns>Unique string consisting of three chars.</returns>
-        private string GenerateNextNonamerNumber(int next)
+        private static string GenerateNextNonamerNumber(int next)
         {
             if (next < 1000) return next.ToString("000");
 
@@ -401,75 +459,12 @@ namespace EasyJob_ProDG.Model.IO
         }
 
         /// <summary>
-        /// Method to read segment containing dg information and to add the information to dg unit.
-        /// </summary>
-        /// <param name="segment"></param>
-        /// <param name="dgUnit"></param>
-        internal static bool ReadDgSegment(string segment, Dg dgUnit)
-        {
-            string[] dgSegment = segment.Split('+');
-
-            try
-            {
-                //DG CLASS
-                dgUnit.DgClass = dgSegment[2].Contains(':')
-                    ? dgSegment[2].Substring(0, dgSegment[2].IndexOf(':'))
-                    : dgSegment[2];
-                dgUnit.AssignSegregationTableRowNumber();
-                dgUnit.DefineCompatibilityGroup();
-
-                //DG UNNO
-                dgUnit.Unno = Convert.ToUInt16(dgSegment[3]);
-                dgUnit.AssignSegregationGroup();
-            }
-            catch
-            {
-                if (string.IsNullOrEmpty(dgUnit.DgClass)) return false;
-                dgUnit.Unno = 0;
-                return true;
-            }
-
-            //DG FLASH POINT
-            if (dgSegment.Length <= 4) return true;
-            try
-            {
-                if (dgSegment[4].Contains(":CEL")) dgUnit.FlashPointDouble = (Convert.ToDouble(dgSegment[4].Substring
-                    (0, dgSegment[4].IndexOf(':'))));
-                else if (dgSegment[4].Contains(":FAH")) dgUnit.FlashPointDouble = AdditionalFunctions.ToCelcium(Convert.ToDouble
-                    (dgSegment[4].Substring(0, dgSegment[4].IndexOf(':'))));
-            }
-            catch (Exception e)
-            {
-                // ignored
-            }
-
-            //DG Packing group
-            if (dgSegment.Length <= 5) return true;
-            dgUnit.PackingGroup = dgSegment[5];
-
-            if (dgSegment.Length > 6)
-            {
-                //DG EMS
-                dgUnit.DgEMS = FormatEms(dgSegment[6]);
-                if (dgSegment.Length > 8 && dgSegment[8] != "")
-                {
-                    Output.ThrowMessage(dgSegment[8]);
-                }
-            }
-            //DG subclasses
-            if (dgSegment.Length <= 10) return true;
-            dgUnit.DgSubclassArray = dgSegment[10].Split(':');
-            return true;
-        }
-
-        /// <summary>
         /// Formats EMS string to standard good-looking string.
         /// </summary>
         /// <param name="ems">Original EMS string.</param>
         /// <returns></returns>
         private static string FormatEms(string ems)
         {
-
             if (ems.Contains(' ') && ems.Length == 7 || ems.Length == 11)
                 return ems;
             if (!ems.Contains(' '))
@@ -484,24 +479,13 @@ namespace EasyJob_ProDG.Model.IO
                         if (i % 2 != 0)
                             temp = temp.Insert(i, " - ");
                         else
-                        {
                             temp = temp.Insert(i, " ");
-                        }
                     }
-
                     return temp;
                 }
             }
-
             return ems;
         }
 
-        /// <summary>
-        /// Empty constructor
-        /// </summary>
-        public ReadBaplieFile()
-        {
-
-        }
     }
 }

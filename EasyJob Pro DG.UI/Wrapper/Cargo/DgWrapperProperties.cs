@@ -1,327 +1,11 @@
-﻿using EasyJob_ProDG.Data;
-using EasyJob_ProDG.Model.Cargo;
-using EasyJob_ProDG.Model.IO;
+﻿using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.UI.Data;
-using EasyJob_ProDG.UI.View.Sort;
-using System;
+using EasyJob_ProDG.UI.Wrapper.Cargo;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
-    public partial class DgWrapper : ModelWrapper<Dg>, ILocationOnBoard, IContainer, IUpdatable
+    public partial class DgWrapper : AbstractContainerWrapper<Dg>
     {
-        //Private fields
-        private SortableLocation _locationSortable;
-
-
-        // --------------- Public properties ----------------------------
-
-        public bool IsInList { get; set; }
-
-
-        #region LocationOnBoard properties
-        //--------------- Properties related to container location ------------------
-
-        public bool IsUnderdeck
-        {
-            get { return GetValue<bool>(); }
-            set
-            {
-            }
-        }
-        public byte Bay
-        {
-            get { return GetValue<byte>(); }
-            set
-            { }
-        }
-        public byte Row
-        {
-            get { return GetValue<byte>(); }
-            set { }
-        }
-        public byte Size
-        {
-            get => GetValue<byte>();
-            set { }
-        }
-        public byte Tier
-        {
-            get { return GetValue<byte>(); }
-            set { }
-        }
-        public byte HoldNr
-        {
-            get { return GetValue<byte>(); }
-            set
-            {
-            }
-        }
-
-        /// <summary>
-        /// Container position on board (slot address)
-        /// </summary>
-        public string Location
-        {
-            get => GetValue<string>();
-            set
-            {
-                var oldValue = Location;
-                if (oldValue == value) return;
-
-                SetValue(value);
-                _locationSortable = null;
-                if (!IsInList) return;
-
-                if (CurrentProgramData.OwnShip != null)
-                    Model.HoldNr = CurrentProgramData.OwnShip.DefineCargoHoldNumber(Bay);
-                SetToAllContainersInPlan(GetValue<string>(), oldValue);
-                UpdateLocationPresentation();
-            }
-        }
-
-        /// <summary>
-        /// Property used to sort DgWrappers in chosen order
-        /// </summary>
-        public SortableLocation LocationSortable => _locationSortable ??= new SortableLocation(this);
-        #endregion
-
-
-        #region IUpdatable
-        //--------------- Properties related to IUpdatable -------------------------- 
-
-        public bool IsPositionLockedForChange
-        {
-            get => GetValue<bool>();
-            set
-            {
-                if (!SetValue(value)) return;
-                SetToAllContainersInPlan(value);
-            }
-        }
-        public bool IsToBeKeptInPlan
-        {
-            get => GetValue<bool>();
-            set
-            {
-                if (!SetValue(value)) return;
-                SetToAllContainersInPlan(value);
-            }
-        }
-        public bool IsNotToImport
-        {
-            get => GetValue<bool>();
-            set
-            {
-                if (!SetValue(value)) return;
-                if (value) IsToImport = false;
-                SetToAllContainersInPlan(value);
-            }
-        }
-        public bool IsToImport
-        {
-            get => GetValue<bool>();
-            set
-            {
-                if (!SetValue(value)) return;
-                if(value) IsNotToImport = false;
-                SetToAllContainersInPlan(value);
-            }
-        }
-
-        //properties with empty setters
-        public bool IsNewUnitInPlan
-        {
-            get => GetValue<bool>();
-            set { }
-        }
-        public bool HasLocationChanged
-        {
-            get => GetValue<bool>();
-            set { }
-        }
-        public bool HasUpdated
-        {
-            get => GetValue<bool>();
-            set { }
-        }
-        public bool HasPodChanged
-        {
-            get => GetValue<bool>();
-            set { }
-        }
-        public bool HasContainerTypeChanged
-        {
-            get => GetValue<bool>();
-            set { }
-        }
-
-        public string LocationBeforeRestow
-        {
-            get => GetValue<string>(); set { }
-        }
-        #endregion
-
-
-        #region IContainer
-        //--------------- Properties related to IContainer --------------------------- 
-
-        /// <summary>
-        /// Container number
-        /// </summary>
-        public string ContainerNumber
-        {
-            get => GetValue<string>();
-            set
-            {
-                var oldValue = ContainerNumber;
-                var newValue = value.ToUpper();
-
-                if (string.Equals(newValue, oldValue)) return;
-
-                SetValue(newValue);
-                OnPropertyChanged(nameof(HasNoNumber));
-                SetToAllContainersInPlan(newValue, oldValue);
-                OnPropertyChanged(nameof(DisplayContainerNumber));
-            }
-        }
-
-        /// <summary>
-        /// ContainerNumber in format in accordance with UserSettings selected.
-        /// </summary>
-        public string DisplayContainerNumber
-        {
-            get => UserSettings.ContainerNumberToDisplay(ContainerNumber);
-            set
-            {
-                ContainerNumber = UserSettings.ContainerNumberFromDisplay(value);
-            }
-        }
-
-        /// <summary>
-        /// Port of loading
-        /// </summary>
-        public string POL
-        {
-            get => GetValue<string>();
-            set
-            {
-                if(!SetValue(value)) return;
-                if (IsInList)
-                {
-                    SetToAllContainersInPlan(value);
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Port of discharging
-        /// </summary>
-        public string POD
-        {
-            get => GetValue<string>();
-            set
-            {
-                if(!SetValue(value)) return;
-                if (IsInList)
-                {
-                    SetToAllContainersInPlan(value);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Port of final destination
-        /// </summary>
-        public string FinalDestination
-        {
-            get => GetValue<string>();
-            set
-            {
-                if(!SetValue(value)) return;
-                if (IsInList)
-                {
-                    SetToAllContainersInPlan(value);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Container type code
-        /// </summary>
-        public string ContainerType
-        {
-            get => GetValue<string>();
-            set
-            {
-                if (!SetValue(value.ToUpper())) return;
-                if (IsInList)
-                {
-                    Model.UpdateContainerType();
-                    SetToAllContainersInPlan(value.ToUpper());
-
-                    OnPropertyChanged($"IsClosed");
-                    OnPropertyChanged($"IsOpen");
-                }
-            }
-        }
-
-        /// <summary>
-        /// True if unit is a Closed Freight Container
-        /// </summary>
-        public bool IsClosed
-        {
-            get => GetValue<bool>();
-            set
-            {
-                if (!SetValue(value)) return;
-                SetToAllContainersInPlan(value);
-
-                OnPropertyChanged($"IsOpen");
-            }
-        }
-
-        /// <summary>
-        /// True if container is of open type. Opposite to 'IsClosed'
-        /// </summary>
-        public bool IsOpen
-        {
-            get => !IsClosed;
-            set => IsClosed = !value;
-        }
-
-        /// <summary>
-        /// True if the container is a live reefer
-        /// </summary>
-        public bool IsRf
-        {
-            get => GetValue<bool>();
-            set
-            {
-                if (!SetValue(value)) return;
-                SetToAllContainersInPlan(value);
-
-            }
-        }
-
-        /// <summary>
-        /// Container operator
-        /// </summary>
-        public string Carrier
-        {
-            get => GetValue<string>();
-            set
-            {
-                if (!SetValue(value)) return;
-                if (IsInList)
-                    SetToAllContainersInPlan(value);
-            }
-        }
-
-        public bool HasNoNumber => GetValue<bool>();
-        public bool ContainerTypeRecognized { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        #endregion
-
 
         #region Dg properties with complex functionality
         //--------------- Properties related to Dangerous Cargo ---------------------
@@ -355,16 +39,13 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 string[] tempdgsubclasses = Model.DgSubclassArray;
                 Model.ClearAllDgClasses();
-                SetValue(value.Replace(" ",""));
+                SetValue(value.Replace(" ", ""));
                 foreach (var dgsubclass in tempdgsubclasses)
                 {
                     Model.DgSubclass = dgsubclass;
                 }
-                if (IsInList)
-                {
-                    OnPropertyChanged($"AllDgClasses");
-                    UpdateConflictList();
-                }
+                OnPropertyChanged($"AllDgClasses");
+                UpdateConflictList();
             }
         }
 
@@ -388,11 +69,8 @@ namespace EasyJob_ProDG.UI.Wrapper
                         SetValue(val);
                 }
 
-                if (IsInList)
-                {
                     OnPropertyChanged($"AllDgClasses");
                     UpdateConflictList();
-                }
             }
         }
 
@@ -405,12 +83,10 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<string>(); }
             set
             {
-                if(!SetValue(value)) return;
-                if (IsInList)
-                {
+                if (!SetValue(value)) return;
                     OnUpdatePackingGroup();
                     UpdateConflictList();
-                }
+
             }
         }
 
@@ -419,7 +95,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<decimal>(); }
             set
             {
-                if(!SetValue(value)) return;
+                if (!SetValue(value)) return;
                 OnNetWeightChanged();
             }
         }
@@ -429,7 +105,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<bool>();
             set
             {
-                if(!SetValue(value)) return;
+                if (!SetValue(value)) return;
                 UpdateConflictList();
             }
         }
@@ -439,7 +115,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<bool>(); }
             set
             {
-                if(!SetValue(value)) return;
+                if (!SetValue(value)) return;
                 UpdateDgStowageConflicts();
                 OnNetWeightChanged();
             }
@@ -453,10 +129,10 @@ namespace EasyJob_ProDG.UI.Wrapper
                 if (IsMax1L == value) return;
                 if (value && Unno != 1950) return;
 
-                if(!SetValue(value)) return;
+                if (!SetValue(value)) return;
                 if (value)
                 {
-                    if (!Name.ToLower().Replace(" ", "").Replace(".","").Contains("max1l")) Name += ", Max 1L";
+                    if (!Name.ToLower().Replace(" ", "").Replace(".", "").Contains("max1l")) Name += ", Max 1L";
                     if (IsWaste) IsWaste = false;
                 }
                 else
@@ -473,7 +149,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<bool>();
             set
             {
-                if(!SetValue(value)) return;
+                if (!SetValue(value)) return;
 
                 if (value)
                 {
@@ -492,7 +168,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<bool>(); }
             set
             {
-                if(!SetValue(value)) return;
+                if (!SetValue(value)) return;
 
                 UpdateDgStowageConflicts();
 
@@ -513,7 +189,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                 string oldName = Name.ToLower().Replace(" ", "").Replace(".", ""); ;
                 string newName = value.ToLower().Replace(" ", "").Replace(".", "");
 
-                if(!SetValue(value)) return;
+                if (!SetValue(value)) return;
                 IsNameChanged = !string.Equals(OriginalNameFromCode, value);
 
                 if (oldName.Contains("waste") && !newName.Contains("waste"))
@@ -540,7 +216,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<bool>(); }
             set
             {
-                if(!SetValue(value)) return;
+                if (!SetValue(value)) return;
                 OnPropertyChanged();
             }
         }
@@ -550,7 +226,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<char>(); }
             set
             {
-                if(!SetValue(value)) return;
+                if (!SetValue(value)) return;
                 UpdateDgStowageConflicts();
             }
         }

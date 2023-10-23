@@ -35,7 +35,6 @@ namespace EasyJob_ProDG.Model.IO
         private static void DefineSegments(EdiSegmentArray segmentArray)
         {
             bool isIftdn = false;
-            bool started = false;
             bool isContainerListCompleted = false;
 
             string pol = null;
@@ -57,8 +56,6 @@ namespace EasyJob_ProDG.Model.IO
                         break;
 
                     case "BGM":
-                        if (segment.StartsWith("BGM"))
-                            started = true;
                         continue;
 
                     case "EQD":

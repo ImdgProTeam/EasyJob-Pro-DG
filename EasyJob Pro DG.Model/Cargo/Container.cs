@@ -1,7 +1,4 @@
-﻿using EasyJob_ProDG.Data.Info_data;
-
-
-namespace EasyJob_ProDG.Model.Cargo
+﻿namespace EasyJob_ProDG.Model.Cargo
 {
 
     public class Container : ContainerAbstract, IReefer
@@ -10,18 +7,7 @@ namespace EasyJob_ProDG.Model.Cargo
         // -------------- public properties -----------------------------------------
 
         public byte DgCountInContainer { get; set; }
-
-        private string _type;
-        public override string ContainerType
-        {
-            get => _type;
-            set
-            {
-                _type = value;
-                UpdateContainerType();
-            }
-        }
-
+        public bool ContainsDgCargo => DgCountInContainer > 0;
         public string Remarks { get; set; }
 
         #endregion
@@ -53,21 +39,6 @@ namespace EasyJob_ProDG.Model.Cargo
         #endregion
 
 
-        #region Constructor
-        // -------------- public constructor ----------------------------------------
-
-        public Container()
-        {
-            ContainerNumber = null;
-            DgCountInContainer = 0;
-            IsRf = false;
-            IsUnderdeck = false;
-            IsClosed = true;
-            ContainerTypeRecognized = false;
-        }
-        #endregion
-
-
         #region Public methods
         // -------------- public methods --------------------------------------------
 
@@ -93,33 +64,6 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
         /// <summary>
-        /// Updates information derived from container types dictionary
-        /// </summary>
-        public void UpdateContainerType()
-        {
-            UpdateContainerType(this);
-        }
-
-        /// <summary>
-        /// Updates information derived from container types dictionary on a IContainer item
-        /// </summary>
-        /// <param name="a"></param>
-        public static void UpdateContainerType(IContainer a)
-        {
-            //reset to default
-            //by default IsClosed = true, TypeRecognized = false;
-            a.ContainerTypeRecognized = false;
-            a.IsClosed = true;
-
-            var type = CodesDictionary.ContainerType.GetContainerType(a.ContainerType);
-            if( type != null)
-            {
-                a.IsClosed = type.IsClosed;
-                a.ContainerTypeRecognized = true;
-            }
-        }
-
-        /// <summary>
         /// Decrements dg cargo counter in container
         /// </summary>
         public void RemoveDgFromContainer()
@@ -134,11 +78,10 @@ namespace EasyJob_ProDG.Model.Cargo
         public void CopyContainerInfo(Container container)
         {
             Location = container.Location;
-            IsUnderdeck = container.IsUnderdeck;
             DgCountInContainer = container.DgCountInContainer;
             IsRf = container.IsRf;
 
-            _type = container._type;
+            ContainerType = container.ContainerType;
             ContainerTypeRecognized = container.ContainerTypeRecognized;
             IsClosed = container.IsClosed;
 
@@ -147,6 +90,21 @@ namespace EasyJob_ProDG.Model.Cargo
             POD = container.POD;
             POL = container.POL;
         }
+        #endregion
+
+
+        #region Constructor
+        // -------------- public constructor ----------------------------------------
+
+        public Container()
+        {
+            ContainerNumber = null;
+            DgCountInContainer = 0;
+            IsRf = false;
+            IsClosed = true;
+            ContainerTypeRecognized = false;
+        }
+
         #endregion
     }
 }

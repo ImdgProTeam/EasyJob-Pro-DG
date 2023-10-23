@@ -1,85 +1,19 @@
 ﻿using EasyJob_ProDG.Model.Cargo;
-using EasyJob_ProDG.Model.IO;
-using EasyJob_ProDG.UI.Data;
-using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Messages;
-using EasyJob_ProDG.UI.View.Sort;
+using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.Wrapper.Cargo;
 using System.Runtime.CompilerServices;
 using Container = EasyJob_ProDG.Model.Cargo.Container;
-using EasyJob_ProDG.Data;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
-    public class ContainerWrapper : ModelWrapper<Container>, ILocationOnBoard, IContainer, IUpdatable, IReefer
+    public class ContainerWrapper : AbstractContainerWrapper<Container>, IReefer
     {
-        //--------------- Private fields --------------------------------------------
-
-
-
-        //--------------- Public properties -----------------------------------------
-
-        /// <summary>
-        /// Container number
-        /// </summary>
-        public string ContainerNumber
-        {
-            get => GetValue<string>();
-            set
-            {
-                var oldValue = ContainerNumber;
-                var newValue = value.ToUpper();
-
-                if(!SetValue(newValue)) return;
-                OnPropertyChanged(nameof(HasNoNumber));
-                SetToAllContainersInPlan(newValue, oldValue);
-                //OnPropertyChanged(nameof(DisplayContainerNumber));
-            }
-        }
-
-        /// <summary>
-        /// ContainerNumber in format in accordance with UserSettings selected.
-        /// </summary>
-        public string DisplayContainerNumber
-        {
-            get => UserSettings.ContainerNumberToDisplay(ContainerNumber);
-            set
-            {
-                ContainerNumber = UserSettings.ContainerNumberFromDisplay(value);
-            }
-        }
-
-        /// <summary>
-        /// Container location on board
-        /// </summary>
-        public string Location
-        {
-            get => GetValue<string>();
-            set
-            {
-                var oldValue = Location;
-
-                if(!SetValue(value)) return;
-                _locationSortable = null;
-
-                if (CurrentProgramData.OwnShip != null) 
-                    Model.HoldNr = CurrentProgramData.OwnShip.DefineCargoHoldNumber(Bay);
-                SetToAllContainersInPlan(GetValue<string>(), oldValue);
-                RefreshLocation();
-            }
-        }
-
         /// <summary>
         /// True if ContainerWrapper contains dg cargo
         /// </summary>
-        public bool ContainsDgCargo => (Model.DgCountInContainer > 0);
-
+        public bool ContainsDgCargo => GetValue<bool>();
         public byte DgCountInContainer => GetValue<byte>();
-
-        /// <summary>
-        /// Used to sort containers in certain order
-        /// </summary>
-        private SortableLocation _locationSortable;
-        public SortableLocation LocationSortable => _locationSortable ??= new SortableLocation(this);
 
         /// <summary>
         /// Any user defined text remarks or comments
@@ -90,166 +24,12 @@ namespace EasyJob_ProDG.UI.Wrapper
             set { SetValue(value); }
         }
 
-        #region LocationOnBoard properties
-
-
-        //All setters are blank
-        public byte Bay
-        {
-            get => Model.Bay;
-            set { }
-        }
-        public byte HoldNr
-        {
-            get => Model.HoldNr;
-            set { }
-        }
-        public byte Row
-        {
-            get => Model.Row;
-            set { }
-        }
-        public byte Size
-        {
-            get => Model.Size;
-            set { }
-        }
-        public byte Tier
-        {
-            get => Model.Tier;
-            set { }
-        }
-        public bool IsUnderdeck
-        {
-            get => Model.IsUnderdeck;
-            set { }
-        }
-        #endregion
-
-        #region IContainer properties
-
-        /// <summary>
-        /// True if unit is a Closed Freight Container
-        /// </summary>
-        public bool IsClosed
-        {
-            get => GetValue<bool>();
-            set
-            {
-                if (!SetValue(value)) return;
-                SetToAllContainersInPlan(value);
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// True if container is of open type. Opposite to 'IsClosed'
-        /// </summary>
-        public bool IsOpen
-        {
-            get => !IsClosed;
-            set => IsClosed = !value;
-        }
-
-        /// <summary>
-        /// True if the container is a live reefer
-        /// </summary>
-        public bool IsRf
-        {
-            get => GetValue<bool>();
-            set
-            {
-                if (!SetValue(value)) return;
-                SetToAllContainersInPlan(value);
-                OnPropertyChanged();
-            }
-        }
-
-        public bool ContainerTypeRecognized { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
-        /// <summary>
-        /// Port of discharging
-        /// </summary>
-        public string POD
-        {
-            get => GetValue<string>();
-            set
-            {
-                if (!SetValue(value)) return;
-                SetToAllContainersInPlan(value);
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Port of final destination
-        /// </summary>
-        public string FinalDestination
-        {
-            get => GetValue<string>();
-            set
-            {
-                if (!SetValue(value)) return;
-                SetToAllContainersInPlan(value);
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Port of loading
-        /// </summary>
-        public string POL
-        {
-            get => GetValue<string>();
-            set
-            {
-                if (!SetValue(value)) return;
-                SetToAllContainersInPlan(value);
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Container type code
-        /// </summary>
-        public string ContainerType
-        {
-            get => GetValue<string>();
-            set
-            {
-                if (!SetValue(value.ToUpper())) return;
-                Model.UpdateContainerType();
-                SetToAllContainersInPlan(value.ToUpper());
-
-                OnPropertyChanged();
-                OnPropertyChanged($"IsClosed");
-                OnPropertyChanged($"IsOpen");
-            }
-        }
-
-        /// <summary>
-        /// Container operator
-        /// </summary>
-        public string Carrier
-        {
-            get => GetValue<string>();
-            set
-            {
-                if (!SetValue(value)) return;
-                SetToAllContainersInPlan(value);
-                OnPropertyChanged();
-            }
-        }
-
-        public bool HasNoNumber => GetValue<bool>();
-        #endregion
-
         #region IReefer properties
 
         public double SetTemperature
         {
             get { return GetValue<double>(); }
-            set { SetValue(value);           }
+            set { SetValue(value); }
         }
         public string Commodity
         {
@@ -287,88 +67,6 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         #endregion
 
-        #region IUpdatable properties
-        //--------------- Properties related to IUpdatable -------------------------- 
-
-        public bool IsPositionLockedForChange
-        {
-            get => GetValue<bool>();
-            set
-            {
-                if (IsPositionLockedForChange == value) return;
-                SetValue(value);
-                SetToAllContainersInPlan(value);
-            }
-        }
-        public bool IsToBeKeptInPlan
-        {
-            get => GetValue<bool>();
-            set
-            {
-                if (IsToBeKeptInPlan == value) return;
-                SetValue(value);
-                SetToAllContainersInPlan(value);
-            }
-        }
-
-        public bool IsNotToImport
-        {
-            get => GetValue<bool>();
-            set
-            {
-                if (IsNotToImport == value) return;
-                SetValue(value);
-                if (value) IsToImport = false;
-                SetToAllContainersInPlan(value);
-            }
-        }
-
-        public bool IsToImport
-        {
-            get => GetValue<bool>();
-            set
-            {
-                if (IsToImport == value) return;
-                SetValue(value);
-                if(value) IsNotToImport = false;
-                SetToAllContainersInPlan(value);
-            }
-        }
-
-        public bool IsNewUnitInPlan
-        {
-            get => GetValue<bool>();
-            set { }
-        }
-        public bool HasLocationChanged
-        {
-            get => GetValue<bool>();
-            set { }
-        }
-        public bool HasUpdated
-        {
-            get => GetValue<bool>();
-            set { }
-        }
-        public bool HasPodChanged
-        {
-            get => GetValue<bool>();
-            set { }
-        }
-        public bool HasContainerTypeChanged
-        {
-            get => GetValue<bool>();
-            set { }
-        }
-
-        public string LocationBeforeRestow
-        {
-            get => GetValue<string>();
-            set { }
-        }
-
-        #endregion
-
 
         //--------------- Public methods --------------------------------------------
 
@@ -381,35 +79,6 @@ namespace EasyJob_ProDG.UI.Wrapper
             return Model;
         }
 
-        /// <summary>
-        /// Clears and registrations and subscriptions, e.g. before deleting
-        /// </summary>
-        internal void ClearSubscriptions()
-        {
-            DataMessenger.Default.Unregister(this);
-        }
-
-
-        //--------------- Public methods related to representation ------------------
-
-        /// <summary>
-        /// Calls OnPropertyChanged for a number of properties
-        /// </summary>
-        internal void Refresh()
-        {
-            OnPropertyChanged("ContainsDgCargo");
-            OnPropertyChanged("DgCountInContainer");
-            OnPropertyChanged("ContainerNumber");
-            OnPropertyChanged(nameof(DisplayContainerNumber));
-            OnPropertyChanged("POL");
-            OnPropertyChanged("POD");
-            OnPropertyChanged("Type");
-            OnPropertyChanged("IsClosed");
-            OnPropertyChanged(nameof(IsRf));
-
-            RefreshLocation();
-        }
-
         internal void RefreshIReefer()
         {
             OnPropertyChanged("Commodity");
@@ -420,24 +89,9 @@ namespace EasyJob_ProDG.UI.Wrapper
             OnPropertyChanged("ReeferRemark");
         }
 
-        /// <summary>
-        /// Calls OnPropertyChanged for all location related properties
-        /// </summary>
-        private void RefreshLocation()
-        {
-            OnPropertyChanged("Location");
-            OnPropertyChanged("Bay");
-            OnPropertyChanged("Row");
-            OnPropertyChanged("Tier");
-            OnPropertyChanged("HoldNr");
-            OnPropertyChanged("IsUnderdeck");
-            OnPropertyChanged("Size");
-            OnPropertyChanged("LocationSortable");
-        }
 
-        
 
-        //--------------- Private methods -------------------------------------------
+        //--------------- Protected methods -------------------------------------------
 
         /// <summary>
         /// Sends request to CargoPlanWrapper to set new value to all containers in the plan
@@ -445,7 +99,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <param name="value">new value to be set</param>
         /// <param name="oldValue">old value</param>
         /// <param name="propertyName">property of which value to be changed</param>
-        private void SetToAllContainersInPlan(object value, string oldValue = null, [CallerMemberName] string propertyName = null)
+        protected override void SetToAllContainersInPlan(object value, object oldValue = null, [CallerMemberName] string propertyName = null)
         {
             DataMessenger.Default.Send(new CargoPlanUnitPropertyChanged(this, value, oldValue, propertyName, false));
         }

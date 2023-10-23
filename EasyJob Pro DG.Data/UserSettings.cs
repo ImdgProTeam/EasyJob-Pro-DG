@@ -7,6 +7,11 @@
         public static bool ReadMPfromBaplie { get; set; } = true;
 
         /// <summary>
+        /// Sets if nonamers need to show Container Number as '+NoName+' in accordance with defaults or just blank.
+        /// </summary>
+        public static bool DisplayNoNameForNonamers { get; set; } = false;
+
+        /// <summary>
         /// Converts ContainerNumber to format to be displayed in DataGrid
         /// </summary>
         /// <param name="containerNumber"></param>
@@ -14,8 +19,8 @@
         public static string ContainerNumberToDisplay(string containerNumber)
         {
             var noname = string.IsNullOrEmpty(containerNumber) || containerNumber.StartsWith(ProgramDefaultSettingValues.NoNamePrefix);
-                var result = noname ? containerNumber
-                : containerNumber.Insert(10, "").Insert(4, " ");
+            var result = noname ? (DisplayNoNameForNonamers ? containerNumber : string.Empty)
+                                : (containerNumber.Length>4 ? containerNumber.Insert(4, " ") : containerNumber);
             return result;
         }
 
@@ -26,7 +31,7 @@
         /// <returns></returns>
         public static string ContainerNumberFromDisplay(string containerNumber)
         {
-            return containerNumber.Replace(" ", "");
+            return containerNumber.Replace(" ", "").Replace("|", "").Replace("\\", "");
         }
     }
 }
