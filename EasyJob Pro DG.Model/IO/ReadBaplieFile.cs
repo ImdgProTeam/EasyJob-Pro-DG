@@ -287,15 +287,25 @@ namespace EasyJob_ProDG.Model.IO
                     case "FTX":
                         bool hasReadLq = false;
                         bool hasReadMp = false;
+                        bool isMp = false;
 
                         if (UserSettings.ReadLQfromBaplie)
                             if (segment.Contains("LQ") || segment.Replace(" ", "").Contains("LTDQTY"))
                                 hasReadLq = true;
 
                         if (UserSettings.ReadMPfromBaplie)
-                            if (segment.Replace(" ", "").Contains("MARPOL"))
+                        {
+                            if (segment.Replace(" ", "").Contains("MARPOL") || segment.StartsWith("FTX+AAC++P"))
+                            {
                                 hasReadMp = true;
-
+                                isMp = true;
+                            }
+                            if (segment.StartsWith("FTX+AAC++N"))
+                            {
+                                hasReadMp = true;
+                                isMp= false;
+                            }
+                        }
                         if (!hasReadMp && !hasReadLq) break;
 
                         if (a.DgCountInContainer > 0)
@@ -304,7 +314,7 @@ namespace EasyJob_ProDG.Model.IO
                             if (hasReadLq) unit.IsLq = true;
                             if (hasReadMp)
                             {
-                                unit.IsMp = true;
+                                unit.IsMp = isMp;
                                 unit.mpDetermined = true;
                             }
                         }
@@ -401,7 +411,7 @@ namespace EasyJob_ProDG.Model.IO
         /// </summary>
         /// <param name="segment"></param>
         /// <returns></returns>
-        private static string ParseLOCsegment(string segment)
+        internal static string ParseLOCsegment(string segment)
         {
             var subsegments = segment.Split('+');
             var result = subsegments[2].Contains(":")

@@ -306,6 +306,14 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
         }
 
 
+        /// <summary>
+        /// Sends request to CargoPlanWrapper to set new value to all containers in the plan
+        /// </summary>
+        /// <param name="value">new value to be set</param>
+        /// <param name="oldValue">old value</param>
+        /// <param name="propertyName">property of which value to be changed</param>
+        protected abstract void SetToAllContainersInPlan(object value, object oldValue = null, [CallerMemberName] string propertyName = null);
+
 
         /// <summary>
         /// Calls OnPropertyChanged for all location related properties
@@ -332,15 +340,6 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             OnPropertyChanged(nameof(IsToImport));
             OnPropertyChanged(nameof(IsNotToImport));
         }
-
-
-        /// <summary>
-        /// Sends request to CargoPlanWrapper to set new value to all containers in the plan
-        /// </summary>
-        /// <param name="value">new value to be set</param>
-        /// <param name="oldValue">old value</param>
-        /// <param name="propertyName">property of which value to be changed</param>
-        protected abstract void SetToAllContainersInPlan(object value, object oldValue = null, [CallerMemberName] string propertyName = null);
 
 
         #region Constructor
