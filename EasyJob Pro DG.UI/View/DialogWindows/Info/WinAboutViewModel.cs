@@ -13,6 +13,9 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         public static string ProgramVersion
             => "EasyJob ProDG Pro version " + ProgramDefaultSettingValues.ReleaseVersion;
 
+        public static string Copyright
+            => ProgramDefaultSettingValues.Copyright;
+
         /// <summary>
         /// Shows the agreement window
         /// </summary>

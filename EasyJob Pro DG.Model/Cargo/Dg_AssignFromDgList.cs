@@ -87,7 +87,9 @@ namespace EasyJob_ProDG.Model.Cargo
 
 
                 string[] array = entry.Attribute("subrisk").Value.Split('/');
-                foreach (string x in array) if (x != "–") record.DgSubclass = x;
+                foreach (string x in array) 
+                    if (x != "–") 
+                        record.DgSubclass = x;
 
                 var temp = entry.Attribute("MP").Value;
                 if (temp == "true") record.IsMp = true;

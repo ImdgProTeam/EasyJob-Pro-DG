@@ -7,6 +7,7 @@ namespace EasyJob_ProDG.Data
     public static class ProgramDefaultSettingValues
     {
         public const string ProgramTitle = "EasyJob ProDG Pro";
+        public const string Copyright = "Copyright ©  2018 - 2024";
         public const string ShipProfileExtension = ".ini";
         public const string DefaultShipProfile = "ShipProfile.ini";
         public const string DgDataBaseFile = "dglist.xml";
