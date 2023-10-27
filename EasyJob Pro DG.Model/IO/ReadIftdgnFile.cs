@@ -130,6 +130,9 @@ namespace EasyJob_ProDG.Model.IO
             }
         }
 
+
+        #region Methods to define Container properties
+
         /// <summary>
         /// Adds containers to CargoPlan from EQD segments list.
         /// </summary>
@@ -179,7 +182,7 @@ namespace EasyJob_ProDG.Model.IO
             //Container location
             else if (segment.StartsWith("LOC+147"))
             {
-                if (container == null)return;
+                if (container == null) return;
 
                 container.Location = location;
                 container.HoldNr = _ship.DefineCargoHoldNumber(container.Bay);
@@ -225,10 +228,10 @@ namespace EasyJob_ProDG.Model.IO
         private static void DefineSGP(ref Container container, Dg dgUnit, List<ContainerAbstract> listToBeUpdated, string segment)
         {
             //SGP+PONU1903721+6
-            string number = segment.Split('+')[1].Replace(" ","");
+            string number = segment.Split('+')[1].Replace(" ", "");
 
             if (container == null || !string.Equals(container.ContainerNumber, number))
-                container = _cargoPlan.Containers.FirstOrDefault(c => c.ContainerNumber == number); 
+                container = _cargoPlan.Containers.FirstOrDefault(c => c.ContainerNumber == number);
 
             //in case of new container => clear all items from the listToBeUpdated
             if (listToBeUpdated.Any(i => !string.Equals(i.ContainerNumber, number)))
@@ -241,8 +244,12 @@ namespace EasyJob_ProDG.Model.IO
 
             //adding dg to the listToBeUpdated to update POL, POD and Location
             listToBeUpdated.Add(dgUnit);
-        }
+        } 
 
+        #endregion
+
+
+        #region Methods to define DG properties
 
         /// <summary>
         /// Defines Segregation group from the segment and assigns it to the dgUnit
@@ -301,7 +308,7 @@ namespace EasyJob_ProDG.Model.IO
         private static void DefinePackingGroup(Dg dgUnit, string segment)
         {
             if (!string.IsNullOrEmpty(dgUnit.PackingGroup)) return;
-            
+
             //1.define way its recorded
             bool packingGroupSkipped = false;
             string packingGroupText = FindPackingGroupText(segment, ref packingGroupSkipped);
@@ -404,6 +411,9 @@ namespace EasyJob_ProDG.Model.IO
                 packingGroupText = "PKG";
             else packingGroupSkipped = true;
             return packingGroupText;
-        }
+        } 
+
+        #endregion
+
     }
 }

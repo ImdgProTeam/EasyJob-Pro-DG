@@ -565,7 +565,7 @@
                                         >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding HasUpdated, Mode=OneWay}" />
+                            <CheckBox IsChecked="{Binding HasUpdated, Mode=OneWay}" IsEnabled="False"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -593,7 +593,8 @@
                                         >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding HasContainerTypeChanged, Mode=OneWay}" />
+                            <CheckBox IsChecked="{Binding HasContainerTypeChanged, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                      IsEnabled="False"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
