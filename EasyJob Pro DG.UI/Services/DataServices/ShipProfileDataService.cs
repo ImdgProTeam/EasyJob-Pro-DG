@@ -99,7 +99,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         /// <returns>CargoHold number</returns>
         public byte DefineCargoHoldNumber(byte bay)
         {
-            return _ship.DefineCargoHoldNumber(bay);
+            return _ship.DefineCargoHoldNumberNonstatic(bay);
         }
         
 

@@ -29,9 +29,6 @@
     <Setting Name="ConflictsWidth" Type="System.Double" Scope="User">
       <Value Profile="(Default)">200</Value>
     </Setting>
-    <Setting Name="ExcelReeferTemplate" Type="System.String" Scope="User">
-      <Value Profile="(Default)">1,1,2,3,4,5,6</Value>
-    </Setting>
     <Setting Name="WorkingCargoPlanFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">Working cargo plan.ejc</Value>
     </Setting>
@@ -46,6 +43,42 @@
     </Setting>
     <Setting Name="FirstTimeStart" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ExcelReeferTemplate1" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ExcelReeferTemplate2" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ExcelReeferTemplate3" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ExcelReeferTemplate4" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ExcelReeferTemplate5" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SelectedExcelReeferTemplate" Type="System.Byte" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="ExcelDgTemplate1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Template 1, DG Cargo, 5, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,v.1.2</Value>
+    </Setting>
+    <Setting Name="ExcelDgTemplate2" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ExcelDgTemplate3" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ExcelDgTemplate4" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ExcelDgTemplate5" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SelectedExcelDgTemplate" Type="System.Byte" Scope="User">
+      <Value Profile="(Default)">1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

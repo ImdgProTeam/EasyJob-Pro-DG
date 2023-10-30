@@ -24,9 +24,13 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand AddNewDgCommand { get; private set; }
         public ICommand ReCheckCommand { get; private set; }
 
-        // ----- Display utility windows commands -----
+        // ----- Settings commands -----
         public ICommand OpenShipProfileWindowCommand { get; private set; }
         public ICommand OpenUserSettingsWindowCommand { get; private set; }
+        public ICommand SaveSettingsCommand { get; private set; }
+        public ICommand RestoreSettingsCommand { get; private set; }
+
+        // ----- Display utility windows commands -----
         public ICommand ShowAboutCommand { get; private set; }
         public ICommand ShowLicenseDialogCommand { get; private set; }
         public ICommand ShowLoginWindowCommand { get; private set; }
@@ -83,6 +87,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             ReCheckCommand = new DelegateCommand(OnReCheckRequested);
             OpenShipProfileWindowCommand = new DelegateCommand(OpenShipProfileWindowExecuted);
             OpenUserSettingsWindowCommand = new DelegateCommand(OpenUserSettingsWindowExecuted);
+            SaveSettingsCommand = new DelegateCommand(SaveSettingsExecuted);
+            RestoreSettingsCommand = new DelegateCommand(RestoreSettingsExecuted);
             ShowAboutCommand = new DelegateCommand(ShowAboutExecuted);
             ShowLicenseDialogCommand = new DelegateCommand(ShowLicenseDialogExecuted);
             ShowLoginWindowCommand = new DelegateCommand(ShowLoginWindowOnExecuted);
@@ -273,8 +279,6 @@ namespace EasyJob_ProDG.UI.ViewModel
                 };
                 Task.Run(() => WrapMethodWithIsLoading(d));
             }
-
-
         }
 
         /// <summary>
@@ -386,6 +390,17 @@ namespace EasyJob_ProDG.UI.ViewModel
             DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage(true));
         }
 
+        // ----- Settings save - restore -----
+        private void SaveSettingsExecuted(object obj)
+        {
+            uiSettingsService.SaveSettingsToFile();
+        }
+
+        private void RestoreSettingsExecuted(object obj)
+        {
+            uiSettingsService.RestoreSettingsFromFile(obj);
+        }
+
         #endregion
 
         #region Command CanExecute methods
@@ -475,16 +490,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void ShowLicenseDialogExecuted(object parameter)
         {
             windowDialogService.ShowDialog(new winLicence());
-            //var viewModel = new WinLoginViewModel();
-            //var result = dialogWindowService.ShowDialog(viewModel);
-
-            //if (result.HasValue)
-            //{
-            //    if (result.Value)
-            //    {
-
-            //    }
-            //}
         }
         private void ShowLoginWindowOnExecuted(object obj)
         {

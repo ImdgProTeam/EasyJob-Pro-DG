@@ -80,6 +80,8 @@ namespace EasyJob_ProDG.UI.View.UI
             SaveCurrentWindowLocationToSettings();
         }
 
+
+        // ----- Logic to dim the MainWindow if not focused -----
         private void Window_Activated(object sender, System.EventArgs e)
         {
             (DataContext as MainWindowViewModel).IsDimmedOverlayVisible = false;

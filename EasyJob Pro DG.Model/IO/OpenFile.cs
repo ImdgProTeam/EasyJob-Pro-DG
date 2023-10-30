@@ -97,7 +97,8 @@ namespace EasyJob_ProDG.Model.IO
 
                 //open excel
                 case FileTypes.Excel:
-                    cargoPlan.DgList = WithXl.Import(fileName, ownShip, out var containers);
+                    WithXlDg.Import(fileName, out var dgList, out var containers);
+                    cargoPlan.DgList = dgList;
                     cargoPlan.Containers = containers;
                     foreach (var c in cargoPlan.Containers)
                         if (c.IsRf)

@@ -5,6 +5,7 @@ using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.ViewModel
@@ -14,11 +15,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         ISettingsService uiSettingsService = new SettingsService();
         UserUISettings settings;
 
-        public enum Tabs
-        {
-            ExcelDG = 0,
-            ExcelReefers = 1
-        }
 
         /// <summary>
         /// Property contains all available excel column numbers.
@@ -26,14 +22,37 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         public static List<char> Columns { get { return Model.IO.Excel.WithXl.Columns; } }
 
+
         //---------------------- Constructor ---------------------------------------
         public SettingsWindowVM()
         {
             settings = uiSettingsService.GetSettings();
             LoadCommands();
+            GenerateTempateTitlesLists();
         }
 
         #region StartUp logic
+
+        /// <summary>
+        /// Creates and updates TemplateTitles lists with template titles obtained from settings.settings
+        /// </summary>
+        private void GenerateTempateTitlesLists()
+        {
+            DgTemplateTitles = new List<string>();
+            ReeferTemplateTitles = new List<string>();
+
+            foreach(SettingsProperty property in Properties.Settings.Default.Properties)
+            {
+                if (property.Name.StartsWith("ExcelDgTemplate"))
+                {
+                    DgTemplateTitles.Add(property.DefaultValue.ToString().Split(',')[0]);
+                }
+                if (property.Name.StartsWith("ExcelReeferTemplate"))
+                {
+                    ReeferTemplateTitles.Add(property.DefaultValue.ToString().Split(',')[0]);
+                }
+            }
+        }
 
         private void LoadCommands()
         {
@@ -47,18 +66,22 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         #region Excel Dg list settings
 
-        bool changedExcelTemplate;
+        bool changedDgExcelTemplate;
 
-        private ExcelTemplateWrapper _excelTemplate;
-        public ExcelTemplateWrapper ExcelTemplateDisplay
+        public int SelectedDgTemplate { get; set; }
+        public List<string> DgTemplateTitles { get; set; }
+
+
+        private ExcelDgTemplateWrapper _excelDgTemplate;
+        public ExcelDgTemplateWrapper ExcelDgTemplateDisplay
         {
             get
             {
-                if (_excelTemplate == null)
+                if (_excelDgTemplate == null)
                 {
-                    _excelTemplate = new ExcelTemplateWrapper(settings.ExcelTemplate);
+                    _excelDgTemplate = new ExcelDgTemplateWrapper(settings.ExcelDgTemplate);
                 }
-                return _excelTemplate;
+                return _excelDgTemplate;
             }
         }
 
@@ -68,6 +91,10 @@ namespace EasyJob_ProDG.UI.ViewModel
         #region Excel Reefers settings
 
         bool changedReeferExcelTemplate;
+
+        public int SelectedReeferTemplate { get; set; }
+        public List<string> ReeferTemplateTitles { get; set; }
+
 
         private ExcelReeferTemplateWrapper _excelReeferTemplate;
         public ExcelReeferTemplateWrapper ExcelReeferTemplateDisplay
@@ -87,43 +114,52 @@ namespace EasyJob_ProDG.UI.ViewModel
 
 
         #region Cances/Save logic
+
+        /// <summary>
+        /// Rejects any made changes in the window
+        /// </summary>
+        /// <param name="obj"></param>
         public void CancelChanges(object obj)
         {
-            changedExcelTemplate = false;
-            ExcelTemplateDisplay.CancelChanges();
+            changedDgExcelTemplate = false;
+            changedReeferExcelTemplate = false;
+
+            ExcelDgTemplateDisplay.CancelChanges();
             ExcelReeferTemplateDisplay.CancelChanges();
         }
 
+        /// <summary>
+        /// Saves all changes made in the window
+        /// </summary>
+        /// <param name="obj"></param>
         private void SaveChanges(object obj)
         {
             CheckWhatChanged();
 
-            if (changedExcelTemplate)
+            if (changedDgExcelTemplate)
             {
-                ExcelTemplateDisplay.UploadTemplateChanges();
-                uiSettingsService.SaveExcelTemplate(settings.ExcelTemplate);
+                ExcelDgTemplateDisplay.UploadTemplateChanges();
+                uiSettingsService.SaveExcelTemplate(ExcelDgTemplateDisplay.TemplateNameInSettings, ExcelDgTemplateDisplay.TemplateString);
             }
             if (changedReeferExcelTemplate)
             {
-
                 ExcelReeferTemplateDisplay.UploadTemplateChanges();
-                uiSettingsService.SaveReeferExcelTemplate(ExcelReeferTemplateDisplay.GetTemplateString());
+                uiSettingsService.SaveExcelTemplate(ExcelReeferTemplateDisplay.TemplateNameInSettings, ExcelReeferTemplateDisplay.TemplateString);
             }
-
 
             ResetChangeIndicators();
         }
 
         private void CheckWhatChanged()
         {
-            changedExcelTemplate = ExcelTemplateDisplay.IsChanged;
+            changedDgExcelTemplate = ExcelDgTemplateDisplay.IsChanged;
             changedReeferExcelTemplate = ExcelReeferTemplateDisplay.IsChanged;
         }
 
         private void ResetChangeIndicators()
         {
-            changedExcelTemplate = false;
-            ExcelTemplateDisplay.ResetAllChangeIndicators();
+            changedDgExcelTemplate = false;
+            ExcelDgTemplateDisplay.ResetAllChangeIndicators();
             changedReeferExcelTemplate= false;
             ExcelReeferTemplateDisplay.ResetAllChangeIndicators();
         }

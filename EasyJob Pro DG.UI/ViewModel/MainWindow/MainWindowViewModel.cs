@@ -110,7 +110,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         private void LoadData()
         {
-            uiSettingsService.LoadSettigs();
+            uiSettingsService.LoadSettings();
 
             //Connecting Program files
             if (!loadDataService.ConnectProgramFiles())
@@ -383,8 +383,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void SetDialogServiceOwner(Window owner)
         {
             mappedDialogWindowService = new MappedDialogWindowService(owner);
-
         }
+
         #endregion
 
     }

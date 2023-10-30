@@ -185,7 +185,7 @@ namespace EasyJob_ProDG.Model.IO
                 if (container == null) return;
 
                 container.Location = location;
-                container.HoldNr = _ship.DefineCargoHoldNumber(container.Bay);
+                container.HoldNr = _ship.DefineCargoHoldNumberNonstatic(container.Bay);
 
                 foreach (var unit in listToBeUpdated)
                 {

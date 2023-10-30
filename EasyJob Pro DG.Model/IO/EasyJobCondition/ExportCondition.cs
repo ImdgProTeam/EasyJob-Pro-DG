@@ -1,6 +1,6 @@
 ﻿using EasyJob_ProDG.Model.Cargo;
 
-namespace EasyJob_ProDG.Model.IO
+namespace EasyJob_ProDG.Model.IO.EasyJobCondition
 {
     public static class ExportCondition
     {
@@ -12,10 +12,10 @@ namespace EasyJob_ProDG.Model.IO
         public static void SaveFile(object obj, string fileName)
         {
             //Skip if CargoPlan does not exist or empty
-            if ((CargoPlan) obj == null || ((CargoPlan)obj).IsEmpty) return;
+            if ((CargoPlan)obj == null || ((CargoPlan)obj).IsEmpty) return;
 
             //Saves condition
-            EasyJobCondition.EasyJobCondition.SaveCondition(fileName, (CargoPlan)obj);
+            EasyJobCondition.SaveCondition(fileName, (CargoPlan)obj);
 
             //Changes FileName property
             OpenFile.SetFileName(OpenFile.GetFileNameWithExtension(fileName));

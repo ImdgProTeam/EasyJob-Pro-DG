@@ -8,6 +8,8 @@ namespace EasyJob_ProDG.Model.Transport
 {
     public partial class ShipProfile
     {
+        private static ShipProfile _profile;
+
         /// <summary>
         /// Reading and saving to config.file to be implemented
         /// </summary>
@@ -110,6 +112,8 @@ namespace EasyJob_ProDG.Model.Transport
             if (!CheckErrorsInShipProfile())
                 containsErrors = true;
             else containsErrors = false;
+
+            _profile = this;
         }
 
         /// <summary>
@@ -129,6 +133,8 @@ namespace EasyJob_ProDG.Model.Transport
             Row00Exists = true;
             AccommodationBays = new List<byte>();
             _errorList = new List<string>();
+
+            _profile = this;
         }
 
         /// <summary>
@@ -152,6 +158,8 @@ namespace EasyJob_ProDG.Model.Transport
             SeaSides = new List<OuterRow> { new OuterRow(0, 99, 99) };
             Doc = new DOC(NumberOfHolds);
             _errorList = new List<string>();
+
+            _profile = this;
         }
 
 
@@ -502,18 +510,23 @@ namespace EasyJob_ProDG.Model.Transport
         /// </summary>
         /// <param name="bay"></param>
         /// <returns></returns>
-        public byte DefineCargoHoldNumber(byte bay)
+        public static byte DefineCargoHoldNumberStatic(byte bay)
         {
             byte chNr = 0;
-            for (int i = 0; i < Holds.Count; i++)
+            for (int i = 0; i < _profile.Holds.Count; i++)
             {
-                if (bay <= Holds[i].LastBay && bay >= Holds[i].FirstBay)
+                if (bay <= _profile.Holds[i].LastBay && bay >= _profile.Holds[i].FirstBay)
                 {
                     chNr = (byte)(i + 1);
                     break;
                 }
             }
             return chNr;
+        }
+
+        public byte DefineCargoHoldNumberNonstatic(byte bay)
+        {
+            return DefineCargoHoldNumberStatic(bay);
         }
 
         /// <summary>

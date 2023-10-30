@@ -10,6 +10,7 @@
 using EasyJob_ProDG.Model;
 using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO;
+using EasyJob_ProDG.Model.IO.EasyJobCondition;
 using EasyJob_ProDG.Model.Transport;
 using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Utility;
@@ -172,7 +173,7 @@ namespace EasyJob_ProDG.UI.Data
         /// <param name="cargoPlan">CargoPlan wrapper</param>
         public void ExportDgListToExcel(CargoPlanWrapper cargoPlan)
         {
-            Model.IO.Excel.WithXl.Export(cargoPlan.ExtractPocoDgList());
+            Model.IO.Excel.WithXlDg.Export(cargoPlan.ExtractPocoDgList());
         } 
 
         #endregion

@@ -111,6 +111,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="Data\DialogOpenSettings.cs" />
+    <Compile Include="Data\DialogSaveSettings.cs" />
     <Compile Include="Services\DialogServices\IWindowDialogService.cs" />
     <Compile Include="Utility\AsyncObservableCollection.cs" />
     <Compile Include="ViewModel\MainWindow\MainWindowCommands.cs" />
@@ -185,7 +187,7 @@
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\DataServices\ShipProfileDataService.cs" />
     <Compile Include="Settings\DgTableColumnSettings.cs" />
-    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Settings\SettingsHandler.cs" />
     <Compile Include="Settings\UserUISettings.cs" />
     <Compile Include="Utility\ClassConverters.cs" />
     <Compile Include="Utility\DataMessenger.cs" />
@@ -282,8 +284,8 @@
       <DependentUpon>MailToHyperlink.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User Controls\Others\MailToHyperlinkVM.cs" />
-    <Compile Include="View\User Controls\SettingsWindow\SettingsExcel.xaml.cs">
-      <DependentUpon>SettingsExcel.xaml</DependentUpon>
+    <Compile Include="View\User Controls\SettingsWindow\SettingsExcelDg.xaml.cs">
+      <DependentUpon>SettingsExcelDg.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User Controls\SettingsWindow\SettingsExcelReefers.xaml.cs">
       <DependentUpon>SettingsExcelReefers.xaml</DependentUpon>
@@ -345,6 +347,8 @@
     <Compile Include="Wrapper\Cargo\DgWrapper.cs" />
     <Compile Include="Wrapper\Cargo\DgWrapperMethods.cs" />
     <Compile Include="Wrapper\Cargo\DgWrapperProperties.cs" />
+    <Compile Include="Wrapper\Settings\ExcelDgTemplateWrapper1.cs" />
+    <Compile Include="Wrapper\Settings\ExcelTemplateWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\DOCWrapper.cs" />
     <Compile Include="Wrapper\Dummies\DummyAccommodation.cs" />
     <Compile Include="Wrapper\Dummies\DummyCargoHold.cs" />
@@ -352,7 +356,7 @@
     <Compile Include="Wrapper\Dummies\DummyDOCRow.cs" />
     <Compile Include="Wrapper\Dummies\ExcelColumnProperty.cs" />
     <Compile Include="Wrapper\Settings\ExcelReeferTemplateWrapper.cs" />
-    <Compile Include="Wrapper\Settings\ExcelTemplateWrapper.cs" />
+    <Compile Include="Wrapper\Settings\ExcelDgTemplateWrapper.cs" />
     <Compile Include="Wrapper\ModelWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\OuterRowWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\ShipProfileWrapper.cs" />
@@ -476,7 +480,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\User Controls\SettingsWindow\SettingsExcel.xaml">
+    <Page Include="View\User Controls\SettingsWindow\SettingsExcelDg.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

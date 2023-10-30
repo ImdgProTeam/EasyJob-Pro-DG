@@ -12,11 +12,11 @@ namespace EasyJob_ProDG.UI.Settings
 
         #region ExcelTemplates
         //Excel
-        private ExcelTemplate _excelTemplate;
-        public ExcelTemplate ExcelTemplate
+        private ExcelDgTemplate _excelDgTemplate;
+        public ExcelDgTemplate ExcelDgTemplate
         {
-            get { if (_excelTemplate == null) { _excelTemplate = new ExcelTemplate(); } return _excelTemplate; }
-            set { _excelTemplate = value; }
+            get { if (_excelDgTemplate == null) { _excelDgTemplate = new ExcelDgTemplate(); } return _excelDgTemplate; }
+            set { _excelDgTemplate = value; }
         }
 
         private ExcelReeferTemplate _excelReeferTemplate;
@@ -45,9 +45,38 @@ namespace EasyJob_ProDG.UI.Settings
             DgSortPattern = DgSortOrderPattern.LRsnake;
             Combine2040BaysWhenSorting = false;
             LowestTierOnDeck = 72;
-            ExcelTemplate.ReadTemplate();
-            ExcelReeferTemplate.ApplyTemplate(Properties.Settings.Default.ExcelReeferTemplate);
 
+            //read ExcelDgTemplate 
+            TryCreateExcelTemplateFromSettings(ExcelDgTemplate, Properties.Settings.Default.SelectedExcelDgTemplate);
+
+            //read ExcelReeferTemplate
+            TryCreateExcelTemplateFromSettings(ExcelReeferTemplate, Properties.Settings.Default.SelectedExcelReeferTemplate);
+        }
+
+        /// <summary>
+        /// Trys to read ExcelTemplate chosen from settings.settings and apply it.
+        /// Applies default template in case of failure.
+        /// </summary>
+        /// <param name="template"><see cref="ExcelTemplate"/> derived class</param>
+        /// <param name="selectedTemplateNumber">Number in the name of template in settings.</param>
+        private void TryCreateExcelTemplateFromSettings(ExcelTemplate template, byte selectedTemplateNumber)
+        {
+            try
+            {
+                string templateBaseTitle = template is ExcelDgTemplate ? "ExcelDgTemplate" : "ExcelReeferTemplate";
+                string propertyName = templateBaseTitle + selectedTemplateNumber;
+                template.TemplateSettingsName = propertyName;
+                
+                var propertyValue = Properties.Settings.Default[propertyName];
+                if (string.IsNullOrWhiteSpace(propertyValue.ToString())) 
+                    throw new System.Exception($"Property {propertyName} returned unknown value");
+
+                template.ApplyTemplate(propertyValue.ToString());
+            }
+            catch (System.Exception)
+            {
+                template.ApplyDefaultTemplate();
+            }
         }
     }
 }

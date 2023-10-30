@@ -4,9 +4,9 @@ namespace EasyJob_ProDG.UI.Services
 {
     interface ISettingsService
     {
-        void LoadSettigs();
+        void LoadSettings();
         UserUISettings GetSettings();
-        void SaveExcelTemplate(object parameter);
-        void SaveReeferExcelTemplate(string template);
+        void SaveExcelTemplate(string templateNameInSettings, string templateString);
+
     }
 }

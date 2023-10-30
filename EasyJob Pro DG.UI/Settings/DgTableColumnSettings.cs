@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace EasyJob_ProDG.UI.Settings
 {
-    public class DgTableColumnSettings : Settings
+    public class DgTableColumnSettings
     {
 
         //public System.Windows.Visibility Visibility { get; set; }

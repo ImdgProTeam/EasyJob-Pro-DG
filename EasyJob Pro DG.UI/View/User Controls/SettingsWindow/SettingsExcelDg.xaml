@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="EasyJob_ProDG.UI.View.User_Controls.SettingsExcel"
+﻿<UserControl x:Class="EasyJob_ProDG.UI.View.User_Controls.SettingsExcelDg"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -56,7 +56,7 @@
                Grid.Row="0"
                Grid.Column="0"/>
         <TextBox x:Name="txbTemplateName"
-                Text="{Binding ExcelTemplateDisplay.TemplateName}" 
+                Text="{Binding ExcelDgTemplateDisplay.TemplateName}" 
                  Tag="Enter new template name"
                 IsReadOnly="True"
                  Grid.Row="0"
@@ -71,7 +71,7 @@
                Grid.Row="2"
                Grid.Column="0" />
         <TextBox x:Name="txbSheetName"
-                 Text="{Binding ExcelTemplateDisplay.WorkingSheet}"
+                 Text="{Binding ExcelDgTemplateDisplay.WorkingSheet}"
                  Tag="Enter excel sheet name"
                  Grid.Row="2"
                  Grid.Column="1" />
@@ -79,7 +79,7 @@
         <Label Content="Start from row"
                Grid.Row="3"
                Grid.Column="0" />
-        <TextBox Text="{Binding ExcelTemplateDisplay.StartRow}"
+        <TextBox Text="{Binding ExcelDgTemplateDisplay.StartRow}"
                  Tag="Enter the first row number"
                  Grid.Row="3"
                  Grid.Column="1" />
@@ -88,8 +88,8 @@
                Style="{StaticResource TableTitle}"
                Grid.Row="4"
                Grid.ColumnSpan="2"/>
-        
-        <DataGrid ItemsSource="{Binding ExcelTemplateDisplay.ColumnProperties, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+
+        <DataGrid ItemsSource="{Binding ExcelDgTemplateDisplay.ColumnProperties, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False"
                   Grid.Row="5"
                   Grid.ColumnSpan="2"

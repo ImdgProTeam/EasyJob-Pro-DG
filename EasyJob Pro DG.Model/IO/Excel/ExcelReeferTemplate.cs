@@ -1,56 +1,38 @@
 ﻿namespace EasyJob_ProDG.Model.IO.Excel
 {
-    public class ExcelReeferTemplate
+    /// <summary>
+    /// Describes Reefer template to read from and export to Excel
+    /// </summary>
+    public class ExcelReeferTemplate : ExcelTemplate
     {
-        private static byte[] _template = new byte[] {1,1,2,3,4,5,6};
-        public static byte[] ReadTemplate()
-        {
-            return _template;
-        }
-
-        public static void ApplyTemplate(byte[] newTemplate)
-        {
-            try
+        private static string[] _templateStatic;
+        protected override string[] _Template 
+        { 
+            get => _templateStatic;
+            set
             {
-                _template = newTemplate;
-            }
-            catch
-            {
-
-            }  
-        }
-        public static void ApplyTemplate(string newTemplate)
-        {
-            try
-            {
-                var result = new byte[_template.Length];
-                int i = 0;
-                foreach (var item in newTemplate.Split(','))
-                {
-                    if (!byte.TryParse(item, out var value)) return;
-                    result[i++] = value;
-                }
-                _template = result;
-            }
-            catch
-            {
-
+                if (value.Length != _propertiesCount)
+                    _templateStatic = GetDefaultTemplate();
+                else
+                    _templateStatic = value;
+                ExcelTemplateSetter.SetExcelReeferTemplate(this);
             }
         }
 
-        public byte StartRow
+        /// <summary>
+        /// Total number properties coded in <see cref="ExcelReeferTemplate"/>
+        /// </summary>
+        private const byte _propertiesCount = 10;
+
+        /// <summary>
+        /// Returns default value of template
+        /// </summary>
+        /// <returns></returns>
+        public override string[] GetDefaultTemplate()
         {
-            get { return _template[0]; }
-            set { _template[0] = value; }
+            return new string[] { "Reefer template", "Reefers", "1", "1", "2", "3", "4", "5", "6", "v.1.2" };
         }
 
-        private string _templateName;
-        public string TemplateName
-        {
-            get { return _templateName; }
-            set { _templateName = value; }
-        }
 
-        public byte[] GetTemplate => _template;
     }
 }

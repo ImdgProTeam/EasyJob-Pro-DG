@@ -30,7 +30,7 @@
                     Grid.Row="1"
                     SelectionChanged="tabUserSettings_SelectionChanged">
             <TabItem Header="Excel - DG">
-                <uc:SettingsExcel />
+                <uc:SettingsExcelDg />
             </TabItem>
             <TabItem Header="Excel - Reefers">
                 <uc:SettingsExcelReefers/>

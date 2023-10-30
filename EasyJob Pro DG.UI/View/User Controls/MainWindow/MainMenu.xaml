@@ -389,6 +389,11 @@
                           Command="{Binding OpenShipProfileWindowCommand}" />
                 <MenuItem Header="User settings"
                           Command="{Binding OpenUserSettingsWindowCommand}" />
+                <Separator/>
+                <MenuItem Header="Save settings"
+                          Command="{Binding SaveSettingsCommand}" />
+                <MenuItem Header="Restore settings"
+                          Command="{Binding RestoreSettingsCommand}" />
             </MenuItem>
 
             <!-- Help -->

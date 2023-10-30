@@ -60,14 +60,11 @@ namespace EasyJob_ProDG.Model.IO.Excel
         /// <summary>
         /// Method reads DG class and helps to avoid exceptions and also validates the result.
         /// </summary>
-        /// <param name="cells"></param>
+        /// <param name="value"></param>
         /// <param name="dgUnit"></param>
-        /// <param name="excelApp"></param>
         /// <returns></returns>
-        internal static string DgClass
-            (Microsoft.Office.Interop.Excel.Range cells, Dg dgUnit, Microsoft.Office.Interop.Excel.Application excelApp)
+        internal static string DgClass(string value, string containerNumber)
         {
-            string value = Convert.ToString(cells.Value2);
             string result = "";
 
             DgClassValidator.ResetDgValidator();
@@ -98,7 +95,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                     }
 
                     if (!DgClassValidator.IsValidDgClass(c))
-                        MessageInvalidClass(result, dgUnit, cells, excelApp);
+                        MessageInvalidClass(result, containerNumber);
                     continue;
                 }
 
@@ -111,7 +108,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                     if (c == '.') result += c;
                     if (c == ',') result += '.';
                     if (!DgClassValidator.IsValidDgClass('.'))
-                        MessageInvalidClass(result, dgUnit, cells, excelApp);
+                        MessageInvalidClass(result, containerNumber);
                     continue;
                 }
 
@@ -120,7 +117,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                     if (!result.StartsWith("1.") || result.Length != 3) continue;
                     result += char.ToUpper(c);
                     if (!DgClassValidator.IsValidDgClass(c))
-                        MessageInvalidClass(result, dgUnit, cells, excelApp);
+                        MessageInvalidClass(result, containerNumber);
                 }
             }
 
@@ -135,10 +132,8 @@ namespace EasyJob_ProDG.Model.IO.Excel
         /// <param name="dgUnit"></param>
         /// <param name="excelApp"></param>
         /// <returns></returns>
-        internal static string[] DgSubClass
-            (Microsoft.Office.Interop.Excel.Range cells, Dg dgUnit, Microsoft.Office.Interop.Excel.Application excelApp)
+        internal static string[] DgSubClass (string value, string containerNumber)
         {
-            string value = Convert.ToString(cells.Value2);
             if (string.IsNullOrEmpty(value)) return new string[0];
             string result = null;
             char lastsymbol = '&', prelastsymbol = '&', nextsymbol = '&';
@@ -233,7 +228,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
 
             foreach (var dgclass in dgsubclasses)
                 if (!DgClassValidator.IsValidDgClass(dgclass))
-                    MessageInvalidClass(dgclass, dgUnit, cells, excelApp);
+                    MessageInvalidClass(dgclass, containerNumber);
             return dgsubclasses;
         }
 
@@ -411,7 +406,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
         /// <param name="cell"></param>
         /// <param name="excelApp"></param>
         private static void MessageInvalidClass
-            (string dgClass, Dg dgUnit, Microsoft.Office.Interop.Excel.Range cell, Microsoft.Office.Interop.Excel.Application excelApp)
+            (string dgClass, string containerNumber)
         {
             //TODO: To be implemented
             //IMessageDialogService message = new MessageDialogService();

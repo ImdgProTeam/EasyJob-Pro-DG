@@ -1,5 +1,4 @@
 ﻿using EasyJob_ProDG.UI.Settings;
-using EasyJob_ProDG.Model.IO.Excel;
 
 namespace EasyJob_ProDG.UI.Services
 {
@@ -17,20 +16,35 @@ namespace EasyJob_ProDG.UI.Services
             return _uiSettings.GetSettings();
         }
 
-        public void LoadSettigs()
+        public void LoadSettings()
         {
             _uiSettings.LoadSettings();
         }
 
-        public void SaveExcelTemplate(object template)
+        /// <summary>
+        /// Saves ExcelTemplate in settings.settings
+        /// </summary>
+        /// <param name="templateSettingsName">Template property name in settings.settings</param>
+        /// <param name="template">Template in string format</param>
+        public void SaveExcelTemplate(string templateSettingsName, string template)
         {
-            ExcelTemplate temp = template as ExcelTemplate;
-            if (temp != null) ExcelTemplate.WriteTemplate(temp);
+            Properties.Settings.Default[templateSettingsName] = template;
         }
 
-        public void SaveReeferExcelTemplate(string template)
+        /// <summary>
+        /// Calls dialog to choose settings file to save settings.
+        /// </summary>
+        public void SaveSettingsToFile()
         {
-            Properties.Settings.Default.ExcelReeferTemplate = template;
+            SettingsHandler.SaveSettings();
+        }
+
+        /// <summary>
+        /// Calls dialog to choose settings file and restore settings from it.
+        /// </summary>
+        public void RestoreSettingsFromFile(object obj)
+        {
+            SettingsHandler.RestoreSettings();
         }
     }
 }
