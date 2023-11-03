@@ -1,11 +1,11 @@
 ﻿using EasyJob_ProDG.UI.Services;
-using EasyJob_ProDG.UI.Settings;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Configuration;
+using System.Linq;
 using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.ViewModel
@@ -13,8 +13,10 @@ namespace EasyJob_ProDG.UI.ViewModel
     public class SettingsWindowVM : Observable, IDataErrorInfo
     {
         ISettingsService uiSettingsService = new SettingsService();
-        UserUISettings settings;
 
+        private bool isFirstTimeDgTemplateValuesSet;
+        private bool isFirstTimeReeferTemplateValuesSet;
+        private bool isWindowOpened;
 
         /// <summary>
         /// Property contains all available excel column numbers.
@@ -22,43 +24,93 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         public static List<char> Columns { get { return Model.IO.Excel.WithXl.Columns; } }
 
+        private bool HasChangedIndex =>
+            selectedExcelDgTemplateIndex != uiSettingsService.SelectedExcelDgTemplateIndex
+            || selectedExcelReeferTemplateIndex != uiSettingsService.SelectedExcelReeferTemplateIndex;
 
-        //---------------------- Constructor ---------------------------------------
-        public SettingsWindowVM()
-        {
-            settings = uiSettingsService.GetSettings();
-            LoadCommands();
-            GenerateTempateTitlesLists();
-        }
+
 
         #region StartUp logic
 
-        /// <summary>
-        /// Creates and updates TemplateTitles lists with template titles obtained from settings.settings
-        /// </summary>
-        private void GenerateTempateTitlesLists()
-        {
-            DgTemplateTitles = new List<string>();
-            ReeferTemplateTitles = new List<string>();
-
-            foreach(SettingsProperty property in Properties.Settings.Default.Properties)
-            {
-                if (property.Name.StartsWith("ExcelDgTemplate"))
-                {
-                    DgTemplateTitles.Add(property.DefaultValue.ToString().Split(',')[0]);
-                }
-                if (property.Name.StartsWith("ExcelReeferTemplate"))
-                {
-                    ReeferTemplateTitles.Add(property.DefaultValue.ToString().Split(',')[0]);
-                }
-            }
-        }
-
         private void LoadCommands()
         {
-            SaveChangesCommand = new DelegateCommand(SaveChanges);
+            SaveChangesCommand = new DelegateCommand(SaveChanges, SaveChangesCanExecute);
             CancelChangesCommand = new DelegateCommand(CancelChanges);
+            WindowLoaded = new DelegateCommand(OnWindowLoaded);
+            WindowClosed = new DelegateCommand(OnWindowClosed);
+            DgControlLoaded = new DelegateCommand(OnDgControlLoaded);
+            DgControlUnloaded = new DelegateCommand(OnDgControlUnloaded);
+            ReeferControlLoaded = new DelegateCommand(OnReeferControlLoaded);
+            ReeferControlUnloaded = new DelegateCommand(OnReeferControlUnloaded);
         }
+
+
+
+        #region Window and controls Loaded/Unloaded handlers
+
+        //Logic with events created to avoid reset to 0 of combobox index on re-open of the control
+        private void OnDgControlLoaded(object obj)
+        {
+            if (!isFirstTimeDgTemplateValuesSet)
+                SetExcelDgTemplateValues();
+        }
+
+        private void OnDgControlUnloaded(object obj)
+        {
+            if (isWindowOpened)
+                isFirstTimeDgTemplateValuesSet = true;
+        }
+
+        private void OnReeferControlUnloaded(object obj)
+        {
+            if (isWindowOpened)
+                isFirstTimeReeferTemplateValuesSet = true;
+        }
+
+        private void OnReeferControlLoaded(object obj)
+        {
+            if (!isFirstTimeReeferTemplateValuesSet)
+                SetExcelReeferTemplateValues();
+        }
+
+        private void OnWindowClosed(object obj)
+        {
+            isFirstTimeDgTemplateValuesSet = false;
+            isFirstTimeReeferTemplateValuesSet = false;
+            isWindowOpened = false;
+        }
+
+        private void OnWindowLoaded(object obj)
+        {
+            isWindowOpened = true;
+        }
+
+        #endregion
+
+        #region Set Excel Template values
+
+        private void SetExcelDgTemplateValues()
+        {
+            SelectedExcelDgTemplateIndex = uiSettingsService.SelectedExcelDgTemplateIndex;
+            OnPropertyChanged(nameof(SelectedExcelDgTemplateIndex));
+        }
+
+        private void SetExcelReeferTemplateValues()
+        {
+            SelectedExcelReeferTemplateIndex = uiSettingsService.SelectedExcelReeferTemplateIndex;
+            OnPropertyChanged(nameof(SelectedExcelReeferTemplateIndex));
+        }
+
+        private void SetExcelTemplateValues()
+        {
+            ExcelDgTemplates = uiSettingsService.ExcelDgTemplates;
+            ExcelReeferTemplates = uiSettingsService.ExcelReeferTemplates;
+
+            SetExcelDgTemplateValues();
+            SetExcelReeferTemplateValues();
+        }
+
+        #endregion
 
         #endregion
 
@@ -66,49 +118,69 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         #region Excel Dg list settings
 
-        bool changedDgExcelTemplate;
+        public ObservableCollection<ExcelDgTemplateWrapper> ExcelDgTemplates { get; set; }
 
-        public int SelectedDgTemplate { get; set; }
-        public List<string> DgTemplateTitles { get; set; }
-
-
-        private ExcelDgTemplateWrapper _excelDgTemplate;
-        public ExcelDgTemplateWrapper ExcelDgTemplateDisplay
+        public ExcelDgTemplateWrapper SelectedExcelDgTemplate
         {
-            get
+            get => selectedExcelDgTemplate;
+            set
             {
-                if (_excelDgTemplate == null)
-                {
-                    _excelDgTemplate = new ExcelDgTemplateWrapper(settings.ExcelDgTemplate);
-                }
-                return _excelDgTemplate;
+                if (selectedExcelDgTemplate == value) return;
+
+                selectedExcelDgTemplate = value;
+                OnPropertyChanged();
             }
         }
+        private ExcelDgTemplateWrapper selectedExcelDgTemplate;
+        public int SelectedExcelDgTemplateIndex
+        {
+            get => selectedExcelDgTemplateIndex;
+            set
+            {
+                if (selectedExcelDgTemplateIndex == value) return;
+
+                selectedExcelDgTemplateIndex = value;
+            }
+        }
+        private int selectedExcelDgTemplateIndex;
+
+        public string ExcelDgNoticeText => "Values on this page will be used to read DG list from excel as well as to generate an excel DG list in required format.";
 
         #endregion
 
 
         #region Excel Reefers settings
 
-        bool changedReeferExcelTemplate;
+        public ObservableCollection<ExcelReeferTemplateWrapper> ExcelReeferTemplates { get; set; }
 
-        public int SelectedReeferTemplate { get; set; }
-        public List<string> ReeferTemplateTitles { get; set; }
-
-
-        private ExcelReeferTemplateWrapper _excelReeferTemplate;
-        public ExcelReeferTemplateWrapper ExcelReeferTemplateDisplay
+        public ExcelReeferTemplateWrapper SelectedExcelReeferTemplate
         {
-            get
+            get => selectedExcelReeferTemplate;
+            set
             {
-                if (_excelReeferTemplate == null)
-                {
-                    _excelReeferTemplate = new ExcelReeferTemplateWrapper(settings.ExcelReeferTemplate);
-                }
-                return _excelReeferTemplate;
+                if (selectedExcelReeferTemplate == value) return;
+
+                selectedExcelReeferTemplate = value;
+                OnPropertyChanged();
             }
         }
+        private ExcelReeferTemplateWrapper selectedExcelReeferTemplate;
 
+        public int SelectedExcelReeferTemplateIndex
+        {
+            get => selectedExcelReeferTemplateIndex;
+            set
+            {
+                if (selectedExcelReeferTemplateIndex == value) return;
+
+                selectedExcelReeferTemplateIndex = value;
+            }
+        }
+        private int selectedExcelReeferTemplateIndex;
+
+        public string ExcelReeferNoticeText =>
+            "Values on this page will be used to read reefer manifest from excel.\n" +
+            "Only first excel sheet in workbook will be checked.";
 
         #endregion
 
@@ -119,13 +191,18 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// Rejects any made changes in the window
         /// </summary>
         /// <param name="obj"></param>
-        public void CancelChanges(object obj)
+        private void CancelChanges(object obj)
         {
-            changedDgExcelTemplate = false;
-            changedReeferExcelTemplate = false;
-
-            ExcelDgTemplateDisplay.CancelChanges();
-            ExcelReeferTemplateDisplay.CancelChanges();
+            foreach (var template in ExcelDgTemplates)
+            {
+                if (!template.HasChanges) continue;
+                template.ResetOriginalValues();
+            }
+            foreach (var template in ExcelReeferTemplates)
+            {
+                if (!template.HasChanges) continue;
+                template.ResetOriginalValues();
+            }
         }
 
         /// <summary>
@@ -134,47 +211,65 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void SaveChanges(object obj)
         {
-            CheckWhatChanged();
-
-            if (changedDgExcelTemplate)
+            foreach (var template in ExcelDgTemplates)
             {
-                ExcelDgTemplateDisplay.UploadTemplateChanges();
-                uiSettingsService.SaveExcelTemplate(ExcelDgTemplateDisplay.TemplateNameInSettings, ExcelDgTemplateDisplay.TemplateString);
+                if (!template.HasChanges) continue;
+                template.SaveChanges();
+                uiSettingsService.SaveExcelTemplate(template.TemplateNameInSettings, template.TemplateString);
             }
-            if (changedReeferExcelTemplate)
+            foreach (var template in ExcelReeferTemplates)
             {
-                ExcelReeferTemplateDisplay.UploadTemplateChanges();
-                uiSettingsService.SaveExcelTemplate(ExcelReeferTemplateDisplay.TemplateNameInSettings, ExcelReeferTemplateDisplay.TemplateString);
+                if (!template.HasChanges) continue;
+                template.SaveChanges();
+                uiSettingsService.SaveExcelTemplate(template.TemplateNameInSettings, template.TemplateString);
             }
 
-            ResetChangeIndicators();
+            uiSettingsService.SetSelectedExcelDgTemplateIndex(selectedExcelDgTemplateIndex);
+            uiSettingsService.SetSelectedExcelReeferTemplateIndex(selectedExcelReeferTemplateIndex);
+            uiSettingsService.SaveSelectedExcelTemplateIndeces();
         }
 
-        private void CheckWhatChanged()
+        private bool SaveChangesCanExecute(object obj)
         {
-            changedDgExcelTemplate = ExcelDgTemplateDisplay.IsChanged;
-            changedReeferExcelTemplate = ExcelReeferTemplateDisplay.IsChanged;
-        }
-
-        private void ResetChangeIndicators()
-        {
-            changedDgExcelTemplate = false;
-            ExcelDgTemplateDisplay.ResetAllChangeIndicators();
-            changedReeferExcelTemplate= false;
-            ExcelReeferTemplateDisplay.ResetAllChangeIndicators();
+            return HasChangedIndex
+                || ExcelDgTemplates.Any(t => t.HasChanges)
+                || ExcelReeferTemplates.Any(t => t.HasChanges);
         }
 
         #endregion
 
+        #region Constructor
+
+        //---------------------- Constructor ---------------------------------------
+        public SettingsWindowVM()
+        {
+            LoadCommands();
+            SetExcelTemplateValues();
+        }
+
+        #endregion
+
+        #region IDataErrors
 
         // --------- IDataErors ----------------------------
         public string this[string columnName] => throw new NotImplementedException();
 
         public string Error => throw new NotImplementedException();
 
+        #endregion
+
+        #region Commands
 
         // --------- Commands ------------------------------
         public ICommand SaveChangesCommand { get; set; }
         public ICommand CancelChangesCommand { get; set; }
+        public ICommand WindowLoaded { get; set; }
+        public ICommand WindowClosed { get; set; }
+        public ICommand DgControlLoaded { get; set; }
+        public ICommand DgControlUnloaded { get; set; }
+        public ICommand ReeferControlLoaded { get; set; }
+        public ICommand ReeferControlUnloaded { get; set; }
+
+        #endregion
     }
 }

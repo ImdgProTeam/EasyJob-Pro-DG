@@ -1,11 +1,11 @@
 ﻿using EasyJob_ProDG.Model.IO.Excel;
 using EasyJob_ProDG.UI.Wrapper.Dummies;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
-    public abstract class ExcelTemplateWrapper<T> : ModelWrapper<T>
-        where T : ExcelTemplate
+    public abstract class ExcelTemplateWrapper<T> : ModelWrapper<T> where T : ExcelTemplate
     {
         protected abstract string[] ColumnTitles { get; }
 
@@ -28,23 +28,16 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <summary>
         /// Indicates if the template has been changed
         /// </summary>
-        public bool IsChanged
+        public bool HasChanges
         {
             get
             {
-                if (_isChanged) return true;
-                foreach (var property in ColumnProperties)
-                {
-                    if (property.IsModified) return true;
-                }
+                if (IsChanged) return true;
+                if (ColumnProperties.Any(p => p.IsModified))
+                    return true;
                 return false;
             }
-            private set
-            {
-                _isChanged = value;
-            }
         }
-        private bool _isChanged;
 
         #endregion
 
@@ -61,88 +54,66 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         public string TemplateName
         {
-            get { return _templateName; }
+            get { return GetValue<string>(); }
             set
             {
-                if (_templateName != value)
-                {
-                    _templateName = value;
-                    OnPropertyChanged();
-                    IsChanged = true;
-                }
+                SetValue<string>(value);
             }
         }
-        private string _templateName;
+        public string TemplateNameOriginalValue => GetOriginalValue<string>(nameof(TemplateName));
+        public bool TemplateNameIsChanged => GetIsChanged(nameof(TemplateName));
 
         /// <summary>
         /// Working sheet name.
         /// </summary>
         public string WorkingSheet
         {
-            get { return _workingSheet; }
+            get { return GetValue<string>(); }
             set
             {
-                if (_workingSheet != value)
-                {
-                    _workingSheet = value;
-                    OnPropertyChanged();
-                    IsChanged = true;
-                }
+                SetValue<string>(value);
             }
         }
-        private string _workingSheet;
+        public string WorkingSheetOriginalValue => GetOriginalValue<string>(nameof(WorkingSheet));
+        public bool WorkingSheetIsChanged => GetIsChanged(nameof(WorkingSheet));
+
 
         /// <summary>
         /// The Row of excel sheet from which needed to start reading cargo info.
         /// </summary>
         public byte StartRow
         {
-            get { return _startRow; }
+            get { return GetValue<byte>(); }
             set
             {
-                if (_startRow != value)
-                {
-                    _startRow = value;
-                    OnPropertyChanged();
-                    IsChanged = true;
-                }
+                SetValue<byte>(value);
             }
         }
-        private byte _startRow;
+        public byte WStartRowOriginalValue => GetOriginalValue<byte>(nameof(StartRow));
+        public bool StartRowIsChanged => GetIsChanged(nameof(StartRow));
 
         #endregion
 
 
         #region Public methods
 
-        /// <summary>
-        /// Changes status of each property to 'not modified'
-        /// </summary>
-        public void ResetAllChangeIndicators()
+        public void SaveChanges()
         {
-            IsChanged = false;
-            foreach (var property in ColumnProperties)
-            {
-                property.IsModified = false;
-            }
-        }
-
-        /// <summary>
-        /// Restores initial values
-        /// </summary>
-        public void CancelChanges()
-        {
-            GenerateColumnProperties();
-            GetMainTemplateProperties();
+            AcceptChanges();
+            WriteColumnPropertiesToTemplate();
         }
 
         /// <summary>
         /// Saves all the changes to Model template.
         /// </summary>
-        public void UploadTemplateChanges()
+        public void ResetOriginalValues()
         {
-            UploadMainTemplateProperties();
-            UploadChangesFromColumnProperties();
+            RejectChanges();
+            foreach (var property in ColumnProperties)
+            {
+                if (property.IsModified)
+                    property.RejectChanges();
+            }
         }
 
         #endregion
@@ -164,35 +135,12 @@ namespace EasyJob_ProDG.UI.Wrapper
             }
         }
 
-        /// <summary>
-        /// Restores original values of main properties from model
-        /// </summary>
-        protected void GetMainTemplateProperties()
+        private void WriteColumnPropertiesToTemplate()
         {
-            StartRow = Model.StartRow;
-            TemplateName = Model.TemplateName;
-            WorkingSheet = Model.WorkingSheet;
-        }
-
-        /// <summary>
-        /// Uploads main properties to model
-        /// </summary>
-        private void UploadMainTemplateProperties()
-        {
-            Model.TemplateName = TemplateName;
-            Model.WorkingSheet = WorkingSheet;
-            Model.StartRow = StartRow;
-        }
-
-        /// <summary>
-        /// Saves column properties values in Model properties
-        /// </summary>
-        private void UploadChangesFromColumnProperties()
-        {
-            int i = 3;
-            foreach (var updatedProperty in ColumnProperties)
+            for (int i = 0; i < ColumnProperties.Count; i++)
             {
-                Model.GetTemplate()[i++] = updatedProperty.Value.ToString();
+                Model.SetTemplatePropertyByIndex(i + 3, ColumnProperties[i].Value.ToString());
+                ColumnProperties[i].AcceptChanges();
             }
         }
 
@@ -204,7 +152,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         //Constructor
         public ExcelTemplateWrapper(T model) : base(model)
         {
-
+            GenerateColumnProperties();
         }
 
         #endregion

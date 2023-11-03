@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
-        xmlns:dw="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows"
-        mc:Ignorable="d"
+        xmlns:dw="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+                         mc:Ignorable="d"
         Title="SettingsWindow" Height="500" Width="400"
         MinWidth="10cm"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=SettingsWindowVM}"
@@ -28,7 +28,8 @@
 
         <TabControl x:Name="tabUserSettings"
                     Grid.Row="1"
-                    SelectionChanged="tabUserSettings_SelectionChanged">
+                    SelectionChanged="tabUserSettings_SelectionChanged"
+                    >
             <TabItem Header="Excel - DG">
                 <uc:SettingsExcelDg />
             </TabItem>
@@ -67,4 +68,12 @@
                     TabIndex="10"/>
         </UniformGrid>
     </Grid>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding WindowLoaded}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding WindowClosed}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 </dw:AnimatedDialogWindow>

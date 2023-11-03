@@ -347,7 +347,7 @@
     <Compile Include="Wrapper\Cargo\DgWrapper.cs" />
     <Compile Include="Wrapper\Cargo\DgWrapperMethods.cs" />
     <Compile Include="Wrapper\Cargo\DgWrapperProperties.cs" />
-    <Compile Include="Wrapper\Settings\ExcelDgTemplateWrapper1.cs" />
+    <Compile Include="Wrapper\Settings\ExcelDgTemplateWrapper.cs" />
     <Compile Include="Wrapper\Settings\ExcelTemplateWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\DOCWrapper.cs" />
     <Compile Include="Wrapper\Dummies\DummyAccommodation.cs" />
@@ -356,7 +356,6 @@
     <Compile Include="Wrapper\Dummies\DummyDOCRow.cs" />
     <Compile Include="Wrapper\Dummies\ExcelColumnProperty.cs" />
     <Compile Include="Wrapper\Settings\ExcelReeferTemplateWrapper.cs" />
-    <Compile Include="Wrapper\Settings\ExcelDgTemplateWrapper.cs" />
     <Compile Include="Wrapper\ModelWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\OuterRowWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\ShipProfileWrapper.cs" />

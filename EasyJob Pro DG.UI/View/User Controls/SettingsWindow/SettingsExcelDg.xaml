@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
+             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters" 
+             xmlns:customcontrollib="clr-namespace:CustomControlLib;assembly=CustomControlLib" 
+             xmlns:viewmodel="clr-namespace:EasyJob_ProDG.UI.ViewModel" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             d:DataContext="{d:DesignInstance Type=viewmodel:SettingsWindowVM}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300"
              DataContext="{Binding}"
@@ -55,23 +58,27 @@
         <Label Content="Template Name" 
                Grid.Row="0"
                Grid.Column="0"/>
-        <TextBox x:Name="txbTemplateName"
-                Text="{Binding ExcelDgTemplateDisplay.TemplateName}" 
-                 Tag="Enter new template name"
-                IsReadOnly="True"
-                 Grid.Row="0"
-                 Grid.Column="1"/>
+        <customcontrollib:ChangeableComboBox
+            ItemsSource="{Binding ExcelDgTemplates}"
+            SelectedItem="{Binding SelectedExcelDgTemplate}"
+            SelectedIndex="{Binding SelectedExcelDgTemplateIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            DisplayMemberPath="TemplateName"
+            TextValue="{Binding SelectedExcelDgTemplate.TemplateName}"
+            Margin="2"
+            Grid.Column="1"
+            Background="White"
+            />
+
         <TextBlock Grid.Row="1" Grid.ColumnSpan="2"
-                   Style="{StaticResource TextBlockNoticeStyle}">
-            <TextBlock.Text>
-                Values on this page will be used to read DG list from excel as well as to generate an excel DG list in required format.
-            </TextBlock.Text>
+                   Style="{StaticResource TextBlockNoticeStyle}"
+                   Text="{Binding ExcelDgNoticeText}">
+
         </TextBlock>
         <Label Content="Excel sheet name"
                Grid.Row="2"
                Grid.Column="0" />
         <TextBox x:Name="txbSheetName"
-                 Text="{Binding ExcelDgTemplateDisplay.WorkingSheet}"
+                 Text="{Binding SelectedExcelDgTemplate.WorkingSheet}"
                  Tag="Enter excel sheet name"
                  Grid.Row="2"
                  Grid.Column="1" />
@@ -79,7 +86,7 @@
         <Label Content="Start from row"
                Grid.Row="3"
                Grid.Column="0" />
-        <TextBox Text="{Binding ExcelDgTemplateDisplay.StartRow}"
+        <TextBox Text="{Binding SelectedExcelDgTemplate.StartRow}"
                  Tag="Enter the first row number"
                  Grid.Row="3"
                  Grid.Column="1" />
@@ -89,7 +96,7 @@
                Grid.Row="4"
                Grid.ColumnSpan="2"/>
 
-        <DataGrid ItemsSource="{Binding ExcelDgTemplateDisplay.ColumnProperties, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <DataGrid ItemsSource="{Binding SelectedExcelDgTemplate.ColumnProperties, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False"
                   Grid.Row="5"
                   Grid.ColumnSpan="2"
@@ -122,4 +129,12 @@
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding DgControlLoaded}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Unloaded">
+            <i:InvokeCommandAction Command="{Binding DgControlUnloaded}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>  
 </UserControl>

@@ -52,7 +52,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 Data.LogWriter.Write($"Reading reefer data...");
 
                 //Determine number of rows = number of reefers
-                int rowscount = WithXl.CountRows(excelWorksheet, _template);
+                int rowscount = WithXl.CountRows(excelWorksheet, _template.StartRow, int.Parse(_template[3]));
 
                 //Read the list
                 for (int line = templateStartRow; line < rowscount + templateStartRow; line++)

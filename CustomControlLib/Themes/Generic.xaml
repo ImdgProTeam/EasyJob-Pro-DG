@@ -128,4 +128,42 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="{x:Type local:ChangeableComboBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ChangeableComboBox}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Margin="{TemplateBinding Margin}">
+                        <Grid>
+                            <ComboBox ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
+                                      SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource TemplatedParent}}"
+                                      SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}}"
+                                      DisplayMemberPath="{Binding DisplayMemberPath, RelativeSource={RelativeSource TemplatedParent}}"
+                                      IsSynchronizedWithCurrentItem="True"
+                                      BorderThickness="0"
+                                      Background="{TemplateBinding Background}"
+                                      Margin="15 0 25 0">
+                            </ComboBox>
+                            <TextBox 
+                                x:Name="PART_TextInputField"
+                                Text="{Binding TextValue, RelativeSource={RelativeSource TemplatedParent}, 
+                                            UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                                TextWrapping="NoWrap"
+                                Margin="15 0 45 0"
+                                Padding="12 0"
+                                TextAlignment="Left"
+                                Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"
+                                Opacity="100"
+                                />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
 </ResourceDictionary>

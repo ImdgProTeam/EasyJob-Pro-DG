@@ -3,16 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls" 
-             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
+             xmlns:customcontrollib="clr-namespace:CustomControlLib;assembly=CustomControlLib" 
+             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="400"
-             DataContext="{Binding}">
-    
+             DataContext="{Binding}"
+             >
+
     <UserControl.Resources>
         <converters:ExcelColumnNumberConverter x:Key="ColumnNumberConverter" />
     </UserControl.Resources>
-    
+
     <Grid Margin="2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="156" />
@@ -57,25 +58,34 @@
         <Label Content="Template Name" 
                Grid.Row="0"
                Grid.Column="0"/>
-        <TextBox x:Name="txbTemplateName"
-                Text="{Binding ExcelReeferTemplateDisplay.TemplateName}" 
-                 Tag="Enter new template name"
-                IsReadOnly="True"
-                 Grid.Row="0"
-                 Grid.Column="1"/>
-        
+        <customcontrollib:ChangeableComboBox
+                ItemsSource="{Binding ExcelReeferTemplates}"
+                SelectedItem="{Binding SelectedExcelReeferTemplate}"
+                SelectedIndex="{Binding SelectedExcelReeferTemplateIndex}"
+                DisplayMemberPath="TemplateName"
+                TextValue="{Binding SelectedExcelReeferTemplate.TemplateName}"
+                Margin="2"
+                Grid.Column="1"
+                Background="White"
+                />
+
         <TextBlock Grid.Row="1" Grid.ColumnSpan="2"
-                   Style="{StaticResource TextBlockNoticeStyle}">
-            <TextBlock.Text>
-                Values on this page will be used to read reefer manifest from excel.\n
-                Only first excel sheet in workbook will be checked.
-            </TextBlock.Text>
+                   Style="{StaticResource TextBlockNoticeStyle}"
+                   Text="{Binding ExcelReeferNoticeText}">
         </TextBlock>
-        
+
+        <Label Content="Excel sheet name"
+               Grid.Row="2"
+               Grid.Column="0" />
+        <TextBox x:Name="txbSheetName"
+                 Text="{Binding SelectedExcelReeferTemplate.WorkingSheet}"
+                 Tag="Enter excel sheet name"
+                 Grid.Row="2"
+                 Grid.Column="1" />
         <Label Content="Start from row"
                Grid.Row="3"
                Grid.Column="0" />
-        <TextBox Text="{Binding ExcelReeferTemplateDisplay.StartRow}"
+        <TextBox Text="{Binding SelectedExcelReeferTemplate.StartRow}"
                  Tag="Enter the first row number"
                  Grid.Row="3"
                  Grid.Column="1" />
@@ -85,7 +95,7 @@
                Grid.Row="4"
                Grid.ColumnSpan="2"/>
 
-        <DataGrid ItemsSource="{Binding ExcelReeferTemplateDisplay.ColumnProperties, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <DataGrid ItemsSource="{Binding SelectedExcelReeferTemplate.ColumnProperties, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False"
                   Grid.Row="5"
                   Grid.ColumnSpan="2"
@@ -118,4 +128,12 @@
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding ReeferControlLoaded}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Unloaded">
+            <i:InvokeCommandAction Command="{Binding ReeferControlUnloaded}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 </UserControl>

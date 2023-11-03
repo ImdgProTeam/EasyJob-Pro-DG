@@ -8,17 +8,16 @@ namespace EasyJob_ProDG.Model.IO.Excel
     /// </summary>
     public class ExcelDgTemplate : ExcelTemplate
     {
-        private static string[] _templateStatic;
+        private string[] _template;
         protected override string[] _Template
         {
-            get => _templateStatic;
+            get => _template;
             set
             {
                 if (value.Length != _propertiesCount + 3)
-                    _templateStatic = GetDefaultTemplate();
+                    _template = GetDefaultTemplate();
                 else
-                    _templateStatic = value;
-                ExcelTemplateSetter.SetExcelDgTemplate(this);
+                    _template = value;
             }
         }
 

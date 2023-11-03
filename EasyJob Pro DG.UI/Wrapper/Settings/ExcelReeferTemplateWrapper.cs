@@ -4,7 +4,6 @@ namespace EasyJob_ProDG.UI.Wrapper
 {
     public class ExcelReeferTemplateWrapper : ExcelTemplateWrapper<ExcelReeferTemplate>
     {
-
         protected override string[] ColumnTitles => new string[]
         {
             "TemplateName",
@@ -20,8 +19,6 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         public ExcelReeferTemplateWrapper(ExcelReeferTemplate model) : base(model)
         {
-            GenerateColumnProperties();
-            GetMainTemplateProperties();
         }
     }
 }

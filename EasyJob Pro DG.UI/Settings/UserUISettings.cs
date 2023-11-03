@@ -1,9 +1,22 @@
 ﻿using EasyJob_ProDG.Model.IO.Excel;
+using EasyJob_ProDG.UI.Wrapper;
+using System.Collections.ObjectModel;
+
 
 namespace EasyJob_ProDG.UI.Settings
 {
     public class UserUISettings : IUserUISettings
     {
+        #region Settings constants
+
+        internal const string _FORMATDECIMAL = "# ### ##0.000";
+        internal const string EXCEL_DG_TEMPLATE_PREFIX = "ExcelDgTemplate";
+        internal const string EXCEL_REEFER_TEMPLATE_PREFIX = "ExcelReeferTemplate";
+        internal const int NumberOfStoredTemplates = 5; 
+
+        #endregion
+
+
         // Sorting lists
         public enum DgSortOrderPattern { ABC, CBA, LR, RL, LRsnake, RLsnake };
         public DgSortOrderPattern DgSortPattern { get; set; }
@@ -12,28 +25,61 @@ namespace EasyJob_ProDG.UI.Settings
 
         #region ExcelTemplates
         //Excel
-        private ExcelDgTemplate _excelDgTemplate;
-        public ExcelDgTemplate ExcelDgTemplate
+
+        //Dg
+        public ObservableCollection<ExcelDgTemplateWrapper> ExcelDgTemplates { get; set; }
+
+        /// <summary>
+        /// Selected Index to be used with collections and in xaml.
+        /// Automatically converts value obtained from settings.settings (+/- 1)
+        /// </summary>
+        public int SelectedDgTemplateIndex
         {
-            get { if (_excelDgTemplate == null) { _excelDgTemplate = new ExcelDgTemplate(); } return _excelDgTemplate; }
-            set { _excelDgTemplate = value; }
+            get => _selectedDgTemplateIndexNumberInSettings - 1;
+            set => _selectedDgTemplateIndexNumberInSettings = (byte)(value + 1);
         }
 
-        private ExcelReeferTemplate _excelReeferTemplate;
-        public ExcelReeferTemplate ExcelReeferTemplate
+        /// <summary>
+        /// Value recorded in settings.settings for the index of chosen template.
+        /// Starting from 1...
+        /// </summary>
+        private byte _selectedDgTemplateIndexNumberInSettings;
+
+        internal void SetExcelDgTemplate()
         {
-            get { if (_excelReeferTemplate == null) { _excelReeferTemplate = new ExcelReeferTemplate(); } return _excelReeferTemplate; }
-            set { _excelReeferTemplate = value; }
+            ExcelTemplateSetter.SetExcelDgTemplate(ExcelDgTemplates[SelectedDgTemplateIndex].Model);
         }
+
+
+        //Reefer
+        public ObservableCollection<ExcelReeferTemplateWrapper> ExcelReeferTemplates { get; set; }
+        public int SelectedReeferTemplateIndex
+        {
+            get => _selectedReeferTemplateIndexNumberInSettings - 1;
+            set => _selectedReeferTemplateIndexNumberInSettings = (byte)(value + 1);
+        }
+
+        /// <summary>
+        /// Value recorded in settings.settings for the index of chosen template.
+        /// Starting from 1...
+        /// </summary>
+        private byte _selectedReeferTemplateIndexNumberInSettings;
+
+        internal void SetExcelReeferTemplate()
+        {
+            ExcelTemplateSetter.SetExcelReeferTemplate(ExcelReeferTemplates[SelectedReeferTemplateIndex].Model);
+        }
+
         #endregion
 
 
-
-        internal const string _FORMATDECIMAL = "# ### ##0.000";
-
-
         // -------------- Main methods ----------------------------------------------
+        #region Public methods
 
+        /// <summary>
+        /// Public accessor to settings
+        /// </summary>
+        /// <returns></returns>
         public UserUISettings GetSettings()
         {
             return this;
@@ -46,37 +92,95 @@ namespace EasyJob_ProDG.UI.Settings
             Combine2040BaysWhenSorting = false;
             LowestTierOnDeck = 72;
 
-            //read ExcelDgTemplate 
-            TryCreateExcelTemplateFromSettings(ExcelDgTemplate, Properties.Settings.Default.SelectedExcelDgTemplate);
+            ReadSettingsFromSettings();
 
-            //read ExcelReeferTemplate
-            TryCreateExcelTemplateFromSettings(ExcelReeferTemplate, Properties.Settings.Default.SelectedExcelReeferTemplate);
+            SetExcelTemplates();
+        }
+
+        #endregion
+
+        #region Private methods
+
+        /// <summary>
+        /// Sets SelectedTemplates to Excel Dg and Reefer templates
+        /// </summary>
+        private void SetExcelTemplates()
+        {
+            SetExcelDgTemplate();
+            SetExcelReeferTemplate();
         }
 
         /// <summary>
-        /// Trys to read ExcelTemplate chosen from settings.settings and apply it.
-        /// Applies default template in case of failure.
+        /// Reads Excel settings from settings.settings
         /// </summary>
-        /// <param name="template"><see cref="ExcelTemplate"/> derived class</param>
-        /// <param name="selectedTemplateNumber">Number in the name of template in settings.</param>
-        private void TryCreateExcelTemplateFromSettings(ExcelTemplate template, byte selectedTemplateNumber)
+        private void ReadSettingsFromSettings()
         {
-            try
-            {
-                string templateBaseTitle = template is ExcelDgTemplate ? "ExcelDgTemplate" : "ExcelReeferTemplate";
-                string propertyName = templateBaseTitle + selectedTemplateNumber;
-                template.TemplateSettingsName = propertyName;
-                
-                var propertyValue = Properties.Settings.Default[propertyName];
-                if (string.IsNullOrWhiteSpace(propertyValue.ToString())) 
-                    throw new System.Exception($"Property {propertyName} returned unknown value");
+            _selectedDgTemplateIndexNumberInSettings = Properties.Settings.Default.SelectedExcelDgTemplate;
+            _selectedReeferTemplateIndexNumberInSettings = Properties.Settings.Default.SelectedExcelReeferTemplate;
 
-                template.ApplyTemplate(propertyValue.ToString());
-            }
-            catch (System.Exception)
+            CreateTemplateCollections();
+        }
+
+        /// <summary>
+        /// Creates collections of ExcelTemplates for dg and reefers from settings.settings
+        /// </summary>
+        private void CreateTemplateCollections()
+        {
+            ExcelDgTemplates = new ObservableCollection<ExcelDgTemplateWrapper>();
+            ExcelReeferTemplates = new ObservableCollection<ExcelReeferTemplateWrapper>();
+
+            for (int i = 1; i <= NumberOfStoredTemplates; i++)
             {
-                template.ApplyDefaultTemplate();
+                //DG
+                var templateName = EXCEL_DG_TEMPLATE_PREFIX + i;
+                var property = Properties.Settings.Default[templateName];
+                if (property != null)
+                {
+                    var template = new ExcelDgTemplate();
+                    template.CreateTemplate(property.ToString());
+                    template.TemplateSettingsName = templateName;
+
+                    ExcelDgTemplates.Add(new ExcelDgTemplateWrapper(template));
+                }
+
+                //Reefers
+                templateName = EXCEL_REEFER_TEMPLATE_PREFIX + i;
+                property = Properties.Settings.Default[templateName];
+                if (property != null)
+                {
+                    var template = new ExcelReeferTemplate();
+                    template.CreateTemplate(property.ToString());
+                    template.TemplateSettingsName = templateName;
+
+                    ExcelReeferTemplates.Add(new ExcelReeferTemplateWrapper(template));
+                }
             }
         }
+
+        #endregion
+
+
+        /// <summary>
+        /// Saves ExcelTemplate in settings.settings
+        /// </summary>
+        /// <param name="templateSettingsName">Template property name in settings.settings</param>
+        /// <param name="template">Template in string format</param>
+        public void SaveExcelTemplate(string templateSettingsName, string template)
+        {
+            Properties.Settings.Default[templateSettingsName] = template;
+        }
+
+        /// <summary>
+        /// Saves selected excel template indeces for dg and reefer in settings.settings
+        /// </summary>
+        public void SaveSelectedExcelTemplateIndeces()
+        {
+            Properties.Settings.Default.SelectedExcelDgTemplate = _selectedDgTemplateIndexNumberInSettings;
+            SetExcelDgTemplate();
+
+            Properties.Settings.Default.SelectedExcelReeferTemplate = _selectedReeferTemplateIndexNumberInSettings;
+            SetExcelReeferTemplate();
+        }
+
     }
 }

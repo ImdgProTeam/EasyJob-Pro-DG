@@ -8,16 +8,17 @@ namespace EasyJob_ProDG.UI.Wrapper.Dummies
     public class ExcelColumnProperty : Observable
     {
         int _value;
+        int _valueOriginal;
         private readonly int _maxValue = Model.IO.Excel.WithXl.Columns.Count - 1;
 
         public ExcelColumnProperty(string propertyName, int value)
         {
             PropertyName = propertyName;
             _value = value;
-            IsModified = false;
+            _valueOriginal = value;
         }
 
-        public bool IsModified { get; set; }
+        public bool IsModified => _value != _valueOriginal;
         public string PropertyName { get; }
         public int Value
         {
@@ -27,9 +28,23 @@ namespace EasyJob_ProDG.UI.Wrapper.Dummies
                 if (_value == value) return;
                 _value = ValidateValue(value);
                 OnPropertyChanged();
-                IsModified = true;
+                OnPropertyChanged(nameof(IsModified));
             }
         }
+
+        public void RejectChanges()
+        {
+            _value = _valueOriginal;
+            OnPropertyChanged(nameof(Value));
+            OnPropertyChanged(nameof(IsModified));
+        }
+
+        public void AcceptChanges()
+        {
+            _valueOriginal = _value;
+            OnPropertyChanged(nameof(IsModified));
+        }
+        
 
         /// <summary>
         /// Validates user input.

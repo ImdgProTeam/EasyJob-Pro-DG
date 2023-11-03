@@ -5,17 +5,16 @@
     /// </summary>
     public class ExcelReeferTemplate : ExcelTemplate
     {
-        private static string[] _templateStatic;
+        private string[] _template;
         protected override string[] _Template 
         { 
-            get => _templateStatic;
+            get => _template;
             set
             {
                 if (value.Length != _propertiesCount)
-                    _templateStatic = GetDefaultTemplate();
+                    _template = GetDefaultTemplate();
                 else
-                    _templateStatic = value;
-                ExcelTemplateSetter.SetExcelReeferTemplate(this);
+                    _template = value;
             }
         }
 

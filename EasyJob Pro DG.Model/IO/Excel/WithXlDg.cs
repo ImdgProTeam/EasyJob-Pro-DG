@@ -70,7 +70,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 Data.ProgressBarReporter.ReportPercentage = 40;
 
                 //Determine number of rows = number of dg
-                int rowscount = WithXl.CountRows(excelWorksheet, _template);
+                int rowscount = WithXl.CountRows(excelWorksheet, _template.StartRow, int.Parse(_template[5]));
 
                 #region StatusBar increment value setup
                 //Setting StatusBar increment value

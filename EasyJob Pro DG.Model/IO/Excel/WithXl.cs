@@ -20,18 +20,18 @@ namespace EasyJob_ProDG.Model.IO.Excel
         /// </summary>
         /// <param name="excelWorksheet"></param>
         /// <returns></returns>
-        internal static int CountRows(ExcelApp.Worksheet excelWorksheet, ExcelTemplate template)
+        internal static int CountRows(ExcelApp.Worksheet excelWorksheet, int startRow, int checkColumn)
         {
             bool stop = false;
             int rowsCount = 0;
             ExcelApp.Range excelCells = null;
 
             //choose reference column: for Dg - unno, for others - ContainerNumber
-            int checkColumn = int.Parse(template is ExcelDgTemplate ? template[5] : template[3]);
+            //int checkColumn = int.Parse(template is ExcelDgTemplate ? template[5] : template[3]);
 
             while (!stop)
             {
-                excelCells = excelWorksheet.Cells[template.StartRow + rowsCount, checkColumn];
+                excelCells = excelWorksheet.Cells[startRow + rowsCount, checkColumn];
                 stop = excelCells.Value2 == null;
                 if (!stop) rowsCount++;
             }

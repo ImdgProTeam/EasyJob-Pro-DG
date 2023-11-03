@@ -27,7 +27,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
         ///Method defines Bay, Row and Tier
         static void DefineContainerLocation(Dg dg)
         {
-            dg.HoldNr = ship.DefineCargoHoldNumber(dg.Bay);
+            dg.HoldNr = ship.DefineCargoHoldNumberNonstatic(dg.Bay);
         }
 
         [ClassInitialize]
@@ -605,7 +605,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
 
             Debug.WriteLine("Dg Bay is: {0}", dgList[0].Bay);
             Debug.WriteLine("Hold stored in dg before defining is: {0}", dgList[0].HoldNr);
-            byte hold = ship.DefineCargoHoldNumber(dgList[0].Bay);
+            byte hold = ship.DefineCargoHoldNumberNonstatic(dgList[0].Bay);
             Debug.WriteLine("Hold answer found is: {0}", hold);
 
             Assert.AreEqual(2, hold);

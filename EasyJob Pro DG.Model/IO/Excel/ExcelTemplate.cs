@@ -16,9 +16,11 @@ namespace EasyJob_ProDG.Model.IO.Excel
         /// <returns></returns>
         public abstract string[] GetDefaultTemplate();
 
-
         public string[] GetTemplate() => _Template ?? GetDefaultTemplate();
-
+        public string GetTemplateString()
+        {
+            return string.Join(",", GetTemplate());
+        }
 
 
         #region Template public Properties
@@ -58,26 +60,16 @@ namespace EasyJob_ProDG.Model.IO.Excel
         /// <summary>
         /// Version of the template (the last value in the template)
         /// </summary>
-        public byte TemplateVersion
+        public string TemplateVersion
         {
-            get { return byte.Parse(_Template[_Template.Length - 1]); }
+            get { return _Template[_Template.Length - 1]; }
             set { _Template[_Template.Length - 1] = value.ToString(); }
         } 
 
         #endregion
 
 
-        public string GetTemplateString()
-        {
-            return string.Join(",", GetTemplate());
-        }
-        public void ReadTemplate(string templateString)
-        {
-            _Template = templateString.Split(',');
-        }
-
-
-        public void ApplyTemplate(string[] newTemplate)
+        public void CreateTemplate(string[] newTemplate)
         {
             try
             {
@@ -90,16 +82,26 @@ namespace EasyJob_ProDG.Model.IO.Excel
             }
         }
 
-        public void ApplyTemplate(string newTemplate)
+        public void CreateTemplate(string newTemplate)
         {
-            ApplyTemplate(newTemplate.Split(','));
+            CreateTemplate(newTemplate.Split(','));
         }
 
-        public void ApplyDefaultTemplate()
+        public void CreateDefaultTemplate()
         {
             _Template = GetDefaultTemplate();
         }
 
+
+        /// <summary>
+        /// Sets value of property by its index in the template.
+        /// </summary>
+        /// <param name="index">Index of property in the template.</param>
+        /// <param name="value">Set value.</param>
+        public void SetTemplatePropertyByIndex(int index, string value)
+        {
+            _Template[index] = value;
+        }
 
 
         /// <summary>
