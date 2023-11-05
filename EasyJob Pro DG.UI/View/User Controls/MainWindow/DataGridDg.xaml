@@ -10,8 +10,8 @@
              xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties" 
              xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib" 
              xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
-             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls" 
-             x:Class="EasyJob_ProDG.UI.View.User_Controls.DataGridDg"
+             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls" xmlns:sort="clr-namespace:EasyJob_ProDG.UI.View.Sort"
+                           x:Class="EasyJob_ProDG.UI.View.User_Controls.DataGridDg"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="1200"
@@ -21,6 +21,7 @@
         <converters:VisibilityToInverseBooleanConverter x:Key="VisibilityToInverseBooleanConverter" />
         <converters:BoolInversionConverter x:Key="BoolInversionConverter" />
         <converters:DummyConverter x:Key="DummyConverter"/>
+        <sort:EmptyTextLastSortComparer x:Key="EmptyTextLastSorter" />
     </UserControl.Resources>
 
     <DockPanel>
@@ -93,7 +94,9 @@
                   BeginningEdit="MainDgTable_BeginningEdit"
                   CellEditEnding="MainDgTable_CellEditEnding"
                   UnloadingRow="MainDgTable_OnUnloadingRow"
+                  Sorting="MainDgTable_Sorting"
                   behaviors:DataGridBehavior.DisplayRowNumber="True"
+                  ap:DataGridSortBehavior.AllowCustomSort="True"
                   >
 
             <DataGrid.Resources>
@@ -217,7 +220,7 @@
                 <DataGridTextColumn x:Name="finalDestinationColumn"
                                     Binding="{Binding FinalDestination, UpdateSourceTrigger=LostFocus}"
                                     Header="Final destination"
-                                    />
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}"/>
 
                 <!-- Unno -->
                 <DataGridTextColumn x:Name="unnoColumn"
@@ -360,7 +363,7 @@
                 <DataGridTemplateColumn x:Name="specialColumn"
                                         Header="Special"
                                         IsReadOnly="True"
-                                        >
+                                        ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Special}"
@@ -384,21 +387,21 @@
                                     Binding="{Binding StowageSW}"
                                     Header="Special stowage requirements"
                                     IsReadOnly="True"
-                                    />
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}"/>
 
                 <!-- SG -->
                 <DataGridTextColumn x:Name="sgColumn"
                                     Binding="{Binding SegregationSG}"
                                     Header="Special segregation requirement"
                                     IsReadOnly="True"
-                                    />
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}"/>
 
                 <!-- Segregation groups -->
                 <DataGridTextColumn x:Name="segrGroupColumn"
                                     Binding="{Binding SegregationGroup}"
                                     Header="Segregation group"
                                     IsReadOnly="True"
-                                    >
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBox.TextWrapping"
@@ -533,7 +536,8 @@
                 <DataGridTextColumn x:Name="positionBeforeRestowColumn"
                                     Binding="{Binding LocationBeforeRestow, Mode=OneWay}"
                                     Header="Old Position"
-                                    IsReadOnly="False">
+                                    IsReadOnly="False"
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBlock.TextWrapping"
@@ -649,7 +653,8 @@
                                     Header="Technical name"
                                     FocusManager.FocusedElement="{Binding ElementName=technicalNameColumn}"
                                     Binding="{Binding TechnicalName, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                                    MaxWidth="{StaticResource MaxColumnWidth}">
+                                    MaxWidth="{StaticResource MaxColumnWidth}"
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBox.TextWrapping"
@@ -690,7 +695,8 @@
                                     Header="Number and type of Packages"
                                     FocusManager.FocusedElement="{Binding ElementName=packagesColumn}"
                                     Binding="{Binding NumberAndTypeOfPackages, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                                    MaxWidth="{StaticResource MaxColumnWidth}">
+                                    MaxWidth="{StaticResource MaxColumnWidth}"
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBox.TextWrapping"
@@ -714,7 +720,8 @@
                                     Header="Emergency contact"
                                     FocusManager.FocusedElement="{Binding ElementName=contactsColumn}"
                                     Binding="{Binding EmergencyContacts, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                                    MaxWidth="{StaticResource MaxColumnWidth}">
+                                    MaxWidth="{StaticResource MaxColumnWidth}"
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBox.TextWrapping"
@@ -738,7 +745,8 @@
                                     Header="Remarks"
                                     FocusManager.FocusedElement="{Binding ElementName=remarksColumn}"
                                     Binding="{Binding Remarks, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                                    MaxWidth="{StaticResource MaxColumnWidth}">
+                                    MaxWidth="{StaticResource MaxColumnWidth}"
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBox.TextWrapping"

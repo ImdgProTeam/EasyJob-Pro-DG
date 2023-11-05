@@ -121,7 +121,9 @@ namespace EasyJob_ProDG.Model.IO.Excel
                             unit.PackingGroup = excelcells.Value2.ToString();
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colMP))
                         {
-                            if (excelcells.Value2 == "true" || excelcells.Value2 == "Y" || excelcells.Value2 == "P")
+                            if (excelcells.Value2.ToString().ToLower() == "true" 
+                                || excelcells.Value2.ToString().ToLower() == "y" 
+                                || excelcells.Value2.ToString().ToLower() == "p")
                                 unit.IsMp = true;
                             if (excelcells.Value2 != null) unit.mpDetermined = true;
                         }

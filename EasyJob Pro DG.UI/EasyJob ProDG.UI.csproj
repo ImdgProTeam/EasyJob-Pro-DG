@@ -117,6 +117,7 @@
     <Compile Include="Utility\AsyncObservableCollection.cs" />
     <Compile Include="ViewModel\MainWindow\MainWindowCommands.cs" />
     <Compile Include="View\Animations\FrameworkElementAnimations.cs" />
+    <Compile Include="View\AttachedProperties\DataGridSortBehavior.cs" />
     <Compile Include="View\AttachedProperties\FrameworkElementsAnimationAttachedProperties.cs" />
     <Compile Include="View\DialogWindows\Info\LicenceAgreement.xaml.cs">
       <DependentUpon>LicenceAgreement.xaml</DependentUpon>
@@ -247,6 +248,7 @@
     </Compile>
     <Compile Include="View\DialogWindows\Info\WinLicenceViewModel.cs" />
     <Compile Include="View\Sort\ContainerLeftToRightComparer.cs" />
+    <Compile Include="View\Sort\EmptyTextLastSortComparer.cs" />
     <Compile Include="View\Sort\LeftToRightComparer.cs" />
     <Compile Include="View\Sort\LocationCompararABC.cs" />
     <Compile Include="View\Sort\LocationComparerLR.cs" />

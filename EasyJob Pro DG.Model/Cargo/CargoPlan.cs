@@ -96,12 +96,15 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             List<Container> tempList = new List<Container>();
 
+            ClearAllReefersHasUpdated();
+
             if (!tempList.ImportReeferInfoFromExcel(fileName)) return false;
 
             Reefers.UpdateReeferManifestInfo(tempList, importOnlySelected, currentPort);
 
             return true;
         }
+
 
         /// <summary>
         /// Updates existing (this) CargoPlan Dg data from given CargoPlan
@@ -514,6 +517,17 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
         /// <summary>
+        /// Sets HasUpdated property of all containers in <see cref="Reefers"/> to false.
+        /// </summary>
+        private void ClearAllReefersHasUpdated()
+        {
+            foreach (var reefer in Reefers)
+            {
+                reefer.HasUpdated = false;
+            }
+        }
+
+        /// <summary>
         /// Resets all IUpdatable properties of the unit to false or null.
         /// </summary>
         /// <param name="unit">CargoPlan unit to be reset.</param>
@@ -557,6 +571,7 @@ namespace EasyJob_ProDG.Model.Cargo
             foreach (var dg in newContainerDgList)
             {
                 CopyIUpdatableToDg(container, dg);
+                CopyUpdatedContainerInfo(container, dg);
                 resultingCargoPlan.DgList.Add(dg);
                 sourceCargoPlan.DgList.Remove(dg);
                 additionalCargoPlanToBeCleared?.DgList.Remove(dg);
@@ -575,6 +590,14 @@ namespace EasyJob_ProDG.Model.Cargo
             }
         }
 
+        private static void CopyUpdatedContainerInfo(Container fromContainer, Dg toDg)
+        {
+            if(fromContainer.HasContainerTypeChanged)
+                toDg.ContainerType = fromContainer.ContainerType;
+            if (fromContainer.HasPodChanged)
+                toDg.POD = fromContainer.POD;
+        }
+
         /// <summary>
         /// Copies IUpdatable properties to selected dg
         /// </summary>
@@ -589,6 +612,8 @@ namespace EasyJob_ProDG.Model.Cargo
                 toDg.Location = fromContainer.Location;
             }
             toDg.LocationBeforeRestow = fromContainer.LocationBeforeRestow;
+            toDg.HasPodChanged = fromContainer.HasPodChanged;
+            toDg.HasContainerTypeChanged = fromContainer.HasContainerTypeChanged;
         }
 
         /// <summary>

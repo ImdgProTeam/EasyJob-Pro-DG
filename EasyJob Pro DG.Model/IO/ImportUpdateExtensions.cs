@@ -29,6 +29,8 @@ namespace EasyJob_ProDG.Model.IO
                 reefer.VentSetting = unit.VentSetting;
                 reefer.ReeferSpecial = unit.ReeferSpecial;
                 reefer.ReeferRemark = unit.ReeferRemark;
+
+                reefer.HasUpdated = true;
             }
 
             Data.LogWriter.Write($"Reefer manifest info updated.");

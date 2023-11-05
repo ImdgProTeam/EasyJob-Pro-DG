@@ -7,7 +7,7 @@
              xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties" 
              xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:behaviors="clr-namespace:EasyJob_ProDG.UI.Behaviors"
-             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters" xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
+             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters" xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib" xmlns:sort="clr-namespace:EasyJob_ProDG.UI.View.Sort"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -16,6 +16,7 @@
     <UserControl.Resources>
         <converters:VisibilityToInverseBooleanConverter x:Key="VisibilityToInverseBooleanConverter" />
         <converters:BoolInversionConverter x:Key="BoolInversionConverter" />
+        <sort:EmptyTextLastSortComparer x:Key="EmptyTextLastSorter" />
     </UserControl.Resources>
 
     <DockPanel>
@@ -82,8 +83,10 @@
                   SelectionMode="Extended"
                   ap:SelectingContainerDataGridItem.SelectingItem="{Binding SelectedReefer}"
                   behaviors:DataGridBehavior.DisplayRowNumber="True"
+                  ap:DataGridSortBehavior.AllowCustomSort="True"
                   PreviewKeyDown="MainReeferDataTable_PreviewKeyDown"
                   UnloadingRow="MainReeferDataTable_UnloadingRow"
+                  Sorting="MainContainerDataTable_Sorting"
                   >
 
             <DataGrid.Resources>
@@ -191,7 +194,8 @@
                 <!-- Final destination -->
                 <DataGridTextColumn x:Name="finalDestinationColumn"
                                     Binding="{Binding FinalDestination, UpdateSourceTrigger=LostFocus}"
-                                    Header="Final destination" />
+                                    Header="Final destination" 
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}"/>
 
                 <!-- Contains Dg cargo -->
                 <DataGridTemplateColumn x:Name="containsDgColumn"
@@ -214,7 +218,8 @@
                 <DataGridTextColumn x:Name="commodtyColumn"
                                     Header="Commodity"
                                     FocusManager.FocusedElement="{Binding ElementName=txbName}"
-                                    Binding="{Binding Commodity, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                    Binding="{Binding Commodity, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
 
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -238,7 +243,8 @@
                 <DataGridTextColumn x:Name="ventColumn"
                                     Header="Vent"
                                     FocusManager.FocusedElement="{Binding ElementName=txbName}"
-                                    Binding="{Binding VentSetting, UpdateSourceTrigger=LostFocus}">
+                                    Binding="{Binding VentSetting, UpdateSourceTrigger=LostFocus}"
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
 
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -267,7 +273,8 @@
                 <DataGridTextColumn x:Name="reeferSpecialColumn"
                                     Header="Special"
                                     FocusManager.FocusedElement="{Binding ElementName=txbName}"
-                                    Binding="{Binding ReeferSpecial, UpdateSourceTrigger=LostFocus}">
+                                    Binding="{Binding ReeferSpecial, UpdateSourceTrigger=LostFocus}"
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
 
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -291,7 +298,8 @@
                 <DataGridTextColumn x:Name="remarkColumn"
                                     Header="Remark"
                                     FocusManager.FocusedElement="{Binding ElementName=txbName}"
-                                    Binding="{Binding ReeferRemark, UpdateSourceTrigger=LostFocus}">
+                                    Binding="{Binding ReeferRemark, UpdateSourceTrigger=LostFocus}"
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
 
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -341,7 +349,7 @@
                 <!-- isNotToImport -->
                 <DataGridTemplateColumn x:Name="isNotToImport"
                                         Header="Not to import"
-                                        SortMemberPath="IsToNotImport">
+                                        SortMemberPath="IsNotToImport">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox 
@@ -366,6 +374,19 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
+                <!-- HasUpdated -->
+                <DataGridTemplateColumn x:Name="HasUpdatedColumn"
+                                        Header="Has updated"
+                                        IsReadOnly="True"
+                                        SortMemberPath="HasUpdated">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=HasUpdated, UpdateSourceTrigger=PropertyChanged}"
+                                      IsEnabled="False" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
                 <!-- HasLocationChanged -->
                 <DataGridTemplateColumn x:Name="locationChangedColumn"
                                         Header="Location changed"
@@ -383,7 +404,8 @@
                 <DataGridTextColumn x:Name="positionBeforeRestowColumn"
                                     Binding="{Binding LocationBeforeRestow, Mode=OneWay}"
                                     Header="Old Position"
-                                    IsReadOnly="True">
+                                    IsReadOnly="True"
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBlock.TextWrapping"

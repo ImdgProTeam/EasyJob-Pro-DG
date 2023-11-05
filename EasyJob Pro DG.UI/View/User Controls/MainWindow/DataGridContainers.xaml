@@ -8,14 +8,16 @@
              xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
              xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:behaviors="clr-namespace:EasyJob_ProDG.UI.Behaviors"
-             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
+             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters" xmlns:sort="clr-namespace:EasyJob_ProDG.UI.View.Sort"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridContainersViewModel}">
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridContainersViewModel}"
+             >
 
     <UserControl.Resources>
         <converters:VisibilityToInverseBooleanConverter x:Key="VisibilityToInverseBooleanConverter" />
         <converters:BoolInversionConverter x:Key="BoolInversionConverter" />
+        <sort:EmptyTextLastSortComparer x:Key="EmptyTextLastSorter" />
     </UserControl.Resources>
 
     <DockPanel>
@@ -80,10 +82,12 @@
                   Grid.Column="0"
                   Grid.Row="0"
                   SelectionMode="Extended"
+                  Sorting="MainContainerDataTable_Sorting"
                   ap:SelectingContainerDataGridItem.SelectingItem="{Binding SelectedContainer}"
                   UnloadingRow="MainContainerDataTable_UnloadingRow"
                   PreviewKeyDown="MainContainerDataTable_PreviewKeyDown"
-                  behaviors:DataGridBehavior.DisplayRowNumber="True" >
+                  behaviors:DataGridBehavior.DisplayRowNumber="True" 
+                  ap:DataGridSortBehavior.AllowCustomSort="True">
 
             <DataGrid.Resources>
 
@@ -154,9 +158,6 @@
                                     Header="Position"
                                     CanUserSort="True"
                                     SortMemberPath="LocationSortable">
-                    <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[0].Width, Mode=TwoWay}"
-                                DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[0].DisplayIndex, Mode=TwoWay, FallbackValue=0}"
-                                Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[0].Visibility, Mode=TwoWay}">-->
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <!--<Setter Property="TextBox.TextAlignment"
@@ -172,50 +173,35 @@
                                     Binding="{Binding DisplayContainerNumber, UpdateSourceTrigger=LostFocus}"
                                     Header="Container number"
                                     MinWidth="100" />
-                <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[1].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[1].DisplayIndex, Mode=TwoWay, FallbackValue=1}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[1].Visibility, Mode=TwoWay}" />-->
 
                 <!-- Carrier -->
                 <DataGridTextColumn x:Name="carrierColumn"
                                     Binding="{Binding Carrier, UpdateSourceTrigger=LostFocus}"
                                     Header="Operator" />
-                <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].DisplayIndex, Mode=TwoWay, FallbackValue=39}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[39].Visibility, Mode=TwoWay}" /-->
 
                 <!-- POL -->
                 <DataGridTextColumn x:Name="polColumn"
                                     Binding="{Binding POL, UpdateSourceTrigger=LostFocus}"
                                     Header="POL" />
-                <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[2].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[2].DisplayIndex, Mode=TwoWay, FallbackValue=2}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[2].Visibility, Mode=TwoWay}" />-->
 
                 <!-- POD -->
                 <DataGridTextColumn x:Name="podColumn"
                                     Binding="{Binding POD, UpdateSourceTrigger=LostFocus}"
                                     Header="POD" />
-                <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[3].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[3].DisplayIndex, Mode=TwoWay, FallbackValue=3}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[3].Visibility, Mode=TwoWay}" />-->
 
                 <!-- Final destination -->
                 <DataGridTextColumn x:Name="finalDestinationColumn"
                                     Binding="{Binding FinalDestination, UpdateSourceTrigger=LostFocus}"
-                                    Header="Final destination" />
-                <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].Width, Mode=TwoWay}"
-                                    DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].DisplayIndex, Mode=TwoWay, FallbackValue=38}"
-                                    Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[38].Visibility, Mode=TwoWay}" />-->
+                                    Header="Final destination" 
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}"
+                                    />
 
                 <!-- Contains Dg cargo -->
                 <DataGridTemplateColumn x:Name="containsDgColumn"
                                         Header="Contains Dg cargo"
                                         CanUserSort="True"
                                         SortMemberPath="ContainsDgCargo">
-                    <!--Width="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].Width, Mode=TwoWay}"
-                                        DisplayIndex="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].DisplayIndex, Mode=TwoWay, FallbackValue=11}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel.ColumnSettings[11].Visibility, Mode=TwoWay}">-->
+
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=ContainsDgCargo, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -357,7 +343,8 @@
                 <DataGridTextColumn x:Name="positionBeforeRestowColumn"
                                     Binding="{Binding LocationBeforeRestow, Mode=OneWay}"
                                     Header="Old Position"
-                                    IsReadOnly="True">
+                                    IsReadOnly="True"
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBlock.TextWrapping"
@@ -412,7 +399,8 @@
                 <DataGridTextColumn x:Name="remarksColumn"
                                     Header="Remarks"
                                     FocusManager.FocusedElement="{Binding ElementName=remarksColumn}"
-                                    Binding="{Binding Remarks, UpdateSourceTrigger=LostFocus, Mode=TwoWay}">
+                                    Binding="{Binding Remarks, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBox.TextWrapping"

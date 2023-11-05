@@ -26,6 +26,8 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         }
 
 
+
+
         #region Column settings
         /// <summary>
         /// Loads column settings for ContainerDataTable from settings.settings
@@ -145,9 +147,19 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             if (!isDeletingRow) return;
             FocusOnRow(currentRowIndex);
             isDeletingRow = false;
-        } 
+        }
 
         #endregion
 
+        private void MainContainerDataTable_Sorting(object sender, DataGridSortingEventArgs e)
+        {
+            if (e.Column.SortMemberPath.StartsWith("Is") 
+                || e.Column.SortMemberPath.StartsWith("Has")
+                || e.Column.SortMemberPath.StartsWith("Contains"))
+                if (e.Column.SortDirection == null)
+                {
+                    e.Column.SortDirection = System.ComponentModel.ListSortDirection.Ascending;
+                }
+        }
     }
 }
