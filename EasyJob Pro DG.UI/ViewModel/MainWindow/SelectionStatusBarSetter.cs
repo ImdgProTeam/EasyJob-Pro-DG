@@ -5,11 +5,64 @@ namespace EasyJob_ProDG.UI.ViewModel.MainWindow
 {
     internal static class SelectionStatusBarSetter
     {
-        internal static string SetSelectionStatusBarTextForDg(object obj)
+        internal static string GetSelectionStatusBarTextForContainer(object obj)
         {
-            return SetSelectionStatusBar(obj);
+            return GenerateStatusBarTextForContainer(obj);
         }
-        private static string SetSelectionStatusBar(object obj)
+        private static string GenerateStatusBarTextForContainer(object obj)
+        {
+            var selectedContainers = obj as IList<object>;
+            if (selectedContainers is null)
+                return "None";
+            //selected only one Container
+            if (selectedContainers.Count == 1)
+            {
+                ContainerWrapper container = (ContainerWrapper)selectedContainers[0];
+
+                return $"{container.DisplayContainerNumber}" +
+                    $"\tPosition: {container.Location}" +
+                    $"{(container.IsRf ? "\tReefer" : "\t      ")}" +
+                    $"\t{(container.ContainsDgCargo ? $"  Contains DG" : "             ")}" +
+                    $"{(container.IsOpen ? "\t  Open type" : "\t           ")}" +
+                    $"{(container.HasLocationChanged ? "\tRestow" : "\t      ")}" +
+                    $"{(container.HasPodChanged ? "\t  POD changed" : "")}";
+            }
+            //multiple selection
+            else
+            {
+                byte containersCount = 0;
+                byte dgContainersCount = 0;
+                byte dgCount = 0;
+                byte reefersCount = 0;
+                byte restowCount = 0;
+                byte changedPODCount = 0;
+
+                foreach (ContainerWrapper c in selectedContainers)
+                {
+                    containersCount++;
+                    if (c.IsRf)
+                        reefersCount++;
+                    if (c.HasLocationChanged)
+                        restowCount++;
+                    if (c.HasPodChanged)
+                        changedPODCount++;
+                    if (c.ContainsDgCargo)
+                        dgContainersCount++;
+                    dgCount += c.DgCountInContainer;
+                }
+
+                return $"Containers: {containersCount,3} \tReefers: {reefersCount,3} \t\tDG Containers: {dgContainersCount,3}" +
+                    $"\t\tDG cargoes: {dgCount,3}" +
+                    $"\tContainers restowed: {restowCount,3}" +
+                    $"\tPOD changed: {changedPODCount,3}";
+            }
+        }
+
+        internal static string GetSelectionStatusBarTextForDg(object obj)
+        {
+            return GenerateSelectionStatusBarForDg(obj);
+        }
+        private static string GenerateSelectionStatusBarForDg(object obj)
         {
             var selectedDgs = obj as IList<object>;
             if (selectedDgs is null)

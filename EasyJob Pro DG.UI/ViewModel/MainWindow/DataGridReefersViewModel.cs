@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Data;
@@ -9,6 +10,7 @@ using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Settings;
 using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.ViewModel.MainWindow;
 using EasyJob_ProDG.UI.Wrapper;
 
 namespace EasyJob_ProDG.UI.ViewModel
@@ -35,7 +37,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         public ICollectionView ReeferPlanView => reeferPlanView?.View;
         public ContainerWrapper SelectedReefer { get; set; }
-        public List<ContainerWrapper> SelectedReeferArray { get; set; }
+        private object _selectionObject;
+
+        public string StatusBarText { get; private set; } = "None";
         public UserUISettings.DgSortOrderPattern ReeferSortOrderDirection { get; set; }
 
 
@@ -88,6 +92,19 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             DataMessenger.Default.Register<CargoDataUpdated>(this, OnCargoDataUpdated, "cargodataupdated");
             DataMessenger.Default.Register<CargoDataUpdated>(this, OnReeferInfoUpdated, "reeferinfoupdated");
+            DataMessenger.Default.Register<CargoPlanUnitPropertyChanged>(this, OnCargoPlanUnitPropertyChanged);
+
+        }
+
+        private void OnCargoPlanUnitPropertyChanged(CargoPlanUnitPropertyChanged changed)
+        {
+            SetSelectionStatusBar(_selectionObject);
+        }
+
+        private void SetSelectionStatusBar(object obj)
+        {
+            StatusBarText = SelectionStatusBarSetter.GetSelectionStatusBarTextForContainer(obj);
+            OnPropertyChanged(nameof(StatusBarText));
         }
 
         #endregion
@@ -281,6 +298,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private void OnSelectionChanged(object obj)
         {
+            SetSelectionStatusBar(obj);
             if (SelectedReefer is null) return;
 
             if (MenuVisibility == System.Windows.Visibility.Visible)
@@ -291,6 +309,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                     ReeferToAddLocation = SelectedReefer?.Location;
                 }
             }
+            _selectionObject = obj;
         } 
         #endregion
 

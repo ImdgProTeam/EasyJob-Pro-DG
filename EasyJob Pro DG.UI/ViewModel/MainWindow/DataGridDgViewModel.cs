@@ -92,16 +92,6 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         }
 
-        private void OnCargoPlanSelectedItemUpdatedMessage(DgListSelectedItemUpdatedMessage message)
-        {
-            SetSelectionStatusBar(_selectionObject);
-        }
-
-        private void OnCargoPlanUnitPropertyChanged(CargoPlanUnitPropertyChanged message)
-        {
-            SetSelectionStatusBar(_selectionObject);
-        }
-
         /// <summary>
         /// Assigns handler methods for commands
         /// </summary>
@@ -376,8 +366,28 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private void SetSelectionStatusBar(object obj)
         {
-            StatusBarText = SelectionStatusBarSetter.SetSelectionStatusBarTextForDg(obj);
+            StatusBarText = SelectionStatusBarSetter.GetSelectionStatusBarTextForDg(obj);
             OnPropertyChanged(nameof(StatusBarText));
+        }
+
+        // ----- Methods called by received messages
+
+        /// <summary>
+        /// Called to update <see cref="StatusBarText"/> when Dg property changes
+        /// </summary>
+        /// <param name="message"></param>
+        private void OnCargoPlanSelectedItemUpdatedMessage(DgListSelectedItemUpdatedMessage message)
+        {
+            SetSelectionStatusBar(_selectionObject);
+        }
+
+        /// <summary>
+        /// Called to update <see cref="StatusBarText"/> when Container property changes
+        /// </summary>
+        /// <param name="message"></param>
+        private void OnCargoPlanUnitPropertyChanged(CargoPlanUnitPropertyChanged message)
+        {
+            SetSelectionStatusBar(_selectionObject);
         }
 
         /// <summary>

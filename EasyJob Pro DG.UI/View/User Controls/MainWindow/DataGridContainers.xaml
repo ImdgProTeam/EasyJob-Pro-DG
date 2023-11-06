@@ -25,20 +25,36 @@
             <cc:SearchBox Text="{Binding TextToFilter}"/>
         </StackPanel>
 
-        <StackPanel DockPanel.Dock="Bottom"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Right">
-
+        <Grid DockPanel.Dock="Bottom"
+                    HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="110"/>
+            </Grid.ColumnDefinitions>
+            <Label Name="lblSelectionStatus"
+                   Content="Selected: "
+                   HorizontalAlignment="Right"
+                   />
+            <TextBlock Text="{Binding StatusBarText, Mode=OneWay}"
+                       HorizontalAlignment="Stretch"
+                       TextAlignment="Left"
+                       VerticalAlignment="Center"
+                       Grid.Column="1"
+                       />
             <Button Content="Add Dg"
                     Command="{Binding AddNewDgCommand}"
                     Width="100"
-                    Margin="1" />
+                    Margin="1" 
+                    Grid.Column="2"/>
 
             <Button Content="Add"
                     Command="{Binding DisplayAddContainerMenuCommand}"
                     Width="100"
-                    Margin="1" />
-        </StackPanel>
+                    Margin="1" 
+                    Grid.Column="3"/>
+        </Grid>
 
         <local:AddContainerToDataGrid IsAddDg="False"
                                       Title="Add Container |"
@@ -425,7 +441,8 @@
             <!-- BEHAVIORS -->
             <behavior:Interaction.Triggers>
                 <behavior:EventTrigger EventName="SelectionChanged">
-                    <behavior:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
+                    <behavior:InvokeCommandAction Command="{Binding SelectionChangedCommand}" 
+                                                  CommandParameter="{Binding ElementName=MainContainerDataTable, Path=SelectedItems}"/>
                 </behavior:EventTrigger>
             </behavior:Interaction.Triggers>
 

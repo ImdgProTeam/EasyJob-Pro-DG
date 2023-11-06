@@ -10,6 +10,7 @@ using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Settings;
 using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.ViewModel.MainWindow;
 using EasyJob_ProDG.UI.Wrapper;
 
 namespace EasyJob_ProDG.UI.ViewModel
@@ -33,6 +34,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         public ICollectionView ContainerPlanView => containerPlanView?.View;
         public ContainerWrapper SelectedContainer { get; set; }
+        private object _selectionObject;
+
+        public string StatusBarText { get; private set; } = "None";
         public UserUISettings.DgSortOrderPattern ContainerSortOrderDirection { get; set; }
 
 
@@ -204,7 +208,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         private void SetDataView()
         {
-
             containerPlanView.Source = CargoPlan.Containers;
         }
 
@@ -273,11 +276,13 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private void OnCargoPlanUnitPropertyChanged(CargoPlanUnitPropertyChanged changed)
         {
-            
+            SetSelectionStatusBar(_selectionObject);
         }
 
         private void OnSelectionChanged(object obj)
         {
+            SetSelectionStatusBar(obj);
+
             if (SelectedContainer is null) return;
 
             if (MenuVisibility == System.Windows.Visibility.Visible)
@@ -288,6 +293,13 @@ namespace EasyJob_ProDG.UI.ViewModel
                     ContainerToAddLocation = SelectedContainer?.Location;
                 }
             }
+            _selectionObject = obj;
+        }
+
+        private void SetSelectionStatusBar(object obj)
+        {
+            StatusBarText = SelectionStatusBarSetter.GetSelectionStatusBarTextForContainer(obj);
+            OnPropertyChanged(nameof(StatusBarText));
         }
 
         #region Commands
