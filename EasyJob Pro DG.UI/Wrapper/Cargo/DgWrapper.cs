@@ -1,6 +1,5 @@
 ﻿using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.Model.Cargo;
-using EasyJob_ProDG.Model.IO;
 using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Wrapper.Cargo;
 using System.Collections.Generic;
@@ -108,6 +107,9 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         public delegate void ConflictListToBeChangedEventHandler(object sender);
         public static event ConflictListToBeChangedEventHandler OnConflictListToBeChangedEventHandler = null;
+
+        public delegate void DgPropertyUpdatedEventHandler(object sender);
+        public static event DgPropertyUpdatedEventHandler OnDgPropertyUpdatedEventHandler = null;
 
         public delegate void UnitStowageConflictsToBeUpdatedEventHandler(object sender);
         public static event UnitStowageConflictsToBeUpdatedEventHandler OnUnitStowageConflictsToBeUpdatedEventHandler = null;

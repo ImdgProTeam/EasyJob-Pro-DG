@@ -4,12 +4,14 @@ using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Settings;
 using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.ViewModel.MainWindow;
 using EasyJob_ProDG.UI.Wrapper;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Threading.Tasks;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -39,8 +41,13 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// Used for DgDataGrid binding 
         /// </summary>
         public ICollectionView DgPlanView => dgPlanView?.View;
-        public DgWrapper SelectedDg { get; set; }
-        public List<DgWrapper> SelectedDgArray { get; set; }
+        public DgWrapper SelectedDg
+        {
+            get;
+            set;
+        }
+        private object _selectionObject;
+        public string StatusBarText { get; private set; } = "None";
         public bool IsTechnicalNameIncluded { get; set; }
 
 
@@ -80,6 +87,19 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             DataMessenger.Default.Register<ApplicationClosingMessage>(this, OnApplicationClosingMessageReceived, "closing");
             DataMessenger.Default.Register<CargoDataUpdated>(this, OnCargoDataUpdated, "cargodataupdated");
+            DataMessenger.Default.Register<CargoPlanUnitPropertyChanged>(this, OnCargoPlanUnitPropertyChanged);
+            DataMessenger.Default.Register<DgListSelectedItemUpdatedMessage>(this, OnCargoPlanSelectedItemUpdatedMessage, "selectionpropertyupdated");
+
+        }
+
+        private void OnCargoPlanSelectedItemUpdatedMessage(DgListSelectedItemUpdatedMessage message)
+        {
+            SetSelectionStatusBar(_selectionObject);
+        }
+
+        private void OnCargoPlanUnitPropertyChanged(CargoPlanUnitPropertyChanged message)
+        {
+            SetSelectionStatusBar(_selectionObject);
         }
 
         /// <summary>
@@ -339,6 +359,8 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private void OnSelectionChanged(object obj)
         {
+            SetSelectionStatusBar(obj);
+
             if (SelectedDg is null) return;
 
             if (MenuVisibility == Visibility.Visible)
@@ -349,7 +371,13 @@ namespace EasyJob_ProDG.UI.ViewModel
                     DgToAddLocation = SelectedDg?.Location;
                 }
             }
+            _selectionObject = obj;
+        }
 
+        private void SetSelectionStatusBar(object obj)
+        {
+            StatusBarText = SelectionStatusBarSetter.SetSelectionStatusBarTextForDg(obj);
+            OnPropertyChanged(nameof(StatusBarText));
         }
 
         /// <summary>

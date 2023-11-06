@@ -115,7 +115,9 @@
     <Compile Include="Data\DialogSaveSettings.cs" />
     <Compile Include="Services\DialogServices\IWindowDialogService.cs" />
     <Compile Include="Utility\AsyncObservableCollection.cs" />
+    <Compile Include="Utility\Messages\DgListSelectedItemUpdatedMessage.cs" />
     <Compile Include="ViewModel\MainWindow\MainWindowCommands.cs" />
+    <Compile Include="ViewModel\MainWindow\SelectionStatusBarSetter.cs" />
     <Compile Include="View\Animations\FrameworkElementAnimations.cs" />
     <Compile Include="View\AttachedProperties\DataGridSortBehavior.cs" />
     <Compile Include="View\AttachedProperties\FrameworkElementsAnimationAttachedProperties.cs" />

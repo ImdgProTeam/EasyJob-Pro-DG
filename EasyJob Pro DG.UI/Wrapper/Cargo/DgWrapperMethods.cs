@@ -120,6 +120,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         private void OnNetWeightChanged()
         {
             DataMessenger.Default.Send<UpdateCargoPlan>(new UpdateCargoPlan(), "Net weight changed");
+            NotifyOfChangedProperties();
         }
 
         /// <summary>
@@ -128,6 +129,15 @@ namespace EasyJob_ProDG.UI.Wrapper
         private void UpdateConflictList()
         {
             OnConflictListToBeChangedEventHandler.Invoke(this);
+        }     
+        
+        /// <summary>
+        /// Invokes sending of <see cref="DgListSelectedItemUpdatedMessage"/>
+        /// Used by SelectionStatusBar
+        /// </summary>
+        private void NotifyOfChangedProperties()
+        {
+            OnDgPropertyUpdatedEventHandler.Invoke(this);
         }
 
         private void UpdateDgStowageConflicts()
@@ -157,6 +167,9 @@ namespace EasyJob_ProDG.UI.Wrapper
             OnPropertyChanged("IsMax1L");
             OnPropertyChanged("IsWaste");
             OnPropertyChanged("Properties");
+            OnPropertyChanged(nameof(DgNetWeight));
+            OnPropertyChanged(nameof(IsMp));
+            OnPropertyChanged(nameof(IsLq));
         }
 
         /// <summary>

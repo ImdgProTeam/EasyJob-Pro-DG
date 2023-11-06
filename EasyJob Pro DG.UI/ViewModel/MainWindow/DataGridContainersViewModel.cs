@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Data;
@@ -32,7 +33,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         public ICollectionView ContainerPlanView => containerPlanView?.View;
         public ContainerWrapper SelectedContainer { get; set; }
-        public List<ContainerWrapper> SelectedContainerArray { get; set; }
         public UserUISettings.DgSortOrderPattern ContainerSortOrderDirection { get; set; }
 
 
@@ -268,6 +268,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void RegisterInDataMessenger()
         {
             DataMessenger.Default.Register<CargoDataUpdated>(this, OnCargoDataUpdated, "cargodataupdated");
+            DataMessenger.Default.Register<CargoPlanUnitPropertyChanged>(this, OnCargoPlanUnitPropertyChanged);
+        }
+
+        private void OnCargoPlanUnitPropertyChanged(CargoPlanUnitPropertyChanged changed)
+        {
+            
         }
 
         private void OnSelectionChanged(object obj)

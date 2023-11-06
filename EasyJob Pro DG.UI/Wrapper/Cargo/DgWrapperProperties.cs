@@ -25,6 +25,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                 if (value != 1950) IsMax1L = false;
                 UpdateDgInfoAndUploadChanges();
                 UpdateConflictList();
+                NotifyOfChangedProperties();
             }
         }
 
@@ -107,6 +108,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 if (!SetValue(value)) return;
                 UpdateConflictList();
+                NotifyOfChangedProperties();
             }
         }
 

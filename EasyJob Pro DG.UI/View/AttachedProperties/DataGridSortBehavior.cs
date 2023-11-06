@@ -7,12 +7,19 @@ using System.Windows.Data;
 
 namespace EasyJob_ProDG.UI.View.AttachedProperties
 {
+    /// <summary>
+    /// Interface extending IComparer for DataGrid custom sort purpose.
+    /// </summary>
     public interface ICustomSorter : IComparer
     {
         ListSortDirection SortDirection { get; set; }
         string SortMemberPath { get; set; }
     }
 
+    /// <summary>
+    /// Attached property to DataGrid to allow CustomSort (needs to be set <see cref="AllowCustomSort"/> to "True" for entire DataGrid)
+    /// in any of the columns (need to assisn <see cref="CustomSorter"/> a ICustomSorter as StaticResourse
+    /// </summary>
     internal class DataGridSortBehavior
     {
         public static readonly DependencyProperty CustomSorterProperty =

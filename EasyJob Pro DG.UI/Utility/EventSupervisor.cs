@@ -3,6 +3,8 @@ using EasyJob_ProDG.UI.View.UI;
 using EasyJob_ProDG.UI.View.User_Controls;
 using EasyJob_ProDG.UI.Wrapper;
 using EasyJob_ProDG.UI.Wrapper.Dummies;
+using System;
+using static EasyJob_ProDG.UI.Wrapper.DgWrapper;
 
 namespace EasyJob_ProDG.UI.Utility
 {
@@ -20,6 +22,7 @@ namespace EasyJob_ProDG.UI.Utility
             //Wrapper events
             DgWrapper.OnDgPackingGroupChangedEventHandler += new DgWrapper.DgPackingGroupChangedEventHandler(OnDgPackingGroupChanged);
             DgWrapper.OnConflictListToBeChangedEventHandler += new DgWrapper.ConflictListToBeChangedEventHandler(OnConflictListToBeChanged);
+            DgWrapper.OnDgPropertyUpdatedEventHandler += new DgWrapper.DgPropertyUpdatedEventHandler(OnDgPropertyUpdated);
 
             //CargoPlanChange events
             CargoPlanUnitPropertyChanger.OnConflictListToBeChangedEventHandler += new CargoPlanUnitPropertyChanger.ConflictListToBeChangedEventHandler(OnConflictListToBeChanged);
@@ -38,7 +41,6 @@ namespace EasyJob_ProDG.UI.Utility
             MainWindow.OnWindowClosingEventHandler += new MainWindow.WindowClosing(OnMainWindowClosing);
 
         }
-
 
         // ---------------- Methods ----------------------------------------
 
@@ -78,6 +80,11 @@ namespace EasyJob_ProDG.UI.Utility
         private static void OnConflictListToBeChanged(object sender)
         {
             DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
+        }
+
+        private static void OnDgPropertyUpdated(object sender)
+        {
+            DataMessenger.Default.Send(new DgListSelectedItemUpdatedMessage(), "selectionpropertyupdated");
         }
 
         //Other methods
