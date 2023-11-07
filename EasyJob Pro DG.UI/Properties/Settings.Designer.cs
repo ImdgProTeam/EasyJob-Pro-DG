@@ -61,7 +61,7 @@ namespace EasyJob_ProDG.UI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Auto")]
         public string ContainerDataTableWidth {
             get {
                 return ((string)(this["ContainerDataTableWidth"]));
@@ -97,7 +97,7 @@ namespace EasyJob_ProDG.UI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Auto")]
         public string ReeferDataTableWidth {
             get {
                 return ((string)(this["ReeferDataTableWidth"]));
@@ -157,7 +157,7 @@ namespace EasyJob_ProDG.UI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Auto")]
         public string DgDataTableWidth {
             get {
                 return ((string)(this["DgDataTableWidth"]));

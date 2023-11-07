@@ -25,6 +25,7 @@
     </UserControl.Resources>
 
     <DockPanel>
+        <!-- Search and filter panel -->
         <StackPanel DockPanel.Dock="Top"
                     Orientation="Horizontal">
             <cc:SearchBox Text="{Binding TextToFilter}"

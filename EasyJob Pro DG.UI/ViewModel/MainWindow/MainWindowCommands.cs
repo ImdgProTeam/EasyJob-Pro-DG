@@ -87,8 +87,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             ReCheckCommand = new DelegateCommand(OnReCheckRequested);
             OpenShipProfileWindowCommand = new DelegateCommand(OpenShipProfileWindowExecuted);
             OpenUserSettingsWindowCommand = new DelegateCommand(OpenUserSettingsWindowExecuted);
-            SaveSettingsCommand = new DelegateCommand(SaveSettingsExecuted);
-            RestoreSettingsCommand = new DelegateCommand(RestoreSettingsExecuted);
+            SaveSettingsCommand = new DelegateCommand(SaveSettingsToFileExecuted);
+            RestoreSettingsCommand = new DelegateCommand(RestoreSettingsFromFileExecuted);
             ShowAboutCommand = new DelegateCommand(ShowAboutExecuted);
             ShowLicenseDialogCommand = new DelegateCommand(ShowLicenseDialogExecuted);
             ShowLoginWindowCommand = new DelegateCommand(ShowLoginWindowOnExecuted);
@@ -391,12 +391,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         // ----- Settings save - restore -----
-        private void SaveSettingsExecuted(object obj)
+        private void SaveSettingsToFileExecuted(object obj)
         {
             uiSettingsService.SaveSettingsToFile();
         }
 
-        private void RestoreSettingsExecuted(object obj)
+        private void RestoreSettingsFromFileExecuted(object obj)
         {
             uiSettingsService.RestoreSettingsFromFile(obj);
         }

@@ -33,6 +33,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
             LoadColumnSettings();
 
+            MainWindow.OnWindowClosingEventHandler -= new MainWindow.WindowClosing(UpdateColumnSettings);
             MainWindow.OnWindowClosingEventHandler += new MainWindow.WindowClosing(UpdateColumnSettings);
         }
 
@@ -42,7 +43,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         /// <summary>
         /// Loads column settings for DgDataTable from settings.settings
         /// </summary>
-        private void LoadColumnSettings()
+        internal void LoadColumnSettings()
         {
             var displayIndexes = Properties.Settings.Default.DgDataTableDisplayIndex.Split(';');
             var widths = Properties.Settings.Default.DgDataTableWidth.Split(';');
@@ -373,6 +374,8 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             }
         }
 
+
+        #region Sorting
         private void MainDgTable_Sorting(object sender, DataGridSortingEventArgs e)
         {
             if (e.Column.SortMemberPath.StartsWith("Is")
@@ -382,7 +385,8 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                 {
                     e.Column.SortDirection = System.ComponentModel.ListSortDirection.Ascending;
                 }
-        }
+        } 
 
+        #endregion
     }
 }

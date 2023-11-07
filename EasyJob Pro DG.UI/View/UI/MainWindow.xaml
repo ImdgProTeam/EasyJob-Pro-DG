@@ -174,15 +174,15 @@
 
                     <TabItem Header="Dangerous goods"
                              Background="{StaticResource Brush.DgTable.Background}">
-                        <uc:DataGridDg x:Name="MainDataGrid" />
+                        <uc:DataGridDg x:Name="MainDgDataGrid" />
                     </TabItem>
                     <TabItem Header="Reefers"
                              Background="{StaticResource Brush.ReeferTable.Background}">
-                        <uc:DataGridReefers/>
+                        <uc:DataGridReefers x:Name="MainReeferDataGrid"/>
                     </TabItem>
                     <TabItem Header="Containers"
                              Background="{StaticResource Brush.ContainerTable.Background}">
-                        <uc:DataGridContainers/>
+                        <uc:DataGridContainers x:Name="MainContainerDataGrid"/>
 
                     </TabItem>
                 </TabControl>

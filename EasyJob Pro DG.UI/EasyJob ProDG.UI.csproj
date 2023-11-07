@@ -114,6 +114,7 @@
     <Compile Include="Data\DialogOpenSettings.cs" />
     <Compile Include="Data\DialogSaveSettings.cs" />
     <Compile Include="Services\DialogServices\IWindowDialogService.cs" />
+    <Compile Include="Settings\UserSettingsApplicator.cs" />
     <Compile Include="Utility\AsyncObservableCollection.cs" />
     <Compile Include="Utility\Messages\DgListSelectedItemUpdatedMessage.cs" />
     <Compile Include="ViewModel\MainWindow\MainWindowCommands.cs" />
@@ -190,7 +191,7 @@
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\DataServices\ShipProfileDataService.cs" />
     <Compile Include="Settings\DgTableColumnSettings.cs" />
-    <Compile Include="Settings\SettingsHandler.cs" />
+    <Compile Include="Settings\UserSettingsFileHandler.cs" />
     <Compile Include="Settings\UserUISettings.cs" />
     <Compile Include="Utility\ClassConverters.cs" />
     <Compile Include="Utility\DataMessenger.cs" />

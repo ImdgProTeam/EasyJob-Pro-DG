@@ -46,8 +46,6 @@ namespace EasyJob_ProDG.UI
             path = null;
 
             ApplicationMainWindow.Show();
-
-
         }
 
         /// <summary>

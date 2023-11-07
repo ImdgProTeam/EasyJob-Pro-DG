@@ -65,7 +65,7 @@ namespace EasyJob_ProDG.UI.View.UI
             Properties.Settings.Default.ConflictsWidth = WorkingGrid.ColumnDefinitions[1].ActualWidth;
         }
 
-        private void RestoreConflictColumnWidth()
+        public void RestoreConflictColumnWidth()
         {
             WorkingGrid.ColumnDefinitions[1].Width=new GridLength( Properties.Settings.Default.ConflictsWidth);
         }

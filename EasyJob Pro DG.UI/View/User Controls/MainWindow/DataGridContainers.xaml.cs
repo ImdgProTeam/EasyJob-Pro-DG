@@ -26,13 +26,11 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         }
 
 
-
-
         #region Column settings
         /// <summary>
         /// Loads column settings for ContainerDataTable from settings.settings
         /// </summary>
-        private void LoadColumnSettings()
+        internal void LoadColumnSettings()
         {
             var displayIndexes = Properties.Settings.Default.ContainerDataTableDisplayIndex.Split(';');
             var widths = Properties.Settings.Default.ContainerDataTableWidth.Split(';');
@@ -151,15 +149,19 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
         #endregion
 
+
+        #region Sorting
         private void MainContainerDataTable_Sorting(object sender, DataGridSortingEventArgs e)
         {
-            if (e.Column.SortMemberPath.StartsWith("Is") 
+            if (e.Column.SortMemberPath.StartsWith("Is")
                 || e.Column.SortMemberPath.StartsWith("Has")
                 || e.Column.SortMemberPath.StartsWith("Contains"))
                 if (e.Column.SortDirection == null)
                 {
                     e.Column.SortDirection = System.ComponentModel.ListSortDirection.Ascending;
                 }
-        }
+        } 
+
+        #endregion
     }
 }

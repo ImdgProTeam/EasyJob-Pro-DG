@@ -31,7 +31,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         /// <summary>
         /// Loads column settings for ReeferDataTable from settings.settings
         /// </summary>
-        private void LoadColumnSettings()
+        internal void LoadColumnSettings()
         {
             var displayIndexes = Properties.Settings.Default.ReeferDataTableDisplayIndex.Split(';');
             var widths = Properties.Settings.Default.ReeferDataTableWidth.Split(';');

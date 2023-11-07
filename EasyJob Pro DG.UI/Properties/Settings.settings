@@ -12,7 +12,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ContainerDataTableWidth" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Auto</Value>
     </Setting>
     <Setting Name="ContainerDataTableVisibilities" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -21,7 +21,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ReeferDataTableWidth" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Auto</Value>
     </Setting>
     <Setting Name="ReeferDataTableVisibilities" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -36,7 +36,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DgDataTableWidth" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Auto</Value>
     </Setting>
     <Setting Name="DgDataTableVisibilities" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

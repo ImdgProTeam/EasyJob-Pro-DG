@@ -26,7 +26,7 @@ namespace EasyJob_ProDG.UI.Services
         /// </summary>
         public void SaveSettingsToFile()
         {
-            SettingsHandler.SaveSettings();
+            UserSettingsFileHandler.SaveSettings();
         }
 
         /// <summary>
@@ -34,7 +34,8 @@ namespace EasyJob_ProDG.UI.Services
         /// </summary>
         public void RestoreSettingsFromFile(object obj)
         {
-            SettingsHandler.RestoreSettings();
+            UserSettingsFileHandler.RestoreSettings();
+            UserSettingsApplicator.ApplyUserSettings();
         }
 
         #region Excel templates

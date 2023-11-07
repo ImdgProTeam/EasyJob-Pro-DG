@@ -101,7 +101,10 @@ namespace EasyJob_ProDG.UI.ViewModel
             OnPropertyChanged(nameof(SelectedExcelReeferTemplateIndex));
         }
 
-        private void SetExcelTemplateValues()
+        /// <summary>
+        /// Sets Templates Collection and selected template for Dg and Reefers from uiSettingsService
+        /// </summary>
+        internal void SetExcelTemplateValues()
         {
             ExcelDgTemplates = uiSettingsService.ExcelDgTemplates;
             ExcelReeferTemplates = uiSettingsService.ExcelReeferTemplates;
