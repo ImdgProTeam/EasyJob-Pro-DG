@@ -1,6 +1,5 @@
 ﻿using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Utility;
-using System.Windows;
 
 namespace EasyJob_ProDG.UI.Settings
 {

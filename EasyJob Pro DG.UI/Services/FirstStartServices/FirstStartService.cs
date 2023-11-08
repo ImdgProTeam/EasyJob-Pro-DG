@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using EasyJob_ProDG.Data;
 
@@ -20,7 +21,7 @@ namespace EasyJob_ProDG.UI.Services
             try
             {
                 ExtensionRegistryHelper.SetFileAssociation(ProgramDefaultSettingValues.ConditionFileExtension,
-                    ProgramDefaultSettingValues.ProgramTitle + "." + "Condition file");
+                    Process.GetCurrentProcess().MainModule.FileName);
             }
             catch (Exception e)
             {

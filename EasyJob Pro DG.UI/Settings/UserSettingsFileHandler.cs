@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Windows.Documents;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -104,9 +103,9 @@ namespace EasyJob_ProDG.UI.Settings
 
                         if (propertyType.Equals(typeof(string)))
                             Properties.Settings.Default[element.Name.ToString()] = element.Value;
-                        else if(propertyType.Equals(typeof(byte)))
+                        else if (propertyType.Equals(typeof(byte)))
                             Properties.Settings.Default[element.Name.ToString()] = byte.Parse(element.Value);
-                        else if(propertyType.Equals(typeof(double)))
+                        else if (propertyType.Equals(typeof(double)))
                             Properties.Settings.Default[element.Name.ToString()] = double.Parse(element.Value);
                     }
                     catch (Exception)

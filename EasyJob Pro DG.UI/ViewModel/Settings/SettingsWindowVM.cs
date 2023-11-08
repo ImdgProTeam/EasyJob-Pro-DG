@@ -12,11 +12,25 @@ namespace EasyJob_ProDG.UI.ViewModel
 {
     public class SettingsWindowVM : Observable, IDataErrorInfo
     {
+        #region Private fields
+
+        /// <summary>
+        /// Connecting <see cref="ISettingsService"/> to get access to UISettings
+        /// </summary>
         ISettingsService uiSettingsService = new SettingsService();
 
         private bool isFirstTimeDgTemplateValuesSet;
         private bool isFirstTimeReeferTemplateValuesSet;
         private bool isWindowOpened;
+
+        private bool HasChangedIndex =>
+            selectedExcelDgTemplateIndex != uiSettingsService.SelectedExcelDgTemplateIndex
+            || selectedExcelReeferTemplateIndex != uiSettingsService.SelectedExcelReeferTemplateIndex; 
+
+        #endregion
+
+
+        #region Public properties
 
         /// <summary>
         /// Property contains all available excel column numbers.
@@ -24,10 +38,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         public static List<char> Columns { get { return Model.IO.Excel.WithXl.Columns; } }
 
-        private bool HasChangedIndex =>
-            selectedExcelDgTemplateIndex != uiSettingsService.SelectedExcelDgTemplateIndex
-            || selectedExcelReeferTemplateIndex != uiSettingsService.SelectedExcelReeferTemplateIndex;
-
+        #endregion
 
 
         #region StartUp logic
@@ -43,7 +54,6 @@ namespace EasyJob_ProDG.UI.ViewModel
             ReeferControlLoaded = new DelegateCommand(OnReeferControlLoaded);
             ReeferControlUnloaded = new DelegateCommand(OnReeferControlUnloaded);
         }
-
 
 
         #region Window and controls Loaded/Unloaded handlers
@@ -116,7 +126,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         #endregion
 
         #endregion
-
 
 
         #region Excel Dg list settings
@@ -240,6 +249,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         #endregion
+
 
         #region Constructor
 

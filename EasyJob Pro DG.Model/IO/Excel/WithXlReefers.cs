@@ -21,7 +21,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
         internal static void SetTemplate(ExcelReeferTemplate template)
         {
             _template = template;
-        } 
+        }
 
         #endregion
 
@@ -86,11 +86,30 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 activeWorkbook.Close(null, null, null);
                 if (workbooks != null) workbooks.Close();
                 excelapp.Quit();
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelcells);
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelWorksheet);
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(activeWorkbook);
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(workbooks);
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelapp);
+                #region Trying to release MarshalComObjects
+                try { System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelcells); }
+                catch { }
+                try
+                {
+                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelWorksheet);
+                }
+                catch { }
+                try
+                {
+                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(activeWorkbook);
+                }
+                catch { }
+                try
+                {
+                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(workbooks);
+                }
+                catch { }
+                try
+                {
+                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelapp);
+                }
+                catch { } 
+                #endregion
                 Data.LogWriter.Write($"Excel file disconnected.");
             }
 
