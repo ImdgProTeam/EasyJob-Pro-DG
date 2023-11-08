@@ -265,8 +265,7 @@ namespace EasyJob_ProDG.UI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Template 1, DG Cargo, 5, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,v.1.2" +
-            "")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string ExcelDgTemplate1 {
             get {
                 return ((string)(this["ExcelDgTemplate1"]));

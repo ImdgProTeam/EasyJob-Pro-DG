@@ -63,7 +63,7 @@
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="ExcelDgTemplate1" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Template 1, DG Cargo, 5, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,v.1.2</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ExcelDgTemplate2" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
