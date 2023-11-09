@@ -232,6 +232,16 @@ namespace EasyJob_ProDG.UI.Wrapper
                 UpdateDgStowageConflicts();
             }
         }
+
+        public string FlashPoint
+        {
+            get { return GetValue<string>(); }
+            set
+            {
+                SetValue(value);
+                UpdateConflictList();
+            }
+        }
         #endregion
 
 
@@ -270,14 +280,6 @@ namespace EasyJob_ProDG.UI.Wrapper
         public bool Flammable
         {
             get { return GetValue<bool>(); }
-            set
-            {
-                SetValue(value);
-            }
-        }
-        public string FlashPoint
-        {
-            get { return GetValue<string>(); }
             set
             {
                 SetValue(value);

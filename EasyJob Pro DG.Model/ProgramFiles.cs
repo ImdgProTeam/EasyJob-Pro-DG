@@ -13,7 +13,6 @@ namespace EasyJob_ProDG.Model
 
         private static bool hasDataBaseBeenSuccesfullyConnected = false;
 
-        // ----------------------- STATIC METHODS ---------------------------------------------------------------------------------
 
         // ------------------ Methods supporting the run of the program -----------------------------------------------------------
 

@@ -70,6 +70,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             get
             {
+                //case fishmeal protected from heat
+                if(string.Equals(Code, "SSC3b"))
+                    return CodesDictionary.ConflictCodes[Code] + "\n" + Surrounded;
                 if (CodesDictionary.ConflictCodesPrefixes.Contains(CodesDictionary.GetCodePrefix(Code)))
                     return CodesDictionary.ConflictCodes[Code];
                 else return Code + " " + (_segrConflict ? CodesDictionary.Segregation[Code] 

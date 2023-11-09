@@ -160,7 +160,6 @@ namespace EasyJob_ProDG.Model.Transport
                     {
                         if (commandAddress == -1)
                         {
-                            //Output.DisplayLine("Try again");
                             read = false;
                             break;
                         }
@@ -187,10 +186,9 @@ namespace EasyJob_ProDG.Model.Transport
                             }
                             continue;
                         }
-                        //Output.DisplayLine("Repeat again");
+
                         read = false;
                         continue;
-
                     }
 
                     int digitPos = 0;
