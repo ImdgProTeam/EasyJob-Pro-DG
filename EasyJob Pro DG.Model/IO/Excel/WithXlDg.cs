@@ -81,6 +81,9 @@ namespace EasyJob_ProDG.Model.IO.Excel
                     statusBarIncrementValue = 30 / rowscount;
                 #endregion
 
+                //in order to handle missing container numbers and locations
+                Container lastContainer = new Container();
+
                 //Create dg list & container list
                 for (int line = 0; line < rowscount; line++)
                 {
@@ -92,75 +95,84 @@ namespace EasyJob_ProDG.Model.IO.Excel
                     {
                         excelcells = excelWorksheet.Cells[row, col];
                         if (excelcells.Value2 == null) continue;
+                        string value = excelcells.Value2.ToString().Trim();
 
                         if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colContNr))
-                            cont.ContainerNumber = (string)(excelcells.Value2).Replace(" ", "");
+                            cont.ContainerNumber = value.Replace(" ", "");
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colLocation))
-                            cont.Location = Convert.ToString(excelcells.Value2);
+                            cont.Location = value;
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colPOL))
-                            cont.POL = excelcells.Value2;
+                            cont.POL = value;
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colPOD))
-                            cont.POD = excelcells.Value2;
+                            cont.POD = value;
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colUnno))
                         {
-                            unit.Unno = Convert.ToUInt16(excelcells.Value2);
+                            unit.Unno = Convert.ToUInt16(value);
                             unit.AssignSegregationGroup();
                         }
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colClass))
                         {
-                            unit.DgClass = WithXlAssistToRead.DgClass(excelcells.Value2, unit.ContainerNumber);
+                            unit.DgClass = WithXlAssistToRead.DgClass(value, unit.ContainerNumber);
                             if (!string.IsNullOrEmpty(unit.DgClass)) unit.AssignSegregationTableRowNumber();
                         }
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colSubclass))
                         {
-                            unit.DgSubclassArray = WithXlAssistToRead.DgSubClass(excelcells.Value2, unit.ContainerNumber);
+                            unit.DgSubclassArray = WithXlAssistToRead.DgSubClass(value, unit.ContainerNumber);
                         }
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colName))
-                            unit.Name = excelcells.Value2;
+                            unit.Name = value;
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colPkg))
-                            unit.PackingGroup = excelcells.Value2.ToString();
+                            unit.PackingGroup = value;
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colMP))
                         {
-                            if (excelcells.Value2.ToString().ToLower() == "true" 
-                                || excelcells.Value2.ToString().ToLower() == "y" 
-                                || excelcells.Value2.ToString().ToLower() == "p")
+                            if (value.ToLower() == "true"
+                                || value.ToLower() == "y"
+                                || value.ToLower() == "p")
                                 unit.IsMp = true;
-                            if (excelcells.Value2 != null) unit.mpDetermined = true;
+                            if (!string.IsNullOrEmpty(value)) unit.mpDetermined = true;
                         }
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colLQ))
                         {
-                            if (excelcells.Value2.ToString().ToLower() == "true" ||
-                                excelcells.Value2.ToString().ToLower() == "y" ||
-                                excelcells.Value2.ToString().ToLower() == "lq")
+                            if (value.ToLower() == "true" ||
+                                value.ToLower() == "y" ||
+                                value.ToLower() == "lq")
                                 unit.IsLq = true;
                         }
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colFP))
                         {
-                            unit.FlashPointDouble = WithXlAssistToRead.DgFp(excelcells);
+                            unit.FlashPointDouble = WithXlAssistToRead.DgFp(value);
                         }
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colEms))
-                            unit.DgEMS = excelcells.Value2;
+                            unit.DgEMS = value;
                         //the following parses 'Remark' column and reads properties and segregation groups, if any
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colRemarks))
-                            WithXlAssistToRead.ParseRemarkColumn(excelcells.Value2, unit, cont);
+                            WithXlAssistToRead.ParseRemarkColumn(value, unit, cont);
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colNetWt))
                         {
                             decimal tempValue = 0.0M;
-                            string tmp = excelcells.Value2.ToString();
+                            string tmp = value;
                             bool success = decimal.TryParse(tmp, out tempValue);
                             unit.DgNetWeight = (decimal)tempValue;
                         }
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colTechName))
-                            unit.TechnicalName = excelcells.Value2;
+                            unit.TechnicalName = value;
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colPackage))
-                            unit.NumberAndTypeOfPackages = excelcells.Value2;
+                            unit.NumberAndTypeOfPackages = value;
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colFinalDestination))
-                            unit.FinalDestination = excelcells.Value2;
+                            unit.FinalDestination = value;
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colOperator))
-                            unit.Carrier = excelcells.Value2;
+                            unit.Carrier = value;
                     }
 
                     cont.HoldNr = Transport.ShipProfile.DefineCargoHoldNumberStatic(cont.Bay);
+
+                    // Handling missing container number
+                    if (!string.IsNullOrEmpty(cont.ContainerNumber))
+                        lastContainer = cont;
+                    else
+                        cont = lastContainer;
+
+                    // Updating dg unit info and add it to the list
                     unit.CopyContainerInfo(cont);
                     dgList.Add(unit);
 

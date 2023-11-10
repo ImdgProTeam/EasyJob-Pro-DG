@@ -16,14 +16,13 @@ namespace EasyJob_ProDG.Model.IO.Excel
         /// </summary>
         /// <param name="cells"></param>
         /// <returns></returns>
-        internal static float DgFp(Microsoft.Office.Interop.Excel.Range cells)
+        internal static float DgFp(string value)
         {
             float dgfp;
             string result = null;
             try
             {
                 string units = "C";
-                string value = Convert.ToString(cells.Value2);
                 foreach (char c in value)
                 {
                     if (char.IsDigit(c))
