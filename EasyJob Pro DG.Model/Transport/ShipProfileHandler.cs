@@ -19,7 +19,9 @@ namespace EasyJob_ProDG.Model.Transport
         /// <returns></returns>
         public static ShipProfile SetCreateShipProfile(List<string> shipProfileFileLines)
         {
-            ShipProfile shipProfile = CreateShipProfileToUse(shipProfileFileLines);
+            ShipProfile shipProfile = null;
+            if (shipProfileFileLines != null)
+                shipProfile = CreateShipProfileToUse(shipProfileFileLines);
 
             if (shipProfile == null)
             {
