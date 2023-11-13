@@ -27,7 +27,7 @@
         <Grid DockPanel.Dock="Bottom"
                     HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="80"/>
                 <ColumnDefinition />
                 <ColumnDefinition Width="110"/>
                 <ColumnDefinition Width="110"/>

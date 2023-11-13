@@ -19,23 +19,23 @@ namespace EasyJob_ProDG.UI.ViewModel.MainWindow
             {
                 ContainerWrapper container = (ContainerWrapper)selectedContainers[0];
 
-                return $"{container.DisplayContainerNumber}" +
-                    $"\tPosition: {container.Location}" +
-                    $"{(container.IsRf ? "\tReefer" : "\t      ")}" +
-                    $"\t{(container.ContainsDgCargo ? $"  Contains DG" : "             ")}" +
-                    $"{(container.IsOpen ? "\t  Open type" : "\t           ")}" +
-                    $"{(container.HasLocationChanged ? "\tRestow" : "\t      ")}" +
-                    $"{(container.HasPodChanged ? "\t  POD changed" : "")}";
+                return $"{container.DisplayContainerNumber} | " +
+                    $"Position: {container.Location} | " +
+                    $"{(container.IsRf ? "Reefer" : "      ")} | " +
+                    $"{(container.ContainsDgCargo ? $"Contains DG" : "           ")} | " +
+                    $"{(container.IsOpen ? "Open type" : "         ")} | " +
+                    $"{(container.HasLocationChanged ? "Restow" : "      ")} | " +
+                    $"{(container.HasPodChanged ? "POD changed" : "")}";
             }
             //multiple selection
             else
             {
-                byte containersCount = 0;
-                byte dgContainersCount = 0;
-                byte dgCount = 0;
-                byte reefersCount = 0;
-                byte restowCount = 0;
-                byte changedPODCount = 0;
+                int containersCount = 0;
+                int dgContainersCount = 0;
+                int dgCount = 0;
+                int reefersCount = 0;
+                int restowCount = 0;
+                int changedPODCount = 0;
 
                 foreach (ContainerWrapper c in selectedContainers)
                 {
@@ -51,10 +51,10 @@ namespace EasyJob_ProDG.UI.ViewModel.MainWindow
                     dgCount += c.DgCountInContainer;
                 }
 
-                return $"Containers: {containersCount,3} \tReefers: {reefersCount,3} \t\tDG Containers: {dgContainersCount,3}" +
-                    $"\t\tDG cargoes: {dgCount,3}" +
-                    $"\tContainers restowed: {restowCount,3}" +
-                    $"\tPOD changed: {changedPODCount,3}";
+                return $"Containers:{containersCount,3} | Reefers:{reefersCount,3} | DG Containers:{dgContainersCount,3} | " +
+                    $"DG cargoes:{dgCount,3} | " +
+                    $"Containers restowed:{restowCount,3} | " +
+                    $"POD changed:{changedPODCount,3}";
             }
         }
 
@@ -73,28 +73,28 @@ namespace EasyJob_ProDG.UI.ViewModel.MainWindow
                 DgWrapper dg = (DgWrapper)selectedDgs[0];
                 string conflicted = !dg.IsConflicted ? "None                   "
                     : (dg.Conflicts.FailedStowage ? ("Stowage" + (dg.Conflicts.FailedSegregation ? " and segregation" : "                "))
-                    : dg.Conflicts.FailedSegregation ? "Segregation           " : "");
+                    : dg.Conflicts.FailedSegregation ? "Segregation            " : "");
 
-                return $"{dg.DisplayContainerNumber}" +
-                    $"\tPosition: {dg.Location}" +
-                    $"\tUNNO:{dg.Unno: 0000}" +
-                    $"\tNet weight: " + string.Format("{0, 12 : # ##0.000}", dg.DgNetWeight) +
-                    $"\tConflicts: {conflicted}" +
-                    $"{(dg.IsLq ? "\tLQ" : "\t  ")}" +
-                    $"{(dg.IsMp ? "\tMP" : "\t  ")}" +
-                    $"{(dg.IsRf ? "\tReefer" : "\t      ")}" +
-                    $"{(dg.IsOpen ? "\t\tOpen type" : "\t\t         ")}" +
-                    $"{(dg.HasLocationChanged ? "\tRestow" : "\t      ")}";
+                return $"{dg.DisplayContainerNumber} | " +
+                    $"Position: {dg.Location} | " +
+                    $"UNNO:{dg.Unno: 0000} | " +
+                    $"Net weight: " + string.Format("{0, 12 : # ##0.000}", dg.DgNetWeight) + " | " +
+                    $"Conflicts: {conflicted} | " +
+                    $"{(dg.IsLq ? "LQ" : "  ")} | " +
+                    $"{(dg.IsMp ? "MP" : "  ")} | " +
+                    $"{(dg.IsRf ? "Reefer" : "      ")} | " +
+                    $"{(dg.IsOpen ? "Open type" : "         ")} | " +
+                    $"{(dg.HasLocationChanged ? "Restow" : "      ")}";
             }
             //multiple selection
             else
             {
-                byte containersCount = 0;
-                byte dgCount = 0;
-                byte reefersCount = 0;
-                byte restowCount = 0;
-                byte changedPODCount = 0;
-                byte confilictedCount = 0;
+                int containersCount = 0;
+                int dgCount = 0;
+                int reefersCount = 0;
+                int restowCount = 0;
+                int changedPODCount = 0;
+                int confilictedCount = 0;
                 decimal dgNetWeight = 0.0m;
                 string _cntrNumber = string.Empty;
                 string _firstSelectedNumber = string.Empty;
@@ -120,11 +120,11 @@ namespace EasyJob_ProDG.UI.ViewModel.MainWindow
                         confilictedCount++;
                 }
 
-                return $"DG: {dgCount,3} \tContainers: {containersCount,3} \tReefers: {reefersCount,3}" +
-                    $"\t\tDG net weight: {dgNetWeight,14: # ### ##0.000}" +
-                    $"\t\t\tConfilcted DG: {confilictedCount,3}" +
-                    $"\tContainers restowed: {restowCount,3}" +
-                    $"\tPOD changed: {changedPODCount,3}";
+                return $"DG:{dgCount,3} | Containers:{containersCount,3} | Reefers:{reefersCount,3}" +
+                    $" | DG net weight:{dgNetWeight,14: # ### ##0.000}" +
+                    $" | Confilcted DG:{confilictedCount,3}" +
+                    $" | Containers restowed:{restowCount,3}" +
+                    $" | POD changed:{changedPODCount,3}";
             }
 
         }
