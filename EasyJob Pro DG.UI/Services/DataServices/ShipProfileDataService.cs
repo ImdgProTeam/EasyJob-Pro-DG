@@ -37,12 +37,12 @@ namespace EasyJob_ProDG.UI.Services.DataServices
             _shipWrapper.Row00Exists = _ship.Row00Exists;
             _shipWrapper.Passenger = _ship.Passenger;
             _shipWrapper.HoldsObservable = ClassConverters.UpgradeToCollection(_ship.Holds);
-            _shipWrapper.NumberOfAccommodations = _ship.NumberOfAccommodations;
-            _shipWrapper.AccommodationBays = _ship.AccommodationBays;
+            _shipWrapper.NumberOfSuperstructures = _ship.NumberOfSuperstructures;
+            _shipWrapper.AccommodationBays = _ship.BaysInFrontOfSuperstructures;
             _shipWrapper.SeaSides = _ship.SeaSides;
-            _shipWrapper.LivingQuartersList = _ship.LivingQuartersList;
-            _shipWrapper.HeatedStructuresList = _ship.HeatedStructuresList;
-            _shipWrapper.LSAList = _ship.LSAList;
+            _shipWrapper.LivingQuartersList = _ship.LivingQuarters;
+            _shipWrapper.HeatedStructuresList = _ship.HeatedStructures;
+            _shipWrapper.LSAList = _ship.LSA;
             _shipWrapper.DocObservable = new DOCWrapper(_ship.Doc);
             _shipWrapper.DocObservable.SetDOCTableFromModel();
             _shipWrapper.ErrorList = _ship.ErrorList;
@@ -99,7 +99,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         /// <returns>CargoHold number</returns>
         public byte DefineCargoHoldNumber(byte bay)
         {
-            return _ship.DefineCargoHoldNumberNonstatic(bay);
+            return ShipProfile.DefineCargoHoldNumber(bay);
         }
         
 
@@ -120,12 +120,13 @@ namespace EasyJob_ProDG.UI.Services.DataServices
             _ship.Passenger = _shipWrapper.Passenger;
 
 
-            _ship.NumberOfAccommodations = _shipWrapper.NumberOfAccommodations;
-            _ship.AccommodationBays?.Clear();
-            _ship.Accommodation?.Clear();
+            _ship.NumberOfSuperstructures = _shipWrapper.NumberOfSuperstructures;
+            _ship.BaysInFrontOfSuperstructures?.Clear();
+            _ship.BaysSurroundingSuperstructure?.Clear();
             foreach (var dummy in _shipWrapper.AccommodationBaysObservable)
             {
-                _ship.SetAccommodation(dummy.Bay);
+                //TODO: Review for the case of two accommodations
+                _ship.SetSuperstructuresBaysProperties(dummy.Bay);
             }
 
             _ship.SeaSides = new List<OuterRow>();
@@ -134,24 +135,25 @@ namespace EasyJob_ProDG.UI.Services.DataServices
                 _ship.SeaSides.Add(row.ToOuterRow());
             }
 
-            _ship.LivingQuartersList = new List<CellPosition>();
+            _ship.LivingQuarters = new List<CellPosition>();
             foreach (var cell in _shipWrapper.LivingQuartersObservable)
             {
                 if (cell.IsEmpty()) continue;
-                _ship.LivingQuartersList.Add(cell.ToCellPosition());
+                _ship.LivingQuarters.Add(cell.ToCellPosition());
             }
-            _ship.HeatedStructuresList = new List<CellPosition>();
+            _ship.HeatedStructures = new List<CellPosition>();
             foreach (var cell in _shipWrapper.HeatedStructuresObservable)
             {
                 if (cell.IsEmpty()) continue;
-                _ship.HeatedStructuresList.Add(cell.ToCellPosition());
+                _ship.HeatedStructures.Add(cell.ToCellPosition());
             }
-            _ship.LSAList = new List<CellPosition>();
+            _ship.LSA = new List<CellPosition>();
             foreach (var cell in _shipWrapper.LSAObservable)
             {
                 if (cell.IsEmpty()) continue;
-                _ship.LSAList.Add(cell.ToCellPosition());
+                _ship.LSA.Add(cell.ToCellPosition());
             }
+            _ship.UpdatePrivateProperties();
 
             _ship.Doc = new DOC(_ship.NumberOfHolds);
             for (byte h = 0; h < _ship.Doc.NumberOfRows; h++)

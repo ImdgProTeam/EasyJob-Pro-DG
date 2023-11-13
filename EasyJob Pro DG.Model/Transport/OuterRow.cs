@@ -59,19 +59,15 @@ namespace EasyJob_ProDG.Model.Transport
             StarboardMost = stbdM;
         }
 
-        public static OuterRow Create(byte bay, byte portM, byte stbdM)
-        {
-            return new OuterRow(bay, portM, stbdM);
-        }
-
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
-            if (obj.GetType() == typeof(Dg)) return Equals((Dg)obj);
-            if (obj.GetType() == typeof(Container)) return Equals((Container)obj);
+            if (obj.GetType() == typeof(Dg)|| obj.GetType() == typeof(Container) || obj.GetType() == typeof(ILocationOnBoard)) 
+                return Equals((ILocationOnBoard)obj);
             if (obj.GetType() != GetType()) return false;
             return Equals((OuterRow)obj);
         }
+
         public bool Equals(OuterRow obj)
         {
             if (Bay == obj.Bay || Bay == 0 || obj.Bay == 0)
@@ -79,20 +75,15 @@ namespace EasyJob_ProDG.Model.Transport
                     return true;
             return false;
         }
-        public bool Equals(Dg obj)
+
+        public bool Equals(ILocationOnBoard obj)
         {
             if (Bay == obj.Bay || Bay == obj.Bay + 1 || Bay == obj.Bay - 1 || Bay == 0)
                 if (PortMost == obj.Row || StarboardMost == obj.Row)
                     return true;
             return false;
         }
-        public bool Equals(Container obj)
-        {
-            if (Bay == obj.Bay || Bay == obj.Bay + 1 || Bay == obj.Bay - 1 || Bay == 0)
-                if (PortMost == obj.Row || StarboardMost == obj.Row)
-                    return true;
-            return false;
-        }
+
         public static bool operator ==(OuterRow a, OuterRow b)
         {
             return a.Equals(b);
@@ -101,22 +92,13 @@ namespace EasyJob_ProDG.Model.Transport
         {
             return !(a == b);
         }
-        public static bool operator ==(OuterRow a, Dg b)
+        public static bool operator ==(OuterRow a, ILocationOnBoard b)
         {
             return a.Equals(b);
         }
-        public static bool operator !=(OuterRow a, Dg b)
+        public static bool operator !=(OuterRow a, ILocationOnBoard b)
         {
             return !(a == b);
         }
-        public static bool operator ==(OuterRow a, Container b)
-        {
-            return a.Equals(b);
-        }
-        public static bool operator !=(OuterRow a, Container b)
-        {
-            return !(a == b);
-        }
-
     }
 }

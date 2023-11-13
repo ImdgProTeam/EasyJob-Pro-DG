@@ -41,7 +41,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
                 _locationSortable = null;
 
                 if (CurrentProgramData.OwnShip != null)
-                    Model.HoldNr = EasyJob_ProDG.Model.Transport.ShipProfile.DefineCargoHoldNumberStatic(Bay);
+                    Model.HoldNr = EasyJob_ProDG.Model.Transport.ShipProfile.DefineCargoHoldNumber(Bay);
                 SetToAllContainersInPlan(GetValue<string>(), oldValue);
                 RefreshLocation();
             }

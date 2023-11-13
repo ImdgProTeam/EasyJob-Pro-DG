@@ -80,6 +80,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         private void RegisterMessages()
         {
+            DataMessenger.Default.UnregisterAll(this);
             DataMessenger.Default.Register<ShipProfileWrapperMessage>(this, OnOuterRowChanged, "Outer row changed");
             DataMessenger.Default.Register<MessageFromDummy>(this, OnDummyAccommodationChanged, "Dummy Accommodation changed");
         }
@@ -153,7 +154,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         #region Accommodation methods
 
-        // ---- Accommodation methods -----------------------------------
+        // ---- BaysSurroundingSuperstructure methods -----------------------------------
 
         /// <summary>
         /// Adds bays from TempShip into AccommodationBaysObservableCollection
@@ -355,7 +356,6 @@ namespace EasyJob_ProDG.UI.ViewModel
                         return "Enter a valid position";
                     else
                         return string.Empty;
-
 
                 case "CellLSANewEntry":
                     if (CellLSA.HasError)

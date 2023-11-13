@@ -1,5 +1,5 @@
 ﻿using EasyJob_ProDG.Model.IO.Excel;
-using EasyJob_ProDG.UI.Wrapper.Dummies;
+using EasyJob_ProDG.UI.Wrapper.Settings;
 using System.Collections.ObjectModel;
 using System.Linq;
 

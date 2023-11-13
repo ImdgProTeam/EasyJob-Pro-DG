@@ -1,46 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using EasyJob_ProDG.Model.Cargo;
+﻿using EasyJob_ProDG.Model.Cargo;
+using System;
 
 namespace EasyJob_ProDG.Model.Transport
 {
     public class CellPosition
     {
-        // !!!Check for null reference to be implemented for override operators section!!!
-
-
-        // ----------- Public constructors --------------------------------------------------
-        /// <summary>
-        /// Default constructor defines any position
-        /// </summary>
-        public CellPosition()
-        {
-            HoldNr = 0;
-            Bay = 0;
-            Row = 99;
-            Tier = 0;
-            Underdeck = 0;
-        }
-
-        /// <summary>
-        /// Constructor with specified position given as arguments
-        /// </summary>
-        /// <param name="holdNr"></param>
-        /// <param name="bay"></param>
-        /// <param name="row"></param>
-        /// <param name="tier"></param>
-        /// <param name="underdeck"></param>
-        public CellPosition(byte holdNr, byte bay, byte row, byte tier, byte underdeck)
-        {
-            HoldNr = holdNr;
-            Bay = bay;
-            Row = row;
-            Tier = tier;
-            Underdeck = underdeck;
-        }
-
+        #region Public properties
 
         //------------- Properties -------------------------
+
         public byte this[byte index]
         {
             get { return Position[index]; }
@@ -82,7 +50,7 @@ namespace EasyJob_ProDG.Model.Transport
             }
             set
             {
-                //0 - not specified for all but row and underdeck
+                //0 - not specified for all but row
                 HoldNr = value[0];
                 Bay = value[1];
                 //99 - not specified
@@ -97,7 +65,9 @@ namespace EasyJob_ProDG.Model.Transport
         /// True if no any value assigned to the CellPosition.
         /// If any value is set (different from default), it is false.
         /// </summary>
-        public bool IsEmpty => this[0] == 0 && this[1] == 0 && this[2] == 99 && this[3] == 0 && this[4] == 0;
+        public bool IsEmpty => this[0] == 0 && this[1] == 0 && this[2] == 99 && this[3] == 0 && this[4] == 0; 
+
+        #endregion
 
 
         // ------------ Methods to create and work with CellPositions -------
@@ -105,28 +75,18 @@ namespace EasyJob_ProDG.Model.Transport
         public bool TryChangeCellPosition(string onePosition)
         {
             bool isSuccessful;
-            
+
             try
             {
                 ChangeCellPosition(onePosition);
                 isSuccessful = true;
             }
-            catch 
-            { 
+            catch
+            {
                 isSuccessful = false;
                 ChangeCellPosition(new CellPosition());
             }
             return isSuccessful;
-        }
-        public static List<CellPosition> CreateTempCellList(string input)
-        {
-            var list = new List<CellPosition>();
-            string[] tempArray = input.ToLower().Split(',');
-            foreach (var cell in tempArray)
-            {
-                list.Add(CreateCellPosition(cell));
-            }
-            return list;
         }
 
 
@@ -136,7 +96,7 @@ namespace EasyJob_ProDG.Model.Transport
         /// Method parses string and creates a CellPosition. Returns null in case of null or not recognized string.
         /// </summary>
         /// <param name="onePosition"></param>
-        /// <returns></returns>
+        /// <returns>New CellPosition or Null in case of null or not recognized string.</returns>
         private static CellPosition CreateCellPosition(string onePosition)
         {
             if (onePosition == null) return null;
@@ -264,8 +224,45 @@ namespace EasyJob_ProDG.Model.Transport
             Tier = newPosition.Tier;
             HoldNr = newPosition.HoldNr;
             Underdeck = newPosition.Underdeck;
-        } 
+        }
+
         #endregion
+
+
+        #region Constructors
+        // ----- Public constructors -----
+
+        /// <summary>
+        /// Default constructor defines any position
+        /// </summary>
+        public CellPosition()
+        {
+            HoldNr = 0;
+            Bay = 0;
+            Row = 99;
+            Tier = 0;
+            Underdeck = 0;
+        }
+
+        /// <summary>
+        /// Constructor with specified position given as arguments
+        /// </summary>
+        /// <param name="holdNr"></param>
+        /// <param name="bay"></param>
+        /// <param name="row"></param>
+        /// <param name="tier"></param>
+        /// <param name="underdeck"></param>
+        public CellPosition(byte holdNr, byte bay, byte row, byte tier, byte underdeck)
+        {
+            HoldNr = holdNr;
+            Bay = bay;
+            Row = row;
+            Tier = tier;
+            Underdeck = underdeck;
+        }
+
+        #endregion
+
 
         #region System override methods
         //------------ System override methods -----------
@@ -290,10 +287,12 @@ namespace EasyJob_ProDG.Model.Transport
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
-            if (obj.GetType() == typeof(Dg)) return Equals((Dg)obj);
+            if (obj.GetType() == typeof(Dg) || obj.GetType() == typeof(Container) || obj.GetType() == typeof(ILocationOnBoard)) 
+                return Equals((ILocationOnBoard)obj);
             if (obj.GetType() != GetType()) return false;
             return Equals((CellPosition)obj);
         }
+
         public override int GetHashCode()
         {
             unchecked
@@ -308,6 +307,8 @@ namespace EasyJob_ProDG.Model.Transport
         }
         public bool Equals(CellPosition obj)
         {
+            if(obj is null) return false;
+
             if (HoldNr == obj.HoldNr)
                 if (Underdeck == obj.Underdeck)
                     if (Bay == obj.Bay || Bay == obj.Bay + 1 || Bay == obj.Bay - 1)
@@ -316,8 +317,11 @@ namespace EasyJob_ProDG.Model.Transport
                                 return true;
             return false;
         }
+
         public bool Equals(ILocationOnBoard obj)
         {
+            if (obj is null) return false;
+
             if (HoldNr == obj.HoldNr || HoldNr == 0)
                 if (Underdeck == 1 && obj.IsUnderdeck || Underdeck == 2 && !obj.IsUnderdeck || this[4] == 0)
                     if (Bay == obj.Bay || Bay == 0 || Bay == obj.Bay + 1 || Bay == obj.Bay - 1)
@@ -326,6 +330,7 @@ namespace EasyJob_ProDG.Model.Transport
                                 return true;
             return false;
         }
+
         public static bool operator ==(CellPosition a, CellPosition b)
         {
             return a.Equals(b);
@@ -334,14 +339,14 @@ namespace EasyJob_ProDG.Model.Transport
         {
             return !(a == b);
         }
-        public static bool operator ==(CellPosition a, Dg b)
+        public static bool operator ==(CellPosition a, ILocationOnBoard b)
         {
             return a.Equals(b);
         }
-        public static bool operator !=(CellPosition a, Dg b)
+        public static bool operator !=(CellPosition a, ILocationOnBoard b)
         {
             return !(a == b);
-        } 
+        }
         #endregion
 
     }

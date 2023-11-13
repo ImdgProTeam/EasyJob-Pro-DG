@@ -2,8 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyJob_ProDG.UI.Utility
 {
@@ -71,6 +69,11 @@ namespace EasyJob_ProDG.UI.Utility
         public void Register<T>(object recipient, Action<T> action, object context)
         {
             var key = new MessengerKey(recipient, context);
+            //foreach(var entry in Dictionary)
+            //{
+            //    if (Dictionary.Any(r => string.Equals(r.Key.Recipient.ToString(), recipient.ToString()) && r.Key.Context == context))
+            //        return;
+            //} 
             Dictionary.TryAdd(key, action);
         }
 
@@ -82,6 +85,21 @@ namespace EasyJob_ProDG.UI.Utility
         public void Unregister(object recipient)
         {
             Unregister(recipient, null);
+        }
+
+        public void UnregisterAll(object recipient)
+        {
+            object action;
+            List<MessengerKey> keysToRemove = new();
+            foreach (var entry in Dictionary)
+            {
+                if (string.Equals(entry.Key.Recipient.ToString(), recipient.ToString()))
+                    keysToRemove.Add(entry.Key);
+            }
+            foreach (var key in keysToRemove)
+            {
+                Dictionary.TryRemove(key, out action);
+            }
         }
 
         /// <summary>

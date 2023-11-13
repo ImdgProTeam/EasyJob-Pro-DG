@@ -1,7 +1,6 @@
-﻿using EasyJob_ProDG.UI.Messages;
+﻿using EasyJob_ProDG.Model.Transport;
+using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Utility;
-using EasyJob_ProDG.UI.Wrapper.Dummies;
-using EasyJob_ProDG.Model.Transport;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -9,11 +8,12 @@ namespace EasyJob_ProDG.UI.Wrapper
 {
     public class ShipProfileWrapper : ModelWrapper<ShipProfile>
     {
-        public ShipProfileWrapper() : base(new ShipProfile())
+        public ShipProfileWrapper() : base(ShipProfile.GetDefaultShipProfile())
         {
             AccommodationBaysObservable = new ObservableCollection<DummyAccommodation>();
-            HoldsObservable = new ObservableCollection<DummyCargoHold>();
+            HoldsObservable = new ObservableCollection<CargoHoldWrapper>();
 
+            DataMessenger.Default.UnregisterAll(this);
             DataMessenger.Default.Register<RemoveRowMessage>(this, OnRemoveRowMessageReceived);
         }
 
@@ -58,14 +58,56 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         // --------------- Wrapping properties ----------------------------
 
-        public string ShipName { get; set; }
-        public string CallSign { get; set; }
-        public byte RfMotor { get; set; }
-        public bool Row00Exists { get; set; }
-        public bool Passenger { get; set; }
+        /// <summary>
+        /// Vessel name
+        /// </summary>
+        public string ShipName
+        {
+            get => GetValue<string>();
+            set => SetValue(value);
+        }
 
+        /// <summary>
+        /// Vessel call sign
+        /// </summary>
+        public string CallSign
+        {
+            get => GetValue<string>();
+            set => SetValue(value);
+        }
 
-        public byte NumberOfAccommodations
+        /// <summary>
+        /// Reefer motor facing 
+        /// (byte number corresponding to <see cref="ShipProfile.MotorFacing"/> enum
+        /// </summary>
+        public byte RfMotor
+        {
+            get => GetValue<byte>();
+            set => SetValue(value);
+        }
+
+        /// <summary>
+        /// Row '00' exists on board
+        /// </summary>
+        public bool Row00Exists
+        {
+            get => GetValue<bool>();
+            set => SetValue(value);
+        }
+
+        /// <summary>
+        /// Is she a passenger ship
+        /// </summary>
+        public bool Passenger
+        {
+            get => GetValue<bool>();
+            set => SetValue(value);
+        }
+
+        /// <summary>
+        /// Number of superstructures on the vessel
+        /// </summary>
+        public byte NumberOfSuperstructures
         {
             get { return GetValue<byte>(); }
             set
@@ -74,22 +116,34 @@ namespace EasyJob_ProDG.UI.Wrapper
                 UpdateAccommodationBays();
             }
         }
+
+
+
+
+
+        // ??
         internal List<byte> AccommodationBays { get; set; }
+
+        //Bound to Accommodation bays in tab 'Dimensions'
         public ObservableCollection<DummyAccommodation> AccommodationBaysObservable { get; set; }
+
         private void UpdateAccommodationBays()
         {
-            if (AccommodationBaysObservable == null || AccommodationBaysObservable.Count == NumberOfAccommodations || AccommodationBaysObservable.Count == 0)
+            if (AccommodationBaysObservable == null || AccommodationBaysObservable.Count == NumberOfSuperstructures || AccommodationBaysObservable.Count == 0)
                 return;
-            if (NumberOfAccommodations > AccommodationBaysObservable.Count)
+            if (NumberOfSuperstructures > AccommodationBaysObservable.Count)
             {
                 AccommodationBaysObservable.Add(new DummyAccommodation(AccommodationBaysObservable.Count + 1, 0));
             }
-            if (NumberOfAccommodations < AccommodationBaysObservable.Count)
+            if (NumberOfSuperstructures < AccommodationBaysObservable.Count)
             {
                 AccommodationBaysObservable.RemoveAt(AccommodationBaysObservable.Count - 1);
             }
         }
 
+        /// <summary>
+        /// Number of cargo holds on the vessel
+        /// </summary>
         public byte NumberOfHolds
         {
             get { return GetValue<byte>(); }
@@ -99,18 +153,15 @@ namespace EasyJob_ProDG.UI.Wrapper
                 UpdateCargoHoldsNumber();
             }
         }
-        public ObservableCollection<DummyCargoHold> HoldsObservable { get; set; }
+        public ObservableCollection<CargoHoldWrapper> HoldsObservable { get; set; }
 
-        //
-        //ADD LOGIC FOR DOC
-        //
         private void UpdateCargoHoldsNumber()
         {
             if (HoldsObservable == null || HoldsObservable.Count == NumberOfHolds || HoldsObservable.Count == 0)
                 return;
             if (NumberOfHolds > HoldsObservable.Count)
             {
-                HoldsObservable.Add(new DummyCargoHold(NumberOfHolds));
+                HoldsObservable.Add(new CargoHoldWrapper(NumberOfHolds));
                 DocObservable.AddNewHold(NumberOfHolds);
             }
             if (NumberOfHolds < HoldsObservable.Count)
@@ -201,6 +252,8 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         internal List<CellPosition> LSAList { get; set; }
         private ObservableCollection<CellPositionWrapper> lsaObservable;
+        private string shipName;
+
         public ObservableCollection<CellPositionWrapper> LSAObservable
         {
             get
@@ -246,13 +299,16 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         public DOCWrapper DocObservable
         {
-            get; 
+            get;
             set;
         }
 
         public string ErrorList { get; set; }
 
-
+        /// <summary>
+        /// List of possible options for reefers facing.
+        /// List to be used in combobox list items.
+        /// </summary>
         public static List<string> MotorFacingList
         {
             get { return ShipProfile.MotorFacingList; }

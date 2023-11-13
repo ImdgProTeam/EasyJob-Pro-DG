@@ -2,6 +2,7 @@
 using EasyJob_ProDG.Model.Transport;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using EasyJob_ProDG.UI.Wrapper;
 
 namespace EasyJob_ProDG.UI.Utility
 {
@@ -29,7 +30,7 @@ namespace EasyJob_ProDG.UI.Utility
         /// </summary>
         /// <param name="collection"></param>
         /// <returns></returns>
-        public static List<CargoHold> DowngradeCollectionToList(ObservableCollection<DummyCargoHold> collection)
+        public static List<CargoHold> DowngradeCollectionToList(ObservableCollection<CargoHoldWrapper> collection)
         {
 
             List<CargoHold> list = new List<CargoHold>();
@@ -51,13 +52,13 @@ namespace EasyJob_ProDG.UI.Utility
             return new ObservableCollection<T>(list);
         }
 
-        public static ObservableCollection<DummyCargoHold> UpgradeToCollection(List<CargoHold> list)
+        public static ObservableCollection<CargoHoldWrapper> UpgradeToCollection(List<CargoHold> list)
         {
             byte i = 1;
-            ObservableCollection<DummyCargoHold> collection = new ObservableCollection<DummyCargoHold>();
+            ObservableCollection<CargoHoldWrapper> collection = new ObservableCollection<CargoHoldWrapper>();
             foreach(var hold in list)
             {
-                collection.Add(new DummyCargoHold(i, hold.FirstBay, hold.LastBay));
+                collection.Add(new CargoHoldWrapper(i, hold.FirstBay, hold.LastBay));
                 i++;
             }
             return collection;

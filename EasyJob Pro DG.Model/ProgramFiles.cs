@@ -1,15 +1,17 @@
 ﻿using EasyJob_ProDG.Data;
+using EasyJob_ProDG.Model.IO;
+using EasyJob_ProDG.Model.Transport;
 using System;
 using System.IO;
-using System.Text;
 using System.Xml.Linq;
 
 namespace EasyJob_ProDG.Model
 {
     public static class ProgramFiles
     {
-        public static StringBuilder TextToExport;
-        internal static XDocument DgDataBase;
+        public static XDocument DgDataBase { get; private set; }
+        public static ShipProfile OwnShipProfile => ShipProfile.Instance;
+
 
         private static bool hasDataBaseBeenSuccesfullyConnected = false;
 
@@ -19,23 +21,28 @@ namespace EasyJob_ProDG.Model
         /// <summary>
         /// Method connects ShipProfile and dgDataBase to program.
         /// </summary>
-        /// <param name="ownship">ShipProfile which can be used after it is connected from the file.</param>
-        /// <param name="dgDataBase">Dg DataBase to be used after it is read from a file.</param>
         /// <returns>
         /// True, if DataBase has been succesfully connected.
         /// In case of problems with ShipProfile - default ship profile will be returned.
         /// In case of problems with dgDataBase - null will be returned.
         /// </returns>            
-        public static bool Connect(out Transport.ShipProfile ownship, out XDocument dgDataBase)
+        public static bool Connect()
         {
-            ownship = Transport.ShipProfile.ReadShipProfile
-                (ProgramDefaultSettingValues.DefaultShipProfile, ProgramDefaultSettingValues.AlwaysOpenDefaultProfile);
-            LogWriter.Write("Ship profile loaded");
-
+            ConnectShipProfile();
             DgDataBase = GetXmlDoc(ProgramDefaultSettingValues.DgDataBaseFile);
-            dgDataBase = DgDataBase;
 
             return hasDataBaseBeenSuccesfullyConnected;
+        }
+
+        /// <summary>
+        /// Creates <see cref="ShipProfile"/> from ShipProfile.ini file.
+        /// </summary>
+        /// <returns>Created ShipProfile or a default ShipProfile in case of any error.</returns>
+        private static void ConnectShipProfile()
+        {
+            var profileLines = ShipProfileIO.ReadFromFile(ProgramDefaultSettingValues.DefaultShipProfile, ProgramDefaultSettingValues.AlwaysOpenDefaultProfile);
+            ShipProfileHandler.SetCreateShipProfile(profileLines);
+            LogWriter.Write("Ship profile loaded");
         }
 
         /// <summary>
@@ -85,7 +92,8 @@ namespace EasyJob_ProDG.Model
             string _fileName = ShipProfileName;
             if (_fileName == null || ProgramDefaultSettingValues.AlwaysOpenDefaultProfile)
                 _fileName = ProgramDefaultSettingValues.DefaultShipProfile.Replace(ProgramDefaultSettingValues.ShipProfileExtension, "");
-            Transport.ShipProfile.WriteShipProfile(_fileName, ship);
+            var profileText = Transport.ShipProfileHandler.CreateShipProfileFileText(_fileName, ship);
+            ShipProfileIO.WriteToFile(_fileName, profileText);
         }
     }
 }

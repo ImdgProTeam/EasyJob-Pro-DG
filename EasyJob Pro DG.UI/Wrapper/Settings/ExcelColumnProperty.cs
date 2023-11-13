@@ -1,6 +1,6 @@
 ﻿using EasyJob_ProDG.UI.Utility;
 
-namespace EasyJob_ProDG.UI.Wrapper.Dummies
+namespace EasyJob_ProDG.UI.Wrapper.Settings
 {
     /// <summary>
     /// Contains parameters of column property for excel template modification.
@@ -44,7 +44,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Dummies
             _valueOriginal = _value;
             OnPropertyChanged(nameof(IsModified));
         }
-        
+
 
         /// <summary>
         /// Validates user input.
@@ -55,8 +55,8 @@ namespace EasyJob_ProDG.UI.Wrapper.Dummies
         {
             if (value < 0)
                 return 0;
-            if (value > _maxValue) 
-                return  value = _maxValue;
+            if (value > _maxValue)
+                return value = _maxValue;
             return value;
         }
     }

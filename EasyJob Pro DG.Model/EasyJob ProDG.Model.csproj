@@ -78,6 +78,7 @@
     <Compile Include="IO\ReadBaplieFile.cs" />
     <Compile Include="IO\EasyJobCondition\ExportCondition.cs" />
     <Compile Include="IO\ReadIftdgnFile.cs" />
+    <Compile Include="IO\ShipProfileIO.cs" />
     <Compile Include="Transport\CellPosition.cs" />
     <Compile Include="Cargo\Conflicts.cs" />
     <Compile Include="Cargo\Container.cs" />
@@ -93,13 +94,12 @@
     <Compile Include="Cargo\Segregation.cs" />
     <Compile Include="Cargo\SegregatorException.cs" />
     <Compile Include="Transport\ShipProfile.cs" />
-    <Compile Include="Transport\ShipProfileConsoleMethods.cs" />
-    <Compile Include="Transport\ShipProfileMethods.cs" />
+    <Compile Include="Transport\ShipProfileHandler.cs" />
     <Compile Include="Cargo\SpecialSegregationCheck.cs" />
     <Compile Include="Cargo\SpecialStowageCheck.cs" />
     <Compile Include="Cargo\SpecialStowageGroups.cs" />
     <Compile Include="Cargo\Stowage.cs" />
-    <Compile Include="Transport\CH.cs" />
+    <Compile Include="Transport\CargoHold.cs" />
     <Compile Include="Transport\OuterRow.cs" />
     <Compile Include="Transport\Voyage.cs" />
     <Compile Include="Validators\DgClassValidator.cs" />

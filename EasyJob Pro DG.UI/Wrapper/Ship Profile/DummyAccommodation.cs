@@ -1,6 +1,6 @@
 ﻿using EasyJob_ProDG.UI.Utility;
 
-namespace EasyJob_ProDG.UI.Wrapper.Dummies
+namespace EasyJob_ProDG.UI.Wrapper
 {
     public class DummyAccommodation : Observable
     {

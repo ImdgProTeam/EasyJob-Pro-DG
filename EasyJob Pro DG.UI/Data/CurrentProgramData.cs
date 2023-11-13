@@ -25,15 +25,15 @@ namespace EasyJob_ProDG.UI.Data
         // ----------- Private fields --------- ----------------------------------------
 
         private static CargoPlan _workingCargoPlan;
-        private static System.Xml.Linq.XDocument _dgDataBase;
-        private static IShipProfileDataService _shipProfileDataService; 
+        private static System.Xml.Linq.XDocument _dgDataBase => ProgramFiles.DgDataBase;
+        private static IShipProfileDataService _shipProfileDataService;
 
         #endregion
 
         #region Public program files
         // ----------- Public use program files ----------------------------------------
 
-        public static ShipProfile OwnShip;
+        public static ShipProfile OwnShip => ProgramFiles.OwnShipProfile;
         #endregion
 
         #region Public properties
@@ -69,7 +69,7 @@ namespace EasyJob_ProDG.UI.Data
             EventSupervisor evS = new();
 
             ////Connect program files
-            return ProgramFiles.Connect(out OwnShip, out _dgDataBase);
+            return ProgramFiles.Connect();
         }
 
         /// <summary>

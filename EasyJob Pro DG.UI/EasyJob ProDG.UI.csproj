@@ -355,11 +355,11 @@
     <Compile Include="Wrapper\Settings\ExcelDgTemplateWrapper.cs" />
     <Compile Include="Wrapper\Settings\ExcelTemplateWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\DOCWrapper.cs" />
-    <Compile Include="Wrapper\Dummies\DummyAccommodation.cs" />
-    <Compile Include="Wrapper\Dummies\DummyCargoHold.cs" />
+    <Compile Include="Wrapper\Ship Profile\DummyAccommodation.cs" />
+    <Compile Include="Wrapper\Ship Profile\CargoHoldWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\CellPositionWrapper.cs" />
-    <Compile Include="Wrapper\Dummies\DummyDOCRow.cs" />
-    <Compile Include="Wrapper\Dummies\ExcelColumnProperty.cs" />
+    <Compile Include="Wrapper\Ship Profile\DummyDOCRow.cs" />
+    <Compile Include="Wrapper\Settings\ExcelColumnProperty.cs" />
     <Compile Include="Wrapper\Settings\ExcelReeferTemplateWrapper.cs" />
     <Compile Include="Wrapper\ModelWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\OuterRowWrapper.cs" />

@@ -200,7 +200,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                             container.Location = segment;
                             if (ship != null)
                             {
-                                container.HoldNr = ship.DefineCargoHoldNumberNonstatic(container.Bay);
+                                container.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
                             }
                             count++;
                             break;
@@ -581,7 +581,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                             container.Location = segment;
                             if (ship != null)
                             {
-                                container.HoldNr = ship.DefineCargoHoldNumberNonstatic(container.Bay);
+                                container.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
                             }
                             count++;
                             break;
@@ -779,7 +779,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                             container.Location = segment;
                             if (ship != null)
                             {
-                                container.HoldNr = ship.DefineCargoHoldNumberNonstatic(container.Bay);
+                                container.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
                             }
                             count++;
                             break;
@@ -1028,7 +1028,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                             container.Location = segment;
                             if (ship != null)
                             {
-                                container.HoldNr = ship.DefineCargoHoldNumberNonstatic(container.Bay);
+                                container.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
                             }
                             count++;
                             break;

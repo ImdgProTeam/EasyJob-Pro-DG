@@ -164,7 +164,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                             unit.Carrier = value;
                     }
 
-                    cont.HoldNr = Transport.ShipProfile.DefineCargoHoldNumberStatic(cont.Bay);
+                    cont.HoldNr = Transport.ShipProfile.DefineCargoHoldNumber(cont.Bay);
 
                     // Handling missing container number
                     if (!string.IsNullOrEmpty(cont.ContainerNumber))

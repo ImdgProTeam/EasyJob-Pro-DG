@@ -226,8 +226,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             if (Model.Containers.ContainsUnitWithSameContainerNumberInList(container)) return;
             if (Containers.ContainsUnitWithSameContainerNumberInList(container)) return;
 
-            if (CurrentProgramData.OwnShip != null)
-                container.HoldNr = CurrentProgramData.OwnShip.DefineCargoHoldNumberNonstatic(container.Bay);
+            container.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
 
             //add to Model
             if (!Model.AddContainer(container)) return;
@@ -246,10 +245,9 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <param name="dg"></param>
         internal void AddDg(Dg dg)
         {
-            if(dg == null) return;
+            if (dg == null) return;
 
-            if (CurrentProgramData.OwnShip != null)
-                dg.HoldNr = CurrentProgramData.OwnShip.DefineCargoHoldNumberNonstatic(dg.Bay);
+            dg.HoldNr = ShipProfile.DefineCargoHoldNumber(dg.Bay);
 
             this.Model.AddDg(dg, _dgDataBase);
 
@@ -275,8 +273,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             //if already exists -> no action
             if (Model.Reefers.ContainsUnitWithSameContainerNumberInList(unit)) return;
 
-            if (CurrentProgramData.OwnShip != null)
-                unit.HoldNr = CurrentProgramData.OwnShip.DefineCargoHoldNumberNonstatic(unit.Bay);
+            unit.HoldNr = ShipProfile.DefineCargoHoldNumber(unit.Bay);
 
             //add to Model
             if (!this.Model.AddReefer(unit)) return;
@@ -342,7 +339,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                 Model.Reefers.Remove(reefer.Model);
             }
 
-            for(int i = 0; i < DgList.Count; i++)
+            for (int i = 0; i < DgList.Count; i++)
             {
                 var d = DgList[i];
 

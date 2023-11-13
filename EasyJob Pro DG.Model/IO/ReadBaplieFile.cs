@@ -379,7 +379,7 @@ namespace EasyJob_ProDG.Model.IO
                 case "147":
                     {
                         a = new Container { Location = ParseLOCsegment(segment) };
-                        a.HoldNr = _ship.DefineCargoHoldNumberNonstatic(a.Bay);
+                        a.HoldNr = ShipProfile.DefineCargoHoldNumber(a.Bay);
                         cargoPlan.Containers.Add(a);
                         break;
                     }

@@ -321,8 +321,8 @@ namespace EasyJob_ProDG.Model.Cargo
         private static void CheckRadioactiveStowage(Dg unit, ShipProfile ship)
         {
             if (unit.DgClass != "7") return;
-            List<byte> bays = ship.Accommodation;
-            foreach (byte accBay in ship.AccommodationBays)
+            List<byte> bays = ship.BaysSurroundingSuperstructure;
+            foreach (byte accBay in ship.BaysInFrontOfSuperstructures)
             {
                 for (int i = 3; i <= 12; i++)
                 {
