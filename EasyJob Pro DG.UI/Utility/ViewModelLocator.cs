@@ -4,6 +4,8 @@ namespace EasyJob_ProDG.UI.Utility
 {
     public class ViewModelLocator
     {
+        // Creation on the application start
+
         private static MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
         public static MainWindowViewModel MainWindowViewModel
         {
@@ -17,7 +19,7 @@ namespace EasyJob_ProDG.UI.Utility
         public static ConflictListViewModel ConflictListViewModel => conflictListViewModel;
 
         private static DataGridDgViewModel dataGridDgViewModel = new DataGridDgViewModel();
-        public static DataGridDgViewModel DataGridDgViewModel 
+        public static DataGridDgViewModel DataGridDgViewModel
         {
             get
             {
@@ -43,20 +45,27 @@ namespace EasyJob_ProDG.UI.Utility
             }
         }
 
-        private static ShipProfileWindowVM shipProfileWindowVM = new ShipProfileWindowVM();
+
+        // Creation on demand
+
+        private static ShipProfileWindowVM shipProfileWindowVM;
         public static ShipProfileWindowVM ShipProfileWindowVM
         {
             get
             {
+                if (shipProfileWindowVM is null)
+                    shipProfileWindowVM = new ShipProfileWindowVM();
                 return shipProfileWindowVM;
             }
         }
 
-        private static SettingsWindowVM settingsWindowVM = new SettingsWindowVM();
+        private static SettingsWindowVM settingsWindowVM;
         public static SettingsWindowVM SettingsWindowVM
         {
             get
             {
+                if (settingsWindowVM is null)
+                    settingsWindowVM = new SettingsWindowVM();
                 return settingsWindowVM;
             }
         }
