@@ -19,8 +19,7 @@
 VERSION INFO
 
 
-
-0.9.0.0
+0.9.0.11
 Date: 
 
 Version workable: Yes
@@ -36,6 +35,53 @@ NEW
 1. 
 
 Workable datagrid: dg, partially containers and reefers
+-------------------------------------------------------
+///////////////////////////////////////////////////////
+
+
+0.9.0.10
+Date: 14.11.2023
+
+Version workable: Yes
+
+Implemented amendments: 41-22
+Licence: 30 Jun 2024
+
+Changes:
+
+VISUAL
+1. Implemented selected unit/units status bar text in all data grids.
+2. Conflicts can be deleted one by one, or all similar via context menu
+3. Improved sorting of columns - for booleans -> selected first, for some text columns -> blank at the end.
+4. Animation to the main window and popup windows added.
+5. Implemented Welcome window, licence window and about.
+6. Spinner and status bar async animation.
+7. Various improvements to visual elements.
+8. Utilized centralized color scheme.
+9. Container number displayed in uniform manner
+
+ERRORS
+1. Improved excel files reading ignorring many format misreadings
+2. Made workable update and import for the plans with missing container numbers.
+3. Fixed various issues to coordinate changes among data grids.
+4. First start with some missing files handled.
+
+
+NEW
+1. Implemented amendments 41-22
+2. Most of User settings, excel templates, column properties are shifted to settings.settings.
+3. Implemented save and restore settings in file.
+4. Increased number of excel templates for both dg and reefers to 5 and made it selectable.
+5. Improved Import. Reefers now have HasUpdated property
+6. Add Dg, add container implemented
+7. Various summary implemented
+8. Logger created
+9. User settings window created
+10. Remove container, remove reefer implemented.
+11. Export of Dg and Reefer data grids to excel as displayed implemented.
+12. Reefers: import manifest info implemented
+
+Workable datagrid: dg, containers and reefers
 -------------------------------------------------------
 ///////////////////////////////////////////////////////
 
