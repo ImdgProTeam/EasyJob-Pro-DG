@@ -352,6 +352,7 @@
     <Compile Include="Wrapper\Cargo\DgWrapper.cs" />
     <Compile Include="Wrapper\Cargo\DgWrapperMethods.cs" />
     <Compile Include="Wrapper\Cargo\DgWrapperProperties.cs" />
+    <Compile Include="Wrapper\ChangeTrackingCollection.cs" />
     <Compile Include="Wrapper\Settings\ExcelDgTemplateWrapper.cs" />
     <Compile Include="Wrapper\Settings\ExcelTemplateWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\DOCWrapper.cs" />
