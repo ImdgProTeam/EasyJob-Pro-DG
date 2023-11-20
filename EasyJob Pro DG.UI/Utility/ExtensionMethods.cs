@@ -1,8 +1,4 @@
-﻿using EasyJob_ProDG.Model.Cargo;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace EasyJob_ProDG.UI.Utility
+﻿namespace EasyJob_ProDG.UI.Utility
 {
     internal static class ExtensionMethods
     {

@@ -1,0 +1,1430 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Messages">
+    <Position X="80" Y="0.5" Height="0.4" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Sorting">
+    <Position X="81.873" Y="0.5" Height="0.359" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Converters">
+    <Position X="83.876" Y="0.5" Height="0.33" Width="1.7" />
+  </Comment>
+  <Comment CommentText="UI Elements">
+    <Position X="85.834" Y="0.5" Height="0.433" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Behaviors and Attached properties">
+    <Position X="87.844" Y="0.5" Height="0.505" Width="1.375" />
+  </Comment>
+  <Comment CommentText="Utilities">
+    <Position X="74.316" Y="0.5" Height="0.425" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Message dialogs">
+    <Position X="69.75" Y="6.25" Height="0.75" Width="8.594" />
+  </Comment>
+  <Class Name="EasyJob_ProDG.UI.App" Collapsed="true">
+    <Position X="61.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAIAAAAAAAAAAggCAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Data.ConflictsList" Collapsed="true">
+    <Position X="0.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAACAABAAUAAIAMAggAAgAAAAAAAAAQACE=</HashCode>
+      <FileName>Data\ConflictsList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Data.CurrentProgramData" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="61.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CIZCDgAAAQAQAAAAApCABoAIAABAAjARRAgMAAwAoAA=</HashCode>
+      <FileName>Data\CurrentProgramData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Data.DataHelper" Collapsed="true">
+    <Position X="69.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Data\DataHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Data.DgWrapperList" Collapsed="true">
+    <Position X="61.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAABAAAAABAAAAAABAAAAAABAAEAAAAAABAQAAA=</HashCode>
+      <FileName>Data\DgWrapperList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Data.DialogOpenFile" Collapsed="true">
+    <Position X="73.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAiAAAAAAAAAAAAAAAAAAAIAgAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Data\DialogOpenFile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Data.DialogOpenSettings" Collapsed="true">
+    <Position X="69.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\DialogOpenSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Data.DialogSaveFile" Collapsed="true">
+    <Position X="75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Data\DialogSaveFile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Data.DialogSaveSettings" Collapsed="true">
+    <Position X="71.5" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\DialogSaveSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Data.VentilationRequirements" Collapsed="true">
+    <Position X="57.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgIAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAABAAABQAAA=</HashCode>
+      <FileName>Data\VentilationRequirements.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Properties.Resources" Collapsed="true">
+    <Position X="69.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Properties.Settings" Collapsed="true">
+    <Position X="54.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIEAAISAAXQQwEEpEAAAAEBAAAAAAACCkAACAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Security.SecureStringHelpers" Collapsed="true">
+    <Position X="72" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Security\SecureStringHelpers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Services.DataServices.CargoDataService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="63.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAIAAAAADAAAAAIAAAAAAA=</HashCode>
+      <FileName>Services\DataServices\CargoDataService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Services.DataServices.ConflictDataService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="60" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAEAAAAAIAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Services\DataServices\ConflictDataService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Services.DataServices.DgDataBaseDataService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="67" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\DataServices\DgDataBaseDataService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Services.DataServices.LoadDataService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="58.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAACgFAAAAUAAAAAAAAAAAAAAAAAAAABAAAAEAAgAA=</HashCode>
+      <FileName>Services\DataServices\LoadDataService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Services.DataServices.ShipProfileDataService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="55" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIgCCABAAAAAAACAAACAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Services\DataServices\ShipProfileDataService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Services.DataServices.TitleService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="61.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAQAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\DataServices\TitleService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Services.DialogServices.DialogWindowCloseRequestedEventArgs" Collapsed="true">
+    <Position X="75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\DialogServices\DialogWindowCloseRequestedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Services.DialogServices.MappedDialogWindowService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="76.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAgAAAAAAAAAEAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\DialogServices\MappedDialogWindowService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Services.DialogServices.MessageDialogService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="69.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAACAAAAIAAAAAAAAAIAAAAAAAIAAAAAAAABAAAA=</HashCode>
+      <FileName>Services\DialogServices\MessageDialogService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Services.DialogServices.WindowDialogService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="71.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Services\DialogServices\WindowDialogService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Services.ExtensionRegistryHelper" Collapsed="true">
+    <Position X="57" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\FirstStartServices\ExtensionRegistryHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Services.FirstStartService" Collapsed="true">
+    <Position X="57" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAABAAA=</HashCode>
+      <FileName>Services\FirstStartServices\FirstStartService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Services.SettingsService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="78.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAACgAAAAAAMAMAAAAAAAAgEAAgAAACAEAAQAAAAA=</HashCode>
+      <FileName>Services\SettingsService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Services.Log.LogService" Collapsed="true">
+    <Position X="58.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAgAABAAAAAAAAAAACA=</HashCode>
+      <FileName>Services\Log\LogService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Settings.DgTableColumnSettings" Collapsed="true">
+    <Position X="63.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAABAAEAAAAAAIAAAAEAAgAAAAQCAAAAAAAAAgAA=</HashCode>
+      <FileName>Settings\DgTableColumnSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Settings.UserSettingsApplicator" Collapsed="true">
+    <Position X="78.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Settings\UserSettingsApplicator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Settings.UserSettingsFileHandler" Collapsed="true">
+    <Position X="78.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAIAACAAAAAAgAAABAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Settings\UserSettingsFileHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Settings.UserUISettings" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="54.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgEAAAwAQAAAAMAEAAAEAAgAAGgAQAIAAAECAABwAAI=</HashCode>
+      <FileName>Settings\UserUISettings.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Utility.AsyncObservableCollection&lt;T&gt;" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAIAAAAAAAAAAAABAAgAAAAAEAAAA=</HashCode>
+      <FileName>Utility\AsyncObservableCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Utility.ClassConverters" Collapsed="true">
+    <Position X="69.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\ClassConverters.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Utility.DataMessenger" Collapsed="true">
+    <Position X="80" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAEAAIAAAAAABJAAAAAAgAAAAEAA=</HashCode>
+      <FileName>Utility\DataMessenger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Utility.DelegateCommand" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="59" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEACAAQAAECAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\DelegateCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Utility.EventSupervisor" Collapsed="true">
+    <Position X="64" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BgAABAACAAAAAAAAQAAAAiAAAAAAAAAJABAAAABAAAA=</HashCode>
+      <FileName>Utility\EventSupervisor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Utility.ExportDataGridToExcel" Collapsed="true">
+    <Position X="74.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Utility\ExportDataGridToExcel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Utility.ExtensionMethods" Collapsed="true">
+    <Position X="74.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\ExtensionMethods.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Utility.NotifyDataErrorInfoBase" Collapsed="true">
+    <Position X="16" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAIABAAAAAhoAA=</HashCode>
+      <FileName>Utility\NotifyDataErrorInfoBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Utility.Observable" Collapsed="true">
+    <Position X="35" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Observable.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Utility.ViewModelLocator" Collapsed="true">
+    <Position X="62.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AGAAAACAAAQIgAAAQAAAAAAAAKAAAAAAAoAAAADgAAA=</HashCode>
+      <FileName>Utility\ViewModelLocator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Messages.ApplicationClosingMessage" Collapsed="true">
+    <Position X="60.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Messages\ApplicationClosingMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Messages.CancelChangesMessage" Collapsed="true">
+    <Position X="80" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Messages\CancelChangesMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Messages.CargoDataUpdated" Collapsed="true">
+    <Position X="80" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAgAAAABAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Utility\Messages\CargoDataUpdated.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Messages.CargoPlanUnitPropertyChanged" Collapsed="true">
+    <Position X="80" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAQAAAAAAAAAAAYAAAAAAAAAAAAAAAAAAgAABAAAA=</HashCode>
+      <FileName>Utility\Messages\CargoPlanUnitPropertyChanged.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Messages.DgListSelectedItemUpdatedMessage" Collapsed="true">
+    <Position X="80" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Messages\DgListSelectedItemUpdatedMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Messages.MessageFromDummy" Collapsed="true">
+    <Position X="80" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Messages\MessageFromDummy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Messages.RemoveRowMessage" Collapsed="true">
+    <Position X="80" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Messages\RemoveRowMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Messages.ShipProfileWrapperMessage" Collapsed="true">
+    <Position X="55" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Messages\ShipProfileWrapperMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Messages.UpdateCargoPlan" Collapsed="true">
+    <Position X="80" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Messages\UpdateCargoPlan.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Animations.DialogWindowAnimations" Collapsed="true">
+    <Position X="76.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Animations\DialogWindowAnimations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Animations.FrameworkElementAnimations" Collapsed="true">
+    <Position X="69.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Animations\FrameworkElementAnimations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Animations.StoryboardHelpers" Collapsed="true">
+    <Position X="76.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAIAAAAAAAABAAAAAAAAAAACBAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>View\Animations\StoryboardHelpers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Animations.UserControlAnimations" Collapsed="true">
+    <Position X="76.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAgAAAAAQAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>View\Animations\UserControlAnimations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.AttachedProperties.DataGridSortBehavior" Collapsed="true">
+    <Position X="87.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAAQAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAEAQAA=</HashCode>
+      <FileName>View\AttachedProperties\DataGridSortBehavior.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.AttachedProperties.EnterKeyTraversal" Collapsed="true">
+    <Position X="87.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAEAAAAAAAAAAAIABAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\AttachedProperties\EnterKeyTraversal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.AttachedProperties.FrameworkElementsAnimationAttachedProperties" Collapsed="true">
+    <Position X="69.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAEAAAAAAAAAACAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\AttachedProperties\FrameworkElementsAnimationAttachedProperties.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.AttachedProperties.PasswordBoxProperties" Collapsed="true">
+    <Position X="85.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAUAAAAAAAAAAAAAAARAAAAAAAAIgAAAAABAAAQ=</HashCode>
+      <FileName>View\AttachedProperties\PasswordBoxProperties.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.AttachedProperties.SelectingContainerDataGridItem" Collapsed="true">
+    <Position X="87.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAABAQAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\AttachedProperties\SelectingContainerDataGridItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.AttachedProperties.SelectingDgDataGridItem" Collapsed="true">
+    <Position X="87.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAEAAAABAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\AttachedProperties\SelectingDgDataGridItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Behaviors.DataGridBehavior" Collapsed="true">
+    <Position X="87.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IgAAAAAAAgAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Behaviors\DataGridBehaviors.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Behaviors.SelectTextOnFocusBehavior" Collapsed="true">
+    <Position X="87.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Behaviors\SelectTextOnFocusBehavior.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Behaviors.TakeFocusAndSelectTextOnVisibleBehavior" Collapsed="true">
+    <Position X="87.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Behaviors\TakeFocusAndSelectTextOnVisibleBehavior.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Converters.AnyCellToNullConverter" Collapsed="true">
+    <Position X="1" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Converters\AnyCellToNullConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Converters.BooleanToVisibilityConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="83.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Converters\BooleanToVisibilityConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Converters.BoolInversionConverter" Collapsed="true">
+    <Position X="3.25" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>View\Converters\BoolInversionConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Converters.CellToTextConverter" Collapsed="true">
+    <Position X="5.5" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Converters\CellToTextConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Converters.CompositeConverter" Collapsed="true">
+    <Position X="7.75" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAgAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Converters\CompositeConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Converters.ConverterBase" Collapsed="true">
+    <Position X="7.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Converters\ConverterBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Converters.DummyConverter" Collapsed="true">
+    <Position X="10" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Converters\DummyConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Converters.ExcelColumnNumberConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="78.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Converters\ExcelColumnNumberConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Converters.HoldsToVisibilityConverter" Collapsed="true">
+    <Position X="12.25" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Converters\HoldsToVisibilityConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Converters.ToggleButtonDOCConverter" Collapsed="true">
+    <Position X="14.5" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Converters\ToggleButtonDOCConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Converters.VisibilityToInverseBooleanConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="83.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Converters\VisibilityToInverseBooleanConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Right" Position="0.1" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Converters.ZeroNullStringToFalseConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="83.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Converters\ZeroNullStringToFalse.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Converters.ZeroToNullConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="83.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Converters\ZeroToNullConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.AnimatedDialogResultWindow" Collapsed="true">
+    <Position X="23" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\DialogWindows\Base\AnimatedDialogResultWindow.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.AnimatedDialogWindow" Collapsed="true">
+    <Position X="12.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAgAAAAAABCBAgiAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\DialogWindows\Base\AnimatedDialogWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.FeaturedDialogWindow" Collapsed="true">
+    <Position X="12.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\DialogWindows\Base\FeaturedDialogWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.DialogWindowOptions" Collapsed="true">
+    <Position X="21.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\DialogWindows\DialogWindowOptions.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.DialogWindowOptionsViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="73.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BACAAAAAAAAAAABAABQAsACAIAAACAAACAAAIAAAAAA=</HashCode>
+      <FileName>View\DialogWindows\DialogWindowOptionsViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.LicenceAgreement" Collapsed="true">
+    <Position X="6" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\DialogWindows\Info\LicenceAgreement.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.LicenceAgreementViewModel" Collapsed="true">
+    <Position X="73.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAGAAAAAAAAIAAAQAEABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\DialogWindows\Info\LicenceAgreementViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.WelcomeWindow" Collapsed="true">
+    <Position X="24" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\DialogWindows\Info\WelcomeWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.WelcomeWindowVM" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="69.75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAACAAAAAAQAAABAAEAACAgAAAAAAAQCAAAQAAQBgAE=</HashCode>
+      <FileName>View\DialogWindows\Info\WelcomeWindowVM.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.winAbout" Collapsed="true">
+    <Position X="10.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\DialogWindows\Info\winAbout.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.WinAboutViewModel" Collapsed="true">
+    <Position X="71.5" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAgAAAAAAAAAQAAAAQgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\DialogWindows\Info\WinAboutViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.winLicence" Collapsed="true">
+    <Position X="12.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\DialogWindows\Info\winLicence.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.WinLicenceViewModel" Collapsed="true">
+    <Position X="73.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAYgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\DialogWindows\Info\WinLicenceViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.winLogin" Collapsed="true">
+    <Position X="19.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\DialogWindows\Info\winLogin.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.WinLoginViewModel" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAACAAQABAAAAAAAAAAAAAAAACAAAQAACAAAA=</HashCode>
+      <FileName>View\DialogWindows\Info\WinLoginViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.CargoReport" Collapsed="true">
+    <Position X="1.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\DialogWindows\Summaries\CargoReport.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.CargoReportViewModel" Collapsed="true">
+    <Position X="32.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAoABEAIREgFBAAAAACASAQYdCYBAARkEgISICAEI=</HashCode>
+      <FileName>View\DialogWindows\Summaries\CargoReportViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.DgSummaryReport" Collapsed="true">
+    <Position X="3.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\DialogWindows\Summaries\DgSummaryReport.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.DgSummaryReportViewModel" Collapsed="true">
+    <Position X="39.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BgQEACCEgYBmAEAAIYAEEAQAAQAEIVEJAAggAKAAAMA=</HashCode>
+      <FileName>View\DialogWindows\Summaries\DgSummaryReportViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.PortToPortReport" Collapsed="true">
+    <Position X="8.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\DialogWindows\Summaries\PortToPortReport.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.PortToPortReportViewModel" Collapsed="true">
+    <Position X="77.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JgAAgAAEBQAEQEAAAAAAEACAAEgAABABAAgAAEAAAEA=</HashCode>
+      <FileName>View\DialogWindows\Summaries\PortToPortReportViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.PortValues" Collapsed="true">
+    <Position X="41.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQQBAAABAAQUAACCAQBAAIACoAAAAAAAAgAAAQRgEA=</HashCode>
+      <FileName>View\DialogWindows\Summaries\Supporting classes\PortValues.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.ReportDisplayPort" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="77.25" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAQAAAAAAACACAAAAAAAREAAAEAAAEA=</HashCode>
+      <FileName>View\DialogWindows\Summaries\Supporting classes\ReportDisplayPort.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.SinglePortReportValue" Collapsed="true">
+    <Position X="77.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIQQAAEAIAEIQIAAIAAKABAAAAAAgAgAQgACAA=</HashCode>
+      <FileName>View\DialogWindows\Summaries\Supporting classes\SinglePortReportValue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.Summaries.DataTableHelpers" Collapsed="true">
+    <Position X="74.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAABAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>View\DialogWindows\Summaries\Supporting classes\DataTableHelpers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.Summaries.SingleClassReportValue" Collapsed="true">
+    <Position X="59.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAIAAAQAAAIAAAAABAAAAAAgAEA=</HashCode>
+      <FileName>View\DialogWindows\Summaries\Supporting classes\SingleClassReportValue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.DialogWindows.Summaries.SinglePortClassReportValue" Collapsed="true">
+    <Position X="77.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAEAQIAAAAAIAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>View\DialogWindows\Summaries\Supporting classes\SinglePortClassReportValue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Sort.ContainerLeftToRightComparer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="82" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>View\Sort\ContainerLeftToRightComparer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Sort.EmptyTextLastSortComparer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="82" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgABBAAAAAAAAAAAAAAAAAAAAAAABQAAAAAAA=</HashCode>
+      <FileName>View\Sort\EmptyTextLastSortComparer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Sort.LeftToRightComparer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="82" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>View\Sort\LeftToRightComparer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Sort.LocationCompararABC" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="82" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>View\Sort\LocationCompararABC.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Sort.LocationCompararLR" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="82" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>View\Sort\LocationComparerLR.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Sort.LocationCompararLRSnake" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="82" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>View\Sort\LocationComparerLRSnake.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Sort.LocationCompararRL" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="82" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>View\Sort\LocationComparerRL.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Sort.LocationCompararRLSnake" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="82" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>View\Sort\LocationComparerRLSnake.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Sort.PositionABCComparer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="82" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>View\Sort\PositionABCComparer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Sort.SortableLocation" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="82" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAAAAAAAAAACAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>View\Sort\SortableLocation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.Sort.SortSelector" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="82" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABIAAAAAAA=</HashCode>
+      <FileName>View\Sort\SortSelector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.UI.MainWindow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="61.75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAEAAIAAAAACgBAAAAAAAAIAAAAAAM=</HashCode>
+      <FileName>View\UI\MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.UI.SettingsWindow" Collapsed="true">
+    <Position X="15" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAGAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>View\UI\SettingsWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.UI.ShipProfileWindow" Collapsed="true">
+    <Position X="17.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAABAGAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\UI\ShipProfileWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.AnimatedUserControl" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QABAAAAAAAgAAAAQAAAAAABAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\AnimatedUserControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.AddContainerToDataGrid" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="63.25" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AUAIACAEAAAJAEAAYALAAAEAgQQkCAAAAAAAAAASAAA=</HashCode>
+      <FileName>View\User Controls\MainWindow\AddContainerToDataGrid.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.ConflictsListView" Collapsed="true">
+    <Position X="0.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAgCAAAAAAAAAgAEAgAQAIAAAAQAABEAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\MainWindow\ConflictsListView.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.DataGridContainers" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="60.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAIEAQEAAAAAAAAAgAAQAAAAAQ=</HashCode>
+      <FileName>View\User Controls\MainWindow\DataGridContainers.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.DataGridDg" Collapsed="true">
+    <Position X="3" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAEAAAAQgCAEAAQEEgCIAIAFAAABAAAAAgAAABAAkAQ=</HashCode>
+      <FileName>View\User Controls\MainWindow\DataGridDg.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.DataGridReefers" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="61.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAEAAQAAAAIAAAEAAACAAAAAgAAQAAAAAQ=</HashCode>
+      <FileName>View\User Controls\MainWindow\DataGridReefers.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.InfoBlock" Collapsed="true">
+    <Position X="5.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\MainWindow\InfoBlock.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.MainMenu" Collapsed="true">
+    <Position X="7.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\MainWindow\MainMenu.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.MVStatusBar" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="58.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\MainWindow\MVStatusBar.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.Spinner" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="85.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\MainWindow\Spinner.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.MailToHyperlink" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="85.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\Others\MailToHyperlink.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.MailToHyperlinkVM" Collapsed="true">
+    <Position X="85.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\Others\MailToHyperlinkVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.SettingsExcelDg" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="78.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\SettingsWindow\SettingsExcelDg.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.SettingsExcelReefers" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="78.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\SettingsWindow\SettingsExcelReefers.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.HowToEnterPosition" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="55" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\ShipProfileWindow\HowToEnterPosition.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.TabHolds" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="55" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\ShipProfileWindow\TabHolds.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.TabLivingQuarters" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="55" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\ShipProfileWindow\TabLivingQuarters.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.TabLSA" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="55" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\ShipProfileWindow\TabLSA.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.TabMain" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="55" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\ShipProfileWindow\TabMain.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.ViewModel.DesignTimeViewModel" Collapsed="true">
+    <Position X="69.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgQAAA=</HashCode>
+      <FileName>ViewModel\DesignTimeViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.ViewModel.ConflictPanelItemViewModel" Collapsed="true">
+    <Position X="44" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAIAAAAAgBAAEwAMkABAIACBAAAAAAIAACABQDAA=</HashCode>
+      <FileName>ViewModel\MainWindow\ConflictPanelItemVM.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.ViewModel.ConflictListViewModel" Collapsed="true">
+    <Position X="48.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CBAAAAAAAAAAAIQgAAAAAAIAABIAAAAEEIAQgAAgAAA=</HashCode>
+      <FileName>ViewModel\MainWindow\ConflictsListViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.ViewModel.DataGridContainersViewModel" Collapsed="true">
+    <Position X="53" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>DIAQAAaEgAGRAECIGAFACIiABAAAQAQoAQAAMAACgEA=</HashCode>
+      <FileName>ViewModel\MainWindow\DataGridContainersViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.ViewModel.DataGridDgViewModel" Collapsed="true">
+    <Position X="62" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AYCAQAOkAACAAA6IGBAAgIiAJACiQAhoIQIAQAEaAEA=</HashCode>
+      <FileName>ViewModel\MainWindow\DataGridDgViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.ViewModel.DataGridReefersViewModel" Collapsed="true">
+    <Position X="64.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QoAABAKEgCCAAEAIWCAEAEiBBAAABEA4AQEAAAAHAEA=</HashCode>
+      <FileName>ViewModel\MainWindow\DataGridReefersViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.ViewModel.MainWindowViewModel" Collapsed="true">
+    <Position X="66.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>HBIUorig2iRREJAgWgDADNGBJYQowSIB1yCQ4IBt9aI=</HashCode>
+      <FileName>ViewModel\MainWindow\MainWindowCommands.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.ViewModel.StatusBarViewModel" Collapsed="true">
+    <Position X="30.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAZAQEBAJAJABAgAgAAACAAAQIAQQAAAIBgAE=</HashCode>
+      <FileName>ViewModel\MainWindow\StatusBarViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.ViewModel.SettingsWindowVM" Collapsed="true">
+    <Position X="35" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hBBGAAIIAACAUUKEChI0AgAABEkAAAAADgAAAigAAAA=</HashCode>
+      <FileName>ViewModel\Settings\SettingsWindowVM.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.ViewModel.ShipProfileWindowVM" Collapsed="true">
+    <Position X="37.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hGRABAJAAwAwAUACDBIwgIEARAEoCASABAFIAgBAIEA=</HashCode>
+      <FileName>ViewModel\Settings\ShipProfileWindowVM.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.ViewModel.MainWindow.SelectionStatusBarSetter" Collapsed="true">
+    <Position X="65.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAEAAAAAAAAAAAAAAAAAAIAAAAEAAAA=</HashCode>
+      <FileName>ViewModel\MainWindow\SelectionStatusBarSetter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.Cargo.AbstractContainerWrapper&lt;T&gt;" Collapsed="true">
+    <Position X="16" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAEAAkABAAjYgAAASBYIIQAJCAAYAkAQAAAAiAECAAA=</HashCode>
+      <FileName>Wrapper\Cargo\AbstractContainerWrapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.CargoPlanUnitPropertyChanger" Collapsed="true">
+    <Position X="63.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACBBAAAAEgAEUAAAAAgAAAAAgAgAAAAAAAAQAA=</HashCode>
+      <FileName>Wrapper\Cargo\CargoPlanUnitPropertyChanger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.CargoPlanWrapper" Collapsed="true">
+    <Position X="23.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>KEBCAISJAAAQgAQAEAIEhAAIDgABAAAIAAgAAIRUAGQ=</HashCode>
+      <FileName>Wrapper\Cargo\CargoPlanWrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.ConflictWrapper" Collapsed="true">
+    <Position X="28.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Wrapper\Cargo\ConflictWrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.ContainerWrapper" Collapsed="true">
+    <Position X="14.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAJACIIAAABAAAAAAAAAAAAAIABCgAAAAAQAEUAA=</HashCode>
+      <FileName>Wrapper\Cargo\ContainerWrapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.DgWrapper" Collapsed="true">
+    <Position X="17" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>jAAmASwABIACBBqEA5JoAAwpFgGJAhEAgCAEgAATIqA=</HashCode>
+      <FileName>Wrapper\Cargo\DgWrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.ChangeTrackingCollection&lt;T&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="72" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIIAABAAAIAAAAACgAUgAAAAAAABAAUCEAAAAABAA=</HashCode>
+      <FileName>Wrapper\ChangeTrackingCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.ModelWrapper&lt;T&gt;" Collapsed="true">
+    <Position X="16" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAIgAAAkAACAIAEAAAQCUAAAAAEAsAAAAAEAA=</HashCode>
+      <FileName>Wrapper\ModelWrapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.ExcelDgTemplateWrapper" Collapsed="true">
+    <Position X="3.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Wrapper\Settings\ExcelDgTemplateWrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.ExcelReeferTemplateWrapper" Collapsed="true">
+    <Position X="5.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Wrapper\Settings\ExcelReeferTemplateWrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.ExcelTemplateWrapper&lt;T&gt;" Collapsed="true">
+    <Position X="4.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gABBAgCAAACAwEAQAAAAORAAABAAABAAAAAAAAAAAEA=</HashCode>
+      <FileName>Wrapper\Settings\ExcelTemplateWrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.CargoHoldWrapper" Collapsed="true">
+    <Position X="8" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAIAAAAAAAAAQQAA=</HashCode>
+      <FileName>Wrapper\Ship Profile\CargoHoldWrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.CellPositionWrapper" Collapsed="true">
+    <Position X="10.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIBAAADAAIAAAAAEAAAAAAEAAAEAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Wrapper\Ship Profile\CellPositionWrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.DOCWrapper" Collapsed="true">
+    <Position X="12.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAQAAAAAAAAACAAgAAIAAAgAAAAAAAACAAAgAAAAAA=</HashCode>
+      <FileName>Wrapper\Ship Profile\DOCWrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.DummySuperstructure" Collapsed="true">
+    <Position X="19.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAACAAAEAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Wrapper\Ship Profile\DummySuperstructure.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.OuterRowWrapper" Collapsed="true">
+    <Position X="21.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgIAAAAgAAAAABAAAAAAABAAIAAAAAAAiA=</HashCode>
+      <FileName>Wrapper\Ship Profile\OuterRowWrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.ShipProfileWrapper" Collapsed="true">
+    <Position X="26" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>sEAgIAAkBIAEACADgQAAgAAACAACAhAAAAQAACAAsgA=</HashCode>
+      <FileName>Wrapper\Ship Profile\ShipProfileWrapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.Settings.ExcelColumnProperty" Collapsed="true">
+    <Position X="46.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAABAAAAEAAAAAAAABAAAAEgACBAgAA=</HashCode>
+      <FileName>Wrapper\Settings\ExcelColumnProperty.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.Dummies.DummyDOCRow" Collapsed="true">
+    <Position X="50.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAJAAAAAAAAAAAAAAAAAAAAAAAgAMAAAAAAAAAAA=</HashCode>
+      <FileName>Wrapper\Ship Profile\DummyDOCRow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Wrapper.Dummies.DummyRowValue" Collapsed="true">
+    <Position X="55.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Wrapper\Ship Profile\DummyDOCRow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.Messages.ConflictListToBeUpdatedMessage" Collapsed="true">
+    <Position X="80" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AkAAAAAAAQAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Utility\Messages\ConflictListToBeUpdatedMessage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.TabDimensions" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="55" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\ShipProfileWindow\TabDimensions.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.TabDOC" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="55" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\ShipProfileWindow\TabDOC.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EasyJob_ProDG.UI.View.User_Controls.TabHeatedStructures" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="55" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\User Controls\ShipProfileWindow\TabHeatedStructures.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="EasyJob_ProDG.UI.Data.ICurrentProgramData" Collapsed="true">
+    <Position X="61.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQADgAAAAAQAAAAAACAAgAIAAAAACAQBAgMAAQAgAA=</HashCode>
+      <FileName>Data\ICurrentProgramData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EasyJob_ProDG.UI.Security.IHavePassword" Collapsed="true">
+    <Position X="72" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Security\IHavePassword.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EasyJob_ProDG.UI.Services.DataServices.ICargoDataService" Collapsed="true">
+    <Position X="63.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAADAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\DataServices\ICargoDataService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EasyJob_ProDG.UI.Services.DataServices.IConflictDataService" Collapsed="true">
+    <Position X="60" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Services\DataServices\IConflictDataService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EasyJob_ProDG.UI.Services.DataServices.IDgDataBaseDataService" Collapsed="true">
+    <Position X="67" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\DataServices\IDgDataBaseDataService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EasyJob_ProDG.UI.Services.DataServices.ILoadDataService" Collapsed="true">
+    <Position X="58.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAACAEAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Services\DataServices\ILoadDataService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EasyJob_ProDG.UI.Services.DataServices.IShipProfileDataService" Collapsed="true">
+    <Position X="55" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIgAAAAAAAAAAACAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\DataServices\IShipProfileDataService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EasyJob_ProDG.UI.Services.DataServices.ITitleService" Collapsed="true">
+    <Position X="61.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\DataServices\ITitleService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EasyJob_ProDG.UI.Services.DialogServices.IDialogWindow" Collapsed="true">
+    <Position X="73.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kAAAAACAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Services\DialogServices\IDialogWindow.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EasyJob_ProDG.UI.Services.DialogServices.IDialogWindowRequestClose" Collapsed="true">
+    <Position X="75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\DialogServices\IDialogWindowRequestClose.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EasyJob_ProDG.UI.Services.DialogServices.IMappedDialogWindowService" Collapsed="true">
+    <Position X="76.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\DialogServices\IMappedDialogWindowService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EasyJob_ProDG.UI.Services.DialogServices.IMessageDialogService" Collapsed="true">
+    <Position X="69.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAIAAAAAAAAAAAAAAAAAIAAAAAAAABAAAA=</HashCode>
+      <FileName>Services\DialogServices\IMessageDialogService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EasyJob_ProDG.UI.Services.DialogServices.IWindowDialogService" Collapsed="true">
+    <Position X="71.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Services\DialogServices\IWindowDialogService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EasyJob_ProDG.UI.Services.ISettingsService" Collapsed="true">
+    <Position X="65.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAACAAAAAAAMAEAAAAAAAAAEAAAAAACAEAAQAAAAA=</HashCode>
+      <FileName>Services\ISettingsService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EasyJob_ProDG.UI.Settings.IUserUISettings" Collapsed="true">
+    <Position X="54.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAgAQAAAAMAEAAAAAAAAAEAAQAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Settings\IUserUISettings.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EasyJob_ProDG.UI.View.AttachedProperties.ICustomSorter" Collapsed="true">
+    <Position X="82" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>View\AttachedProperties\DataGridSortBehavior.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EasyJob_ProDG.UI.ViewModel.IConflictListViewModel" Collapsed="true">
+    <Position X="67" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModel\MainWindow\IConflictListViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="EasyJob_ProDG.UI.Services.DialogServices.MessageDialogResult" Collapsed="true">
+    <Position X="69.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAQAAAAAAAAAAAAACAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Services\DialogServices\MessageDialogService.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="EasyJob_ProDG.UI.View.Animations.AnimationTypes" Collapsed="true">
+    <Position X="76.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAQAgCAAAAQAAAAAAAAAAAAAAAAAAAAAEEAAAA=</HashCode>
+      <FileName>View\Animations\AnimationTypes.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

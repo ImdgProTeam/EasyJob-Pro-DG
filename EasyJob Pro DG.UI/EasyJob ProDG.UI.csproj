@@ -154,9 +154,6 @@
     <Compile Include="Data\DialogOpenFile.cs" />
     <Compile Include="Data\CurrentProgramData.cs" />
     <Compile Include="Data\ICurrentProgramData.cs" />
-    <Compile Include="for experiments 2.xaml.cs">
-      <DependentUpon>for experiments 2.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Security\IHavePassword.cs" />
     <Compile Include="Security\SecureStringHelpers.cs" />
     <Compile Include="Services\DialogServices\IDialogWindowRequestClose.cs" />
@@ -204,9 +201,6 @@
     <Compile Include="ViewModel\MainWindow\ConflictsListViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridContainersViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridDgViewModel.cs" />
-    <Compile Include="for experiments.xaml.cs">
-      <DependentUpon>for experiments.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Data\DgWrapperList.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridReefersViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\IConflictListViewModel.cs" />
@@ -365,14 +359,6 @@
     <Compile Include="Wrapper\ModelWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\OuterRowWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\ShipProfileWrapper.cs" />
-    <Page Include="for experiments 2.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="for experiments.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\DialogWindows\DialogWindowOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -572,6 +558,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="EasyJob ProDG.UI_1_TemporaryKey.pfx" />
     <None Include="EasyJob ProDG.UI_TemporaryKey.pfx" />
     <None Include="packages.config" />
