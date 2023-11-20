@@ -4,16 +4,31 @@
     {
         public byte FirstBay { get; set; }
         public byte LastBay { get; set; }
+        public byte HoldNumber { get; set; }
+
 
         public CargoHold()
         {
             FirstBay = 0;
             LastBay = 0;
         }
+
+        public CargoHold(byte holdNumber)
+        {
+            HoldNumber = holdNumber;
+        }
+
         public CargoHold(byte fbay, byte lbay)
         {
             FirstBay = fbay;
             LastBay = lbay;
+        }
+
+        public CargoHold(byte holdNumber, byte firstBay, byte lastBay)
+        {
+            FirstBay = firstBay;
+            LastBay = lastBay;
+            HoldNumber = holdNumber;
         }
     }
 }

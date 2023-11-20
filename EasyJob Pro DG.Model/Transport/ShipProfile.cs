@@ -9,6 +9,7 @@ namespace EasyJob_ProDG.Model.Transport
         private static ShipProfile _profile;
         public static ShipProfile Instance => _profile;
 
+
         #region Private fields
 
         /// <summary>
@@ -22,14 +23,14 @@ namespace EasyJob_ProDG.Model.Transport
         private byte _superstructure2;
 
         /// <summary>
-        /// Bays within 12 m from accommodation
+        /// Bays within 12 m from superstructures
         /// </summary>
         private List<byte> Bays12metersAroundSuperstructures
         {
             get
             {
                 if (_bays12mAroundSuperstructures == null)
-                    SetAccommodation12();
+                    SetSupersturcture12meters();
                 return _bays12mAroundSuperstructures;
             }
         }
@@ -94,11 +95,37 @@ namespace EasyJob_ProDG.Model.Transport
         }
         private string _callsign;
 
-        public byte NumberOfHolds { get; set; }
+        public byte NumberOfHolds
+        {
+            get => _numberOfHolds;
+            set
+            {
+                if (_numberOfHolds == value) return;
+                if (CargoHolds != null)
+                {
+                    if(_numberOfHolds < value)
+                    {
+                        for (byte i = (byte)(_numberOfHolds + 1); i < value + 1; i++)
+                        {
+                            CargoHolds.Add(new CargoHold(i));
+                        }
+                    } 
+                    if(_numberOfHolds > value)
+                    {
+                        for (byte i = _numberOfHolds; i > value; i--)
+                        {
+                            CargoHolds.RemoveAt(i - 1);
+                        }
+                    }
+                }
+                _numberOfHolds = value;
+            }
+        }
+        private byte _numberOfHolds;
         public byte RfMotor { get; set; }
         public bool Row00Exists { get; set; }
         public bool Passenger { get; set; }
-        public List<CargoHold> Holds { get; set; }
+        public List<CargoHold> CargoHolds { get; set; }
         public byte NumberOfSuperstructures { get; set; }
 
         /// <summary>
@@ -157,6 +184,7 @@ namespace EasyJob_ProDG.Model.Transport
         /// List contains list of errors found by CheckShipProfile method
         /// </summary>
         private List<string> _errorList;
+        private byte numberOfHolds;
 
         #endregion
 
@@ -173,9 +201,9 @@ namespace EasyJob_ProDG.Model.Transport
         public static byte DefineCargoHoldNumber(byte bay)
         {
             byte chNr = 0;
-            for (int i = 0; i < _profile.Holds.Count; i++)
+            for (int i = 0; i < _profile.CargoHolds.Count; i++)
             {
-                if (bay <= _profile.Holds[i].LastBay && bay >= _profile.Holds[i].FirstBay)
+                if (bay <= _profile.CargoHolds[i].LastBay && bay >= _profile.CargoHolds[i].FirstBay)
                 {
                     chNr = (byte)(i + 1);
                     break;
@@ -214,7 +242,7 @@ namespace EasyJob_ProDG.Model.Transport
         {
             SetSuperstructuresBaysProperties(100);
             NumberOfHolds = 1;
-            Holds = new List<CargoHold>(NumberOfHolds) { new CargoHold(1, 199) };
+            CargoHolds = new List<CargoHold>(NumberOfHolds) { new CargoHold(1, 1, 199) };
             LivingQuarters = new List<CellPosition>() { new CellPosition(99, 199, 199, 199, 0) };
             HeatedStructures = new List<CellPosition>() { new CellPosition(99, 199, 199, 199, 0) };
             LSA = new List<CellPosition>() { new CellPosition(99, 199, 199, 199, 0) };
@@ -266,7 +294,7 @@ namespace EasyJob_ProDG.Model.Transport
         /// </summary>
         public void UpdatePrivateProperties()
         {
-            SetAccommodation12();
+            SetSupersturcture12meters();
             Set12mOfLSABaysAndRows();
         }
 
@@ -348,7 +376,7 @@ namespace EasyJob_ProDG.Model.Transport
         /// <summary>
         /// Creates <see cref="Bays12metersAroundSuperstructures"/> - List of bays representing 12 m around superstructure
         /// </summary>
-        private void SetAccommodation12()
+        private void SetSupersturcture12meters()
         {
             _bays12mAroundSuperstructures = new List<byte>
                         {        _superstructure1,

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace EasyJob_ProDG.Model.Transport
+﻿namespace EasyJob_ProDG.Model.Transport
 {
     public class DOC
     {
@@ -17,7 +15,7 @@ namespace EasyJob_ProDG.Model.Transport
             //Table from DOC with permission to load certain class into certain CH
             //0 - NOT ALLOWED, 1 - PACKAGED GOODS ALLOWED, 2- ALLOWED WITH REMARK
             //First row [0] - Weather deck
-            DOCtable = new byte[numberofholds+1,DefaultNumberOfClasses];
+            DOCtable = new byte[numberofholds + 1, DefaultNumberOfClasses];
             for (byte i = 0; i <= numberofholds; i++)
             {
                 SetNewDOCRow(i);
@@ -70,7 +68,7 @@ namespace EasyJob_ProDG.Model.Transport
         {
             SingleHoldDOC = new byte[NumberOfClasses];
             string[] lineSplit = line.Split(',');
-            if (lineSplit.Length != NumberOfClasses) 
+            if (lineSplit.Length != NumberOfClasses)
                 Output.ThrowMessage("Error number of classes handed over to DOC!");
             byte i = 0;
             foreach (string figure in lineSplit)
@@ -80,20 +78,11 @@ namespace EasyJob_ProDG.Model.Transport
             }
             SetDOCRow(holdNr);
         }
-        //private void AddLineToDOCTable(string line)
-        //{
-        //    SingleHoldDOC = new List<byte>();
-        //    string[] lineSplit = line.Split(',');
-        //    foreach(string figure in lineSplit)
-        //    {
-        //        SingleHoldDOC.Add(byte.Parse(figure));
-        //    }
-        //    SetDOCRow(SingleHoldDOC);
-        //}
+
         private void SetDOCRow(byte holdNr)
         {
             byte i = 0;
-            foreach(byte value in SingleHoldDOC)
+            foreach (byte value in SingleHoldDOC)
             {
                 DOCtable[holdNr, i] = value;
                 i++;
@@ -113,7 +102,7 @@ namespace EasyJob_ProDG.Model.Transport
             byte[] array = new byte[NumberOfClasses];
             for (byte i = 0; i < NumberOfClasses; i++)
             {
-                array[i] = DOCtable[holdNumber,i];
+                array[i] = DOCtable[holdNumber, i];
             }
             return array;
         }
@@ -122,7 +111,7 @@ namespace EasyJob_ProDG.Model.Transport
         {
             for (byte i = 0; i < NumberOfClasses; i++)
             {
-                DOCtable[copyToHoldNumber,i] = copyFromDOC.DOCtable[copyFromHoldNumber,i];
+                DOCtable[copyToHoldNumber, i] = copyFromDOC.DOCtable[copyFromHoldNumber, i];
             }
         }
     }

@@ -719,12 +719,12 @@ namespace EasyJob_ProDG.Model.Cargo
 
                 //location of a referent container closer than 6m from intervening bulkhead:
                 else if ((a.Bay > b.Bay &&
-                        (a.Bay == ship.Holds[a.HoldNr - 1].FirstBay || a.Bay == ship.Holds[a.HoldNr - 1].FirstBay + 1 ||
-                        b.Bay == ship.Holds[b.HoldNr - 1].LastBay || b.Bay == ship.Holds[b.HoldNr - 1].LastBay - 1))
+                        (a.Bay == ship.CargoHolds[a.HoldNr - 1].FirstBay || a.Bay == ship.CargoHolds[a.HoldNr - 1].FirstBay + 1 ||
+                        b.Bay == ship.CargoHolds[b.HoldNr - 1].LastBay || b.Bay == ship.CargoHolds[b.HoldNr - 1].LastBay - 1))
                     ||
                     (a.Bay < b.Bay &&
-                     (a.Bay == ship.Holds[a.HoldNr - 1].LastBay || a.Bay == ship.Holds[a.HoldNr - 1].LastBay - 1 ||
-                      b.Bay == ship.Holds[b.HoldNr - 1].FirstBay || b.Bay == ship.Holds[b.HoldNr - 1].FirstBay + 1)))
+                     (a.Bay == ship.CargoHolds[a.HoldNr - 1].LastBay || a.Bay == ship.CargoHolds[a.HoldNr - 1].LastBay - 1 ||
+                      b.Bay == ship.CargoHolds[b.HoldNr - 1].FirstBay || b.Bay == ship.CargoHolds[b.HoldNr - 1].FirstBay + 1)))
                     segConflict = true;
             }
             return segConflict;

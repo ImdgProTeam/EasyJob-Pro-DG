@@ -8,7 +8,6 @@ using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Wrapper;
-using EasyJob_ProDG.UI.Wrapper.Dummies;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -17,12 +16,13 @@ namespace EasyJob_ProDG.UI.ViewModel
 {
     public class ShipProfileWindowVM : Observable, IDataErrorInfo
     {
-        readonly ShipProfileDataService _shipProfileDataService;
         private bool _isWindowLoaded;
+
+        readonly ShipProfileDataService _shipProfileDataService;
         private MainWindowViewModel mainWindowViewModel => ViewModelLocator.MainWindowViewModel;
 
-        public ShipProfileWrapper TempShip { get; set; }
-        public OuterRowWrapper NewOuterRow { get; private set; } = new OuterRowWrapper();
+        public ShipProfileWrapper OwnShip { get; set; }
+        public OuterRowWrapper NewOuterRow { get; private set; } = new OuterRowWrapper(new Model.Transport.OuterRow());
 
 
         #region Constructors
@@ -39,6 +39,12 @@ namespace EasyJob_ProDG.UI.ViewModel
             LoadCommands();
 
             RegisterMessages();
+            InvalidateCommands();
+        }
+
+        private void InvalidateCommands()
+        {
+
         }
 
         #endregion
@@ -47,11 +53,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         #region Start up logic
 
         /// <summary>
-        /// Creates TempShip from current ShipProfile
+        /// Creates OwnShip from current ShipProfile
         /// </summary>
         private void GetNewShipProfileVM()
         {
-            TempShip = _shipProfileDataService.CreateShipProfileWrapper();
+            OwnShip = _shipProfileDataService.CreateShipProfileWrapper();
 
             CellLivingQuarters = new CellPositionWrapper();
             _cellLivingQuartersNewEntry = string.Empty;
@@ -66,7 +72,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         private void LoadCommands()
         {
-            SaveChangesCommand = new DelegateCommand(SaveChanges);
+            SaveChangesCommand = new DelegateCommand(SaveChanges, SaveChangesCanExecute);
             CancelChangesCommand = new DelegateCommand(CancelChanges);
             WindowLoaded = new DelegateCommand(OnWindowLoaded);
             WindowClosed = new DelegateCommand(OnWindowClosed);
@@ -93,7 +99,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         // ---- Sea sides methods --------------------------------------
 
         /// <summary>
-        /// Checks if OuterRow completed and then adds it to SeaSidesObservable.
+        /// Checks if OuterRow completed and then adds it to SeaSides.
         /// </summary>
         /// <returns>True if completed</returns>
         private bool TryAddOuterRowToTempShip()
@@ -101,8 +107,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             bool completed = NewOuterRow.Bay != 0 && NewOuterRow.PortMost != 0 && NewOuterRow.StarboardMost != 0;
             if (completed)
             {
-                TempShip.SeaSidesObservable.Add(NewOuterRow);
-                NewOuterRow = new OuterRowWrapper();
+                OwnShip.SeaSides.Add(NewOuterRow);
+                NewOuterRow = new OuterRowWrapper(new Model.Transport.OuterRow());
                 OnPropertyChanged("NewOuterRow");
                 return true;
             }
@@ -119,7 +125,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             if (_isWindowLoaded)
             {
                 if (TryAddOuterRowToTempShip()) return;
-                else RemoveEmptyRowFromSeaSidesObservable();
+                else RemoveEmptyRowFromSeaSides();
                 ReverseAllBaysBayChange();
             }
         }
@@ -129,22 +135,22 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         private void ReverseAllBaysBayChange()
         {
-            if (TempShip.SeaSidesObservable[0].Bay != 0)
-                TempShip.SeaSidesObservable[0].Bay = 0;
+            if (OwnShip.SeaSides[0].Bay != 0)
+                OwnShip.SeaSides[0].Bay = 0;
         }
 
         /// <summary>
         /// Removes an empty OuterRow from collection SeaSideObservable.
         /// </summary>
-        private void RemoveEmptyRowFromSeaSidesObservable()
+        private void RemoveEmptyRowFromSeaSides()
         {
-            for (int i = 0; i < TempShip.SeaSidesObservable.Count; i++)
+            for (int i = 0; i < OwnShip.SeaSides.Count; i++)
             {
-                var entry = TempShip.SeaSidesObservable[i];
+                var entry = OwnShip.SeaSides[i];
                 bool empty = (entry.Bay == 0 && entry.PortMost == 0 && entry.StarboardMost == 0);
                 if (empty)
                 {
-                    TempShip.SeaSidesObservable.Remove(entry);
+                    OwnShip.SeaSides.Remove(entry);
                     return;
                 }
             }
@@ -157,23 +163,23 @@ namespace EasyJob_ProDG.UI.ViewModel
         // ---- BaysSurroundingSuperstructure methods -----------------------------------
 
         /// <summary>
-        /// Adds bays from TempShip into AccommodationBaysObservableCollection
+        /// Adds bays from OwnShip into AccommodationBaysObservableCollection
         /// </summary>
         private void CreateAccommodationDummyObservableCollection()
         {
-            if (TempShip.AccommodationBaysObservable.Count > 0) return;
+            if (OwnShip.SuperstructuresBays.Count > 0) return;
 
             int i = 1;
-            foreach (byte bay in TempShip.AccommodationBays)
+            foreach (var bay in OwnShip.SuperstructuresBays)
             {
-                TempShip.AccommodationBaysObservable.Add(new DummyAccommodation(i, bay));
+                OwnShip.SuperstructuresBays.Add(new DummySuperstructure(i, bay.Bay));
                 i++;
             }
         }
 
         /// <summary>
         /// Blank method.
-        /// Handles changes in DummyAccommodation.
+        /// Handles changes in DummySuperstructure.
         /// Called by Messenger when DummyChange message received.
         /// </summary>
         /// <param name="obj"></param>
@@ -203,10 +209,10 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         private void AddCellLivingQuarters(object obj)
         {
-            TempShip.LivingQuartersObservable.Add(CellLivingQuarters);
+            OwnShip.LivingQuarters.Add(CellLivingQuarters);
             CellLivingQuarters = new CellPositionWrapper();
             _cellLivingQuartersNewEntry = string.Empty;
-            ShipProfileWrapper.OnAddNewCell(TempShip.LivingQuartersObservable);
+            ShipProfileWrapper.OnAddNewCell(OwnShip.LivingQuarters);
             OnPropertyChanged("CellLivingQuarters");
             OnPropertyChanged("CellLivingQuartersNewEntry");
         }
@@ -227,10 +233,10 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         private void AddCellHeatedStructures(object obj)
         {
-            TempShip.HeatedStructuresObservable.Add(CellHeatedStructures);
+            OwnShip.HeatedStructures.Add(CellHeatedStructures);
             CellHeatedStructures = new CellPositionWrapper();
             _cellHeatedStructuresNewEntry = string.Empty;
-            ShipProfileWrapper.OnAddNewCell(TempShip.HeatedStructuresObservable);
+            ShipProfileWrapper.OnAddNewCell(OwnShip.HeatedStructures);
             OnPropertyChanged("CellHeatedStructures");
             OnPropertyChanged("CellHeatedStructuresNewEntry");
         }
@@ -251,10 +257,10 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         private void AddCellLSA(object obj)
         {
-            TempShip.LSAObservable.Add(CellLSA);
+            OwnShip.LSA.Add(CellLSA);
             CellLSA = new CellPositionWrapper();
             _cellLsaNewEntry = string.Empty;
-            ShipProfileWrapper.OnAddNewCell(TempShip.LSAObservable);
+            ShipProfileWrapper.OnAddNewCell(OwnShip.LSA);
             OnPropertyChanged("CellLSA");
             OnPropertyChanged("CellLSANewEntry");
         }
@@ -286,6 +292,10 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             Task.Run(DoSavingJob);
         }
+        private bool SaveChangesCanExecute(object obj)
+        {
+            return OwnShip.IsChanged;
+        }
 
         /// <summary>
         /// Saves changes to ShipProfile and updates the interface.
@@ -314,7 +324,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="parameter"></param>
         private void CancelChanges(object parameter)
         {
-            TempShip = _shipProfileDataService.CreateShipProfileWrapper();
+            OwnShip = _shipProfileDataService.CreateShipProfileWrapper();
             _isWindowLoaded = false;
         }
 

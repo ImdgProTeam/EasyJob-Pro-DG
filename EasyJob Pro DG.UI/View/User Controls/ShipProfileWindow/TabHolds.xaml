@@ -33,7 +33,7 @@
                                                 HorizontalAlignment="Right"
                                                 Margin="0,0,4,10"/>
             </StackPanel>
-            <DataGrid ItemsSource="{Binding HoldsObservable, Mode=TwoWay}"
+            <DataGrid ItemsSource="{Binding CargoHolds}"
                       CanUserAddRows="False"
                       CanUserReorderColumns="False"
                       CanUserDeleteRows="False"

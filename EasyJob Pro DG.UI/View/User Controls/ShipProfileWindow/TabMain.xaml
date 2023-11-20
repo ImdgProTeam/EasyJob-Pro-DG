@@ -55,7 +55,7 @@
         <TextBox x:Name="txbProfileName"
                  IsEnabled="False"
                  Tag="Enter new profile name"
-                 Text="{Binding ProfileName, Mode=TwoWay}"
+                 Text="{Binding ProfileName, Mode=OneWay}"
                  Grid.Column="1"
                  Grid.Row="0"
                  TabIndex="0">
@@ -89,23 +89,11 @@
                  Grid.Row="2"
                  TabIndex="2"/>
 
-        <!--IMO number-->
-        <Label x:Name="labelIMONumber"
-               Content="IMO number"
-               Grid.Column="0"
-               Grid.Row="3" />
-        <TextBox x:Name="txbIMO"
-                 Text="Not implemented"
-                 Tag="Enter IMO number"
-                 Grid.Column="1"
-                 Grid.Row="3"
-                 TabIndex="3" />
-
         <!--Passenger ship-->
         <Label x:Name="labelPassenger"
                Content="Passenger ship?"
                Grid.Column="0"
-               Grid.Row="4" />
+               Grid.Row="3" />
         <RadioButton x:Name="radPassenger"
                      GroupName="rbPassenger"
                      Content="Yes"
@@ -116,7 +104,7 @@
                      Height="15"
                      Margin="15,12,0,0"
                      Grid.Column="1"
-                     Grid.Row="4"
+                     Grid.Row="3"
                      TabIndex="4" />
         <RadioButton x:Name="radNoPassenger"
                      GroupName="rbPassenger"
@@ -128,19 +116,19 @@
                      Margin="70,12,0,0"
                      Grid.ColumnSpan="2"
                      Grid.Column="1"
-                     Grid.Row="4"
+                     Grid.Row="3"
                      TabIndex="5" />
 
         <!--Number of accommodations-->
-        <Label x:Name="labelNumberOfAccommodations"
-               Content="Number of accommodations"
+        <Label x:Name="labelNumberOfSuperstructures"
+               Content="Number of superstructures"
                Grid.Column="0"
-               Grid.Row="5" />
-        <cc:NumericalTextBoxWithButtons Text="{Binding NumberOfAccommodations}"
+               Grid.Row="4" />
+        <cc:NumericalTextBoxWithButtons Text="{Binding NumberOfSuperstructures}"
                                         MinValue="1"
-                                        MaxValue="3"
+                                        MaxValue="2"
                                         Grid.Column="1"
-                                        Grid.Row="5"
+                                        Grid.Row="4"
                                         TabIndex="6" 
                                         Margin="25,0"/>
 
@@ -148,7 +136,7 @@
         <Label x:Name="labelRow00exists"
                Content="Row '00' exists?"
                Grid.Column="0"
-               Grid.Row="6" />
+               Grid.Row="5" />
         <RadioButton x:Name="radRow00yes"
                      GroupName="Row00"
                      Content="Yes"
@@ -159,7 +147,7 @@
                      Height="15"
                      Margin="15,12,0,0"
                      Grid.Column="1"
-                     Grid.Row="6"
+                     Grid.Row="5"
                      TabIndex="7" />
         <RadioButton x:Name="radRow00no"
                      GroupName="Row00"
@@ -171,14 +159,14 @@
                      Margin="70,12,0,0"
                      Grid.ColumnSpan="2"
                      Grid.Column="1"
-                     Grid.Row="6"
+                     Grid.Row="5"
                      TabIndex="8" />
 
         <!--Reefer motor facing-->
         <Label x:Name="labelReeferMotorFacing"
                Content="Reefer motors facing"
                Grid.Column="0"
-               Grid.Row="7" />
+               Grid.Row="6" />
         <ComboBox x:Name="cmbReefers"
                   ItemsSource="{Binding MotorFacingList}"
                   SelectedIndex="{Binding RfMotor}"
@@ -188,19 +176,19 @@
                   Width="120"
                   Margin="2,8,0,0"
                   Grid.Column="1"
-                  Grid.Row="7"
+                  Grid.Row="6"
                   TabIndex="9" />
 
         <!--Number of holds-->
         <Label x:Name="labelNumberOfHolds"
                Content="Number of cargo holds"
                Grid.Column="0"
-               Grid.Row="8" />
+               Grid.Row="7" />
         <cc:NumericalTextBoxWithButtons Text="{Binding NumberOfHolds}"
                                         MinValue="0"
                                         MaxValue="12"
                                         Grid.Column="1"
-                                        Grid.Row="8"
+                                        Grid.Row="7"
                                         TabIndex="10" 
                                         Margin="25,0"/>
     </Grid>

@@ -52,16 +52,5 @@ namespace EasyJob_ProDG.UI.Utility
             return new ObservableCollection<T>(list);
         }
 
-        public static ObservableCollection<CargoHoldWrapper> UpgradeToCollection(List<CargoHold> list)
-        {
-            byte i = 1;
-            ObservableCollection<CargoHoldWrapper> collection = new ObservableCollection<CargoHoldWrapper>();
-            foreach(var hold in list)
-            {
-                collection.Add(new CargoHoldWrapper(i, hold.FirstBay, hold.LastBay));
-                i++;
-            }
-            return collection;
-        }
     }
 }

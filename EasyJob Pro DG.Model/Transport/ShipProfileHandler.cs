@@ -90,7 +90,7 @@ namespace EasyJob_ProDG.Model.Transport
             sb.AppendLine("Holds number = " + ship.NumberOfHolds);
             for (int z = 0; z < ship.NumberOfHolds; z++)
             {
-                CargoHold hold = ship.Holds[z];
+                CargoHold hold = ship.CargoHolds[z];
                 sb.AppendLine("Hold " + (z + 1) + " = " + hold.FirstBay + "," + hold.LastBay);
             }
             sb.AppendLine("//Last bays before the accommodations");
@@ -242,13 +242,13 @@ namespace EasyJob_ProDG.Model.Transport
                             if (lineDescription == "holdsnumber")
                             {
                                 shipProfile.NumberOfHolds = byte.Parse(lineValue);
-                                shipProfile.Holds = new List<CargoHold>();
+                                shipProfile.CargoHolds = new List<CargoHold>();
                                 shipProfile.Doc = new DOC(shipProfile.NumberOfHolds);
                             }
                             else
                             {
                                 var FandLbays = lineValue.Split(',');
-                                shipProfile.Holds.Add(new CargoHold(byte.Parse(FandLbays[0]), byte.Parse(FandLbays[1])));
+                                shipProfile.CargoHolds.Add(new CargoHold(byte.Parse(FandLbays[0]), byte.Parse(FandLbays[1])));
                             }
                         }
 
@@ -304,12 +304,12 @@ namespace EasyJob_ProDG.Model.Transport
                 result = true;
             }
             //holds
-            if (shipProfile.NumberOfHolds != shipProfile.Holds.Count || shipProfile.NumberOfHolds == 0)
+            if (shipProfile.NumberOfHolds != shipProfile.CargoHolds.Count || shipProfile.NumberOfHolds == 0)
             {
                 shipProfile.ErrorList = "holds";
                 result = true;
             }
-            foreach (var hold in shipProfile.Holds)
+            foreach (var hold in shipProfile.CargoHolds)
             {
                 if (hold == null)
                 {

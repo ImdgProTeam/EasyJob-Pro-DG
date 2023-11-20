@@ -44,7 +44,7 @@
 
         <DataGrid x:Name="gridDOC"
                   Margin="5,3"
-            ItemsSource="{Binding DocObservable.DOCTable}"
+                  ItemsSource="{Binding Doc.DOCTable}"
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
@@ -75,7 +75,7 @@
 
                 <DataGridTemplateColumn Header="Hold 1"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
+                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=1}">
                     
                     <DataGridTemplateColumn.CellTemplate>
@@ -89,7 +89,7 @@
 
                 <DataGridTemplateColumn Header="Hold 2"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
+                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=2}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
@@ -102,7 +102,7 @@
 
                 <DataGridTemplateColumn Header="Hold 3"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
+                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=3}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
@@ -115,7 +115,7 @@
 
                 <DataGridTemplateColumn Header="Hold 4"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
+                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=4}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
@@ -128,7 +128,7 @@
 
                 <DataGridTemplateColumn Header="Hold 5"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
+                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=5}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
@@ -142,7 +142,7 @@
 
                 <DataGridTemplateColumn Header="Hold 6"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
+                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=6}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
@@ -155,7 +155,7 @@
 
                 <DataGridTemplateColumn Header="Hold 7"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
+                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=7}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
@@ -168,7 +168,7 @@
 
                 <DataGridTemplateColumn Header="Hold 8"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
+                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=8}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
@@ -181,7 +181,7 @@
 
                 <DataGridTemplateColumn Header="Hold 9"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
+                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=9}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
@@ -194,7 +194,7 @@
 
                 <DataGridTemplateColumn Header="Hold 10"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
+                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=10}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate >
@@ -207,7 +207,7 @@
 
                 <DataGridTemplateColumn Header="Hold 11"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
+                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=11}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
@@ -220,7 +220,7 @@
 
                 <DataGridTemplateColumn Header="Hold 12"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.TempShip.NumberOfHolds,
+                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
                     Converter={StaticResource HoldsToVisibility}, ConverterParameter=12}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >

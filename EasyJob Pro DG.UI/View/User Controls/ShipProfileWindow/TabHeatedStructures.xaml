@@ -57,7 +57,7 @@ machinery spaces.
                    VerticalAlignment="Bottom" />
 
             <DataGrid Name="dataGridHeatedStructures"
-                      ItemsSource="{Binding HeatedStructuresObservable, Mode=TwoWay}"
+                      ItemsSource="{Binding HeatedStructures}"
                       CanUserAddRows="False"
                       CanUserReorderColumns="False"
                       CanUserDeleteRows="False"

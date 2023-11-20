@@ -52,7 +52,7 @@
                    VerticalAlignment="Bottom" />
 
             <DataGrid Name="dataGridLivingQuarters"
-                      ItemsSource="{Binding LivingQuartersObservable, Mode=TwoWay}"
+                      ItemsSource="{Binding LivingQuarters}"
                       CanUserAddRows="False"
                       CanUserReorderColumns="False"
                       CanUserDeleteRows="False"

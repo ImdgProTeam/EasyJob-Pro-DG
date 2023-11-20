@@ -30,7 +30,7 @@ namespace EasyJob_ProDG.UI.Utility
 
             //Ship profile window events
             OuterRowWrapper.OnOuterRowChangedEventHandler += new OuterRowWrapper.OuterRowChangedEventHandler(OnOuterRowChanged);
-            DummyAccommodation.OnDummyAccommodationChangedEventHandler += new DummyAccommodation.DummyAccommodationChangedEventHandler(OnDummyAccommodationChanged);
+            DummySuperstructure.OnDummySuperstructureChangedEventHandler += new DummySuperstructure.DummySuperstructureChangedEventHandler(OnDummyAccommodationChanged);
             TabLivingQuarters.OnRemoveRecordEventHandler += new TabLivingQuarters.RemoveRecord(OnRemoveRecordFromLivingQuarters);
             TabHeatedStructures.OnRemoveRecordEventHandler += new TabHeatedStructures.RemoveRecord(OnRemoveRecordFromHeatedStructures);
             TabLSA.OnRemoveRecordEventHandler += new TabLSA.RemoveRecord(OnRemoveRecordFromLSA);

@@ -356,7 +356,7 @@
     <Compile Include="Wrapper\Settings\ExcelDgTemplateWrapper.cs" />
     <Compile Include="Wrapper\Settings\ExcelTemplateWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\DOCWrapper.cs" />
-    <Compile Include="Wrapper\Ship Profile\DummyAccommodation.cs" />
+    <Compile Include="Wrapper\Ship Profile\DummySuperstructure.cs" />
     <Compile Include="Wrapper\Ship Profile\CargoHoldWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\CellPositionWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\DummyDOCRow.cs" />

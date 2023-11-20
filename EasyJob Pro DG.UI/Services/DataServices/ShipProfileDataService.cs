@@ -27,28 +27,8 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         /// <returns></returns>
         public ShipProfileWrapper CreateShipProfileWrapper()
         {
-            _shipWrapper = new ShipProfileWrapper();
             _ship = GetShipProfile();
-
-            _shipWrapper.ShipName = _ship.ShipName;
-            _shipWrapper.CallSign = _ship.CallSign;
-            _shipWrapper.NumberOfHolds = _ship.NumberOfHolds;
-            _shipWrapper.RfMotor = _ship.RfMotor;
-            _shipWrapper.Row00Exists = _ship.Row00Exists;
-            _shipWrapper.Passenger = _ship.Passenger;
-            _shipWrapper.HoldsObservable = ClassConverters.UpgradeToCollection(_ship.Holds);
-            _shipWrapper.NumberOfSuperstructures = _ship.NumberOfSuperstructures;
-            _shipWrapper.AccommodationBays = _ship.BaysInFrontOfSuperstructures;
-            _shipWrapper.SeaSides = _ship.SeaSides;
-            _shipWrapper.LivingQuartersList = _ship.LivingQuarters;
-            _shipWrapper.HeatedStructuresList = _ship.HeatedStructures;
-            _shipWrapper.LSAList = _ship.LSA;
-            _shipWrapper.DocObservable = new DOCWrapper(_ship.Doc);
-            _shipWrapper.DocObservable.SetDOCTableFromModel();
-            _shipWrapper.ErrorList = _ship.ErrorList;
-
-            //TO BE REPLACED
-            _shipWrapper.ProfileName = "To be replaced";
+            _shipWrapper = new ShipProfileWrapper(_ship);
 
             return _shipWrapper;
         }
@@ -110,58 +90,58 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         /// </summary>
         private void UpdateLoadedShipProfile()
         {
-            _ship.ShipName = _shipWrapper.ShipName;
-            _ship.CallSign = _shipWrapper.CallSign;
-            _ship.NumberOfHolds = _shipWrapper.NumberOfHolds;
-            _ship.Holds = ClassConverters.DowngradeCollectionToList(_shipWrapper.HoldsObservable);
+            //_ship.ShipName = _shipWrapper.ShipName;
+            //_ship.CallSign = _shipWrapper.CallSign;
+            //_ship.NumberOfHolds = _shipWrapper.NumberOfHolds;
+            //_ship.CargoHolds = ClassConverters.DowngradeCollectionToList(_shipWrapper.CargoHolds);
 
-            _ship.RfMotor = _shipWrapper.RfMotor;
-            _ship.Row00Exists = _shipWrapper.Row00Exists;
-            _ship.Passenger = _shipWrapper.Passenger;
+            //_ship.RfMotor = _shipWrapper.RfMotor;
+            //_ship.Row00Exists = _shipWrapper.Row00Exists;
+            //_ship.Passenger = _shipWrapper.Passenger;
 
 
-            _ship.NumberOfSuperstructures = _shipWrapper.NumberOfSuperstructures;
-            _ship.BaysInFrontOfSuperstructures?.Clear();
-            _ship.BaysSurroundingSuperstructure?.Clear();
-            foreach (var dummy in _shipWrapper.AccommodationBaysObservable)
-            {
-                //TODO: Review for the case of two accommodations
-                _ship.SetSuperstructuresBaysProperties(dummy.Bay);
-            }
+            //_ship.NumberOfSuperstructures = _shipWrapper.NumberOfSuperstructures;
+            //_ship.BaysInFrontOfSuperstructures?.Clear();
+            //_ship.BaysSurroundingSuperstructure?.Clear();
+            //foreach (var dummy in _shipWrapper.AccommodationBaysObservable)
+            //{
+            //    //TODO: Review for the case of two accommodations
+            //    _ship.SetSuperstructuresBaysProperties(dummy.Bay);
+            //}
 
-            _ship.SeaSides = new List<OuterRow>();
-            foreach (var row in _shipWrapper.SeaSidesObservable)
-            {
-                _ship.SeaSides.Add(row.ToOuterRow());
-            }
+            //_ship.SeaSides = new List<OuterRow>();
+            //foreach (var row in _shipWrapper.SeaSidesObservable)
+            //{
+            //    _ship.SeaSides.Add(row.ToOuterRow());
+            //}
 
-            _ship.LivingQuarters = new List<CellPosition>();
-            foreach (var cell in _shipWrapper.LivingQuartersObservable)
-            {
-                if (cell.IsEmpty()) continue;
-                _ship.LivingQuarters.Add(cell.ToCellPosition());
-            }
-            _ship.HeatedStructures = new List<CellPosition>();
-            foreach (var cell in _shipWrapper.HeatedStructuresObservable)
-            {
-                if (cell.IsEmpty()) continue;
-                _ship.HeatedStructures.Add(cell.ToCellPosition());
-            }
-            _ship.LSA = new List<CellPosition>();
-            foreach (var cell in _shipWrapper.LSAObservable)
-            {
-                if (cell.IsEmpty()) continue;
-                _ship.LSA.Add(cell.ToCellPosition());
-            }
-            _ship.UpdatePrivateProperties();
+            //_ship.LivingQuarters = new List<CellPosition>();
+            //foreach (var cell in _shipWrapper.LivingQuartersObservable)
+            //{
+            //    if (cell.IsEmpty()) continue;
+            //    _ship.LivingQuarters.Add(cell.ToCellPosition());
+            //}
+            //_ship.HeatedStructures = new List<CellPosition>();
+            //foreach (var cell in _shipWrapper.HeatedStructuresObservable)
+            //{
+            //    if (cell.IsEmpty()) continue;
+            //    _ship.HeatedStructures.Add(cell.ToCellPosition());
+            //}
+            //_ship.LSA = new List<CellPosition>();
+            //foreach (var cell in _shipWrapper.LSAObservable)
+            //{
+            //    if (cell.IsEmpty()) continue;
+            //    _ship.LSA.Add(cell.ToCellPosition());
+            //}
+            //_ship.UpdatePrivateProperties();
 
-            _ship.Doc = new DOC(_ship.NumberOfHolds);
-            for (byte h = 0; h < _ship.Doc.NumberOfRows; h++)
-                for (byte c = 0; c < _ship.Doc.NumberOfClasses; c++)
-                {
-                    _ship.Doc.DOCtable[h, c] = _shipWrapper.DocObservable.DOCTable[c].Row[h].Value;
-                }
-            _ship.ErrorList = _shipWrapper.ErrorList;
+            //_ship.Doc = new DOC(_ship.NumberOfHolds);
+            //for (byte h = 0; h < _ship.Doc.NumberOfRows; h++)
+            //    for (byte c = 0; c < _ship.Doc.NumberOfClasses; c++)
+            //    {
+            //        _ship.Doc.DOCtable[h, c] = _shipWrapper.Doc.DOCTable[c].Row[h].Value;
+            //    }
+            //_ship.ErrorList = _shipWrapper.ErrorList;
 
         }
         

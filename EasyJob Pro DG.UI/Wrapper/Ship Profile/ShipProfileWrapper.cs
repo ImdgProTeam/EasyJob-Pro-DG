@@ -1,62 +1,23 @@
 ﻿using EasyJob_ProDG.Model.Transport;
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Utility;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
     public class ShipProfileWrapper : ModelWrapper<ShipProfile>
     {
-        public ShipProfileWrapper() : base(ShipProfile.GetDefaultShipProfile())
-        {
-            AccommodationBaysObservable = new ObservableCollection<DummyAccommodation>();
-            HoldsObservable = new ObservableCollection<CargoHoldWrapper>();
+        #region Bindable properties
 
-            DataMessenger.Default.UnregisterAll(this);
-            DataMessenger.Default.Register<RemoveRowMessage>(this, OnRemoveRowMessageReceived);
-        }
+        public string ProfileName => "Main ship profile";
 
-
-        public static void OnAddNewCell(ObservableCollection<CellPositionWrapper> collection)
-        {
-            ReNumberCellPositionWrapperList(collection);
-        }
-
-        private void OnRemoveRowMessageReceived(RemoveRowMessage obj)
-        {
-            switch (obj.Collection)
-            {
-                case "living quarters":
-                    RemoveRowFromLivingQuartersObservable(obj.Row);
-                    ReNumberCellPositionWrapperList(livingQuartersObservable);
-                    break;
-                case "heated structures":
-                    RemoveRowFromHeatedStructuresObservable(obj.Row);
-                    ReNumberCellPositionWrapperList(heatedStructuresObservable);
-                    break;
-                case "LSA":
-                    RemoveRowFromLSAObservable(obj.Row);
-                    ReNumberCellPositionWrapperList(lsaObservable);
-                    break;
-                default:
-                    break;
-            }
-        }
-        private void RemoveRowFromLivingQuartersObservable(byte row)
-        {
-            livingQuartersObservable.RemoveAt(row);
-        }
-        private void RemoveRowFromHeatedStructuresObservable(byte row)
-        {
-            heatedStructuresObservable.RemoveAt(row);
-        }
-        private void RemoveRowFromLSAObservable(byte row)
-        {
-            lsaObservable.RemoveAt(row);
-        }
 
         // --------------- Wrapping properties ----------------------------
+        #region Tab Main
+        // ----- Tab Main -----
 
         /// <summary>
         /// Vessel name
@@ -77,12 +38,11 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Reefer motor facing 
-        /// (byte number corresponding to <see cref="ShipProfile.MotorFacing"/> enum
+        /// Is she a passenger ship
         /// </summary>
-        public byte RfMotor
+        public bool Passenger
         {
-            get => GetValue<byte>();
+            get => GetValue<bool>();
             set => SetValue(value);
         }
 
@@ -96,13 +56,21 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Is she a passenger ship
+        /// Reefer motor facing 
+        /// (byte number corresponding to <see cref="ShipProfile.MotorFacing"/> enum
         /// </summary>
-        public bool Passenger
+        public byte RfMotor
         {
-            get => GetValue<bool>();
+            get => GetValue<byte>();
             set => SetValue(value);
         }
+
+        /// <summary>
+        /// List of possible options for reefers facing.
+        /// List to be used in combobox list items.
+        /// </summary>
+        public List<string> MotorFacingList => GetValue<List<string>>();
+
 
         /// <summary>
         /// Number of superstructures on the vessel
@@ -113,31 +81,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             set
             {
                 SetValue(value);
-                UpdateAccommodationBays();
-            }
-        }
-
-
-
-
-
-        // ??
-        internal List<byte> AccommodationBays { get; set; }
-
-        //Bound to Accommodation bays in tab 'Dimensions'
-        public ObservableCollection<DummyAccommodation> AccommodationBaysObservable { get; set; }
-
-        private void UpdateAccommodationBays()
-        {
-            if (AccommodationBaysObservable == null || AccommodationBaysObservable.Count == NumberOfSuperstructures || AccommodationBaysObservable.Count == 0)
-                return;
-            if (NumberOfSuperstructures > AccommodationBaysObservable.Count)
-            {
-                AccommodationBaysObservable.Add(new DummyAccommodation(AccommodationBaysObservable.Count + 1, 0));
-            }
-            if (NumberOfSuperstructures < AccommodationBaysObservable.Count)
-            {
-                AccommodationBaysObservable.RemoveAt(AccommodationBaysObservable.Count - 1);
+                UpdateSuperstructuresBays();
             }
         }
 
@@ -151,143 +95,155 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 SetValue(value);
                 UpdateCargoHoldsNumber();
+                OnPropertyChanged(nameof(CargoHolds));
             }
         }
-        public ObservableCollection<CargoHoldWrapper> HoldsObservable { get; set; }
 
-        private void UpdateCargoHoldsNumber()
+        #endregion
+
+        #region Other tabs
+        // ----- Other tabs -----
+
+        public ChangeTrackingCollection<OuterRowWrapper> SeaSides { get; private set; }
+
+        public ChangeTrackingCollection<DummySuperstructure> SuperstructuresBays { get; private set; }
+
+        public ChangeTrackingCollection<CargoHoldWrapper> CargoHolds { get; private set; }
+
+        public ChangeTrackingCollection<CellPositionWrapper> LivingQuarters { get; private set; }
+
+        public ChangeTrackingCollection<CellPositionWrapper> HeatedStructures { get; private set; }
+
+        public ChangeTrackingCollection<CellPositionWrapper> LSA { get; private set; }
+
+        public DOCWrapper Doc { get; private set; }
+        
+        #endregion
+
+        #endregion
+
+
+        #region Constructor logic
+
+        public ShipProfileWrapper(ShipProfile model) : base(model)
         {
-            if (HoldsObservable == null || HoldsObservable.Count == NumberOfHolds || HoldsObservable.Count == 0)
-                return;
-            if (NumberOfHolds > HoldsObservable.Count)
-            {
-                HoldsObservable.Add(new CargoHoldWrapper(NumberOfHolds));
-                DocObservable.AddNewHold(NumberOfHolds);
-            }
-            if (NumberOfHolds < HoldsObservable.Count)
-            {
-                HoldsObservable.RemoveAt(HoldsObservable.Count - 1);
-                //DocObservable.RemoveLastHold();
-            }
+            InitializeComplexProperties();
+            InitializeCollectionProperties();
+
+            RegisterInMessenger();
         }
 
-
-        internal List<OuterRow> SeaSides { get; set; }
-        private ObservableCollection<OuterRowWrapper> seaSidesObservable;
-        public ObservableCollection<OuterRowWrapper> SeaSidesObservable
+        private void RegisterInMessenger()
         {
-            get
-            {
-                if (seaSidesObservable == null)
-                {
-                    seaSidesObservable = new ObservableCollection<OuterRowWrapper>();
-                    foreach (var outerRow in SeaSides)
-                    {
-                        OuterRowWrapper outerRowWrapper = new OuterRowWrapper();
-                        outerRowWrapper.ConvertToWrapper(outerRow);
-                        seaSidesObservable.Add(outerRowWrapper);
-                    }
-                }
-                return seaSidesObservable;
-            }
-            set
-            {
-                seaSidesObservable = value;
-            }
+            DataMessenger.Default.UnregisterAll(this);
+            DataMessenger.Default.Register<RemoveRowMessage>(this, OnRemoveRowMessageReceived);
         }
 
-        internal List<CellPosition> LivingQuartersList { get; set; }
-        private ObservableCollection<CellPositionWrapper> livingQuartersObservable;
-        public ObservableCollection<CellPositionWrapper> LivingQuartersObservable
+        private void InitializeCollectionProperties()
         {
-            get
+            // sea sides
+            if (Model.SeaSides == null)
             {
-                if (livingQuartersObservable == null)
-                {
-                    livingQuartersObservable = new ObservableCollection<CellPositionWrapper>();
-                    byte i = 1;
-                    CellPositionWrapper newCellWrapper;
-                    foreach (var cell in LivingQuartersList)
-                    {
-                        newCellWrapper = new CellPositionWrapper(cell);
-                        newCellWrapper.NumberInList = i;
-                        livingQuartersObservable.Add(newCellWrapper);
-                        i++;
-                    }
-                }
-                return livingQuartersObservable;
+                throw new ArgumentException("SeaSides cannot be null");
             }
-            set
+            SeaSides = new ChangeTrackingCollection<OuterRowWrapper>(Model.SeaSides.Select(s => new OuterRowWrapper(s)));
+            RegisterCollection(SeaSides, Model.SeaSides);
+
+            // superstructure bays
+            if (Model.BaysInFrontOfSuperstructures == null)
             {
-                livingQuartersObservable = value;
+                throw new ArgumentException("BaysInFrontOfSuperstructures cannot be null");
             }
+            SuperstructuresBays = new ChangeTrackingCollection<DummySuperstructure>(Model.BaysInFrontOfSuperstructures.Select(b => new DummySuperstructure(b)));
+            RegisterCollection(SuperstructuresBays, Model.BaysSurroundingSuperstructure);
+
+            // cargo holds
+            if (Model.CargoHolds == null)
+            {
+                throw new ArgumentException("CargoHolds cannot be null");
+            }
+            CargoHolds = new ChangeTrackingCollection<CargoHoldWrapper>(Model.CargoHolds.Select(h => new CargoHoldWrapper(h)));
+            RegisterCollection(CargoHolds, Model.CargoHolds);
+
+            // living quarters
+            if (Model.LivingQuarters == null)
+            {
+                throw new ArgumentException("LivingQuarters cannot be null");
+            }
+            LivingQuarters = new ChangeTrackingCollection<CellPositionWrapper>(Model.LivingQuarters.Select(c => new CellPositionWrapper(c)));
+            RegisterCollection(LivingQuarters, Model.LivingQuarters);
+
+            // heated structures
+            if (Model.HeatedStructures == null)
+            {
+                throw new ArgumentException("HeatedStructures cannot be null");
+            }
+            HeatedStructures = new ChangeTrackingCollection<CellPositionWrapper>(Model.HeatedStructures.Select(c => new CellPositionWrapper(c)));
+            RegisterCollection(HeatedStructures, Model.HeatedStructures);
+
+            // life-saving appliances
+            if (Model.LSA == null)
+            {
+                throw new ArgumentException("LSA cannot be null");
+            }
+            LSA = new ChangeTrackingCollection<CellPositionWrapper>(Model.LSA.Select(c => new CellPositionWrapper(c)));
+            RegisterCollection(LSA, Model.LSA);
+
         }
 
-        internal List<CellPosition> HeatedStructuresList { get; set; }
-        private ObservableCollection<CellPositionWrapper> heatedStructuresObservable;
-        public ObservableCollection<CellPositionWrapper> HeatedStructuresObservable
+        private void InitializeComplexProperties()
         {
-            get
+            if (Model.Doc == null)
             {
-                if (heatedStructuresObservable == null)
-                {
-                    heatedStructuresObservable = new ObservableCollection<CellPositionWrapper>();
-                    byte i = 1;
-                    CellPositionWrapper newCellWrapper;
-                    foreach (var cell in HeatedStructuresList)
-                    {
-                        newCellWrapper = new CellPositionWrapper(cell);
-                        newCellWrapper.NumberInList = i;
-                        heatedStructuresObservable.Add(newCellWrapper);
-                        i++;
-                    }
-                }
-                return heatedStructuresObservable;
+                throw new ArgumentException("DOC cannot be null");
             }
-            set
-            {
-                heatedStructuresObservable = value;
-            }
+            Doc = new DOCWrapper(Model.Doc);
+            RegisterComplexProperty(Doc);
         }
 
-        internal List<CellPosition> LSAList { get; set; }
-        private ObservableCollection<CellPositionWrapper> lsaObservable;
-        private string shipName;
+        #endregion
 
-        public ObservableCollection<CellPositionWrapper> LSAObservable
+
+
+        // ----- Add remove CellPosition -----
+
+        public static void OnAddNewCell(ICollection<CellPositionWrapper> collection)
         {
-            get
+            ReNumberCellPositionWrapperList(collection);
+        }
+        private void OnRemoveRowMessageReceived(RemoveRowMessage obj)
+        {
+            switch (obj.Collection)
             {
-                if (lsaObservable == null)
-                {
-                    lsaObservable = new ObservableCollection<CellPositionWrapper>();
-                    byte i = 1;
-                    CellPositionWrapper newCellWrapper;
-                    foreach (var cell in LSAList)
-                    {
-                        newCellWrapper = new CellPositionWrapper(cell);
-                        newCellWrapper.NumberInList = i;
-                        lsaObservable.Add(newCellWrapper);
-                        i++;
-                    }
-                }
-                return lsaObservable;
-            }
-            set
-            {
-                lsaObservable = value;
+                case "living quarters":
+                    RemoveRowFromLivingQuartersObservable(obj.Row);
+                    ReNumberCellPositionWrapperList(LivingQuarters);
+                    break;
+                case "heated structures":
+                    RemoveRowFromHeatedStructuresObservable(obj.Row);
+                    ReNumberCellPositionWrapperList(HeatedStructures);
+                    break;
+                case "LSA":
+                    RemoveRowFromLSAObservable(obj.Row);
+                    ReNumberCellPositionWrapperList(LSA);
+                    break;
+                default:
+                    break;
             }
         }
-        //private void ReNumberLivingQuartersObservable()
-        //{
-        //    byte i = 1;
-        //    foreach (var cell in livingQuartersObservable)
-        //    {
-        //        cell.NumberInList = i;
-        //        i++;
-        //    }
-        //}
-        private static void ReNumberCellPositionWrapperList(ObservableCollection<CellPositionWrapper> collection)
+        private void RemoveRowFromLivingQuartersObservable(byte row)
+        {
+            LivingQuarters.RemoveAt(row);
+        }
+        private void RemoveRowFromHeatedStructuresObservable(byte row)
+        {
+            HeatedStructures.RemoveAt(row);
+        }
+        private void RemoveRowFromLSAObservable(byte row)
+        {
+            LSA.RemoveAt(row);
+        }
+        private static void ReNumberCellPositionWrapperList(ICollection<CellPositionWrapper> collection)
         {
             byte i = 1;
             foreach (var cell in collection)
@@ -297,29 +253,56 @@ namespace EasyJob_ProDG.UI.Wrapper
             }
         }
 
-        public DOCWrapper DocObservable
+
+
+
+
+        /// <summary>
+        /// Updates number of rows in SuperstructureBays on change of SuperstructuresNumber
+        /// </summary>
+        private void UpdateSuperstructuresBays()
         {
-            get;
-            set;
+            if (SuperstructuresBays == null || SuperstructuresBays.Count == NumberOfSuperstructures || SuperstructuresBays.Count == 0)
+                return;
+            if (NumberOfSuperstructures > SuperstructuresBays.Count)
+            {
+                SuperstructuresBays.Add(new DummySuperstructure(SuperstructuresBays.Count + 1, 0));
+            }
+            if (NumberOfSuperstructures < SuperstructuresBays.Count)
+            {
+                SuperstructuresBays.RemoveAt(SuperstructuresBays.Count - 1);
+            }
         }
+
+
+        /// <summary>
+        /// Updates number of cargo holda
+        /// </summary>
+        private void UpdateCargoHoldsNumber()
+        {
+            //if (CargoHolds == null || CargoHolds.Count == NumberOfHolds || CargoHolds.Count == 0)
+            //    return;
+            //if (NumberOfHolds > CargoHolds.Count)
+            //{
+            //    CargoHolds.Add(new CargoHoldWrapper(NumberOfHolds));
+            //    Doc.AddNewHold(NumberOfHolds);
+            //}
+            //if (NumberOfHolds < CargoHolds.Count)
+            //{
+            //    CargoHolds.RemoveAt(CargoHolds.Count - 1);
+            //    //Doc.RemoveLastHold();
+            //}
+        }
+
+
+
+
+
 
         public string ErrorList { get; set; }
 
-        /// <summary>
-        /// List of possible options for reefers facing.
-        /// List to be used in combobox list items.
-        /// </summary>
-        public static List<string> MotorFacingList
-        {
-            get { return ShipProfile.MotorFacingList; }
-        }
 
-        public string ProfileName { get; set; }
 
-        public void CancelChanges()
-        {
-
-        }
 
         // --------------- Events ---------------------------------------
 

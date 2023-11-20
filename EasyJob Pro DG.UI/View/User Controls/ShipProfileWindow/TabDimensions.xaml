@@ -54,8 +54,9 @@
                            HorizontalAlignment="Center"
                            Grid.Column="2" />
 
+                        <!-- List box with SeaSides values -->
                         <ListBox x:Name="lbxSeaSides"
-                         ItemsSource="{Binding SeaSidesObservable}"
+                         ItemsSource="{Binding SeaSides}"
                          IsSynchronizedWithCurrentItem="True"
                          Margin="0"
                          Grid.Row="1"
@@ -173,7 +174,7 @@
                     <RowDefinition Height="Auto"></RowDefinition>
 
                 </Grid.RowDefinitions>
-                <TextBlock Text="Accommodation number"
+                <TextBlock Text="Superstructure number"
                            TextWrapping="Wrap"
                            TextAlignment="Center"
                            HorizontalAlignment="Center"
@@ -181,7 +182,7 @@
                            Grid.Row="0"
                            Grid.Column="0" 
                            Margin="0,0,0,3"/>
-                <TextBlock Text="Last bay before accommodation"
+                <TextBlock Text="Last bay in front of superstructure"
                            TextWrapping="Wrap"
                            TextAlignment="Center"
                            HorizontalAlignment="Center"
@@ -190,7 +191,7 @@
                            Grid.Column="1" 
                            Margin="0,0,0,3"/>
                 <ListBox x:Name="lbAccommodationBays"
-                         ItemsSource="{Binding Path=AccommodationBaysObservable, Mode=TwoWay}"
+                         ItemsSource="{Binding Path=SuperstructuresBays}"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          HorizontalContentAlignment="Stretch"
                          Grid.Row="1"
@@ -209,7 +210,7 @@
                                        Margin="5,0"
                                        Grid.Column="0" />
                                 <TextBox Text="{Binding Path=Bay, Mode=TwoWay, Converter={StaticResource zeroToNull}}"
-                                         Tag="Enter the last bay before accommodation"
+                                         Tag="Enter the bay in front of the superstructure"
                                          Margin="5,0"
                                          Grid.Column="1"/>
                             </Grid>

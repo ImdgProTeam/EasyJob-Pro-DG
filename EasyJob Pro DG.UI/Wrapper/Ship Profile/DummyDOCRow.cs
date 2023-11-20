@@ -23,9 +23,6 @@ namespace EasyJob_ProDG.UI.Wrapper.Dummies
         {
             Row = new ObservableCollection<DummyRowValue>();
             AddBytesArrayToRow(row);
-            //OnPropertyChanged("Row");
-            //OnPropertyChanged("DummyRowValue");
-            //OnPropertyChanged();
         }
         public DummyDOCRow(byte holdNr)
         {
@@ -42,8 +39,6 @@ namespace EasyJob_ProDG.UI.Wrapper.Dummies
         public void Add(byte value)
         {
             Row.Add(new DummyRowValue(value));
-            //OnPropertyChanged("Row");
-            //OnPropertyChanged("DummyRowValue");
         }
         private void SetClassDescription(byte classNr)
         {

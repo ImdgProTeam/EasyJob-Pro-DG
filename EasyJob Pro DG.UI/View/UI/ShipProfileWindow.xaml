@@ -47,7 +47,7 @@
         <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=dw:AnimatedDialogWindow, Mode=FindAncestor}}"
                    Style="{StaticResource WindowTitleTextBlock}"/>
 
-        <TabControl DataContext="{Binding TempShip}"
+        <TabControl DataContext="{Binding OwnShip}"
                     Name="tabShipProfile"
                     Grid.Row="1"
                     Margin="2" SelectionChanged="tabShipProfile_SelectionChanged"

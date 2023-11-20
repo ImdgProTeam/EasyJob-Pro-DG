@@ -4,10 +4,11 @@ namespace EasyJob_ProDG.UI.Wrapper
 {
     public class OuterRowWrapper : ModelWrapper<OuterRow>
     {
-        public OuterRowWrapper() : base(new OuterRow())
+        public OuterRowWrapper(OuterRow model) : base(model)
         {
 
         }
+
         public OuterRowWrapper(byte bay, byte portM, byte stbdM) : base(new OuterRow())
         {
             Bay = bay;
@@ -24,7 +25,6 @@ namespace EasyJob_ProDG.UI.Wrapper
             set
             {
                 SetValue(value);
-                NotifyOfPropertyChanged();
             }
         }
         public byte PortMost
@@ -36,7 +36,6 @@ namespace EasyJob_ProDG.UI.Wrapper
             set
             {
                 SetValue(value);
-                NotifyOfPropertyChanged();
             }
         }
         public byte Bay
@@ -48,21 +47,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             set
             {
                 SetValue(value);
-                NotifyOfPropertyChanged();
             }
-        }
-
-        private void NotifyOfPropertyChanged()
-        {
-            OnOuterRowChangedEventHandler.Invoke(this);
-        }
-
-        public OuterRowWrapper ConvertToWrapper(OuterRow outerRow)
-        {
-            Bay = outerRow.Bay;
-            PortMost = outerRow.PortMost;
-            StarboardMost = outerRow.StarboardMost;
-            return this;
         }
 
         public OuterRow ToOuterRow()
@@ -76,11 +61,11 @@ namespace EasyJob_ProDG.UI.Wrapper
                 return true;
             return false;
         }
-        public static bool operator ==(OuterRowWrapper a, OuterRow b)
+        public static bool operator == (OuterRowWrapper a, OuterRow b)
         {
             return a.Equals(b);
         }
-        public static bool operator !=(OuterRowWrapper a, OuterRow b)
+        public static bool operator != (OuterRowWrapper a, OuterRow b)
         {
             return !(a == b);
         }

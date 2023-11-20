@@ -9,12 +9,12 @@ namespace EasyJob_ProDG.UI.Wrapper
     /// </summary>
     public class DOCWrapper : ModelWrapper<DOC>
     {
-        public string HoldNumber { get; set; }
         public byte NumberOfHolds => (byte)DOCTable[0].Row.Count;
         public byte NumberOfClasses => (byte)DOCTable.Count;
+
         public ObservableCollection<DummyDOCRow> DOCTable
         {
-            get; set;
+            get; private set;
         }
 
         public DOCWrapper(DOC model) : base(model)
@@ -25,7 +25,8 @@ namespace EasyJob_ProDG.UI.Wrapper
         {
             DOCTable = ConvertToDOCTableObservable(docTable);
         }
-        internal ObservableCollection<DummyDOCRow> ConvertToDOCTableObservable(byte[,] docTable)
+
+        private ObservableCollection<DummyDOCRow> ConvertToDOCTableObservable(byte[,] docTable)
         {
             ObservableCollection<DummyDOCRow> _collection = new ObservableCollection<DummyDOCRow>();
             for (byte c = 0; c < docTable.GetLength(1); c++)
@@ -39,10 +40,12 @@ namespace EasyJob_ProDG.UI.Wrapper
             }
             return _collection;
         }
+
         internal void SetDOCTableFromModel()
         {
             SetToDOCTableObservable(Model.DOCtable);
         }
+
         internal void AddNewHold(byte holdNr)
         {
             if (NumberOfHolds - 1 < holdNr)

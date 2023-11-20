@@ -6,7 +6,7 @@
              xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
              xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="450" d:DesignWidth="400"
              DataContext="{Binding}">
     <UserControl.Resources>
         <Style x:Key="NoFocusStyle"
@@ -53,7 +53,7 @@
                    VerticalAlignment="Bottom" />
 
             <DataGrid Name="dataGridLSA"
-                      ItemsSource="{Binding LSAObservable, Mode=TwoWay}"
+                      ItemsSource="{Binding LSA}"
                       CanUserAddRows="False"
                       CanUserReorderColumns="False"
                       CanUserDeleteRows="False"
