@@ -27,14 +27,14 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="cargoPlan"></param>
         /// <param name="ownShip"></param>
         /// <param name="reefers"></param>
-        public static void CheckSegregation(this CargoPlan cargoPlan, Transport.ShipProfile ownShip)
+        public static void CheckSegregation(this CargoPlan cargoPlan)
         {
             Segregation.AssignSegregatorClassesAndGroups(cargoPlan.DgList);
             foreach (Dg dg in cargoPlan.DgList)
             {
-                Segregation.Segregate(dg, cargoPlan, ownShip);
+                Segregation.Segregate(dg, cargoPlan);
             }
-            Segregation.PostSegregation(cargoPlan, ownShip);
+            Segregation.PostSegregation(cargoPlan);
             Data.LogWriter.Write($"Segregation checked.");
         }
     }

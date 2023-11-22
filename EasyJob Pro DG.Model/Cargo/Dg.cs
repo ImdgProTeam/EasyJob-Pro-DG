@@ -588,9 +588,9 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Method calls UpdateDgInfo method from HandlingDg on the instance
         /// </summary>
         /// <param name="dgDataBase"></param>
-        public void UpdateDgInfo(XDocument dgDataBase)
+        public void UpdateDgInfo()
         {
-            HandleDg.UpdateDgInfo(this, dgDataBase);
+            HandleDg.UpdateDgInfo(this);
         }
 
         /// <summary>

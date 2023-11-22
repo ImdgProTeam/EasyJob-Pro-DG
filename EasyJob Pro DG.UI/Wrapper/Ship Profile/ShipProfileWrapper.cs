@@ -3,7 +3,6 @@ using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Utility;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace EasyJob_ProDG.UI.Wrapper

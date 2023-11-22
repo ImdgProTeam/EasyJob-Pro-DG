@@ -12,10 +12,9 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="sscode"></param>
         /// <param name="dg"></param>
         /// <param name="containers"></param>
-        /// <param name="ship"></param>
         /// <returns></returns>
         public static bool SpecialStowageCheck
-            (string sscode, Dg dg, ICollection<Container> containers, Transport.ShipProfile ship)
+            (string sscode, Dg dg, ICollection<Container> containers)
         {
             //Method to define if stowage in accordance with special stowage provisions ("SW" or "H") is violated
             //Returns 'true' if in conflict
@@ -24,7 +23,7 @@ namespace EasyJob_ProDG.Model.Cargo
             {
                 case "SW1":
                     //Protected from sources of heat means that packages and cargo transport units shall be stowed at least 2.4 m from heated ship structures, where the surface temperature is liable to exceed 55°C.Examples of heated structures are steam pipes, heating coils, top or side walls of heated fuel and cargo tanks, and bulkheads of machinery spaces. In addition, packages not loaded inside a cargo transport unit and stowed on deck shall be shaded from direct sunlight. The surface of a cargo transport unit can heat rapidly when in direct sunlight in nearly windless conditions and the cargo may also become heated. Depending on the nature of the goods in the cargo transport unit and the planned voyage precautions shall be taken to ensure that exposure to direct sunlight is reduced.
-                    result = CheckNotProtectedFromSourceOfHeat(dg, containers, ship);
+                    result = CheckNotProtectedFromSourceOfHeat(dg, containers);
                     break;
                 case "SW2":
                     //

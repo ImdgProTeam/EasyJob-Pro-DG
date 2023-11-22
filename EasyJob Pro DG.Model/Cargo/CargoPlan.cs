@@ -62,16 +62,20 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="existingCargoPlan">Present cargo plan, i.e. which will be updated.</param>
         /// <param name="importOnlySelected">In case of import: Sets if required to import only selected items.</param>
         /// <param name="currentPort">In case of import: POL for selecting Import.</param>
-        public CargoPlan CreateCargoPlan(string fileName, Transport.ShipProfile ownShip,
-            XDocument dgDataBase, OpenFile.OpenOption openOption = OpenFile.OpenOption.Open, CargoPlan existingCargoPlan = null,
-            bool importOnlySelected = false, string currentPort = null)
+        public CargoPlan CreateCargoPlan(string fileName, OpenFile.OpenOption openOption = OpenFile.OpenOption.Open,
+                                        CargoPlan existingCargoPlan = null, bool importOnlySelected = false, string currentPort = null)
         {
+            //TODO: Shift CargoPlan handling methods to a separate class. 
+            //TODO: Thereafter shift shipProfile and dgDataBase references to a private property of the new class.
+            ShipProfile ownShip = ShipProfile.Instance;
+            XDocument dgDataBase = ProgramFiles.DgDataBase;
+
             //creating cargo plan from file
             var cargoPlan = OpenFile.ReadCargoPlanFromFile(fileName, ownShip);
             if (cargoPlan is null || cargoPlan.IsEmpty) return cargoPlan;
 
             //Updating cargo plan from database
-            HandleDg.UpdateDgInfo(cargoPlan.DgList, dgDataBase);
+            HandleDg.UpdateDgInfo(cargoPlan.DgList);
             HandleDgList.CheckDgList(cargoPlan.DgList, (byte)OpenFile.FileTypes.Edi);
 
             //Choose what to do with new plan according to OpenOptions
@@ -391,7 +395,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
                 //if not found - add new item
                 if (!unitFound && !unitLocationOccupied)
-                { 
+                {
                     ShiftContainerToResultingCargoPlan(newPlan, newContainer, resultingNewCargoPlan);
                 }
             }
@@ -418,7 +422,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Adds new Dg to CargoPlan
         /// </summary>
         /// <param name="dg">New dg to be added to plan</param>
-        public void AddDg(Dg dg, XDocument dgDataBase)
+        public void AddDg(Dg dg)
         {
             if (dg == null || string.IsNullOrEmpty(dg.ContainerNumber)) return;
 
@@ -433,7 +437,7 @@ namespace EasyJob_ProDG.Model.Cargo
             {
                 dg.CopyContainerInfo(container);
             }
-            dg.UpdateDgInfo(dgDataBase);
+            dg.UpdateDgInfo();
             DgList.Add(dg);
             container.DgCountInContainer++;
         }
@@ -592,7 +596,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
         private static void CopyUpdatedContainerInfo(Container fromContainer, Dg toDg)
         {
-            if(fromContainer.HasContainerTypeChanged)
+            if (fromContainer.HasContainerTypeChanged)
                 toDg.ContainerType = fromContainer.ContainerType;
             if (fromContainer.HasPodChanged)
                 toDg.POD = fromContainer.POD;

@@ -7,6 +7,7 @@ namespace EasyJob_ProDG.Model.Cargo
 {
     public partial class Dg
     {
+        static XDocument xmlDoc => ProgramFiles.DgDataBase;
         public string dgClassFromList;
 
         /// <summary>
@@ -15,12 +16,12 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="xmlDoc"></param>
         /// <param name="unitIsNew"></param>
         /// <param name="pkgChanged"></param>
-        public void AssignFromDgList(XDocument xmlDoc, bool unitIsNew = false, bool pkgChanged = false)
+        public void AssignFromDgList(bool unitIsNew = false, bool pkgChanged = false)
         {
             try
             {
                 List<Dg> imdgRecords;
-                imdgRecords = GetRecordsFromXml(Unno, xmlDoc);
+                imdgRecords = GetRecordsFromXml(Unno);
 
                 int orderInList;
                 orderInList = ChooseOneOfMultipleEntries(imdgRecords);
@@ -67,7 +68,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="unno">Specified UN no.</param>
         /// <param name="xmlDoc">IMDG Code DG List in xml format.</param>
         /// <returns>List of Dg of specified UN no with raw information from IMDG code.</returns>
-        private static List<Dg> GetRecordsFromXml(ushort unno, XDocument xmlDoc)
+        private static List<Dg> GetRecordsFromXml(ushort unno)
         {
             var chosenEntries = (from entry in xmlDoc.Descendants("DG")
                                  where (int)entry.Attribute("unno") == unno

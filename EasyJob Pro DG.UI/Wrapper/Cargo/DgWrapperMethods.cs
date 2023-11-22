@@ -100,7 +100,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         private void UpdateDgInfoAndUploadChanges()
         {
-            Model.UpdateDgInfo(_dgDataBase);
+            Model.UpdateDgInfo();
             UpdateDgDataPresentation();
         }
 
@@ -109,13 +109,13 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         private void OnUpdatePackingGroup()
         {
-            Model.AssignFromDgList(_dgDataBase, false, true);
+            Model.AssignFromDgList(false, true);
             OnDgPackingGroupChangedEventHandler.Invoke(this);
             UpdateDgDataPresentation();
         }
 
         /// <summary>
-        /// Notifies CargoPlan of change in DgNetWeight.
+        /// Notifies WorkingCargoPlan of change in DgNetWeight.
         /// </summary>
         private void OnNetWeightChanged()
         {
@@ -173,7 +173,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Sends message to synchronise changes with CargoPlan
+        /// Sends message to synchronise changes with WorkingCargoPlan
         /// </summary>
         /// <param name="value">new value set</param>
         /// <param name="oldValue">old value</param>

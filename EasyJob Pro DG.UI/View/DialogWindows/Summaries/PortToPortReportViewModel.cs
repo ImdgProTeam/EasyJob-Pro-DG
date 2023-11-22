@@ -59,9 +59,9 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         #region Public methods
 
         /// <summary>
-        /// Creates report from CargoPlan.
+        /// Creates report from WorkingCargoPlan.
         /// </summary>
-        /// <param name="cargoPlan">CargoPlan.</param>
+        /// <param name="cargoPlan">WorkingCargoPlan.</param>
         public void CreateReport(CargoPlan cargoPlan)
         {
             displayPorts = new List<ReportDisplayPort>();
@@ -276,9 +276,9 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         //----------- Private methods ----------
 
         /// <summary>
-        /// Counts report values from CargoPlan.
+        /// Counts report values from WorkingCargoPlan.
         /// </summary>
-        /// <param name="cargoPlan">CargoPlan.</param>
+        /// <param name="cargoPlan">WorkingCargoPlan.</param>
         private void CountReportValues(CargoPlan cargoPlan)
         {
             if (cargoPlan == null) return;

@@ -8,7 +8,7 @@ namespace EasyJob_ProDG.UI.View.Sort
 {
     public class SortableLocation : LocationOnBoard, IComparable
     {
-        static UserUISettings settings = new SettingsService().GetSettings();
+        static IUserUISettings settings = new SettingsService().GetSettings();
 
         public SortableLocation(ILocationOnBoard wrapper)
         {

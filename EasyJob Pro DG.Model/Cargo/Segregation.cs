@@ -10,6 +10,8 @@ namespace EasyJob_ProDG.Model.Cargo
     {
         private const string segr = "segregation";
 
+        static ShipProfile ship => ShipProfile.Instance;
+
         public enum SegregationCase : byte
         {
             None = 0,
@@ -34,9 +36,8 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
-        /// <param name="ship"></param>
         /// <returns></returns>
-        public static bool Segregate(Dg a, Dg b, ShipProfile ship)
+        public static bool Segregate(Dg a, Dg b)
         {
             if (a.Bay == 0 || b.Bay == 0) return false;
 
@@ -194,8 +195,8 @@ namespace EasyJob_ProDG.Model.Cargo
                 }
             }
 
-            if (_seglevel5 != 0) _conf = SegregationConflictCheck(a, b, _seglevel5, ship);
-            if (SegregationConflictCheck(a, b, seglevel, ship)) _conf = true;
+            if (_seglevel5 != 0) _conf = SegregationConflictCheck(a, b, _seglevel5);
+            if (SegregationConflictCheck(a, b, seglevel)) _conf = true;
             return _conf;
         }
 
@@ -204,8 +205,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         /// <param name="a"></param>
         /// <param name="cargoPlan"></param>
-        /// <param name="ship"></param>
-        internal static void Segregate(Dg a, CargoPlan cargoPlan, ShipProfile ship)
+        internal static void Segregate(Dg a, CargoPlan cargoPlan)
         {
             if (a.Bay == 0) return;
             if (cargoPlan == null) return;
@@ -217,7 +217,7 @@ namespace EasyJob_ProDG.Model.Cargo
             if (a.IsLq) return;
 
             //1. Check if there are any special requirements in column 16b of CH 3
-            SpecialSegregationCheck(a, dglist, ship);
+            SpecialSegregationCheck(a, dglist);
 
             //2. Segregation between classes according to table 7.2.4
             //taking into account segregation requirements from //1.
@@ -230,7 +230,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 if (a.ContainerNumber == b.ContainerNumber) continue; //to exclude segregation with the same container
 
                 //checking if conflict exists
-                _conf = Segregate(a, b, ship);
+                _conf = Segregate(a, b);
 
                 //adding conflict if exists
                 //substances of the same class may be stowed together without regard to segregation required by secondary hazards:
@@ -248,8 +248,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Method checks segregation other than segregation table and 16b
         /// </summary>
         /// <param name="cargoplan"></param>
-        /// <param name="ship"></param>
-        internal static void PostSegregation(CargoPlan cargoplan, ShipProfile ship)
+        internal static void PostSegregation(CargoPlan cargoplan)
         {
             ICollection<Dg> dglist = cargoplan.DgList;
 
@@ -401,7 +400,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
             if (fullReCheck)
                 foreach (Dg a in dglist)
-                    Segregate(a, cargoplan, ship);
+                    Segregate(a, cargoplan);
         }
 
         /// <summary>
@@ -411,9 +410,8 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <param name="seglevel"></param>
-        /// <param name="ship"></param>
         /// <returns></returns>
-        public static bool SegregationConflictCheck(Dg a, Dg b, byte seglevel, ShipProfile ship)
+        public static bool SegregationConflictCheck(Dg a, Dg b, byte seglevel)
         //implemented only for container ships with closed cargo holds
         {
             //true if conflicted
@@ -421,19 +419,19 @@ namespace EasyJob_ProDG.Model.Cargo
             switch (seglevel)
             {
                 case 1:
-                    segConflict = SegregationCase1(a, b, ship);
+                    segConflict = SegregationCase1(a, b);
                     break;
                 case 2:
-                    segConflict = SegregationCase2(a, b, ship);
+                    segConflict = SegregationCase2(a, b);
                     break;
                 case 3:
-                    segConflict = SegregationCase3(a, b, ship);
+                    segConflict = SegregationCase3(a, b);
                     break;
                 case 4:
-                    segConflict = SegregationCase4(a, b, ship);
+                    segConflict = SegregationCase4(a, b);
                     break;
                 case 5:
-                    segConflict = SegregationCase5(a, b, ship);
+                    segConflict = SegregationCase5(a, b);
                     break;
                 case 0:
                     segConflict = false;
@@ -595,9 +593,8 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         /// <param name="a">Dg (class 1)</param>
         /// <param name="b">Dg (class 1)</param>
-        /// <param name="ship">ShipProfile</param>
         /// <returns></returns>
-        private static bool SegregationCase5(Dg a, Dg b, ShipProfile ship)
+        private static bool SegregationCase5(Dg a, Dg b)
         {
             //Closed cargo transport units carrying different goods of class 1 do not require segregation from each other provided 7.2.7.1.4 authorizes the goods to be transported together. Where this is not permitted, closed cargotransport unit shall be “separated from” one another.
             bool segConflict;
@@ -614,7 +611,7 @@ namespace EasyJob_ProDG.Model.Cargo
                                              Array.IndexOf(cGroupCodes, b.CompatibilityGroup)];
                 if (permit == 9) segConflict = false;
                 //closed units
-                else if (a.IsClosed && b.IsClosed) segConflict = SegregationCase2(a, b, ship);
+                else if (a.IsClosed && b.IsClosed) segConflict = SegregationCase2(a, b);
                 //under deck
                 else if (a.IsUnderdeck && b.IsUnderdeck)
                 {
@@ -658,7 +655,7 @@ namespace EasyJob_ProDG.Model.Cargo
             {
 
                 //closed cargo transport units
-                if (a.IsClosed && b.IsClosed) segConflict = SegregationCase2(a, b, ship);
+                if (a.IsClosed && b.IsClosed) segConflict = SegregationCase2(a, b);
                 //others - under deck
                 else
                 {
@@ -682,9 +679,8 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
-        /// <param name="ship"></param>
         /// <returns></returns>
-        private static bool SegregationCase4(Dg a, Dg b, ShipProfile ship)
+        private static bool SegregationCase4(Dg a, Dg b)
         {
             bool segConflict = false;
 
@@ -735,9 +731,8 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
-        /// <param name="ship"></param>
         /// <returns></returns>
-        private static bool SegregationCase3(Dg a, Dg b, ShipProfile ship)
+        private static bool SegregationCase3(Dg a, Dg b)
         {
             bool segConflict;
 
@@ -782,9 +777,8 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
-        /// <param name="ship"></param>
         /// <returns></returns>
-        private static bool SegregationCase2(Dg a, Dg b, ShipProfile ship)
+        private static bool SegregationCase2(Dg a, Dg b)
         {
             bool segConflict;
             //if one on deck and another is underdeck (segregated by deck) = no conflict
@@ -815,9 +809,8 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
-        /// <param name="ship"></param>
         /// <returns></returns>
-        private static bool SegregationCase1(Dg a, Dg b, ShipProfile ship)
+        private static bool SegregationCase1(Dg a, Dg b)
         {
             bool segConflict = false;
             //if one on deck and another is underdeck (segregated by deck) = no conflict            

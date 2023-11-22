@@ -72,7 +72,7 @@ namespace EasyJob_ProDG.UI.Utility
             DataMessenger.Default.Send(new MessageFromDummy(), "Dummy Accommodation changed");
         }
 
-        //CargoPlan event related methods
+        //WorkingCargoPlan event related methods
         private static void OnDgPackingGroupChanged(object sender)
         {
             DoNothing();

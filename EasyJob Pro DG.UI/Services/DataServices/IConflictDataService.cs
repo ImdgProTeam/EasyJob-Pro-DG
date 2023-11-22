@@ -6,6 +6,5 @@ namespace EasyJob_ProDG.UI.Services.DataServices
     {
         ConflictsList GetConflicts();
         VentilationRequirements GetVentilationRequirements();
-        void ReCheckConflicts();
     }
 }

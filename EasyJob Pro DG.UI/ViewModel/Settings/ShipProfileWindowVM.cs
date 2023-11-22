@@ -59,11 +59,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             OwnShip = _shipProfileDataService.CreateShipProfileWrapper();
 
-            CellLivingQuarters = new CellPositionWrapper();
             _cellLivingQuartersNewEntry = string.Empty;
-            CellHeatedStructures = new CellPositionWrapper();
             _cellHeatedStructuresNewEntry = string.Empty;
-            CellLSA = new CellPositionWrapper();
             _cellLsaNewEntry = string.Empty;
         }
 
@@ -102,7 +99,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// Checks if OuterRow completed and then adds it to SeaSides.
         /// </summary>
         /// <returns>True if completed</returns>
-        private bool TryAddOuterRowToTempShip()
+        private bool TryAddOuterRowToSeaSides()
         {
             bool completed = NewOuterRow.Bay != 0 && NewOuterRow.PortMost != 0 && NewOuterRow.StarboardMost != 0;
             if (completed)
@@ -124,7 +121,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             if (_isWindowLoaded)
             {
-                if (TryAddOuterRowToTempShip()) return;
+                if (TryAddOuterRowToSeaSides()) return;
                 else RemoveEmptyRowFromSeaSides();
                 ReverseAllBaysBayChange();
             }
@@ -305,12 +302,16 @@ namespace EasyJob_ProDG.UI.ViewModel
             //Setting the window is loading mode and starting status bar
             mainWindowViewModel.SetIsLoading(true);
             mainWindowViewModel.StatusBarControl.StartProgressBar(10, "Saving ShipProfile...");
+            EasyJob_ProDG.Data.ProgressBarReporter.ReportPercentage = 20;
 
             //saving job
             _shipProfileDataService.SaveShipProfile();
+            EasyJob_ProDG.Data.ProgressBarReporter.ReportPercentage = 50;
+
+            //Sending notification message to DataMessenger
+            DataMessenger.Default.Send(new ShipProfileWrapperMessage(), "ship profile saved");
 
             mainWindowViewModel.StatusBarControl.ProgressPercentage = 90;
-            GetNewShipProfileVM();
             _isWindowLoaded = false;
 
             //Completing with visual loading effects

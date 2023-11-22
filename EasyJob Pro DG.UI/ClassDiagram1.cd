@@ -38,7 +38,7 @@
   <Class Name="EasyJob_ProDG.UI.Data.CurrentProgramData" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="61.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CIZCDgAAAQAQAAAAApCABoAIAABAAjARRAgMAAwAoAA=</HashCode>
+      <HashCode>AgAAAAAAAAAQAAAAAACAAAAIAABgAgQQBAAAAAAAAAA=</HashCode>
       <FileName>Data\CurrentProgramData.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -114,7 +114,7 @@
   <Class Name="EasyJob_ProDG.UI.Services.DataServices.CargoDataService" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="63.5" Y="9" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAIAAAAADAAAAAIAAAAAAA=</HashCode>
+      <HashCode>AAIEAABAAAAAAAAAAAAAAAAIAAAAACAAAAAAAAAAAAA=</HashCode>
       <FileName>Services\DataServices\CargoDataService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -122,23 +122,15 @@
   <Class Name="EasyJob_ProDG.UI.Services.DataServices.ConflictDataService" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="60" Y="9" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAEAAAAAIAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <HashCode>CEAEEAAAAAAAAAAAAAAAAAAAAAAAAAEAQAAAAAAIAAA=</HashCode>
       <FileName>Services\DataServices\ConflictDataService.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="EasyJob_ProDG.UI.Services.DataServices.DgDataBaseDataService" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="67" Y="9" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAABAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Services\DataServices\DgDataBaseDataService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="EasyJob_ProDG.UI.Services.DataServices.LoadDataService" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="58.25" Y="9" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAACgFAAAAUAAAAAAAAAAAAAAAAAAAABAAAAEAAgAA=</HashCode>
+      <HashCode>AICACgFAAAAAAAAAABCAAAAAAAAAAAEAAAgACIAAAAA=</HashCode>
       <FileName>Services\DataServices\LoadDataService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -146,7 +138,7 @@
   <Class Name="EasyJob_ProDG.UI.Services.DataServices.ShipProfileDataService" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="55" Y="8.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IIgCCABAAAAAAACAAACAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <HashCode>IIgCCABAAAAAAACAAAAAAAAAAAAAAAAAAAAAAEACAAA=</HashCode>
       <FileName>Services\DataServices\ShipProfileDataService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -191,14 +183,14 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="EasyJob_ProDG.UI.Services.ExtensionRegistryHelper" Collapsed="true">
-    <Position X="57" Y="5.5" Width="1.5" />
+    <Position X="58.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAgAAAAAAAAAAAA=</HashCode>
       <FileName>Services\FirstStartServices\ExtensionRegistryHelper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EasyJob_ProDG.UI.Services.FirstStartService" Collapsed="true">
-    <Position X="57" Y="4.75" Width="1.5" />
+    <Position X="58.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAABAAA=</HashCode>
       <FileName>Services\FirstStartServices\FirstStartService.cs</FileName>
@@ -213,7 +205,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="EasyJob_ProDG.UI.Services.Log.LogService" Collapsed="true">
-    <Position X="58.75" Y="4.75" Width="1.5" />
+    <Position X="60" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAgAABAAAAAAAAAAACA=</HashCode>
       <FileName>Services\Log\LogService.cs</FileName>
@@ -255,13 +247,6 @@
       <FileName>Utility\AsyncObservableCollection.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EasyJob_ProDG.UI.Utility.ClassConverters" Collapsed="true">
-    <Position X="69.75" Y="4.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAAAAAEAAAAAAAAAAAAA=</HashCode>
-      <FileName>Utility\ClassConverters.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="EasyJob_ProDG.UI.Utility.DataMessenger" Collapsed="true">
     <Position X="80" Y="1" Width="1.5" />
     <TypeIdentifier>
@@ -278,7 +263,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="EasyJob_ProDG.UI.Utility.EventSupervisor" Collapsed="true">
-    <Position X="64" Y="4.75" Width="1.5" />
+    <Position X="63.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BgAABAACAAAAAAAAQAAAAiAAAAAAAAAJABAAAABAAAA=</HashCode>
       <FileName>Utility\EventSupervisor.cs</FileName>
@@ -315,56 +300,56 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="EasyJob_ProDG.UI.Utility.ViewModelLocator" Collapsed="true">
-    <Position X="62.25" Y="4.75" Width="1.5" />
+    <Position X="61.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AGAAAACAAAQIgAAAQAAAAAAAAKAAAAAAAoAAAADgAAA=</HashCode>
       <FileName>Utility\ViewModelLocator.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EasyJob_ProDG.UI.Messages.ApplicationClosingMessage" Collapsed="true">
-    <Position X="60.5" Y="4.75" Width="1.5" />
+    <Position X="80" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Utility\Messages\ApplicationClosingMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EasyJob_ProDG.UI.Messages.CancelChangesMessage" Collapsed="true">
-    <Position X="80" Y="2.75" Width="1.5" />
+    <Position X="80" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Utility\Messages\CancelChangesMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EasyJob_ProDG.UI.Messages.CargoDataUpdated" Collapsed="true">
-    <Position X="80" Y="3.5" Width="1.5" />
+    <Position X="80" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAIAAgAAAABAAAAAAAEAAAAAA=</HashCode>
       <FileName>Utility\Messages\CargoDataUpdated.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EasyJob_ProDG.UI.Messages.CargoPlanUnitPropertyChanged" Collapsed="true">
-    <Position X="80" Y="4.25" Width="1.5" />
+    <Position X="80" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAQAAAAAAAAAAAYAAAAAAAAAAAAAAAAAAgAABAAAA=</HashCode>
       <FileName>Utility\Messages\CargoPlanUnitPropertyChanged.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EasyJob_ProDG.UI.Messages.DgListSelectedItemUpdatedMessage" Collapsed="true">
-    <Position X="80" Y="5.75" Width="1.5" />
+    <Position X="80" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Utility\Messages\DgListSelectedItemUpdatedMessage.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EasyJob_ProDG.UI.Messages.MessageFromDummy" Collapsed="true">
-    <Position X="80" Y="6.5" Width="1.5" />
+    <Position X="80" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Utility\Messages\MessageFromDummy.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EasyJob_ProDG.UI.Messages.RemoveRowMessage" Collapsed="true">
-    <Position X="80" Y="5" Width="1.5" />
+    <Position X="80" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
       <FileName>Utility\Messages\RemoveRowMessage.cs</FileName>
@@ -378,7 +363,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="EasyJob_ProDG.UI.Messages.UpdateCargoPlan" Collapsed="true">
-    <Position X="80" Y="7.25" Width="1.5" />
+    <Position X="80" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Utility\Messages\UpdateCargoPlan.cs</FileName>
@@ -1055,7 +1040,7 @@
   <Class Name="EasyJob_ProDG.UI.ViewModel.ConflictListViewModel" Collapsed="true">
     <Position X="48.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CBAAAAAAAAAAAIQgAAAAAAIAABIAAAAEEIAQgAAgAAA=</HashCode>
+      <HashCode>CBAAAAAAAAAAAIQgAAAAAAIAABIAAAAEEIAQAAAgAAA=</HashCode>
       <FileName>ViewModel\MainWindow\ConflictsListViewModel.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -1084,7 +1069,7 @@
   <Class Name="EasyJob_ProDG.UI.ViewModel.MainWindowViewModel" Collapsed="true">
     <Position X="66.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>HBIUorig2iRREJAgWgDADNGBJYQowSIB1yCQ4IBt9aI=</HashCode>
+      <HashCode>HBIUorig2gRREJAgWgDADNGBJYIowSIB1yCQ4IBttaI=</HashCode>
       <FileName>ViewModel\MainWindow\MainWindowCommands.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -1106,7 +1091,7 @@
   <Class Name="EasyJob_ProDG.UI.ViewModel.ShipProfileWindowVM" Collapsed="true">
     <Position X="37.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>hGRABAJAAwAwAUACDBIwgIEARAEoCASABAFIAgBAIEA=</HashCode>
+      <HashCode>hGRAJAJAAwAwAUACDBIwgIEARAEoCASABAFIAgBAIEA=</HashCode>
       <FileName>ViewModel\Settings\ShipProfileWindowVM.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -1136,7 +1121,7 @@
   <Class Name="EasyJob_ProDG.UI.Wrapper.CargoPlanWrapper" Collapsed="true">
     <Position X="23.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>KEBCAISJAAAQgAQAEAIEhAAIDgABAAAIAAgAAIRUAGQ=</HashCode>
+      <HashCode>KEBAAISJAAAQgAQAEAIEhAAIDgABAAAIAAgAAIRUAGQ=</HashCode>
       <FileName>Wrapper\Cargo\CargoPlanWrapper.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -1158,7 +1143,7 @@
   <Class Name="EasyJob_ProDG.UI.Wrapper.DgWrapper" Collapsed="true">
     <Position X="17" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>jAAmASwABIACBBqEA5JoAAwpFgGJAhEAgCAEgAATIqA=</HashCode>
+      <HashCode>jAAkASwABIACBBqEA5JoAAwpEgGJAhEAgCAEgAATIqA=</HashCode>
       <FileName>Wrapper\Cargo\DgWrapper.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -1263,7 +1248,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="EasyJob_ProDG.UI.Messages.ConflictListToBeUpdatedMessage" Collapsed="true">
-    <Position X="80" Y="2" Width="1.5" />
+    <Position X="80" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AkAAAAAAAQAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
       <FileName>Utility\Messages\ConflictListToBeUpdatedMessage.cs</FileName>
@@ -1296,7 +1281,7 @@
   <Interface Name="EasyJob_ProDG.UI.Data.ICurrentProgramData" Collapsed="true">
     <Position X="61.75" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIQADgAAAAAQAAAAAACAAgAIAAAAACAQBAgMAAQAgAA=</HashCode>
+      <HashCode>AAAAAAIAAAAAAgAAAACAAAAIAAAAACgAAAAAAAAAAAA=</HashCode>
       <FileName>Data\ICurrentProgramData.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -1310,35 +1295,28 @@
   <Interface Name="EasyJob_ProDG.UI.Services.DataServices.ICargoDataService" Collapsed="true">
     <Position X="63.5" Y="8.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAIAAAAADAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAIAAAAACAAAAAAAAAAAAA=</HashCode>
       <FileName>Services\DataServices\ICargoDataService.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="EasyJob_ProDG.UI.Services.DataServices.IConflictDataService" Collapsed="true">
     <Position X="60" Y="8.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <HashCode>AAQAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Services\DataServices\IConflictDataService.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="EasyJob_ProDG.UI.Services.DataServices.IDgDataBaseDataService" Collapsed="true">
-    <Position X="67" Y="8.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Services\DataServices\IDgDataBaseDataService.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="EasyJob_ProDG.UI.Services.DataServices.ILoadDataService" Collapsed="true">
     <Position X="58.25" Y="8.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAACAEAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <HashCode>AICACgEAAAAAAAAAAAAAAAAAAAAAAAEAAAgACAAAAAA=</HashCode>
       <FileName>Services\DataServices\ILoadDataService.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="EasyJob_ProDG.UI.Services.DataServices.IShipProfileDataService" Collapsed="true">
     <Position X="55" Y="7.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IIgAAAAAAAAAAACAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>IIgAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Services\DataServices\IShipProfileDataService.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -1387,14 +1365,14 @@
   <Interface Name="EasyJob_ProDG.UI.Services.ISettingsService" Collapsed="true">
     <Position X="65.25" Y="8.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABAAACAAAAAAAMAEAAAAAAAAAEAAAAAACAEAAQAAAAA=</HashCode>
+      <HashCode>ABAAACgAAAAAAMAEAAAAAAAAgEAAgAAACAEAAQAAAAA=</HashCode>
       <FileName>Services\ISettingsService.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="EasyJob_ProDG.UI.Settings.IUserUISettings" Collapsed="true">
     <Position X="54.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAEAAAgAQAAAAMAEAAAAAAAAAEAAQAAAAAEAAAAAAAA=</HashCode>
+      <HashCode>AgEAAAgAQAAAAMAEAAAAAAAAAEAAQAAAAAEAAAAAAAI=</HashCode>
       <FileName>Settings\IUserUISettings.cs</FileName>
     </TypeIdentifier>
   </Interface>

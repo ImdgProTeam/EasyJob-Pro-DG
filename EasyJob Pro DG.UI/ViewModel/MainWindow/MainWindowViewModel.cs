@@ -5,7 +5,6 @@ using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Services.DialogServices;
-using EasyJob_ProDG.UI.Settings;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.Wrapper;
@@ -22,17 +21,15 @@ namespace EasyJob_ProDG.UI.ViewModel
     {
         #region Private fields
 
-        LoadDataService loadDataService;
+        ILoadDataService loadDataService;
+        ICargoDataService cargoDataService;
+        ICargoPlanCheckService cargoPlanCheckService;
+        IConflictDataService conflictDataService;
+        ISettingsService uiSettingsService;
         IWindowDialogService windowDialogService;
         IMappedDialogWindowService mappedDialogWindowService;
-        ICargoDataService cargoDataService;
-        ConflictDataService conflictDataService;
-        SettingsService uiSettingsService;
         IMessageDialogService _messageDialogService;
         ITitleService _titleService;
-
-        private DataGridReefersViewModel reefersDataGridVM => ViewModelLocator.DataGridReefersViewModel;
-        private DataGridContainersViewModel containersDataGridVM => ViewModelLocator.DataGridContainersViewModel;
 
         #endregion
 
@@ -44,10 +41,13 @@ namespace EasyJob_ProDG.UI.ViewModel
         public VentilationRequirements Vents { get; set; }
         public CargoPlanWrapper WorkingCargoPlan { get; set; }
         public Voyage VoyageInfo => WorkingCargoPlan.VoyageInfo ?? null;
-        public UserUISettings UISettings { get; set; }
         public StatusBarViewModel StatusBarControl { get; set; }
+
+        // Data Grids bindable properties
+        public DataGridDgViewModel DataGridDgViewModel => ViewModelLocator.DataGridDgViewModel;
+        public DataGridReefersViewModel DataGridReefersViewModel => ViewModelLocator.DataGridReefersViewModel;
+        public DataGridContainersViewModel DataGridContainersViewModel => ViewModelLocator.DataGridContainersViewModel;
         public int SelectedDataGridIndex { get; set; }
-        public DataGridDgViewModel DgDataGridVM => ViewModelLocator.DataGridDgViewModel;
 
         /// <summary>
         /// Property indicating if any loading/saving etc. process is running at the moment.
@@ -99,8 +99,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void LoadServices()
         {
             loadDataService = new LoadDataService();
-            cargoDataService = new CargoDataService();
-            conflictDataService = new ConflictDataService();
+            cargoDataService = CargoDataService.GetCargoDataService();
+            cargoPlanCheckService = new CargoPlanCheckService();
+            conflictDataService = ConflictDataService.GetConflictDataService();
             uiSettingsService = new SettingsService();
             mappedDialogWindowService = new MappedDialogWindowService(Application.Current.MainWindow);
             windowDialogService = new WindowDialogService();
@@ -119,9 +120,8 @@ namespace EasyJob_ProDG.UI.ViewModel
                 Environment.Exit(0);
             }
 
-            loadDataService.LoadData();
-
-            UISettings = uiSettingsService.GetSettings();
+            string openPath = ((View.UI.MainWindow)System.Windows.Application.Current.MainWindow)?.StartupFilePath;
+            loadDataService.LoadCargoData(openPath);
 
             GetCargoData();
         }
@@ -136,6 +136,11 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             //Get data from cargoDataService
             WorkingCargoPlan = cargoDataService.GetCargoPlan();
+
+            //Run CargoPlan check
+            cargoPlanCheckService.CheckCargoPlan();
+
+            //Get conflicts
             Conflicts = conflictDataService.GetConflicts();
             Vents = conflictDataService.GetVentilationRequirements();
 
@@ -143,8 +148,9 @@ namespace EasyJob_ProDG.UI.ViewModel
             RefreshView();
 
             //Notify DgDataGrid of change
-            DataMessenger.Default.Send<CargoDataUpdated>(new CargoDataUpdated(), "cargodataupdated");
+            DataMessenger.Default.Send(new CargoDataUpdated(), "cargodataupdated");
         }
+
         private void SubscribeToMessenger()
         {
             DataMessenger.Default.Register<ShipProfileWrapperMessage>(this, OnShipProfileSaved, "ship profile saved");
@@ -193,7 +199,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             SetIsLoading(true);
             StatusBarControl.ChangeBarSet(25);
-            if (!loadDataService.OpenNewFile(file, openOption, importOnlySelected, currentPort))
+            if (!loadDataService.OpenCargoPlanFromFile(file, openOption, importOnlySelected, currentPort))
             {
                 _messageDialogService.ShowOkDialog("File can not be opened", "Error");
                 StatusBarControl.Cancel();
@@ -315,13 +321,13 @@ namespace EasyJob_ProDG.UI.ViewModel
             switch (SelectedDataGridIndex)
             {
                 case 0:
-                    DgDataGridVM.SelectDg(obj.DgID);
+                    DataGridDgViewModel.SelectDg(obj.DgID);
                     break;
                 case 1:
-                    reefersDataGridVM.SelectReefer(obj.ContainerNumber);
+                    DataGridReefersViewModel.SelectReefer(obj.ContainerNumber);
                     break;
                 case 2:
-                    containersDataGridVM.SelectContainer(obj.ContainerNumber);
+                    DataGridContainersViewModel.SelectContainer(obj.ContainerNumber);
                     break;
                 default:
                     break;

@@ -184,7 +184,6 @@ namespace EasyJob_ProDG.Model.Transport
         /// List contains list of errors found by CheckShipProfile method
         /// </summary>
         private List<string> _errorList;
-        private byte numberOfHolds;
 
         #endregion
 
