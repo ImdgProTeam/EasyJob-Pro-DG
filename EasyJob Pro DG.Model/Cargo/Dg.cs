@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Xml.Linq;
 
 namespace EasyJob_ProDG.Model.Cargo
 {
@@ -194,7 +193,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     segregationGroupIndex = (byte)Array.IndexOf(IMDGCode.SegregationGroupsCodes, value);
                 }
                 //By index in dictionary
-                else if (byte.TryParse(value, out segregationGroupIndex)) 
+                else if (byte.TryParse(value, out segregationGroupIndex))
                 {
 
                 }

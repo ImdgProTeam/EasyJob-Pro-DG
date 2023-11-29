@@ -119,6 +119,7 @@
     <Compile Include="Settings\UserSettingsApplicator.cs" />
     <Compile Include="Utility\AsyncObservableCollection.cs" />
     <Compile Include="Utility\Messages\DgListSelectedItemUpdatedMessage.cs" />
+    <Compile Include="Utility\Messages\ShipProfileWrapperMessage.cs" />
     <Compile Include="ViewModel\MainWindow\MainWindowCommands.cs" />
     <Compile Include="ViewModel\MainWindow\SelectionStatusBarSetter.cs" />
     <Compile Include="View\Animations\FrameworkElementAnimations.cs" />
@@ -168,9 +169,6 @@
     <Compile Include="Utility\Messages\ConflictListToBeUpdatedMessage.cs" />
     <Compile Include="Utility\Messages\CargoDataUpdated.cs" />
     <Compile Include="Utility\Messages\CargoPlanUnitPropertyChanged.cs" />
-    <Compile Include="Utility\Messages\MessageFromDummy.cs" />
-    <Compile Include="Utility\Messages\RemoveRowMessage.cs" />
-    <Compile Include="Utility\Messages\ShipProfileWrapperMessage.cs" />
     <Compile Include="Services\DataServices\ConflictDataService.cs" />
     <Compile Include="Services\DataServices\IConflictDataService.cs" />
     <Compile Include="Services\DataServices\ILoadDataService.cs" />
@@ -263,6 +261,7 @@
     </Compile>
     <Compile Include="View\DialogWindows\Info\WinLoginViewModel.cs" />
     <Compile Include="View\User Controls\AnimatedUserControl.cs" />
+    <Compile Include="View\User Controls\BindingProxy.cs" />
     <Compile Include="View\User Controls\MainWindow\AddContainerToDataGrid.cs">
       <DependentUpon>AddContainerGrid.xaml</DependentUpon>
     </Compile>
@@ -346,6 +345,7 @@
     <Compile Include="Wrapper\Cargo\DgWrapperMethods.cs" />
     <Compile Include="Wrapper\Cargo\DgWrapperProperties.cs" />
     <Compile Include="Wrapper\ChangeTrackingCollection.cs" />
+    <Compile Include="Wrapper\ModelByteDummy.cs" />
     <Compile Include="Wrapper\Settings\ExcelDgTemplateWrapper.cs" />
     <Compile Include="Wrapper\Settings\ExcelTemplateWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\DOCWrapper.cs" />

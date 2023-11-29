@@ -1,7 +1,6 @@
 ﻿using EasyJob_ProDG.UI.Utility;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -136,7 +135,7 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         private void TrackingObjectPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == nameof(IsChanged))
+            if (e.PropertyName == nameof(IsChanged))
             {
                 OnPropertyChanged(nameof(IsChanged));
             }

@@ -56,7 +56,7 @@
 
                         <!-- List box with SeaSides values -->
                         <ListBox x:Name="lbxSeaSides"
-                         ItemsSource="{Binding SeaSides}"
+                         ItemsSource="{Binding OwnShip.SeaSides}"
                          IsSynchronizedWithCurrentItem="True"
                          Margin="0"
                          Grid.Row="1"
@@ -133,14 +133,14 @@
                                HorizontalAlignment="Left"/>
                         <!-- Adding a new seaside -->
                         <TextBox x:Name="txbNewOuterRowBay"
-                         Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.NewOuterRow.Bay, Converter={StaticResource zeroToNull}, Mode=TwoWay}"
+                         Text="{Binding NewOuterRow.Bay, Converter={StaticResource zeroToNull}, Mode=TwoWay}"
                          Tag="Specify bay"
                          TextAlignment="Center"
                          Margin="2, 0"
                          MinWidth="25"
                          Grid.Column="0"
                          Grid.Row="3"/>
-                        <TextBox Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.NewOuterRow.PortMost, Converter={StaticResource zeroToNull}, Mode=TwoWay}"
+                        <TextBox Text="{Binding NewOuterRow.PortMost, Converter={StaticResource zeroToNull}, Mode=TwoWay}"
                          Tag="Enter row, e.g. 14"
                          IsEnabled="{Binding ElementName=txbNewOuterRowBay, Path=Text, Converter={StaticResource zeroToFalse}}"
                          TextAlignment="Center"
@@ -148,7 +148,7 @@
                          Margin="2, 0"
                          Grid.Column="1"
                          Grid.Row="3"/>
-                        <TextBox Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.NewOuterRow.StarboardMost, Converter={StaticResource zeroToNull}, Mode=TwoWay}"
+                        <TextBox Text="{Binding NewOuterRow.StarboardMost, Converter={StaticResource zeroToNull}, Mode=TwoWay}"
                          Tag="Enter row, e.g. 15"
                          IsEnabled="{Binding ElementName=txbNewOuterRowBay, Path=Text, Converter={StaticResource zeroToFalse}}"
                          TextAlignment="Center"
@@ -191,7 +191,7 @@
                            Grid.Column="1" 
                            Margin="0,0,0,3"/>
                 <ListBox x:Name="lbAccommodationBays"
-                         ItemsSource="{Binding Path=SuperstructuresBays}"
+                         ItemsSource="{Binding Path=OwnShip.SuperstructuresBays}"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          HorizontalContentAlignment="Stretch"
                          Grid.Row="1"
@@ -209,7 +209,8 @@
                                        MinWidth="25"
                                        Margin="5,0"
                                        Grid.Column="0" />
-                                <TextBox Text="{Binding Path=Bay, Mode=TwoWay, Converter={StaticResource zeroToNull}}"
+                                <TextBox Text="{Binding Path=Bay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                    Converter={StaticResource zeroToNull}}"
                                          Tag="Enter the bay in front of the superstructure"
                                          Margin="5,0"
                                          Grid.Column="1"/>

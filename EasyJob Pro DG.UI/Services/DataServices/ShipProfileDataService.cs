@@ -10,6 +10,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         // ------------------------- Private fields ---------------------------------
 
         readonly ICurrentProgramData _currentProgramData = CurrentProgramData.GetCurrentProgramData();
+
         ShipProfile _ship => _currentProgramData.GetShipProfile();
         ShipProfileWrapper _shipWrapper;
 

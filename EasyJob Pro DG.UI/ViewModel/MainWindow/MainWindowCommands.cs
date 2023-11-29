@@ -460,7 +460,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         #region Methods calling toolbox windows
         private void OpenShipProfileWindowExecuted(object parameters)
         {
-            windowDialogService.ShowDialog(new ShipProfileWindow());
+            windowDialogService.ShowDialog(new ShipProfileWindow(), new ShipProfileWindowVM());
             SetWindowTitle();
         }
         private void OpenUserSettingsWindowExecuted(object parameters)

@@ -1,10 +1,6 @@
 ﻿using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.View.UI;
-using EasyJob_ProDG.UI.View.User_Controls;
 using EasyJob_ProDG.UI.Wrapper;
-using EasyJob_ProDG.UI.Wrapper.Dummies;
-using System;
-using static EasyJob_ProDG.UI.Wrapper.DgWrapper;
 
 namespace EasyJob_ProDG.UI.Utility
 {
@@ -27,16 +23,6 @@ namespace EasyJob_ProDG.UI.Utility
             //CargoPlanChange events
             CargoPlanUnitPropertyChanger.OnConflictListToBeChangedEventHandler += new CargoPlanUnitPropertyChanger.ConflictListToBeChangedEventHandler(OnConflictListToBeChanged);
 
-
-            //Ship profile window events
-            OuterRowWrapper.OnOuterRowChangedEventHandler += new OuterRowWrapper.OuterRowChangedEventHandler(OnOuterRowChanged);
-            DummySuperstructure.OnDummySuperstructureChangedEventHandler += new DummySuperstructure.DummySuperstructureChangedEventHandler(OnDummyAccommodationChanged);
-            TabLivingQuarters.OnRemoveRecordEventHandler += new TabLivingQuarters.RemoveRecord(OnRemoveRecordFromLivingQuarters);
-            TabHeatedStructures.OnRemoveRecordEventHandler += new TabHeatedStructures.RemoveRecord(OnRemoveRecordFromHeatedStructures);
-            TabLSA.OnRemoveRecordEventHandler += new TabLSA.RemoveRecord(OnRemoveRecordFromLSA);
-
-            //User settings window event
-
             //Main window events  
             MainWindow.OnWindowClosingEventHandler += new MainWindow.WindowClosing(OnMainWindowClosing);
 
@@ -48,28 +34,6 @@ namespace EasyJob_ProDG.UI.Utility
         private static void OnMainWindowClosing()
         {
             DataMessenger.Default.Send(new ApplicationClosingMessage(), "closing");
-        }
-
-        //Ship profile window event related methods
-        private static void OnRemoveRecordFromLivingQuarters(byte row)
-        {
-            DataMessenger.Default.Send(new RemoveRowMessage(row, "living quarters"));
-        }
-        private static void OnRemoveRecordFromHeatedStructures(byte row)
-        {
-            DataMessenger.Default.Send(new RemoveRowMessage(row, "heated structures"));
-        }
-        private static void OnRemoveRecordFromLSA(byte row)
-        {
-            DataMessenger.Default.Send(new RemoveRowMessage(row, "LSA"));
-        }
-        private static void OnOuterRowChanged(object sender)
-        {
-            DataMessenger.Default.Send(new ShipProfileWrapperMessage(), "Outer row changed");
-        }
-        private static void OnDummyAccommodationChanged(object sender)
-        {
-            DataMessenger.Default.Send(new MessageFromDummy(), "Dummy Accommodation changed");
         }
 
         //WorkingCargoPlan event related methods

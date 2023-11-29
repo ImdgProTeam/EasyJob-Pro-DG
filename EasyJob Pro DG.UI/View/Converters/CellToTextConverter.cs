@@ -14,7 +14,7 @@ namespace EasyJob_ProDG.UI.View.Converters
             if(value != null)
             {
                 cell = value as CellPositionWrapper;
-                if (cell.IsEmpty()) return string.Empty; 
+                if (cell.IsEmpty) return string.Empty; 
                 else return cell.ToString();
             }
             return string.Empty;

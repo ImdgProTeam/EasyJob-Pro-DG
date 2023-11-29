@@ -248,7 +248,8 @@ namespace EasyJob_ProDG.Model.Transport
                             else
                             {
                                 var FandLbays = lineValue.Split(',');
-                                shipProfile.CargoHolds.Add(new CargoHold(byte.Parse(FandLbays[0]), byte.Parse(FandLbays[1])));
+                                byte.TryParse(lineDescription.Replace("hold",""), out byte holdNumber);
+                                shipProfile.CargoHolds.Add(new CargoHold(holdNumber, byte.Parse(FandLbays[0]), byte.Parse(FandLbays[1])));
                             }
                         }
 

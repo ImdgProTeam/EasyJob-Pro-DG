@@ -10,7 +10,8 @@
              xmlns:ub="clr-namespace:EasyJob_ProDG.UI.Behaviors"
              xmlns:attachedProperties="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="400">
+             d:DesignHeight="450" d:DesignWidth="400"
+             DataContext="{Binding OwnShip}">
     <Grid 
         attachedProperties:EnterKeyTraversal.IsEnabled="true"
         Margin="10">
@@ -71,7 +72,7 @@
                Grid.Row="1" />
         <TextBox x:Name="txbShipName"
                  Tag="Enter Ship name"
-                 Text="{Binding ShipName, Mode=TwoWay}"
+                 Text="{Binding ShipName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Grid.Column="1"
                  Grid.Row="1"
                  TabIndex="1"
@@ -84,7 +85,7 @@
                Grid.Row="2" />
         <TextBox x:Name="txbCallSign"
                  Tag="Enter Call sign"
-                 Text="{Binding CallSign}"
+                 Text="{Binding CallSign, UpdateSourceTrigger=PropertyChanged}"
                  Grid.Column="1"
                  Grid.Row="2"
                  TabIndex="2"/>

@@ -4,6 +4,8 @@ namespace EasyJob_ProDG.UI.Wrapper
 {
     public class CargoHoldWrapper : ModelWrapper<CargoHold>
     {
+        #region Public (inherited) properties
+
         public byte FirstBay
         {
             get { return GetValue<byte>(); }
@@ -16,30 +18,38 @@ namespace EasyJob_ProDG.UI.Wrapper
             set { SetValue(value); }
         }
 
-        public string HoldNumber { get; private set; }
+        public string HoldNumber
+        {
+            get { return "Hold " + GetValue<byte>(); }
+            set
+            {
+                byte result = byte.Parse(value);
+                SetValue(result);
+            }
+        } 
 
-        internal CargoHoldWrapper(CargoHold model) : base(model) 
+        #endregion
+
+        #region Constructors
+
+        internal CargoHoldWrapper(CargoHold model) : base(model)
         {
-            HoldNumber = "";
+        }
+
+        internal CargoHoldWrapper(CargoHold model, byte holdNumber) : base(model)
+        {
+            HoldNumber = holdNumber.ToString();
             FirstBay = 0;
             LastBay = 0;
         }
-        internal CargoHoldWrapper(CargoHold model, byte holdNumber) : base (model)
-        {
-            HoldNumber = "Hold " + holdNumber;
-            FirstBay = 0;
-            LastBay = 0;
-        }
+
         internal CargoHoldWrapper(CargoHold model, byte holdNumber, byte firstBay, byte lastBay) : base(model)
         {
-            HoldNumber = "Hold " + holdNumber;
+            HoldNumber = holdNumber.ToString();
             FirstBay = firstBay;
             LastBay = lastBay;
-        }
+        } 
 
-        public CargoHold ToCargoHold()
-        {
-            return Model;
-        }
+        #endregion
     }
 }

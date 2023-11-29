@@ -53,7 +53,7 @@
                    VerticalAlignment="Bottom" />
 
             <DataGrid Name="dataGridLSA"
-                      ItemsSource="{Binding LSA}"
+                      ItemsSource="{Binding OwnShip.LSA}"
                       CanUserAddRows="False"
                       CanUserReorderColumns="False"
                       CanUserDeleteRows="False"
@@ -101,7 +101,7 @@
                             <DataTemplate>
                                 <Button Content="-"
                                         Focusable="True"
-                                        Click="Button_Click"
+                                        Command="{Binding RemoveCellCommand}"
                                         CommandParameter="{Binding NumberInList}" />
 
                             </DataTemplate>
@@ -111,7 +111,7 @@
             </DataGrid>
 
 
-        <TextBlock Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLSA,
+        <TextBlock Text="{Binding CellLSA,
             Converter={converters:CellToTextConverter}}"
                    Foreground="{StaticResource Brush.Text.Header}"
                    Margin="12,0"
@@ -120,7 +120,7 @@
                    Grid.ColumnSpan="2" />
         <TextBox x:Name="AddCellTextBox"
             Tag="Enter new position here"
-                 Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLSANewEntry,
+                 Text="{Binding CellLSANewEntry,
                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                  Style="{StaticResource TextBoxWithTagAndValidation}"
                  VerticalContentAlignment="Center"
@@ -132,7 +132,7 @@
 
         <Button Content="Add"
                 IsDefault="{Binding Path=IsFocused, ElementName=AddCellTextBox}"
-                Command="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.AddCellLSACommand}"
+                Command="{Binding AddCellLSACommand}"
                 Margin="2, 6, 2, 0"
                 Grid.Row="4"
                 Grid.RowSpan="2"

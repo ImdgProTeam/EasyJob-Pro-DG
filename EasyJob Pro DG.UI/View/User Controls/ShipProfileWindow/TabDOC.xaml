@@ -10,12 +10,12 @@
              d:DesignWidth="300"
              DataContext="{Binding}">
     <UserControl.Resources>
-        
+        <local:BindingProxy x:Key="proxy" Data="{Binding}"/>
         <converters:HoldsToVisibilityConverter x:Key="HoldsToVisibility" />
         <converters:ToggleButtonDOCConverter x:Key="DOCConverter"/>
 
         <DataTemplate x:Key="ColumnHeaderStyle">
-                <TextBlock Text="{Binding}" 
+            <TextBlock Text="{Binding}" 
                            RenderTransformOrigin="0,0"
                            Margin="2,5"
                            TextWrapping="NoWrap"
@@ -23,15 +23,15 @@
                            VerticalAlignment="Bottom"
                            TextAlignment="Left"
                            Width="Auto">
-                    <TextBlock.LayoutTransform>
-                        <TransformGroup>
-                            <ScaleTransform />
-                            <SkewTransform />
-                            <RotateTransform Angle="-90" />
-                            <TranslateTransform />
-                        </TransformGroup>
-                    </TextBlock.LayoutTransform>
-                </TextBlock>
+                <TextBlock.LayoutTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform Angle="-90" />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </TextBlock.LayoutTransform>
+            </TextBlock>
         </DataTemplate>
 
         <Style TargetType="{x:Type DataGridCell}">
@@ -42,9 +42,9 @@
         </Style>
     </UserControl.Resources>
 
-        <DataGrid x:Name="gridDOC"
+    <DataGrid x:Name="gridDOC"
                   Margin="5,3"
-                  ItemsSource="{Binding Doc.DOCTable}"
+                  ItemsSource="{Binding OwnShip.Doc.DOCTable}"
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
@@ -60,37 +60,37 @@
 
         </DataGrid.Resources>
 
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Class"
+        <DataGrid.Columns>
+            <DataGridTemplateColumn Header="Class"
                                         KeyboardNavigation.IsTabStop="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding ClassDescription}" 
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding ClassDescription}" 
                                        ToolTip="{Binding ClassToolTip}"
                                        TextWrapping="WrapWithOverflow"
                                        />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Hold 1"
+            <DataGridTemplateColumn Header="Hold 1"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
-                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=1}">
-                    
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate >
+                                        Visibility="{Binding Data.OwnShip.NumberOfHolds, Source={StaticResource proxy},
+                                                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=1}">
+
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate >
                         <ToggleButton IsChecked="{Binding Row[1].Value, UpdateSourceTrigger=PropertyChanged}">
                             <TextBlock Text="{Binding Row[1].Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DOCConverter}}" />
                         </ToggleButton>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Hold 2"
+            <DataGridTemplateColumn Header="Hold 2"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
-                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=2}">
+                                        Visibility="{Binding Data.OwnShip.NumberOfHolds, Source={StaticResource proxy},
+                                                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=2}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
                         <ToggleButton IsChecked="{Binding Row[2].Value, UpdateSourceTrigger=PropertyChanged}">
@@ -100,10 +100,10 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Hold 3"
+            <DataGridTemplateColumn Header="Hold 3"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
-                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=3}">
+                                        Visibility="{Binding Data.OwnShip.NumberOfHolds, Source={StaticResource proxy},
+                                                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=3}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
                         <ToggleButton IsChecked="{Binding Row[3].Value, UpdateSourceTrigger=PropertyChanged}">
@@ -113,10 +113,10 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Hold 4"
+            <DataGridTemplateColumn Header="Hold 4"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
-                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=4}">
+                                        Visibility="{Binding Data.OwnShip.NumberOfHolds, Source={StaticResource proxy},
+                                                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=4}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
                         <ToggleButton IsChecked="{Binding Row[4].Value, UpdateSourceTrigger=PropertyChanged}">
@@ -126,10 +126,10 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Hold 5"
+            <DataGridTemplateColumn Header="Hold 5"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
-                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=5}">
+                                        Visibility="{Binding Data.OwnShip.NumberOfHolds, Source={StaticResource proxy},
+                                                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=5}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
                         <ToggleButton IsChecked="{Binding Row[5].Value, UpdateSourceTrigger=PropertyChanged}">
@@ -140,10 +140,10 @@
             </DataGridTemplateColumn>
 
 
-                <DataGridTemplateColumn Header="Hold 6"
+            <DataGridTemplateColumn Header="Hold 6"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
-                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=6}">
+                                        Visibility="{Binding Data.OwnShip.NumberOfHolds, Source={StaticResource proxy},
+                                                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=6}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
                         <ToggleButton IsChecked="{Binding Row[6].Value, UpdateSourceTrigger=PropertyChanged}">
@@ -153,10 +153,10 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Hold 7"
+            <DataGridTemplateColumn Header="Hold 7"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
-                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=7}">
+                                        Visibility="{Binding Data.OwnShip.NumberOfHolds, Source={StaticResource proxy},
+                                                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=7}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
                         <ToggleButton IsChecked="{Binding Row[7].Value, UpdateSourceTrigger=PropertyChanged}">
@@ -166,10 +166,10 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Hold 8"
+            <DataGridTemplateColumn Header="Hold 8"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
-                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=8}">
+                                        Visibility="{Binding Data.OwnShip.NumberOfHolds, Source={StaticResource proxy},
+                                                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=8}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
                         <ToggleButton IsChecked="{Binding Row[8].Value, UpdateSourceTrigger=PropertyChanged}">
@@ -179,10 +179,10 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Hold 9"
+            <DataGridTemplateColumn Header="Hold 9"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
-                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=9}">
+                                        Visibility="{Binding Data.OwnShip.NumberOfHolds, Source={StaticResource proxy},
+                                                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=9}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
                         <ToggleButton IsChecked="{Binding Row[9].Value, UpdateSourceTrigger=PropertyChanged}">
@@ -192,23 +192,23 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Hold 10"
+            <DataGridTemplateColumn Header="Hold 10"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
-                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=10}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate >
-                            <ToggleButton IsChecked="{Binding Row[10].Value, UpdateSourceTrigger=PropertyChanged}">
-                                <TextBlock Text="{Binding Row[10].Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DOCConverter}}" />
-                            </ToggleButton>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
+                                        Visibility="{Binding Data.OwnShip.NumberOfHolds, Source={StaticResource proxy},
+                                                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=10}">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate >
+                        <ToggleButton IsChecked="{Binding Row[10].Value, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBlock Text="{Binding Row[10].Value, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DOCConverter}}" />
+                        </ToggleButton>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Hold 11"
+            <DataGridTemplateColumn Header="Hold 11"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
-                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=11}">
+                                        Visibility="{Binding Data.OwnShip.NumberOfHolds, Source={StaticResource proxy},
+                                                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=11}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
                         <ToggleButton IsChecked="{Binding Row[11].Value, UpdateSourceTrigger=PropertyChanged}">
@@ -218,10 +218,10 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Hold 12"
+            <DataGridTemplateColumn Header="Hold 12"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}"
-                                        Visibility="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.OwnShip.NumberOfHolds,
-                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=12}">
+                                        Visibility="{Binding Data.OwnShip.NumberOfHolds, Source={StaticResource proxy},
+                                                    Converter={StaticResource HoldsToVisibility}, ConverterParameter=12}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
                         <ToggleButton IsChecked="{Binding Row[12].Value, UpdateSourceTrigger=PropertyChanged}">
@@ -230,8 +230,8 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-                
-                <DataGridTemplateColumn Header="Weather deck"
+
+            <DataGridTemplateColumn Header="Weather deck"
                                         HeaderTemplate="{StaticResource ColumnHeaderStyle}">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate >
@@ -242,7 +242,7 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
 
-            </DataGrid.Columns>
-            
-        </DataGrid>
+        </DataGrid.Columns>
+
+    </DataGrid>
 </UserControl>
