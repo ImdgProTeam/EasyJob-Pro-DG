@@ -101,7 +101,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         private void UpdateDgInfoAndUploadChanges()
         {
             Model.UpdateDgInfo();
-            UpdateDgDataPresentation();
+            RefreshDgDataPresentation();
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         {
             Model.AssignFromDgList(false, true);
             OnDgPackingGroupChangedEventHandler.Invoke(this);
-            UpdateDgDataPresentation();
+            RefreshDgDataPresentation();
         }
 
         /// <summary>
@@ -148,28 +148,9 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <summary>
         /// Calls OnPropertyChanged for most of Dg properties
         /// </summary>
-        private void UpdateDgDataPresentation()
+        private void RefreshDgDataPresentation()
         {
-            OnPropertyChanged("Unno");
-            OnPropertyChanged("DgClass");
-            OnPropertyChanged("DgSubclass");
-            OnPropertyChanged("Name");
-            OnPropertyChanged("PackingGroup");
-            OnPropertyChanged("AllDgClasses");
-            OnPropertyChanged("Liquid");
-            OnPropertyChanged("Flammable");
-            OnPropertyChanged("EmitFlammableVapours");
-            OnPropertyChanged("StowageCat");
-            OnPropertyChanged("StowageSW");
-            OnPropertyChanged("SegregationSG");
-            OnPropertyChanged("SegregationGroup");
-            OnPropertyChanged("Special");
-            OnPropertyChanged("IsMax1L");
-            OnPropertyChanged("IsWaste");
-            OnPropertyChanged("Properties");
-            OnPropertyChanged(nameof(DgNetWeight));
-            OnPropertyChanged(nameof(IsMp));
-            OnPropertyChanged(nameof(IsLq));
+            OnPropertyChanged(null);
         }
 
         /// <summary>

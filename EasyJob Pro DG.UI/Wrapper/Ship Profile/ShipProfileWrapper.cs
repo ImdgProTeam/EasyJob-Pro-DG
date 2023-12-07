@@ -19,6 +19,11 @@ namespace EasyJob_ProDG.UI.Wrapper
         #region Bindable properties
 
         public string ProfileName => "Main ship profile";
+
+        /// <summary>
+        /// Indicates if the profile has been fully loaded. 
+        /// It is used as a flag to avoid unnecessary updates of window properties.
+        /// </summary>
         public bool IsLoaded = false;
 
         internal bool IsSpecialPropertiesChanged =>
@@ -393,6 +398,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             }
             byte bay2 = SuperstructuresBays.Count > 1 ? SuperstructuresBays[1].Value : (byte)0;
             Model.SetSuperstructuresBaysProperties(SuperstructuresBays[0].Value, bay2);
+            Model.UpdatePrivateProperties();
 
             //DOC
             Doc.AcceptChanges();

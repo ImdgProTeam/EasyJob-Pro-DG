@@ -153,7 +153,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private void SubscribeToMessenger()
         {
-            DataMessenger.Default.Register<ShipProfileWrapperMessage>(this, OnShipProfileSaved, "ship profile saved");
+            DataMessenger.Default.Register<ShipProfileSavedMessage>(this, OnShipProfileSaved, "ship profile saved");
             DataMessenger.Default.Register<ConflictPanelItemViewModel>(this, OnConflictSelectionChanged,
                 "conflict selection changed");
         }
@@ -304,9 +304,13 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// Raised when ShipProfile saved to update data
         /// </summary>
         /// <param name="obj"></param>
-        private void OnShipProfileSaved(ShipProfileWrapperMessage obj)
+        private void OnShipProfileSaved(ShipProfileSavedMessage obj)
         {
-            WrapMethodWithIsLoading(GetCargoData);
+            WrapMethodWithIsLoading(() =>
+            {
+                WorkingCargoPlan.UpdateCargoHoldNumbers();
+                GetCargoData();
+            });
         }
 
         /// <summary>

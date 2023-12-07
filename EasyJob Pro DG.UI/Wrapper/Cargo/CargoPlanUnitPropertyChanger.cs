@@ -159,7 +159,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                 reefer.Refresh();
             }
 
-            _cargoPlanWrapper.UpdateCargoPlanValues();
+            _cargoPlanWrapper.RefreshCargoPlanValues();
         }
 
         /// <summary>

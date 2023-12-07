@@ -231,7 +231,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 ConflictContainerUnno = unit.Unno;
                 if (unit.DgClass != "Reefer")
                     subclass = (unit.DgSubclass.Any() ? ", " + unit.DgSubclass[0] : "") +
-                                (unit.DgsubclassCount > 1 ? ", " + unit.DgSubclass[1] : "");
+                                (unit.DgSubclassCount > 1 ? ", " + unit.DgSubclass[1] : "");
                 ConflictContainerClassStr = unit.DgClass + subclass;
             }
         }

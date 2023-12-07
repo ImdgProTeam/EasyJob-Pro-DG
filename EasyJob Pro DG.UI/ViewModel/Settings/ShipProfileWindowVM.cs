@@ -238,7 +238,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             OwnShip.AcceptChanges();
             OwnShip.AcceptSpecialPropertiesChanges();
-            OwnShip.Model.UpdatePrivateProperties();
             Task.Run(DoSavingJob);
             OwnShip.IsLoaded = false;
         }
@@ -263,10 +262,9 @@ namespace EasyJob_ProDG.UI.ViewModel
             EasyJob_ProDG.Data.ProgressBarReporter.ReportPercentage = 50;
 
             //Sending notification message to DataMessenger
-            DataMessenger.Default.Send(new ShipProfileWrapperMessage(), "ship profile saved");
+            DataMessenger.Default.Send(new ShipProfileSavedMessage(), "ship profile saved");
 
             mainWindowViewModel.StatusBarControl.ProgressPercentage = 90;
-            //_isWindowLoaded = false;
 
             //Completing with visual loading effects
             mainWindowViewModel.StatusBarControl.ProgressPercentage = 100;

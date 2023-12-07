@@ -4,7 +4,6 @@ using EasyJob_ProDG.Model.Transport;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using static EasyJob_ProDG.Model.IO.Excel.WithXlReefers;
 
 namespace EasyJob_ProDG.Model.Cargo
@@ -68,7 +67,6 @@ namespace EasyJob_ProDG.Model.Cargo
             //TODO: Shift CargoPlan handling methods to a separate class. 
             //TODO: Thereafter shift shipProfile and dgDataBase references to a private property of the new class.
             ShipProfile ownShip = ShipProfile.Instance;
-            XDocument dgDataBase = ProgramFiles.DgDataBase;
 
             //creating cargo plan from file
             var cargoPlan = OpenFile.ReadCargoPlanFromFile(fileName, ownShip);
@@ -415,6 +413,16 @@ namespace EasyJob_ProDG.Model.Cargo
             return resultingNewCargoPlan;
         }
 
+
+        /// <summary>
+        /// Clears all dg conflicts in DgList
+        /// </summary>
+        public void ClearConflicts()
+        {
+            foreach (var dg in DgList)
+                dg.ClearAllConflicts();
+        }
+
         #region Add/Remove methods
         //----------- Add/Remove methods -------------------------------------------------------------------
 
@@ -500,6 +508,21 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
         #endregion
+
+        /// <summary>
+        /// Updates all <see cref="HoldNr"/> properties for all items in <see cref="CargoPlan"/>
+        /// </summary>
+        public void OnCargoHoldsUpdated()
+        {
+            foreach(var unit in DgList)
+            {
+                unit.HoldNr = ShipProfile.DefineCargoHoldNumber(unit.Bay);
+            }
+            foreach(var container in Containers)
+            {
+                container.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
+            }
+        }
 
 
         // -------------- Supporting methods ----------------------------------------
@@ -648,14 +671,6 @@ namespace EasyJob_ProDG.Model.Cargo
             return returnPlan;
         }
 
-        /// <summary>
-        /// Clears all dg conflicts in DgList
-        /// </summary>
-        public void ClearConflicts()
-        {
-            foreach (var dg in DgList)
-                dg.ClearAllConflicts();
-        }
 
 
 

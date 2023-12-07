@@ -119,7 +119,7 @@
     <Compile Include="Settings\UserSettingsApplicator.cs" />
     <Compile Include="Utility\AsyncObservableCollection.cs" />
     <Compile Include="Utility\Messages\DgListSelectedItemUpdatedMessage.cs" />
-    <Compile Include="Utility\Messages\ShipProfileWrapperMessage.cs" />
+    <Compile Include="Utility\Messages\ShipProfileSavedMessage.cs" />
     <Compile Include="ViewModel\MainWindow\MainWindowCommands.cs" />
     <Compile Include="ViewModel\MainWindow\SelectionStatusBarSetter.cs" />
     <Compile Include="View\Animations\FrameworkElementAnimations.cs" />

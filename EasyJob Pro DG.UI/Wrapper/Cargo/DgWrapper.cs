@@ -1,6 +1,5 @@
 ﻿using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.Model.Cargo;
-using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Wrapper.Cargo;
 using System.Collections.Generic;
 

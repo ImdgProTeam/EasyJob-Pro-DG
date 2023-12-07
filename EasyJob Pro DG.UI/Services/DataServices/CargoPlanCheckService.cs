@@ -59,24 +59,5 @@ namespace EasyJob_ProDG.UI.Services.DataServices
             Stowage.CheckUnitStowage(dg, cargoPlan.Containers);
         }
 
-
-
-
-        /// <summary>
-        /// Assigns hold numbers to all units, checks cargo plan, creates wrappers and conflicts.
-        /// Used when save ShipProfile. Called by FullReCheck public method.
-        /// </summary>
-        private void OnShipProfileSavedUpdates()
-        {
-            //AssignHoldNumberToAllInCargoPlan();
-            //ReCheckDgList(_cargoPlan);
-
-            //WorkingCargoPlan.CreateCargoPlanWrapper(_cargoPlan);
-
-            //////Display info
-            //Conflicts.CreateConflictList(WorkingCargoPlan.DgList);
-            //Vents.Check();
-        }
-
     }
 }

@@ -84,8 +84,8 @@
     <Compile Include="Cargo\Container.cs" />
     <Compile Include="Cargo\CargoPlan.cs" />
     <Compile Include="Cargo\Dg.cs" />
-    <Compile Include="Cargo\Dg_AssignRowFromDOC.cs" />
-    <Compile Include="Cargo\Dg_AssignFromDgList.cs" />
+    <Compile Include="DG Data\DOCRowsHandler.cs" />
+    <Compile Include="DG Data\IMDGCodeDgListHandler.cs" />
     <Compile Include="Cargo\HandleDg.cs" />
     <Compile Include="Output.cs" />
     <Compile Include="ProgramFiles.cs" />

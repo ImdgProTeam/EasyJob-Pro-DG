@@ -9,7 +9,6 @@ using System.Collections.Specialized;
 using System.Linq;
 using EasyJob_ProDG.Model.Transport;
 using Container = EasyJob_ProDG.Model.Cargo.Container;
-using EasyJob_ProDG.UI.Services.DataServices;
 using System;
 
 namespace EasyJob_ProDG.UI.Wrapper
@@ -159,7 +158,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <summary>
         /// Calls OnPropertyChanged on WorkingCargoPlan count values
         /// </summary>
-        internal void UpdateCargoPlanValues()
+        internal void RefreshCargoPlanValues()
         {
             OnPropertyChanged("ContainerCount");
             OnPropertyChanged("ReeferCount");
@@ -172,7 +171,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         private void UpdateCargoPlanValuesAndConflicts()
         {
             DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
-            UpdateCargoPlanValues();
+            RefreshCargoPlanValues();
         }
 
         /// <summary>
@@ -185,7 +184,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             if (wrapper.IsRf) Reefers.FindContainerByContainerNumber(wrapper).Refresh();
 
             DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
-            UpdateCargoPlanValues();
+            RefreshCargoPlanValues();
         }
 
 
@@ -201,7 +200,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         internal void CreateCargoPlanWrapper(CargoPlan cargoplan)
         {
             ConvertToCargoPlanWrapper(cargoplan);
-            UpdateCargoPlanValues();
+            RefreshCargoPlanValues();
         }
 
         /// <summary>
@@ -213,6 +212,14 @@ namespace EasyJob_ProDG.UI.Wrapper
             DgList.Clear();
             Reefers.Clear();
             Containers.Clear();
+        }
+
+        /// <summary>
+        /// Updates HoldNr property for all units in <see cref="CargoPlanWrapper"/>
+        /// </summary>
+        internal void UpdateCargoHoldNumbers()
+        {
+            Model.OnCargoHoldsUpdated();
         }
 
 
