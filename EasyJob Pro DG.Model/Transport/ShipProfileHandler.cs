@@ -1,5 +1,4 @@
-﻿using EasyJob_ProDG.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
@@ -51,11 +50,11 @@ namespace EasyJob_ProDG.Model.Transport
             bool containsErrors = shipProfile.CheckContainsErrorsInShipProfile();
 
             if (_filecorrupt)
-                LogWriter.Write($"ShipProfile file is corrupt.");
+                Data.LogWriter.Write($"ShipProfile file is corrupt.");
             if (containsErrors)
-                LogWriter.Write("ShipProfile contains errors.");
+                Data.LogWriter.Write("ShipProfile contains errors.");
 
-            LogWriter.Write($"ShipProfile created.");
+            Data.LogWriter.Write($"ShipProfile created.");
             return shipProfile;
         }
 
@@ -152,7 +151,7 @@ namespace EasyJob_ProDG.Model.Transport
                 {
                     if (linecount == 0 && line != "***ShipProfile***")
                     {
-                        LogWriter.Write("Ship profile file is wrong or modified.");
+                        Data.LogWriter.Write("Ship profile file is wrong or modified.");
                         _filecorrupt = true;
                         return null;
                     }
@@ -248,7 +247,8 @@ namespace EasyJob_ProDG.Model.Transport
                             else
                             {
                                 var FandLbays = lineValue.Split(',');
-                                shipProfile.CargoHolds.Add(new CargoHold(byte.Parse(FandLbays[0]), byte.Parse(FandLbays[1])));
+                                byte.TryParse(lineDescription.Replace("hold",""), out byte holdNumber);
+                                shipProfile.CargoHolds.Add(new CargoHold(holdNumber, byte.Parse(FandLbays[0]), byte.Parse(FandLbays[1])));
                             }
                         }
 
@@ -265,7 +265,7 @@ namespace EasyJob_ProDG.Model.Transport
                 catch
                 {
                     shipProfile.ErrorList = ex.Source;
-                    LogWriter.Write($"An error occurred while opening the ship profile:\n\tsource:{ex.Source}\n\terror: {ex.Message}");
+                    Data.LogWriter.Write($"An error occurred while opening the ship profile:\n\tsource:{ex.Source}\n\terror: {ex.Message}");
                     _filecorrupt = true;
                 }
 

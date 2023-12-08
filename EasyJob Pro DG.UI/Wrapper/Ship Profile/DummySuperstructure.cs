@@ -1,32 +1,21 @@
 ﻿namespace EasyJob_ProDG.UI.Wrapper
 {
-    public class DummySuperstructure : ModelWrapper<byte>
+    public class DummySuperstructure : ModelByteDummy
     {
-        private byte bay;
-
+        public byte Number => Index1;
         public string Label { get; private set; }
         public byte Bay
         {
-            get { return bay; }
+            get { return Value; }
             set
             {
-                bay = value;
+                Value = value;
             }
         }
 
-        public DummySuperstructure(byte bay) : base(bay)
-        {
-
-        }
-
-        public DummySuperstructure(int number, byte bay) : base(bay)
+        public DummySuperstructure(byte bay, byte number) : base(bay, number)
         {
             Label = "Superstructure " + number;
-            Bay = bay;
         }
-
-        public delegate void DummySuperstructureChangedEventHandler(object sender);
-        public static event DummySuperstructureChangedEventHandler OnDummySuperstructureChangedEventHandler = null;
-
     }
 }

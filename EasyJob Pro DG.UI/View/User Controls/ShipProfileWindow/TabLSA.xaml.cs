@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace EasyJob_ProDG.UI.View.User_Controls
 {
@@ -12,14 +11,5 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         {
             InitializeComponent();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            byte row = (byte)dataGridLSA.SelectedIndex;
-            OnRemoveRecordEventHandler.Invoke(row);
-        }
-
-        public delegate void RemoveRecord(byte row);
-        public static event RemoveRecord OnRemoveRecordEventHandler = null;
     }
 }

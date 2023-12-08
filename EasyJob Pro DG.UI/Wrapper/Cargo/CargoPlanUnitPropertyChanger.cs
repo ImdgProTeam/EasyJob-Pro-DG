@@ -120,7 +120,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Sets value to chosen property name to all units in CargoPlan with the same containerNumber
+        /// Sets value to chosen property name to all units in WorkingCargoPlan with the same containerNumber
         /// </summary>
         /// <param name="containerNumber">ContainerNumber of units to be updated</param>
         /// <param name="value">New value</param>
@@ -159,7 +159,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                 reefer.Refresh();
             }
 
-            _cargoPlanWrapper.UpdateCargoPlanValues();
+            _cargoPlanWrapper.RefreshCargoPlanValues();
         }
 
         /// <summary>

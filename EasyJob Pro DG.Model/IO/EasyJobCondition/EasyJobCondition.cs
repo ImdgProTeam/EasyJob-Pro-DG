@@ -18,14 +18,14 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         /// <summary>
         /// CargoPlan will be converted to EJC format and recorded into a new file
         /// </summary>
-        /// <param name="fileName">Name of a file to be created</param>
+        /// <param name="filePath">Name of a file to be created</param>
         /// <param name="cargoPlan">CargoPlan to be recorded</param>
-        public static void SaveCondition(string fileName, CargoPlan cargoPlan)
+        public static void SaveCondition(string filePath, CargoPlan cargoPlan)
         {
-            StreamWriter writer = new StreamWriter(fileName);
+            StreamWriter writer = new StreamWriter(filePath);
             WriteCargoPlanAssociatedToStream(new CargoPlanAssociated(cargoPlan), writer);
             writer.Close();
-            Data.LogWriter.Write($"Condition saved as {fileName}");
+            Data.LogWriter.Write($"Condition saved as {filePath}");
         }
 
         /// <summary>

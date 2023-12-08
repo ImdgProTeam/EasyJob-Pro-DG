@@ -88,8 +88,7 @@ namespace CustomControlLib
 
         private static void OnTextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            NumericalTextBoxWithButtons control = d as NumericalTextBoxWithButtons;
-            if (control != null)
+            if (d is NumericalTextBoxWithButtons control)
                 control.OnTextPropertyChanged((string)e.OldValue, (string)e.NewValue);
         }
 

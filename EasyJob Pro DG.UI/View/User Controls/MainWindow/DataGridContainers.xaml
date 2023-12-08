@@ -11,7 +11,6 @@
              xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters" xmlns:sort="clr-namespace:EasyJob_ProDG.UI.View.Sort"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridContainersViewModel}"
              >
 
     <UserControl.Resources>

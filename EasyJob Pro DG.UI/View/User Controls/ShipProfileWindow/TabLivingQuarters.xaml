@@ -10,6 +10,7 @@
              d:DesignHeight="450" d:DesignWidth="300"
              DataContext="{Binding}">
     <UserControl.Resources>
+        <local:BindingProxy x:Key="proxy" Data="{Binding}"/>
         <Style x:Key="NoFocusStyle"
                TargetType="DataGridCell">
             <Setter Property="KeyboardNavigation.IsTabStop"
@@ -51,8 +52,8 @@
                    HorizontalAlignment="Left"
                    VerticalAlignment="Bottom" />
 
-            <DataGrid Name="dataGridLivingQuarters"
-                      ItemsSource="{Binding LivingQuarters}"
+        <DataGrid Name="dataGridLivingQuarters"
+                      ItemsSource="{Binding OwnShip.LivingQuarters}"
                       CanUserAddRows="False"
                       CanUserReorderColumns="False"
                       CanUserDeleteRows="False"
@@ -64,54 +65,55 @@
                       Grid.ColumnSpan="3"
                       Margin="5">
 
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="80"
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="80"
                                             FocusManager.IsFocusScope="False"
                                             CellStyle="{StaticResource NoFocusStyle}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding NumberInList}"
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding NumberInList}"
                                        HorizontalAlignment="Right"
                                        Focusable="False"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Width="*"
+                <DataGridTemplateColumn Width="*"
                                             FocusManager.IsFocusScope="False"
                                             CellStyle="{StaticResource NoFocusStyle}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox Text="{Binding DisplayPosition, Mode=TwoWay, UpdateSourceTrigger=LostFocus,
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding DisplayPosition, Mode=TwoWay, UpdateSourceTrigger=LostFocus,
                                     Converter={converters:AnyCellToNullConverter}, ValidatesOnDataErrors=True}"
                                          Tag="Enter position, e.g. 220582"
                                          TextAlignment="Right"
                                          VerticalContentAlignment="Center"
                                          Focusable="True">
-                                </TextBox>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                            </TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
 
-                    <DataGridTemplateColumn Width="10"
+                <DataGridTemplateColumn Width="10"
                                             FocusManager.IsFocusScope="False"
                                             CellStyle="{StaticResource NoFocusStyle}">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
                                     Content="-"
-                                        Focusable="True"
-                                    Click="Button_Click" CommandParameter="{Binding NumberInList}"
+                                    Focusable="True"
+                                    Command="{Binding RemoveCellCommand}" 
+                                    CommandParameter="{Binding NumberInList}"
                                         />
 
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
 
-        <TextBlock Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLivingQuarters,
+        <TextBlock Text="{Binding CellLivingQuarters,
             Converter={converters:CellToTextConverter}}"
                    Foreground="{StaticResource Brush.Text.Header}"
                    Margin="12,0"
@@ -120,7 +122,7 @@
                    Grid.ColumnSpan="2" />
         <TextBox x:Name="AddCellTextBox"
             Tag="Enter new position here"
-                     Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellLivingQuartersNewEntry,
+                     Text="{Binding CellLivingQuartersNewEntry,
                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                      Style="{StaticResource TextBoxWithTagAndValidation}"
                      VerticalContentAlignment="Center"
@@ -132,7 +134,7 @@
 
         <Button Content="Add"
                 IsDefault="{Binding Path=IsFocused, ElementName=AddCellTextBox}"
-                Command="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.AddCellLivingQuartersCommand}"
+                Command="{Binding AddCellLivingQuartersCommand}"
                 Margin="2, 6, 2, 0"
                 Grid.Row="4"
                 Grid.RowSpan="2"

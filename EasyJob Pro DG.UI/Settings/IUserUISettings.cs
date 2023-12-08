@@ -15,6 +15,9 @@ namespace EasyJob_ProDG.UI.Settings
         int SelectedReeferTemplateIndex { get; set; }
         void LoadSettings();
         DgSortOrderPattern DgSortPattern { get; set; }
+        bool Combine2040BaysWhenSorting { get;  }
+        byte LowestTierOnDeck { get;  }
+
 
         void SaveExcelTemplate(string templateSettingsName, string template);
         void SaveSelectedExcelTemplateIndeces();

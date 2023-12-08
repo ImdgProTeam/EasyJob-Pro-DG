@@ -113,10 +113,13 @@
     </ApplicationDefinition>
     <Compile Include="Data\DialogOpenSettings.cs" />
     <Compile Include="Data\DialogSaveSettings.cs" />
+    <Compile Include="Services\DataServices\CargoPlanCheckService.cs" />
+    <Compile Include="Services\DataServices\ICargoPlanCheckService.cs" />
     <Compile Include="Services\DialogServices\IWindowDialogService.cs" />
     <Compile Include="Settings\UserSettingsApplicator.cs" />
     <Compile Include="Utility\AsyncObservableCollection.cs" />
     <Compile Include="Utility\Messages\DgListSelectedItemUpdatedMessage.cs" />
+    <Compile Include="Utility\Messages\ShipProfileSavedMessage.cs" />
     <Compile Include="ViewModel\MainWindow\MainWindowCommands.cs" />
     <Compile Include="ViewModel\MainWindow\SelectionStatusBarSetter.cs" />
     <Compile Include="View\Animations\FrameworkElementAnimations.cs" />
@@ -154,9 +157,6 @@
     <Compile Include="Data\DialogOpenFile.cs" />
     <Compile Include="Data\CurrentProgramData.cs" />
     <Compile Include="Data\ICurrentProgramData.cs" />
-    <Compile Include="for experiments 2.xaml.cs">
-      <DependentUpon>for experiments 2.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Security\IHavePassword.cs" />
     <Compile Include="Security\SecureStringHelpers.cs" />
     <Compile Include="Services\DialogServices\IDialogWindowRequestClose.cs" />
@@ -169,13 +169,8 @@
     <Compile Include="Utility\Messages\ConflictListToBeUpdatedMessage.cs" />
     <Compile Include="Utility\Messages\CargoDataUpdated.cs" />
     <Compile Include="Utility\Messages\CargoPlanUnitPropertyChanged.cs" />
-    <Compile Include="Utility\Messages\MessageFromDummy.cs" />
-    <Compile Include="Utility\Messages\RemoveRowMessage.cs" />
-    <Compile Include="Utility\Messages\ShipProfileWrapperMessage.cs" />
     <Compile Include="Services\DataServices\ConflictDataService.cs" />
-    <Compile Include="Services\DataServices\DgDataBaseDataService.cs" />
     <Compile Include="Services\DataServices\IConflictDataService.cs" />
-    <Compile Include="Services\DataServices\IDgDataBaseDataService.cs" />
     <Compile Include="Services\DataServices\ILoadDataService.cs" />
     <Compile Include="Services\DataServices\ITitleService.cs" />
     <Compile Include="Services\DataServices\TitleService.cs" />
@@ -193,7 +188,6 @@
     <Compile Include="Settings\DgTableColumnSettings.cs" />
     <Compile Include="Settings\UserSettingsFileHandler.cs" />
     <Compile Include="Settings\UserUISettings.cs" />
-    <Compile Include="Utility\ClassConverters.cs" />
     <Compile Include="Utility\DataMessenger.cs" />
     <Compile Include="Utility\EventSupervisor.cs" />
     <Compile Include="Utility\Messages\UpdateCargoPlan.cs" />
@@ -204,9 +198,6 @@
     <Compile Include="ViewModel\MainWindow\ConflictsListViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridContainersViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridDgViewModel.cs" />
-    <Compile Include="for experiments.xaml.cs">
-      <DependentUpon>for experiments.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Data\DgWrapperList.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridReefersViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\IConflictListViewModel.cs" />
@@ -270,6 +261,7 @@
     </Compile>
     <Compile Include="View\DialogWindows\Info\WinLoginViewModel.cs" />
     <Compile Include="View\User Controls\AnimatedUserControl.cs" />
+    <Compile Include="View\User Controls\BindingProxy.cs" />
     <Compile Include="View\User Controls\MainWindow\AddContainerToDataGrid.cs">
       <DependentUpon>AddContainerGrid.xaml</DependentUpon>
     </Compile>
@@ -353,6 +345,7 @@
     <Compile Include="Wrapper\Cargo\DgWrapperMethods.cs" />
     <Compile Include="Wrapper\Cargo\DgWrapperProperties.cs" />
     <Compile Include="Wrapper\ChangeTrackingCollection.cs" />
+    <Compile Include="Wrapper\ModelByteDummy.cs" />
     <Compile Include="Wrapper\Settings\ExcelDgTemplateWrapper.cs" />
     <Compile Include="Wrapper\Settings\ExcelTemplateWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\DOCWrapper.cs" />
@@ -365,14 +358,6 @@
     <Compile Include="Wrapper\ModelWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\OuterRowWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\ShipProfileWrapper.cs" />
-    <Page Include="for experiments 2.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="for experiments.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\DialogWindows\DialogWindowOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -572,6 +557,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="EasyJob ProDG.UI_1_TemporaryKey.pfx" />
     <None Include="EasyJob ProDG.UI_TemporaryKey.pfx" />
     <None Include="packages.config" />

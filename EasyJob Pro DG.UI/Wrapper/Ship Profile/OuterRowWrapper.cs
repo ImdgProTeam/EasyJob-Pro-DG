@@ -4,17 +4,12 @@ namespace EasyJob_ProDG.UI.Wrapper
 {
     public class OuterRowWrapper : ModelWrapper<OuterRow>
     {
-        public OuterRowWrapper(OuterRow model) : base(model)
-        {
+        #region Public properties
 
-        }
-
-        public OuterRowWrapper(byte bay, byte portM, byte stbdM) : base(new OuterRow())
-        {
-            Bay = bay;
-            PortMost = portM;
-            StarboardMost = stbdM;
-        }
+        /// <summary>
+        /// States true if the <see cref="OuterRowWrapper"/> has no meaningful values.
+        /// </summary>
+        public bool IsEmpty => Bay == 0 && PortMost == 0 && StarboardMost == 0;
 
         public byte StarboardMost
         {
@@ -48,12 +43,10 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 SetValue(value);
             }
-        }
+        } 
+        #endregion
 
-        public OuterRow ToOuterRow()
-        {
-            return Model;
-        }
+        #region Equals methods
 
         public bool Equals(OuterRow obj)
         {
@@ -61,18 +54,31 @@ namespace EasyJob_ProDG.UI.Wrapper
                 return true;
             return false;
         }
-        public static bool operator == (OuterRowWrapper a, OuterRow b)
+
+        public static bool operator ==(OuterRowWrapper a, OuterRow b)
         {
             return a.Equals(b);
         }
-        public static bool operator != (OuterRowWrapper a, OuterRow b)
+        public static bool operator !=(OuterRowWrapper a, OuterRow b)
         {
             return !(a == b);
         }
+        #endregion
 
-        // --------------- Events ---------------------------------------
+        #region Constructors
 
-        public delegate void OuterRowChangedEventHandler(object sender);
-        public static event OuterRowChangedEventHandler OnOuterRowChangedEventHandler = null;
+        public OuterRowWrapper(OuterRow model) : base(model)
+        {
+
+        }
+
+        public OuterRowWrapper(byte bay, byte portM, byte stbdM) : base(new OuterRow(bay, portM, stbdM))
+        {
+            Bay = bay;
+            PortMost = portM;
+            StarboardMost = stbdM;
+        } 
+
+        #endregion
     }
 }

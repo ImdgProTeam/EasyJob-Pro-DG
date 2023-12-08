@@ -15,7 +15,7 @@ namespace EasyJob_ProDG.UI.Services
         {
             _uiSettings.LoadSettings();
         }
-        public UserUISettings GetSettings()
+        public IUserUISettings GetSettings()
         {
             return _uiSettings.GetSettings();
         }

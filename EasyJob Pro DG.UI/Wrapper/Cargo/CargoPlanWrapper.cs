@@ -9,7 +9,6 @@ using System.Collections.Specialized;
 using System.Linq;
 using EasyJob_ProDG.Model.Transport;
 using Container = EasyJob_ProDG.Model.Cargo.Container;
-using EasyJob_ProDG.UI.Services.DataServices;
 using System;
 
 namespace EasyJob_ProDG.UI.Wrapper
@@ -19,8 +18,6 @@ namespace EasyJob_ProDG.UI.Wrapper
         // ----------------- Private fields ------------------------------------
 
         private IMessageDialogService _messageDialogService => MessageDialogService.Connect();
-        private static readonly DgDataBaseDataService dgDataBaseDataService = new DgDataBaseDataService();
-        private readonly System.Xml.Linq.XDocument _dgDataBase = dgDataBaseDataService.GetDgDataBase();
         private CargoPlanUnitPropertyChanger _propertyChanger;
 
 
@@ -84,9 +81,9 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Converts CargoPlan into CargoPlanWrapper
+        /// Converts WorkingCargoPlan into CargoPlanWrapper
         /// </summary>
-        /// <param name="cargoplan">Plain CargoPlan</param>
+        /// <param name="cargoplan">Plain WorkingCargoPlan</param>
         private void ConvertToCargoPlanWrapper(CargoPlan cargoplan)
         {
             DgList = new DgWrapperList(cargoplan.DgList);
@@ -141,7 +138,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Removes selected dg from CargoPlan
+        /// Removes selected dg from WorkingCargoPlan
         /// </summary>
         /// <param name="obj"></param>
         private void OnDgRemoveRequested(UpdateCargoPlan obj)
@@ -159,9 +156,9 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Calls OnPropertyChanged on CargoPlan count values
+        /// Calls OnPropertyChanged on WorkingCargoPlan count values
         /// </summary>
-        internal void UpdateCargoPlanValues()
+        internal void RefreshCargoPlanValues()
         {
             OnPropertyChanged("ContainerCount");
             OnPropertyChanged("ReeferCount");
@@ -174,7 +171,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         private void UpdateCargoPlanValuesAndConflicts()
         {
             DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
-            UpdateCargoPlanValues();
+            RefreshCargoPlanValues();
         }
 
         /// <summary>
@@ -187,7 +184,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             if (wrapper.IsRf) Reefers.FindContainerByContainerNumber(wrapper).Refresh();
 
             DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
-            UpdateCargoPlanValues();
+            RefreshCargoPlanValues();
         }
 
 
@@ -199,11 +196,11 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// Updates summary values.
         /// Called when updating ShipProfile.
         /// </summary>
-        /// <param name="cargoplan">Plain CargoPlan</param>
+        /// <param name="cargoplan">Plain WorkingCargoPlan</param>
         internal void CreateCargoPlanWrapper(CargoPlan cargoplan)
         {
             ConvertToCargoPlanWrapper(cargoplan);
-            UpdateCargoPlanValues();
+            RefreshCargoPlanValues();
         }
 
         /// <summary>
@@ -215,6 +212,14 @@ namespace EasyJob_ProDG.UI.Wrapper
             DgList.Clear();
             Reefers.Clear();
             Containers.Clear();
+        }
+
+        /// <summary>
+        /// Updates HoldNr property for all units in <see cref="CargoPlanWrapper"/>
+        /// </summary>
+        internal void UpdateCargoHoldNumbers()
+        {
+            Model.OnCargoHoldsUpdated();
         }
 
 
@@ -240,7 +245,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Adds a Dg to CargoPlan and its Wrapper to CargoPlanWrapper
+        /// Adds a Dg to WorkingCargoPlan and its Wrapper to CargoPlanWrapper
         /// </summary>
         /// <param name="dg"></param>
         internal void AddDg(Dg dg)
@@ -249,7 +254,7 @@ namespace EasyJob_ProDG.UI.Wrapper
 
             dg.HoldNr = ShipProfile.DefineCargoHoldNumber(dg.Bay);
 
-            this.Model.AddDg(dg, _dgDataBase);
+            this.Model.AddDg(dg);
 
             var containerWrapper = Containers.FindContainerByContainerNumber(dg);
             if (containerWrapper is null)
@@ -265,7 +270,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Adds a new reefer Container to CargoPlan
+        /// Adds a new reefer Container to WorkingCargoPlan
         /// </summary>
         /// <param name="unit">Container to be added</param>
         internal void AddNewReefer(Container unit)
@@ -278,7 +283,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             //add to Model
             if (!this.Model.AddReefer(unit)) return;
 
-            //add to CargoPlan
+            //add to WorkingCargoPlan
             ContainerWrapper containerWrapper;
             if (!Containers.ContainsUnitWithSameContainerNumberInList(unit))
             {
@@ -321,7 +326,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Removes container from CargoPlan (also from Reefers and DgList).
+        /// Removes container from WorkingCargoPlan (also from Reefers and DgList).
         /// </summary>
         /// <param name="containerNumber">ContainerNumber of a container to be deleted.</param>
         internal void RemoveContainer(string containerNumber)
@@ -355,7 +360,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Removes reefer unit from CargoPlan and Model Reefers
+        /// Removes reefer unit from WorkingCargoPlan and Model Reefers
         /// </summary>
         /// <param name="unit">Reefer to be removed</param>
         /// <returns>Void</returns>
@@ -366,7 +371,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Removes reefer unit from CargoPlan and Model Reefers.
+        /// Removes reefer unit from WorkingCargoPlan and Model Reefers.
         /// </summary>
         /// <param name="unitNumber">Reefer to be removed ContainerNumber.</param>
         /// <param name="toUpdateInCargoPlan">If required to update IsRf property in Dg and Containers.</param>
@@ -404,7 +409,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Reduces number of DgInContainer property of all Containers in CargoPlan
+        /// Reduces number of DgInContainer property of all Containers in WorkingCargoPlan
         /// </summary>
         /// <param name="containerNumber"></param>
         private void RemoveRemovedDgFromCargoPlan(IContainer unit)
@@ -440,12 +445,12 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Converts this CargoPlanWrapper into a new CargoPlan
+        /// Converts this CargoPlanWrapper into a new WorkingCargoPlan
         /// </summary>
-        /// <returns>New CargoPlan</returns>
+        /// <returns>New WorkingCargoPlan</returns>
         internal CargoPlan ConvertCargoPlanWrapperToPlainCargoPlan()
         {
-            //Creating a new instance of CargoPlan
+            //Creating a new instance of WorkingCargoPlan
             CargoPlan result = new CargoPlan();
 
             //converting DgList

@@ -12,7 +12,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="ship"></param>
         public static void SpecialSegregationCheck(this Dg dg, IEnumerable<Dg> dglist, Transport.ShipProfile ship)
         {
-            Segregation.SpecialSegregationCheck(dg, dglist, ship);
+            Segregation.SpecialSegregationCheck(dg, dglist);
         }
     }
 }

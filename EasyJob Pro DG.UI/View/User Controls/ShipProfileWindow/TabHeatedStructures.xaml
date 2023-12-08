@@ -57,7 +57,7 @@ machinery spaces.
                    VerticalAlignment="Bottom" />
 
             <DataGrid Name="dataGridHeatedStructures"
-                      ItemsSource="{Binding HeatedStructures}"
+                      ItemsSource="{Binding OwnShip.HeatedStructures}"
                       CanUserAddRows="False"
                       CanUserReorderColumns="False"
                       CanUserDeleteRows="False"
@@ -106,7 +106,7 @@ machinery spaces.
                             <DataTemplate>
                                 <Button Content="-"
                                         Focusable="True"
-                                        Click="Button_Click"
+                                        Command="{Binding RemoveCellCommand}"
                                         CommandParameter="{Binding NumberInList}" />
 
                             </DataTemplate>
@@ -117,7 +117,7 @@ machinery spaces.
 
 
 
-        <TextBlock Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellHeatedStructures,
+        <TextBlock Text="{Binding CellHeatedStructures,
             Converter={converters:CellToTextConverter}}"
                    Foreground="{StaticResource Brush.Text.Header}"
                    Margin="12,0"
@@ -127,7 +127,7 @@ machinery spaces.
         <TextBox x:Name="AddCellTextBox"
                  Margin="5,0"
             Tag="Enter new position here"
-                 Text="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.CellHeatedStructuresNewEntry,
+                 Text="{Binding CellHeatedStructuresNewEntry,
                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                  Style="{StaticResource TextBoxWithTagAndValidation}"
                  VerticalContentAlignment="Center"
@@ -138,7 +138,7 @@ machinery spaces.
 
         <Button Content="Add"
                 IsDefault="{Binding Path=IsFocused, ElementName=AddCellTextBox}"
-                Command="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM.AddCellHeatedStructuresCommand}"
+                Command="{Binding AddCellHeatedStructuresCommand}"
                 Margin="2, 6, 2, 0"
                 Grid.Row="4"
                 Grid.RowSpan="2"

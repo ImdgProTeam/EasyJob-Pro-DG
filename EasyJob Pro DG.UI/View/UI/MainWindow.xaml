@@ -174,15 +174,18 @@
 
                     <TabItem Header="Dangerous goods"
                              Background="{StaticResource Brush.DgTable.Background}">
-                        <uc:DataGridDg x:Name="MainDgDataGrid" />
+                        <uc:DataGridDg x:Name="MainDgDataGrid" 
+                                       DataContext="{Binding DataGridDgViewModel}"/>
                     </TabItem>
                     <TabItem Header="Reefers"
                              Background="{StaticResource Brush.ReeferTable.Background}">
-                        <uc:DataGridReefers x:Name="MainReeferDataGrid"/>
+                        <uc:DataGridReefers x:Name="MainReeferDataGrid"
+                                            DataContext="{Binding DataGridReefersViewModel}"/>
                     </TabItem>
                     <TabItem Header="Containers"
                              Background="{StaticResource Brush.ContainerTable.Background}">
-                        <uc:DataGridContainers x:Name="MainContainerDataGrid"/>
+                        <uc:DataGridContainers x:Name="MainContainerDataGrid"
+                                               DataContext="{Binding DataGridContainersViewModel}"/>
 
                     </TabItem>
                 </TabControl>

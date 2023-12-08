@@ -3,7 +3,7 @@
 namespace EasyJob_ProDG.UI.Messages
 {
     /// <summary>
-    /// Message class used for manipulation with CargoPlan units.
+    /// Message class used for manipulation with WorkingCargoPlan units.
     /// </summary>
     internal class CargoDataUpdated
     {

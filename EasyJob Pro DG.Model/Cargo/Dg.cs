@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Xml.Linq;
 
 namespace EasyJob_ProDG.Model.Cargo
 {
@@ -14,20 +13,26 @@ namespace EasyJob_ProDG.Model.Cargo
         //Read from edi.
         //DGS+IMD+3(Class):+1234(UN)+-23:CEL(FP)+2(PG)+F-AS-E(EMS)+++:+::'
         //FTX+AAD+++NIL(description):125(NW):'
-        private byte packingGroup;
+        protected byte packingGroup;
         private double flashPoint;
-        private readonly List<string> dgsubclass;
         private readonly List<string> allDgClasses;
-        private string dgclass;
+        protected List<string> dgsubclass;
+        protected string dgclass;
+        private string dgClassFromIMDGCode;
 
         //assign from DG List
         private bool isStabilizedWordInProperShippingName => OriginalNameFromCode?.Contains("STABILIZED") ?? false;
         private bool isSelfReactive = false;
         private char stowageCatFromDgList;
-        private List<string> segregationSG;
-        private List<ushort> special;
-        private List<string> stowageSW;
+        protected List<string> segregationSG;
+        protected List<ushort> special;
+        protected List<string> stowageSW;
         private List<string> stowageSWfromDgList;
+
+        /// <summary>
+        /// Indicates that the primary dg class of the unit is different from IMDG code record for the same UNNo.
+        /// Except: for UNNOs allowing various classes (1950, 2037).
+        /// </summary>
         public bool differentClass;
         public bool mpDetermined;
 
@@ -55,6 +60,7 @@ namespace EasyJob_ProDG.Model.Cargo
         // ---------------- computed properties ---------------------------
         public int ID { get; }
         public ushort Unno { get; set; }
+
         /// <summary>
         /// Set: adds string dg class to dgclass and will update allDgClasses.
         /// Get: returns string with dgclass.
@@ -194,7 +200,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     segregationGroupIndex = (byte)Array.IndexOf(IMDGCode.SegregationGroupsCodes, value);
                 }
                 //By index in dictionary
-                else if (byte.TryParse(value, out segregationGroupIndex)) 
+                else if (byte.TryParse(value, out segregationGroupIndex))
                 {
 
                 }
@@ -249,6 +255,16 @@ namespace EasyJob_ProDG.Model.Cargo
             get { return isSelfReactive; }
             set { isSelfReactive = value; }
         }
+
+        /// <summary>
+        /// Contains stowage category as stated in IMDG code.
+        /// </summary>
+        public char StowageCategoryFromIMDGCode
+        {
+            get { return stowageCatFromDgList; }
+            set { stowageCatFromDgList = value; }
+        }
+
 
 
         // ---------------- User input properties ------------------------------
@@ -337,7 +353,7 @@ namespace EasyJob_ProDG.Model.Cargo
         public List<string> SegregationSGList => segregationSG;
         public List<string> StowageSWList => stowageSW;
         public SegregatorException SegregatorException { get; set; }
-        public string Properties { get; private set; }
+        public string Properties { get; protected set; }
         public string SegregationSG
         {
             get
@@ -378,7 +394,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <summary>
         /// Returns number of dg subclasses
         /// </summary>
-        public byte DgsubclassCount => (byte)dgsubclass.Count;
+        public byte DgSubclassCount => (byte)dgsubclass.Count;
         public List<byte> SegregationGroupList => segregationGroupsListBytes;
 
 
@@ -487,7 +503,7 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
         /// <summary>
-        /// Method clears all the data of selected dg.
+        /// Method clears or sets to default all the dg related properties and fields of the selected dg.
         /// If unno is given, then the unit parameter will be updated accordingly. By default unno will become '0'.
         /// </summary>
         /// <param name="unno"></param>
@@ -497,6 +513,7 @@ namespace EasyJob_ProDG.Model.Cargo
             dgsubclass.Clear();
             allDgClasses.Clear();
             packingGroup = 0;
+            flashPoint = 9999;
             DgEMS = null;
             mpDetermined = false;
             IsMp = false;
@@ -506,10 +523,11 @@ namespace EasyJob_ProDG.Model.Cargo
             segregationGroupsListBytes.Clear();
             StowageCat = '0';
             Name = null;
+            OriginalNameFromCode = null;
             Flammable = false;
             Liquid = false;
             EmitFlammableVapours = false;
-            dgClassFromList = null;
+            dgClassFromIMDGCode = null;
             DgRowInDOC = 0;
             dgRowInTable = 0;
         }
@@ -588,9 +606,9 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Method calls UpdateDgInfo method from HandlingDg on the instance
         /// </summary>
         /// <param name="dgDataBase"></param>
-        public void UpdateDgInfo(XDocument dgDataBase)
+        public void UpdateDgInfo()
         {
-            HandleDg.UpdateDgInfo(this, dgDataBase);
+            HandleDg.UpdateDgInfo(this);
         }
 
         /// <summary>
@@ -663,6 +681,25 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             Remarks = dgCopyFrom.Remarks;
             EmergencyContacts = dgCopyFrom.EmergencyContacts;
+        }
+
+        /// <summary>
+        /// Sets information - private and read only fields - from the given [imdg] <see cref="Dg"/> 
+        /// </summary>
+        /// <param name="dgFromIMDGCode"></param>
+        internal void SetIMDGCodeValues(Dg dgFromIMDGCode, bool pkgChanged = false)
+        {
+            if(pkgChanged || StowageCat == '0' || StowageCat == '\0') 
+                StowageCat = dgFromIMDGCode.StowageCat;
+
+            stowageCatFromDgList = dgFromIMDGCode.StowageCat;
+            stowageSW = dgFromIMDGCode.stowageSW;
+            stowageSWfromDgList = dgFromIMDGCode.stowageSW.ToList();
+            segregationSG = dgFromIMDGCode.segregationSG;
+            special = dgFromIMDGCode.special;
+            Properties = dgFromIMDGCode.Properties;
+            OriginalNameFromCode = dgFromIMDGCode.Name;
+            dgClassFromIMDGCode = dgFromIMDGCode.dgclass;
         }
 
         /// <summary>

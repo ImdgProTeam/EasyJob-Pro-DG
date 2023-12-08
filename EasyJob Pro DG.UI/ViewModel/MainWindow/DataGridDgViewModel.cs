@@ -286,7 +286,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         //--------------- Private methods -------------------------------------------
 
         /// <summary>
-        /// Includes or removes TechnicalName to ProperShippingName of all Dg in CargoPlan
+        /// Includes or removes TechnicalName to ProperShippingName of all Dg in WorkingCargoPlan
         /// </summary>
         /// <param name="obj"></param>
         private void IncludeTechnicalNameOnExecuted(object obj)
@@ -313,7 +313,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         /// <summary>
-        /// Requests user weather to delete selected dg(s) and sends message to CargoPlan respectively
+        /// Requests user weather to delete selected dg(s) and sends message to WorkingCargoPlan respectively
         /// </summary>
         /// <param name="obj"></param>
         private void OnDgDeleteRequested(object obj)

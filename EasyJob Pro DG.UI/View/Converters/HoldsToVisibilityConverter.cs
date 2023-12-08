@@ -11,9 +11,7 @@ namespace EasyJob_ProDG.UI.View.Converters
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             byte? number = value as byte?;
-            byte hold = 0;
-            bool success = byte.TryParse((string)parameter, out hold);
-            //bool success = byte.TryParse((string)value, out number);
+            bool success = byte.TryParse((string)parameter, out byte hold);
             if (success) 
                 if (number >= hold) return Visibility.Visible;
             return Visibility.Hidden;

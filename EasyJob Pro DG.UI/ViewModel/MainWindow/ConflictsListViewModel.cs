@@ -12,8 +12,8 @@ namespace EasyJob_ProDG.UI.ViewModel
     public class ConflictListViewModel : Observable, IConflictListViewModel
     {
         //readonly fields
-        readonly CargoDataService cargoDataService;
-        readonly ConflictDataService conflictDataService;
+        readonly IConflictDataService conflictDataService;
+        readonly ICargoPlanCheckService cargoPlanCheckService;
         private List<ConflictPanelItemViewModel> deletedConflicts = new List<ConflictPanelItemViewModel>();
 
 
@@ -31,8 +31,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             RemoveConflictCommand = new DelegateCommand(RemoveConflict);
             RemoveSimilarConflictCommand = new DelegateCommand(RemoveSimilarConflicts);
 
-            cargoDataService = new CargoDataService();
-            conflictDataService = new ConflictDataService();
+            conflictDataService = ConflictDataService.GetConflictDataService();
+            cargoPlanCheckService = new CargoPlanCheckService();
             GetConflicts();
 
         }
@@ -49,7 +49,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             if (obj.OnlyUnitStowageToBeUpdated)
             {
-                cargoDataService.ReCheckDgWrapperStowage(obj.dgWrapper);
+                cargoPlanCheckService.CheckDgWrapperStowage(obj.dgWrapper);
                 return;
             }
 
@@ -57,7 +57,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 deletedConflicts.Clear();
             }
-            cargoDataService.ReCheckDgList();
+            cargoPlanCheckService.CheckCargoPlan();
             GetConflicts();
         }
 
@@ -91,8 +91,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         public void RemoveConflict(object parameter)
         {
-            var conflict = parameter as ConflictPanelItemViewModel;
-            if (conflict == null) return;
+            if (parameter is not ConflictPanelItemViewModel conflict) return;
 
             deletedConflicts.Add(conflict);
             Conflicts.Remove(conflict);

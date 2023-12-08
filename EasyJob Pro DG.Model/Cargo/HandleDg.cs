@@ -1,22 +1,19 @@
 ﻿using EasyJob_ProDG.Data.Info_data;
 using System.Collections.Generic;
-using System.Xml.Linq;
 
 namespace EasyJob_ProDG.Model.Cargo
 {
     public static class HandleDg
     {
-
         /// <summary>
         /// Method applies the information from all available sources to units in dg list
         /// </summary>
         /// <param name="dgList"></param>
-        /// <param name="dgDataBase"></param>
-        internal static void UpdateDgInfo(this ICollection<Dg> dgList, XDocument dgDataBase)
+        internal static void UpdateDgInfo(this ICollection<Dg> dgList)
         {
             foreach (Dg unit in dgList)
             {
-                unit.AssignFromDgList(xmlDoc: dgDataBase);
+                unit.AssignFromDgList();
                 unit.AssignRowFromDOC();
             }
             Data.LogWriter.Write($"Dg info updated.");
@@ -27,13 +24,12 @@ namespace EasyJob_ProDG.Model.Cargo
         /// on a selected dg, if Unno is recognized
         /// </summary>
         /// <param name="dg"></param>
-        /// <param name="dgDataBase"></param>
-        internal static void UpdateDgInfo(this Dg dg, XDocument dgDataBase)
+        internal static void UpdateDgInfo(this Dg dg)
         {
             dg.Clear(dg.Unno);
 
             if (!Validators.UnnoValidator.Validate(dg.Unno)) return;
-            dg.AssignFromDgList(xmlDoc: dgDataBase, unitIsNew: true);
+            dg.AssignFromDgList(unitIsNew: true);
             dg.AssignRowFromDOC();
             dg.AssignSegregationGroup();
         }

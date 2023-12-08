@@ -1,18 +1,34 @@
 ﻿using EasyJob_ProDG.Model.Transport;
-using EasyJob_ProDG.UI.Messages;
-using EasyJob_ProDG.UI.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
     public class ShipProfileWrapper : ModelWrapper<ShipProfile>
     {
+        #region Private fields
+
+        private byte _originalSuperstructure2Bay;
+
+        #endregion
+
+
         #region Bindable properties
 
         public string ProfileName => "Main ship profile";
+
+        /// <summary>
+        /// Indicates if the profile has been fully loaded. 
+        /// It is used as a flag to avoid unnecessary updates of window properties.
+        /// </summary>
+        public bool IsLoaded = false;
+
+        internal bool IsSpecialPropertiesChanged =>
+               (SuperstructuresBays != null && SuperstructuresBays.Any(b => b.IsChanged))
+            || (Doc != null && Doc.IsChanged);
 
 
         // --------------- Wrapping properties ----------------------------
@@ -43,7 +59,11 @@ namespace EasyJob_ProDG.UI.Wrapper
         public bool Passenger
         {
             get => GetValue<bool>();
-            set => SetValue(value);
+            set
+            {
+                if (!IsLoaded) return;
+                SetValue(value);
+            }
         }
 
         /// <summary>
@@ -52,7 +72,11 @@ namespace EasyJob_ProDG.UI.Wrapper
         public bool Row00Exists
         {
             get => GetValue<bool>();
-            set => SetValue(value);
+            set
+            {
+                if (!IsLoaded) return;
+                SetValue(value);
+            }
         }
 
         /// <summary>
@@ -106,8 +130,6 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         public ChangeTrackingCollection<OuterRowWrapper> SeaSides { get; private set; }
 
-        public ChangeTrackingCollection<DummySuperstructure> SuperstructuresBays { get; private set; }
-
         public ChangeTrackingCollection<CargoHoldWrapper> CargoHolds { get; private set; }
 
         public ChangeTrackingCollection<CellPositionWrapper> LivingQuarters { get; private set; }
@@ -115,9 +137,10 @@ namespace EasyJob_ProDG.UI.Wrapper
         public ChangeTrackingCollection<CellPositionWrapper> HeatedStructures { get; private set; }
 
         public ChangeTrackingCollection<CellPositionWrapper> LSA { get; private set; }
+        public ObservableCollection<DummySuperstructure> SuperstructuresBays { get; private set; }
 
         public DOCWrapper Doc { get; private set; }
-        
+
         #endregion
 
         #endregion
@@ -129,14 +152,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         {
             InitializeComplexProperties();
             InitializeCollectionProperties();
-
-            RegisterInMessenger();
-        }
-
-        private void RegisterInMessenger()
-        {
-            DataMessenger.Default.UnregisterAll(this);
-            DataMessenger.Default.Register<RemoveRowMessage>(this, OnRemoveRowMessageReceived);
+            InitializeSpecialProperties();
         }
 
         private void InitializeCollectionProperties()
@@ -148,14 +164,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             }
             SeaSides = new ChangeTrackingCollection<OuterRowWrapper>(Model.SeaSides.Select(s => new OuterRowWrapper(s)));
             RegisterCollection(SeaSides, Model.SeaSides);
-
-            // superstructure bays
-            if (Model.BaysInFrontOfSuperstructures == null)
-            {
-                throw new ArgumentException("BaysInFrontOfSuperstructures cannot be null");
-            }
-            SuperstructuresBays = new ChangeTrackingCollection<DummySuperstructure>(Model.BaysInFrontOfSuperstructures.Select(b => new DummySuperstructure(b)));
-            RegisterCollection(SuperstructuresBays, Model.BaysSurroundingSuperstructure);
+            AssignEventHandlerForSeaSides();
 
             // cargo holds
             if (Model.CargoHolds == null)
@@ -189,61 +198,108 @@ namespace EasyJob_ProDG.UI.Wrapper
             LSA = new ChangeTrackingCollection<CellPositionWrapper>(Model.LSA.Select(c => new CellPositionWrapper(c)));
             RegisterCollection(LSA, Model.LSA);
 
+            AssignRemoveEventsAndNumbersToCellPositionCollections();
         }
 
         private void InitializeComplexProperties()
         {
+        }
+
+        /// <summary>
+        /// Initializes properties not created directly by <see cref="ModelWrapper{T}"/>
+        /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        private void InitializeSpecialProperties()
+        {
+            // superstructure bays
+            if (Model.BaysInFrontOfSuperstructures == null)
+            {
+                throw new ArgumentException("BaysInFrontOfSuperstructures cannot be null");
+            }
+
+            SuperstructuresBays = new ObservableCollection<DummySuperstructure>();
+            for (byte i = 0; i < Model.BaysInFrontOfSuperstructures.Count; i++)
+            {
+                var dummy = new DummySuperstructure(Model.BaysInFrontOfSuperstructures[i], (byte)(i + 1));
+                SuperstructuresBays.Add(dummy);
+                if (i == 1)
+                    _originalSuperstructure2Bay = dummy.Bay;
+            }
+
+            // DOC
             if (Model.Doc == null)
             {
                 throw new ArgumentException("DOC cannot be null");
             }
             Doc = new DOCWrapper(Model.Doc);
-            RegisterComplexProperty(Doc);
         }
 
         #endregion
 
 
+        #region SeaSides
+
+        /// <summary>
+        /// Will remove and empty <see cref="OuterRowWrapper"/> from <see cref="SeaSides"/> after property change.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        internal void OnSeaSidePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OuterRowWrapper seaSide = sender as OuterRowWrapper;
+
+            //remove a row if seaSide is empty except the last one
+            if (seaSide.IsEmpty && SeaSides.Count > 1)
+            {
+                seaSide.PropertyChanged -= OnSeaSidePropertyChanged;
+                SeaSides.Remove(seaSide);
+
+                // change first value in list to all bays
+                if (SeaSides[0].Bay != 0)
+                    SeaSides[0].Bay = 0;
+            }
+        }
+        private void AssignEventHandlerForSeaSides()
+        {
+            foreach (var seaSide in SeaSides)
+            {
+                seaSide.PropertyChanged -= OnSeaSidePropertyChanged;
+                seaSide.PropertyChanged += OnSeaSidePropertyChanged;
+            }
+        }
+
+        #endregion
+
+        #region Add / remove cell position
 
         // ----- Add remove CellPosition -----
 
-        public static void OnAddNewCell(ICollection<CellPositionWrapper> collection)
+        internal void RemoveRowFromLivingQuarters(byte row)
         {
-            ReNumberCellPositionWrapperList(collection);
+            LivingQuarters[row - 1].RemoveCellRequested -= RemoveRowFromLivingQuarters;
+            LivingQuarters.RemoveAt(row - 1);
+            ReNumberCellPositionWrapperList(LivingQuarters);
         }
-        private void OnRemoveRowMessageReceived(RemoveRowMessage obj)
+
+        internal void RemoveRowFromHeatedStructures(byte row)
         {
-            switch (obj.Collection)
-            {
-                case "living quarters":
-                    RemoveRowFromLivingQuartersObservable(obj.Row);
-                    ReNumberCellPositionWrapperList(LivingQuarters);
-                    break;
-                case "heated structures":
-                    RemoveRowFromHeatedStructuresObservable(obj.Row);
-                    ReNumberCellPositionWrapperList(HeatedStructures);
-                    break;
-                case "LSA":
-                    RemoveRowFromLSAObservable(obj.Row);
-                    ReNumberCellPositionWrapperList(LSA);
-                    break;
-                default:
-                    break;
-            }
+            HeatedStructures[row - 1].RemoveCellRequested -= RemoveRowFromHeatedStructures;
+            HeatedStructures.RemoveAt(row - 1);
+            ReNumberCellPositionWrapperList(HeatedStructures);
         }
-        private void RemoveRowFromLivingQuartersObservable(byte row)
+
+        internal void RemoveRowFromLSA(byte row)
         {
-            LivingQuarters.RemoveAt(row);
+            LSA[row - 1].RemoveCellRequested -= RemoveRowFromLSA;
+            LSA.RemoveAt(row - 1);
+            ReNumberCellPositionWrapperList(LSA);
         }
-        private void RemoveRowFromHeatedStructuresObservable(byte row)
-        {
-            HeatedStructures.RemoveAt(row);
-        }
-        private void RemoveRowFromLSAObservable(byte row)
-        {
-            LSA.RemoveAt(row);
-        }
-        private static void ReNumberCellPositionWrapperList(ICollection<CellPositionWrapper> collection)
+
+        /// <summary>
+        /// Sets consequtive order in provided collection of <see cref="CellPositionWrapper"/>s
+        /// </summary>
+        /// <param name="collection"></param>
+        internal static void ReNumberCellPositionWrapperList(ICollection<CellPositionWrapper> collection)
         {
             byte i = 1;
             foreach (var cell in collection)
@@ -253,9 +309,37 @@ namespace EasyJob_ProDG.UI.Wrapper
             }
         }
 
+        private void AssignRemoveEventsAndNumbersToCellPositionCollections()
+        {
+            byte i = 1;
+            foreach (var cellPosition in LivingQuarters)
+            {
+                cellPosition.NumberInList = i;
+                cellPosition.RemoveCellRequested -= RemoveRowFromLivingQuarters;
+                cellPosition.RemoveCellRequested += RemoveRowFromLivingQuarters;
+                i++;
+            }
+            i = 1;
+            foreach (var cellPosition in HeatedStructures)
+            {
+                cellPosition.NumberInList = i;
+                cellPosition.RemoveCellRequested -= RemoveRowFromHeatedStructures;
+                cellPosition.RemoveCellRequested += RemoveRowFromHeatedStructures;
+                i++;
+            }
+            i = 1;
+            foreach (var cellPosition in LSA)
+            {
+                cellPosition.NumberInList = i;
+                cellPosition.RemoveCellRequested -= RemoveRowFromLSA;
+                cellPosition.RemoveCellRequested += RemoveRowFromLSA;
+                i++;
+            }
+        }
 
+        #endregion
 
-
+        #region Private update methods
 
         /// <summary>
         /// Updates number of rows in SuperstructureBays on change of SuperstructuresNumber
@@ -266,11 +350,12 @@ namespace EasyJob_ProDG.UI.Wrapper
                 return;
             if (NumberOfSuperstructures > SuperstructuresBays.Count)
             {
-                SuperstructuresBays.Add(new DummySuperstructure(SuperstructuresBays.Count + 1, 0));
+                SuperstructuresBays.Add(new DummySuperstructure(_originalSuperstructure2Bay, (byte)(SuperstructuresBays.Count + 1)));
             }
             if (NumberOfSuperstructures < SuperstructuresBays.Count)
             {
-                SuperstructuresBays.RemoveAt(SuperstructuresBays.Count - 1);
+                var index = SuperstructuresBays.Count - 1;
+                SuperstructuresBays.RemoveAt(index);
             }
         }
 
@@ -280,31 +365,69 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         private void UpdateCargoHoldsNumber()
         {
-            //if (CargoHolds == null || CargoHolds.Count == NumberOfHolds || CargoHolds.Count == 0)
-            //    return;
-            //if (NumberOfHolds > CargoHolds.Count)
-            //{
-            //    CargoHolds.Add(new CargoHoldWrapper(NumberOfHolds));
-            //    Doc.AddNewHold(NumberOfHolds);
-            //}
-            //if (NumberOfHolds < CargoHolds.Count)
-            //{
-            //    CargoHolds.RemoveAt(CargoHolds.Count - 1);
-            //    //Doc.RemoveLastHold();
-            //}
+            if (CargoHolds == null || CargoHolds.Count == NumberOfHolds || CargoHolds.Count == 0)
+                return;
+            if (NumberOfHolds > CargoHolds.Count)
+            {
+                CargoHolds.Add(new CargoHoldWrapper(new CargoHold(), NumberOfHolds));
+                Doc.AddNewHold(NumberOfHolds);
+            }
+            if (NumberOfHolds < CargoHolds.Count)
+            {
+                CargoHolds.RemoveAt(CargoHolds.Count - 1);
+                Doc.RemoveLastHold();
+            }
         }
 
+        #endregion
 
+        #region Accept / reject changes
 
+        /// <summary>
+        /// Accepts changes of special properties
+        /// </summary>
+        internal void AcceptSpecialPropertiesChanges()
+        {
+            // Arrange sea-sides order
+            Model.SeaSides = Model.SeaSides.OrderBy(s => s.Bay).ToList();
 
+            // SuperstructuresBays
+            foreach (var dummy in SuperstructuresBays)
+            {
+                dummy.AcceptChanges();
+            }
+            byte bay2 = SuperstructuresBays.Count > 1 ? SuperstructuresBays[1].Value : (byte)0;
+            Model.SetSuperstructuresBaysProperties(SuperstructuresBays[0].Value, bay2);
+            Model.UpdatePrivateProperties();
 
+            //DOC
+            Doc.AcceptChanges();
 
-        public string ErrorList { get; set; }
+            OnPropertyChanged(nameof(IsSpecialPropertiesChanged));
+        }
 
+        /// <summary>
+        /// Rejects changes of special properties
+        /// </summary>
+        internal void RejectSpecialPropertiesChanges()
+        {
+            // Restore sea-sides order
+            Model.SeaSides = Model.SeaSides.OrderBy(s => s.Bay).ToList();
 
+            // SuperstructuresBays
+            foreach (var dummy in SuperstructuresBays)
+                dummy.RejectChanges();
+            UpdateSuperstructuresBays();
 
+            //DOC
+            Doc.RejectChanges();
 
-        // --------------- Events ---------------------------------------
+            OnPropertyChanged(nameof(SuperstructuresBays));
+            OnPropertyChanged(nameof(Doc));
+            OnPropertyChanged(nameof(IsSpecialPropertiesChanged));
+        }
+
+        #endregion
 
 
     }

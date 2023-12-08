@@ -4,25 +4,44 @@ namespace EasyJob_ProDG.UI.Services.DataServices
 {
     internal class ConflictDataService : IConflictDataService
     {
-        ICurrentProgramData currentProgramData => CurrentProgramData.GetCurrentProgramData();
+        private static readonly ConflictDataService _instance = new ConflictDataService();
 
-        public ConflictDataService()
+        public static ConflictDataService GetConflictDataService()
         {
+            return _instance;
+        }
+        
+        ICargoDataService _cargoDataService => CargoDataService.GetCargoDataService(); 
+
+        public ConflictsList Conflicts { get; private set; }
+        public VentilationRequirements Vents { get; private set; }
+
+        /// <summary>
+        /// Creates <see cref="Conflicts"/> and <see cref="Vents"/>
+        /// </summary>
+        /// <returns><see cref="Conflicts"/></returns>
+        ConflictsList IConflictDataService.GetConflicts()
+        {
+            //Display info
+            Conflicts.CreateConflictList(_cargoDataService.WorkingCargoPlan.DgList);
+            Vents.Check();
+            return Conflicts;
         }
 
-        public ConflictsList GetConflicts()
+        VentilationRequirements IConflictDataService.GetVentilationRequirements()
         {
-            return currentProgramData.GetConflictsList();
+            return Vents;
         }
 
-        public VentilationRequirements GetVentilationRequirements()
-        {
-            return currentProgramData.GetVentilationRequirements();
-        }
 
-        public void ReCheckConflicts()
+        #region Constructor
+
+        private ConflictDataService()
         {
-            currentProgramData.ReCheckDgWrapperList();
-        }
+            Conflicts = new();
+            Vents = new();
+        } 
+
+        #endregion
     }
 }

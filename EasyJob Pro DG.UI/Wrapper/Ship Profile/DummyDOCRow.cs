@@ -1,5 +1,5 @@
-﻿using EasyJob_ProDG.UI.Utility;
-using EasyJob_ProDG.Data.Info_data;
+﻿using EasyJob_ProDG.Data.Info_data;
+using EasyJob_ProDG.UI.Utility;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -10,74 +10,59 @@ namespace EasyJob_ProDG.UI.Wrapper.Dummies
     /// </summary>
     public class DummyDOCRow : Observable
     {
+        #region Public properties
+
         public string ClassDescription { get; set; }
         public string ClassToolTip { get; set; }
+        public bool IsChanged => Row.Any(v => v.IsChanged);
         public ObservableCollection<DummyRowValue> Row { get; set; }
 
-        public DummyDOCRow()
+        #endregion
+
+        #region Public methods
+
+        public void Add(byte value, byte hold, byte classRow)
         {
-            Row = new ObservableCollection<DummyRowValue>();
+            Row.Add(new DummyRowValue(value, hold, classRow));
         }
 
-        public DummyDOCRow(byte[] row)
+        private void SetClassDescription(byte classRow)
         {
-            Row = new ObservableCollection<DummyRowValue>();
-            AddBytesArrayToRow(row);
-        }
-        public DummyDOCRow(byte holdNr)
-        {
-            Row = new ObservableCollection<DummyRowValue>();
-            SetClassDescription(holdNr);
-        }
-
-        public DummyDOCRow(byte[] row, byte holdNr)
-        {
-            Row = new ObservableCollection<DummyRowValue>();
-            AddBytesArrayToRow(row);
-            SetClassDescription(holdNr);
-        }
-        public void Add(byte value)
-        {
-            Row.Add(new DummyRowValue(value));
-        }
-        private void SetClassDescription(byte classNr)
-        {
-            ClassDescription = IMDGCode.DOCClassesDictionary.Keys.ElementAt(classNr);
+            ClassDescription = IMDGCode.DOCClassesDictionary.Keys.ElementAt(classRow);
             ClassToolTip = IMDGCode.DOCClassesDictionary[ClassDescription];
         }
-        private void AddBytesArrayToRow(byte[] row)
-        {
-            foreach (byte value in row)
-                Row.Add(new DummyRowValue(value));
-        }
 
+        private void AddBytesArrayToRow(byte[] valuesArray, byte classRow)
+        {
+            byte hold = 0;
+            foreach (byte value in valuesArray)
+            {
+                Row.Add(new DummyRowValue(value, classRow, hold));
+                hold++;
+            }
+        } 
+
+        #endregion
+
+        #region Constructor
+
+        public DummyDOCRow(byte classRow)
+        {
+            Row = new ObservableCollection<DummyRowValue>();
+            SetClassDescription(classRow);
+        } 
+
+        #endregion
     }
 
-    public class DummyRowValue : Observable
+    /// <summary>
+    /// Contains a value for a single class and a single hold.
+    /// </summary>
+    public class DummyRowValue : ModelByteDummy
     {
-        private byte _value;
-        public byte Value
-        {
-            get { return _value; }
-            set
-            {
-                _value = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public DummyRowValue()
+        public DummyRowValue(byte value, byte classRow, byte holdNumber) : base(value, classRow, holdNumber)
         {
 
-        }
-        public DummyRowValue(byte value)
-        {
-            _value = value;
-            OnPropertyChanged();
-        }
-        public override string ToString()
-        {
-            return _value.ToString();
         }
     }
 }

@@ -100,8 +100,8 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         private void UpdateDgInfoAndUploadChanges()
         {
-            Model.UpdateDgInfo(_dgDataBase);
-            UpdateDgDataPresentation();
+            Model.UpdateDgInfo();
+            RefreshDgDataPresentation();
         }
 
         /// <summary>
@@ -109,13 +109,13 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         private void OnUpdatePackingGroup()
         {
-            Model.AssignFromDgList(_dgDataBase, false, true);
+            Model.AssignFromDgList(false, true);
             OnDgPackingGroupChangedEventHandler.Invoke(this);
-            UpdateDgDataPresentation();
+            RefreshDgDataPresentation();
         }
 
         /// <summary>
-        /// Notifies CargoPlan of change in DgNetWeight.
+        /// Notifies WorkingCargoPlan of change in DgNetWeight.
         /// </summary>
         private void OnNetWeightChanged()
         {
@@ -148,32 +148,13 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <summary>
         /// Calls OnPropertyChanged for most of Dg properties
         /// </summary>
-        private void UpdateDgDataPresentation()
+        private void RefreshDgDataPresentation()
         {
-            OnPropertyChanged("Unno");
-            OnPropertyChanged("DgClass");
-            OnPropertyChanged("DgSubclass");
-            OnPropertyChanged("Name");
-            OnPropertyChanged("PackingGroup");
-            OnPropertyChanged("AllDgClasses");
-            OnPropertyChanged("Liquid");
-            OnPropertyChanged("Flammable");
-            OnPropertyChanged("EmitFlammableVapours");
-            OnPropertyChanged("StowageCat");
-            OnPropertyChanged("StowageSW");
-            OnPropertyChanged("SegregationSG");
-            OnPropertyChanged("SegregationGroup");
-            OnPropertyChanged("Special");
-            OnPropertyChanged("IsMax1L");
-            OnPropertyChanged("IsWaste");
-            OnPropertyChanged("Properties");
-            OnPropertyChanged(nameof(DgNetWeight));
-            OnPropertyChanged(nameof(IsMp));
-            OnPropertyChanged(nameof(IsLq));
+            OnPropertyChanged(null);
         }
 
         /// <summary>
-        /// Sends message to synchronise changes with CargoPlan
+        /// Sends message to synchronise changes with WorkingCargoPlan
         /// </summary>
         /// <param name="value">new value set</param>
         /// <param name="oldValue">old value</param>

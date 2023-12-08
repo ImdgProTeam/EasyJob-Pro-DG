@@ -9,6 +9,7 @@ namespace EasyJob_ProDG.Model.Cargo
     {
         private const string STOW = "stowage";
         public static SpecialStowageGroups SWgroups = new SpecialStowageGroups(true);
+        static ShipProfile ship => ShipProfile.Instance;
 
         public Stowage()
         {
@@ -18,12 +19,11 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Method checks stowage of all dg in cargoplan
         /// </summary>
         /// <param name="cargoplan"></param>
-        /// <param name="ship"></param>
-        public static void CheckStowage(CargoPlan cargoplan, ShipProfile ship)
+        public static void CheckStowage(CargoPlan cargoplan)
         {
             SWgroups.Clear();
             foreach (Dg dg in cargoplan.DgList)
-                CheckUnitStowage(unit: dg, ship: ship, containers: cargoplan.Containers);
+                CheckUnitStowage(unit: dg, containers: cargoplan.Containers);
             Data.LogWriter.Write($"Stowage checked");
         }
 
@@ -31,34 +31,33 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Method checks stowage compliance of a selected unit
         /// </summary>
         /// <param name="unit"></param>
-        /// <param name="ship"></param>
         /// <param name="containers"></param>
-        public static void CheckUnitStowage(Dg unit, ShipProfile ship, ICollection<Container> containers)
+        public static void CheckUnitStowage(Dg unit, ICollection<Container> containers)
         {
 
             if (unit.IsLq) return;
 
             //Check special stowage
             foreach (string sscode in unit.StowageSWList)
-                unit.AddConflict(SpecialStowageCheck(sscode, unit, containers, ship), STOW, sscode);
+                unit.AddConflict(SpecialStowageCheck(sscode, unit, containers), STOW, sscode);
 
             //Check stowage category
             unit.AddConflict(StowageCatCheck(unit), STOW, "SSC1");
 
             //Check against DOC
-            unit.AddConflict(!CheckDoc(unit, ship), STOW, "SSC2");
+            unit.AddConflict(!CheckDoc(unit), STOW, "SSC2");
 
             //Check in respect of explosives
-            CheckStowageOfExplosives(unit, ship);
+            CheckStowageOfExplosives(unit);
 
             //Check in respect of marine pollutants
-            CheckMarinePollutantAndInfectiousSubstancesStowage(unit, ship);
+            CheckMarinePollutantAndInfectiousSubstancesStowage(unit);
 
             //Additional requirements
-            CheckAdditionalStowageRequirements(unit, containers, ship);
+            CheckAdditionalStowageRequirements(unit, containers);
 
             //Additional requirements for class 7
-            CheckRadioactiveStowage(unit, ship);
+            CheckRadioactiveStowage(unit);
         }
 
         /// <summary>
@@ -216,9 +215,8 @@ namespace EasyJob_ProDG.Model.Cargo
         /// (true = in compliance)
         /// </summary>
         /// <param name="dg"></param>
-        /// <param name="ship"></param>
         /// <returns></returns>
-        public static bool CheckDoc(Dg dg, ShipProfile ship)
+        public static bool CheckDoc(Dg dg)
         {
             //Transport.ShipProfile _ship = ship;
             var hold = dg.IsUnderdeck ? dg.HoldNr : 0;
@@ -232,9 +230,8 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         /// <param name="dg"></param>
         /// <param name="containers"></param>
-        /// <param name="ship"></param>
         /// <returns></returns>
-        internal static bool CheckNotProtectedFromSourceOfHeat(Dg dg, ICollection<Container> containers, ShipProfile ship)
+        internal static bool CheckNotProtectedFromSourceOfHeat(Dg dg, ICollection<Container> containers)
         {
             if (ship.IsInHeatedStructures(dg))
                 return true;
@@ -249,14 +246,13 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         /// <param name="unit"></param>
         /// <param name="containers"></param>
-        /// <param name="ship"></param>
-        private static void CheckAdditionalStowageRequirements(Dg unit, ICollection<Container> containers, ShipProfile ship)
+        private static void CheckAdditionalStowageRequirements(Dg unit, ICollection<Container> containers)
         {
             if (IMDGCode.Fishmeal.Contains(unit.Unno))
             {
                 unit.AddConflict(STOW, "SSC3");
                 unit.AddConflict(unit.IsUnderdeck, STOW, "SSC3a");
-                unit.AddConflict(CheckNotProtectedFromSourceOfHeat(unit, containers, ship), STOW, "SSC3b");
+                unit.AddConflict(CheckNotProtectedFromSourceOfHeat(unit, containers), STOW, "SSC3b");
             }
             if (IMDGCode.AmmoniumNitrate.Contains(unit.Unno))
             {
@@ -302,8 +298,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Method checks if a marine pollutant or infectious waste as specified by UNno is stowed on deck on a seaside and adds a conflict in that case.
         /// </summary>
         /// <param name="unit"></param>
-        /// <param name="ship"></param>
-        private static void CheckMarinePollutantAndInfectiousSubstancesStowage(Dg unit, ShipProfile ship)
+        private static void CheckMarinePollutantAndInfectiousSubstancesStowage(Dg unit)
         {
             if (unit.IsUnderdeck || !unit.IsMp &&
                  unit.Unno != 2814 && unit.Unno != 2900 && unit.Unno != 3549) return;
@@ -317,8 +312,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Method checks stowage of unit of class 7 in respect to accommodation and adds a stowage conflict if the cargo is within 6 Bays of an accommodation.
         /// </summary>
         /// <param name="unit"></param>
-        /// <param name="ship"></param>
-        private static void CheckRadioactiveStowage(Dg unit, ShipProfile ship)
+        private static void CheckRadioactiveStowage(Dg unit)
         {
             if (unit.DgClass != "7") return;
             List<byte> bays = ship.BaysSurroundingSuperstructure;
@@ -337,8 +331,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Checks special stowage requirements are met if the unit is an explosive
         /// </summary>
         /// <param name="unit"></param>
-        /// <param name="ship"></param>
-        private static void CheckStowageOfExplosives(Dg unit, ShipProfile ship)
+        private static void CheckStowageOfExplosives(Dg unit)
         {
             if (string.IsNullOrEmpty(unit.DgClass)) return;
 

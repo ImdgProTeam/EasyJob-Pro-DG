@@ -15,8 +15,7 @@
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="1200"
-             d:DataContext="{d:DesignInstance vm:DataGridDgViewModel}"
-             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=DataGridDgViewModel}">
+             d:DataContext="{d:DesignInstance vm:DataGridDgViewModel}">
     <UserControl.Resources>
         <converters:VisibilityToInverseBooleanConverter x:Key="VisibilityToInverseBooleanConverter" />
         <converters:BoolInversionConverter x:Key="BoolInversionConverter" />

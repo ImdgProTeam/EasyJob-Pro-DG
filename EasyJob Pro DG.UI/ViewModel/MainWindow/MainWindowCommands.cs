@@ -129,12 +129,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void ExportToExcelOnExecuted(object obj)
         {
             StatusBarControl.StartProgressBar(10, "Exporting to excel...");
-            Action d = delegate () { loadDataService.ExportToExcel(WorkingCargoPlan); };
+            Action d = loadDataService.ExportDgListToExcel;
             Task.Run(() => WrapMethodWithIsLoading(d)).ConfigureAwait(false);
         }
 
 
-        // ----- New CargoPlan -----
+        // ----- New WorkingCargoPlan -----
 
         /// <summary>
         /// Creates a new blank cargo plan with no cargo in it.
@@ -274,7 +274,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 Action d = delegate ()
                 {
-                    loadDataService.SaveFile(fileName);
+                    loadDataService.SaveConditionToFile(fileName);
                     SetWindowTitle();
                 };
                 Task.Run(() => WrapMethodWithIsLoading(d));
@@ -346,7 +346,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         // ----- Add items -----
 
         /// <summary>
-        /// Shifts view to DgDataGrid and calls DisplayAddMenu from DgDataGridVM
+        /// Shifts view to DgDataGrid and calls DisplayAddMenu from DataGridDgViewModel
         /// </summary>
         /// <param name="parameter">none</param>
         private void OnAddNewDg(object parameter)
@@ -356,7 +356,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             SelectedDataGridIndex = 0;
             OnPropertyChanged(nameof(SelectedDataGridIndex));
 
-            DgDataGridVM.OnDisplayAddDgMenu(container);
+            DataGridDgViewModel.OnDisplayAddDgMenu(container);
         }
 
         /// <summary>
@@ -368,11 +368,11 @@ namespace EasyJob_ProDG.UI.ViewModel
             switch (SelectedDataGridIndex)
             {
                 case 0:
-                    return (Container)DgDataGridVM.SelectedDg?.Model;
+                    return (Container)DataGridDgViewModel.SelectedDg?.Model;
                 case 1:
-                    return reefersDataGridVM.SelectedReefer?.Model;
+                    return DataGridReefersViewModel.SelectedReefer?.Model;
                 case 2:
-                    return containersDataGridVM.SelectedContainer?.Model;
+                    return DataGridContainersViewModel.SelectedContainer?.Model;
                 default:
                     return null;
             }
@@ -445,7 +445,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void SaveWorkingCondition()
         {
             //todo: Implement file name saving and restoring on startup
-            loadDataService.SaveFile(ProgramDefaultSettingValues.ProgramDirectory + Properties.Settings.Default.WorkingCargoPlanFile);
+            loadDataService.SaveConditionToFile(ProgramDefaultSettingValues.ProgramDirectory + Properties.Settings.Default.WorkingCargoPlanFile);
         }
 
         private bool CanExecuteForOptionalOpen(object obj)
@@ -460,7 +460,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         #region Methods calling toolbox windows
         private void OpenShipProfileWindowExecuted(object parameters)
         {
-            windowDialogService.ShowDialog(new ShipProfileWindow());
+            windowDialogService.ShowDialog(new ShipProfileWindow(), new ShipProfileWindowVM());
             SetWindowTitle();
         }
         private void OpenUserSettingsWindowExecuted(object parameters)

@@ -43,6 +43,16 @@
         // -------------- public methods --------------------------------------------
 
         /// <summary>
+        /// Decrements dg cargo counter in container
+        /// </summary>
+        public void RemoveDgFromContainer()
+        {
+            if (DgCountInContainer > 0) DgCountInContainer--;
+        }
+
+        // ----- Converting to Dg -----
+
+        /// <summary>
         /// Method converting Container into a blank Dg
         /// </summary>
         /// <returns></returns>
@@ -63,13 +73,7 @@
             return container.ConvertToDg();
         }
 
-        /// <summary>
-        /// Decrements dg cargo counter in container
-        /// </summary>
-        public void RemoveDgFromContainer()
-        {
-            if (DgCountInContainer > 0) DgCountInContainer--;
-        }
+        // ----- Copy container info -----
 
         /// <summary>
         /// Copies basic IContainer and LocationOnBoard properties from another container
@@ -90,6 +94,7 @@
             POD = container.POD;
             POL = container.POL;
         }
+
         #endregion
 
 

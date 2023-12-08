@@ -3,8 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
         xmlns:dw="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows"
         mc:Ignorable="d"
@@ -15,8 +13,7 @@
         ResizeMode="CanResize"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource ToolWindowStyle}"
-        MouseLeftButtonDown="Window_MouseLeftButtonDown"
-        DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=ShipProfileWindowVM}">
+        MouseLeftButtonDown="Window_MouseLeftButtonDown">
 
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}"
@@ -47,7 +44,7 @@
         <TextBlock Text="{Binding Title, RelativeSource={RelativeSource AncestorType=dw:AnimatedDialogWindow, Mode=FindAncestor}}"
                    Style="{StaticResource WindowTitleTextBlock}"/>
 
-        <TabControl DataContext="{Binding OwnShip}"
+        <TabControl 
                     Name="tabShipProfile"
                     Grid.Row="1"
                     Margin="2" SelectionChanged="tabShipProfile_SelectionChanged"
@@ -72,7 +69,7 @@
 
             <TabItem Header="Living quarters"
                      Name="TabLivingQuarters">
-                <uc:TabLivingQuarters />
+                <uc:TabLivingQuarters/>
             </TabItem>
             <TabItem Header="Heated structures"
                      Name="TabHeatedStructures">
@@ -120,13 +117,4 @@
             </Button>
         </UniformGrid>
     </Grid>
-    
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding WindowLoaded}" />
-        </i:EventTrigger>
-        <i:EventTrigger EventName="Closed">
-            <i:InvokeCommandAction Command="{Binding WindowClosed}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
 </dw:AnimatedDialogWindow>

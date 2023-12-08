@@ -48,17 +48,6 @@ namespace EasyJob_ProDG.UI.Utility
 
         // Creation on demand
 
-        private static ShipProfileWindowVM shipProfileWindowVM;
-        public static ShipProfileWindowVM ShipProfileWindowVM
-        {
-            get
-            {
-                if (shipProfileWindowVM is null)
-                    shipProfileWindowVM = new ShipProfileWindowVM();
-                return shipProfileWindowVM;
-            }
-        }
-
         private static SettingsWindowVM settingsWindowVM;
         public static SettingsWindowVM SettingsWindowVM
         {

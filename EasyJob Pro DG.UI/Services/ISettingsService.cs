@@ -1,4 +1,5 @@
-﻿using EasyJob_ProDG.UI.Wrapper;
+﻿using EasyJob_ProDG.UI.Settings;
+using EasyJob_ProDG.UI.Wrapper;
 using System.Collections.ObjectModel;
 
 namespace EasyJob_ProDG.UI.Services
@@ -6,6 +7,7 @@ namespace EasyJob_ProDG.UI.Services
     interface ISettingsService
     {
         void LoadSettings();
+        IUserUISettings GetSettings();
 
         int SelectedExcelDgTemplateIndex { get; }
         int SelectedExcelReeferTemplateIndex { get; }
@@ -20,6 +22,12 @@ namespace EasyJob_ProDG.UI.Services
         void SaveSelectedExcelTemplateIndeces();
 
         void SaveExcelTemplate(string templateNameInSettings, string templateString);
+
+
+        void SaveSettingsToFile();
+        void RestoreSettingsFromFile(object obj);
+
+
 
     }
 }
