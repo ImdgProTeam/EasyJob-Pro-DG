@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Data;
@@ -18,7 +17,6 @@ namespace EasyJob_ProDG.UI.ViewModel
     public class DataGridContainersViewModel : Observable
     {
         //--------------- Private fields --------------------------------------------
-        SettingsService uiSettings;
         IMessageDialogService _messageDialogService => MessageDialogService.Connect();
         private readonly CollectionViewSource containerPlanView = new CollectionViewSource();
         Dispatcher dispatcher;

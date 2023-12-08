@@ -85,7 +85,6 @@ namespace EasyJob_ProDG.UI.Data
         /// <returns></returns>
         private void CreateConflictListForNewCollection(DgWrapperList dgList)
         {
-
             Clear();
             CreateAllConflicts(dgList);
             dgList.IsCollectionNew = false;
@@ -279,8 +278,8 @@ namespace EasyJob_ProDG.UI.Data
         {
             foreach (var con in this)
             {
-                if (con.Location == conflict.Location
-                    && con.ContainerNumber == conflict.ContainerNumber
+                if (con.DgID == conflict.DgID 
+                    && con.Location == conflict.Location
                     && con.Code == conflict.Code
                     && con.Unno == conflict.Unno
                     && con.IsStowageConflict == conflict.IsStowageConflict)

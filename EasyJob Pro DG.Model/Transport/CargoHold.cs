@@ -18,12 +18,6 @@
             HoldNumber = holdNumber;
         }
 
-        public CargoHold(byte fbay, byte lbay)
-        {
-            FirstBay = fbay;
-            LastBay = lbay;
-        }
-
         public CargoHold(byte holdNumber, byte firstBay, byte lastBay)
         {
             FirstBay = firstBay;

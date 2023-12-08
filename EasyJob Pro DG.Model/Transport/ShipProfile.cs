@@ -6,8 +6,12 @@ namespace EasyJob_ProDG.Model.Transport
 {
     public partial class ShipProfile
     {
+        #region Singleton
+
         private static ShipProfile _profile;
-        public static ShipProfile Instance => _profile;
+        public static ShipProfile Instance => _profile; 
+
+        #endregion
 
 
         #region Private fields
@@ -49,7 +53,6 @@ namespace EasyJob_ProDG.Model.Transport
             }
         }
         private List<byte>[,] _lsa12mBaysAndRows;
-
 
         #endregion
 
@@ -227,45 +230,14 @@ namespace EasyJob_ProDG.Model.Transport
             _profile = this;
         }
 
-        #endregion
-
-
-        #region Constructors
-
-        // ------------------------------ Ship profile constructors ------------------------------------------------------
-
         /// <summary>
-        /// Constructor for default ship with one cargo hold
+        /// Update method to run private methods to update private fields.
+        /// Updates 12 m of superstructures and LSA.
         /// </summary>
-        private ShipProfile()
+        public void UpdatePrivateProperties()
         {
-            SetSuperstructuresBaysProperties(100);
-            NumberOfHolds = 1;
-            CargoHolds = new List<CargoHold>(NumberOfHolds) { new CargoHold(1, 1, 199) };
-            LivingQuarters = new List<CellPosition>() { new CellPosition(99, 199, 199, 199, 0) };
-            HeatedStructures = new List<CellPosition>() { new CellPosition(99, 199, 199, 199, 0) };
-            LSA = new List<CellPosition>() { new CellPosition(99, 199, 199, 199, 0) };
-            Row00Exists = true;
-            RfMotor = (byte)MotorFacing.NotDefined;
-            SeaSides = new List<OuterRow> { new OuterRow(0, 99, 99) };
-            Doc = new DOC(NumberOfHolds);
-            _errorList = new List<string>();
-            isDefault = true;
-        }
-
-        #endregion
-
-
-        #region Internal and Public methods
-
-        // ----- Internal methods -----
-
-        /// <summary>
-        /// Changes IsDefault property to 'false'
-        /// </summary>
-        internal void SetIsNotDefault()
-        {
-            isDefault = false;
+            SetSupersturcture12meters();
+            Set12mOfLSABaysAndRows();
         }
 
         /// <summary>
@@ -287,14 +259,35 @@ namespace EasyJob_ProDG.Model.Transport
                 AddSuperstructuresBaysProperties(bay2);
         }
 
+        #endregion
+
+        #region Internal methods
+        // ----- Internal methods -----
+
         /// <summary>
-        /// Update method to run private methods to update private fields.
-        /// Updates 12 m of superstructures and LSA.
+        /// Changes IsDefault property to 'false'
         /// </summary>
-        public void UpdatePrivateProperties()
+        internal void SetIsNotDefault()
         {
-            SetSupersturcture12meters();
-            Set12mOfLSABaysAndRows();
+            isDefault = false;
+        }
+
+        /// <summary>
+        /// Adds necessary bays to <see cref="BaysInFrontOfSuperstructures"/> and <see cref="BaysSurroundingSuperstructure"/> properties.
+        /// </summary>
+        /// <param name="bay">The last bay in front of a superstructure.</param>
+        internal void AddSuperstructuresBaysProperties(byte bay)
+        {
+            BaysInFrontOfSuperstructures.Add(bay % 2 == 0 ? (byte)(bay + 1) : bay);
+
+            if (BaysSurroundingSuperstructure == null) BaysSurroundingSuperstructure = new List<byte>();
+            if (BaysSurroundingSuperstructure.Contains(bay)) return;
+            BaysSurroundingSuperstructure.Add(bay);
+            BaysSurroundingSuperstructure.Add((byte)(bay + 1));
+            BaysSurroundingSuperstructure.Add((byte)(bay + 2));
+            BaysSurroundingSuperstructure.Add((byte)(bay + 3));
+            if (bay % 2 != 0) BaysSurroundingSuperstructure.Add((byte)(bay - 1));
+            if (bay % 2 == 0) BaysSurroundingSuperstructure.Add((byte)(bay + 4));
         }
 
         internal bool IsInLivingQuarters(ILocationOnBoard container)
@@ -341,8 +334,10 @@ namespace EasyJob_ProDG.Model.Transport
             return false;
         }
 
+        #endregion
 
-        // ----- Private -----
+        #region Private methods
+        // ----- Private methods -----
 
         /// <summary>
         /// Method determines if dg unit falls within given list of positions
@@ -513,22 +508,30 @@ namespace EasyJob_ProDG.Model.Transport
             return false;
         }
 
-        /// <summary>
-        /// Adds necessary bays to <see cref="BaysInFrontOfSuperstructures"/> and <see cref="BaysSurroundingSuperstructure"/> properties.
-        /// </summary>
-        /// <param name="bay">The last bay in front of a superstructure.</param>
-        internal void AddSuperstructuresBaysProperties(byte bay)
-        {
-            BaysInFrontOfSuperstructures.Add(bay % 2 == 0 ? (byte)(bay + 1) : bay);
+        #endregion
 
-            if (BaysSurroundingSuperstructure == null) BaysSurroundingSuperstructure = new List<byte>();
-            if (BaysSurroundingSuperstructure.Contains(bay)) return;
-            BaysSurroundingSuperstructure.Add(bay);
-            BaysSurroundingSuperstructure.Add((byte)(bay + 1));
-            BaysSurroundingSuperstructure.Add((byte)(bay + 2));
-            BaysSurroundingSuperstructure.Add((byte)(bay + 3));
-            if (bay % 2 != 0) BaysSurroundingSuperstructure.Add((byte)(bay - 1));
-            if (bay % 2 == 0) BaysSurroundingSuperstructure.Add((byte)(bay + 4));
+
+        #region Constructors
+
+        // ------------------------------ Ship profile constructors ------------------------------------------------------
+
+        /// <summary>
+        /// Constructor for default ship with one cargo hold
+        /// </summary>
+        private ShipProfile()
+        {
+            SetSuperstructuresBaysProperties(100);
+            NumberOfHolds = 1;
+            CargoHolds = new List<CargoHold>(NumberOfHolds) { new CargoHold(1, 1, 199) };
+            LivingQuarters = new List<CellPosition>() { new CellPosition(99, 199, 199, 199, 0) };
+            HeatedStructures = new List<CellPosition>() { new CellPosition(99, 199, 199, 199, 0) };
+            LSA = new List<CellPosition>() { new CellPosition(99, 199, 199, 199, 0) };
+            Row00Exists = true;
+            RfMotor = (byte)MotorFacing.NotDefined;
+            SeaSides = new List<OuterRow> { new OuterRow(0, 99, 99) };
+            Doc = new DOC(NumberOfHolds);
+            _errorList = new List<string>();
+            isDefault = true;
         }
 
         #endregion

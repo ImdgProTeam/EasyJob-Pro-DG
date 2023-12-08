@@ -1,5 +1,4 @@
-﻿using EasyJob_ProDG.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -56,7 +55,7 @@ namespace EasyJob_ProDG.Model.Cargo
             {
                 _messagesToUser.Add($"Could not update information from IMDG Code for unit {dg.ContainerNumber} UNNO {dg.Unno}.");
                 string message = $"Error {e.Message} occurred while attempting to read dg list information for UNNO {dg.Unno} of unit {dg.ContainerNumber}";
-                LogWriter.Write(message);
+                Data.LogWriter.Write(message);
             }
         }
 

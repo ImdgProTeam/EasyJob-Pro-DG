@@ -91,8 +91,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         public void RemoveConflict(object parameter)
         {
-            var conflict = parameter as ConflictPanelItemViewModel;
-            if (conflict == null) return;
+            if (parameter is not ConflictPanelItemViewModel conflict) return;
 
             deletedConflicts.Add(conflict);
             Conflicts.Remove(conflict);
