@@ -92,7 +92,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         private void UpdateConflictList()
         {
-            OnConflictListToBeChangedEventHandler.Invoke(this);
+            DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
         }
 
         /// <summary>
@@ -227,8 +227,5 @@ namespace EasyJob_ProDG.UI.Wrapper
             UpdateConflictList();
         }
 
-
-        public delegate void ConflictListToBeChangedEventHandler(object sender);
-        public static event ConflictListToBeChangedEventHandler OnConflictListToBeChangedEventHandler = null;
     }
 }

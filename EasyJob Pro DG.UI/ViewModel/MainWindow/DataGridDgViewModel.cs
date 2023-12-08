@@ -85,7 +85,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         private void RegisterInDataMessenger()
         {
-            DataMessenger.Default.Register<ApplicationClosingMessage>(this, OnApplicationClosingMessageReceived, "closing");
             DataMessenger.Default.Register<CargoDataUpdated>(this, OnCargoDataUpdated, "cargodataupdated");
             DataMessenger.Default.Register<CargoPlanUnitPropertyChanged>(this, OnCargoPlanUnitPropertyChanged);
             DataMessenger.Default.Register<DgListSelectedItemUpdatedMessage>(this, OnCargoPlanSelectedItemUpdatedMessage, "selectionpropertyupdated");
@@ -388,14 +387,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void OnCargoPlanUnitPropertyChanged(CargoPlanUnitPropertyChanged message)
         {
             SetSelectionStatusBar(_selectionObject);
-        }
-
-        /// <summary>
-        /// Contains logic to be performed before closing the application
-        /// </summary>
-        /// <param name="obj"></param>
-        private void OnApplicationClosingMessageReceived(ApplicationClosingMessage obj)
-        {
         }
 
         #endregion

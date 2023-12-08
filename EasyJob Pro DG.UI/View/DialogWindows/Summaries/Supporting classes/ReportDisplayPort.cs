@@ -14,8 +14,8 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         public string Port { get; set; }
         public List<SinglePortReportValue> DisplayValues => displayValues;
 
-        private List<SinglePortReportValue> displayValues;
-        private SinglePortReportValue totals;
+        private readonly List<SinglePortReportValue> displayValues;
+        private readonly SinglePortReportValue totals;
 
 
         #region Constructors
@@ -41,8 +41,8 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         {
             if (dg == null) return;
 
-            SinglePortReportValue portRecord = displayValues.SingleOrDefault(x => string.Equals(x.Port, dg.POD));
-            if (portRecord == null) throw new ArgumentNullException("Port record for Dg cannot be created for a port which does not exist in container list.");
+            SinglePortReportValue portRecord = displayValues.SingleOrDefault(x => string.Equals(x.Port, dg.POD))
+                ?? throw new ArgumentNullException("Port record for Dg cannot be created for a port which does not exist in container list.");
             portRecord.DgNetWeight += dg.DgNetWeight;
             totals.DgNetWeight += dg.DgNetWeight;
             if (dg.IsMp)

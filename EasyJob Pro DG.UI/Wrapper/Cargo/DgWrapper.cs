@@ -97,17 +97,8 @@ namespace EasyJob_ProDG.UI.Wrapper
         #region Events
         // --------------- Events ---------------------------------------------------
 
-        public delegate void DgPackingGroupChangedEventHandler(object sender);
-        public static event DgPackingGroupChangedEventHandler OnDgPackingGroupChangedEventHandler = null;
-
-        public delegate void ConflictListToBeChangedEventHandler(object sender);
-        public static event ConflictListToBeChangedEventHandler OnConflictListToBeChangedEventHandler = null;
-
-        public delegate void DgPropertyUpdatedEventHandler(object sender);
-        public static event DgPropertyUpdatedEventHandler OnDgPropertyUpdatedEventHandler = null;
-
-        public delegate void UnitStowageConflictsToBeUpdatedEventHandler(object sender);
-        public static event UnitStowageConflictsToBeUpdatedEventHandler OnUnitStowageConflictsToBeUpdatedEventHandler = null;
+        //public delegate void UnitStowageConflictsToBeUpdatedEventHandler(object sender);
+        //public static event UnitStowageConflictsToBeUpdatedEventHandler OnUnitStowageConflictsToBeUpdatedEventHandler = null;
         #endregion
 
 

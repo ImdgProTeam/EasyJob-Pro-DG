@@ -26,9 +26,6 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         /// <returns>True if dg database has been successfully connected.</returns>
         public bool ConnectProgramFiles()
         {
-            //Initiate EventSupervisor
-            EventSupervisor evS = new();
-
             ////Connect program files
             return ProgramFiles.Connect();
         }

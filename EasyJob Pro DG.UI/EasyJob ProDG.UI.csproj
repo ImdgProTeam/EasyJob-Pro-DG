@@ -164,7 +164,6 @@
     <Compile Include="Services\FirstStartServices\FirstStartService.cs" />
     <Compile Include="Utility\ExportDataGridToExcel.cs" />
     <Compile Include="Utility\ExtensionMethods.cs" />
-    <Compile Include="Utility\Messages\ApplicationClosingMessage.cs" />
     <Compile Include="Utility\Messages\CancelChangesMessage.cs" />
     <Compile Include="Utility\Messages\ConflictListToBeUpdatedMessage.cs" />
     <Compile Include="Utility\Messages\CargoDataUpdated.cs" />
@@ -189,7 +188,6 @@
     <Compile Include="Settings\UserSettingsFileHandler.cs" />
     <Compile Include="Settings\UserUISettings.cs" />
     <Compile Include="Utility\DataMessenger.cs" />
-    <Compile Include="Utility\EventSupervisor.cs" />
     <Compile Include="Utility\Messages\UpdateCargoPlan.cs" />
     <Compile Include="Utility\NotifyDataErrorInfoBase.cs" />
     <Compile Include="Utility\ViewModelLocator.cs" />

@@ -110,7 +110,6 @@ namespace EasyJob_ProDG.UI.Wrapper
         private void OnUpdatePackingGroup()
         {
             Model.AssignFromDgList(false, true);
-            OnDgPackingGroupChangedEventHandler.Invoke(this);
             RefreshDgDataPresentation();
         }
 
@@ -128,7 +127,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         private void UpdateConflictList()
         {
-            OnConflictListToBeChangedEventHandler.Invoke(this);
+            DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
         }     
         
         /// <summary>
@@ -137,7 +136,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         private void NotifyOfChangedProperties()
         {
-            OnDgPropertyUpdatedEventHandler.Invoke(this);
+            DataMessenger.Default.Send(new DgListSelectedItemUpdatedMessage(), "selectionpropertyupdated");
         }
 
         private void UpdateDgStowageConflicts()

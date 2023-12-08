@@ -5,7 +5,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 using EasyJob_ProDG.UI.Messages;
-using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Settings;
 using EasyJob_ProDG.UI.Utility;

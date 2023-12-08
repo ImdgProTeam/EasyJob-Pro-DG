@@ -1,16 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Threading;
-using EasyJob_ProDG.UI.Messages;
-using EasyJob_ProDG.UI.Services;
+﻿using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Settings;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.ViewModel.MainWindow;
 using EasyJob_ProDG.UI.Wrapper;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
@@ -259,7 +258,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 list.Add(item.ContainerNumber);
             }
 
-            foreach(var number in list)
+            foreach (var number in list)
             {
                 CargoPlan.RemoveReefer(number, toUpdateInCargoPlan: true);
             }
@@ -308,7 +307,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 }
             }
             _selectionObject = obj;
-        } 
+        }
         #endregion
 
 
