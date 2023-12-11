@@ -42,15 +42,11 @@ namespace EasyJob_ProDG.UI.Wrapper
                 SetValue(value.Trim().Replace(" ", ""));
                 if (Model.DgSubClassArray.Contains(value))
                 {
-                    string[] tempdgsubclasses = new string[2];
-                    for (int i = 0; i < Model.DgSubClassArray.Length; i++)
-                    {
-                        string subclass = Model.DgSubClassArray[i];
-                        if (!string.Equals(subclass, value))
-                            tempdgsubclasses[i] = subclass;
-                    }
-                    Model.DgSubClassArray = tempdgsubclasses;
+                    DgSubClass = DgSubClass.Replace(DgClass, "");
+                    OnPropertyChanged(nameof(DgSubClass));
+                    return;
                 }
+                
                 OnPropertyChanged(nameof(AllDgClasses));
                 UpdateConflictList();
             }
@@ -65,11 +61,15 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                //TODO: Implement input check
-                //Check if DgClass already has the subrisk being input
                 var setvalue = value.Replace(",", " ").Replace("  ", " ").Trim();
-                SetValue(setvalue);
+                
+                //Check if DgClass already has the subrisk being input
+                if(setvalue.Split(' ').Any(x => string.Equals(x, DgClass)))
+                {
+                    setvalue = setvalue.Replace(DgClass, "");
+                }
 
+                SetValue(setvalue);
                 OnPropertyChanged(nameof(AllDgClasses));
                 UpdateConflictList();
             }

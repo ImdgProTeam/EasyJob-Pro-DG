@@ -129,7 +129,7 @@ namespace EasyJob_ProDG.Model.Cargo
             if (allDgClasses.Count > 1)
             {
                 allDgClasses.Clear();
-                allDgClasses[0] = dgclass;
+                allDgClasses.Add(dgclass);
             }
             foreach (var item in dgsubclass)
             {
