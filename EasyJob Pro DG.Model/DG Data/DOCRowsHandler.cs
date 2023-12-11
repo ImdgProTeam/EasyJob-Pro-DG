@@ -21,7 +21,7 @@
                     dg.DgRowInDOC = (byte)(dg.Flammable?4:5);
                     break;
                     case "3":
-                    dg.DgRowInDOC = (byte) (dg.FlashPointDouble < 23 ? 6 : 7);
+                    dg.DgRowInDOC = (byte) (dg.FlashPointAsDecimal < 23 ? 6 : 7);
                     break;
                 case "4.1":
                     dg.DgRowInDOC = 8;
@@ -41,7 +41,7 @@
                 case "6.1":
                     if (dg.Liquid)
                     {
-                        if (dg.Flammable) dg.DgRowInDOC = (byte) (dg.FlashPointDouble < 23 ? 14 : 15);
+                        if (dg.Flammable) dg.DgRowInDOC = (byte) (dg.FlashPointAsDecimal < 23 ? 14 : 15);
                         else dg.DgRowInDOC = 16;
                     }
                     else dg.DgRowInDOC = 17;
@@ -49,7 +49,7 @@
                 case "8":
                     if (dg.Liquid)
                     {
-                        if (dg.Flammable) dg.DgRowInDOC = (byte) (dg.FlashPointDouble < 23 ? 18 : 19);
+                        if (dg.Flammable) dg.DgRowInDOC = (byte) (dg.FlashPointAsDecimal < 23 ? 18 : 19);
                         else dg.DgRowInDOC = 20;
                     }
                     else dg.DgRowInDOC = 21;

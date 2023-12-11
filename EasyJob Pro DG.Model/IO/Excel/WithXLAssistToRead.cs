@@ -16,9 +16,9 @@ namespace EasyJob_ProDG.Model.IO.Excel
         /// </summary>
         /// <param name="cells"></param>
         /// <returns></returns>
-        internal static float DgFp(string value)
+        internal static decimal DgFp(string value)
         {
-            float dgfp;
+            decimal dgfp;
             string result = null;
             try
             {
@@ -45,8 +45,8 @@ namespace EasyJob_ProDG.Model.IO.Excel
                     }
                 }
 
-                dgfp = (float)Math.Round(Convert.ToDouble(result), 2);
-                if (units == "F") dgfp = (float)Math.Round(AdditionalFunctions.ToCelcium(dgfp), 2);
+                dgfp = Math.Round(Convert.ToDecimal(result), 2);
+                if (units == "F") dgfp = Math.Round(dgfp.ToCelcium(), 2);
 
             }
             catch (Exception)

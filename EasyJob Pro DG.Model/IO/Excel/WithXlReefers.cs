@@ -67,7 +67,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
 
                         if (col == byte.Parse(_template[3])) cont.ContainerNumber = value;
                         else if (col == byte.Parse(_template[4])) cont.Commodity = value;
-                        else if (col == byte.Parse(_template[5])) cont.SetTemperature = double.Parse(value);
+                        else if (col == byte.Parse(_template[5])) cont.SetTemperature = decimal.Parse(value);
                         else if (col == byte.Parse(_template[6])) cont.VentSetting = value;
                         else if (col == byte.Parse(_template[7])) cont.ReeferSpecial = value;
                         else if (col == byte.Parse(_template[8])) cont.ReeferRemark = value;

@@ -8,6 +8,19 @@ namespace EasyJob_ProDG.Model.Cargo
         //------------------- Supportive methods to work with Dg list --------------------------------------------------------------
 
         /// <summary>
+        /// Method applies the information from all available sources to units in dg list
+        /// </summary>
+        /// <param name="dgList"></param>
+        internal static void UpdateDgInfo(this ICollection<Dg> dgList)
+        {
+            foreach (Dg unit in dgList)
+            {
+                unit.UpdateDgInfo();
+            }
+            Data.LogWriter.Write($"Dg info updated.");
+        }
+
+        /// <summary>
         /// Method searches for duplicate records and safely removes them. Wrong DG classes will be checked and option will be proposed to ammend it in accordance with IMDG code.
         /// </summary>
         /// <param name="dgList"></param>

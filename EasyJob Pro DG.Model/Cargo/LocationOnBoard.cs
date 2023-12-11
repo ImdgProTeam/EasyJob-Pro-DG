@@ -26,8 +26,15 @@ namespace EasyJob_ProDG.Model.Cargo
             {
                 _cntrLocation = value.Replace(" ","");
                 DefineContainerLocation();
+                AssignStack();
             }
         }
+
+        /// <summary>
+        /// Represents one vertical stack of both 20" and 40" units.
+        /// Includes the bay and adjacent bays.
+        /// </summary>
+        public byte[] Stack { get; private set; }
 
         // ---------- public methods -----------------------
 
@@ -41,6 +48,17 @@ namespace EasyJob_ProDG.Model.Cargo
             Tier = byte.Parse(_cntrLocation.Remove(0, _cntrLocation.Length - 2));
             IsUnderdeck = Tier < ProgramDefaultSettingValues.lowestTierOnDeck;
             Size = (byte)(Bay % 2 == 0 ? 40 : 20);
+        }
+
+        /// <summary>
+        /// Method assigns a stack to the unit, taking into account 20 and 40'
+        /// </summary>
+        private void AssignStack()
+        {
+            Stack = new byte[3];
+            Stack[0] = (byte)(Bay - 1);
+            Stack[1] = Bay;
+            Stack[2] = (byte)(Bay + 1);
         }
     }
 }

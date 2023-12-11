@@ -65,7 +65,6 @@ namespace EasyJob_ProDG.Model.Cargo
                                         CargoPlan existingCargoPlan = null, bool importOnlySelected = false, string currentPort = null)
         {
             //TODO: Shift CargoPlan handling methods to a separate class. 
-            //TODO: Thereafter shift shipProfile and dgDataBase references to a private property of the new class.
             ShipProfile ownShip = ShipProfile.Instance;
 
             //creating cargo plan from file
@@ -73,7 +72,7 @@ namespace EasyJob_ProDG.Model.Cargo
             if (cargoPlan is null || cargoPlan.IsEmpty) return cargoPlan;
 
             //Updating cargo plan from database
-            HandleDg.UpdateDgInfo(cargoPlan.DgList);
+            HandleDgList.UpdateDgInfo(cargoPlan.DgList);
             HandleDgList.CheckDgList(cargoPlan.DgList, (byte)OpenFile.FileTypes.Edi);
 
             //Choose what to do with new plan according to OpenOptions
@@ -244,7 +243,7 @@ namespace EasyJob_ProDG.Model.Cargo
                                 if (Math.Abs(sameUnnoTempDgList[i].DgNetWeight) < 0.001M)
                                     count += 2;
                             }
-                            if (Math.Abs(sameUnnoTempDgList[i].FlashPointDouble - dgToImport.FlashPointDouble) < 0.1)
+                            if (sameUnnoTempDgList[i].FlashPointAsDecimal == dgToImport.FlashPointAsDecimal)
                                 count += 1;
 
                             if (count > lastMaxMatch)
@@ -685,7 +684,6 @@ namespace EasyJob_ProDG.Model.Cargo
             Reefers = new List<Container>();
             Containers = new List<Container>();
             VoyageInfo = new Voyage();
-            //HasNonamers = false;
         }
     }
 }

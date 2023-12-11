@@ -26,7 +26,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 imdgRecords = GetRecordsFromXml(dg.Unno);
 
                 int orderInList;
-                orderInList = ChooseOneOfMultipleEntries(imdgRecords, dg.PackingGroupByte);
+                orderInList = ChooseOneOfMultipleEntries(imdgRecords, dg.PackingGroupAsByte);
 
                 //Transfer data from record to dg item
                 DgFromIMDGCode dgFromImdgCode = imdgRecords[orderInList];
@@ -71,22 +71,24 @@ namespace EasyJob_ProDG.Model.Cargo
                                  where (int)entry.Attribute("unno") == unno
                                  select entry);
 
-            List<DgFromIMDGCode> list = new ();
+            List<DgFromIMDGCode> list = new();
 
             //Assigning data to temporary item (record) from chosenEntries and complete temporary list
             foreach (var entry in chosenEntries)
             {
-                DgFromIMDGCode record = new ()
+                DgFromIMDGCode record = new()
                 {
                     Unno = unno,
                     DgClassInherited = entry.Attribute("class").Value,
-                    PackingGroupByte = byte.Parse(entry.Attribute("pg").Value)
+                    PackingGroupAsByte = byte.Parse(entry.Attribute("pg").Value)
                 };
 
                 string[] array = entry.Attribute("subrisk").Value.Split('/');
-                foreach (string x in array) 
-                    if (x != "–") 
-                        record.DgSubclass = x;
+                foreach (string x in array)
+                    if (x != "–")
+                        if (string.IsNullOrWhiteSpace(record.DgSubClassArray[0]))
+                            record.DgSubClassArray[0] = x;
+                        else record.DgSubClassArray[1] = x;
 
                 var temp = entry.Attribute("MP").Value;
                 if (temp == "true") record.IsMp = true;
@@ -94,7 +96,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 record.Name = entry.Element("name").Value;
 
                 array = entry.Attribute("specialprovisions").Value.Split(' ');
-                foreach (string x in array) 
+                foreach (string x in array)
                     record.SpecialInherited.Add(x != "–" ? Convert.ToUInt16(x) : (ushort)0);
 
                 record.StowageCat = (entry.Element("Stowage").Attribute("category").Value).Length > 1 ?
@@ -133,7 +135,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
                     for (int i = 0; i < imdgRecords.Count; i++)
                     {
-                        if (imdgRecords[i].PackingGroupByte == packingGroup)
+                        if (imdgRecords[i].PackingGroupAsByte == packingGroup)
                         {
                             orderInList = i;
                             break;
@@ -146,10 +148,10 @@ namespace EasyJob_ProDG.Model.Cargo
                     var pkg = 3;
                     for (int i = 0; i < imdgRecords.Count; i++)
                     {
-                        pkg = imdgRecords[i].PackingGroupByte == 1 
-                            ? imdgRecords[i].PackingGroupByte 
-                            : (pkg < imdgRecords[i].PackingGroupByte ? pkg : imdgRecords[i].PackingGroupByte);
-                        if (imdgRecords[i].PackingGroupByte == pkg) orderInList = i;
+                        pkg = imdgRecords[i].PackingGroupAsByte == 1
+                            ? imdgRecords[i].PackingGroupAsByte
+                            : (pkg < imdgRecords[i].PackingGroupAsByte ? pkg : imdgRecords[i].PackingGroupAsByte);
+                        if (imdgRecords[i].PackingGroupAsByte == pkg) orderInList = i;
                     }
                 }
             }
@@ -163,26 +165,31 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         private static void SpecialClass(this DgFromIMDGCode dg)
         {
-            foreach (string s in dg.DgSubClassInherited)
+            for (int i = 0; i < dg.DgSubClassInherited.Length; i++)
             {
+                string s = dg.DgSubClassInherited[i];
+                if (string.IsNullOrWhiteSpace(s)) continue;
+
                 var clearSubclass = false;
-                if (s == "–") dg.DgSubClassInherited.Remove(s);
-                if (s.StartsWith("See SP"))
+
+                if (s == "–") 
+                    dg.DgSubClassInherited[i] = null;
+                else if (s.StartsWith("See SP"))
                 {
-                    switch (s.Remove(0, 4))
+                    switch (s.Remove(0, 6))
                     {
-                        case "SP63":
+                        case "63":
                             dg.DgClass = "2.1";
-                            dg.DgSubClassInherited.Clear();
+                            dg.DgSubClassInherited = new string[2];
                             clearSubclass = true;
                             break;
                         case "172":
-                            dg.DgSubClassInherited.Clear();
+                            dg.DgSubClassInherited = new string[2];
                             clearSubclass = true;
                             break;
                         case "181":
-                            dg.DgSubClassInherited.Clear();
-                            dg.DgSubClassInherited.Add("1.3");
+                            dg.DgSubClassInherited = new string[2];
+                            dg.DgSubClassInherited[0] = "1.3";
                             _messagesToUser.Add("Caution! Class 1.3 added in accordance with SP181.");
                             clearSubclass = true;
                             break;
@@ -231,7 +238,8 @@ namespace EasyJob_ProDG.Model.Cargo
                     {
                         if (dg.DgClass == "2") dg.DgClass = dgFromImdgCode.DgClass;
                         else
-                        { _messagesToUser.Add(
+                        {
+                            _messagesToUser.Add(
                                 $"Caution! For correct assigning of dg class and subrisk of AEROSOLS " +
                                 $"(UNNO 1950) in unit {dg.ContainerNumber} refer to DG manifest and special provision 63 " +
                                 "of IMDG code Ch 3.");
@@ -247,7 +255,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     else dg.differentClass = true;
                 }
             }
-            if (dg.DgSubclassCount == 0) dg.DgSubclassArray = dgFromImdgCode.DgSubClassInherited.ToArray();
+            if (dg.DgSubclassCount == 0) dg.DgSubClassArray = dgFromImdgCode.DgSubClassInherited;
         }
 
         /// <summary>
@@ -256,7 +264,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="dgFromImdgCode">Dg record from IMDG code from which info will be copied.</param>
         private static void UpdateOtherInformation(this Dg dg, DgFromIMDGCode dgFromImdgCode)
         {
-            dg.PackingGroupByte = dg.PackingGroupByte != 0 ? dg.PackingGroupByte : dgFromImdgCode.PackingGroupByte;
+            dg.PackingGroupAsByte = dg.PackingGroupAsByte != 0 ? dg.PackingGroupAsByte : dgFromImdgCode.PackingGroupAsByte;
             if (string.IsNullOrEmpty(dg.DgEMS)) dg.DgEMS = dgFromImdgCode.DgEMS;
             dg.IsMp = dg.mpDetermined ? dg.IsMp : dgFromImdgCode.IsMp;
 
@@ -270,7 +278,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         private class DgFromIMDGCode : Dg
         {
-            internal List<string> DgSubClassInherited
+            internal string[] DgSubClassInherited
             {
                 get => dgsubclass;
                 set => dgsubclass = value;

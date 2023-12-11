@@ -1,6 +1,7 @@
 ﻿using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.Wrapper.Cargo;
+using System.Linq;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
@@ -38,14 +39,19 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                string[] tempdgsubclasses = Model.DgSubclassArray;
-                Model.ClearAllDgClasses();
-                SetValue(value.Replace(" ", ""));
-                foreach (var dgsubclass in tempdgsubclasses)
+                SetValue(value.Trim().Replace(" ", ""));
+                if (Model.DgSubClassArray.Contains(value))
                 {
-                    Model.DgSubclass = dgsubclass;
+                    string[] tempdgsubclasses = new string[2];
+                    for (int i = 0; i < Model.DgSubClassArray.Length; i++)
+                    {
+                        string subclass = Model.DgSubClassArray[i];
+                        if (!string.Equals(subclass, value))
+                            tempdgsubclasses[i] = subclass;
+                    }
+                    Model.DgSubClassArray = tempdgsubclasses;
                 }
-                OnPropertyChanged($"AllDgClasses");
+                OnPropertyChanged(nameof(AllDgClasses));
                 UpdateConflictList();
             }
         }
@@ -54,24 +60,18 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// Set: will add string dg class to dgsubclass and will update allDgClasses.
         /// Get: will return string with all subclasses listed and separated with comma.
         /// </summary>
-        public string DgSubclass
+        public string DgSubClass
         {
             get => GetValue<string>();
             set
             {
-                string tempDgClass = DgClass;
-                Model.ClearAllDgClasses();
-                Model.DgClass = tempDgClass;
+                //TODO: Implement input check
+                //Check if DgClass already has the subrisk being input
+                var setvalue = value.Replace(",", " ").Replace("  ", " ").Trim();
+                SetValue(setvalue);
 
-                string[] array = ParseMultipleClasses(value);
-                foreach (var val in array)
-                {
-                    if (!string.IsNullOrEmpty(val))
-                        SetValue(val);
-                }
-
-                    OnPropertyChanged($"AllDgClasses");
-                    UpdateConflictList();
+                OnPropertyChanged(nameof(AllDgClasses));
+                UpdateConflictList();
             }
         }
 
@@ -85,8 +85,8 @@ namespace EasyJob_ProDG.UI.Wrapper
             set
             {
                 if (!SetValue(value)) return;
-                    OnUpdatePackingGroup();
-                    UpdateConflictList();
+                OnUpdatePackingGroup();
+                UpdateConflictList();
 
             }
         }

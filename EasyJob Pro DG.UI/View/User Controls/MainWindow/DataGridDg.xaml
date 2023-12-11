@@ -254,7 +254,7 @@
 
                 <!-- Dg subclasses -->
                 <DataGridTextColumn x:Name="dgSubclassColumn"
-                                    Binding="{Binding DgSubclass, UpdateSourceTrigger=LostFocus}"
+                                    Binding="{Binding DgSubClass, UpdateSourceTrigger=LostFocus}"
                                     Header="Dg subclass"
                                     />
 

@@ -23,7 +23,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     switch (sscode)
                     {
                         case "SG1": //For packages carrying a subsidiary risk label of class 1, segregation as for class 1, division 1.3.
-                            foreach (string s in dg.DgSubclassArray)
+                            foreach (string s in dg.DgSubClassArray)
                             {
                                 if (s.StartsWith("1"))
                                 {
@@ -48,7 +48,7 @@ namespace EasyJob_ProDG.Model.Cargo
                             dg.SegregatorClass = "5.1";
                             break;
                         case "SG68": //If flashpoint 60°C c.c.or below, segregation as for class 3 but “away from” class 4.1.
-                            if (dg.FlashPointDouble <= 60.5 || Math.Abs(dg.FlashPointDouble - 9999) < 10)
+                            if (dg.FlashPointAsDecimal <= 60 || dg.FlashPointAsDecimal == 9999)
                             {
                                 dg.SegregatorClass = "3";
                                 dg.SegregatorException = new SegregatorException("4.1", SegregationCase.AwayFrom);
@@ -180,7 +180,7 @@ namespace EasyJob_ProDG.Model.Cargo
                         foreach (Dg b in dglist)
                         {
                             if (a == b || b.IsLq) continue;
-                            if ((b.AllDgClassesList.Contains("2.1") || b.AllDgClassesList.Contains("3")) && !a.IsUnderdeck && !b.IsUnderdeck)
+                            if ((b.AllDgClasses.Contains("2.1") || b.AllDgClasses.Contains("3")) && !a.IsUnderdeck && !b.IsUnderdeck)
                             {
                                 conf = Athwartship(a, b, 2, ship.Row00Exists) && ForeAndAft(a, b, 1);
                                 a.AddConflict(conf, segr, sscode, b);
@@ -196,7 +196,7 @@ namespace EasyJob_ProDG.Model.Cargo
                             {
                                 if (s != (int)IMDGCode.SegregationGroup.chlorates && s != (int)IMDGCode.SegregationGroup.perchlorates)
                                     continue;
-                                foreach (string cl in b.AllDgClassesList)
+                                foreach (string cl in b.AllDgClasses)
                                 {
                                     if (cl.StartsWith("1"))
                                     {
@@ -393,7 +393,7 @@ namespace EasyJob_ProDG.Model.Cargo
                         foreach (Dg b in dglist)
                         {
                             if (a == b || b.IsLq) continue;
-                            foreach (string s in b.AllDgClassesList)
+                            foreach (string s in b.AllDgClasses)
                                 if (s.StartsWith("1.4"))
                                 {
                                     conf = SegregationCase2(a, b);
@@ -477,7 +477,7 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             bool conf;
             if (a == b || b.IsLq) return;
-            foreach (string s in b.AllDgClassesList)
+            foreach (string s in b.AllDgClasses)
             {
                 if (!s.StartsWith(dgClass)) continue;
                 if (!string.IsNullOrEmpty(exceptFromClass) && s.StartsWith(exceptFromClass)) continue;
@@ -503,7 +503,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
             if (a == b || b.IsLq) return;
 
-            foreach (string s in b.AllDgClassesList)
+            foreach (string s in b.AllDgClasses)
             {
                 foreach (string dgClass in dgClasses)
                 {
@@ -574,7 +574,7 @@ namespace EasyJob_ProDG.Model.Cargo
         private static void CheckClass8CanBeStowedTogether(Dg a, Dg b)
         {
             if (a.DgClass == "8" && b.DgClass == "8"
-                && (a.PackingGroupByte > 1) && (b.PackingGroupByte > 1))
+                && (a.PackingGroupAsByte > 1) && (b.PackingGroupAsByte > 1))
                 a.AddConflict(true, segr, "SGC201", b);
         }
         #endregion

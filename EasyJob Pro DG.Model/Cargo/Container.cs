@@ -16,8 +16,8 @@
         #region IReefer
         // -------------- IReefer ---------------------------------------------------
 
-        public double SetTemperature { get; set; }
-        public double LoadTemperature { get; set; }
+        public decimal SetTemperature { get; set; }
+        public decimal LoadTemperature { get; set; }
         public string Commodity { get; set; }
         public string VentSetting { get; set; }
         public string ReeferSpecial { get; set; }

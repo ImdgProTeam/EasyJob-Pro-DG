@@ -332,7 +332,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                                 container.IsRf = true;
                                 container.ResetReefer();
 
-                                container.SetTemperature = double.Parse(segment.Remove(0, 2));
+                                container.SetTemperature = decimal.Parse(segment.Remove(0, 2));
 
                                 count++;
                             }
@@ -360,7 +360,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                         }
                     case 23: //Loading temperature
                         {
-                            container.LoadTemperature = double.Parse(segment);
+                            container.LoadTemperature = decimal.Parse(segment);
                             count++;
                             break;
                         }
@@ -408,7 +408,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                         }
                     case 42: //DgSubClasses
                         {
-                            dg.DgSubclass = segment;
+                            dg.DgSubClass = segment.Replace(",","");
                             count++;
                             break;
                         }
@@ -631,7 +631,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                             if (segment.StartsWith("R:"))
                             {
                                 container.IsRf = true;
-                                container.SetTemperature = double.Parse(segment.Remove(0, 2));
+                                container.SetTemperature = decimal.Parse(segment.Remove(0, 2));
                                 cargoPlan.Reefers.Add(container);
                                 count++;
                                 break;
@@ -668,7 +668,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                         }
                     case 11:
                         {
-                            dg.DgSubclass = segment;
+                            dg.DgSubClass = segment.Replace(",","");
                             count++;
                             break;
                         }
@@ -866,7 +866,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                             if (segment.StartsWith("R:"))
                             {
                                 container.IsRf = true;
-                                container.SetTemperature = double.Parse(segment.Remove(0, 2));
+                                container.SetTemperature = decimal.Parse(segment.Remove(0, 2));
                                 cargoPlan.Reefers.Add(container);
                                 count++;
                                 break;
@@ -903,7 +903,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                         }
                     case 16:
                         {
-                            dg.DgSubclass = segment;
+                            dg.DgSubClass = segment.Replace(",","");
                             count++;
                             break;
                         }
@@ -1153,7 +1153,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                                 container.IsRf = true;
                                 container.ResetReefer();
 
-                                container.SetTemperature = double.Parse(segment.Remove(0, 2));
+                                container.SetTemperature = decimal.Parse(segment.Remove(0, 2));
 
                                 count++;
                             }
@@ -1181,7 +1181,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                         }
                     case 23: //Loading temperature
                         {
-                            container.LoadTemperature = double.Parse(segment);
+                            container.LoadTemperature = decimal.Parse(segment);
                             count++;
                             break;
                         }
@@ -1229,7 +1229,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                         }
                     case 42: //DgSubClasses
                         {
-                            dg.DgSubclass = segment;
+                            dg.DgSubClass = segment.Replace(",","");
                             count++;
                             break;
                         }
@@ -1437,9 +1437,9 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                     RecordsCreator.AppendWitNewType("D");
                     RecordsCreator.AppendRecord(dg.Unno.ToString());
                     RecordsCreator.AppendRecord(dg.DgClass);
-                    RecordsCreator.AppendRecord(dg.DgSubclass);
+                    RecordsCreator.AppendRecord(dg.DgSubClass);
                     RecordsCreator.AppendRecord(dg.DgNetWeight.ToString(CultureInfo.InvariantCulture));
-                    RecordsCreator.AppendRecord(dg.PackingGroupByte.ToString());
+                    RecordsCreator.AppendRecord(dg.PackingGroupAsByte.ToString());
                     RecordsCreator.AppendRecord(dg.FlashPoint);
                     RecordsCreator.AppendRecord(dg.IsMp ? "P" : "N");
                     RecordsCreator.AppendRecord(dg.IsLq ? "LQ" : "N");

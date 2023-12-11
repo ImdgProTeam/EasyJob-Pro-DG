@@ -1,6 +1,6 @@
 ﻿namespace EasyJob_ProDG.Data
 {
-    public class AdditionalFunctions
+    public static class AdditionalFunctions
     {
 
         /// <summary>
@@ -8,9 +8,9 @@
         /// </summary>
         /// <param name="degreesC"></param>
         /// <returns></returns>
-        public static double ToFarenheit(double degreesC)
+        public static decimal ToFarenheit(this decimal degreesC)
         {
-            return degreesC * 1.8 + 32;
+            return degreesC * 1.8M + 32;
         }
 
         /// <summary>
@@ -18,9 +18,9 @@
         /// </summary>
         /// <param name="degreesF"></param>
         /// <returns></returns>
-        public static double ToCelcium(double degreesF)
+        public static decimal ToCelcium(this decimal degreesF)
         {
-            return (degreesF - 32)/1.8;
+            return (degreesF - 32)/1.8M;
         }
     }
 }

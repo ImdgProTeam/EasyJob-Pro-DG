@@ -129,7 +129,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     result = true;
                     break;
                 case "SW29":
-                    if (dg.FlashPointDouble >= 23) dg.StowageCat = 'A';
+                    if (dg.FlashPointAsDecimal >= 23) dg.StowageCat = 'A';
                     result = true;
                     break;
                 case "SW30":

@@ -111,10 +111,10 @@ namespace EasyJob_ProDG.Model.IO
             if (dgSegment.Length <= 4) return true;
             try
             {
-                if (dgSegment[4].Contains(":CEL")) dgUnit.FlashPointDouble = (Convert.ToDouble(dgSegment[4].Substring
-                    (0, dgSegment[4].IndexOf(':'))));
-                else if (dgSegment[4].Contains(":FAH")) dgUnit.FlashPointDouble = AdditionalFunctions.ToCelcium(Convert.ToDouble
-                    (dgSegment[4].Substring(0, dgSegment[4].IndexOf(':'))));
+                if (dgSegment[4].Contains(":CEL")) dgUnit.FlashPointAsDecimal = Convert.ToDecimal(dgSegment[4].Substring
+                    (0, dgSegment[4].IndexOf(':')));
+                else if (dgSegment[4].Contains(":FAH")) dgUnit.FlashPointAsDecimal = Convert.ToDecimal
+                    (dgSegment[4].Substring(0, dgSegment[4].IndexOf(':'))).ToCelcium();
             }
             catch (Exception e)
             {
@@ -136,7 +136,11 @@ namespace EasyJob_ProDG.Model.IO
             }
             //DG subclasses
             if (dgSegment.Length <= 10) return true;
-            dgUnit.DgSubclassArray = dgSegment[10].Split(':');
+            var split = dgSegment[10].Split(':');
+            for (int i = 0; i < split.Length && i < 2; i++)
+            {
+                dgUnit.DgSubClassArray[i] = split[i];
+            }
             return true;
         }
 
@@ -166,7 +170,7 @@ namespace EasyJob_ProDG.Model.IO
 
                     #region Location
                     case "LOC":
-                            ReadLOCsegment(ref a, segment);
+                        ReadLOCsegment(ref a, segment);
                         break;
                     #endregion
 
@@ -303,7 +307,7 @@ namespace EasyJob_ProDG.Model.IO
                             if (segment.StartsWith("FTX+AAC++N"))
                             {
                                 hasReadMp = true;
-                                isMp= false;
+                                isMp = false;
                             }
                         }
                         if (!hasReadMp && !hasReadLq) break;
@@ -329,15 +333,15 @@ namespace EasyJob_ProDG.Model.IO
                         a.IsRf = true;
                         string temp = segment.Substring(6);
 
-                        double tmp;
+                        decimal tmp;
                         temp = temp.Remove(temp.IndexOf(':'));
-                        bool isParsed = double.TryParse(temp, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.CreateSpecificCulture("en-GB"), out tmp);
+                        bool isParsed = decimal.TryParse(temp, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.CreateSpecificCulture("en-GB"), out tmp);
                         if (!isParsed) tmp = -99;
 
                         if (segment.Contains("CEL"))
                             a.SetTemperature = tmp;
                         else if (segment.Contains("FAH"))
-                            a.SetTemperature = AdditionalFunctions.ToCelcium(tmp);
+                            a.SetTemperature = tmp.ToCelcium();
                         break;
                     #endregion
 

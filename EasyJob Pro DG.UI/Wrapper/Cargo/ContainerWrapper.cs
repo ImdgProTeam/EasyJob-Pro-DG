@@ -26,9 +26,9 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         #region IReefer properties
 
-        public double SetTemperature
+        public decimal SetTemperature
         {
-            get { return GetValue<double>(); }
+            get { return GetValue<decimal>(); }
             set { SetValue(value); }
         }
         public string Commodity
@@ -41,9 +41,9 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<string>(); }
             set { SetValue(value); }
         }
-        public double LoadTemperature
+        public decimal LoadTemperature
         {
-            get { return GetValue<double>(); }
+            get { return GetValue<decimal>(); }
             set { SetValue(value); }
         }
         public string ReeferSpecial

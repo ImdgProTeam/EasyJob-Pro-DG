@@ -53,9 +53,9 @@ namespace EasyJob_ProDG.Model.Cargo
                 //case there are no segregator classes
                 if (b.SegregatorClass == null)
                 {
-                    foreach (string cla in a.AllDgClassesList)
+                    foreach (string cla in a.AllDgClasses)
                     {
-                        foreach (string clb in b.AllDgClassesList)
+                        foreach (string clb in b.AllDgClasses)
                         {
                             _seglevel = (byte)GetSegregationLevelFromTable(cla, clb);
                             if (_seglevel == 5) _seglevel5 = _seglevel;
@@ -70,7 +70,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 {
                     if (b.SegregatorException == null)
                     {
-                        foreach (string cla in a.AllDgClassesList)
+                        foreach (string cla in a.AllDgClasses)
                         {
                             _seglevel = (byte)GetSegregationLevelFromTable(cla, b.SegregatorClass);
                             if (_seglevel == 5) _seglevel5 = _seglevel;
@@ -79,7 +79,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     }
                     else //b.segregatorException != null
                     {
-                        foreach (string cla in a.AllDgClassesList)
+                        foreach (string cla in a.AllDgClasses)
                         {
                             if (cla == b.SegregatorException.SegrClass) _seglevel = b.SegregatorException.SegrCase; //except for class ... 
                             else if (b.SegregatorException.SegrClass == "1" && cla.StartsWith("1")) _seglevel = b.SegregatorException.SegrCase; //in relation to goods of class 1
@@ -102,7 +102,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 {
                     if (a.SegregatorException == null)
                     {
-                        foreach (string clb in b.AllDgClassesList)
+                        foreach (string clb in b.AllDgClasses)
                         {
                             _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, clb);
                             if (_seglevel == 5) _seglevel5 = _seglevel;
@@ -111,7 +111,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     }
                     else //a.segregatorException != null
                     {
-                        foreach (string clb in b.AllDgClassesList)
+                        foreach (string clb in b.AllDgClasses)
                         {
                             if (clb == a.SegregatorException.SegrClass) _seglevel = a.SegregatorException.SegrCase; //except for class ... 
                             else if (a.SegregatorException.SegrClass == "1"
@@ -458,7 +458,7 @@ namespace EasyJob_ProDG.Model.Cargo
             if (class1 == "9" || class2 == "9") return 0;
             Dg a = new Dg(class1);
             Dg b = new Dg(class2);
-            return SegregationTable[a.dgRowInTable, b.dgRowInTable];
+            return SegregationTable[a.DgRowInSegregationTable, b.DgRowInSegregationTable];
         }
         #endregion
 
@@ -521,8 +521,8 @@ namespace EasyJob_ProDG.Model.Cargo
             }
 
             //Check for classes 2.1 and 3
-            if (!unit.AllDgClassesList.Contains("2.1") && !unit.AllDgClassesList.Contains("3") ||
-                (unit.AllDgClassesList.Contains("3") && (unit.FlashPointDouble >= 23 && !(Math.Abs(unit.FlashPointDouble - 9999) < 1))))
+            if (!unit.AllDgClasses.Contains("2.1") && !unit.AllDgClasses.Contains("3") ||
+                (unit.AllDgClasses.Contains("3") && (unit.FlashPointAsDecimal >= 23 && !(Math.Abs(unit.FlashPointAsDecimal - 9999) < 1))))
                 return;
 
             //Check for reefers in the same hold
@@ -820,7 +820,6 @@ namespace EasyJob_ProDG.Model.Cargo
                 //open versus closed in the same stack
                 if (a.IsClosed != b.IsClosed && a.Row == b.Row)
                 {
-                    a.AssignStack();
                     //open on top of closed = permitted
                     //closed over open and NOT segregated by deck = conflict
                     if (a.Stack.Contains(b.Bay) && (a.IsClosed && a.Tier > b.Tier || b.IsClosed && b.Tier > a.Tier))

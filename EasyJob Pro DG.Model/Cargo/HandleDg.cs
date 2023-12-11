@@ -1,30 +1,15 @@
 ﻿using EasyJob_ProDG.Data.Info_data;
-using System.Collections.Generic;
 
 namespace EasyJob_ProDG.Model.Cargo
 {
     public static class HandleDg
     {
         /// <summary>
-        /// Method applies the information from all available sources to units in dg list
-        /// </summary>
-        /// <param name="dgList"></param>
-        internal static void UpdateDgInfo(this ICollection<Dg> dgList)
-        {
-            foreach (Dg unit in dgList)
-            {
-                unit.AssignFromDgList();
-                unit.AssignRowFromDOC();
-            }
-            Data.LogWriter.Write($"Dg info updated.");
-        }
-
-        /// <summary>
         /// Method will reset available data and update information from dataBase
         /// on a selected dg, if Unno is recognized
         /// </summary>
         /// <param name="dg"></param>
-        internal static void UpdateDgInfo(this Dg dg)
+        public static void UpdateDgInfo(this Dg dg)
         {
             dg.Clear(dg.Unno);
 

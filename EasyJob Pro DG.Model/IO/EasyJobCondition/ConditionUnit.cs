@@ -154,9 +154,9 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
 
             dg.Unno = DgCargoInContainer[index].Unno;
             dg.DgClass = DgCargoInContainer[index].DgClass;
-            dg.DgSubclass = DgCargoInContainer[index].DgSubclass;
+            dg.DgSubClassArray = DgCargoInContainer[index].DgSubClassArray;
             dg.DgNetWeight = DgCargoInContainer[index].DgNetWeight;
-            dg.PackingGroupByte = DgCargoInContainer[index].PackingGroupByte;
+            dg.PackingGroupAsByte = DgCargoInContainer[index].PackingGroupAsByte;
             dg.FlashPoint = DgCargoInContainer[index].FlashPoint;
             dg.IsMp = DgCargoInContainer[index].IsMp;
             dg.IsLq = DgCargoInContainer[index].IsLq;
