@@ -219,7 +219,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         internal void UpdateCargoHoldNumbers()
         {
-            Model.OnCargoHoldsUpdated();
+            HandleCargoPlanUnits.OnCargoHoldsUpdated(Model);
         }
 
 

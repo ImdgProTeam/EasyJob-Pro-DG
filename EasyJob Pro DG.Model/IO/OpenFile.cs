@@ -91,7 +91,7 @@ namespace EasyJob_ProDG.Model.IO
                 case FileTypes.Other:
                 case FileTypes.Edi:
                 case FileTypes.IFTDGN:
-                    ReadBaplieFile.ReadBaplie(fileName, ownShip, ref isIftdgn);
+                    ReadBaplieFile.ReadBaplie(fileName, ref isIftdgn);
                     cargoPlan = ReadBaplieFile.GetCargoPlan();
                     break;
 

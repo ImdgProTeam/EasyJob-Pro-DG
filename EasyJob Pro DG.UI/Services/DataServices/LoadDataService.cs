@@ -133,7 +133,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         /// <returns>True if WorkingCargoPlan created successfully</returns>
         private bool CreateCargoPlanFromFile(string fileName, OpenFile.OpenOption openOption = OpenFile.OpenOption.Open, bool importOnlySelected = false, string currentPort = null)
         {
-            var tempCargoPlan = new CargoPlan().CreateCargoPlan(fileName, openOption, _cargoPlan, importOnlySelected, currentPort);
+            var tempCargoPlan = HandleCargoPlan.CreateCargoPlan(fileName, openOption, _cargoPlan, importOnlySelected, currentPort);
             if (tempCargoPlan == null || tempCargoPlan.IsEmpty) return false;
 
             _currentProgramData.SetCargoPlan(tempCargoPlan);

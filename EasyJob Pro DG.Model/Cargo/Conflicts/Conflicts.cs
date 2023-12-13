@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using EasyJob_ProDG.Data.Info_data;
 
 namespace EasyJob_ProDG.Model.Cargo
 {
@@ -17,7 +16,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
 
         public readonly List<string> StowageConflictsList;
-        public readonly List<SegregationConflict> SegregationConflictsList; 
+        public readonly List<SegregationConflict> SegregationConflictsList;
         #endregion
 
         #region Constructors
@@ -155,41 +154,6 @@ namespace EasyJob_ProDG.Model.Cargo
         #region Display conflicts
 
         // --------- Methods to display conflicts ------------------
-        public string ShowStowageConflicts()
-        {
-            string result = null;
-            foreach (string s in StowageConflictsList)
-            {
-                if (s.StartsWith("SW19") || s.StartsWith("SW22")) continue;
-                if (s.StartsWith("SW") || s.StartsWith("H"))
-                {
-                    result += s + " " + CodesDictionary.Stowage[s] + ". ";
-                }
-                else
-                {
-                    result += " " + CodesDictionary.ConflictCodes[s];
-                }
-            }
-            return result;
-        }
-        public string ShowSegregationConflicts()
-        {
-            string result = null;
-
-            foreach (SegregationConflict s in SegregationConflictsList)
-            {
-                string codeDiscr = s.Code.StartsWith("SGC")
-                    ? CodesDictionary.ConflictCodes[s.Code]
-                    : CodesDictionary.Segregation[s.Code];
-                result += s.ConflictContainerLocation
-                          + " (class " + s.ConflictContainerClassStr
-                          + (s.ConflictContainerClassStr == "Reefer"
-                              ? ""
-                              : (" unno " + s.ConflictContainerUnno))
-                          + ") " + s.Code + " - " + codeDiscr + "\n";
-            }
-            return result;
-        }
 
         public override string ToString()
         {

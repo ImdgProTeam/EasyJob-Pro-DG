@@ -52,17 +52,6 @@
 
         // ----- Converting to Dg -----
 
-        /// <summary>
-        /// Method converting Container into a blank Dg
-        /// </summary>
-        /// <returns></returns>
-        public Dg ConvertToDg()
-        {
-            Dg dg = new Dg();
-            dg.CopyContainerInfo(this);
-            if (IsRf) dg.DgClass = "Reefer";
-            return dg;
-        }
 
         /// <summary>
         /// Explicit operator converting Container into a blank Dg
@@ -75,25 +64,7 @@
 
         // ----- Copy container info -----
 
-        /// <summary>
-        /// Copies basic IContainer and LocationOnBoard properties from another container
-        /// </summary>
-        /// <param name="container"></param>
-        public void CopyContainerInfo(Container container)
-        {
-            Location = container.Location;
-            DgCountInContainer = container.DgCountInContainer;
-            IsRf = container.IsRf;
 
-            ContainerType = container.ContainerType;
-            ContainerTypeRecognized = container.ContainerTypeRecognized;
-            IsClosed = container.IsClosed;
-
-            Carrier = container.Carrier;
-            FinalDestination = container.FinalDestination;
-            POD = container.POD;
-            POL = container.POL;
-        }
 
         #endregion
 

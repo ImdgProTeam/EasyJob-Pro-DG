@@ -1,6 +1,5 @@
 ﻿using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.Model.Cargo;
-using EasyJob_ProDG.Model.Transport;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,18 +10,15 @@ namespace EasyJob_ProDG.Model.IO
     internal class ReadIftdgnFile
     {
         private static CargoPlan _cargoPlan;
-        private static ShipProfile _ship;
 
         /// <summary>
         /// Converts EdiSegmentArray (of IFTDGN file) into CargoPlan.
         /// </summary>
         /// <param name="segmentArray"></param>
-        /// <param name="ship">Current ShipProfile.</param>
         /// <returns></returns>
-        internal static CargoPlan ReadSegments(EdiSegmentArray segmentArray, ShipProfile ship)
+        internal static CargoPlan ReadSegments(EdiSegmentArray segmentArray)
         {
             _cargoPlan = new CargoPlan();
-            _ship = ship;
 
             DefineSegments(segmentArray);
 
@@ -185,7 +181,7 @@ namespace EasyJob_ProDG.Model.IO
                 if (container == null) return;
 
                 container.Location = location;
-                container.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
+                container.HoldNr = Transport.ShipProfile.DefineCargoHoldNumber(container.Bay);
 
                 foreach (var unit in listToBeUpdated)
                 {
@@ -239,7 +235,7 @@ namespace EasyJob_ProDG.Model.IO
 
             container.DgCountInContainer++;
 
-            dgUnit.CopyContainerInfo(container);
+            dgUnit.CopyContainerAbstractInfo(container);
             _cargoPlan.DgList.Add(dgUnit);
 
             //adding dg to the listToBeUpdated to update POL, POD and Location

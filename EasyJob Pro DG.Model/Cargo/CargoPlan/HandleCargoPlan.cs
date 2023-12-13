@@ -4,52 +4,20 @@ using EasyJob_ProDG.Model.Transport;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static EasyJob_ProDG.Model.IO.Excel.WithXlReefers;
 
 namespace EasyJob_ProDG.Model.Cargo
 {
-    public class CargoPlan : ICargoPlan
+    public static class HandleCargoPlan
     {
-        public List<Dg> DgList { get; set; }
-        public ICollection<Container> Containers { get; set; }
-        public ICollection<Container> Reefers { get; set; }
-        public Voyage VoyageInfo { get; set; }
-
-        public decimal TotalDgNetWeight
-        {
-            get
-            {
-                decimal sum = 0M;
-                foreach (var dg in DgList)
-                {
-                    sum += dg.DgNetWeight;
-                }
-                return sum;
-            }
-        }
-        public decimal TotalMPNetWeight
-        {
-            get
-            {
-                decimal sum = 0M;
-                foreach (var dg in DgList)
-                {
-                    if (dg.IsMp)
-                        sum += dg.DgNetWeight;
-                }
-                return sum;
-            }
-        }
-        public bool IsEmpty => Containers.Count <= 0 && DgList.Count <= 0 && Reefers.Count <= 0;
-
         /// <summary>
-        /// True if <see cref="CargoPlan"/> contains <see cref="Container"/>s without numbers.
+        /// Clears all dg conflicts in DgList
         /// </summary>
-        internal bool HasNonamers => Containers.Any(c => c.HasNoNumber);
-        internal int NextNonamerNumber;
+        public static void ClearConflicts(this CargoPlan cargoPlan)
+        {
+            foreach (var dg in cargoPlan.DgList)
+                dg.ClearAllConflicts();
+        }
 
-
-        // -------------- Main methods ----------------------------------------------
 
         /// <summary>
         /// Creates CargoPlan from a readable file and updates it with IMDG info from database
@@ -61,10 +29,9 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="existingCargoPlan">Present cargo plan, i.e. which will be updated.</param>
         /// <param name="importOnlySelected">In case of import: Sets if required to import only selected items.</param>
         /// <param name="currentPort">In case of import: POL for selecting Import.</param>
-        public CargoPlan CreateCargoPlan(string fileName, OpenFile.OpenOption openOption = OpenFile.OpenOption.Open,
+        public static CargoPlan CreateCargoPlan(string fileName, OpenFile.OpenOption openOption = OpenFile.OpenOption.Open,
                                         CargoPlan existingCargoPlan = null, bool importOnlySelected = false, string currentPort = null)
         {
-            //TODO: Shift CargoPlan handling methods to a separate class. 
             ShipProfile ownShip = ShipProfile.Instance;
 
             //creating cargo plan from file
@@ -93,32 +60,34 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         /// <param name="fileName">Excel file with manifest info - path.</param>
         /// <returns>True if imported and updated successfully.</returns>
-        public bool ImportReeferManifestInfoFromExcel(string fileName, bool importOnlySelected = false, string currentPort = null)
+        public static bool ImportReeferManifestInfoFromExcel(this CargoPlan cargoPlan, string fileName, bool importOnlySelected = false, string currentPort = null)
         {
             List<Container> tempList = new List<Container>();
 
-            ClearAllReefersHasUpdated();
+            cargoPlan.ClearAllReefersHasUpdated();
 
             if (!tempList.ImportReeferInfoFromExcel(fileName)) return false;
 
-            Reefers.UpdateReeferManifestInfo(tempList, importOnlySelected, currentPort);
+            cargoPlan.Reefers.UpdateReeferManifestInfo(tempList, importOnlySelected, currentPort);
 
             return true;
         }
 
 
+        // ----- Private methods -----
+
         /// <summary>
         /// Updates existing (this) CargoPlan Dg data from given CargoPlan
         /// </summary>
-        /// <param name="cargoPlan">CargoPlan from which data to be taken for update.</param>
+        /// <param name="cargoPlanToImportFrom">CargoPlan from which data to be taken for update.</param>
         /// <param name="importOnlySelected">Sets if required to import only selected items.</param>
         /// <param name="currentPol">If not null - only current POL units will be updated.</param>
         /// <returns>Returns new CargoPlan based on existing plan with updated info from given one.</returns>
-        private void ImportDgData(CargoPlan cargoPlan, bool importOnlySelected = false, string currentPol = null)
+        private static void ImportDgData(this CargoPlan existingCargoPlan, CargoPlan cargoPlanToImportFrom, bool importOnlySelected = false, string currentPol = null)
         {
             //TODO: To be tested properly, especially with not iftdgn files.
 
-            ClearAllHasUpdated();
+            existingCargoPlan.ClearAllHasUpdated();
 
             string tempContainerNumber = "";
             bool containerNumberChanged;
@@ -134,11 +103,11 @@ namespace EasyJob_ProDG.Model.Cargo
             //creating list of selected items for import
             if (importOnlySelected)
             {
-                containerNumbersToImportOnly = (Containers.Where(c => c.IsToImport)).Select(c => c.ContainerNumber).ToList();
+                containerNumbersToImportOnly = (existingCargoPlan.Containers.Where(c => c.IsToImport)).Select(c => c.ContainerNumber).ToList();
             }
 
-            //commence import from cargoPlan
-            foreach (var dgToImport in cargoPlan.DgList)
+            //commence import from cargoPlanToImportFrom
+            foreach (var dgToImport in cargoPlanToImportFrom.DgList)
             {
                 //if only import for current POL
                 if (!string.IsNullOrEmpty(currentPol))
@@ -160,12 +129,12 @@ namespace EasyJob_ProDG.Model.Cargo
                 //creating list of all dg in the same new container
                 if (containerNumberChanged)
                 {
-                    existingDgInContainer = DgList.Where(d => d.ContainerNumber == tempContainerNumber).ToList();
+                    existingDgInContainer = existingCargoPlan.DgList.Where(d => d.ContainerNumber == tempContainerNumber).ToList();
                     allUpdatingDgTempList.AddRange(existingDgInContainer);
                     notToImport = false;
 
                     //find container in plan
-                    container = Containers.FirstOrDefault(c => c.ContainerNumber == tempContainerNumber);
+                    container = existingCargoPlan.Containers.FirstOrDefault(c => c.ContainerNumber == tempContainerNumber);
                     if (container == null) continue;
                     if (container.IsNotToImport)
                     {
@@ -201,7 +170,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 if (notToImport || container == null) continue;
 
                 //copy container info to importing dg
-                dgToImport.CopyContainerInfo(container);
+                dgToImport.CopyContainerAbstractInfo(container);
 
                 //from same container selecting dg with the same unno as dgToImport and not updated yet.
                 List<Dg> sameUnnoTempDgList = existingDgInContainer.Where(d => d.Unno == dgToImport.Unno && !d.HasUpdated).ToList();
@@ -212,18 +181,18 @@ namespace EasyJob_ProDG.Model.Cargo
                 {
                     case 0:
                         //create new dg
-                        dgToImport.CopyContainerInfo(container);
+                        dgToImport.CopyContainerAbstractInfo(container);
                         dgToImport.IsNewUnitInPlan = true;
-                        DgList.Add(dgToImport);
+                        existingCargoPlan.DgList.Add(dgToImport);
                         container.DgCountInContainer++;
                         break;
 
                     case 1:
                         //import data to the only dg
                         allUpdatingDgTempList.Remove(sameUnnoTempDgList[0]); //clearing for further comparing of unupdated items
-                        dgToImport.CopyNonImportableInfo(sameUnnoTempDgList[0]);
-                        indexInDgList = DgList.FindIndex(x => x == sameUnnoTempDgList[0]);
-                        DgList[indexInDgList] = dgToImport;
+                        dgToImport.CopyNonImportableDgInfo(sameUnnoTempDgList[0]);
+                        indexInDgList = existingCargoPlan.DgList.FindIndex(x => x == sameUnnoTempDgList[0]);
+                        existingCargoPlan.DgList[indexInDgList] = dgToImport;
                         sameUnnoTempDgList[0].HasUpdated = true;
                         break;
 
@@ -256,9 +225,9 @@ namespace EasyJob_ProDG.Model.Cargo
 
                         //import data to selected dg
                         allUpdatingDgTempList.Remove(sameUnnoTempDgList[positionWithMaxMatch]); //clearing for further comparing of unupdated items
-                        dgToImport.CopyNonImportableInfo(sameUnnoTempDgList[positionWithMaxMatch]);
-                        indexInDgList = DgList.FindIndex(x => x == sameUnnoTempDgList[positionWithMaxMatch]);
-                        DgList[indexInDgList] = dgToImport;
+                        dgToImport.CopyNonImportableDgInfo(sameUnnoTempDgList[positionWithMaxMatch]);
+                        indexInDgList = existingCargoPlan.DgList.FindIndex(x => x == sameUnnoTempDgList[positionWithMaxMatch]);
+                        existingCargoPlan.DgList[indexInDgList] = dgToImport;
                         sameUnnoTempDgList[positionWithMaxMatch].HasUpdated = true;
                         break;
                 }
@@ -267,9 +236,9 @@ namespace EasyJob_ProDG.Model.Cargo
             //remove unupdated dg items
             foreach (var dg in allUpdatingDgTempList)
             {
-                container = Containers.SingleOrDefault(c => c.ContainerNumber == dg.ContainerNumber);
+                container = existingCargoPlan.Containers.SingleOrDefault(c => c.ContainerNumber == dg.ContainerNumber);
                 if (container != null && container.IsNotToImport) continue;
-                DgList.Remove(dg);
+                existingCargoPlan.DgList.Remove(dg);
                 if (container != null) container.DgCountInContainer--;
             }
             Data.LogWriter.Write($"Dg data successfully imported to existing CargoPlan.");
@@ -283,16 +252,16 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         /// <param name="newPlan">CargoPlan with which the existing one will be compared to</param>
         /// <returns>New resulting CargoPlan</returns>
-        private CargoPlan UpdateCargoPlan(CargoPlan newPlan)
+        private static CargoPlan UpdateCargoPlan(this CargoPlan cargoPlan, CargoPlan newPlan)
         {
             //TODO: To be tested properly!
 
-            ClearAllHasUpdated();
+            cargoPlan.ClearAllHasUpdated();
 
             var resultingNewCargoPlan = new CargoPlan();
-            var existingCargoPlan = CopyCargoPlan();
+            var existingCargoPlan = cargoPlan.CopyCargoPlan();
 
-            List<string> originalContainerNumberList = Containers.Select(c => c.ContainerNumber).ToList();
+            List<string> originalContainerNumberList = cargoPlan.Containers.Select(c => c.ContainerNumber).ToList();
 
             //Creating list and dealing with containers selected to be kept in plan
             List<Container> containersToBeKeptInPlan = existingCargoPlan.Containers.Where(c => c.IsToBeKeptInPlan && !c.HasNoNumber).ToList();
@@ -413,130 +382,20 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
 
-        /// <summary>
-        /// Clears all dg conflicts in DgList
-        /// </summary>
-        public void ClearConflicts()
-        {
-            foreach (var dg in DgList)
-                dg.ClearAllConflicts();
-        }
-
-        #region Add/Remove methods
-        //----------- Add/Remove methods -------------------------------------------------------------------
-
-        /// <summary>
-        /// Adds new Dg to CargoPlan
-        /// </summary>
-        /// <param name="dg">New dg to be added to plan</param>
-        public void AddDg(Dg dg)
-        {
-            if (dg == null || string.IsNullOrEmpty(dg.ContainerNumber)) return;
-
-            var container = Containers.FindContainerByContainerNumber(dg);
-            if (container is null)
-            {
-                container = (Container)dg;
-                Containers.Add(container);
-                if (dg.IsRf) Reefers.Add(container);
-            }
-            else
-            {
-                dg.CopyContainerInfo(container);
-            }
-            dg.UpdateDgInfo();
-            DgList.Add(dg);
-            container.DgCountInContainer++;
-        }
-
-        /// <summary>
-        /// Adds new container to CargoPlan
-        /// </summary>
-        /// <param name="container">Container to add to the plan. Container number shall be unique.</param>
-        /// <returns>True if container succesfully added to CargoPlan</returns>
-        public bool AddContainer(Container container)
-        {
-            #region Safety checks
-            if (container is null) return false;
-            if (string.IsNullOrEmpty(container.ContainerNumber))
-            {
-                Data.LogWriter.Write($"Attempt to add a container with no container number");
-                return false;
-            }
-            if (Containers.ContainsUnitWithSameContainerNumberInList(container))
-            {
-                Data.LogWriter.Write($"Attempt to add a container with container number which is already in list");
-                return false;
-            }
-            #endregion
-
-            Containers.Add(container);
-            if (container.IsRf) Reefers.Add(container);
-            return true;
-        }
-
-        /// <summary>
-        /// Adds new reefer to CargoPlan
-        /// </summary>
-        /// <param name="container">Reefer container to be added. Container number shall be unique.</param>
-        public bool AddReefer(Container reefer)
-        {
-            #region Safety checks
-            if (reefer is null) return false;
-            if (string.IsNullOrEmpty(reefer.ContainerNumber))
-            {
-                Data.LogWriter.Write($"Attempt to add a reefer with no container number");
-                return false;
-            }
-            #endregion
-
-            if (Containers.ContainsUnitWithSameContainerNumberInList(reefer))
-            {
-                Data.LogWriter.Write($"Attempt to add a reefer with container number which is already in list");
-                var container = Containers.FindContainerByContainerNumber(reefer) ?? throw new Exception($"Container with ContainerNumber {reefer.ContainerNumber} cannot be found in CargoPlan despite it was expected.");
-                container.IsRf = true;
-                reefer.CopyContainerInfo(container);
-            }
-            else
-            {
-                reefer.IsRf = true;
-                Containers.Add(reefer);
-            }
-            Reefers.Add(reefer);
-            return true;
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Updates all <see cref="HoldNr"/> properties for all items in <see cref="CargoPlan"/>
-        /// </summary>
-        public void OnCargoHoldsUpdated()
-        {
-            foreach(var unit in DgList)
-            {
-                unit.HoldNr = ShipProfile.DefineCargoHoldNumber(unit.Bay);
-            }
-            foreach(var container in Containers)
-            {
-                container.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
-            }
-        }
-
 
         // -------------- Supporting methods ----------------------------------------
 
         /// <summary>
         /// Sets HasUpdated property of all items in CargoPlan to false;
         /// </summary>
-        private void ClearAllHasUpdated()
+        private static void ClearAllHasUpdated(this CargoPlan cargoPlan)
         {
-            foreach (var container in Containers)
+            foreach (var container in cargoPlan.Containers)
             {
                 container.HasUpdated = false;
             }
 
-            foreach (var dg in DgList)
+            foreach (var dg in cargoPlan.DgList)
             {
                 dg.HasUpdated = false;
             }
@@ -545,9 +404,9 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <summary>
         /// Sets HasUpdated property of all containers in <see cref="Reefers"/> to false.
         /// </summary>
-        private void ClearAllReefersHasUpdated()
+        private static void ClearAllReefersHasUpdated(this CargoPlan cargoPlan)
         {
-            foreach (var reefer in Reefers)
+            foreach (var reefer in cargoPlan.Reefers)
             {
                 reefer.HasUpdated = false;
             }
@@ -557,7 +416,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Resets all IUpdatable properties of the unit to false or null.
         /// </summary>
         /// <param name="unit">CargoPlan unit to be reset.</param>
-        private void ClearUnitUpdates(IUpdatable unit)
+        private static void ClearUnitUpdates(IUpdatable unit)
         {
             unit.HasUpdated = false;
             unit.HasLocationChanged = false;
@@ -596,8 +455,8 @@ namespace EasyJob_ProDG.Model.Cargo
                 sourceCargoPlan.DgList.Where(dg => dg.ContainerNumber == container.ContainerNumber).ToList();
             foreach (var dg in newContainerDgList)
             {
-                CopyIUpdatableToDg(container, dg);
-                CopyUpdatedContainerInfo(container, dg);
+                dg.CopyIUpdatableToDg(container);
+                dg.CopyUpdatedTypeAndPODInfo(container);
                 resultingCargoPlan.DgList.Add(dg);
                 sourceCargoPlan.DgList.Remove(dg);
                 additionalCargoPlanToBeCleared?.DgList.Remove(dg);
@@ -616,74 +475,31 @@ namespace EasyJob_ProDG.Model.Cargo
             }
         }
 
-        private static void CopyUpdatedContainerInfo(Container fromContainer, Dg toDg)
-        {
-            if (fromContainer.HasContainerTypeChanged)
-                toDg.ContainerType = fromContainer.ContainerType;
-            if (fromContainer.HasPodChanged)
-                toDg.POD = fromContainer.POD;
-        }
-
-        /// <summary>
-        /// Copies IUpdatable properties to selected dg
-        /// </summary>
-        /// <param name="fromContainer">From a Container</param>
-        /// <param name="toDg">To Dg</param>
-        private static void CopyIUpdatableToDg(Container fromContainer, Dg toDg)
-        {
-            toDg.IsNewUnitInPlan = fromContainer.IsNewUnitInPlan;
-            toDg.HasLocationChanged = fromContainer.HasLocationChanged;
-            if (toDg.HasLocationChanged)
-            {
-                toDg.Location = fromContainer.Location;
-            }
-            toDg.LocationBeforeRestow = fromContainer.LocationBeforeRestow;
-            toDg.HasPodChanged = fromContainer.HasPodChanged;
-            toDg.HasContainerTypeChanged = fromContainer.HasContainerTypeChanged;
-        }
-
         /// <summary>
         /// Creates a new cargo plan and fills its lists with units from source cargo plan
         /// </summary>
         /// <returns>New CargoPlan with copied lists</returns>
-        private CargoPlan CopyCargoPlan()
+        private static CargoPlan CopyCargoPlan(this CargoPlan cargoPlan)
         {
             var returnPlan = new CargoPlan();
-            foreach (var dg in DgList)
+            foreach (var dg in cargoPlan.DgList)
             {
                 returnPlan.DgList.Add(dg);
             }
 
-            foreach (var container in Containers)
+            foreach (var container in cargoPlan.Containers)
             {
                 returnPlan.Containers.Add(container);
             }
 
-            foreach (var reefer in Reefers)
+            foreach (var reefer in cargoPlan.Reefers)
             {
                 returnPlan.Reefers.Add(reefer);
             }
 
-            returnPlan.VoyageInfo = VoyageInfo;
-            //returnPlan.HasNonamers = HasNonamers;
+            returnPlan.VoyageInfo = cargoPlan.VoyageInfo;
 
             return returnPlan;
-        }
-
-
-
-
-        // -------------- Constructors ----------------------------------------------
-
-        /// <summary>
-        /// Creates CargoPlan with initiated blank Lists.
-        /// </summary>
-        public CargoPlan()
-        {
-            DgList = new List<Dg>();
-            Reefers = new List<Container>();
-            Containers = new List<Container>();
-            VoyageInfo = new Voyage();
         }
     }
 }

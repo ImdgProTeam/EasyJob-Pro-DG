@@ -155,7 +155,28 @@ namespace EasyJob_ProDG.Data.Info_data
             return segregationGroupsListBytes;
         }
 
-        internal static class SegregationGroupUnnos
+        /// <summary>
+        /// Method ensures compatibility with older conditions saved
+        /// </summary>
+        /// <param name="groupNr"></param>
+        /// <returns></returns>
+        public static byte HandleObsoleteGroups(object value)
+        {
+            byte result;
+            if (value is byte || value is int)
+            {
+                //Strong acids removed in 41-22
+                result = (byte)((int)value == 19 ? 1 : 0);
+            }
+            else
+            {
+                //Strong acids removed in 41-22
+                result = (byte)(string.Equals(value.ToString(), "SGG1a") ? 1 : 0);
+            }
+            return result;
+        }
+
+        private static class SegregationGroupUnnos
         {
             internal static int[] acids = //1
             {

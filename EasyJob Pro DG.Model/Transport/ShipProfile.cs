@@ -203,7 +203,7 @@ namespace EasyJob_ProDG.Model.Transport
         public static byte DefineCargoHoldNumber(byte bay)
         {
             byte chNr = 0;
-            for (int i = 0; i < _profile.CargoHolds.Count; i++)
+            for (int i = 0; i < _profile?.CargoHolds?.Count; i++)
             {
                 if (bay <= _profile.CargoHolds[i].LastBay && bay >= _profile.CargoHolds[i].FirstBay)
                 {

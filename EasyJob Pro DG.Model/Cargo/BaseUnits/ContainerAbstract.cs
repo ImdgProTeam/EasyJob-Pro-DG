@@ -1,5 +1,4 @@
 ﻿using EasyJob_ProDG.Data;
-using EasyJob_ProDG.Data.Info_data;
 
 namespace EasyJob_ProDG.Model.Cargo
 {
@@ -21,7 +20,7 @@ namespace EasyJob_ProDG.Model.Cargo
             {
                 if (string.IsNullOrEmpty(value) || string.Equals(_containerType, value)) return;
                 _containerType = value;
-                UpdateContainerType();
+                this.UpdateContainerType();
             }
         }
 
@@ -33,37 +32,6 @@ namespace EasyJob_ProDG.Model.Cargo
         public string POL { get; set; }
         public string FinalDestination { get; set; }
         public string Carrier { get; set; }
-
-        #endregion
-
-        #region Update ContainerType
-
-        /// <summary>
-        /// Updates information derived from container types dictionary
-        /// </summary>
-        private void UpdateContainerType()
-        {
-            UpdateContainerType(this);
-        }
-
-        /// <summary>
-        /// Updates information derived from container types dictionary on a IContainer item
-        /// </summary>
-        /// <param name="a"></param>
-        private static void UpdateContainerType(IContainer a)
-        {
-            //reset to default
-            //by default IsClosed = true, TypeRecognized = false;
-            a.ContainerTypeRecognized = false;
-            a.IsClosed = true;
-
-            var type = CodesDictionary.ContainerType.GetContainerType(a.ContainerType);
-            if (type != null)
-            {
-                a.IsClosed = type.IsClosed;
-                a.ContainerTypeRecognized = true;
-            }
-        }
 
         #endregion
 

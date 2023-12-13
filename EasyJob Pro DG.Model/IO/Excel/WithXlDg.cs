@@ -173,7 +173,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         cont = lastContainer;
 
                     // Updating dg unit info and add it to the list
-                    unit.CopyContainerInfo(cont);
+                    unit.CopyContainerAbstractInfo(cont);
                     dgList.Add(unit);
 
                     //Update containers

@@ -18,7 +18,6 @@ namespace EasyJob_ProDG.Model.IO
         #region fields
         private static string _segmentDef;
         private static EdiSegmentArray _segmentArray;
-        private static ShipProfile _ship;
 
         private static CargoPlan cargoPlan;
         private static List<string> WrongList;
@@ -42,10 +41,8 @@ namespace EasyJob_ProDG.Model.IO
         /// <param name="file"></param>
         /// <param name="ship"></param>
         /// <param name="isIftdgn">If the file is IFTDGN file. If it is declared as false when it actually is, it will be read as IFTDGN.</param>
-        public static void ReadBaplie(string file, ShipProfile ship, ref bool isIftdgn)
+        public static void ReadBaplie(string file, ref bool isIftdgn)
         {
-            _ship = ship;
-
             CreateSegmentArrayFromBaplieFile(file);
 
             //Create container list
@@ -58,7 +55,7 @@ namespace EasyJob_ProDG.Model.IO
                     isIftdgn = true;
 
             if (isIftdgn)
-                cargoPlan = ReadIftdgnFile.ReadSegments(_segmentArray, _ship);
+                cargoPlan = ReadIftdgnFile.ReadSegments(_segmentArray);
         }
 
         /// <summary>
@@ -245,7 +242,7 @@ namespace EasyJob_ProDG.Model.IO
                         Dg dgUnit = new Dg();
 
                         //copy general container info into Dg
-                        dgUnit.CopyContainerInfo(a);
+                        dgUnit.CopyContainerAbstractInfo(a);
                         //Gather all dg information from ediSegment and copy it to dgList
                         if (ReadDgSegment(segment, dgUnit))
                             cargoPlan.DgList.Add(dgUnit);

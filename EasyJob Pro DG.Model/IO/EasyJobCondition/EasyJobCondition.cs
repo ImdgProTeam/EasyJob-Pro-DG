@@ -1469,7 +1469,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         /// <param name="cargoPlan">Dg will be added to DgList</param>
         private static void AddDgToCargoPlan(Dg dg, Container container, CargoPlan cargoPlan)
         {
-            dg.CopyContainerInfo(container);
+            dg.CopyContainerAbstractInfo(container);
             cargoPlan.DgList.Add(dg);
             container.DgCountInContainer++;
         }

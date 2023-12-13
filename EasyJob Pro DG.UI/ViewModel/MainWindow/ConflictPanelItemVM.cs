@@ -138,6 +138,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             return this.ContainerNumber == conflict.ContainerNumber
                 && this.Location == conflict.Location
                 && this.Unno == conflict.Unno
+                && this._dgUnit.AllDgClasses.All(c => conflict._dgUnit.AllDgClasses.Any(x => string.Equals(x, c)))
                 && Code == conflict.Code
                 && DgID == conflict.DgID;
         }

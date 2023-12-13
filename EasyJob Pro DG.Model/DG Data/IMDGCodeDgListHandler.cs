@@ -7,8 +7,9 @@ namespace EasyJob_ProDG.Model.Cargo
 {
     public static class IMDGCodeDgListHandler
     {
-        static XDocument xmlDoc => ProgramFiles.DgDataBase;
+        private static XDocument xmlDoc => ProgramFiles.DgDataBase;
         private static List<string> _messagesToUser;
+
 
         /// <summary>
         /// Method to update Dg unit with info from dglist.xml
@@ -58,6 +59,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 Data.LogWriter.Write(message);
             }
         }
+
 
         /// <summary>
         /// Selects all records (one for each packing group) from IMDG code DgList with matching UN no.
@@ -261,7 +263,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <summary>
         /// Updates retrieved information from IMDG code, if missing (null).
         /// </summary>
-        /// <param name="dgFromImdgCode">Dg record from IMDG code from which info will be copied.</param>
+        /// <param name="dgFromImdgCode"><see cref="DgFromIMDGCode"/> record from IMDG code from which info will be copied.</param>
         private static void UpdateOtherInformation(this Dg dg, DgFromIMDGCode dgFromImdgCode)
         {
             dg.PackingGroupAsByte = dg.PackingGroupAsByte != 0 ? dg.PackingGroupAsByte : dgFromImdgCode.PackingGroupAsByte;
@@ -272,6 +274,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
             if (string.IsNullOrEmpty(dg.Name)) dg.Name = dgFromImdgCode.Name;
         }
+
 
         /// <summary>
         /// Class extends <see cref="Dg"/> only for the purpose of enable set private and readonly fields and properties from outside.

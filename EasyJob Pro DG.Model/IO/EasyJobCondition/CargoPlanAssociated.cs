@@ -38,7 +38,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         {
             foreach (var container in cargoPlan.Containers)
             {
-                var conditionUnit = new ConditionUnit().ToConditionUnit(container);
+                var conditionUnit = container.ConvertToConditionUnit();
 
                 //if (conditionUnit.DgCountInContainer > 0) conditionUnit.DgCargo.Clear();
                 conditionUnit.DgCargoInContainer ??= new List<Dg>();
@@ -106,7 +106,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                     //if newList is empty
                     if (newConditionUnitsList.Count == 0)
                     {
-                        ConditionUnit conditionUnit = new ConditionUnit().ToConditionUnit(dg);
+                        ConditionUnit conditionUnit = dg.ConvertToConditionUnit();
                         conditionUnit.DgCountInContainer++;
 
                         this.Add(conditionUnit);
@@ -136,7 +136,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                     //if not found
                     if (!containerFound)
                     {
-                        ConditionUnit conditionUnit = new ConditionUnit().ToConditionUnit(dg);
+                        ConditionUnit conditionUnit = dg.ConvertToConditionUnit();
                         conditionUnit.DgCountInContainer++;
 
                         this.Add(conditionUnit);
