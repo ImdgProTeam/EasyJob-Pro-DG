@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO.Excel;
-using EasyJob_ProDG.Model.Transport;
 
 namespace EasyJob_ProDG.Model.IO
 {
@@ -73,7 +72,7 @@ namespace EasyJob_ProDG.Model.IO
         /// <param name="fileName">Full path and file name.</param>
         /// <param name="ownShip">Current ShipProfile.</param>
         /// <returns></returns>
-        public static CargoPlan ReadCargoPlanFromFile(string fileName, ShipProfile ownShip)
+        public static CargoPlan ReadCargoPlanFromFile(string fileName)
         {
             if (string.IsNullOrEmpty(fileName) || !File.Exists(fileName))
             {
@@ -107,7 +106,7 @@ namespace EasyJob_ProDG.Model.IO
 
                 //open ejc
                 case FileTypes.Ejc:
-                    CargoPlan cPlan = EasyJobCondition.EasyJobCondition.LoadCondition(fileName, ownShip);
+                    CargoPlan cPlan = EasyJobCondition.EasyJobCondition.LoadCondition(fileName);
                     cargoPlan.Containers = cPlan.Containers;
                     cargoPlan.DgList = cPlan.DgList;
                     cargoPlan.Reefers = cPlan.Reefers;

@@ -25,7 +25,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         /// <param name="dgList"></param>
         /// <param name="fileType"></param>
-        public static void CheckDgList(ICollection<Dg> dgList, byte fileType)
+        public static void CheckDgList(this ICollection<Dg> dgList, byte fileType)
         {
             //TODO: To implement checking of wrong Dg classes
 

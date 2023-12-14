@@ -3,7 +3,6 @@ using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO;
 using EasyJob_ProDG.Model.IO.EasyJobCondition;
 using EasyJob_ProDG.UI.Data;
-using EasyJob_ProDG.UI.Utility;
 
 namespace EasyJob_ProDG.UI.Services.DataServices
 {

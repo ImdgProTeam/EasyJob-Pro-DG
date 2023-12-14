@@ -3,10 +3,10 @@
     internal static class ContainerConverters
     {
         /// <summary>
-        /// Converts Dg back to plain Container
+        /// Converts <see cref="Dg"/> to <see cref="Container"/>
         /// </summary>
         /// <returns>Type of Container</returns>
-        public static ContainerAbstract ConvertToContainer(this Dg dg)
+        public static Container ConvertToContainer(this Dg dg)
         {
             return new Container()
             {
@@ -25,7 +25,7 @@
 
 
         /// <summary>
-        /// Method converting Container into a blank Dg
+        /// Method converting <see cref="Container"/> into a blank <see cref="Dg"/>
         /// </summary>
         /// <returns></returns>
         public static Dg ConvertToDg(this Container container)

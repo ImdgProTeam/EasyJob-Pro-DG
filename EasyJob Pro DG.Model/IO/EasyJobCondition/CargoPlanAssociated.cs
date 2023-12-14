@@ -9,12 +9,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
     /// </summary>
     internal class CargoPlanAssociated : List<ConditionUnit>
     {
-        public Voyage VoyageInfo { get; set; }
-
-        protected internal CargoPlanAssociated()
-        {
-
-        }
+        internal Voyage VoyageInfo { get; set; }
 
         /// <summary>
         /// Creates checked CargoPlanAssociated from CargoPlan.
