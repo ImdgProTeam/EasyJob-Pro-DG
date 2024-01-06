@@ -24,7 +24,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         /// <returns><see cref="WorkingCargoPlan"/></returns>
         public CargoPlanWrapper GetCargoPlan()
         {
-            WorkingCargoPlan?.Destructor();
+            WorkingCargoPlan?.Dispose();
             WorkingCargoPlan = new CargoPlanWrapper(_currentProgramData.CargoPlan);
             return WorkingCargoPlan;
         }

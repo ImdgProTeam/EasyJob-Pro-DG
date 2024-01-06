@@ -84,7 +84,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <summary>
         /// Summary list of DgClass and all DgSubclasses.
         /// </summary>
-        internal List<string> AllDgClasses => allDgClasses;
+        public List<string> AllDgClasses => allDgClasses;
 
         /// <summary>
         /// Set: reads array of string and records them to dgsubclass as well as to allDgclasses.
@@ -573,7 +573,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
         public static explicit operator Container(Dg dg)
         {
-            return (Container)dg?.ConvertToContainer();
+            return dg?.ConvertToContainer();
         }
         #endregion
     }

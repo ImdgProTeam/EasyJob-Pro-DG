@@ -2,7 +2,7 @@
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
-    public class OuterRowWrapper : ModelWrapper<OuterRow>
+    public class OuterRowWrapper : ModelChangeTrackingWrapper<OuterRow>
     {
         #region Public properties
 

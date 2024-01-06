@@ -4,6 +4,7 @@ using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Messages;
 using System.Reflection;
 using EasyJob_ProDG.Model.Cargo;
+using EasyJob_ProDG.UI.Wrapper.Cargo;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
@@ -92,7 +93,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         private void UpdateConflictList()
         {
-            DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage());
+            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage());
         }
 
         /// <summary>

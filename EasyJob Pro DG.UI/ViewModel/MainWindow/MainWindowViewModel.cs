@@ -11,8 +11,6 @@ using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Markup;
-using Application = System.Windows.Application;
-using Window = System.Windows.Window;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
@@ -103,7 +101,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             cargoPlanCheckService = new CargoPlanCheckService();
             conflictDataService = ConflictDataService.GetConflictDataService();
             uiSettingsService = new SettingsService();
-            mappedDialogWindowService = new MappedDialogWindowService(Application.Current.MainWindow);
+            mappedDialogWindowService = new MappedDialogWindowService(System.Windows.Application.Current.MainWindow);
             windowDialogService = new WindowDialogService();
             _messageDialogService = MessageDialogService.Connect();
             _titleService = new TitleService();
@@ -124,6 +122,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             loadDataService.LoadCargoData(openPath);
 
             GetCargoData();
+
+            CargoPlanWrapperHandler.GetHandler().Launch();
         }
 
         /// <summary>
@@ -131,9 +131,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         private void GetCargoData()
         {
-            //Clear deleted conflicts list on opening of new condition
-            ViewModelLocator.ConflictListViewModel?.ClearDeletedConflictsList();
-
             //Get data from cargoDataService
             WorkingCargoPlan = cargoDataService.GetCargoPlan();
 
@@ -153,10 +150,12 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private void SubscribeToMessenger()
         {
+            DataMessenger.Default.Register<UpdateCargoPlan>(this, OnNeedToUpdateCargoPlanMessageReceived, "Need to update cargo plan");
             DataMessenger.Default.Register<ShipProfileSavedMessage>(this, OnShipProfileSaved, "ship profile saved");
             DataMessenger.Default.Register<ConflictPanelItemViewModel>(this, OnConflictSelectionChanged,
                 "conflict selection changed");
         }
+
 
         /// <summary>
         /// Updates MainWindow title
@@ -314,6 +313,15 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         /// <summary>
+        /// Raised when it is required to call <see cref="GetCargoData"/> method via received message.
+        /// </summary>
+        /// <param name="plan"></param>
+        private void OnNeedToUpdateCargoPlanMessageReceived(UpdateCargoPlan message)
+        {
+            GetCargoData();
+        }
+
+        /// <summary>
         /// Method changes SelectedItem to match with ConflictPanelItem object
         /// </summary>
         /// <param name="obj">Selected conflict</param>
@@ -371,7 +379,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         private void SetupDialogService()
         {
-            SetDialogServiceOwner(Application.Current.MainWindow);
+            SetDialogServiceOwner(System.Windows.Application.Current.MainWindow);
             RegisterDialogServiceRelations();
         }
 
@@ -390,7 +398,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// Creates new dialog service.
         /// </summary>
         /// <param name="owner"></param>
-        private void SetDialogServiceOwner(Window owner)
+        private void SetDialogServiceOwner(System.Windows.Window owner)
         {
             mappedDialogWindowService = new MappedDialogWindowService(owner);
         }

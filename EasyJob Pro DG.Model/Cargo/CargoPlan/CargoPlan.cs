@@ -7,8 +7,8 @@ namespace EasyJob_ProDG.Model.Cargo
     public class CargoPlan : ICargoPlan
     {
         public List<Dg> DgList { get; set; }
-        public ICollection<Container> Containers { get; set; }
-        public ICollection<Container> Reefers { get; set; }
+        public List<Container> Containers { get; set; }
+        public List<Container> Reefers { get; set; }
         public Voyage VoyageInfo { get; set; }
 
         /// <summary>

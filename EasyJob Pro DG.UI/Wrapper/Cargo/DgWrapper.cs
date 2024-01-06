@@ -1,6 +1,7 @@
 ﻿using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.UI.Wrapper.Cargo;
+using System;
 using System.Collections.Generic;
 
 namespace EasyJob_ProDG.UI.Wrapper
@@ -73,7 +74,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <returns>Dg instance</returns>
         public Dg ConvertBackToDg()
         {
-            return (Dg)Model;
+            return Model;
         }
         #endregion
 
@@ -94,13 +95,6 @@ namespace EasyJob_ProDG.UI.Wrapper
         #endregion
 
 
-        #region Events
-        // --------------- Events ---------------------------------------------------
-
-        //public delegate void UnitStowageConflictsToBeUpdatedEventHandler(object sender);
-        //public static event UnitStowageConflictsToBeUpdatedEventHandler OnUnitStowageConflictsToBeUpdatedEventHandler = null;
-        #endregion
-
 
         #region Override methods
         // -------------- Overriding methods and operators --------------------------
@@ -108,6 +102,20 @@ namespace EasyJob_ProDG.UI.Wrapper
         public override string ToString()
         {
             return ContainerNumber + " in " + Location + " class " + DgClass + " (unno " + Unno + ")";
+        }
+
+        public bool Equals(DgWrapper dgWrapper)
+        {
+            return Model.ID == dgWrapper.Model.ID;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is DgWrapper dgWrapper)
+            {
+                return this.Equals(dgWrapper);
+            }
+            return base.Equals(obj);
         }
 
         public static explicit operator Dg(DgWrapper dgWrapper)

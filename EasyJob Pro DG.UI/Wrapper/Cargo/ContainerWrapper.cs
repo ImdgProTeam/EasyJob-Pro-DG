@@ -81,12 +81,12 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         internal void RefreshIReefer()
         {
-            OnPropertyChanged("Commodity");
-            OnPropertyChanged("SetTemperature");
-            OnPropertyChanged("VentSetting");
-            OnPropertyChanged("LoadTemperature");
-            OnPropertyChanged("ReeferSpecial");
-            OnPropertyChanged("ReeferRemark");
+            OnPropertyChanged(nameof(Commodity));
+            OnPropertyChanged(nameof(SetTemperature));
+            OnPropertyChanged(nameof(VentSetting));
+            OnPropertyChanged(nameof(LoadTemperature));
+            OnPropertyChanged(nameof(ReeferSpecial));
+            OnPropertyChanged(nameof(ReeferRemark));
         }
 
 

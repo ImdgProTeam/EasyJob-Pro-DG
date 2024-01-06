@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
-    public class CellPositionWrapper : ModelWrapper<CellPosition>
+    public class CellPositionWrapper : ModelChangeTrackingWrapper<CellPosition>
     {
         #region Public properties
 

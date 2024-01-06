@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
-    public class ShipProfileWrapper : ModelWrapper<ShipProfile>
+    public class ShipProfileWrapper : ModelChangeTrackingWrapper<ShipProfile>
     {
         #region Private fields
 
@@ -206,7 +206,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
 
         /// <summary>
-        /// Initializes properties not created directly by <see cref="ModelWrapper{T}"/>
+        /// Initializes properties not created directly by <see cref="ModelChangeTrackingWrapper{T}"/>
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
         private void InitializeSpecialProperties()

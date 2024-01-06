@@ -387,7 +387,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void OnReCheckRequested(object obj)
         {
-            DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage(true));
+            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(true));
         }
 
         // ----- Settings save - restore -----

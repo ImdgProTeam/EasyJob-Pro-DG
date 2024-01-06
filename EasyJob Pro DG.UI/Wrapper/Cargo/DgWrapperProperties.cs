@@ -1,7 +1,9 @@
 ﻿using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.Wrapper.Cargo;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Documents;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
@@ -353,7 +355,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         // ---------- Readonly Dg properties ------------------------------
 
         public bool IsConflicted => GetValue<bool>();
-        public string AllDgClasses => GetValue<string>();
+        public string AllDgClasses => string.Join(",", GetValue<List<string>>());
         public string Properties => GetValue<string>();
         public string SegregationSG
         {

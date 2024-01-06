@@ -165,7 +165,7 @@
     <Compile Include="Utility\ExportDataGridToExcel.cs" />
     <Compile Include="Utility\ExtensionMethods.cs" />
     <Compile Include="Utility\Messages\CancelChangesMessage.cs" />
-    <Compile Include="Utility\Messages\ConflictListToBeUpdatedMessage.cs" />
+    <Compile Include="Utility\Messages\DisplayConflictsToBeRefreshedMessage.cs" />
     <Compile Include="Utility\Messages\CargoDataUpdated.cs" />
     <Compile Include="Utility\Messages\CargoPlanUnitPropertyChanged.cs" />
     <Compile Include="Services\DataServices\ConflictDataService.cs" />
@@ -198,7 +198,6 @@
     <Compile Include="ViewModel\MainWindow\DataGridDgViewModel.cs" />
     <Compile Include="Data\DgWrapperList.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridReefersViewModel.cs" />
-    <Compile Include="ViewModel\MainWindow\IConflictListViewModel.cs" />
     <Compile Include="Data\VentilationRequirements.cs" />
     <Compile Include="Utility\Observable.cs" />
     <Compile Include="Services\DialogServices\WindowDialogService.cs" />
@@ -337,12 +336,15 @@
     <Compile Include="Wrapper\Cargo\AbstractContainerWrapper.cs" />
     <Compile Include="Wrapper\Cargo\CargoPlanUnitPropertyChanger.cs" />
     <Compile Include="Wrapper\Cargo\CargoPlanWrapper.cs" />
+    <Compile Include="Wrapper\Cargo\CargoPlanWrapperExtensions.cs" />
     <Compile Include="Wrapper\Cargo\ConflictWrapper.cs" />
     <Compile Include="Wrapper\Cargo\ContainerWrapper.cs" />
     <Compile Include="Wrapper\Cargo\DgWrapper.cs" />
     <Compile Include="Wrapper\Cargo\DgWrapperMethods.cs" />
     <Compile Include="Wrapper\Cargo\DgWrapperProperties.cs" />
+    <Compile Include="Wrapper\Cargo\CargoPlanWrapperHandler.cs" />
     <Compile Include="Wrapper\ChangeTrackingCollection.cs" />
+    <Compile Include="Wrapper\ModelWrapper.cs" />
     <Compile Include="Wrapper\ModelByteDummy.cs" />
     <Compile Include="Wrapper\Settings\ExcelDgTemplateWrapper.cs" />
     <Compile Include="Wrapper\Settings\ExcelTemplateWrapper.cs" />
@@ -353,7 +355,7 @@
     <Compile Include="Wrapper\Ship Profile\DummyDOCRow.cs" />
     <Compile Include="Wrapper\Settings\ExcelColumnProperty.cs" />
     <Compile Include="Wrapper\Settings\ExcelReeferTemplateWrapper.cs" />
-    <Compile Include="Wrapper\ModelWrapper.cs" />
+    <Compile Include="Wrapper\ModelChangeTrackingWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\OuterRowWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\ShipProfileWrapper.cs" />
     <Page Include="View\DialogWindows\DialogWindowOptions.xaml">

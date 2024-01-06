@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO.Excel;
 
@@ -98,7 +99,7 @@ namespace EasyJob_ProDG.Model.IO
                 case FileTypes.Excel:
                     WithXlDg.Import(fileName, out var dgList, out var containers);
                     cargoPlan.DgList = dgList;
-                    cargoPlan.Containers = containers;
+                    cargoPlan.Containers = containers.ToList();
                     foreach (var c in cargoPlan.Containers)
                         if (c.IsRf)
                             cargoPlan.Reefers.Add(c);

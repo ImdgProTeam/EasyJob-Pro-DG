@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace EasyJob_ProDG.UI.Wrapper.Cargo
 {
-    public abstract class AbstractContainerWrapper<T> : ModelWrapper<T>, ILocationOnBoard, IContainer, IUpdatable
+    public abstract class AbstractContainerWrapper<T> : ModelChangeTrackingWrapper<T>, ILocationOnBoard, IContainer, IUpdatable
         where T : ContainerAbstract
     {
         /// <summary>
@@ -291,7 +291,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             OnPropertyChanged(nameof(IsClosed));
             OnPropertyChanged(nameof(IsOpen));
 
-            UpdateReeferProperty();
+            RefreshIsRfProperty();
             RefreshLocation();
             RefreshUpdatables();
         }
@@ -299,7 +299,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
         /// <summary>
         /// Calls OnPropertyChanged for IsRf property
         /// </summary>
-        internal void UpdateReeferProperty()
+        internal void RefreshIsRfProperty()
         {
             OnPropertyChanged(nameof(IsRf));
         }
