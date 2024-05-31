@@ -2,7 +2,7 @@
 using System;
 using System.Windows;
 
-namespace EasyJob_ProDG.UI.Data
+namespace EasyJob_ProDG.UI.IO
 {
     public static class DialogOpenSettings
     {

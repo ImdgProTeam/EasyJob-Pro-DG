@@ -14,7 +14,7 @@
 
     <UserControl.Resources>
         <CollectionViewSource x:Key="ConflictsView"
-                              Source="{Binding Path=Conflicts}">
+                              Source="{Binding Path=DisplayConflicts, IsAsync=True}">
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="ConflictGroupTitle" />
             </CollectionViewSource.GroupDescriptions>

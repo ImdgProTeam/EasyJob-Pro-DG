@@ -1,6 +1,7 @@
 ﻿using EasyJob_ProDG.Model.IO;
 using EasyJob_ProDG.Model.Transport;
 using EasyJob_ProDG.UI.Data;
+using EasyJob_ProDG.UI.IO;
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DataServices;
@@ -189,7 +190,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <summary>
         /// Opens condition from the file.
         /// </summary>
-        /// <param name="file">Readable condition file with full path</param>
+        /// <param name="file">Readable condition file name with full path</param>
         /// <param name="openOption">Option from enumeration weather to Open, Update or Import data</param>
         /// <param name="importOnlySelected">For import: Only selected for import items will be imported.</param>
         /// <param name="currentPort">For import: Only current port of loading items will be imported.</param>
@@ -315,7 +316,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <summary>
         /// Raised when it is required to call <see cref="GetCargoData"/> method via received message.
         /// </summary>
-        /// <param name="plan"></param>
         private void OnNeedToUpdateCargoPlanMessageReceived(UpdateCargoPlan message)
         {
             GetCargoData();

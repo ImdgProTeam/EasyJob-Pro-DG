@@ -5,7 +5,7 @@ using EasyJob_ProDG.UI.Utility;
 namespace EasyJob_ProDG.UI.Wrapper
 {
     /// <summary>
-    /// Collects messages and accordingly manipulates loaded <see cref="CargoPlanWrapper"/>. 
+    /// Receives messages and accordingly manipulates loaded <see cref="CargoPlanWrapper"/>.
     /// </summary>
     internal class CargoPlanWrapperHandler
     {

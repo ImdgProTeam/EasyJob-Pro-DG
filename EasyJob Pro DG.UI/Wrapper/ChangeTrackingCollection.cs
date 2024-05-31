@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
@@ -87,9 +84,9 @@ namespace EasyJob_ProDG.UI.Wrapper
                 return;
             }
 
-            if(item.IsChanged)
+            if (item.IsChanged)
             {
-                if(!_modifiedItems.Contains(item))
+                if (!_modifiedItems.Contains(item))
                 {
                     _modifiedItems.Add(item);
                 }
@@ -112,7 +109,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             _removedItems.Clear();
             _modifiedItems.Clear();
 
-            foreach (var item in this) 
+            foreach (var item in this)
             {
                 item.AcceptChanges();
             }
@@ -127,15 +124,15 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 Remove(addedItem);
             }
-            foreach(var removedItem in _removedItems.ToList())
+            foreach (var removedItem in _removedItems.ToList())
             {
                 Add(removedItem);
             }
-            foreach(var modifiedItem in _modifiedItems.ToList())
+            foreach (var modifiedItem in _modifiedItems.ToList())
             {
                 modifiedItem.RejectChanges();
             }
-            OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsChanged)));  
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsChanged)));
         }
     }
 }

@@ -2,16 +2,27 @@
 
 namespace EasyJob_ProDG.UI.Services.DataServices
 {
+    /// <summary>
+    /// Provides Conflicts and VentilationRequirements.
+    /// </summary>
     internal class ConflictDataService : IConflictDataService
     {
-        private static readonly ConflictDataService _instance = new ConflictDataService();
+        ICargoDataService _cargoDataService => CargoDataService.GetCargoDataService(); 
+        
+        #region Singleton
 
+        /// <summary>
+        /// Provides access to the service.
+        /// </summary>
+        /// <returns></returns>
         public static ConflictDataService GetConflictDataService()
         {
             return _instance;
-        }
+        } 
+
+        private static readonly ConflictDataService _instance = new ConflictDataService();
         
-        ICargoDataService _cargoDataService => CargoDataService.GetCargoDataService(); 
+        #endregion
 
         public ConflictsList Conflicts { get; private set; }
         public VentilationRequirements Vents { get; private set; }

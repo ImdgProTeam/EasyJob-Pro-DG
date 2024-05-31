@@ -30,7 +30,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         }
 
         /// <summary>
-        /// Loads default cargo plan, checks it and generates wrappers and conflicts.
+        /// Loads default cargo plan.
         /// Called on program start up.
         /// </summary>
         /// <param name="openPath">Path of WorkingCargoPlan received from MainWindow.</param>
@@ -123,9 +123,9 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         }
 
         /// <summary>
-        /// Reads a filePath and creates cargo plan and checks its stowage and segregation.
+        /// Reads a fileNam, creates cargo plan from it and sets it as the working cargo plan in <see cref="CurrentProgramData"/>.
         /// </summary>
-        /// <param name="fileName">Full path of filePath to open</param>
+        /// <param name="fileName">Full path with fileName to open</param>
         /// <param name="openOption">Select from enumeration weather to Open, Update or Import data</param>
         /// <param name="importOnlySelected">For import: Import only selected items.</param>
         /// <param name="currentPort">Port for selecting import.</param>

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 
-namespace EasyJob_ProDG.UI.Data
+namespace EasyJob_ProDG.UI.IO
 {
     public static class DialogSaveFile
     {

@@ -5,25 +5,25 @@ namespace EasyJob_ProDG.UI.Messages
     /// <summary>
     /// Messages used to update ConflictListViewModel (conflicts panel)
     /// </summary>
-    class ConflictListToBeUpdatedMessage
+    class DisplayConflictsToBeRefreshedMessage
     {
         internal bool OnlyUnitStowageToBeUpdated = false;
         internal bool FullListToBeUpdated = false;
         internal bool OnlyClearDeletedConflictsList;
         internal DgWrapper dgWrapper;
 
-        public ConflictListToBeUpdatedMessage()
+        public DisplayConflictsToBeRefreshedMessage()
         {
 
         }
 
-        public ConflictListToBeUpdatedMessage(DgWrapper _dgWrapper)
+        public DisplayConflictsToBeRefreshedMessage(DgWrapper _dgWrapper)
         {
             dgWrapper = _dgWrapper;
             OnlyUnitStowageToBeUpdated = true;
         }
 
-        public ConflictListToBeUpdatedMessage(bool fullListToBeUpdated = false)
+        public DisplayConflictsToBeRefreshedMessage(bool fullListToBeUpdated = false)
         {
             FullListToBeUpdated = fullListToBeUpdated;
         }

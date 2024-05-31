@@ -2,6 +2,9 @@
 
 namespace EasyJob_ProDG.UI.Services.DataServices
 {
+    /// <summary>
+    /// Provides WorkingCargoPlan.
+    /// </summary>
     public interface ICargoDataService
     {
         CargoPlanWrapper GetCargoPlan();

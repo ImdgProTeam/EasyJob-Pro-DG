@@ -4,7 +4,7 @@ using System;
 using System.Windows;
 using EasyJob_ProDG.UI.Services.DialogServices;
 
-namespace EasyJob_ProDG.UI.Data
+namespace EasyJob_ProDG.UI.IO
 {
     public static class DialogOpenFile
     {

@@ -44,8 +44,6 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         {
             if (unit == null) return;
             ReCheckDgStowage(unit.Model, _currentProgramData.CargoPlan);
-
-            //DisplayConflicts.UpdateDgWrapperStowageConfilicts(unit);
         }
 
         /// <summary>
