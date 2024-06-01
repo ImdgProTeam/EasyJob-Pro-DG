@@ -257,8 +257,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             dispatcher.Invoke(() =>
             {
                 SetDataView();
-                OnPropertyChanged($"CargoPlan");
-                OnPropertyChanged("ContainerPlanView");
+                OnPropertyChanged(nameof(CargoPlan));
+                OnPropertyChanged(nameof(ContainerPlanView));
             });
         }
 

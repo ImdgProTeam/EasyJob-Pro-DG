@@ -273,8 +273,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             dispatecher.Invoke(() =>
             {
                 SetDataView();
-                OnPropertyChanged($"CargoPlan");
-                OnPropertyChanged("ReeferPlanView");
+                OnPropertyChanged(nameof(CargoPlan));
+                OnPropertyChanged(nameof(ReeferPlanView));
                 ReeferPlanView.Refresh();
             });
         }
@@ -288,7 +288,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             dispatecher.Invoke(() =>
             {
                 SetDataView();
-                OnPropertyChanged("ReeferPlanView");
+                OnPropertyChanged(nameof(ReeferPlanView));
                 ReeferPlanView.Refresh();
             });
         }

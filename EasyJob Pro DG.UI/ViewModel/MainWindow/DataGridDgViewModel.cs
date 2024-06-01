@@ -274,7 +274,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                     break;
                 }
             }
-            OnPropertyChanged("SelectedDg");
+            OnPropertyChanged(nameof(SelectedDg));
         }
 
         #endregion
@@ -306,7 +306,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
                 IsTechnicalNameIncluded = true;
             }
-            OnPropertyChanged("IsTechnicalNameIncluded");
+            OnPropertyChanged(nameof(IsTechnicalNameIncluded));
         }
 
         /// <summary>
@@ -339,8 +339,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             dispatcher.Invoke(() =>
             {
                 SetDataView();
-                OnPropertyChanged($"CargoPlan");
-                OnPropertyChanged("DgPlanView");
+                OnPropertyChanged(nameof(CargoPlan));
+                OnPropertyChanged(nameof(DgPlanView));
             });
         }
 
