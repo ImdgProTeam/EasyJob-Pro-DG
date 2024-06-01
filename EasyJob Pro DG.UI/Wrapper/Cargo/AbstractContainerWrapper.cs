@@ -1,7 +1,6 @@
 ﻿using EasyJob_ProDG.Data;
 using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO;
-using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.View.Sort;
 using System;

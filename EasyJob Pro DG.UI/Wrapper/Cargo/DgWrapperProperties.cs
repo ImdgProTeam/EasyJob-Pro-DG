@@ -3,7 +3,6 @@ using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.Wrapper.Cargo;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Documents;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {

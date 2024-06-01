@@ -58,9 +58,9 @@
         <local:AddContainerToDataGrid IsAddDg="False"
                                       Title="Add Container |"
                                       Visibility="{Binding MenuVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      ContainerNumber="{Binding ContainerToAddNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      Location="{Binding ContainerToAddLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      CanUserAdd="{Binding CanUserAddContainer, UpdateSourceTrigger=PropertyChanged}"
+                                      ContainerNumber="{Binding UnitToAddNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Location="{Binding UnitToAddLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      CanUserAdd="{Binding CanUserAddUnit, UpdateSourceTrigger=PropertyChanged}"
                                       DockPanel.Dock="Bottom">
             <behavior:Interaction.Triggers>
                 <behavior:EventTrigger EventName="AddItem">
@@ -70,7 +70,7 @@
         </local:AddContainerToDataGrid>
 
         <DataGrid x:Name="MainContainerDataTable"
-                  ItemsSource="{Binding ContainerPlanView}"
+                  ItemsSource="{Binding UnitsPlanView}"
                   SelectedItem="{Binding SelectedContainer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   IsSynchronizedWithCurrentItem="True"
                   AutoGenerateColumns="False"

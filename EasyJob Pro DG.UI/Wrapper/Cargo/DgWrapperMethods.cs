@@ -132,7 +132,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         
         /// <summary>
         /// Invokes sending of <see cref="DgListSelectedItemUpdatedMessage"/>
-        /// Used by SelectionStatusBar
+        /// Used by SelectionStatusBar in order to update status bar info
         /// </summary>
         private void NotifyOfChangedProperties()
         {

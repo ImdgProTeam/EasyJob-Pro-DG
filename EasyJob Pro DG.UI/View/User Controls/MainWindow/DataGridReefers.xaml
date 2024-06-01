@@ -58,9 +58,9 @@
             Title="Add Reefer container |"
             IsAddDg="False"
             Visibility="{Binding MenuVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            ContainerNumber="{Binding ReeferToAddNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            Location="{Binding ReeferToAddLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            CanUserAdd="{Binding CanUserAddReefer, UpdateSourceTrigger=PropertyChanged}"
+            ContainerNumber="{Binding UnitToAddNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Location="{Binding UnitToAddLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            CanUserAdd="{Binding CanUserAddUnit, UpdateSourceTrigger=PropertyChanged}"
             DockPanel.Dock="Bottom">
             <behavior:Interaction.Triggers>
                 <behavior:EventTrigger EventName="AddItem">
@@ -70,7 +70,7 @@
         </local:AddContainerToDataGrid>
 
         <DataGrid x:Name="MainReeferDataTable"
-                  ItemsSource="{Binding ReeferPlanView}"
+                  ItemsSource="{Binding UnitsPlanView}"
                   SelectedItem="{Binding SelectedReefer, Mode=TwoWay}"
                   IsSynchronizedWithCurrentItem="True"
                   AutoGenerateColumns="False"
