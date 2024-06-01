@@ -336,10 +336,10 @@ namespace EasyJob_ProDG.UI.ViewModel
                     DataGridDgViewModel.SelectDg(obj.DgID);
                     break;
                 case 1:
-                    DataGridReefersViewModel.SelectReefer(obj.ContainerNumber);
+                    DataGridReefersViewModel.SelectUnit(obj.ContainerNumber);
                     break;
                 case 2:
-                    DataGridContainersViewModel.SelectContainer(obj.ContainerNumber);
+                    DataGridContainersViewModel.SelectUnit(obj.ContainerNumber);
                     break;
                 default:
                     break;

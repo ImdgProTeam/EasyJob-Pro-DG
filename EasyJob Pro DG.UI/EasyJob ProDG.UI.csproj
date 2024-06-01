@@ -121,7 +121,8 @@
     <Compile Include="Utility\AsyncObservableCollection.cs" />
     <Compile Include="Utility\Messages\DgListSelectedItemUpdatedMessage.cs" />
     <Compile Include="Utility\Messages\ShipProfileSavedMessage.cs" />
-    <Compile Include="ViewModel\MainWindow\DataGridBaseViewModel.cs" />
+    <Compile Include="ViewModel\MainWindow\DataGridViewModelBase.cs" />
+    <Compile Include="ViewModel\MainWindow\DataGridContainerViewModelBase.cs" />
     <Compile Include="ViewModel\MainWindow\MainWindowCommands.cs" />
     <Compile Include="ViewModel\MainWindow\SelectionStatusBarSetter.cs" />
     <Compile Include="View\Animations\FrameworkElementAnimations.cs" />

@@ -42,7 +42,7 @@
                        Grid.Column="1"
                        />
             <Button Content="Add"
-                    Command="{Binding DisplayAddReeferMenuCommand}"
+                    Command="{Binding DisplayAddUnitMenuCommand}"
                     Width="100"
                     Margin="1" 
                     Grid.Column="2"/>
@@ -64,14 +64,14 @@
             DockPanel.Dock="Bottom">
             <behavior:Interaction.Triggers>
                 <behavior:EventTrigger EventName="AddItem">
-                    <behavior:InvokeCommandAction Command="{Binding AddNewReeferCommand}"/>
+                    <behavior:InvokeCommandAction Command="{Binding AddNewUnitCommand}"/>
                 </behavior:EventTrigger>
             </behavior:Interaction.Triggers>
         </local:AddContainerToDataGrid>
 
         <DataGrid x:Name="MainReeferDataTable"
                   ItemsSource="{Binding UnitsPlanView}"
-                  SelectedItem="{Binding SelectedReefer, Mode=TwoWay}"
+                  SelectedItem="{Binding SelectedUnit, Mode=TwoWay}"
                   IsSynchronizedWithCurrentItem="True"
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
@@ -96,7 +96,7 @@
                   Grid.Column="0"
                   Grid.Row="0"
                   SelectionMode="Extended"
-                  ap:SelectingContainerDataGridItem.SelectingItem="{Binding SelectedReefer}"
+                  ap:SelectingContainerDataGridItem.SelectingItem="{Binding SelectedUnit}"
                   behaviors:DataGridBehavior.DisplayRowNumber="True"
                   ap:DataGridSortBehavior.AllowCustomSort="True"
                   PreviewKeyDown="MainReeferDataTable_PreviewKeyDown"
@@ -481,7 +481,7 @@
             <!-- INPUT BINDINGS -->
             <DataGrid.InputBindings>
                 <KeyBinding Key="Delete"
-                            Command="{Binding DeleteReefersCommand}"
+                            Command="{Binding DeleteUnitCommand}"
                             CommandParameter="{Binding ElementName=MainReeferDataTable, Path=SelectedItems}" />
             </DataGrid.InputBindings>
         </DataGrid>

@@ -1,19 +1,13 @@
-﻿using EasyJob_ProDG.UI.Services.DialogServices;
-using EasyJob_ProDG.UI.Utility;
+﻿using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.ViewModel.MainWindow;
 using EasyJob_ProDG.UI.Wrapper;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
-    public class DataGridContainersViewModel : DataGridViewModelBase
+    public class DataGridContainersViewModel : DataGridContainerViewModelBase
     {
-        // ----- Public properties -----
-        public ContainerWrapper SelectedContainer { get; set; }
-
-
         #region Constructor
         // ---------- Constructor ---------------
         public DataGridContainersViewModel() : base()
@@ -37,10 +31,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         protected override void LoadCommands()
         {
-            AddNewContainerCommand = new DelegateCommand(OnAddNewUnit);
             AddNewDgCommand = new DelegateCommand(OnAddNewDg, CanAddNewDg);
-            DisplayAddContainerMenuCommand = new DelegateCommand(OnDisplayAddContainerMenu);
-            DeleteContainerCommand = new DelegateCommand(OnDeleteContainersRequested);
         }
 
         /// <summary>
@@ -48,46 +39,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         protected override void RegisterInDataMessenger()
         {
-
         }
 
         #endregion
 
-        #region AddContainer Logic
-
-        /// <summary>
-        /// Method changes SelectedUnit to match with the selected number (e.g. with ConflictPanelItem object)
-        /// </summary>
-        /// <param name="obj">Selected container number</param>
-        internal void SelectContainer(string containerNumber)
-        {
-            SelectedContainer = null;
-            OnPropertyChanged(nameof(SelectedContainer));
-
-            //Set new selection
-            foreach (ContainerWrapper container in UnitsPlanView)
-            {
-                if (string.Equals(container.ContainerNumber, containerNumber))
-                {
-                    SelectedContainer = container;
-                    break;
-                }
-            }
-            OnPropertyChanged(nameof(SelectedContainer));
-        }
-
-        /// <summary>
-        /// Actions on displaying AddDg menu (on click 'Add' button)
-        /// </summary>
-        /// <param name="obj"></param>
-        internal void OnDisplayAddContainerMenu(object obj = null)
-        {
-            UnitToAddNumber = SelectedContainer?.ContainerNumber;
-            UnitToAddLocation = SelectedContainer?.Location;
-
-            MenuVisibility = System.Windows.Visibility.Visible;
-            OnPropertyChanged(nameof(MenuVisibility));
-        }
+        #region Add unit Logic
 
         protected override void OnAddNewUnit(object obj)
         {
@@ -99,8 +55,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             });
 
             //Scroll into the new Container
-            SelectedContainer = CargoPlan.Containers[CargoPlan.Containers.Count - 1];
-            OnPropertyChanged(nameof(SelectedContainer));
+            SelectedUnit = CargoPlan.Containers[CargoPlan.Containers.Count - 1];
+            OnPropertyChanged(nameof(SelectedUnit));
         }
 
         /// <summary>
@@ -114,58 +70,27 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private bool CanAddNewDg(object obj)
         {
-            return SelectedContainer != null;
+            return SelectedUnit != null;
         }
 
         #endregion
 
-        #region DataGrid interactions
+        #region Methods
 
-        private void OnDeleteContainersRequested(object obj)
+        protected override void RemoveUnit(List<string> containerNumbers)
         {
-            if (SelectedContainer == null) return;
-            var count = ((ICollection)obj).Count;
-
-            if (_messageDialogService.ShowYesNoDialog($"Do you want to delete selected container" + (count > 1 ? $"s ({count})" : "") + "?", "Delete cargo")
-                == MessageDialogResult.No) return;
-
-            var list = new List<string>();
-            foreach (ContainerWrapper item in (ICollection)obj)
-            {
-                list.Add(item.ContainerNumber);
-            }
-
-            foreach (var number in list)
+            foreach (var number in containerNumbers)
             {
                 CargoPlan.RemoveContainer(number);
             }
         }
 
-        protected override void OnSelectionChanged(object obj)
-        {
-            SetSelectionStatusBar(obj);
-
-            if (SelectedContainer is null) return;
-
-            if (MenuVisibility == System.Windows.Visibility.Visible)
-            {
-                if (SelectedContainer.ContainerNumber != unitToAddNumber)
-                {
-                    UnitToAddNumber = SelectedContainer?.ContainerNumber;
-                    UnitToAddLocation = SelectedContainer?.Location;
-                }
-            }
-            selectionObject = obj;
-        }
-
         #endregion
 
         #region Commands
-        //--------------- Commands ----------------------------------------
-        public ICommand AddNewContainerCommand { get; private set; }
+        // ----- Commands -----
         public ICommand AddNewDgCommand { get; private set; }
-        public ICommand DisplayAddContainerMenuCommand { get; private set; }
-        public ICommand DeleteContainerCommand { get; private set; }
+
         #endregion
     }
 }

@@ -1,19 +1,13 @@
 ﻿using EasyJob_ProDG.UI.Messages;
-using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.ViewModel.MainWindow;
 using EasyJob_ProDG.UI.Wrapper;
-using System.Collections;
 using System.Collections.Generic;
-using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
-    public class DataGridReefersViewModel : DataGridViewModelBase
+    public class DataGridReefersViewModel : DataGridContainerViewModelBase
     {
-        //--------------- Public properties -----------------------------------------
-        public ContainerWrapper SelectedReefer { get; set; }
-
         #region Constructor
 
         // ---------- Constructor ---------------
@@ -38,9 +32,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         protected override void LoadCommands()
         {
-            AddNewReeferCommand = new DelegateCommand(OnAddNewUnit);
-            DisplayAddReeferMenuCommand = new DelegateCommand(OnDisplayAddReeferMenu);
-            DeleteReefersCommand = new DelegateCommand(OnDeleteReefersRequested);
+
         }
 
         /// <summary>
@@ -70,65 +62,18 @@ namespace EasyJob_ProDG.UI.ViewModel
             });
 
             //Scroll into the new Container
-            SelectedReefer = CargoPlan.Reefers[CargoPlan.Reefers.Count - 1];
-            OnPropertyChanged(nameof(SelectedReefer));
-        }
-
-        /// <summary>
-        /// Actions on displaying AddDg menu (on click 'Add' button)
-        /// </summary>
-        /// <param name="obj"></param>
-        internal void OnDisplayAddReeferMenu(object obj = null)
-        {
-            UnitToAddNumber = SelectedReefer?.ContainerNumber;
-            UnitToAddLocation = SelectedReefer?.Location;
-
-            MenuVisibility = System.Windows.Visibility.Visible;
-            OnPropertyChanged(nameof(MenuVisibility));
+            SelectedUnit = CargoPlan.Reefers[CargoPlan.Reefers.Count - 1];
+            OnPropertyChanged(nameof(SelectedUnit));
         }
 
         #endregion
 
-
         #region Methods
         // ----- Methods -----
 
-        /// <summary>
-        /// Method changes SelectedReefer to match with the selected number (e.g. with ConflictPanelItem object)
-        /// </summary>
-        /// <param name="obj">Selected container number</param>
-        internal void SelectReefer(string containerNumber)
+        protected override void RemoveUnit(List<string> containerNumbers)
         {
-            SelectedReefer = null;
-            OnPropertyChanged(nameof(SelectedReefer));
-
-            //Set new selection
-            foreach (ContainerWrapper container in UnitsPlanView)
-            {
-                if (string.Equals(container.ContainerNumber, containerNumber))
-                {
-                    SelectedReefer = container;
-                    break;
-                }
-            }
-            OnPropertyChanged(nameof(SelectedReefer));
-        }
-
-        private void OnDeleteReefersRequested(object obj)
-        {
-            if (SelectedReefer == null) return;
-            var count = ((ICollection)obj).Count;
-
-            if (_messageDialogService.ShowYesNoDialog($"Do you want to delete selected reefer" + (count > 1 ? $"s ({count})" : "") + "?", "Delete cargo")
-                == MessageDialogResult.No) return;
-
-            List<string> list = new List<string>();
-            foreach (ContainerWrapper item in (ICollection)obj)
-            {
-                list.Add(item.ContainerNumber);
-            }
-
-            foreach (var number in list)
+            foreach (var number in containerNumbers)
             {
                 CargoPlan.RemoveReefer(number, toUpdateInCargoPlan: true);
             }
@@ -147,30 +92,6 @@ namespace EasyJob_ProDG.UI.ViewModel
             });
         }
 
-        protected override void OnSelectionChanged(object obj)
-        {
-            SetSelectionStatusBar(obj);
-            if (SelectedReefer is null) return;
-
-            if (MenuVisibility == System.Windows.Visibility.Visible)
-            {
-                if (SelectedReefer.ContainerNumber != UnitToAddNumber)
-                {
-                    UnitToAddNumber = SelectedReefer?.ContainerNumber;
-                    UnitToAddLocation = SelectedReefer?.Location;
-                }
-            }
-            selectionObject = obj;
-        }
-
-        #endregion
-
-
-        #region Commands
-        //--------------- Commands ----------------------------------------
-        public ICommand AddNewReeferCommand { get; private set; }
-        public ICommand DisplayAddReeferMenuCommand { get; private set; }
-        public ICommand DeleteReefersCommand { get; private set; }
         #endregion
     }
 }

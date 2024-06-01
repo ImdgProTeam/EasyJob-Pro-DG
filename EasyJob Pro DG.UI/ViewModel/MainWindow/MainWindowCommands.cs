@@ -371,9 +371,9 @@ namespace EasyJob_ProDG.UI.ViewModel
                 case 0:
                     return (Container)DataGridDgViewModel.SelectedDg?.Model;
                 case 1:
-                    return DataGridReefersViewModel.SelectedReefer?.Model;
+                    return DataGridReefersViewModel.SelectedUnit?.Model;
                 case 2:
-                    return DataGridContainersViewModel.SelectedContainer?.Model;
+                    return DataGridContainersViewModel.SelectedUnit?.Model;
                 default:
                     return null;
             }
