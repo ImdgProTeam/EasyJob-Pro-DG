@@ -1,5 +1,5 @@
-﻿using EasyJob_ProDG.UI.Services.DialogServices;
-using EasyJob_ProDG.UI.Utility;
+﻿using EasyJob_ProDG.UI.IO;
+using EasyJob_ProDG.UI.Services.DialogServices;
 
 namespace EasyJob_ProDG.UI.View.DialogWindows
 {

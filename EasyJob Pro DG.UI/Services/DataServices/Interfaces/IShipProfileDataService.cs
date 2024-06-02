@@ -7,6 +7,5 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         ShipProfileWrapper CreateShipProfileWrapper();
         void SaveShipProfile();
         void OpenShipProfile();
-        byte DefineCargoHoldNumber(byte bay);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using EasyJob_ProDG.Data;
+using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using Excel = Microsoft.Office.Interop.Excel;
 
-namespace EasyJob_ProDG.UI.Utility
+namespace EasyJob_ProDG.UI.IO
 {
     /// <summary>
     /// Class deals with exporting to excel of data as displayed
@@ -29,11 +30,11 @@ namespace EasyJob_ProDG.UI.Utility
             MainWindowVM.SetIsLoading(true);
 
             ListCollectionView collection = CollectionViewSource.GetDefaultView(dataGrid.ItemsSource) as ListCollectionView;
-            if (collection == null) 
+            if (collection == null)
             {
                 MainWindowVM.StatusBarControl.Cancel();
                 MainWindowVM.SetIsLoading(false);
-                return; 
+                return;
             }
 
             ColumnProperty[] columnProperties = new ColumnProperty[dataGrid.Columns.Count];
@@ -50,7 +51,7 @@ namespace EasyJob_ProDG.UI.Utility
                 {
                     columnProperties[index] = new ColumnProperty();
                     columnProperties[index].ColumnHeader = column.Header?.ToString() ?? null;
-                    columnProperties[index].ColumnPropertyName = String.IsNullOrEmpty(column.Header?.ToString()) ? String.Empty
+                    columnProperties[index].ColumnPropertyName = string.IsNullOrEmpty(column.Header?.ToString()) ? string.Empty
                         : PropertiesDictionary[column.Header?.ToString()] ?? column.Header?.ToString();
                     columnProperties[index].ColumnWidth = (int)column.ActualWidth / 8;
                 }
@@ -71,7 +72,7 @@ namespace EasyJob_ProDG.UI.Utility
 
                 Excel.Application excel = new Excel.Application();
                 excel.Visible = false;
-                Excel.Workbook workbook = excel.Workbooks.Add(System.Reflection.Missing.Value);
+                Excel.Workbook workbook = excel.Workbooks.Add(Missing.Value);
                 Excel.Worksheet sheet = (Excel.Worksheet)workbook.Sheets[1];
                 MainWindowVM.StatusBarControl.ChangeBarSet(40);
 
@@ -98,7 +99,7 @@ namespace EasyJob_ProDG.UI.Utility
                         //Status bar update
                         if (MainWindowVM.StatusBarControl.ProgressPercentage < 95)
                             MainWindowVM.StatusBarControl.ProgressPercentage += statusBarIncrementValue;
-                        
+
                         subtraction++;
                         continue;
                     }
@@ -116,7 +117,7 @@ namespace EasyJob_ProDG.UI.Utility
                             PropertyInfo property = item.GetType().GetProperty(columnProperties[i].ColumnPropertyName);
                             if (property == null) continue;
 
-                            if (Object.ReferenceEquals(property?.PropertyType, typeof(Boolean)))
+                            if (ReferenceEquals(property?.PropertyType, typeof(bool)))
                             {
                                 value = (bool)property?.GetValue(item) ? "Y" : "";
                             }
@@ -136,7 +137,7 @@ namespace EasyJob_ProDG.UI.Utility
                     //Status bar update
                     if (MainWindowVM.StatusBarControl.ProgressPercentage < 95)
                         MainWindowVM.StatusBarControl.ProgressPercentage += statusBarIncrementValue;
-                    
+
                 }
 
 

@@ -1,10 +1,9 @@
-﻿using System.Linq;
+﻿using EasyJob_ProDG.Model.Cargo;
+using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
-using EasyJob_ProDG.UI.Messages;
+using System.Linq;
 using System.Reflection;
-using EasyJob_ProDG.Model.Cargo;
-using EasyJob_ProDG.UI.Wrapper.Cargo;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {

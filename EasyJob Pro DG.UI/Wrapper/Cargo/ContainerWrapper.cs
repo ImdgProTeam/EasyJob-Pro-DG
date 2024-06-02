@@ -99,7 +99,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <param name="value">new value to be set</param>
         /// <param name="oldValue">old value</param>
         /// <param name="propertyName">property of which value to be changed</param>
-        protected override void SetToAllContainersInPlan(object value, object oldValue = null, [CallerMemberName] string propertyName = null)
+        protected override void NotifyOfChangedProperty(object value, object oldValue = null, [CallerMemberName] string propertyName = null)
         {
             DataMessenger.Default.Send(new CargoPlanUnitPropertyChanged(this, value, oldValue, propertyName, false));
         }
