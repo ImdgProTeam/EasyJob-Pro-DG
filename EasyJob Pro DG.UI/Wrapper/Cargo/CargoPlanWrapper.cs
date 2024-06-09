@@ -30,7 +30,6 @@ namespace EasyJob_ProDG.UI.Wrapper
         internal bool IsEmpty => Model.IsEmpty;
 
 
-
         // -------------- Private methods -------------------------------------------
 
         /// <summary>
@@ -53,7 +52,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// Converts WorkingCargoPlan into CargoPlanWrapper
         /// </summary>
         /// <param name="cargoplan">Plain WorkingCargoPlan</param>
-        private void ConvertToCargoPlanWrapper(CargoPlan cargoplan)
+        private CargoPlanWrapper ConvertToCargoPlanWrapper(CargoPlan cargoplan)
         {
             DgList = new DgWrapperList(cargoplan.DgList);
 
@@ -63,11 +62,9 @@ namespace EasyJob_ProDG.UI.Wrapper
             RegisterCollection(DgList, cargoplan.DgList);
             RegisterCollection(Containers, Model.Containers);
             RegisterCollection(Reefers, Model.Reefers);
+
+            return this;
         }
-
-
-
-
 
         /// <summary>
         /// Updates total dg net weight.
@@ -87,8 +84,6 @@ namespace EasyJob_ProDG.UI.Wrapper
             HandleCargoPlanUnits.OnCargoHoldsUpdated(Model);
         }
 
-
-
         /// <summary>
         /// Calls OnPropertyChanged on WorkingCargoPlan count values
         /// </summary>
@@ -99,9 +94,6 @@ namespace EasyJob_ProDG.UI.Wrapper
             OnPropertyChanged(nameof(DgContainerCount));
             OnNetWeightChanged();
         }
-
-
-
 
 
         // -------------- Public methods --------------------------------------------

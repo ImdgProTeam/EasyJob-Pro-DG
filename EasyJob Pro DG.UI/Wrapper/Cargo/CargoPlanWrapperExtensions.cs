@@ -186,7 +186,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <param name="dg"></param>
         internal static void RemoveDg(this CargoPlanWrapper cargoPlan, DgWrapper dg)
         {
-            //dg.ClearSubscriptions();
+            dg.ClearSubscriptions();
             cargoPlan.DgList.Remove(dg);
             cargoPlan.Model.DgList.Remove(dg.Model);
         }

@@ -30,14 +30,12 @@ namespace EasyJob_ProDG.UI.Services.DataServices
 
 
         /// <summary>
-        /// Creates and returns new <see cref="CargoPlanWrapper"/> created from <see cref="CurrentProgramData"/> <see cref="CargoPlan"/>
+        /// Creates new <see cref="CargoPlanWrapper"/> from <see cref="CurrentProgramData"/> <see cref="CargoPlan"/>
         /// </summary>
-        /// <returns><see cref="WorkingCargoPlan"/></returns>
-        public CargoPlanWrapper GetCargoPlan()
+        public void GetCargoPlan()
         {
             WorkingCargoPlan?.Dispose();
             WorkingCargoPlan = new CargoPlanWrapper(_currentProgramData.CargoPlan);
-            return WorkingCargoPlan;
         }
 
         #region Constructor

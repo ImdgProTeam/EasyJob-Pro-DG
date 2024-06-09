@@ -23,7 +23,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
 
         /// <summary>
         /// Clears existing conflicts in cargoPlan, carries out Stowage and Segregation check.
-        /// When start program, when change dg properties, deleting cargo, open new condition
+        /// When start program, when change dg properties, delete cargo, open new condition
         /// </summary>
         /// <param name="cargoPlan">Plain cargo plan (model)</param>
         private void ReCheckDgList()

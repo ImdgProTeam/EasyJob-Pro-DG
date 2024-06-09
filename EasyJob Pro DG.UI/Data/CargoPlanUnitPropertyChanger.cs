@@ -1,11 +1,13 @@
 ﻿using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.UI.Messages;
+using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.Wrapper;
 using System.Linq;
 using System.Reflection;
 
-namespace EasyJob_ProDG.UI.Wrapper
+namespace EasyJob_ProDG.UI.Data
 {
     /// <summary>
     /// Class is used to receive messages and make necessary changes related to respective unit in all three Container, Dg and Reefer lists.
@@ -14,61 +16,69 @@ namespace EasyJob_ProDG.UI.Wrapper
     {
         private static CargoPlanUnitPropertyChanger _changer = null;
         private MessageDialogService _messageDialogService => MessageDialogService.Connect();
-        private CargoPlanWrapper _cargoPlanWrapper;
+        private CargoDataService _cargoDataService => CargoDataService.GetCargoDataService();
+        private CargoPlanWrapper _workingCargoPlan => _cargoDataService.WorkingCargoPlan;
 
-        internal static bool ChangeInProgress;
+        private bool ChangeInProgress;
 
-        //Empty constructor
-        internal CargoPlanUnitPropertyChanger()
+        #region Constructor
+        // ----- Constructor -----
+
+        private CargoPlanUnitPropertyChanger()
         {
-
+            RegisterInMessenger();
+            ChangeInProgress = false;
         }
 
+        #endregion
+
+        #region SetUp
         /// <summary>
         /// Initializes fields of the Changer
         /// </summary>
-        /// <param name="cargoPlanWrapper">Working CargoPlanWrapper</param>
-        internal void SetUp(CargoPlanWrapper cargoPlanWrapper)
+        internal static void Launch()
         {
             _changer ??= new CargoPlanUnitPropertyChanger();
+        }
 
-            _cargoPlanWrapper = cargoPlanWrapper;
-            ChangeInProgress = false;
-
+        private void RegisterInMessenger()
+        {
             DataMessenger.Default.Unregister(_changer);
             DataMessenger.Default.Register<CargoPlanUnitPropertyChanged>(_changer, OnCargoPlanUnitPropertyChanged);
         }
+
+        #endregion
 
         /// <summary>
         /// Handles change of any unit property changed message received
         /// </summary>
         /// <param name="obj"></param>
-        public void OnCargoPlanUnitPropertyChanged(CargoPlanUnitPropertyChanged obj)
+        private void OnCargoPlanUnitPropertyChanged(CargoPlanUnitPropertyChanged obj)
         {
             if (ChangeInProgress) return;
             ChangeInProgress = true;
 
             switch (obj.PropertyName)
             {
-                case "Location":
-                case "ContainerType":
-                case "IsClosed":
+                case nameof(ILocationOnBoard.Location):
+                case nameof(IContainer.ContainerType):
+                case nameof(IContainer.IsClosed):
                     SetNewCargoPlanUnitPropertyValue(obj.ContainerNumber, obj.Value, obj.PropertyName);
                     UpdateConflictList();
                     break;
 
-                case "POL":
-                case "POD":
-                case "FinalDestination":
-                case "Carrier":
-                case "IsPositionLockedForChange":
-                case "IsToBeKeptInPlan":
-                case "IsToImport":
-                case "IsNotToImport":
+                case nameof(IContainer.POL):
+                case nameof(IContainer.POD):
+                case nameof(IContainer.FinalDestination):
+                case nameof(IContainer.Carrier):
+                case nameof(Model.IO.IUpdatable.IsPositionLockedForChange):
+                case nameof(Model.IO.IUpdatable.IsToBeKeptInPlan):
+                case nameof(Model.IO.IUpdatable.IsToImport):
+                case nameof(Model.IO.IUpdatable.IsNotToImport):
                     SetNewCargoPlanUnitPropertyValue(obj.ContainerNumber, obj.Value, obj.PropertyName);
                     break;
 
-                case "ContainerNumber":
+                case nameof(IContainer.ContainerNumber):
                     if (AskSetContainerNumber(obj))
                     {
                         ChangeInProgress = false;
@@ -76,7 +86,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                     }
                     break;
 
-                case "IsRf":
+                case nameof(IContainer.IsRf):
                     SetIsReeferProperty(obj);
                     break;
 
@@ -125,41 +135,46 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <param name="containerNumber">ContainerNumber of units to be updated</param>
         /// <param name="value">New value</param>
         /// <param name="propertyName">Property to be changed</param>
-        internal void SetNewCargoPlanUnitPropertyValue(string containerNumber, object value, string propertyName)
+        private void SetNewCargoPlanUnitPropertyValue(string containerNumber, object value, string propertyName)
         {
-            foreach (var dg in _cargoPlanWrapper.DgList)
+            var _dgs = _workingCargoPlan.DgList.Where(x => x.ContainerNumber == containerNumber);
+            foreach (var dg in _dgs)
             {
+                if (dg.ContainerNumber != containerNumber)
+                    continue;
+
                 PropertyInfo dgInfo = dg.GetType().GetProperty(propertyName);
                 if (dgInfo == null) continue;
 
-                if (dg.ContainerNumber == containerNumber)
-                    if (dgInfo.GetValue(dg).ToString() != value.ToString())
-                        dgInfo.SetValue(dg, value);
+                if (dgInfo.GetValue(dg).ToString() != value.ToString())
+                    dgInfo.SetValue(dg, value);
             }
 
-            var container = _cargoPlanWrapper.Containers.FirstOrDefault(x => x.ContainerNumber == containerNumber);
+            var container = _workingCargoPlan.Containers.FirstOrDefault(x => x.ContainerNumber == containerNumber);
             if (container != null)
             {
                 PropertyInfo containerInfo = container.GetType().GetProperty(propertyName);
-                if (containerInfo == null) throw new System.ArgumentNullException(propertyName, $"Unable to locate property for container number {containerNumber} in CargoPlan.Containers");
+                if (containerInfo == null) 
+                    throw new System.ArgumentNullException(propertyName, $"Unable to locate property for container number {containerNumber} in CargoPlan.Containers");
 
                 if (containerInfo.GetValue(container).ToString() != value.ToString())
                     containerInfo.SetValue(container, value);
                 container.Refresh();
             }
 
-            var reefer = _cargoPlanWrapper.Reefers.FirstOrDefault(x => x.ContainerNumber == containerNumber);
+            var reefer = _workingCargoPlan.Reefers.FirstOrDefault(x => x.ContainerNumber == containerNumber);
             if (reefer != null)
             {
                 PropertyInfo reeferInfo = reefer.GetType().GetProperty(propertyName);
-                if (reeferInfo == null) return;
+                if (reeferInfo == null) 
+                    throw new System.ArgumentNullException(propertyName, $"Unable to locate property for container number {containerNumber} in CargoPlan.Reefers");
 
                 if (reeferInfo.GetValue(reefer).ToString() != value.ToString())
                     reeferInfo.SetValue(reefer, value);
                 reefer.Refresh();
             }
 
-            _cargoPlanWrapper.RefreshCargoPlanValues();
+            _workingCargoPlan.RefreshCargoPlanValues();
         }
 
         /// <summary>
@@ -167,32 +182,30 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         /// <param name="value"></param>
         /// <param name="oldValue"></param>
-        internal void SetNewContainerNumber(string value, string oldValue)
+        private void SetNewContainerNumber(string value, string oldValue)
         {
-            foreach (var dg in _cargoPlanWrapper.DgList)
+            var _dgs = _workingCargoPlan.DgList.Where(x => x.ContainerNumber == oldValue);
+            foreach (var dg in _dgs)
             {
                 if (dg.ContainerNumber != oldValue) continue;
                 if (dg.ContainerNumber == value) continue;
                 dg.ContainerNumber = value;
             }
 
-            foreach (var container in _cargoPlanWrapper.Containers)
+            var container = _workingCargoPlan.Containers.FirstOrDefault(x => x.ContainerNumber == oldValue);
+            if (container?.ContainerNumber == oldValue)
             {
-                if (container.ContainerNumber == value) container.Refresh();
-                if (container.ContainerNumber != oldValue) continue;
                 if (container.ContainerNumber != value)
                     container.ContainerNumber = value;
                 container.Refresh();
             }
 
-            foreach (var reefer in _cargoPlanWrapper.Reefers)
-            {
-                if (reefer.ContainerNumber == value) reefer.Refresh();
-                if (reefer.ContainerNumber != oldValue) continue;
-                if (reefer.ContainerNumber != value)
-                    reefer.ContainerNumber = value;
-                reefer.Refresh();
-            }
+            var reefer = _workingCargoPlan.Reefers.FirstOrDefault(x => x.ContainerNumber == oldValue);
+            if(reefer is null) return;
+            if (reefer.ContainerNumber != oldValue) return;
+            if (reefer.ContainerNumber != value)
+                reefer.ContainerNumber = value;
+            reefer.Refresh();
         }
 
         /// <summary>
@@ -201,8 +214,8 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <param name="obj"></param>
         private void SetIsReeferProperty(CargoPlanUnitPropertyChanged obj)
         {
-            ContainerWrapper wrapper = (bool)obj.IsDgWrapper
-                ? _cargoPlanWrapper.Containers.FindContainerByContainerNumber((IContainer)obj.Unit)
+            ContainerWrapper wrapper = obj.IsDgWrapper
+                ? _workingCargoPlan.Containers.FindContainerByContainerNumber((IContainer)obj.Unit)
                 : (ContainerWrapper)obj.Unit;
             if (wrapper == null) return;
 
@@ -212,14 +225,14 @@ namespace EasyJob_ProDG.UI.Wrapper
                 bool removed = _messageDialogService.ShowYesNoDialog(
                                    $"Do you want to delete unit {obj.ContainerNumber} from Reefer list", "")
                                == MessageDialogResult.Yes;
-                if (removed) _cargoPlanWrapper.RemoveReefer(wrapper);
+                if (removed) _workingCargoPlan.RemoveReefer(wrapper);
                 SetNewCargoPlanUnitPropertyValue(obj.ContainerNumber, !removed, obj.PropertyName);
             }
 
             //add reefer
             else
             {
-                _cargoPlanWrapper.AddReefer(wrapper);
+                _workingCargoPlan.AddReefer(wrapper);
                 SetNewCargoPlanUnitPropertyValue(obj.ContainerNumber, obj.Value, obj.PropertyName);
             }
 

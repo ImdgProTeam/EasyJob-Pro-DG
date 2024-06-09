@@ -24,7 +24,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         protected override void SetDataView()
         {
-            SetPlanViewSource(CargoPlan.Reefers);
+            SetPlanViewSource(WorkingCargoPlan.Reefers);
         }
 
         /// <summary>
@@ -55,14 +55,14 @@ namespace EasyJob_ProDG.UI.ViewModel
         protected override void OnAddNewUnit(object obj)
         {
             //Action
-            CargoPlan.AddNewReefer(new Model.Cargo.Container()
+            WorkingCargoPlan.AddNewReefer(new Model.Cargo.Container()
             {
                 ContainerNumber = UnitToAddNumber,
                 Location = UnitToAddLocation.CorrectFormatContainerLocation()
             });
 
             //Scroll into the new Container
-            SelectedUnit = CargoPlan.Reefers[CargoPlan.Reefers.Count - 1];
+            SelectedUnit = WorkingCargoPlan.Reefers[WorkingCargoPlan.Reefers.Count - 1];
             OnPropertyChanged(nameof(SelectedUnit));
         }
 
@@ -75,7 +75,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             foreach (var number in containerNumbers)
             {
-                CargoPlan.RemoveReefer(number, toUpdateInCargoPlan: true);
+                WorkingCargoPlan.RemoveReefer(number, toUpdateInCargoPlan: true);
             }
         }
 

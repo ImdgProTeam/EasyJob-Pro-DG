@@ -59,7 +59,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         protected override void SetDataView()
         {
-            SetPlanViewSource(CargoPlan.DgList);
+            SetPlanViewSource(WorkingCargoPlan.DgList);
         }
 
         #endregion
@@ -122,7 +122,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 return;
 
             //Action
-            CargoPlan.AddDg(new Model.Cargo.Dg()
+            WorkingCargoPlan.AddDg(new Model.Cargo.Dg()
             {
                 Unno = unitToAddUnno,
                 ContainerNumber = unitToAddNumber,
@@ -130,7 +130,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             }); ;
 
             //Scroll into the new Container
-            SelectedDg = CargoPlan.DgList[CargoPlan.DgList.Count - 1];
+            SelectedDg = WorkingCargoPlan.DgList[WorkingCargoPlan.DgList.Count - 1];
             OnPropertyChanged(nameof(SelectedDg));
         }
 
@@ -188,7 +188,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             if (IsTechnicalNameIncluded)
             {
-                foreach (var dg in CargoPlan.DgList)
+                foreach (var dg in WorkingCargoPlan.DgList)
                 {
                     dg.RemoveTechnicalName();
                 }
@@ -197,7 +197,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
             else
             {
-                foreach (var dg in CargoPlan.DgList)
+                foreach (var dg in WorkingCargoPlan.DgList)
                 {
                     dg.IncludeTechnicalName();
                 }

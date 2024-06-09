@@ -1,7 +1,6 @@
 ﻿using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.UI.Wrapper.Cargo;
-using System;
 using System.Collections.Generic;
 
 namespace EasyJob_ProDG.UI.Wrapper
@@ -27,8 +26,6 @@ namespace EasyJob_ProDG.UI.Wrapper
                         {
                             yield return "Dg class is invalid";
                         }
-
-
                         break;
                     }
                 case nameof(ContainerType):
@@ -58,9 +55,10 @@ namespace EasyJob_ProDG.UI.Wrapper
         // --------------- Converters -----------------------------------------------
 
         /// <summary>
-        /// Converts DgWrapper into a ContainerWrapper
+        /// Converts DgWrapper into a ContainerWrapper.
+        /// Only ContainerNumber and Location will be saved.
         /// </summary>
-        /// <returns>ContainerWrapper instance</returns>
+        /// <returns>New ContainerWrapper instance.</returns>
         public ContainerWrapper ConvertToContainerWrapper()
         {
             Container newContainer = new Container { ContainerNumber = ContainerNumber, Location = Location };
@@ -95,7 +93,6 @@ namespace EasyJob_ProDG.UI.Wrapper
         #endregion
 
 
-
         #region Override methods
         // -------------- Overriding methods and operators --------------------------
 
@@ -111,7 +108,7 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         public override bool Equals(object obj)
         {
-            if(obj is DgWrapper dgWrapper)
+            if (obj is DgWrapper dgWrapper)
             {
                 return this.Equals(dgWrapper);
             }

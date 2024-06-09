@@ -7,7 +7,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
     /// </summary>
     public interface ICargoDataService
     {
-        CargoPlanWrapper GetCargoPlan();
+        void GetCargoPlan();
         CargoPlanWrapper WorkingCargoPlan { get; }
         string ConditionFileName { get; }
     }

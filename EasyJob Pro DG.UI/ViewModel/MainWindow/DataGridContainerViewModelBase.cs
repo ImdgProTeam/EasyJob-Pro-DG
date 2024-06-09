@@ -110,7 +110,7 @@ namespace EasyJob_ProDG.UI.ViewModel.MainWindow
         }
 
         /// <summary>
-        /// Method to be implemented specifically for containers or reefers to remove items from CargoPlan
+        /// Method to be implemented specifically for containers or reefers to remove items from WorkingCargoPlan
         /// </summary>
         /// <param name="list"></param>
         protected abstract void RemoveUnit(List<string> containerNumberList);

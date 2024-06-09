@@ -33,14 +33,6 @@ namespace EasyJob_ProDG.Model.Cargo
                 DgFromIMDGCode dgFromImdgCode = imdgRecords[orderInList];
                 dgFromImdgCode.SpecialClass();
 
-                // if only packing group changed
-                if (pkgChanged)
-                {
-                    dg.SetIMDGCodeValues(dgFromImdgCode, pkgChanged: true);
-                    return;
-                }
-
-
                 //copy original property text instead of "see entry above"
                 while (dgFromImdgCode.Properties == "See entry above.")
                 {
@@ -49,6 +41,13 @@ namespace EasyJob_ProDG.Model.Cargo
                     if (orderInList == 0) break;
                 }
 
+                // if only packing group changed
+                if (pkgChanged)
+                {
+                    dg.SetIMDGCodeValues(dgFromImdgCode, pkgChanged: true);
+                    return;
+                }
+                
                 dg.UpdateDgClassAndSubclass(unitIsNew, dgFromImdgCode);
                 dg.UpdateOtherInformation(dgFromImdgCode);
             }

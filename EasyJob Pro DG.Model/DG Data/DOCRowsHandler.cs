@@ -8,7 +8,8 @@
         public static void AssignRowFromDOC(this Dg dg)
         {
             if (string.IsNullOrEmpty(dg.DgClass)) return;
-            if(dg.DgClass.Substring(0,1)=="1") dg.DgRowInDOC = (byte)(dg.DgClass == "1.4S" ? 1 : 0);
+            if(dg.DgClass.Substring(0,1)=="1") 
+                dg.DgRowInDOC = (byte)(dg.DgClass == "1.4S" ? 1 : 0);
             else switch (dg.DgClass)
             {
                 case "2.1":

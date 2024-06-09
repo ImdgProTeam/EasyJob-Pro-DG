@@ -41,7 +41,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
                 _locationSortable = null;
 
                 Model.HoldNr = DataHelper.DefineCargoHoldNumber(Bay);
-                NotifyOfChangedProperty(GetValue<string>(), oldValue);
+                NotifyOfChangedContainerProperty(GetValue<string>(), oldValue);
                 RefreshLocation();
             }
         }
@@ -64,7 +64,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
 
                 if (!SetValue(newValue)) return;
                 OnPropertyChanged(nameof(HasNoNumber));
-                NotifyOfChangedProperty(newValue, oldValue);
+                NotifyOfChangedContainerProperty(newValue, oldValue);
                 OnPropertyChanged(nameof(DisplayContainerNumber));
             }
         }
@@ -90,7 +90,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             set
             {
                 if (!SetValue(value)) return;
-                NotifyOfChangedProperty(value);
+                NotifyOfChangedContainerProperty(value);
                 OnPropertyChanged(nameof(IsOpen));
             }
         }
@@ -113,7 +113,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             set
             {
                 if (!SetValue(value)) return;
-                NotifyOfChangedProperty(value);
+                NotifyOfChangedContainerProperty(value);
             }
         }
 
@@ -130,7 +130,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             set
             {
                 if (!SetValue(value)) return;
-                NotifyOfChangedProperty(value);
+                NotifyOfChangedContainerProperty(value);
             }
         }
 
@@ -143,7 +143,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             set
             {
                 if (!SetValue(value)) return;
-                NotifyOfChangedProperty(value);
+                NotifyOfChangedContainerProperty(value);
             }
         }
 
@@ -156,10 +156,11 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             set
             {
                 if (!SetValue(value)) return;
-                NotifyOfChangedProperty(value);
+                NotifyOfChangedContainerProperty(value);
 
             }
         }
+
         /// <summary>
         /// Container type code
         /// </summary>
@@ -169,7 +170,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             set
             {
                 if (!SetValue(value.ToUpper())) return;
-                NotifyOfChangedProperty(value.ToUpper());
+                NotifyOfChangedContainerProperty(value.ToUpper());
             }
         }
 
@@ -182,7 +183,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             set
             {
                 if (!SetValue(value)) return;
-                NotifyOfChangedProperty(value);
+                NotifyOfChangedContainerProperty(value);
             }
         }
 
@@ -195,7 +196,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             set
             {
                 if (!SetValue(value)) return;
-                NotifyOfChangedProperty(value);
+                NotifyOfChangedContainerProperty(value);
             }
         }
         public bool IsToBeKeptInPlan
@@ -204,7 +205,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             set
             {
                 if (!SetValue(value)) return;
-                NotifyOfChangedProperty(value);
+                NotifyOfChangedContainerProperty(value);
             }
         }
 
@@ -215,7 +216,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             {
                 if (!SetValue(value)) return;
                 if (value) IsToImport = false;
-                NotifyOfChangedProperty(value);
+                NotifyOfChangedContainerProperty(value);
             }
         }
 
@@ -226,7 +227,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             {
                 if (!SetValue(value)) return;
                 if (value) IsNotToImport = false;
-                NotifyOfChangedProperty(value);
+                NotifyOfChangedContainerProperty(value);
             }
         }
 
@@ -256,7 +257,6 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             get => GetValue<bool>();
             set { }
         }
-
         public string LocationBeforeRestow
         {
             get => GetValue<string>(); set { }
@@ -274,12 +274,22 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
         }
 
         /// <summary>
+        /// Sends request to CargoPlanWrapper to set new value to all containers in the plan
+        /// </summary>
+        /// <param name="value">new value to be set</param>
+        /// <param name="oldValue">old value</param>
+        /// <param name="propertyName">property of which value to be changed</param>
+        protected abstract void NotifyOfChangedContainerProperty(object value, object oldValue = null, [CallerMemberName] string propertyName = null);
+       
+        #region Refresh view methods
+
+        /// <summary>
         /// Calls OnPropertyChanged for a number of properties
         /// </summary>
         internal void Refresh()
         {
-            OnPropertyChanged("ContainsDgCargo");
-            OnPropertyChanged("DgCountInContainer");
+            OnPropertyChanged(nameof(ContainerWrapper.ContainsDgCargo));
+            OnPropertyChanged(nameof(ContainerWrapper.DgCountInContainer));
 
             OnPropertyChanged(nameof(ContainerNumber));
             OnPropertyChanged(nameof(DisplayContainerNumber));
@@ -303,16 +313,6 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
         {
             OnPropertyChanged(nameof(IsRf));
         }
-
-
-        /// <summary>
-        /// Sends request to CargoPlanWrapper to set new value to all containers in the plan
-        /// </summary>
-        /// <param name="value">new value to be set</param>
-        /// <param name="oldValue">old value</param>
-        /// <param name="propertyName">property of which value to be changed</param>
-        protected abstract void NotifyOfChangedProperty(object value, object oldValue = null, [CallerMemberName] string propertyName = null);
-
 
         /// <summary>
         /// Calls OnPropertyChanged for all location related properties
@@ -338,7 +338,9 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             OnPropertyChanged(nameof(IsPositionLockedForChange));
             OnPropertyChanged(nameof(IsToImport));
             OnPropertyChanged(nameof(IsNotToImport));
-        }
+        } 
+
+        #endregion
 
 
         #region Constructor

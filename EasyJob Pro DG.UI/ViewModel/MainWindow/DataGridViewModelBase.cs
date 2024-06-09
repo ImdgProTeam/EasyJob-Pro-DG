@@ -15,7 +15,6 @@ namespace EasyJob_ProDG.UI.ViewModel.MainWindow
     {
         // ----- Private and protected fields -----
 
-        private CargoDataService cargoDataService;
         private readonly CollectionViewSource unitsPlanView = new CollectionViewSource();
 
         protected object selectionObject;
@@ -29,7 +28,7 @@ namespace EasyJob_ProDG.UI.ViewModel.MainWindow
         /// Used for DataGrid binding 
         /// </summary>
         public ICollectionView UnitsPlanView => unitsPlanView?.View;
-        public CargoPlanWrapper CargoPlan => cargoDataService.WorkingCargoPlan;
+        public CargoPlanWrapper WorkingCargoPlan => ViewModelLocator.MainWindowViewModel.WorkingCargoPlan;
         public string StatusBarText { get; protected set; } = "None";
 
 
@@ -40,7 +39,6 @@ namespace EasyJob_ProDG.UI.ViewModel.MainWindow
         {
             dispatcher = Dispatcher.CurrentDispatcher;
 
-            LoadBaseServices();
             LoadServices();
 
             RegisterBaseInDataMessenger();
@@ -69,11 +67,6 @@ namespace EasyJob_ProDG.UI.ViewModel.MainWindow
         protected void SetPlanViewSource(IEnumerable unitsPlan)
         {
             unitsPlanView.Source = unitsPlan;
-        }
-
-        private void LoadBaseServices()
-        {
-            cargoDataService = CargoDataService.GetCargoDataService();
         }
 
         private void LoadBaseCommands()
@@ -207,7 +200,7 @@ namespace EasyJob_ProDG.UI.ViewModel.MainWindow
             dispatcher.Invoke(() =>
             {
                 SetDataView();
-                OnPropertyChanged(nameof(CargoPlan));
+                OnPropertyChanged(nameof(WorkingCargoPlan));
                 OnPropertyChanged(nameof(UnitsPlanView));
             });
         }

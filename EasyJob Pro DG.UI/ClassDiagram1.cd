@@ -37,7 +37,7 @@
   <Class Name="EasyJob_ProDG.UI.Data.ConflictsList" Collapsed="true">
     <Position X="0.5" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAACAABAAUAAIAMAggAAgAAAAAAAAAQACE=</HashCode>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
       <FileName>Data\ConflictsList.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -52,7 +52,7 @@
   <Class Name="EasyJob_ProDG.UI.Data.DataHelper" Collapsed="true">
     <Position X="69.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <HashCode>IAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
       <FileName>Data\DataHelper.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -144,7 +144,7 @@
   <Class Name="EasyJob_ProDG.UI.Services.DataServices.ShipProfileDataService" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="55" Y="8.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IIgCCABAAAAAAACAAAAAAAAAAAAAAAAAAAAAAEACAAA=</HashCode>
+      <HashCode>AIgCCABAAAAAAACAAAAAAAAAAAAAAAAAAAAAAEACAAA=</HashCode>
       <FileName>Services\DataServices\ShipProfileDataService.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -261,17 +261,10 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="EasyJob_ProDG.UI.Utility.ExportDataGridToExcel" Collapsed="true">
-    <Position X="74.5" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
-      <FileName>Utility\ExportDataGridToExcel.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="EasyJob_ProDG.UI.Utility.ExtensionMethods" Collapsed="true">
     <Position X="74.5" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAQAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAQEAAAAABAAAAAAAAAAEgAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Utility\ExtensionMethods.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -1011,21 +1004,21 @@
   <Class Name="EasyJob_ProDG.UI.ViewModel.DataGridContainersViewModel" Collapsed="true">
     <Position X="53" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>DIAQAAaEgAGRAECIGAFACIiABAAAQAQIAQAAMAACgEA=</HashCode>
+      <HashCode>AAAAAAAEgAABAAAIEAAAAACABAAAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>ViewModel\MainWindow\DataGridContainersViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EasyJob_ProDG.UI.ViewModel.DataGridDgViewModel" Collapsed="true">
     <Position X="62" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AYCAQAOkAACAAA6IGBAAgIiAJACiQAhoIQIAQAAaAEA=</HashCode>
+      <HashCode>AAAAQAAkAACAAA4IAAAAAAIBJACCAAgAAAIAAAEbAAQ=</HashCode>
       <FileName>ViewModel\MainWindow\DataGridDgViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EasyJob_ProDG.UI.ViewModel.DataGridReefersViewModel" Collapsed="true">
     <Position X="64.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>QoAABAKEgCCAAEAIWCAEAEiBBAAABEAYAQEAAAAHAEA=</HashCode>
+      <HashCode>AAAAAAAEAAAAAAAIAAAAAACABAAABAAAAAAAAAAAAAQ=</HashCode>
       <FileName>ViewModel\MainWindow\DataGridReefersViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -1069,17 +1062,10 @@
   <Class Name="EasyJob_ProDG.UI.Wrapper.Cargo.AbstractContainerWrapper&lt;T&gt;" Collapsed="true">
     <Position X="17.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAEAAkABAAjYgAAASBYIIQAJCAAYAkAQAAAAiAECAAA=</HashCode>
+      <HashCode>IAEAAkABAAjYgAAASBYIIQAJCABQAkAQAAAAiAECAAA=</HashCode>
       <FileName>Wrapper\Cargo\AbstractContainerWrapper.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="EasyJob_ProDG.UI.Wrapper.CargoPlanUnitPropertyChanger" Collapsed="true">
-    <Position X="63.5" Y="7.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAACBAAAAAEgAEUAAAAAgAAAAAgAgAAAAAAAAQAA=</HashCode>
-      <FileName>Wrapper\Cargo\CargoPlanUnitPropertyChanger.cs</FileName>
-    </TypeIdentifier>
   </Class>
   <Class Name="EasyJob_ProDG.UI.Wrapper.CargoPlanWrapper" Collapsed="true">
     <Position X="23.75" Y="4.75" Width="1.5" />
@@ -1098,7 +1084,7 @@
   <Class Name="EasyJob_ProDG.UI.Wrapper.ContainerWrapper" Collapsed="true">
     <Position X="16" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAJACIIAAABAAAAAAAAAAAAAIABCgAAAAAQAEUAA=</HashCode>
+      <HashCode>AAAAAJACIIAAABAAAAAAAAAAAABAABCgAAAAAQAEUAA=</HashCode>
       <FileName>Wrapper\Cargo\ContainerWrapper.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -1106,7 +1092,7 @@
   <Class Name="EasyJob_ProDG.UI.Wrapper.DgWrapper" Collapsed="true">
     <Position X="18.25" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>DAAmASwAAIACBBqEgZJoAAwpEgGJAgEAgCAEgAATIiA=</HashCode>
+      <HashCode>DAAmASgAAIACBBqEgZJoAAwpAAHJAgEAgCAEgAATAiA=</HashCode>
       <FileName>Wrapper\Cargo\DgWrapper.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -1114,7 +1100,7 @@
     <Position X="17.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIIAABAAAIAAAAACgAUgAAAAAAABAAUCEAAAAABAA=</HashCode>
-      <FileName>Wrapper\ChangeTrackingCollection.cs</FileName>
+      <FileName>Wrapper\ModelWrappers\ChangeTrackingCollection.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
@@ -1122,7 +1108,7 @@
     <Position X="16" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAIAAAAgAACAAAAAAAACEAAAAAAAgAAAAAAAA=</HashCode>
-      <FileName>Wrapper\ModelWrapper.cs</FileName>
+      <FileName>Wrapper\ModelWrappers\ModelWrapper.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EasyJob_ProDG.UI.Wrapper.ExcelDgTemplateWrapper" Collapsed="true">
@@ -1278,7 +1264,7 @@
   <Interface Name="EasyJob_ProDG.UI.Services.DataServices.IShipProfileDataService" Collapsed="true">
     <Position X="55" Y="7.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IIgAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AIgAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Services\DataServices\Interfaces\IShipProfileDataService.cs</FileName>
     </TypeIdentifier>
   </Interface>

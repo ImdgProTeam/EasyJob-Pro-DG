@@ -64,7 +64,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         private void OnNetWeightChanged()
         {
             DataMessenger.Default.Send<UpdateCargoPlan>(new UpdateCargoPlan(), "Net weight changed");
-            NotifyOfChangedProperties();
+            NotifyStatusBar();
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// Invokes sending of <see cref="DgListSelectedItemUpdatedMessage"/>
         /// Used by SelectionStatusBar in order to update status bar info
         /// </summary>
-        private void NotifyOfChangedProperties()
+        private void NotifyStatusBar()
         {
             DataMessenger.Default.Send(new DgListSelectedItemUpdatedMessage(), "selectionpropertyupdated");
         }
@@ -103,7 +103,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <param name="value">new value set</param>
         /// <param name="oldValue">old value</param>
         /// <param name="propertyName">property that is changed</param>
-        protected override void NotifyOfChangedProperty(object value, object oldValue = null, [CallerMemberName] string propertyName = null)
+        protected override void NotifyOfChangedContainerProperty(object value, object oldValue = null, [CallerMemberName] string propertyName = null)
         {
             DataMessenger.Default.Send(new CargoPlanUnitPropertyChanged(this, value, oldValue, propertyName));
         }

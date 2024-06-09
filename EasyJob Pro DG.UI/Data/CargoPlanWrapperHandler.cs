@@ -12,20 +12,11 @@ namespace EasyJob_ProDG.UI.Wrapper
         // ----------------- Private fields ------------------------------------
         private static CargoPlanWrapperHandler _handleCargoPlanWrapper;
         private ICargoDataService _cargoDataService;
-        private CargoPlanWrapper _cargoPlan;
+        private CargoPlanWrapper _cargoPlan => _cargoDataService.WorkingCargoPlan;
 
 
         // ----- Access to this handler -----
-
-        internal static CargoPlanWrapperHandler GetHandler() => _handleCargoPlanWrapper ?? new CargoPlanWrapperHandler();
-
-        /// <summary>
-        /// Initiates the service
-        /// </summary>
-        internal void Launch()
-        {
-            _cargoPlan = _cargoDataService.GetCargoPlan();
-        }
+        internal static CargoPlanWrapperHandler Launch() => _handleCargoPlanWrapper ?? new CargoPlanWrapperHandler();
 
 
         // -------------- Add/Remove/Modify methods ---------------------------------

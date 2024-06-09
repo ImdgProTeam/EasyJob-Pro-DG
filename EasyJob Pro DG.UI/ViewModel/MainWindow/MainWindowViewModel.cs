@@ -38,7 +38,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public string WindowTitle { get; private set; }
         public ConflictsList Conflicts { get; set; }
         public VentilationRequirements Vents { get; set; }
-        public CargoPlanWrapper WorkingCargoPlan { get; set; }
+        public CargoPlanWrapper WorkingCargoPlan => cargoDataService.WorkingCargoPlan;
         public Voyage VoyageInfo => WorkingCargoPlan.VoyageInfo ?? null;
         public StatusBarViewModel StatusBarControl { get; set; }
 
@@ -124,7 +124,8 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             GetCargoData();
 
-            CargoPlanWrapperHandler.GetHandler().Launch();
+            CargoPlanWrapperHandler.Launch();
+            CargoPlanUnitPropertyChanger.Launch();
         }
 
         /// <summary>
@@ -133,9 +134,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void GetCargoData()
         {
             //Get data from cargoDataService
-            WorkingCargoPlan = cargoDataService.GetCargoPlan();
+            cargoDataService.GetCargoPlan();
 
-            //Run CargoPlan check
+            //Run WorkingCargoPlan check
             cargoPlanCheckService.CheckCargoPlan();
 
             //Get conflicts
