@@ -5,6 +5,9 @@ using System.Windows;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
+    /// <summary>
+    /// Logic for progress bar status visual and text
+    /// </summary>
     public class StatusBarViewModel : Observable
     {
         private static int _dataReporterValue => EasyJob_ProDG.Data.ProgressBarReporter.ReportPercentage;

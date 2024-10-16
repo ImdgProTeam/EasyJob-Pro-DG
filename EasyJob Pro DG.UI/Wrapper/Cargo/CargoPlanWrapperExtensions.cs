@@ -216,7 +216,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         private static void UpdateCargoPlanValuesAndConflicts(this CargoPlanWrapper cargoPlan)
         {
-            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage());
+            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(), "update conflicts");
             cargoPlan.RefreshCargoPlanValues();
         }
 

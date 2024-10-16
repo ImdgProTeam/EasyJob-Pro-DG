@@ -17,6 +17,9 @@ namespace EasyJob_ProDG.UI.Utility
 
         private static ConflictListViewModel conflictListViewModel = new ConflictListViewModel();
         public static ConflictListViewModel ConflictListViewModel => conflictListViewModel;
+        
+        private static ConflictsSectionViewModel conflictsSectionViewModel = new ConflictsSectionViewModel();
+        public static ConflictsSectionViewModel ConflictsSectionViewModel => conflictsSectionViewModel;
 
         private static DataGridDgViewModel dataGridDgViewModel = new DataGridDgViewModel();
         public static DataGridDgViewModel DataGridDgViewModel
@@ -45,7 +48,7 @@ namespace EasyJob_ProDG.UI.Utility
             }
         }
 
-
+        // TODO: Check if the code is required here
         // Creation on demand
 
         private static SettingsWindowVM settingsWindowVM;

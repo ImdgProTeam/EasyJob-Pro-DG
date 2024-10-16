@@ -31,7 +31,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         /// Creates <see cref="Conflicts"/> and <see cref="Vents"/>
         /// </summary>
         /// <returns><see cref="Conflicts"/></returns>
-        ConflictsList IConflictDataService.GetConflicts()
+        public ConflictsList GetConflicts()
         {
             //Display info
             Conflicts.CreateConflictList(_cargoDataService.WorkingCargoPlan.DgList);
@@ -39,7 +39,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
             return Conflicts;
         }
 
-        VentilationRequirements IConflictDataService.GetVentilationRequirements()
+        public VentilationRequirements GetVentilationRequirements()
         {
             return Vents;
         }

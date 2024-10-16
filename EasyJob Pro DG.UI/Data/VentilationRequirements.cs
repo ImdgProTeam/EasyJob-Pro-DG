@@ -8,7 +8,7 @@ namespace EasyJob_ProDG.UI.Data
     {
         // ---------------------- Properties --------------------------------------------
 
-        private readonly List<byte> _ventHolds = new List<byte>();
+        private readonly SortedSet<byte> _ventHolds = new SortedSet<byte>();
 
         public string VentHoldsFullText
         {
@@ -58,7 +58,7 @@ namespace EasyJob_ProDG.UI.Data
             Clear();
             foreach (var hold in Stowage.SWgroups.VentHoldsList)
                 Add(hold);
-            OnPropertyChanged("VentHoldsFullText");
+            OnPropertyChanged(nameof(VentHoldsFullText));
         }
 
     }

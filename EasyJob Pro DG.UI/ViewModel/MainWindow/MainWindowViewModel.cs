@@ -34,10 +34,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
 
         #region Public properties to be used in View
-
         public string WindowTitle { get; private set; }
-        public ConflictsList Conflicts { get; set; }
-        public VentilationRequirements Vents { get; set; }
         public CargoPlanWrapper WorkingCargoPlan => cargoDataService.WorkingCargoPlan;
         public Voyage VoyageInfo => WorkingCargoPlan.VoyageInfo ?? null;
         public StatusBarViewModel StatusBarControl { get; set; }
@@ -99,13 +96,14 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             loadDataService = new LoadDataService();
             cargoDataService = CargoDataService.GetCargoDataService();
-            cargoPlanCheckService = new CargoPlanCheckService();
+            cargoPlanCheckService = CargoPlanCheckService.GetCargoPlanCheckService();
             conflictDataService = ConflictDataService.GetConflictDataService();
             uiSettingsService = new SettingsService();
             mappedDialogWindowService = new MappedDialogWindowService(System.Windows.Application.Current.MainWindow);
             windowDialogService = new WindowDialogService();
             _messageDialogService = MessageDialogService.Connect();
             _titleService = new TitleService();
+            ServicesHandler.Initiate();
 
         }
         private void LoadData()
@@ -140,8 +138,11 @@ namespace EasyJob_ProDG.UI.ViewModel
             cargoPlanCheckService.CheckCargoPlan();
 
             //Get conflicts
-            Conflicts = conflictDataService.GetConflicts();
-            Vents = conflictDataService.GetVentilationRequirements();
+            //Conflicts = conflictDataService.GetConflicts();
+            //Vents = conflictDataService.GetVentilationRequirements();
+
+            // Refreshes conflicts list
+            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(), "update conflicts");
 
             //OnPropertyChange
             RefreshView();
@@ -297,7 +298,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void RefreshView()
         {
             OnPropertyChanged(nameof(WorkingCargoPlan));
-            OnPropertyChanged(nameof(Conflicts));
+            //OnPropertyChanged(nameof(Conflicts));
             OnPropertyChanged(nameof(VoyageInfo));
         }
 

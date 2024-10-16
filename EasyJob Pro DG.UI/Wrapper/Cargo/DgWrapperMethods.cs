@@ -72,7 +72,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         private void UpdateConflictList()
         {
-            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage());
+            DataMessenger.Default.Send(new ConflictsToBeCheckedAndUpdatedMessage());
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         private void UpdateDgStowageConflicts()
         {
-            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(this));
+            DataMessenger.Default.Send(new ConflictsToBeCheckedAndUpdatedMessage(this));
         }
 
         /// <summary>

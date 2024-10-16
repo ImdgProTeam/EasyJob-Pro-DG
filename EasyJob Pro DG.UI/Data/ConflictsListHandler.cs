@@ -5,11 +5,14 @@ using System.Windows.Threading;
 
 namespace EasyJob_ProDG.UI.Data
 {
-    internal static class ConflictsHandler
+    /// <summary>
+    /// Handles various operations with <see cref="Data.ConflictsList"/> (extends it).
+    /// </summary>
+    internal static class ConflictsListHandler
     {
 
         // ---------------- Public constructors -------------------------------------
-        static ConflictsHandler()
+        static ConflictsListHandler()
         {
             dispatcher = Dispatcher.CurrentDispatcher;
         }

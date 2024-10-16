@@ -111,16 +111,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Compile Include="Data\ConflictsHandler.cs" />
+    <Compile Include="Data\ConflictsListHandler.cs" />
     <Compile Include="IO\DialogOpenSettings.cs" />
     <Compile Include="IO\DialogSaveSettings.cs" />
     <Compile Include="Services\DataServices\CargoPlanCheckService.cs" />
     <Compile Include="Services\DataServices\Interfaces\ICargoPlanCheckService.cs" />
     <Compile Include="Services\DialogServices\IWindowDialogService.cs" />
+    <Compile Include="Services\ServicesHandler.cs" />
     <Compile Include="Settings\UserSettingsApplicator.cs" />
     <Compile Include="Utility\AsyncObservableCollection.cs" />
+    <Compile Include="Utility\Messages\ConflictsToBeCheckedAndUpdatedMessage.cs" />
     <Compile Include="Utility\Messages\DgListSelectedItemUpdatedMessage.cs" />
     <Compile Include="Utility\Messages\ShipProfileSavedMessage.cs" />
+    <Compile Include="ViewModel\MainWindow\ConflictsSectionViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridViewModelBase.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridContainerViewModelBase.cs" />
     <Compile Include="ViewModel\MainWindow\MainWindowCommands.cs" />
@@ -263,6 +266,9 @@
     <Compile Include="View\User Controls\BindingProxy.cs" />
     <Compile Include="View\User Controls\MainWindow\AddContainerToDataGrid.cs">
       <DependentUpon>AddContainerGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User Controls\MainWindow\ConflictsSection.xaml.cs">
+      <DependentUpon>ConflictsSection.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User Controls\MainWindow\DataGridContainers.xaml.cs">
       <DependentUpon>DataGridContainers.xaml</DependentUpon>
@@ -449,6 +455,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User Controls\MainWindow\AddContainerGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User Controls\MainWindow\ConflictsSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

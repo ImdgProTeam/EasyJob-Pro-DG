@@ -11,14 +11,24 @@ namespace EasyJob_ProDG.UI.ViewModel
 
     public class ConflictListViewModel : Observable
     {
+        #region Private fields
+
         //readonly fields
         readonly IConflictDataService conflictDataService;
         private List<ConflictPanelItemViewModel> deletedConflicts = new List<ConflictPanelItemViewModel>();
 
+        #endregion
 
+        #region Public properties
         //public properties
+
+        /// <summary>
+        /// Confilicts from this list are displayed in ConflictList
+        /// </summary>
         public ObservableCollection<ConflictPanelItemViewModel> DisplayConflicts { get; private set; }
         public ConflictPanelItemViewModel SelectedConflict { get; set; }
+
+        #endregion
 
 
         #region Private methods
@@ -31,6 +41,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             DisplayConflicts = conflictDataService.GetConflicts();
 
+            // Cleaning conflicts that has already been ordered to delete
             if (deletedConflicts.Count > 0)
             {
                 for (int i = 0; i < DisplayConflicts.Count; i++)
@@ -56,17 +67,20 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj">Contains parameters.</param>
         private void OnDisplayConflictsToBeRefreshedMessageReceived(DisplayConflictsToBeRefreshedMessage obj)
         {
+            // TODO: Implement logic to update only selected unit stowage conflicts
             //if (obj.OnlyUnitStowageToBeUpdated)
             //{
-            //    cargoPlanCheckService.CheckDgWrapperStowage(obj.dgWrapper);
-            //    return;
+            //    if (!obj.dgWrapper.IsConflicted && DisplayConflicts.Any(w => w.DgID == obj.dgWrapper.)
+            //    {
+
+            //        DisplayConflicts.Remove()
+            //    }
             //}
+
             if (obj.FullListToBeUpdated)
             {
                 deletedConflicts.Clear();
             }
-            //else
-            //    cargoPlanCheckService.CheckCargoPlan();
             SetDisplayConflicts();
         }
 
@@ -120,7 +134,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         //Constructor
         public ConflictListViewModel()
         {
-            DataMessenger.Default.Register<DisplayConflictsToBeRefreshedMessage>(this, OnDisplayConflictsToBeRefreshedMessageReceived);
+            DataMessenger.Default.Register<DisplayConflictsToBeRefreshedMessage>(this, OnDisplayConflictsToBeRefreshedMessageReceived, "update conflicts");
 
             DoubleClickOnSelectedItem = new DelegateCommand(NotifyOfSelectedConflict);
             RemoveConflictCommand = new DelegateCommand(RemoveConflict);
@@ -137,7 +151,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         //Commands
         public ICommand DoubleClickOnSelectedItem { get; private set; }
         public ICommand RemoveConflictCommand { get; private set; }
-        public ICommand RemoveSimilarConflictCommand { get; private set; } 
+        public ICommand RemoveSimilarConflictCommand { get; private set; }
 
         #endregion
     }

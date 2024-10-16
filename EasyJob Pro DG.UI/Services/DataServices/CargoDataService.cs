@@ -4,7 +4,7 @@ using EasyJob_ProDG.UI.Wrapper;
 namespace EasyJob_ProDG.UI.Services.DataServices
 {
     /// <summary>
-    /// Provides WorkingCargoPlan.
+    /// Provides <see cref="WorkingCargoPlan"/>.
     /// </summary>
     public class CargoDataService : ICargoDataService
     {
