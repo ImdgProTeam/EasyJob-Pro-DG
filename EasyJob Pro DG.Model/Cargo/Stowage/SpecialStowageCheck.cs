@@ -40,11 +40,18 @@ namespace EasyJob_ProDG.Model.Cargo
                     result = true;
                     break;
                 case "SW5":
-                    if(dg.IsUnderdeck) SWgroups.AddSW5 = dg;
+                    if (dg.IsUnderdeck)
+                    {
+                        result = true;
+                        SWgroups.AddSW5 = dg;
+                    }
                     break;
                 case "SW6":
-                    result = (dg.IsUnderdeck && ship.Doc.DOCtable[dg.HoldNr,6] == 0);
-                    if (dg.IsUnderdeck) SWgroups.AddSW6 = dg;
+                    if (dg.IsUnderdeck)
+                    {
+                        result = true;//(dg.IsUnderdeck && ship.Doc.DOCtable[dg.HoldNr,6] == 0);
+                        SWgroups.AddSW6 = dg;
+                    }
                     break;
                 case "SW7":
                     result = true;
@@ -93,7 +100,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 case "SW21":
                     result = dg.IsUnderdeck;
                     break;
-                
+
                 //For AEROSOLS with a maximum capacity of 1 L: category A.
                 //For AEROSOLS with a capacity above 1 L: category B.
                 //For WASTE AEROSOLS or WASTE GAS CARTRIDGES: category C, clear of living quarters.
