@@ -1,8 +1,6 @@
 ﻿using EasyJob_ProDG.Data;
 using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO;
-using EasyJob_ProDG.UI.Data;
-using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.View.Sort;
 using System;
 using System.Runtime.CompilerServices;
@@ -40,7 +38,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
                 if (!SetValue(value)) return;
                 _locationSortable = null;
 
-                Model.HoldNr = DataHelper.DefineCargoHoldNumber(Bay);
+                Model.HoldNr = Data.DataHelper.DefineCargoHoldNumber(Bay);
                 NotifyOfChangedContainerProperty(GetValue<string>(), oldValue);
                 RefreshLocation();
             }
@@ -196,7 +194,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             set
             {
                 if (!SetValue(value)) return;
-                NotifyOfChangedContainerProperty(value);
+                NotifyOfChangedIUpdatableProperty(value);
             }
         }
         public bool IsToBeKeptInPlan
@@ -205,7 +203,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             set
             {
                 if (!SetValue(value)) return;
-                NotifyOfChangedContainerProperty(value);
+                NotifyOfChangedIUpdatableProperty(value);
             }
         }
 
@@ -216,7 +214,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             {
                 if (!SetValue(value)) return;
                 if (value) IsToImport = false;
-                NotifyOfChangedContainerProperty(value);
+                NotifyOfChangedIUpdatableProperty(value);
             }
         }
 
@@ -227,7 +225,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             {
                 if (!SetValue(value)) return;
                 if (value) IsNotToImport = false;
-                NotifyOfChangedContainerProperty(value);
+                NotifyOfChangedIUpdatableProperty(value);
             }
         }
 
@@ -270,7 +268,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
         /// </summary>
         internal void ClearSubscriptions()
         {
-            DataMessenger.Default.Unregister(this);
+            Utility.DataMessenger.Default.Unregister(this);
         }
 
         /// <summary>
@@ -280,6 +278,19 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
         /// <param name="oldValue">old value</param>
         /// <param name="propertyName">property of which value to be changed</param>
         protected abstract void NotifyOfChangedContainerProperty(object value, object oldValue = null, [CallerMemberName] string propertyName = null);
+
+        /// <summary>
+        /// Notifies of <see cref="IUpdatable"/> property changed.
+        /// Sends request to CargoPlanWrapper to set new value not calling cargo plan recheck (by default)
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="oldValue"></param>
+        /// <param name="propertyName"></param>
+        protected virtual void NotifyOfChangedIUpdatableProperty(object value, object oldValue = null, [CallerMemberName] string propertyName = null)
+        {
+            Utility.DataMessenger.Default.Send(new UI.Messages.CargoPlanUnitPropertyChanged(this, value, oldValue, propertyName, false));
+        }
+
        
         #region Refresh view methods
 

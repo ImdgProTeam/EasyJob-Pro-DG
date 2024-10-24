@@ -106,7 +106,6 @@ namespace EasyJob_ProDG.UI.Wrapper
         protected override void NotifyOfChangedContainerProperty(object value, object oldValue = null, [CallerMemberName] string propertyName = null)
         {
             DataMessenger.Default.Send(new CargoPlanUnitPropertyChanged(this, value, oldValue, propertyName));
-            //DataMessenger.Default.Send(new ConflictsToBeCheckedAndUpdatedMessage());
         }
         #endregion
 
