@@ -2,6 +2,7 @@
 using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO;
 using EasyJob_ProDG.UI.IO;
+using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.View.DialogWindows;
@@ -83,6 +84,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             MainWindowLoadedCommand = new DelegateCommand(MainWindowLoadedCommandExecuted);
             AddNewDgCommand = new DelegateCommand(OnAddNewDg, CanAddNewDg);
+            ReCheckCommand = new DelegateCommand(OnReCheckRequested);
             OpenShipProfileWindowCommand = new DelegateCommand(OpenShipProfileWindowExecuted);
             OpenUserSettingsWindowCommand = new DelegateCommand(OpenUserSettingsWindowExecuted);
             SaveSettingsCommand = new DelegateCommand(SaveSettingsToFileExecuted);
@@ -376,6 +378,16 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
         }
 
+        // ----- Re-check condition
+
+        /// <summary>
+        /// Calls Re-check of condition conflicts
+        /// </summary>
+        /// <param name="obj"></param>
+        private void OnReCheckRequested(object obj)
+        {
+            DataMessenger.Default.Send(new ConflictsToBeCheckedAndUpdatedMessage(true));
+        }
 
         // ----- Settings save - restore -----
         private void SaveSettingsToFileExecuted(object obj)
