@@ -117,6 +117,8 @@
     <Compile Include="Services\DataServices\CargoPlanCheckService.cs" />
     <Compile Include="Services\DataServices\Interfaces\ICargoPlanCheckService.cs" />
     <Compile Include="Services\DialogServices\IWindowDialogService.cs" />
+    <Compile Include="Services\FileNameService.cs" />
+    <Compile Include="Services\IFileNameService.cs" />
     <Compile Include="Services\ServicesHandler.cs" />
     <Compile Include="Settings\UserSettingsApplicator.cs" />
     <Compile Include="Utility\AsyncObservableCollection.cs" />

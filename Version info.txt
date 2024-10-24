@@ -22,14 +22,18 @@ VERSION INFO
 0.9.0.11
 Date: 
 
+Mainly worked on architechture: reducing dependencies and re-worked services and their relations.
+Licence: 31 Dec 2024
+
 Version workable: Yes
 Changes:
 
 VISUAL
-1. 
+1. Change presentation of conflicts text
 
 ERRORS
-1. 
+1. Now all changes shall cause conflicts re-check. The same shall be checked only once after each change, and done instantly.
+2. Adding units will not create double addition to Model as before.
 
 NEW
 1. 

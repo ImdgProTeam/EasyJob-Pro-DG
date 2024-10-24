@@ -48,9 +48,6 @@ namespace EasyJob_ProDG.UI.Utility
             }
         }
 
-        // TODO: Check if the code is required here
-        // Creation on demand
-
         private static SettingsWindowVM settingsWindowVM;
         public static SettingsWindowVM SettingsWindowVM
         {
