@@ -1,4 +1,5 @@
-﻿using EasyJob_ProDG.UI.Utility;
+﻿using EasyJob_ProDG.UI.Messages;
+using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.ViewModel.MainWindow;
 using EasyJob_ProDG.UI.Wrapper;
 using System.Collections.Generic;
@@ -48,11 +49,15 @@ namespace EasyJob_ProDG.UI.ViewModel
         protected override void OnAddNewUnit(object obj)
         {
             //Action
-            WorkingCargoPlan.AddNewContainer(new Model.Cargo.Container()
+            WorkingCargoPlan.AddNewContainer(new ContainerWrapper(new Model.Cargo.Container()
             {
                 ContainerNumber = unitToAddNumber,
                 Location = unitToAddLocation.CorrectFormatContainerLocation()
-            });
+            }
+            ));
+
+            //Recheck dg list
+            DataMessenger.Default.Send(new ConflictsToBeCheckedAndUpdatedMessage());
 
             //Scroll into the new Container
             SelectedUnit = WorkingCargoPlan.Containers[WorkingCargoPlan.Containers.Count - 1];
@@ -83,6 +88,9 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 WorkingCargoPlan.RemoveContainer(number);
             }
+
+            //Recheck dg list
+            DataMessenger.Default.Send(new ConflictsToBeCheckedAndUpdatedMessage());
         }
 
         #endregion

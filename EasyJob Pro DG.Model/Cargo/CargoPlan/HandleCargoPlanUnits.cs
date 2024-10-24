@@ -35,6 +35,17 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
         /// <summary>
+        /// Copies container info from one <see cref="ContainerAbstract"/> to another.
+        /// Present method calls respective method from <see cref="Model.IO"/>
+        /// </summary>
+        /// <param name="copyTo"></param>
+        /// <param name="copyFrom"></param>
+        public static void CopyContainerInfo (this ContainerAbstract copyTo, ContainerAbstract copyFrom)
+        {
+            copyTo.CopyContainerAbstractInfo(copyFrom);
+        } 
+
+        /// <summary>
         /// Adds new container to CargoPlan
         /// </summary>
         /// <param name="container">Container to add to the plan. Container number shall be unique.</param>

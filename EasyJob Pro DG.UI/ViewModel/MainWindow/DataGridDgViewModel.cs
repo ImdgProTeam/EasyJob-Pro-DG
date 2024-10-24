@@ -122,12 +122,15 @@ namespace EasyJob_ProDG.UI.ViewModel
                 return;
 
             //Action
-            WorkingCargoPlan.AddDg(new Model.Cargo.Dg()
+            WorkingCargoPlan.AddDg(new DgWrapper(new Model.Cargo.Dg()
             {
                 Unno = unitToAddUnno,
                 ContainerNumber = unitToAddNumber,
                 Location = location
-            }); ;
+            }));
+
+            //Recheck dg list
+            DataMessenger.Default.Send(new ConflictsToBeCheckedAndUpdatedMessage());
 
             //Scroll into the new Container
             SelectedDg = WorkingCargoPlan.DgList[WorkingCargoPlan.DgList.Count - 1];

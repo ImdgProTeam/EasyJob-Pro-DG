@@ -90,7 +90,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         //-----------------------------------------------------------------------------------------------------------------------------
 
         #region StartUp logic
-        //---------- StartUp logic
+        //----- StartUp logic -----
 
         private void LoadServices()
         {
@@ -136,10 +136,6 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             //Run WorkingCargoPlan check
             cargoPlanCheckService.CheckCargoPlan();
-
-            //Get conflicts
-            //Conflicts = conflictDataService.GetConflicts();
-            //Vents = conflictDataService.GetVentilationRequirements();
 
             // Refreshes conflicts list
             DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(), "update conflicts");
@@ -298,7 +294,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void RefreshView()
         {
             OnPropertyChanged(nameof(WorkingCargoPlan));
-            //OnPropertyChanged(nameof(Conflicts));
             OnPropertyChanged(nameof(VoyageInfo));
         }
 

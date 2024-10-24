@@ -1,77 +1,89 @@
 ﻿using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.Transport;
-using EasyJob_ProDG.UI.Messages;
-using EasyJob_ProDG.UI.Utility;
 using System;
 using System.Linq;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
+    /// <summary>
+    /// Responsible for add/remove logic for units in <see cref="CargoPlanWrapper"/>
+    /// Extends <see cref="CargoPlanWrapper"/>.
+    /// Does NOT update confilcts!
+    /// </summary>
     internal static class CargoPlanWrapperExtensions
     {
-        internal static void AddNewContainer(this CargoPlanWrapper cargoPlan, Container container)
+        internal static bool AddNewContainer(this CargoPlanWrapper cargoPlan, ContainerWrapper container)
         {
-            if (cargoPlan.Model.Containers.ContainsUnitWithSameContainerNumberInList(container)) return;
-            if (cargoPlan.Containers.ContainsUnitWithSameContainerNumberInList(container)) return;
+            if (container is null) return false;
+            if (string.IsNullOrEmpty(container.ContainerNumber)) return false;
 
-            container.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
+            if (cargoPlan.Model.Containers.ContainsUnitWithSameContainerNumberInList(container)) return false;
+            if (cargoPlan.Containers.ContainsUnitWithSameContainerNumberInList(container)) return false;
 
-            //add to Model
-            if (!cargoPlan.Model.AddContainer(container)) return;
+            container.Model.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
 
-            var containerWrapper = new ContainerWrapper(container);
-            cargoPlan.Containers.Add(containerWrapper);
+            cargoPlan.Containers.Add(container);
             if (container.IsRf)
-                cargoPlan.Reefers.Add(containerWrapper);
+                cargoPlan.Reefers.Add(container);
 
-            cargoPlan.UpdateCargoPlanValuesAndConflicts(containerWrapper);
+            cargoPlan.RefreshCargoPlanValues(container);
+
+            return true;
         }
 
         /// <summary>
         /// Adds a Dg to WorkingCargoPlan and its Wrapper to CargoPlanWrapper
         /// </summary>
         /// <param name="dg"></param>
-        internal static void AddDg(this CargoPlanWrapper cargoPlan, Dg dg)
+        internal static bool AddDg(this CargoPlanWrapper cargoPlan, DgWrapper dg)
         {
-            if (dg == null) return;
+            if (dg == null || string.IsNullOrEmpty(dg.ContainerNumber)) return false;
 
-            dg.HoldNr = ShipProfile.DefineCargoHoldNumber(dg.Bay);
 
-            cargoPlan.Model.AddDg(dg);
+            var container = cargoPlan.Containers.FindContainerByContainerNumber(dg);
 
-            var containerWrapper = cargoPlan.Containers.FindContainerByContainerNumber(dg);
-            if (containerWrapper is null)
+            // if new container - create and add to the plan
+            if (container is null)
             {
-                var container = cargoPlan.Model.Containers.FindContainerByContainerNumber(dg);
-                containerWrapper = new ContainerWrapper(container);
-                cargoPlan.Containers.Add(containerWrapper);
-                if (container.IsRf) cargoPlan.Reefers.Add(containerWrapper);
+                dg.Model.HoldNr = ShipProfile.DefineCargoHoldNumber(dg.Bay);
+                container = (ContainerWrapper)dg;
+                cargoPlan.Containers.Add(container);
+                if (dg.IsRf) cargoPlan.Reefers.Add(container);
             }
-            cargoPlan.DgList.Add(new DgWrapper(dg));
+            // for existing container - only copy info
+            else
+            {
+                dg.Model.CopyContainerInfo(container.Model);
+            }
 
-            cargoPlan.UpdateCargoPlanValuesAndConflicts(containerWrapper);
+            dg.Model.UpdateDgInfo();
+            cargoPlan.DgList.Add(dg);
+            container.Model.DgCountInContainer++;
+
+            cargoPlan.RefreshCargoPlanValues(container);
+            return true;
         }
 
         /// <summary>
         /// Adds a new reefer Container to WorkingCargoPlan
         /// </summary>
         /// <param name="unit">Container to be added</param>
-        internal static void AddNewReefer(this CargoPlanWrapper cargoPlan, Container unit)
+        internal static bool AddNewReefer(this CargoPlanWrapper cargoPlan, ContainerWrapper unit)
         {
+            if (unit is null) return false;
+            if (string.IsNullOrEmpty(unit.ContainerNumber)) return false;
+
             //if already exists -> no action
-            if (cargoPlan.Model.Reefers.ContainsUnitWithSameContainerNumberInList(unit)) return;
+            if (cargoPlan.Model.Reefers.ContainsUnitWithSameContainerNumberInList(unit)) return false;
 
-            unit.HoldNr = ShipProfile.DefineCargoHoldNumber(unit.Bay);
-
-            //add to Model
-            if (!cargoPlan.Model.AddReefer(unit)) return;
+            unit.Model.IsRf = true;
+            unit.Model.HoldNr = ShipProfile.DefineCargoHoldNumber(unit.Bay);
 
             //add to WorkingCargoPlan
             ContainerWrapper containerWrapper;
             if (!cargoPlan.Containers.ContainsUnitWithSameContainerNumberInList(unit))
             {
-                var container = cargoPlan.Model.Containers.FindContainerByContainerNumber(unit);
-                containerWrapper = new ContainerWrapper(container);
+                containerWrapper = unit;
                 cargoPlan.Containers.Add(containerWrapper);
             }
             else
@@ -80,23 +92,11 @@ namespace EasyJob_ProDG.UI.Wrapper
                 if (containerWrapper == null) throw new ArgumentException($"Container with ContainerNumber {unit.ContainerNumber} cannot be found in CargoPlan.Containers despite it is expected");
                 containerWrapper.IsRf = true;
             }
+
             cargoPlan.Reefers.Add(containerWrapper);
 
-            cargoPlan.UpdateCargoPlanValuesAndConflicts(containerWrapper);
-        }
-
-        /// <summary>
-        /// Adds the Container to Reefers list
-        /// </summary>
-        /// <param name="unit">Container to be added</param>
-        internal static void AddReefer(this CargoPlanWrapper cargoPlan, Container unit)
-        {
-            if (cargoPlan.Model.Reefers.Contains(unit)) return;
-            cargoPlan.Model.Reefers.Add(unit);
-            cargoPlan.Reefers.Add(new ContainerWrapper(unit));
-            unit.IsRf = true;
-
-            cargoPlan.UpdateCargoPlanValuesAndConflicts();
+            cargoPlan.RefreshCargoPlanValues(containerWrapper);
+            return true;
         }
 
         /// <summary>
@@ -105,7 +105,11 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <param name="unit">ContainerWrapper to be added</param>
         internal static void AddReefer(this CargoPlanWrapper cargoPlan, ContainerWrapper unit)
         {
-            cargoPlan.AddReefer(unit.Model);
+            if (cargoPlan.Model.Reefers.Contains(unit.Model)) return;
+            cargoPlan.Reefers.Add(unit);
+            unit.IsRf = true;
+
+            RefreshCargoPlanValues(cargoPlan);
         }
 
         /// <summary>
@@ -118,13 +122,11 @@ namespace EasyJob_ProDG.UI.Wrapper
 
             unit.ClearSubscriptions();
             cargoPlan.Containers.Remove(unit);
-            cargoPlan.Model.Containers.Remove(unit.Model);
 
             if (unit.IsRf)
             {
                 var reefer = cargoPlan.Reefers.FindContainerByContainerNumber(containerNumber);
                 cargoPlan.Reefers.Remove(reefer);
-                cargoPlan.Model.Reefers.Remove(reefer.Model);
             }
 
             for (int i = 0; i < cargoPlan.DgList.Count; i++)
@@ -139,7 +141,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                 i--;
             }
 
-            cargoPlan.UpdateCargoPlanValuesAndConflicts();
+            RefreshCargoPlanValues(cargoPlan);
         }
 
         /// <summary>
@@ -150,7 +152,6 @@ namespace EasyJob_ProDG.UI.Wrapper
         internal static void RemoveReefer(this CargoPlanWrapper cargoPlan, ContainerWrapper unit)
         {
             cargoPlan.Reefers.Remove(cargoPlan.Reefers.FindContainerByContainerNumber(unit));
-            cargoPlan.Model.Reefers.Remove(cargoPlan.Model.Reefers.FindContainerByContainerNumber(unit));
         }
 
         /// <summary>
@@ -161,7 +162,6 @@ namespace EasyJob_ProDG.UI.Wrapper
         internal static void RemoveReefer(this CargoPlanWrapper cargoPlan, string unitNumber, bool toUpdateInCargoPlan = false)
         {
             cargoPlan.Reefers.Remove(cargoPlan.Reefers.FindContainerByContainerNumber(unitNumber));
-            cargoPlan.Model.Reefers.Remove(cargoPlan.Model.Reefers.FindContainerByContainerNumber(unitNumber));
 
             if (toUpdateInCargoPlan)
             {
@@ -176,7 +176,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                     dg.RefreshIsRfProperty();
                 }
 
-                cargoPlan.UpdateCargoPlanValuesAndConflicts();
+                RefreshCargoPlanValues(cargoPlan);
             }
         }
 
@@ -188,7 +188,6 @@ namespace EasyJob_ProDG.UI.Wrapper
         {
             dg.ClearSubscriptions();
             cargoPlan.DgList.Remove(dg);
-            cargoPlan.Model.DgList.Remove(dg.Model);
         }
 
         /// <summary>
@@ -214,9 +213,8 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <summary>
         /// Method updates summary and sends a message to update the conflicts list.
         /// </summary>
-        private static void UpdateCargoPlanValuesAndConflicts(this CargoPlanWrapper cargoPlan)
+        private static void RefreshCargoPlanValues(this CargoPlanWrapper cargoPlan)
         {
-            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(), "update conflicts");
             cargoPlan.RefreshCargoPlanValues();
         }
 
@@ -224,13 +222,13 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// Method refreshes the wrapper, updates summary values and sends a message to update conflicts list.
         /// </summary>
         /// <param name="wrapper">The ContainerWrapper which PropertyChange resulted in change of plan.</param>
-        private static void UpdateCargoPlanValuesAndConflicts(this CargoPlanWrapper cargoPlan, ContainerWrapper wrapper)
+        private static void RefreshCargoPlanValues(this CargoPlanWrapper cargoPlan, ContainerWrapper wrapper)
         {
             wrapper.Refresh();
             if (wrapper.IsRf)
                 cargoPlan.Reefers.FindContainerByContainerNumber(wrapper).Refresh();
 
-            cargoPlan.UpdateCargoPlanValuesAndConflicts();
+            RefreshCargoPlanValues(cargoPlan);
         }
     }
 }

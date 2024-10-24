@@ -55,11 +55,14 @@ namespace EasyJob_ProDG.UI.ViewModel
         protected override void OnAddNewUnit(object obj)
         {
             //Action
-            WorkingCargoPlan.AddNewReefer(new Model.Cargo.Container()
+            WorkingCargoPlan.AddNewReefer(new ContainerWrapper(new Model.Cargo.Container()
             {
                 ContainerNumber = UnitToAddNumber,
                 Location = UnitToAddLocation.CorrectFormatContainerLocation()
-            });
+            }));
+
+            //Recheck dg list
+            DataMessenger.Default.Send(new ConflictsToBeCheckedAndUpdatedMessage());
 
             //Scroll into the new Container
             SelectedUnit = WorkingCargoPlan.Reefers[WorkingCargoPlan.Reefers.Count - 1];
@@ -77,6 +80,9 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 WorkingCargoPlan.RemoveReefer(number, toUpdateInCargoPlan: true);
             }
+
+            //Recheck dg list
+            DataMessenger.Default.Send(new ConflictsToBeCheckedAndUpdatedMessage());
         }
 
         /// <summary>

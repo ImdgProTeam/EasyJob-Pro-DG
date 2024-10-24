@@ -64,7 +64,6 @@ namespace EasyJob_ProDG.UI.Data
                 case nameof(IContainer.ContainerType):
                 case nameof(IContainer.IsClosed):
                     SetNewCargoPlanUnitPropertyValue(obj.ContainerNumber, obj.Value, obj.PropertyName);
-                    UpdateConflictList();
                     break;
 
                 case nameof(IContainer.POL):
@@ -100,7 +99,7 @@ namespace EasyJob_ProDG.UI.Data
         /// <summary>
         /// Invokes OnConflictListToBeChanged event
         /// </summary>
-        private void UpdateConflictList()
+        private void RefreshConflictList()
         {
             DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage());
         }
@@ -125,7 +124,7 @@ namespace EasyJob_ProDG.UI.Data
             }
 
             SetNewContainerNumber(obj.Value.ToString(), obj.OldValue.ToString());
-            UpdateConflictList();
+            RefreshConflictList();
             return false;
         }
 
@@ -237,7 +236,7 @@ namespace EasyJob_ProDG.UI.Data
             }
 
             //to all
-            UpdateConflictList();
+            RefreshConflictList();
         }
 
     }
