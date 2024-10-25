@@ -23,7 +23,7 @@ VERSION INFO
 Date: 
 
 Mainly worked on architechture: reducing dependencies and re-worked services and their relations.
-Licence: 31 Dec 2024
+Licence: 31 Mar 2025
 
 Version workable: Yes
 Changes:
@@ -34,6 +34,7 @@ VISUAL
 ERRORS
 1. Now all changes shall cause conflicts re-check. The same shall be checked only once after each change, and done instantly.
 2. Adding units will not create double addition to Model as before.
+3. Imported info from reefer manifests will be refreshed in Reefer tab immediately.
 
 NEW
 1. 
