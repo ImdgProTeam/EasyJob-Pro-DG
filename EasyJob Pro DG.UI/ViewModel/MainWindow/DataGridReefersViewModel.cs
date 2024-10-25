@@ -94,6 +94,14 @@ namespace EasyJob_ProDG.UI.ViewModel
             dispatcher.Invoke(() =>
             {
                 SetDataView();
+                foreach (var reefer in WorkingCargoPlan.Reefers)
+                {
+                    if (reefer.HasUpdated)
+                    {
+                        reefer.RefreshHasUpdated();
+                        reefer.RefreshIReefer();
+                    }
+                }
                 OnPropertyChanged(nameof(UnitsPlanView));
             });
         }

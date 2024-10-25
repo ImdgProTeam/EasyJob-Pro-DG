@@ -58,7 +58,7 @@ namespace EasyJob_ProDG.UI.Services
                 }
                 else if (conditionName.Contains("CORRECT"))
                 {
-                    suggestion += "Correcte";
+                    suggestion += "Correct";
                 }
             }
 

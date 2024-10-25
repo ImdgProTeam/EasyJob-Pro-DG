@@ -318,6 +318,14 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
         }
 
         /// <summary>
+        /// Calls OnPropertyChanged for HasUpdated container property
+        /// </summary>
+        internal void RefreshHasUpdated()
+        {
+            OnPropertyChanged(nameof(HasUpdated));
+        }
+
+        /// <summary>
         /// Calls OnPropertyChanged for IsRf property
         /// </summary>
         internal void RefreshIsRfProperty()

@@ -123,7 +123,6 @@ namespace EasyJob_ProDG.UI.Services
 
         #endregion
 
-
         #region Window dialog service
 
         /// <summary>
@@ -168,7 +167,6 @@ namespace EasyJob_ProDG.UI.Services
                 SetupDialogService();
             }
         }
-
 
         #endregion
     }
