@@ -93,7 +93,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             dispatcher.Invoke(() =>
             {
-                SetDataView();
                 foreach (var reefer in WorkingCargoPlan.Reefers)
                 {
                     if (reefer.HasUpdated)
@@ -102,7 +101,6 @@ namespace EasyJob_ProDG.UI.ViewModel
                         reefer.RefreshIReefer();
                     }
                 }
-                OnPropertyChanged(nameof(UnitsPlanView));
             });
         }
 
