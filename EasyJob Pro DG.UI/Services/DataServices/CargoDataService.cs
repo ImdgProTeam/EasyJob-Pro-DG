@@ -1,32 +1,41 @@
-﻿using EasyJob_ProDG.Model.Cargo;
-using EasyJob_ProDG.UI.Data;
+﻿using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.Wrapper;
 
 namespace EasyJob_ProDG.UI.Services.DataServices
 {
+    /// <summary>
+    /// Provides <see cref="WorkingCargoPlan"/>.
+    /// </summary>
     public class CargoDataService : ICargoDataService
     {
-        private static CargoDataService _instance = new CargoDataService();
+        ICurrentProgramData _currentProgramData => CurrentProgramData.GetCurrentProgramData();
+
+        #region Singleton
+
+        /// <summary>
+        /// Provides access to the service.
+        /// </summary>
+        /// <returns>A reference to the service instance.</returns>
         public static CargoDataService GetCargoDataService()
-        { 
+        {
             return _instance;
         }
+        
+        private static CargoDataService _instance = new CargoDataService();
+        #endregion
 
-        ICurrentProgramData _currentProgramData => CurrentProgramData.GetCurrentProgramData();
 
         public string ConditionFileName => _currentProgramData.ConditionFileName;
         public CargoPlanWrapper WorkingCargoPlan { get; private set; }
 
 
         /// <summary>
-        /// Creates and returns new <see cref="CargoPlanWrapper"/> created from <see cref="CurrentProgramData"/> <see cref="CargoPlan"/>
+        /// Creates new <see cref="CargoPlanWrapper"/> from <see cref="CurrentProgramData"/> <see cref="CargoPlan"/>
         /// </summary>
-        /// <returns><see cref="WorkingCargoPlan"/></returns>
-        public CargoPlanWrapper GetCargoPlan()
+        public void GetCargoPlan()
         {
-            WorkingCargoPlan?.Destructor();
+            WorkingCargoPlan?.Dispose();
             WorkingCargoPlan = new CargoPlanWrapper(_currentProgramData.CargoPlan);
-            return WorkingCargoPlan;
         }
 
         #region Constructor

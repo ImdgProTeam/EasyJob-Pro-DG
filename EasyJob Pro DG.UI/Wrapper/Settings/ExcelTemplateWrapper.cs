@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
-    public abstract class ExcelTemplateWrapper<T> : ModelWrapper<T> where T : ExcelTemplate
+    public abstract class ExcelTemplateWrapper<T> : ModelChangeTrackingWrapper<T> where T : ExcelTemplate
     {
         protected abstract string[] ColumnTitles { get; }
 

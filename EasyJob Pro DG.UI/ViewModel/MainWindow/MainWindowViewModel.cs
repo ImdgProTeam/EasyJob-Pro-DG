@@ -1,18 +1,15 @@
 ﻿using EasyJob_ProDG.Model.IO;
 using EasyJob_ProDG.Model.Transport;
 using EasyJob_ProDG.UI.Data;
+using EasyJob_ProDG.UI.IO;
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services;
-using EasyJob_ProDG.UI.Services.DataServices;
-using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Markup;
-using Application = System.Windows.Application;
-using Window = System.Windows.Window;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
@@ -21,25 +18,17 @@ namespace EasyJob_ProDG.UI.ViewModel
     {
         #region Private fields
 
-        ILoadDataService loadDataService;
-        ICargoDataService cargoDataService;
-        ICargoPlanCheckService cargoPlanCheckService;
-        IConflictDataService conflictDataService;
-        ISettingsService uiSettingsService;
-        IWindowDialogService windowDialogService;
-        IMappedDialogWindowService mappedDialogWindowService;
-        IMessageDialogService _messageDialogService;
-        ITitleService _titleService;
+        /// <summary>
+        /// Access to all services
+        /// </summary>
+        ServicesHandler Services;
 
         #endregion
 
 
         #region Public properties to be used in View
-
         public string WindowTitle { get; private set; }
-        public ConflictsList Conflicts { get; set; }
-        public VentilationRequirements Vents { get; set; }
-        public CargoPlanWrapper WorkingCargoPlan { get; set; }
+        public CargoPlanWrapper WorkingCargoPlan => Services.CargoDataServiceAccess.WorkingCargoPlan;
         public Voyage VoyageInfo => WorkingCargoPlan.VoyageInfo ?? null;
         public StatusBarViewModel StatusBarControl { get; set; }
 
@@ -80,7 +69,6 @@ namespace EasyJob_ProDG.UI.ViewModel
             LoadCommands();
             SubscribeToMessenger();
             LoadServices();
-            SetupDialogService();
 
             LoadData();
 
@@ -94,76 +82,38 @@ namespace EasyJob_ProDG.UI.ViewModel
         //-----------------------------------------------------------------------------------------------------------------------------
 
         #region StartUp logic
-        //---------- StartUp logic
+        //----- StartUp logic -----
 
         private void LoadServices()
         {
-            loadDataService = new LoadDataService();
-            cargoDataService = CargoDataService.GetCargoDataService();
-            cargoPlanCheckService = new CargoPlanCheckService();
-            conflictDataService = ConflictDataService.GetConflictDataService();
-            uiSettingsService = new SettingsService();
-            mappedDialogWindowService = new MappedDialogWindowService(Application.Current.MainWindow);
-            windowDialogService = new WindowDialogService();
-            _messageDialogService = MessageDialogService.Connect();
-            _titleService = new TitleService();
-
+            Services = ServicesHandler.GetServicesAccess();
         }
+
         private void LoadData()
         {
-            uiSettingsService.LoadSettings();
-
-            //Connecting Program files
-            if (!loadDataService.ConnectProgramFiles())
-            {
-                _messageDialogService.ShowOkDialog("The program is unable to connect DataBase file.\nProDG will be stopped and closed.", "Error");
-                Environment.Exit(0);
-            }
-
-            string openPath = ((View.UI.MainWindow)System.Windows.Application.Current.MainWindow)?.StartupFilePath;
-            loadDataService.LoadCargoData(openPath);
+            Services.LoadData();
 
             GetCargoData();
-        }
 
-        /// <summary>
-        /// Gets public properties values from cargo and conflict data services
-        /// </summary>
-        private void GetCargoData()
-        {
-            //Clear deleted conflicts list on opening of new condition
-            ViewModelLocator.ConflictListViewModel?.ClearDeletedConflictsList();
-
-            //Get data from cargoDataService
-            WorkingCargoPlan = cargoDataService.GetCargoPlan();
-
-            //Run CargoPlan check
-            cargoPlanCheckService.CheckCargoPlan();
-
-            //Get conflicts
-            Conflicts = conflictDataService.GetConflicts();
-            Vents = conflictDataService.GetVentilationRequirements();
-
-            //OnPropertyChange
-            RefreshView();
-
-            //Notify DgDataGrid of change
-            DataMessenger.Default.Send(new CargoDataUpdated(), "cargodataupdated");
+            CargoPlanWrapperHandler.Launch();
+            CargoPlanUnitPropertyChanger.Launch();
         }
 
         private void SubscribeToMessenger()
         {
+            DataMessenger.Default.Register<UpdateCargoPlan>(this, OnNeedToUpdateCargoPlanMessageReceived, "Need to update cargo plan");
             DataMessenger.Default.Register<ShipProfileSavedMessage>(this, OnShipProfileSaved, "ship profile saved");
             DataMessenger.Default.Register<ConflictPanelItemViewModel>(this, OnConflictSelectionChanged,
                 "conflict selection changed");
         }
+
 
         /// <summary>
         /// Updates MainWindow title
         /// </summary>
         private void SetWindowTitle()
         {
-            WindowTitle = _titleService.GetTitle();
+            WindowTitle = Services.TitleServiceAccess.GetTitle();
             OnPropertyChanged(nameof(WindowTitle));
         }
 
@@ -174,13 +124,35 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void MainWindowLoadedCommandExecuted(object obj)
         {
             //Welcome window
-            if (loadDataService.IsShipProfileNotFound || Services.FirstStartService.IsTheFirstStart)
+            if (Services.LoadDataServiceAccess.IsShipProfileNotFound || UI.Services.FirstStartService.IsTheFirstStart)
             {
                 ShowWelcomeWindow();
             }
         }
 
         #endregion
+
+
+        /// <summary>
+        /// Gets public properties values from cargo and conflict data services
+        /// </summary>
+        private void GetCargoData()
+        {
+            //Get data from cargoDataService
+            Services.CargoDataServiceAccess.GetCargoPlan();
+
+            //Run WorkingCargoPlan check
+            Services.CargoPlanCheckServiceAccess.CheckCargoPlan();
+
+            // Refreshes conflicts list
+            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(), "update conflicts");
+
+            //OnPropertyChange
+            RefreshView();
+
+            //Notify DgDataGrid of change
+            DataMessenger.Default.Send(new CargoDataUpdated(), "cargodataupdated");
+        }
 
 
         #region Working with files private methods
@@ -190,7 +162,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <summary>
         /// Opens condition from the file.
         /// </summary>
-        /// <param name="file">Readable condition file with full path</param>
+        /// <param name="file">Readable condition file name with full path</param>
         /// <param name="openOption">Option from enumeration weather to Open, Update or Import data</param>
         /// <param name="importOnlySelected">For import: Only selected for import items will be imported.</param>
         /// <param name="currentPort">For import: Only current port of loading items will be imported.</param>
@@ -199,9 +171,9 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             SetIsLoading(true);
             StatusBarControl.ChangeBarSet(25);
-            if (!loadDataService.OpenCargoPlanFromFile(file, openOption, importOnlySelected, currentPort))
+            if (!Services.LoadDataServiceAccess.OpenCargoPlanFromFile(file, openOption, importOnlySelected, currentPort))
             {
-                _messageDialogService.ShowOkDialog("File can not be opened", "Error");
+                Services.MessageDialogServiceAccess.ShowOkDialog("File can not be opened", "Error");
                 StatusBarControl.Cancel();
                 SetIsLoading(false);
                 return;
@@ -230,7 +202,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 StatusBarControl.StartProgressBar(10, "Opening...");
                 var viewModel = new DialogWindowOptionsViewModel($"Choose how you wish to open the file {file}",
                     "Open as new condition", "Update condition", "Import Dg data");
-                bool? dialogResult = mappedDialogWindowService.ShowDialog(viewModel);
+                bool? dialogResult = Services.MappedDialogWindowServiceAccess.ShowDialog(viewModel);
                 if (!dialogResult.HasValue || !dialogResult.Value)
                 {
                     StatusBarControl.Cancel();
@@ -271,9 +243,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             SetIsLoading(true);
             StatusBarControl.StartProgressBar(10, "Importing...");
-            if (!loadDataService.ImportReeferManifestInfo(file, importOnlySelected, currentPort))
+            if (!Services.LoadDataServiceAccess.ImportReeferManifestInfo(file, importOnlySelected, currentPort))
             {
-                _messageDialogService.ShowOkDialog("Manifest file can not be read", "Error");
+                Services.MessageDialogServiceAccess.ShowOkDialog("Manifest file can not be read", "Error");
                 StatusBarControl.Cancel();
                 SetIsLoading(false);
             }
@@ -296,7 +268,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void RefreshView()
         {
             OnPropertyChanged(nameof(WorkingCargoPlan));
-            OnPropertyChanged(nameof(Conflicts));
             OnPropertyChanged(nameof(VoyageInfo));
         }
 
@@ -314,6 +285,14 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         /// <summary>
+        /// Raised when it is required to call <see cref="GetCargoData"/> method via received message.
+        /// </summary>
+        private void OnNeedToUpdateCargoPlanMessageReceived(UpdateCargoPlan message)
+        {
+            GetCargoData();
+        }
+
+        /// <summary>
         /// Method changes SelectedItem to match with ConflictPanelItem object
         /// </summary>
         /// <param name="obj">Selected conflict</param>
@@ -328,10 +307,10 @@ namespace EasyJob_ProDG.UI.ViewModel
                     DataGridDgViewModel.SelectDg(obj.DgID);
                     break;
                 case 1:
-                    DataGridReefersViewModel.SelectReefer(obj.ContainerNumber);
+                    DataGridReefersViewModel.SelectUnit(obj.ContainerNumber);
                     break;
                 case 2:
-                    DataGridContainersViewModel.SelectContainer(obj.ContainerNumber);
+                    DataGridContainersViewModel.SelectUnit(obj.ContainerNumber);
                     break;
                 default:
                     break;
@@ -361,38 +340,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             IsLoading = isLoading;
             OnPropertyChanged(nameof(IsLoading));
-        }
-
-        #endregion
-
-        #region Window dialog service
-        /// <summary>
-        /// Sets up dialog service and registers viewModels for it.
-        /// </summary>
-        private void SetupDialogService()
-        {
-            SetDialogServiceOwner(Application.Current.MainWindow);
-            RegisterDialogServiceRelations();
-        }
-
-        /// <summary>
-        /// Registers windows and their view models in dialog service
-        /// </summary>
-        private void RegisterDialogServiceRelations()
-        {
-            mappedDialogWindowService.Register<WelcomeWindowVM, WelcomeWindow>();
-            mappedDialogWindowService.Register<WinLoginViewModel, winLogin>();
-            mappedDialogWindowService.Register<DialogWindowOptionsViewModel, DialogWindowOptions>();
-            mappedDialogWindowService.Register<CargoReportViewModel, CargoReport>();
-        }
-
-        /// <summary>
-        /// Creates new dialog service.
-        /// </summary>
-        /// <param name="owner"></param>
-        private void SetDialogServiceOwner(Window owner)
-        {
-            mappedDialogWindowService = new MappedDialogWindowService(owner);
         }
 
         #endregion

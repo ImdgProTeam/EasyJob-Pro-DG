@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="EasyJob_ProDG.UI.View.User_Controls.ConflictsSection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls" 
+             mc:Ignorable="d" 
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=ConflictsSectionViewModel}"
+             d:DesignHeight="450" d:DesignWidth="800">
+        <DockPanel 
+            LastChildFill="True">
+
+        
+        <!-- Conflict list header and Update button -->
+        
+        <Grid DockPanel.Dock="Top">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="List of conflicts"
+                                   Margin="0,0,0,5"
+                                   Padding="40,0,5,0"
+                                   FontSize="{StaticResource StandardButtonFontSize}"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center"
+                                   FontWeight="DemiBold"
+                                   Grid.Column="0">
+                </TextBlock>
+                <Button Content="Re-check"
+                                MaxWidth="100"
+                                MaxHeight="30"
+                                Margin="5"
+                                    Padding="20, 5"
+                                    VerticalContentAlignment="Center"
+                                    Grid.Column="1"
+                                Command="{Binding ReCheckCommand}" />
+            </Grid>
+        </Grid>
+
+        
+        <!--   Black block-->   
+        
+        <TextBlock x:Name="BlackBlock"
+                               MinHeight="{Binding ElementName=InfoBlock, Path=ActualHeight}"
+                               DockPanel.Dock="Bottom"
+                               Margin="2"
+                               Padding="10,5,0,0"
+                               Background="{StaticResource Brush.BlackBlock.Background}"
+                               Foreground="{StaticResource Brush.BlackBlock.Foreground}"
+                               FontWeight="DemiBold"
+                               Text="{Binding Vents.VentHoldsFullText}"
+                               TextWrapping="WrapWithOverflow"
+                               TextAlignment="Left" />
+
+        <!---   Conflicts list   -->
+        <local:ConflictsListView />
+
+        </DockPanel>
+</UserControl>
+

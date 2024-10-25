@@ -32,16 +32,15 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         /// .ejc file will be read and a CargoPlan created.
         /// </summary>
         /// <param name="fileName">File name with full path.</param>
-        /// <param name="ship">Current ShipProfile.</param>
         /// <returns>Plain CargoPlan</returns>
-        public static CargoPlan LoadCondition(string fileName, ShipProfile ship)
+        public static CargoPlan LoadCondition(string fileName)
         {
             CargoPlan cargoPlan = null;
 
             StreamReader reader = new StreamReader(fileName);
             try
             {
-                cargoPlan = CreateCargoPlanFromStream(reader, ship);
+                cargoPlan = CreateCargoPlanFromStream(reader);
                 Data.LogWriter.Write($"Condition successfully loaded from {fileName}");
             }
             catch (Exception ex)
@@ -81,10 +80,9 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         /// Reads till the next line is null.
         /// </summary>
         /// <param name="reader">Stream reader of .ejc file</param>
-        /// <param name="ship">Current ShipProfile.</param>
         /// <param name="voyage">Reference to Voyage to be updated.</param>
         /// <returns>Plain CargoPlan</returns>
-        private static CargoPlan CreateCargoPlanFromStream(StreamReader reader, ShipProfile ship = null)
+        private static CargoPlan CreateCargoPlanFromStream(StreamReader reader)
         {
             CargoPlan cargoPlan = new CargoPlan();
             byte ejcVersion = 0;
@@ -98,7 +96,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                 //New record
                 if (line.StartsWith("C:"))
                 {
-                    AddUnitToCargoPlan(ejcVersion, line, cargoPlan, ship);
+                    AddUnitToCargoPlan(ejcVersion, line, cargoPlan);
                     continue;
                 }
 
@@ -131,22 +129,21 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         /// <param name="ejcVersion">byte version</param>
         /// <param name="line">line to be converted</param>
         /// <param name="cargoPlan">CargoPlan to add unit</param>
-        /// <param name="ship">ship profile</param>
-        private static void AddUnitToCargoPlan(byte ejcVersion, string line, CargoPlan cargoPlan, ShipProfile ship)
+        private static void AddUnitToCargoPlan(byte ejcVersion, string line, CargoPlan cargoPlan)
         {
             switch (ejcVersion)
             {
                 case (byte)ConditionVersion.V08b:
-                    AddUnitToCargoPlanV08b(line, cargoPlan, ship);
+                    AddUnitToCargoPlanV08b(line, cargoPlan);
                     break;
                 case (byte)ConditionVersion.V08c:
-                    AddUnitToCargoPlanV08c(line, cargoPlan, ship);
+                    AddUnitToCargoPlanV08c(line, cargoPlan);
                     break;
                 case (byte)ConditionVersion.V089:
-                    AddUnitToCargoPlanV089(line, cargoPlan, ship);
+                    AddUnitToCargoPlanV089(line, cargoPlan);
                     break;
                 case (byte)ConditionVersion.V090:
-                    AddUnitToCargoPlanV090(line, cargoPlan, ship);
+                    AddUnitToCargoPlanV090(line, cargoPlan);
                     break;
                 default:
                     break;
@@ -174,8 +171,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         /// </summary>
         /// <param name="line">The line will be parsed and converted into new instances</param>
         /// <param name="cargoPlan">New instances will be recorded in the cargoPlan</param>
-        /// <param name="ship">Current ShipProfile</param>
-        private static void AddUnitToCargoPlanV090(string line, CargoPlan cargoPlan, ShipProfile ship = null)
+        private static void AddUnitToCargoPlanV090(string line, CargoPlan cargoPlan)
         {
 
             string[] segmentArray = line.Split('|');
@@ -198,10 +194,8 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                     case 1: //Location
                         {
                             container.Location = segment;
-                            if (ship != null)
-                            {
-                                container.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
-                            }
+                            container.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
+
                             count++;
                             break;
                         }
@@ -332,7 +326,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                                 container.IsRf = true;
                                 container.ResetReefer();
 
-                                container.SetTemperature = double.Parse(segment.Remove(0, 2));
+                                container.SetTemperature = decimal.Parse(segment.Remove(0, 2));
 
                                 count++;
                             }
@@ -360,7 +354,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                         }
                     case 23: //Loading temperature
                         {
-                            container.LoadTemperature = double.Parse(segment);
+                            container.LoadTemperature = decimal.Parse(segment);
                             count++;
                             break;
                         }
@@ -408,7 +402,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                         }
                     case 42: //DgSubClasses
                         {
-                            dg.DgSubclass = segment;
+                            dg.DgSubClass = segment.Replace(",","");
                             count++;
                             break;
                         }
@@ -556,8 +550,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         /// </summary>
         /// <param name="line">The line will be parsed and converted into new instances</param>
         /// <param name="cargoPlan">New instances will be recorded in the cargoPlan</param>
-        /// <param name="ship">Current ShipProfile.</param>
-        private static void AddUnitToCargoPlanV08b(string line, CargoPlan cargoPlan, ShipProfile ship = null)
+        private static void AddUnitToCargoPlanV08b(string line, CargoPlan cargoPlan)
         {
             string[] segmentArray = line.Split('|');
             var container = new Container();
@@ -579,10 +572,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                     case 1:
                         {
                             container.Location = segment;
-                            if (ship != null)
-                            {
-                                container.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
-                            }
+                            container.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
                             count++;
                             break;
                         }
@@ -631,7 +621,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                             if (segment.StartsWith("R:"))
                             {
                                 container.IsRf = true;
-                                container.SetTemperature = double.Parse(segment.Remove(0, 2));
+                                container.SetTemperature = decimal.Parse(segment.Remove(0, 2));
                                 cargoPlan.Reefers.Add(container);
                                 count++;
                                 break;
@@ -668,7 +658,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                         }
                     case 11:
                         {
-                            dg.DgSubclass = segment;
+                            dg.DgSubClass = segment.Replace(",","");
                             count++;
                             break;
                         }
@@ -754,8 +744,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         /// </summary>
         /// <param name="line">The line will be parsed and converted into new instances</param>
         /// <param name="cargoPlan">New instances will be recorded in the cargoPlan</param>
-        /// <param name="ship">Current ShipProfile</param>
-        private static void AddUnitToCargoPlanV08c(string line, CargoPlan cargoPlan, ShipProfile ship = null)
+        private static void AddUnitToCargoPlanV08c(string line, CargoPlan cargoPlan)
         {
             string[] segmentArray = line.Split('|');
             var container = new Container();
@@ -777,10 +766,8 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                     case 1:
                         {
                             container.Location = segment;
-                            if (ship != null)
-                            {
-                                container.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
-                            }
+                            container.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
+
                             count++;
                             break;
                         }
@@ -866,7 +853,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                             if (segment.StartsWith("R:"))
                             {
                                 container.IsRf = true;
-                                container.SetTemperature = double.Parse(segment.Remove(0, 2));
+                                container.SetTemperature = decimal.Parse(segment.Remove(0, 2));
                                 cargoPlan.Reefers.Add(container);
                                 count++;
                                 break;
@@ -903,7 +890,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                         }
                     case 16:
                         {
-                            dg.DgSubclass = segment;
+                            dg.DgSubClass = segment.Replace(",","");
                             count++;
                             break;
                         }
@@ -1003,8 +990,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         /// </summary>
         /// <param name="line">The line will be parsed and converted into new instances</param>
         /// <param name="cargoPlan">New instances will be recorded in the cargoPlan</param>
-        /// <param name="ship">Current ShipProfile</param>
-        private static void AddUnitToCargoPlanV089(string line, CargoPlan cargoPlan, ShipProfile ship = null)
+        private static void AddUnitToCargoPlanV089(string line, CargoPlan cargoPlan)
         {
             string[] segmentArray = line.Split('|');
             var container = new Container();
@@ -1026,10 +1012,8 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                     case 1: //Location
                         {
                             container.Location = segment;
-                            if (ship != null)
-                            {
-                                container.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
-                            }
+                            container.HoldNr = ShipProfile.DefineCargoHoldNumber(container.Bay);
+
                             count++;
                             break;
                         }
@@ -1153,7 +1137,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                                 container.IsRf = true;
                                 container.ResetReefer();
 
-                                container.SetTemperature = double.Parse(segment.Remove(0, 2));
+                                container.SetTemperature = decimal.Parse(segment.Remove(0, 2));
 
                                 count++;
                             }
@@ -1181,7 +1165,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                         }
                     case 23: //Loading temperature
                         {
-                            container.LoadTemperature = double.Parse(segment);
+                            container.LoadTemperature = decimal.Parse(segment);
                             count++;
                             break;
                         }
@@ -1229,7 +1213,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                         }
                     case 42: //DgSubClasses
                         {
-                            dg.DgSubclass = segment;
+                            dg.DgSubClass = segment.Replace(",","");
                             count++;
                             break;
                         }
@@ -1437,9 +1421,9 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                     RecordsCreator.AppendWitNewType("D");
                     RecordsCreator.AppendRecord(dg.Unno.ToString());
                     RecordsCreator.AppendRecord(dg.DgClass);
-                    RecordsCreator.AppendRecord(dg.DgSubclass);
+                    RecordsCreator.AppendRecord(dg.DgSubClass);
                     RecordsCreator.AppendRecord(dg.DgNetWeight.ToString(CultureInfo.InvariantCulture));
-                    RecordsCreator.AppendRecord(dg.PackingGroupByte.ToString());
+                    RecordsCreator.AppendRecord(dg.PackingGroupAsByte.ToString());
                     RecordsCreator.AppendRecord(dg.FlashPoint);
                     RecordsCreator.AppendRecord(dg.IsMp ? "P" : "N");
                     RecordsCreator.AppendRecord(dg.IsLq ? "LQ" : "N");
@@ -1469,7 +1453,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         /// <param name="cargoPlan">Dg will be added to DgList</param>
         private static void AddDgToCargoPlan(Dg dg, Container container, CargoPlan cargoPlan)
         {
-            dg.CopyContainerInfo(container);
+            dg.CopyContainerAbstractInfo(container);
             cargoPlan.DgList.Add(dg);
             container.DgCountInContainer++;
         }

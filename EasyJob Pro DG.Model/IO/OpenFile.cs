@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO.Excel;
-using EasyJob_ProDG.Model.Transport;
 
 namespace EasyJob_ProDG.Model.IO
 {
@@ -73,7 +73,7 @@ namespace EasyJob_ProDG.Model.IO
         /// <param name="fileName">Full path and file name.</param>
         /// <param name="ownShip">Current ShipProfile.</param>
         /// <returns></returns>
-        public static CargoPlan ReadCargoPlanFromFile(string fileName, ShipProfile ownShip)
+        public static CargoPlan ReadCargoPlanFromFile(string fileName)
         {
             if (string.IsNullOrEmpty(fileName) || !File.Exists(fileName))
             {
@@ -91,7 +91,7 @@ namespace EasyJob_ProDG.Model.IO
                 case FileTypes.Other:
                 case FileTypes.Edi:
                 case FileTypes.IFTDGN:
-                    ReadBaplieFile.ReadBaplie(fileName, ownShip, ref isIftdgn);
+                    ReadBaplieFile.ReadBaplie(fileName, ref isIftdgn);
                     cargoPlan = ReadBaplieFile.GetCargoPlan();
                     break;
 
@@ -99,7 +99,7 @@ namespace EasyJob_ProDG.Model.IO
                 case FileTypes.Excel:
                     WithXlDg.Import(fileName, out var dgList, out var containers);
                     cargoPlan.DgList = dgList;
-                    cargoPlan.Containers = containers;
+                    cargoPlan.Containers = containers.ToList();
                     foreach (var c in cargoPlan.Containers)
                         if (c.IsRf)
                             cargoPlan.Reefers.Add(c);
@@ -107,7 +107,7 @@ namespace EasyJob_ProDG.Model.IO
 
                 //open ejc
                 case FileTypes.Ejc:
-                    CargoPlan cPlan = EasyJobCondition.EasyJobCondition.LoadCondition(fileName, ownShip);
+                    CargoPlan cPlan = EasyJobCondition.EasyJobCondition.LoadCondition(fileName);
                     cargoPlan.Containers = cPlan.Containers;
                     cargoPlan.DgList = cPlan.DgList;
                     cargoPlan.Reefers = cPlan.Reefers;

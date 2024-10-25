@@ -79,6 +79,7 @@ namespace EasyJob_ProDG.Data
             }
         }
 
+
         /// <summary>
         /// Adds a new entry line along with the time
         /// </summary>

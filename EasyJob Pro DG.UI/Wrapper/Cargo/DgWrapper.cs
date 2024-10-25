@@ -26,8 +26,6 @@ namespace EasyJob_ProDG.UI.Wrapper
                         {
                             yield return "Dg class is invalid";
                         }
-
-
                         break;
                     }
                 case nameof(ContainerType):
@@ -57,9 +55,10 @@ namespace EasyJob_ProDG.UI.Wrapper
         // --------------- Converters -----------------------------------------------
 
         /// <summary>
-        /// Converts DgWrapper into a ContainerWrapper
+        /// Converts DgWrapper into a ContainerWrapper.
+        /// Only ContainerNumber and Location will be saved.
         /// </summary>
-        /// <returns>ContainerWrapper instance</returns>
+        /// <returns>New ContainerWrapper instance.</returns>
         public ContainerWrapper ConvertToContainerWrapper()
         {
             Container newContainer = new Container { ContainerNumber = ContainerNumber, Location = Location };
@@ -73,7 +72,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <returns>Dg instance</returns>
         public Dg ConvertBackToDg()
         {
-            return (Dg)Model;
+            return Model;
         }
         #endregion
 
@@ -94,29 +93,26 @@ namespace EasyJob_ProDG.UI.Wrapper
         #endregion
 
 
-        #region Events
-        // --------------- Events ---------------------------------------------------
-
-        public delegate void DgPackingGroupChangedEventHandler(object sender);
-        public static event DgPackingGroupChangedEventHandler OnDgPackingGroupChangedEventHandler = null;
-
-        public delegate void ConflictListToBeChangedEventHandler(object sender);
-        public static event ConflictListToBeChangedEventHandler OnConflictListToBeChangedEventHandler = null;
-
-        public delegate void DgPropertyUpdatedEventHandler(object sender);
-        public static event DgPropertyUpdatedEventHandler OnDgPropertyUpdatedEventHandler = null;
-
-        public delegate void UnitStowageConflictsToBeUpdatedEventHandler(object sender);
-        public static event UnitStowageConflictsToBeUpdatedEventHandler OnUnitStowageConflictsToBeUpdatedEventHandler = null;
-        #endregion
-
-
         #region Override methods
         // -------------- Overriding methods and operators --------------------------
 
         public override string ToString()
         {
             return ContainerNumber + " in " + Location + " class " + DgClass + " (unno " + Unno + ")";
+        }
+
+        public bool Equals(DgWrapper dgWrapper)
+        {
+            return Model.ID == dgWrapper.Model.ID;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is DgWrapper dgWrapper)
+            {
+                return this.Equals(dgWrapper);
+            }
+            return base.Equals(obj);
         }
 
         public static explicit operator Dg(DgWrapper dgWrapper)

@@ -67,10 +67,10 @@
         <uc:AddContainerToDataGrid Title="Add dg |" DockPanel.Dock="Bottom" 
                                    IsAddDg="True"
                                    Visibility="{Binding MenuVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   ContainerNumber="{Binding DgToAddNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   Location="{Binding DgToAddLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   UNNO="{Binding DgToAddUnno, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   CanUserAdd="{Binding CanUserAddDg, UpdateSourceTrigger=PropertyChanged}">
+                                   ContainerNumber="{Binding UnitToAddNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   Location="{Binding UnitToAddLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   UNNO="{Binding UnitToAddUnno, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   CanUserAdd="{Binding CanUserAddUnit, UpdateSourceTrigger=PropertyChanged}">
             <behavior:Interaction.Triggers>
                 <behavior:EventTrigger EventName="AddItem">
                     <behavior:InvokeCommandAction Command="{Binding AddDgCommand}"/>
@@ -79,7 +79,7 @@
         </uc:AddContainerToDataGrid>
 
         <DataGrid x:Name="MainDgTable"
-                  ItemsSource="{Binding DgPlanView}"
+                  ItemsSource="{Binding UnitsPlanView}"
                   SelectedItem="{Binding SelectedDg, Mode=TwoWay}"
                   
                   IsSynchronizedWithCurrentItem="True"
@@ -254,7 +254,7 @@
 
                 <!-- Dg subclasses -->
                 <DataGridTextColumn x:Name="dgSubclassColumn"
-                                    Binding="{Binding DgSubclass, UpdateSourceTrigger=LostFocus}"
+                                    Binding="{Binding DgSubClass, UpdateSourceTrigger=LostFocus}"
                                     Header="Dg subclass"
                                     />
 

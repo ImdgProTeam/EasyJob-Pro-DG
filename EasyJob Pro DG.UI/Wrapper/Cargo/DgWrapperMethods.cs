@@ -2,7 +2,6 @@
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Wrapper.Cargo;
-using System;
 using System.Runtime.CompilerServices;
 
 namespace EasyJob_ProDG.UI.Wrapper
@@ -11,27 +10,6 @@ namespace EasyJob_ProDG.UI.Wrapper
     {
         #region Public methods
         // --------------- Methods ---------------------------------------
-
-        /// <summary>
-        /// Compiles location of input of bay, row or tier
-        /// </summary>
-        /// <param name="value">Bay, row or tier</param>
-        /// <param name="propertyName">Specified property</param>
-        /// <returns></returns>
-        internal string CompileLocation(byte value, [CallerMemberName] string propertyName = null)
-        {
-            switch (propertyName.ToLower())
-            {
-                case "bay":
-                    return AddZeroIfRequired(value, 2) + AddZeroIfRequired(Row) + AddZeroIfRequired(Tier);
-                case "row":
-                    return AddZeroIfRequired(Bay, 2) + AddZeroIfRequired(value) + AddZeroIfRequired(Tier);
-                case "tier":
-                    return AddZeroIfRequired(Bay, 2) + AddZeroIfRequired(Row) + AddZeroIfRequired(value);
-                default:
-                    return Location;
-            }
-        }
 
         /// <summary>
         /// Adds TechnicalName, if any, to ProperShippingName and changes status of IsTechnicalNameIncluded.
@@ -59,39 +37,6 @@ namespace EasyJob_ProDG.UI.Wrapper
         #endregion
 
 
-        #region Private methods
-        // --------------- Private methods ---------------------------------------
-
-        /// <summary>
-        /// Checks if input value is less then '10' and adds '0' before the digit if the case
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="numberOfZeros"></param>
-        /// <returns></returns>
-        private string AddZeroIfRequired(byte value, byte numberOfZeros = 1)
-        {
-            string result = "";
-            if (value < 10) result += "0";
-            if (value < 100 && numberOfZeros == 2) result += "0";
-            result += value.ToString();
-            return result;
-        }
-
-        /// <summary>
-        /// Supporting method to parse multiple classes into array
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        private string[] ParseMultipleClasses(string value)
-        {
-            char[] separator = { ' ', ',' };
-            string[] array = value.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-            return array;
-        }
-
-        #endregion
-
-
         #region Methods affecting view changes
         // --------------- Methods affecting view changes ---------------------------
 
@@ -110,7 +55,6 @@ namespace EasyJob_ProDG.UI.Wrapper
         private void OnUpdatePackingGroup()
         {
             Model.AssignFromDgList(false, true);
-            OnDgPackingGroupChangedEventHandler.Invoke(this);
             RefreshDgDataPresentation();
         }
 
@@ -120,7 +64,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         private void OnNetWeightChanged()
         {
             DataMessenger.Default.Send<UpdateCargoPlan>(new UpdateCargoPlan(), "Net weight changed");
-            NotifyOfChangedProperties();
+            NotifyStatusBar();
         }
 
         /// <summary>
@@ -128,21 +72,21 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         private void UpdateConflictList()
         {
-            OnConflictListToBeChangedEventHandler.Invoke(this);
-        }     
-        
+            DataMessenger.Default.Send(new ConflictsToBeCheckedAndUpdatedMessage());
+        }
+
         /// <summary>
         /// Invokes sending of <see cref="DgListSelectedItemUpdatedMessage"/>
-        /// Used by SelectionStatusBar
+        /// Used by SelectionStatusBar in order to update status bar info
         /// </summary>
-        private void NotifyOfChangedProperties()
+        private void NotifyStatusBar()
         {
-            OnDgPropertyUpdatedEventHandler.Invoke(this);
+            DataMessenger.Default.Send(new DgListSelectedItemUpdatedMessage(), "selectionpropertyupdated");
         }
 
         private void UpdateDgStowageConflicts()
         {
-            DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage(this));
+            DataMessenger.Default.Send(new ConflictsToBeCheckedAndUpdatedMessage(this));
         }
 
         /// <summary>
@@ -159,7 +103,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <param name="value">new value set</param>
         /// <param name="oldValue">old value</param>
         /// <param name="propertyName">property that is changed</param>
-        protected override void SetToAllContainersInPlan(object value, object oldValue = null, [CallerMemberName] string propertyName = null)
+        protected override void NotifyOfChangedContainerProperty(object value, object oldValue = null, [CallerMemberName] string propertyName = null)
         {
             DataMessenger.Default.Send(new CargoPlanUnitPropertyChanged(this, value, oldValue, propertyName));
         }

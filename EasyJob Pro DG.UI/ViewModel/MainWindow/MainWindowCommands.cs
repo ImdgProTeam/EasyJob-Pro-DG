@@ -1,7 +1,7 @@
 ﻿using EasyJob_ProDG.Data;
 using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO;
-using EasyJob_ProDG.UI.Data;
+using EasyJob_ProDG.UI.IO;
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
@@ -129,7 +129,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void ExportToExcelOnExecuted(object obj)
         {
             StatusBarControl.StartProgressBar(10, "Exporting to excel...");
-            Action d = loadDataService.ExportDgListToExcel;
+            Action d = Services.LoadDataServiceAccess.ExportDgListToExcel;
             Task.Run(() => WrapMethodWithIsLoading(d)).ConfigureAwait(false);
         }
 
@@ -142,9 +142,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void NewCargoPlanCommandOnExecuted(object obj)
         {
-            if (_messageDialogService.ShowYesNoDialog($"Are you sure that you want to create a new blank cargo plan?\nAll unsaved changes will be lost."
+            if (Services.MessageDialogServiceAccess.ShowYesNoDialog($"Are you sure that you want to create a new blank cargo plan?\nAll unsaved changes will be lost."
                 , "Create new cargo plan") == MessageDialogResult.No) return;
-            loadDataService.LoadBlankCargoPlan();
+            Services.LoadDataServiceAccess.LoadBlankCargoPlan();
             GetCargoData();
         }
 
@@ -268,78 +268,17 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void SaveOnExecuted(object obj)
         {
             //suggested file name
-            string fileName = GetSuggestedFileName();
+            string fileName = Services.FileNameServiceAccess.GetSuggestedFileName();
 
             if (DialogSaveFile.SaveFileWithDialog(ref fileName))
             {
                 Action d = delegate ()
                 {
-                    loadDataService.SaveConditionToFile(fileName);
+                    Services.LoadDataServiceAccess.SaveConditionToFile(fileName);
                     SetWindowTitle();
                 };
                 Task.Run(() => WrapMethodWithIsLoading(d));
             }
-        }
-
-        /// <summary>
-        /// Suggests the fileName when saving condition based on voyage info.
-        /// </summary>
-        /// <returns></returns>
-        private string GetSuggestedFileName()
-        {
-            string suggestion = string.Empty;
-            var conditionName = cargoDataService.ConditionFileName;
-            if (conditionName.EndsWith(ProgramDefaultSettingValues.ConditionFileExtension) && !string.Equals(conditionName, Properties.Settings.Default.WorkingCargoPlanFile))
-                return conditionName;
-
-            conditionName = conditionName.ToUpper().Replace(" ", "").Replace("-", "").Replace("_", "");
-            if (!string.IsNullOrEmpty(conditionName))
-            {
-                if (conditionName.Contains("PREFINAL"))
-                {
-                    suggestion = "Pre-Final";
-                }
-                else if (conditionName.Contains("FINAL"))
-                {
-                    suggestion = "Final";
-                }
-                else if (conditionName.Contains("PRESTOW"))
-                {
-                    suggestion = "Prestow";
-                }
-                else if (conditionName.Contains("STOWAGE"))
-                {
-                    suggestion = "Stowage";
-                }
-                else if (conditionName.Contains("LOAD"))
-                {
-                    suggestion = "Load";
-                }
-                else if (conditionName.Contains("PRE"))
-                {
-                    suggestion = "Prestow";
-                }
-                if (conditionName.Contains("UPDATED"))
-                {
-                    suggestion += "Updated";
-                }
-                else if (conditionName.Contains("UPDATE"))
-                {
-                    suggestion += "Update";
-                }
-                else if (conditionName.Contains("CORRECTED"))
-                {
-                    suggestion += "Corrected";
-                }
-                else if (conditionName.Contains("CORRECT"))
-                {
-                    suggestion += "Correcte";
-                }
-            }
-
-            return VoyageInfo.VoyageNumber + " "
-            + VoyageInfo.PortOfDeparture + " "
-            + suggestion;
         }
 
 
@@ -370,14 +309,13 @@ namespace EasyJob_ProDG.UI.ViewModel
                 case 0:
                     return (Container)DataGridDgViewModel.SelectedDg?.Model;
                 case 1:
-                    return DataGridReefersViewModel.SelectedReefer?.Model;
+                    return DataGridReefersViewModel.SelectedUnit?.Model;
                 case 2:
-                    return DataGridContainersViewModel.SelectedContainer?.Model;
+                    return DataGridContainersViewModel.SelectedUnit?.Model;
                 default:
                     return null;
             }
         }
-
 
         // ----- Re-check condition
 
@@ -387,18 +325,18 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void OnReCheckRequested(object obj)
         {
-            DataMessenger.Default.Send(new ConflictListToBeUpdatedMessage(true));
+            DataMessenger.Default.Send(new ConflictsToBeCheckedAndUpdatedMessage(true));
         }
 
         // ----- Settings save - restore -----
         private void SaveSettingsToFileExecuted(object obj)
         {
-            uiSettingsService.SaveSettingsToFile();
+            Services.SettingsServiceAccess.SaveSettingsToFile();
         }
 
         private void RestoreSettingsFromFileExecuted(object obj)
         {
-            uiSettingsService.RestoreSettingsFromFile(obj);
+            Services.SettingsServiceAccess.RestoreSettingsFromFile(obj);
         }
 
         #endregion
@@ -445,7 +383,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void SaveWorkingCondition()
         {
             //todo: Implement file name saving and restoring on startup
-            loadDataService.SaveConditionToFile(ProgramDefaultSettingValues.ProgramDirectory + Properties.Settings.Default.WorkingCargoPlanFile);
+            Services.LoadDataServiceAccess.SaveConditionToFile(ProgramDefaultSettingValues.ProgramDirectory + Properties.Settings.Default.WorkingCargoPlanFile);
         }
 
         private bool CanExecuteForOptionalOpen(object obj)
@@ -460,7 +398,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         #region Methods calling toolbox windows
         private void OpenShipProfileWindowExecuted(object parameters)
         {
-            windowDialogService.ShowDialog(new ShipProfileWindow(), new ShipProfileWindowVM());
+            Services.WindowDialogServiceAccess.ShowDialog(new ShipProfileWindow(), new ShipProfileWindowVM());
             SetWindowTitle();
         }
         private void OpenUserSettingsWindowExecuted(object parameters)
@@ -481,20 +419,20 @@ namespace EasyJob_ProDG.UI.ViewModel
                     break;
             }
 
-            windowDialogService.ShowDialog(new SettingsWindow(selectedTab));
+            Services.WindowDialogServiceAccess.ShowDialog(new SettingsWindow(selectedTab));
         }
         private void ShowAboutExecuted(object parameters)
         {
-            windowDialogService.ShowDialog(new winAbout());
+            Services.WindowDialogServiceAccess.ShowDialog(new winAbout());
         }
         private void ShowLicenseDialogExecuted(object parameter)
         {
-            windowDialogService.ShowDialog(new winLicence());
+            Services.WindowDialogServiceAccess.ShowDialog(new winLicence());
         }
         private void ShowLoginWindowOnExecuted(object obj)
         {
             var viewModel = new WinLoginViewModel();
-            var result = mappedDialogWindowService.ShowDialog(viewModel);
+            var result = Services.MappedDialogWindowServiceAccess.ShowDialog(viewModel);
 
             if (result.HasValue)
             {
@@ -507,7 +445,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void ShowWelcomeWindow()
         {
             var viewModel = new WelcomeWindowVM();
-            bool? dialogResult = mappedDialogWindowService.ShowDialog(viewModel);
+            bool? dialogResult = Services.MappedDialogWindowServiceAccess.ShowDialog(viewModel);
 
             if (dialogResult.HasValue)
             {
@@ -523,7 +461,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         internal void ShowLicenceAgreement(bool isFirstStart = false)
         {
             var viewModel = new LicenceAgreementViewModel(isFirstStart);
-            windowDialogService.ShowDialog(new LicenceAgreement(), viewModel);
+            Services.WindowDialogServiceAccess.ShowDialog(new LicenceAgreement(), viewModel);
         }
 
 
@@ -533,21 +471,21 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             var dgSummaryReport = new DgSummaryReportViewModel(VoyageInfo);
             dgSummaryReport.CreateReport(WorkingCargoPlan.Model);
-            windowDialogService.ShowDialog(new DgSummaryReport(), dgSummaryReport);
+            Services.WindowDialogServiceAccess.ShowDialog(new DgSummaryReport(), dgSummaryReport);
         }
 
         private void ShowCargoSummaryCommandOnExecuted(object obj)
         {
             var cargoReportViewModel = new CargoReportViewModel(VoyageInfo);
             cargoReportViewModel.CreateReport(WorkingCargoPlan.Model);
-            mappedDialogWindowService.ShowDialog(cargoReportViewModel);
+            Services.MappedDialogWindowServiceAccess.ShowDialog(cargoReportViewModel);
         }
 
         private void ShowPortToPortReportCommandOnExecuted(object obj)
         {
             var portToPortReportViewModel = new PortToPortReportViewModel();
             portToPortReportViewModel.CreateReport(WorkingCargoPlan.Model);
-            windowDialogService.ShowDialog(new PortToPortReport(), portToPortReportViewModel);
+            Services.WindowDialogServiceAccess.ShowDialog(new PortToPortReport(), portToPortReportViewModel);
         }
 
         #endregion

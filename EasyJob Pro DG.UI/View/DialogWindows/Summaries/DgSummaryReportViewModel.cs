@@ -22,12 +22,12 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         /// <summary>
         /// List of all displayable dg classes
         /// </summary>
-        private List<string> AllDgClasses = IMDGCode.AllValidDgClasses;
+        private readonly List<string> AllDgClasses = IMDGCode.AllValidDgClasses;
 
 
         private List<SingleClassReportValue> displayClasses;
         private List<SingleClassReportValue> displayClassesOfCurrentPOL;
-        private readonly CollectionViewSource displayValuesView = new CollectionViewSource();
+        private readonly CollectionViewSource displayValuesView = new();
         private SingleClassReportValue totalClass;
         private SingleClassReportValue totalClassOfCurrentPOL;
         private SingleClassReportValue MPclass;
@@ -55,7 +55,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         private DataTable TableDataSelectedPOLOnlyWithValues;
 
         private CargoPlan cargoPlan;
-        private Voyage voyage;
+        private readonly Voyage voyage;
 
         #endregion
 
@@ -160,7 +160,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
             foreach (var line in isPOLselected ? displayClassesOfCurrentPOL : displayClasses)
             {
                 //individual rows
-                List<SinglePortClassReportValue> values = new List<SinglePortClassReportValue>();
+                List<SinglePortClassReportValue> values = new();
                 foreach (DataColumn header in dataTable.Columns)
                 {
                     //Class column
@@ -176,13 +176,6 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
                         values.Add(line.ClassCountValues[header.ColumnName]);
                     }
                     else
-                        //to display meaningless zeros as well
-                        //{
-                        //    var newBlancSinglePort = new SinglePortClassReportValue(header.ColumnName);
-                        //    values.Add(newBlancSinglePort);
-                        //    line.ClassCountValues.Add(header.ColumnName, newBlancSinglePort);
-                        //}
-                        //otherwise:
                         values.Add(new SinglePortClassReportValue(header.ColumnName));
                 }
 

@@ -26,9 +26,9 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         #region IReefer properties
 
-        public double SetTemperature
+        public decimal SetTemperature
         {
-            get { return GetValue<double>(); }
+            get { return GetValue<decimal>(); }
             set { SetValue(value); }
         }
         public string Commodity
@@ -41,9 +41,9 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<string>(); }
             set { SetValue(value); }
         }
-        public double LoadTemperature
+        public decimal LoadTemperature
         {
-            get { return GetValue<double>(); }
+            get { return GetValue<decimal>(); }
             set { SetValue(value); }
         }
         public string ReeferSpecial
@@ -81,17 +81,16 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         internal void RefreshIReefer()
         {
-            OnPropertyChanged("Commodity");
-            OnPropertyChanged("SetTemperature");
-            OnPropertyChanged("VentSetting");
-            OnPropertyChanged("LoadTemperature");
-            OnPropertyChanged("ReeferSpecial");
-            OnPropertyChanged("ReeferRemark");
+            OnPropertyChanged(nameof(Commodity));
+            OnPropertyChanged(nameof(SetTemperature));
+            OnPropertyChanged(nameof(VentSetting));
+            OnPropertyChanged(nameof(LoadTemperature));
+            OnPropertyChanged(nameof(ReeferSpecial));
+            OnPropertyChanged(nameof(ReeferRemark));
         }
 
 
-
-        //--------------- Protected methods -------------------------------------------
+        //--------------- Protected override methods -------------------------------------------
 
         /// <summary>
         /// Sends request to CargoPlanWrapper to set new value to all containers in the plan
@@ -99,9 +98,10 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// <param name="value">new value to be set</param>
         /// <param name="oldValue">old value</param>
         /// <param name="propertyName">property of which value to be changed</param>
-        protected override void SetToAllContainersInPlan(object value, object oldValue = null, [CallerMemberName] string propertyName = null)
+        protected override void NotifyOfChangedContainerProperty(object value, object oldValue = null, [CallerMemberName] string propertyName = null)
         {
             DataMessenger.Default.Send(new CargoPlanUnitPropertyChanged(this, value, oldValue, propertyName, false));
+            DataMessenger.Default.Send(new ConflictsToBeCheckedAndUpdatedMessage());
         }
 
         //--------------- Constructors ----------------------------------------------
@@ -118,9 +118,6 @@ namespace EasyJob_ProDG.UI.Wrapper
         {
             return containerWrapper.ConvertBackToPlainContainer();
         }
-
-
-        // -------------- Events ----------------------------------------------------
 
     }
 }

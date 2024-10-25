@@ -5,7 +5,7 @@ namespace EasyJob_ProDG.Data
 {
     public static class Licence
     {
-        private static readonly DateTime Endlicence = new DateTime(2024, 06, 30, 23, 59, 59);
+        private static readonly DateTime Endlicence = new DateTime(2024, 12, 31, 23, 59, 59);
 
         /// <summary>
         /// Gets the end of licence date and time.

@@ -44,11 +44,13 @@ namespace EasyJob_ProDG.UI.ViewModel
                         _dgUnit.DisplayContainerNumber + " in " + _dgUnit.Location;
                 }
 
-                string result = "Unit " + _dgUnit.DisplayContainerNumber + " (class " + _dgUnit.AllDgClasses + $" unno {_dgUnit.Unno:0000}) in " + _dgUnit.Location;
+                string result = $"Unit {_dgUnit.DisplayContainerNumber} (class {_dgUnit.AllDgClasses} UNNo {_dgUnit.Unno:0000})\n" +
+                    $"Position: {_dgUnit.Location}";
                 if (_segrConflict)
-                    result += " is in conflict with " + _dgB.DisplayContainerNumber + " (class " + _dgB.AllDgClasses + (_dgB.DgClass == "Reefer" ? "Reefer" : $" unno {_dgB.Unno:0000}") + ") in " + _dgB.Location;
-                else result += ":";
-                result += " " + Description;
+                    result += "\nis in conflict with\n" + _dgB.DisplayContainerNumber 
+                        + " (class " + _dgB.AllDgClasses + (_dgB.DgClass == "Reefer" ? "Reefer" : $" unno {_dgB.Unno:0000}") + ")\n"
+                        + "in position: " + _dgB.Location;
+                result += "\n" + Description;
                 return result;
             }
             set
@@ -75,7 +77,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                     return CodesDictionary.ConflictCodes[Code] + "\n" + Surrounded;
                 if (CodesDictionary.ConflictCodesPrefixes.Contains(CodesDictionary.GetCodePrefix(Code)))
                     return CodesDictionary.ConflictCodes[Code];
-                else return Code + " " + (_segrConflict ? CodesDictionary.Segregation[Code] 
+                else return Code + ": " + (_segrConflict ? CodesDictionary.Segregation[Code] 
                         : (CodesDictionary.Stowage[Code] + (Code == "SW1" ? "\n" + Surrounded : ""))
                         );
             }
@@ -138,10 +140,9 @@ namespace EasyJob_ProDG.UI.ViewModel
             return this.ContainerNumber == conflict.ContainerNumber
                 && this.Location == conflict.Location
                 && this.Unno == conflict.Unno
+                && this._dgUnit.AllDgClasses.All(c => conflict._dgUnit.AllDgClasses.Any(x => string.Equals(x, c)))
                 && Code == conflict.Code
                 && DgID == conflict.DgID;
         }
-
-
     }
 }

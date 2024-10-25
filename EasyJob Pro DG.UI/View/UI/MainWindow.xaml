@@ -106,54 +106,10 @@
                     Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
                             Grid.ColumnSpan="2">
                 </uc:Spinner>
-                
-                <DockPanel Grid.Column="1"
-                           Grid.RowSpan="2"
-                           LastChildFill="True">
 
-                    <!-- Conflict list header and Update button -->
-                    <Grid DockPanel.Dock="Top">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="List of conflicts"
-                                   Margin="0,0,0,5"
-                                   Padding="40,0,5,0"
-                                   FontSize="{StaticResource StandardButtonFontSize}"
-                                   VerticalAlignment="Bottom"
-                                   HorizontalAlignment="Center"
-                                   FontWeight="DemiBold"
-                                   Grid.Column="0">
-                            </TextBlock>
-                            <Button Content="Re-check"
-                                MaxWidth="100"
-                                MaxHeight="30"
-                                Margin="5"
-                                    Padding="20, 5"
-                                    VerticalContentAlignment="Center"
-                                    Grid.Column="1"
-                                Command="{Binding ReCheckCommand}" />
-                        </Grid>
-                    </Grid>
-
-                    <!---   Black block   -->
-                    <TextBlock x:Name="BlackBlock"
-                               MinHeight="{Binding ElementName=InfoBlock, Path=ActualHeight}"
-                               DockPanel.Dock="Bottom"
-                               Margin="2"
-                               Padding="10,5,0,0"
-                               Background="{StaticResource Brush.BlackBlock.Background}"
-                               Foreground="{StaticResource Brush.BlackBlock.Foreground}"
-                               Text="{Binding Vents.VentHoldsFullText}"
-                               TextWrapping="WrapWithOverflow"
-                               TextAlignment="Left" />
-
-                    <!---   Conflicts list   -->
-                    <uc:ConflictsListView />
-
-                </DockPanel>
+                <uc:ConflictsSection
+                        Grid.Column="1"
+                        Grid.RowSpan="2"/>
 
                 <GridSplitter ShowsPreview="False"
                               HorizontalAlignment="Right"
@@ -194,7 +150,7 @@
                 <uc:InfoBlock Grid.Row="1" x:Name="InfoBlock"/>
             </Grid>
         </DockPanel>
-        
+
         <!-- Dimmed overlay for modal windows -->
         <Border Background="LightSlateGray"
                 Opacity="0.3"

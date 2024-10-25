@@ -2,7 +2,7 @@
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
-    public class CargoHoldWrapper : ModelWrapper<CargoHold>
+    public class CargoHoldWrapper : ModelChangeTrackingWrapper<CargoHold>
     {
         #region Public (inherited) properties
 

@@ -1,6 +1,8 @@
 ﻿using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.Wrapper.Cargo;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
@@ -25,7 +27,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                 if (value != 1950) IsMax1L = false;
                 UpdateDgInfoAndUploadChanges();
                 UpdateConflictList();
-                NotifyOfChangedProperties();
+                NotifyStatusBar();
             }
         }
 
@@ -38,14 +40,15 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                string[] tempdgsubclasses = Model.DgSubclassArray;
-                Model.ClearAllDgClasses();
-                SetValue(value.Replace(" ", ""));
-                foreach (var dgsubclass in tempdgsubclasses)
+                SetValue(value.Trim().Replace(" ", ""));
+                if (Model.DgSubClassArray.Contains(value))
                 {
-                    Model.DgSubclass = dgsubclass;
+                    DgSubClass = DgSubClass.Replace(DgClass, "");
+                    OnPropertyChanged(nameof(DgSubClass));
+                    return;
                 }
-                OnPropertyChanged($"AllDgClasses");
+                
+                OnPropertyChanged(nameof(AllDgClasses));
                 UpdateConflictList();
             }
         }
@@ -54,24 +57,22 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// Set: will add string dg class to dgsubclass and will update allDgClasses.
         /// Get: will return string with all subclasses listed and separated with comma.
         /// </summary>
-        public string DgSubclass
+        public string DgSubClass
         {
             get => GetValue<string>();
             set
             {
-                string tempDgClass = DgClass;
-                Model.ClearAllDgClasses();
-                Model.DgClass = tempDgClass;
-
-                string[] array = ParseMultipleClasses(value);
-                foreach (var val in array)
+                var setvalue = value.Replace(",", " ").Replace("  ", " ").Trim();
+                
+                //Check if DgClass already has the subrisk being input
+                if(setvalue.Split(' ').Any(x => string.Equals(x, DgClass)))
                 {
-                    if (!string.IsNullOrEmpty(val))
-                        SetValue(val);
+                    setvalue = setvalue.Replace(DgClass, "");
                 }
 
-                    OnPropertyChanged($"AllDgClasses");
-                    UpdateConflictList();
+                SetValue(setvalue);
+                OnPropertyChanged(nameof(AllDgClasses));
+                UpdateConflictList();
             }
         }
 
@@ -85,8 +86,8 @@ namespace EasyJob_ProDG.UI.Wrapper
             set
             {
                 if (!SetValue(value)) return;
-                    OnUpdatePackingGroup();
-                    UpdateConflictList();
+                OnUpdatePackingGroup();
+                UpdateConflictList();
 
             }
         }
@@ -108,7 +109,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 if (!SetValue(value)) return;
                 UpdateConflictList();
-                NotifyOfChangedProperties();
+                NotifyStatusBar();
             }
         }
 
@@ -353,7 +354,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         // ---------- Readonly Dg properties ------------------------------
 
         public bool IsConflicted => GetValue<bool>();
-        public string AllDgClasses => GetValue<string>();
+        public string AllDgClasses => string.Join(",", GetValue<List<string>>());
         public string Properties => GetValue<string>();
         public string SegregationSG
         {

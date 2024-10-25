@@ -14,6 +14,10 @@ using EasyJob_ProDG.Model.Transport;
 
 namespace EasyJob_ProDG.UI.Data
 {
+    /// <summary>
+    /// Provides program data access to current <see cref="CargoPlan"/>, 
+    /// <see cref="ShipProfile"/> and condition file name in use.
+    /// </summary>
     internal class CurrentProgramData : ICurrentProgramData
     {
         #region Private fields
@@ -74,7 +78,7 @@ namespace EasyJob_ProDG.UI.Data
             return _cargoPlan;
         }
 
-        ShipProfile ICurrentProgramData. GetShipProfile()
+        public ShipProfile GetShipProfile()
         {
             return _shipProfile;
         }

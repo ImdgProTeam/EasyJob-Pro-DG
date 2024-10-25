@@ -3,7 +3,6 @@ using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO;
 using EasyJob_ProDG.Model.IO.EasyJobCondition;
 using EasyJob_ProDG.UI.Data;
-using EasyJob_ProDG.UI.Utility;
 
 namespace EasyJob_ProDG.UI.Services.DataServices
 {
@@ -26,15 +25,12 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         /// <returns>True if dg database has been successfully connected.</returns>
         public bool ConnectProgramFiles()
         {
-            //Initiate EventSupervisor
-            EventSupervisor evS = new();
-
             ////Connect program files
             return ProgramFiles.Connect();
         }
 
         /// <summary>
-        /// Loads default cargo plan, checks it and generates wrappers and conflicts.
+        /// Loads default cargo plan.
         /// Called on program start up.
         /// </summary>
         /// <param name="openPath">Path of WorkingCargoPlan received from MainWindow.</param>
@@ -127,16 +123,16 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         }
 
         /// <summary>
-        /// Reads a filePath and creates cargo plan and checks its stowage and segregation.
+        /// Reads a fileNam, creates cargo plan from it and sets it as the working cargo plan in <see cref="CurrentProgramData"/>.
         /// </summary>
-        /// <param name="fileName">Full path of filePath to open</param>
+        /// <param name="fileName">Full path with fileName to open</param>
         /// <param name="openOption">Select from enumeration weather to Open, Update or Import data</param>
         /// <param name="importOnlySelected">For import: Import only selected items.</param>
         /// <param name="currentPort">Port for selecting import.</param>
         /// <returns>True if WorkingCargoPlan created successfully</returns>
         private bool CreateCargoPlanFromFile(string fileName, OpenFile.OpenOption openOption = OpenFile.OpenOption.Open, bool importOnlySelected = false, string currentPort = null)
         {
-            var tempCargoPlan = new CargoPlan().CreateCargoPlan(fileName, openOption, _cargoPlan, importOnlySelected, currentPort);
+            var tempCargoPlan = HandleCargoPlan.CreateCargoPlan(fileName, openOption, _cargoPlan, importOnlySelected, currentPort);
             if (tempCargoPlan == null || tempCargoPlan.IsEmpty) return false;
 
             _currentProgramData.SetCargoPlan(tempCargoPlan);

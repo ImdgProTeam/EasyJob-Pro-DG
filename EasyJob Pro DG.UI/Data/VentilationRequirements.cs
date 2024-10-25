@@ -1,6 +1,6 @@
 ﻿using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.Model.Cargo;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace EasyJob_ProDG.UI.Data
 {
@@ -8,7 +8,7 @@ namespace EasyJob_ProDG.UI.Data
     {
         // ---------------------- Properties --------------------------------------------
 
-        private readonly ObservableCollection<byte> _ventHolds = new ObservableCollection<byte>();
+        private readonly SortedSet<byte> _ventHolds = new SortedSet<byte>();
 
         public string VentHoldsFullText
         {
@@ -44,6 +44,8 @@ namespace EasyJob_ProDG.UI.Data
 
         public void Add(byte value)
         {
+            if (Contains(value)) return;
+
             _ventHolds.Add(value);
             OnPropertyChanged();
         }
@@ -56,7 +58,7 @@ namespace EasyJob_ProDG.UI.Data
             Clear();
             foreach (var hold in Stowage.SWgroups.VentHoldsList)
                 Add(hold);
-            OnPropertyChanged("VentHoldsFullText");
+            OnPropertyChanged(nameof(VentHoldsFullText));
         }
 
     }

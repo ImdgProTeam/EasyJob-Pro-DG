@@ -117,7 +117,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         }
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colSubclass))
                         {
-                            unit.DgSubclassArray = WithXlAssistToRead.DgSubClass(value, unit.ContainerNumber);
+                            unit.DgSubClassArray = WithXlAssistToRead.DgSubClass(value, unit.ContainerNumber);
                         }
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colName))
                             unit.Name = value;
@@ -140,7 +140,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         }
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colFP))
                         {
-                            unit.FlashPointDouble = WithXlAssistToRead.DgFp(value);
+                            unit.FlashPointAsDecimal = WithXlAssistToRead.DgFp(value);
                         }
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colEms))
                             unit.DgEMS = value;
@@ -173,7 +173,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         cont = lastContainer;
 
                     // Updating dg unit info and add it to the list
-                    unit.CopyContainerInfo(cont);
+                    unit.CopyContainerAbstractInfo(cont);
                     dgList.Add(unit);
 
                     //Update containers
@@ -338,7 +338,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                                 break;
                             case (int)ExcelDgTemplate.Columns.colSubclass:
                                 excelCells.NumberFormat = "@";
-                                value = dg.DgSubclass;
+                                value = dg.DgSubClass;
                                 excelCells.HorizontalAlignment = ExcelApp.Constants.xlRight;
                                 break;
                             case (int)ExcelDgTemplate.Columns.colName:
@@ -350,7 +350,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                                 excelCells.HorizontalAlignment = ExcelApp.Constants.xlCenter;
                                 break;
                             case (int)ExcelDgTemplate.Columns.colFP:
-                                value = Math.Abs(dg.FlashPointDouble - 9999) < 1 ? "" : dg.FlashPoint;
+                                value = Math.Abs(dg.FlashPointAsDecimal - 9999) < 1 ? "" : dg.FlashPoint;
                                 excelCells.NumberFormat = "0.0";
                                 break;
                             case (int)ExcelDgTemplate.Columns.colMP:

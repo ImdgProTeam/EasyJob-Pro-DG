@@ -69,11 +69,6 @@ namespace EasyJob_ProDG.UI.Utility
         public void Register<T>(object recipient, Action<T> action, object context)
         {
             var key = new MessengerKey(recipient, context);
-            //foreach(var entry in Dictionary)
-            //{
-            //    if (Dictionary.Any(r => string.Equals(r.Key.Recipient.ToString(), recipient.ToString()) && r.Key.Context == context))
-            //        return;
-            //} 
             Dictionary.TryAdd(key, action);
         }
 

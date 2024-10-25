@@ -52,16 +52,6 @@ namespace EasyJob_ProDG.UI.Services.DataServices
             ProgramFiles.SaveShipProfile(_ship, _shipWrapper.ProfileName);
         }
 
-        /// <summary>
-        /// Defines to what CargoHold belongs the bay
-        /// </summary>
-        /// <param name="bay">Bay in query</param>
-        /// <returns>CargoHold number</returns>
-        public byte DefineCargoHoldNumber(byte bay)
-        {
-            return ShipProfile.DefineCargoHoldNumber(bay);
-        }
-
 
         // ------------------------- Private methods --------------------------------
 

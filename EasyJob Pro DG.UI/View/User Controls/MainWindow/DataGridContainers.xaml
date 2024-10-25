@@ -49,7 +49,7 @@
                     Grid.Column="2"/>
 
             <Button Content="Add"
-                    Command="{Binding DisplayAddContainerMenuCommand}"
+                    Command="{Binding DisplayAddUnitMenuCommand}"
                     Width="100"
                     Margin="1" 
                     Grid.Column="3"/>
@@ -58,20 +58,20 @@
         <local:AddContainerToDataGrid IsAddDg="False"
                                       Title="Add Container |"
                                       Visibility="{Binding MenuVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      ContainerNumber="{Binding ContainerToAddNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      Location="{Binding ContainerToAddLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      CanUserAdd="{Binding CanUserAddContainer, UpdateSourceTrigger=PropertyChanged}"
+                                      ContainerNumber="{Binding UnitToAddNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Location="{Binding UnitToAddLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      CanUserAdd="{Binding CanUserAddUnit, UpdateSourceTrigger=PropertyChanged}"
                                       DockPanel.Dock="Bottom">
             <behavior:Interaction.Triggers>
                 <behavior:EventTrigger EventName="AddItem">
-                    <behavior:InvokeCommandAction Command="{Binding AddNewContainerCommand}"/>
+                    <behavior:InvokeCommandAction Command="{Binding AddNewUnitCommand}"/>
                 </behavior:EventTrigger>
             </behavior:Interaction.Triggers>
         </local:AddContainerToDataGrid>
 
         <DataGrid x:Name="MainContainerDataTable"
-                  ItemsSource="{Binding ContainerPlanView}"
-                  SelectedItem="{Binding SelectedContainer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding UnitsPlanView}"
+                  SelectedItem="{Binding SelectedUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   IsSynchronizedWithCurrentItem="True"
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
@@ -98,7 +98,7 @@
                   Grid.Row="0"
                   SelectionMode="Extended"
                   Sorting="MainContainerDataTable_Sorting"
-                  ap:SelectingContainerDataGridItem.SelectingItem="{Binding SelectedContainer}"
+                  ap:SelectingContainerDataGridItem.SelectingItem="{Binding SelectedUnit}"
                   UnloadingRow="MainContainerDataTable_UnloadingRow"
                   PreviewKeyDown="MainContainerDataTable_PreviewKeyDown"
                   behaviors:DataGridBehavior.DisplayRowNumber="True" 
@@ -448,7 +448,7 @@
             <!-- INPUT BINDINGS -->
             <DataGrid.InputBindings>
                 <KeyBinding Key="Delete"
-                            Command="{Binding DeleteContainerCommand}"
+                            Command="{Binding DeleteUnitCommand}"
                             CommandParameter="{Binding ElementName=MainContainerDataTable, Path=SelectedItems}" />
             </DataGrid.InputBindings>
         </DataGrid>

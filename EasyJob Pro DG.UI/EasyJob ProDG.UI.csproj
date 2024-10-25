@@ -61,10 +61,10 @@
     <ApplicationIcon>imdg1.good.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>5A68D8808ABAC358F067C0B6BFCCE1ACE171CF66</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>802AF98F863C2A20CD73D19028C646BBEE0C9534</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>EasyJob ProDG.UI_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>EasyJob ProDG.UI_2_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -111,15 +111,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Compile Include="Data\DialogOpenSettings.cs" />
-    <Compile Include="Data\DialogSaveSettings.cs" />
+    <Compile Include="Data\ConflictsListHandler.cs" />
+    <Compile Include="IO\DialogOpenSettings.cs" />
+    <Compile Include="IO\DialogSaveSettings.cs" />
     <Compile Include="Services\DataServices\CargoPlanCheckService.cs" />
-    <Compile Include="Services\DataServices\ICargoPlanCheckService.cs" />
+    <Compile Include="Services\DataServices\Interfaces\ICargoPlanCheckService.cs" />
     <Compile Include="Services\DialogServices\IWindowDialogService.cs" />
+    <Compile Include="Services\FileNameService.cs" />
+    <Compile Include="Services\IFileNameService.cs" />
+    <Compile Include="Services\ServicesHandler.cs" />
     <Compile Include="Settings\UserSettingsApplicator.cs" />
     <Compile Include="Utility\AsyncObservableCollection.cs" />
+    <Compile Include="Utility\Messages\ConflictsToBeCheckedAndUpdatedMessage.cs" />
     <Compile Include="Utility\Messages\DgListSelectedItemUpdatedMessage.cs" />
     <Compile Include="Utility\Messages\ShipProfileSavedMessage.cs" />
+    <Compile Include="ViewModel\MainWindow\ConflictsSectionViewModel.cs" />
+    <Compile Include="ViewModel\MainWindow\DataGridViewModelBase.cs" />
+    <Compile Include="ViewModel\MainWindow\DataGridContainerViewModelBase.cs" />
     <Compile Include="ViewModel\MainWindow\MainWindowCommands.cs" />
     <Compile Include="ViewModel\MainWindow\SelectionStatusBarSetter.cs" />
     <Compile Include="View\Animations\FrameworkElementAnimations.cs" />
@@ -153,8 +161,8 @@
     <Compile Include="View\Behaviors\SelectTextOnFocusBehavior.cs" />
     <Compile Include="View\Behaviors\TakeFocusAndSelectTextOnVisibleBehavior.cs" />
     <Compile Include="Data\DataHelper.cs" />
-    <Compile Include="Data\DialogSaveFile.cs" />
-    <Compile Include="Data\DialogOpenFile.cs" />
+    <Compile Include="IO\DialogSaveFile.cs" />
+    <Compile Include="IO\DialogOpenFile.cs" />
     <Compile Include="Data\CurrentProgramData.cs" />
     <Compile Include="Data\ICurrentProgramData.cs" />
     <Compile Include="Security\IHavePassword.cs" />
@@ -162,25 +170,23 @@
     <Compile Include="Services\DialogServices\IDialogWindowRequestClose.cs" />
     <Compile Include="Services\FirstStartServices\ExtensionRegistryHelper.cs" />
     <Compile Include="Services\FirstStartServices\FirstStartService.cs" />
-    <Compile Include="Utility\ExportDataGridToExcel.cs" />
+    <Compile Include="IO\ExportDataGridToExcel.cs" />
     <Compile Include="Utility\ExtensionMethods.cs" />
-    <Compile Include="Utility\Messages\ApplicationClosingMessage.cs" />
     <Compile Include="Utility\Messages\CancelChangesMessage.cs" />
-    <Compile Include="Utility\Messages\ConflictListToBeUpdatedMessage.cs" />
+    <Compile Include="Utility\Messages\DisplayConflictsToBeRefreshedMessage.cs" />
     <Compile Include="Utility\Messages\CargoDataUpdated.cs" />
     <Compile Include="Utility\Messages\CargoPlanUnitPropertyChanged.cs" />
     <Compile Include="Services\DataServices\ConflictDataService.cs" />
-    <Compile Include="Services\DataServices\IConflictDataService.cs" />
-    <Compile Include="Services\DataServices\ILoadDataService.cs" />
-    <Compile Include="Services\DataServices\ITitleService.cs" />
+    <Compile Include="Services\DataServices\Interfaces\IConflictDataService.cs" />
+    <Compile Include="Services\DataServices\Interfaces\ILoadDataService.cs" />
+    <Compile Include="Services\DataServices\Interfaces\ITitleService.cs" />
     <Compile Include="Services\DataServices\TitleService.cs" />
     <Compile Include="Services\DialogServices\MappedDialogWindowService.cs" />
     <Compile Include="Services\DialogServices\IDialogWindow.cs" />
     <Compile Include="Services\DialogServices\DialogWindowCloseRequestedEventArgs.cs" />
     <Compile Include="Services\DialogServices\IMappedDialogWindowService.cs" />
     <Compile Include="Services\ISettingsService.cs" />
-    <Compile Include="Services\DataServices\IShipProfileDataService.cs" />
-    <Compile Include="Services\Log\LogService.cs" />
+    <Compile Include="Services\DataServices\Interfaces\IShipProfileDataService.cs" />
     <Compile Include="Settings\IUserUISettings.cs" />
     <Compile Include="Services\DataServices\LoadDataService.cs" />
     <Compile Include="Services\SettingsService.cs" />
@@ -189,7 +195,6 @@
     <Compile Include="Settings\UserSettingsFileHandler.cs" />
     <Compile Include="Settings\UserUISettings.cs" />
     <Compile Include="Utility\DataMessenger.cs" />
-    <Compile Include="Utility\EventSupervisor.cs" />
     <Compile Include="Utility\Messages\UpdateCargoPlan.cs" />
     <Compile Include="Utility\NotifyDataErrorInfoBase.cs" />
     <Compile Include="Utility\ViewModelLocator.cs" />
@@ -200,12 +205,11 @@
     <Compile Include="ViewModel\MainWindow\DataGridDgViewModel.cs" />
     <Compile Include="Data\DgWrapperList.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridReefersViewModel.cs" />
-    <Compile Include="ViewModel\MainWindow\IConflictListViewModel.cs" />
     <Compile Include="Data\VentilationRequirements.cs" />
     <Compile Include="Utility\Observable.cs" />
     <Compile Include="Services\DialogServices\WindowDialogService.cs" />
     <Compile Include="Services\DataServices\CargoDataService.cs" />
-    <Compile Include="Services\DataServices\ICargoDataService.cs" />
+    <Compile Include="Services\DataServices\Interfaces\ICargoDataService.cs" />
     <Compile Include="ViewModel\Settings\SettingsWindowVM.cs" />
     <Compile Include="ViewModel\Settings\ShipProfileWindowVM.cs" />
     <Compile Include="ViewModel\MainWindow\StatusBarViewModel.cs" />
@@ -264,6 +268,9 @@
     <Compile Include="View\User Controls\BindingProxy.cs" />
     <Compile Include="View\User Controls\MainWindow\AddContainerToDataGrid.cs">
       <DependentUpon>AddContainerGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User Controls\MainWindow\ConflictsSection.xaml.cs">
+      <DependentUpon>ConflictsSection.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User Controls\MainWindow\DataGridContainers.xaml.cs">
       <DependentUpon>DataGridContainers.xaml</DependentUpon>
@@ -337,15 +344,18 @@
       <DependentUpon>CargoReport.xaml</DependentUpon>
     </Compile>
     <Compile Include="Wrapper\Cargo\AbstractContainerWrapper.cs" />
-    <Compile Include="Wrapper\Cargo\CargoPlanUnitPropertyChanger.cs" />
+    <Compile Include="Data\CargoPlanUnitPropertyChanger.cs" />
     <Compile Include="Wrapper\Cargo\CargoPlanWrapper.cs" />
+    <Compile Include="Wrapper\Cargo\CargoPlanWrapperExtensions.cs" />
     <Compile Include="Wrapper\Cargo\ConflictWrapper.cs" />
     <Compile Include="Wrapper\Cargo\ContainerWrapper.cs" />
     <Compile Include="Wrapper\Cargo\DgWrapper.cs" />
     <Compile Include="Wrapper\Cargo\DgWrapperMethods.cs" />
     <Compile Include="Wrapper\Cargo\DgWrapperProperties.cs" />
-    <Compile Include="Wrapper\ChangeTrackingCollection.cs" />
-    <Compile Include="Wrapper\ModelByteDummy.cs" />
+    <Compile Include="Data\CargoPlanWrapperHandler.cs" />
+    <Compile Include="Wrapper\ModelWrappers\ChangeTrackingCollection.cs" />
+    <Compile Include="Wrapper\ModelWrappers\ModelWrapper.cs" />
+    <Compile Include="Wrapper\ModelWrappers\ModelByteDummy.cs" />
     <Compile Include="Wrapper\Settings\ExcelDgTemplateWrapper.cs" />
     <Compile Include="Wrapper\Settings\ExcelTemplateWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\DOCWrapper.cs" />
@@ -355,7 +365,7 @@
     <Compile Include="Wrapper\Ship Profile\DummyDOCRow.cs" />
     <Compile Include="Wrapper\Settings\ExcelColumnProperty.cs" />
     <Compile Include="Wrapper\Settings\ExcelReeferTemplateWrapper.cs" />
-    <Compile Include="Wrapper\ModelWrapper.cs" />
+    <Compile Include="Wrapper\ModelWrappers\ModelChangeTrackingWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\OuterRowWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\ShipProfileWrapper.cs" />
     <Page Include="View\DialogWindows\DialogWindowOptions.xaml">
@@ -447,6 +457,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User Controls\MainWindow\AddContainerGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User Controls\MainWindow\ConflictsSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -559,6 +573,7 @@
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
     <None Include="EasyJob ProDG.UI_1_TemporaryKey.pfx" />
+    <None Include="EasyJob ProDG.UI_2_TemporaryKey.pfx" />
     <None Include="EasyJob ProDG.UI_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\EasyJob_Pro_DG.UI.ViewModel.ConflictListViewModel.datasource" />

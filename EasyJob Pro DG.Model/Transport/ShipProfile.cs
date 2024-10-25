@@ -203,7 +203,7 @@ namespace EasyJob_ProDG.Model.Transport
         public static byte DefineCargoHoldNumber(byte bay)
         {
             byte chNr = 0;
-            for (int i = 0; i < _profile.CargoHolds.Count; i++)
+            for (int i = 0; i < _profile?.CargoHolds?.Count; i++)
             {
                 if (bay <= _profile.CargoHolds[i].LastBay && bay >= _profile.CargoHolds[i].FirstBay)
                 {
@@ -257,6 +257,17 @@ namespace EasyJob_ProDG.Model.Transport
             AddSuperstructuresBaysProperties(bay1);
             if (NumberOfSuperstructures == 2)
                 AddSuperstructuresBaysProperties(bay2);
+        }
+
+        /// <summary>
+        /// The Method defines in which cargo hold the bay is located. This is literally, in which cargo hold or over which cargo hold is a container location.
+        /// Same method as <see cref="DefineCargoHoldNumber(byte)"/>, but called non-statically
+        /// </summary>
+        /// <param name="bay"></param>
+        /// <returns></returns>
+        public byte DefineCargoHoldNumberOfBay(byte bay)
+        {
+            return DefineCargoHoldNumber(bay);
         }
 
         #endregion
