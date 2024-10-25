@@ -48,7 +48,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                     $"Position: {_dgUnit.Location}";
                 if (_segrConflict)
                     result += "\nis in conflict with\n" + _dgB.DisplayContainerNumber 
-                        + " (class " + _dgB.AllDgClasses + (_dgB.DgClass == "Reefer" ? "Reefer" : $" unno {_dgB.Unno:0000}") + ")\n"
+                        + " (class " + _dgB.AllDgClasses + (_dgB.DgClass == "Reefer" ? "" : $" UNNo {_dgB.Unno:0000}") + ")\n"
                         + "in position: " + _dgB.Location;
                 result += "\n" + Description;
                 return result;
