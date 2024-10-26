@@ -456,11 +456,9 @@ namespace EasyJob_ProDG.Model.Cargo
                  (class1.Length < 4 && !class1.StartsWith("1"))))
                 return 0;
             if (class1 == "9" || class2 == "9") return 0;
-            Dg a = new Dg(class1);
-            a.AssignSegregationTableRowNumber();
-            Dg b = new Dg(class2);
-            b.AssignSegregationTableRowNumber();
-            return SegregationTable[a.DgRowInSegregationTable, b.DgRowInSegregationTable];
+            byte a = HandleDg.AssignSegregationTableRowNumber(class1);
+            byte b = HandleDg.AssignSegregationTableRowNumber(class2);
+            return SegregationTable[a, b];
         }
         #endregion
 

@@ -33,11 +33,13 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
         /// <summary>
-        /// Will define row number in IMDG Code segregation table and assign it to DgRowInSegregationTable
+        /// Will define row number in IMDG Code segregation table according to dgClass and return it as a byte
         /// </summary>
-        internal static void AssignSegregationTableRowNumber(this Dg dg)
+        /// <param name="dgClass"></param>
+        /// <returns>Row number in IMDG Code segregation table</returns>
+        internal static byte AssignSegregationTableRowNumber(string dgClass)
         {
-            dg.DgRowInSegregationTable = IMDGCode.AssignSegregationTableRowNumber(dg.DgClass);
+            return IMDGCode.AssignSegregationTableRowNumber(dgClass);
         }
 
         /// <summary>

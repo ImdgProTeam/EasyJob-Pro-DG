@@ -113,7 +113,6 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colClass))
                         {
                             unit.DgClass = WithXlAssistToRead.DgClass(value, unit.ContainerNumber);
-                            if (!string.IsNullOrEmpty(unit.DgClass)) unit.AssignSegregationTableRowNumber();
                         }
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colSubclass))
                         {

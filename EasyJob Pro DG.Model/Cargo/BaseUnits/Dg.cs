@@ -23,7 +23,6 @@ namespace EasyJob_ProDG.Model.Cargo
 
         //from other sources
         public byte DgRowInDOC;
-        public byte DgRowInSegregationTable;
         public char CompatibilityGroup = '0';
         public string SegregatorClass;
 
@@ -483,7 +482,6 @@ namespace EasyJob_ProDG.Model.Cargo
             EmitFlammableVapours = false;
             dgClassFromIMDGCode = null;
             DgRowInDOC = 0;
-            DgRowInSegregationTable = 0;
         }
 
         /// <summary>
