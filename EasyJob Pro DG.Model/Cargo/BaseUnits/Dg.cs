@@ -60,6 +60,7 @@ namespace EasyJob_ProDG.Model.Cargo
             {
                 dgclass = value;
                 allDgClasses[0] = value;
+                DOCRowsHandler.AssignRowFromDOC(this);
             }
         }
 
@@ -182,12 +183,13 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             get
             {
-                return flashPoint == 9999 ? "" : flashPoint.ToString(CultureInfo.InvariantCulture);
+                return flashPoint == ProgramDefaultValues.DefaultFlashPointValue ? "" : flashPoint.ToString(CultureInfo.InvariantCulture);
             }
             set
             {
-                if (string.IsNullOrWhiteSpace(value)) flashPoint = 9999;
+                if (string.IsNullOrWhiteSpace(value)) flashPoint = ProgramDefaultValues.DefaultFlashPointValue;
                 else decimal.TryParse(value, out flashPoint);
+                DOCRowsHandler.AssignRowFromDOC(this);
             }
         }
         public decimal FlashPointAsDecimal
@@ -416,7 +418,10 @@ namespace EasyJob_ProDG.Model.Cargo
             get { return isSelfReactive; }
             set { isSelfReactive = value; }
         }
-        private bool isSelfReactive = false; 
+        private bool isSelfReactive = false;
+
+        public bool Liquid { get => liquid; set => liquid = value; }
+        private bool liquid;
 
         #endregion
 
@@ -426,7 +431,6 @@ namespace EasyJob_ProDG.Model.Cargo
         public bool Flammable { get; set; }
         public bool IsConflicted => !this.Conflicts?.IsEmpty ?? false;
         public bool IsLq { get; set; }
-        public bool Liquid { get; set; }
         public bool IsMp { get; set; }
         public Conflicts Conflicts { get; set; }
         public decimal DgNetWeight { get; set; }
@@ -439,7 +443,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <summary>
         /// Proper shipping name
         /// </summary>
-        public string Name { get; set; } 
+        public string Name { get; set; }
         public string OriginalNameFromCode { get; private set; }
         public bool IsNameChanged { get; set; }
         public bool IsTechnicalNameIncluded { get; set; }
@@ -466,7 +470,7 @@ namespace EasyJob_ProDG.Model.Cargo
             allDgClasses.Clear();
             allDgClasses.Add(null);
             packingGroup = 0;
-            flashPoint = 9999;
+            flashPoint = ProgramDefaultValues.DefaultFlashPointValue;
             DgEMS = null;
             mpDetermined = false;
             IsMp = false;
@@ -512,7 +516,7 @@ namespace EasyJob_ProDG.Model.Cargo
             Properties = dgFromIMDGCode.Properties;
             OriginalNameFromCode = dgFromIMDGCode.Name;
             dgClassFromIMDGCode = dgFromIMDGCode.dgclass;
-        } 
+        }
         #endregion
 
 
@@ -528,7 +532,7 @@ namespace EasyJob_ProDG.Model.Cargo
             dgsubclass = new string[2];
             allDgClasses = new() { null };
             Unno = 0;
-            flashPoint = 9999;
+            flashPoint = ProgramDefaultValues.DefaultFlashPointValue;
             packingGroup = 0;
             DgEMS = null;
             DgNetWeight = 0;

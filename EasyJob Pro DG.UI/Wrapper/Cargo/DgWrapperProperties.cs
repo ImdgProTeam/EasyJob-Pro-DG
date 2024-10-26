@@ -47,7 +47,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                     OnPropertyChanged(nameof(DgSubClass));
                     return;
                 }
-                
+
                 OnPropertyChanged(nameof(AllDgClasses));
                 UpdateConflictList();
             }
@@ -88,7 +88,6 @@ namespace EasyJob_ProDG.UI.Wrapper
                 if (!SetValue(value)) return;
                 OnUpdatePackingGroup();
                 UpdateConflictList();
-
             }
         }
 
@@ -161,9 +160,9 @@ namespace EasyJob_ProDG.UI.Wrapper
 
                 UpdateDgStowageConflicts();
 
-                OnPropertyChanged("StowageCat");
-                OnPropertyChanged("StowageSW");
-                OnPropertyChanged("Name");
+                OnPropertyChanged(nameof(StowageCat));
+                OnPropertyChanged(nameof(StowageSW));
+                OnPropertyChanged(nameof(Name));
             }
         }
         public bool IsStabilized
@@ -175,9 +174,9 @@ namespace EasyJob_ProDG.UI.Wrapper
 
                 UpdateDgStowageConflicts();
 
-                OnPropertyChanged("StowageCat");
-                OnPropertyChanged("StowageSW");
-                OnPropertyChanged("Name");
+                OnPropertyChanged(nameof(StowageCat));
+                OnPropertyChanged(nameof(StowageSW));
+                OnPropertyChanged(nameof(Name));
             }
         }
 
@@ -354,7 +353,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         // ---------- Readonly Dg properties ------------------------------
 
         public bool IsConflicted => GetValue<bool>();
-        public string AllDgClasses => string.Join(",", GetValue<List<string>>());
+        public string AllDgClasses => string.Join(", ", GetValue<List<string>>());
         public string Properties => GetValue<string>();
         public string SegregationSG
         {
