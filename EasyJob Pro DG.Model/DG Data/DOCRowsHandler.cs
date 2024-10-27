@@ -19,7 +19,7 @@
                         dg.DgRowInDOC = 3;
                         break;
                     case "2.3":
-                        dg.DgRowInDOC = (byte)(dg.Flammable ? 4 : 5);
+                        dg.DgRowInDOC = (byte)(dg.IsFlammable ? 4 : 5);
                         break;
                     case "3":
                         dg.DgRowInDOC = (byte)(dg.FlashPointAsDecimal < 23 
@@ -33,7 +33,7 @@
                         dg.DgRowInDOC = 9;
                         break;
                     case "4.3":
-                        dg.DgRowInDOC = (byte)(dg.Liquid ? 10 : 11);
+                        dg.DgRowInDOC = (byte)(dg.IsLiquid ? 10 : 11);
                         break;
                     case "5.1":
                         dg.DgRowInDOC = 12;
@@ -42,9 +42,9 @@
                         dg.DgRowInDOC = 13;
                         break;
                     case "6.1":
-                        if (dg.Liquid)
+                        if (dg.IsLiquid)
                         {
-                            if (dg.Flammable) 
+                            if (dg.IsFlammable) 
                                 dg.DgRowInDOC = (byte)(dg.FlashPointAsDecimal < 23
                                     || dg.FlashPointAsDecimal == ProgramDefaultValues.DefaultFlashPointValue 
                                     ? 14 : 15);
@@ -53,9 +53,9 @@
                         else dg.DgRowInDOC = 17;
                         break;
                     case "8":
-                        if (dg.Liquid)
+                        if (dg.IsLiquid)
                         {
-                            if (dg.Flammable) 
+                            if (dg.IsFlammable) 
                                 dg.DgRowInDOC = (byte)(dg.FlashPointAsDecimal < 23
                                     || dg.FlashPointAsDecimal == ProgramDefaultValues.DefaultFlashPointValue 
                                     ? 18 : 19);

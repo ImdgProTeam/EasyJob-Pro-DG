@@ -90,7 +90,6 @@ namespace EasyJob_ProDG.Model.IO
                 dgUnit.DgClass = dgSegment[2].Contains(':')
                     ? dgSegment[2].Substring(0, dgSegment[2].IndexOf(':'))
                     : dgSegment[2];
-                dgUnit.DefineCompatibilityGroup();
 
                 //DG UNNO
                 dgUnit.Unno = Convert.ToUInt16(dgSegment[3]);

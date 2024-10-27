@@ -29,176 +29,6 @@ namespace EasyJob_ProDG.Model.Cargo
         //--------------------- Segregation methods ----------------------------------------------------------------
 
         #region Public methods
-        /// <summary>
-        /// Method finds if there is a segregation conflict between two dg units 
-        /// taking into account special segregation requirements (segregatorClass and segregatorException).
-        /// Returns true if conflict exists.
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static bool Segregate(Dg a, Dg b)
-        {
-            if (a.Bay == 0 || b.Bay == 0) return false;
-
-            bool _conf = false;
-            byte seglevel = 0,
-                _seglevel,
-                _seglevel5 = 0;
-
-            //case dg a has NO segregator class
-            if (a.SegregatorClass == null)
-            {
-
-                //case there are no segregator classes
-                if (b.SegregatorClass == null)
-                {
-                    foreach (string cla in a.AllDgClasses)
-                    {
-                        foreach (string clb in b.AllDgClasses)
-                        {
-                            _seglevel = (byte)GetSegregationLevelFromTable(cla, clb);
-                            if (_seglevel == 5) _seglevel5 = _seglevel;
-                            else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
-                        }
-                    }
-
-                }
-
-                //case only dg b has a segregator class
-                else
-                {
-                    if (b.SegregatorException == null)
-                    {
-                        foreach (string cla in a.AllDgClasses)
-                        {
-                            _seglevel = (byte)GetSegregationLevelFromTable(cla, b.SegregatorClass);
-                            if (_seglevel == 5) _seglevel5 = _seglevel;
-                            else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
-                        }
-                    }
-                    else //b.segregatorException != null
-                    {
-                        foreach (string cla in a.AllDgClasses)
-                        {
-                            if (cla == b.SegregatorException.SegrClass) _seglevel = b.SegregatorException.SegrCase; //except for class ... 
-                            else if (b.SegregatorException.SegrClass == "1" && cla.StartsWith("1")) _seglevel = b.SegregatorException.SegrCase; //in relation to goods of class 1
-                            else _seglevel = (byte)GetSegregationLevelFromTable(cla, b.SegregatorClass);
-                            if (_seglevel == 99) _seglevel = (byte)GetSegregationLevelFromTable(cla, b.DgClass); //segregation as for the primary hazard 7.2.8
-
-                            if (_seglevel == 5) _seglevel5 = _seglevel;
-                            else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
-
-                        }
-                    }
-                }
-            }
-
-            //case dg a has a segregator class
-            else
-            {
-                //case ONLY dg a has a segregator class
-                if (b.SegregatorClass == null)
-                {
-                    if (a.SegregatorException == null)
-                    {
-                        foreach (string clb in b.AllDgClasses)
-                        {
-                            _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, clb);
-                            if (_seglevel == 5) _seglevel5 = _seglevel;
-                            else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
-                        }
-                    }
-                    else //a.segregatorException != null
-                    {
-                        foreach (string clb in b.AllDgClasses)
-                        {
-                            if (clb == a.SegregatorException.SegrClass) _seglevel = a.SegregatorException.SegrCase; //except for class ... 
-                            else if (a.SegregatorException.SegrClass == "1"
-                                && clb.StartsWith("1")) _seglevel = a.SegregatorException.SegrCase; //in relation to goods of class 1
-                            else _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, clb);
-                            if (_seglevel == 99) _seglevel = (byte)GetSegregationLevelFromTable(a.DgClass, clb); //segregation as for the primary hazard 7.2.8
-
-                            if (_seglevel == 5) _seglevel5 = _seglevel;
-                            else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
-                        }
-                    }
-                }
-                //case both dgs have segregator classes
-                else
-                {
-                    if (a.SegregatorException == null)
-                    {
-                        //both have NO segregatorException
-                        if (b.SegregatorException == null)
-                        {
-                            seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, b.SegregatorClass);
-                        }
-                        else //b.segregatorException != null
-                        {
-                            if (a.SegregatorClass == b.SegregatorException.SegrClass) _seglevel = b.SegregatorException.SegrCase; //except for class ... 
-                            else if (b.SegregatorException.SegrClass == "1"
-                                && a.SegregatorClass.StartsWith("1")) _seglevel = b.SegregatorException.SegrCase; //in relation to goods of class 1
-                            else _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, b.SegregatorClass);
-                            if (_seglevel == 99) _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, b.DgClass); //segregation as for the primary hazard 7.2.8
-
-                            seglevel = _seglevel > seglevel ? _seglevel : seglevel;
-                        }
-                    }
-                    else //a.segregatorException != null
-                    {
-                        if (b.SegregatorException == null)
-                        {
-                            if (a.SegregatorException.SegrClass == b.SegregatorClass) _seglevel = a.SegregatorException.SegrCase;
-                            else if (a.SegregatorException.SegrClass == "1"
-                                && b.SegregatorClass.StartsWith("1")) _seglevel = a.SegregatorException.SegrCase; //in relation to goods of class 1
-                            else _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, b.SegregatorClass);
-                            if (_seglevel == 99) _seglevel = (byte)GetSegregationLevelFromTable(a.DgClass, b.SegregatorClass); //segregation as for the primary hazard 7.2.8
-
-                            seglevel = _seglevel > seglevel ? _seglevel : seglevel;
-                        }
-                        else //both have segregatorException
-                        {
-                            byte s1 = 0, s2 = 0;
-                            if (a.SegregatorClass == b.SegregatorException.SegrClass
-                                || a.SegregatorException.SegrClass == b.SegregatorClass)
-                            {
-                                byte l1 = a.SegregatorClass == b.SegregatorException.SegrClass
-                                    ? a.SegregatorException.SegrCase : (byte)0;
-                                byte l2 = a.SegregatorException.SegrClass == b.SegregatorClass
-                                    ? b.SegregatorException.SegrCase : (byte)0;
-                                _seglevel = l1 > l2 ? l1 : l2;
-                            }
-
-                            else if (a.SegregatorException.SegrClass == "1" && b.SegregatorClass.StartsWith("1")
-                                || b.SegregatorException.SegrClass == "1" && a.SegregatorClass.StartsWith("1"))
-                            {
-                                s1 = a.SegregatorException.SegrClass == "1" && b.SegregatorClass.StartsWith("1")
-                                    ? a.SegregatorException.SegrCase : (byte)0;
-                                s2 = b.SegregatorException.SegrClass == "1" && a.SegregatorClass.StartsWith("1")
-                                    ? b.SegregatorException.SegrCase : (byte)0;
-                                _seglevel = s1 > s2 ? s1 : s2;
-                            } //in relation to goods of class 1
-
-                            else _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, b.SegregatorClass);
-                            if (_seglevel == 99)
-                            {
-                                _seglevel = s1 > s2
-                                    ? (byte)GetSegregationLevelFromTable(a.DgClass, b.SegregatorClass)
-                                    : (byte)GetSegregationLevelFromTable(b.DgClass, a.SegregatorClass);
-                            }
-                            //segregation as for the primary hazard 7.2.8
-
-                            seglevel = _seglevel > seglevel ? _seglevel : seglevel;
-                        }
-                    }
-                }
-            }
-
-            if (_seglevel5 != 0) _conf = SegregationConflictCheck(a, b, _seglevel5);
-            if (SegregationConflictCheck(a, b, seglevel)) _conf = true;
-            return _conf;
-        }
 
         /// <summary>
         /// Method checks segregation as per segregation table of a DG unit with dg list and adds a conflict if any.
@@ -411,7 +241,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="b"></param>
         /// <param name="seglevel"></param>
         /// <returns></returns>
-        public static bool SegregationConflictCheck(Dg a, Dg b, byte seglevel)
+        internal static bool SegregationConflictCheck(Dg a, Dg b, byte seglevel)
         //implemented only for container ships with closed cargo holds
         {
             //true if conflicted
@@ -443,28 +273,192 @@ namespace EasyJob_ProDG.Model.Cargo
             return segConflict;
         }
 
-        /// <summary>
-        /// Method gets segregation level of 2 DG classes in Segregation Table
-        /// </summary>
-        /// <param name="class1"></param>
-        /// <param name="class2"></param>
-        /// <returns></returns>
-        public static byte GetSegregationLevelFromTable(string class1, string class2)
-        {
-            if (class1 == class2 &&
-                ((class1.Length == 1 && class1 != "1") ||
-                 (class1.Length < 4 && !class1.StartsWith("1"))))
-                return 0;
-            if (class1 == "9" || class2 == "9") return 0;
-            byte a = HandleDg.AssignSegregationTableRowNumber(class1);
-            byte b = HandleDg.AssignSegregationTableRowNumber(class2);
-            return SegregationTable[a, b];
-        }
         #endregion
 
 
         #region Private methods
         //--------------------- Private methods ----------------------------------------------------------------
+
+        /// <summary>
+        /// Method finds if there is a segregation conflict between two dg units 
+        /// taking into account special segregation requirements (segregatorClass and segregatorException).
+        /// Returns true if conflict exists.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        private static bool Segregate(Dg a, Dg b)
+        {
+            if (a.Bay == 0 || b.Bay == 0) return false;
+
+            bool _conf = false;
+            byte seglevel = 0,
+                _seglevel,
+                _seglevel5 = 0;
+
+            //case dg a has NO segregator class
+            if (a.SegregatorClass == null)
+            {
+
+                //case there are no segregator classes
+                if (b.SegregatorClass == null)
+                {
+                    foreach (string cla in a.AllDgClasses)
+                    {
+                        foreach (string clb in b.AllDgClasses)
+                        {
+                            _seglevel = (byte)GetSegregationLevelFromTable(cla, clb);
+                            if (_seglevel == 5) _seglevel5 = _seglevel;
+                            else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
+                        }
+                    }
+
+                }
+
+                //case only dg b has a segregator class
+                else
+                {
+                    if (b.SegregatorException == null)
+                    {
+                        foreach (string cla in a.AllDgClasses)
+                        {
+                            _seglevel = (byte)GetSegregationLevelFromTable(cla, b.SegregatorClass);
+                            if (_seglevel == 5) _seglevel5 = _seglevel;
+                            else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
+                        }
+                    }
+                    else //b.segregatorException != null
+                    {
+                        foreach (string cla in a.AllDgClasses)
+                        {
+                            if (cla == b.SegregatorException.SegrClass) _seglevel = b.SegregatorException.SegrCase; //except for class ... 
+                            else if (b.SegregatorException.SegrClass == "1" && cla.StartsWith("1")) _seglevel = b.SegregatorException.SegrCase; //in relation to goods of class 1
+                            else _seglevel = (byte)GetSegregationLevelFromTable(cla, b.SegregatorClass);
+                            if (_seglevel == 99) _seglevel = (byte)GetSegregationLevelFromTable(cla, b.DgClass); //segregation as for the primary hazard 7.2.8
+
+                            if (_seglevel == 5) _seglevel5 = _seglevel;
+                            else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
+
+                        }
+                    }
+                }
+            }
+
+            //case dg a has a segregator class
+            else
+            {
+                //case ONLY dg a has a segregator class
+                if (b.SegregatorClass == null)
+                {
+                    if (a.SegregatorException == null)
+                    {
+                        foreach (string clb in b.AllDgClasses)
+                        {
+                            _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, clb);
+                            if (_seglevel == 5) _seglevel5 = _seglevel;
+                            else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
+                        }
+                    }
+                    else //a.segregatorException != null
+                    {
+                        foreach (string clb in b.AllDgClasses)
+                        {
+                            if (clb == a.SegregatorException.SegrClass) _seglevel = a.SegregatorException.SegrCase; //except for class ... 
+                            else if (a.SegregatorException.SegrClass == "1"
+                                && clb.StartsWith("1")) _seglevel = a.SegregatorException.SegrCase; //in relation to goods of class 1
+                            else _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, clb);
+                            if (_seglevel == 99) _seglevel = (byte)GetSegregationLevelFromTable(a.DgClass, clb); //segregation as for the primary hazard 7.2.8
+
+                            if (_seglevel == 5) _seglevel5 = _seglevel;
+                            else seglevel = _seglevel > seglevel ? _seglevel : seglevel;
+                        }
+                    }
+                }
+                //case both dgs have segregator classes
+                else
+                {
+                    if (a.SegregatorException == null)
+                    {
+                        //both have NO segregatorException
+                        if (b.SegregatorException == null)
+                        {
+                            seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, b.SegregatorClass);
+                        }
+                        else //b.segregatorException != null
+                        {
+                            if (a.SegregatorClass == b.SegregatorException.SegrClass) _seglevel = b.SegregatorException.SegrCase; //except for class ... 
+                            else if (b.SegregatorException.SegrClass == "1"
+                                && a.SegregatorClass.StartsWith("1")) _seglevel = b.SegregatorException.SegrCase; //in relation to goods of class 1
+                            else _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, b.SegregatorClass);
+                            if (_seglevel == 99) _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, b.DgClass); //segregation as for the primary hazard 7.2.8
+
+                            seglevel = _seglevel > seglevel ? _seglevel : seglevel;
+                        }
+                    }
+                    else //a.segregatorException != null
+                    {
+                        if (b.SegregatorException == null)
+                        {
+                            if (a.SegregatorException.SegrClass == b.SegregatorClass) _seglevel = a.SegregatorException.SegrCase;
+                            else if (a.SegregatorException.SegrClass == "1"
+                                && b.SegregatorClass.StartsWith("1")) _seglevel = a.SegregatorException.SegrCase; //in relation to goods of class 1
+                            else _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, b.SegregatorClass);
+                            if (_seglevel == 99) _seglevel = (byte)GetSegregationLevelFromTable(a.DgClass, b.SegregatorClass); //segregation as for the primary hazard 7.2.8
+
+                            seglevel = _seglevel > seglevel ? _seglevel : seglevel;
+                        }
+                        else //both have segregatorException
+                        {
+                            byte s1 = 0, s2 = 0;
+                            if (a.SegregatorClass == b.SegregatorException.SegrClass
+                                || a.SegregatorException.SegrClass == b.SegregatorClass)
+                            {
+                                byte l1 = a.SegregatorClass == b.SegregatorException.SegrClass
+                                    ? a.SegregatorException.SegrCase : (byte)0;
+                                byte l2 = a.SegregatorException.SegrClass == b.SegregatorClass
+                                    ? b.SegregatorException.SegrCase : (byte)0;
+                                _seglevel = l1 > l2 ? l1 : l2;
+                            }
+
+                            else if (a.SegregatorException.SegrClass == "1" && b.SegregatorClass.StartsWith("1")
+                                || b.SegregatorException.SegrClass == "1" && a.SegregatorClass.StartsWith("1"))
+                            {
+                                s1 = a.SegregatorException.SegrClass == "1" && b.SegregatorClass.StartsWith("1")
+                                    ? a.SegregatorException.SegrCase : (byte)0;
+                                s2 = b.SegregatorException.SegrClass == "1" && a.SegregatorClass.StartsWith("1")
+                                    ? b.SegregatorException.SegrCase : (byte)0;
+                                _seglevel = s1 > s2 ? s1 : s2;
+                            } //in relation to goods of class 1
+
+                            else _seglevel = (byte)GetSegregationLevelFromTable(a.SegregatorClass, b.SegregatorClass);
+                            if (_seglevel == 99)
+                            {
+                                _seglevel = s1 > s2
+                                    ? (byte)GetSegregationLevelFromTable(a.DgClass, b.SegregatorClass)
+                                    : (byte)GetSegregationLevelFromTable(b.DgClass, a.SegregatorClass);
+                            }
+                            //segregation as for the primary hazard 7.2.8
+
+                            seglevel = _seglevel > seglevel ? _seglevel : seglevel;
+                        }
+                    }
+                }
+            }
+
+            if (_seglevel5 != 0) _conf = SegregationConflictCheck(a, b, _seglevel5);
+            if (SegregationConflictCheck(a, b, seglevel)) _conf = true;
+            return _conf;
+        }
+
+        /// <summary>
+        /// Will define row number in IMDG Code segregation table according to dgClass and return it as a byte
+        /// </summary>
+        /// <param name="dgClass"></param>
+        /// <returns>Row number in IMDG Code segregation table</returns>
+        private static byte AssignSegregationTableRowNumber(string dgClass)
+        {
+            return IMDGCode.AssignSegregationTableRowNumber(dgClass);
+        }
 
         /// <summary>
         /// Method checks if an explosive segregated with reefers (without checking wheather it is an explosive)
@@ -581,6 +575,25 @@ namespace EasyJob_ProDG.Model.Cargo
                 if (dg.DgClass == "7" && dg.ContainerNumber != unit.ContainerNumber)
                     unit.AddConflict((ForeAndAft(unit, dg, 1) && Athwartship(unit, dg, 3, row00Exists)), segr, "SGC8", dg);
         }
+        
+        /// <summary>
+        /// Method gets segregation level of 2 DG classes in Segregation Table
+        /// </summary>
+        /// <param name="class1"></param>
+        /// <param name="class2"></param>
+        /// <returns></returns>
+        private static byte GetSegregationLevelFromTable(string class1, string class2)
+        {
+            if (class1 == class2 &&
+                ((class1.Length == 1 && class1 != "1") ||
+                 (class1.Length < 4 && !class1.StartsWith("1"))))
+                return 0;
+            if (class1 == "9" || class2 == "9") return 0;
+            byte a = AssignSegregationTableRowNumber(class1);
+            byte b = AssignSegregationTableRowNumber(class2);
+            return SegregationTable[a, b];
+        }
+
         #endregion
 
 
@@ -602,16 +615,38 @@ namespace EasyJob_ProDG.Model.Cargo
             byte[,] explosivesSeg = IMDGCode.ExplosivesPermittedMixedStowage;
             char[] cGroupCodes = IMDGCode.ExplosivesCompatibilityGroupCodes;
 
-            //segregation according to compatibility group
-            if (a.DgClass.Length > 3 && b.DgClass.Length > 3)
+            a.DefineCompatibilityGroup();
+            b.DefineCompatibilityGroup();
+
+            // Compatibility groups are missing
+            if (a.CompatibilityGroup == '0' || b.CompatibilityGroup == '0')
             {
-                if (a.CompatibilityGroup == '0') a.CompatibilityGroup = char.ToUpper(char.Parse(a.DgClass.Remove(0, 3)));
-                if (b.CompatibilityGroup == '0') b.CompatibilityGroup = char.ToUpper(char.Parse(b.DgClass.Remove(0, 3)));
+                //closed cargo transport units
+                if (a.IsClosed && b.IsClosed) 
+                    segConflict = SegregationCase2(a, b);
+                //others - under deck
+                else
+                {
+                    if (a.IsUnderdeck && b.IsUnderdeck)
+                    {
+                        //not in the same compartment
+                        segConflict = a.HoldNr == b.HoldNr;
+                    }
+                    //all other cases
+                    else segConflict = true;
+                } 
+                a.AddConflict(segConflict, segr, "EXPLNIL", b);
+                segConflict = false;
+            }
+            //segregation according to compatibility group
+            else 
+            { 
                 byte permit = explosivesSeg[Array.IndexOf(cGroupCodes, a.CompatibilityGroup),
                                              Array.IndexOf(cGroupCodes, b.CompatibilityGroup)];
                 if (permit == 9) segConflict = false;
                 //closed units
-                else if (a.IsClosed && b.IsClosed) segConflict = SegregationCase2(a, b);
+                else if (a.IsClosed && b.IsClosed) 
+                    segConflict = SegregationCase2(a, b);
                 //under deck
                 else if (a.IsUnderdeck && b.IsUnderdeck)
                 {
@@ -623,6 +658,10 @@ namespace EasyJob_ProDG.Model.Cargo
                 if (!segConflict) return false;
                 switch (permit)
                 {
+                    case 0:
+                        a.AddConflict(true, segr, "EXPL0", b);
+                        segConflict = false;
+                        break;
                     case 1:
                         a.AddConflict(true, segr, "EXPL1", b);
                         segConflict = false;
@@ -650,26 +689,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     default: break;
                 }
             }
-            //when no compatibility group provided
-            else
-            {
 
-                //closed cargo transport units
-                if (a.IsClosed && b.IsClosed) segConflict = SegregationCase2(a, b);
-                //others - under deck
-                else
-                {
-                    a.AddConflict(true, segr, "EXPL0", b);
-                    if (a.IsUnderdeck && b.IsUnderdeck)
-                    {
-                        //not in the same compartment
-                        segConflict = a.HoldNr == b.HoldNr;
-                    }
-                    //all other cases
-                    else segConflict = true;
-
-                }
-            }
             return segConflict;
         }
 
@@ -839,6 +859,7 @@ namespace EasyJob_ProDG.Model.Cargo
             }
             return segConflict;
         }
+
         #endregion
 
 

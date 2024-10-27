@@ -362,9 +362,9 @@ namespace EasyJob_ProDG.Model.IO.Excel
                                 value = dg.DgEMS;
                                 break;
                             case (int)ExcelDgTemplate.Columns.colRemarks:
-                                if (dg.Liquid) value = "Liquid";
-                                if (dg.Flammable) value += value == null ? "Flammable" : ", flammable";
-                                if (dg.EmitFlammableVapours)
+                                if (dg.IsLiquid) value = "Liquid";
+                                if (dg.IsFlammable) value += value == null ? "Flammable" : ", flammable";
+                                if (dg.IsEmitFlammableVapours)
                                     value += value == null ? "Emitting flammable vapours" : ", emitting flammable vapours";
                                 if (dg.SegregationGroupList.Count == 0) continue;
                                 foreach (var x in dg.SegregationGroupList)

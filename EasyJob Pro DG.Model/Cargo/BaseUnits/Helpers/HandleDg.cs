@@ -18,7 +18,6 @@ namespace EasyJob_ProDG.Model.Cargo
             
             dg.Clear(dg.Unno);
             dg.AssignFromDgList(unitIsNew: true);
-            dg.AssignRowFromDOC();
             dg.AssignSegregationGroup();
         }
 
@@ -33,23 +32,16 @@ namespace EasyJob_ProDG.Model.Cargo
         }
 
         /// <summary>
-        /// Will define row number in IMDG Code segregation table according to dgClass and return it as a byte
-        /// </summary>
-        /// <param name="dgClass"></param>
-        /// <returns>Row number in IMDG Code segregation table</returns>
-        internal static byte AssignSegregationTableRowNumber(string dgClass)
-        {
-            return IMDGCode.AssignSegregationTableRowNumber(dgClass);
-        }
-
-        /// <summary>
         /// Defines compatibility group for segregation of class 1
         /// </summary>
         internal static void DefineCompatibilityGroup(this Dg dg)
         {
+            char group = '0';
             foreach (string s in dg.AllDgClasses)
-                if (s.StartsWith("1"))
-                    dg.CompatibilityGroup = s.Length > 3 ? char.ToUpper(s[3]) : '0';
+                if (s.StartsWith("1") && group == '0')
+                    group = s.Length > 3 ? char.ToUpper(s[3]) : '0';
+
+            dg.CompatibilityGroup = group;
         }
     }
 }

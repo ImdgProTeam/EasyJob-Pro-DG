@@ -60,7 +60,6 @@ namespace EasyJob_ProDG.Model.Cargo
             {
                 dgclass = value;
                 allDgClasses[0] = value;
-                DOCRowsHandler.AssignRowFromDOC(this);
             }
         }
 
@@ -189,7 +188,6 @@ namespace EasyJob_ProDG.Model.Cargo
             {
                 if (string.IsNullOrWhiteSpace(value)) flashPoint = ProgramDefaultValues.DefaultFlashPointValue;
                 else decimal.TryParse(value, out flashPoint);
-                DOCRowsHandler.AssignRowFromDOC(this);
             }
         }
         public decimal FlashPointAsDecimal
@@ -420,15 +418,17 @@ namespace EasyJob_ProDG.Model.Cargo
         }
         private bool isSelfReactive = false;
 
-        public bool Liquid { get => liquid; set => liquid = value; }
-        private bool liquid;
+        public bool IsLiquid { get => isLiquid; set => isLiquid = value; }
+        protected bool isLiquid;
+        protected bool isFlammable;
+        private bool isEmitFlammableVapours;
 
         #endregion
 
         // ---------------- auto-properties ------------------------------
 
-        public bool EmitFlammableVapours { get; set; }
-        public bool Flammable { get; set; }
+        public bool IsEmitFlammableVapours { get => isEmitFlammableVapours; set => isEmitFlammableVapours = value; }
+        public bool IsFlammable { get => isFlammable; set => isFlammable = value; }
         public bool IsConflicted => !this.Conflicts?.IsEmpty ?? false;
         public bool IsLq { get; set; }
         public bool IsMp { get; set; }
@@ -481,9 +481,9 @@ namespace EasyJob_ProDG.Model.Cargo
             StowageCat = '0';
             Name = null;
             OriginalNameFromCode = null;
-            Flammable = false;
-            Liquid = false;
-            EmitFlammableVapours = false;
+            IsFlammable = false;
+            IsLiquid = false;
+            IsEmitFlammableVapours = false;
             dgClassFromIMDGCode = null;
             DgRowInDOC = 0;
         }
@@ -516,6 +516,8 @@ namespace EasyJob_ProDG.Model.Cargo
             Properties = dgFromIMDGCode.Properties;
             OriginalNameFromCode = dgFromIMDGCode.Name;
             dgClassFromIMDGCode = dgFromIMDGCode.dgclass;
+            isLiquid = dgFromIMDGCode.isLiquid;
+            isFlammable = dgFromIMDGCode.isFlammable;
         }
         #endregion
 
@@ -543,9 +545,9 @@ namespace EasyJob_ProDG.Model.Cargo
             segregationSG = new List<string>();
             segregationGroupsListBytes = new List<byte>();
             IsLq = false;
-            Flammable = false;
-            Liquid = false;
-            EmitFlammableVapours = false;
+            IsFlammable = false;
+            IsLiquid = false;
+            IsEmitFlammableVapours = false;
 
             ID = RandomizeID.GetNewID();
         }

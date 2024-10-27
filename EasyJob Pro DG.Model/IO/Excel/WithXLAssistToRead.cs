@@ -250,11 +250,11 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 switch (x)
                 {
                     case "flammable":
-                        unit.Flammable = true;
+                        unit.IsFlammable = true;
                         matched = true;
                         break;
                     case "liquid":
-                        unit.Liquid = true;
+                        unit.IsLiquid = true;
                         matched = true;
                         break;
                     case "lq":
@@ -270,7 +270,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         matched = true;
                         break;
                     case "emitting flammable vapours":
-                        unit.EmitFlammableVapours = true;
+                        unit.IsEmitFlammableVapours = true;
                         matched = true;
                         break;
                     case "rf":
@@ -316,10 +316,10 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 {
                     case "flammable":
                         if (temparray[i].Contains("emit")) continue;
-                        unit.Flammable = true;
+                        unit.IsFlammable = true;
                         continue;
                     case "liquid":
-                        unit.Liquid = true;
+                        unit.IsLiquid = true;
                         continue;
                     case "lq":
                         unit.IsLq = true;
@@ -331,10 +331,10 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         unit.IsLq = true;
                         continue;
                     case "emitting":
-                        unit.EmitFlammableVapours = true;
+                        unit.IsEmitFlammableVapours = true;
                         continue;
                     case "emit":
-                        unit.EmitFlammableVapours = true;
+                        unit.IsEmitFlammableVapours = true;
                         continue;
                     default:
                         break;
