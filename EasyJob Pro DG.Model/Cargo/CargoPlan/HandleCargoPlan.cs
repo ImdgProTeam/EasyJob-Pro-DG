@@ -1,4 +1,5 @@
-﻿using EasyJob_ProDG.Model.IO;
+﻿using EasyJob_ProDG.Data;
+using EasyJob_ProDG.Model.IO;
 using EasyJob_ProDG.Model.IO.Excel;
 using EasyJob_ProDG.Model.Transport;
 using System;
@@ -38,6 +39,13 @@ namespace EasyJob_ProDG.Model.Cargo
             var cargoPlan = OpenFile.ReadCargoPlanFromFile(fileName);
             if (cargoPlan is null || cargoPlan.IsEmpty) return cargoPlan;
 
+            // if need to import only dg info - then not required to update dg info
+            if (openOption == OpenFile.OpenOption.Import)
+            {
+                existingCargoPlan.ImportDgData(cargoPlan, importOnlySelected, currentPort);
+                return existingCargoPlan;
+            }
+
             //Updating cargo plan from database
             HandleDgList.UpdateDgInfo(cargoPlan.DgList);
             HandleDgList.CheckDgList(cargoPlan.DgList, (byte)OpenFile.FileTypes.Edi);
@@ -45,11 +53,6 @@ namespace EasyJob_ProDG.Model.Cargo
             //Choose what to do with new plan according to OpenOptions
             if (openOption == OpenFile.OpenOption.Update)
                 cargoPlan = existingCargoPlan.UpdateCargoPlan(cargoPlan);
-            else if (openOption == OpenFile.OpenOption.Import)
-            {
-                existingCargoPlan.ImportDgData(cargoPlan, importOnlySelected, currentPort);
-                cargoPlan = existingCargoPlan;
-            }
 
             //result
             return cargoPlan;
@@ -94,7 +97,7 @@ namespace EasyJob_ProDG.Model.Cargo
             bool notToImport = false;
 
             Container container = null;
-            //List of all Dg existing in original plan
+            //List of all Dg existing originally in a container
             List<Dg> allUpdatingDgTempList = new List<Dg>();
             //List of Dg existing in original plan with container number matching currently importing dg
             List<Dg> existingDgInContainer = new List<Dg>();
@@ -103,7 +106,9 @@ namespace EasyJob_ProDG.Model.Cargo
             //creating list of selected items for import
             if (importOnlySelected)
             {
-                containerNumbersToImportOnly = (existingCargoPlan.Containers.Where(c => c.IsToImport)).Select(c => c.ContainerNumber).ToList();
+                containerNumbersToImportOnly = existingCargoPlan.Containers
+                    .Where(c => c.IsToImport)
+                    .Select(c => c.ContainerNumber).ToList();
             }
 
             //commence import from cargoPlanToImportFrom
@@ -135,7 +140,8 @@ namespace EasyJob_ProDG.Model.Cargo
 
                     //find container in plan
                     container = existingCargoPlan.Containers.FirstOrDefault(c => c.ContainerNumber == tempContainerNumber);
-                    if (container == null) continue;
+                    if (container == null) 
+                        continue;
                     if (container.IsNotToImport)
                     {
                         notToImport = true;
@@ -146,19 +152,22 @@ namespace EasyJob_ProDG.Model.Cargo
                     if (!container.HasUpdated)
                     {
                         //check if POD changed
-                        if (!string.IsNullOrEmpty(dgToImport.POD) && !string.Equals(container.POD, dgToImport.POD))
+                        if (!UserSettings.DoNotImportPOD &&
+                            !string.IsNullOrEmpty(dgToImport.POD) && !string.Equals(container.POD, dgToImport.POD))
                         {
                             container.POD = dgToImport.POD;
                             container.HasPodChanged = true;
+                            dgToImport.HasPodChanged = true;
                         }
                         else container.HasPodChanged = false;
 
-                        //TODO: Optional import of container type from IFTDGN
                         //check if container type changed
-                        if (!string.IsNullOrEmpty(dgToImport.ContainerType) && !string.Equals(container.ContainerType, dgToImport.ContainerType))
+                        if (!UserSettings.DoNotImportContainerType &&
+                            !string.IsNullOrEmpty(dgToImport.ContainerType) && !string.Equals(container.ContainerType, dgToImport.ContainerType))
                         {
                             container.ContainerType = dgToImport.ContainerType;
                             container.HasContainerTypeChanged = true;
+                            dgToImport.HasContainerTypeChanged = true;
                         }
                         else container.HasContainerTypeChanged = false;
 
@@ -169,8 +178,6 @@ namespace EasyJob_ProDG.Model.Cargo
                 //if not to import -> next one
                 if (notToImport || container == null) continue;
 
-                //copy container info to importing dg
-                dgToImport.CopyContainerAbstractInfo(container);
 
                 //from same container selecting dg with the same unno as dgToImport and not updated yet.
                 List<Dg> sameUnnoTempDgList = existingDgInContainer.Where(d => d.Unno == dgToImport.Unno && !d.HasUpdated).ToList();
@@ -183,51 +190,29 @@ namespace EasyJob_ProDG.Model.Cargo
                         //create new dg
                         dgToImport.CopyContainerAbstractInfo(container);
                         dgToImport.IsNewUnitInPlan = true;
-                        existingCargoPlan.DgList.Add(dgToImport);
+                        dgToImport.UpdateMissingDgInfo();
+                        existingCargoPlan.DgList.Insert(
+                            existingCargoPlan.DgList.FindLastIndex(d => d.ContainerNumber == dgToImport.ContainerNumber) + 1, 
+                            dgToImport);
                         container.DgCountInContainer++;
                         break;
 
                     case 1:
                         //import data to the only dg
                         allUpdatingDgTempList.Remove(sameUnnoTempDgList[0]); //clearing for further comparing of unupdated items
-                        dgToImport.CopyNonImportableDgInfo(sameUnnoTempDgList[0]);
                         indexInDgList = existingCargoPlan.DgList.FindIndex(x => x == sameUnnoTempDgList[0]);
-                        existingCargoPlan.DgList[indexInDgList] = dgToImport;
+                        existingCargoPlan.DgList[indexInDgList].CompleteDgImport(dgToImport);
                         sameUnnoTempDgList[0].HasUpdated = true;
                         break;
 
                     default:
                         //select the most appropriate one
-                        byte positionWithMaxMatch = 0;
-                        byte lastMaxMatch = 0;
-                        for (byte i = 0; i < sameUnnoTempDgList.Count; i++)
-                        {
-                            byte count = 0;
-                            if (sameUnnoTempDgList[i].PackingGroup == dgToImport.PackingGroup)
-                                count += 3;
-                            if (Math.Abs(sameUnnoTempDgList[i].DgNetWeight - dgToImport.DgNetWeight) < 0.001M)
-                                count += 4;
-                            else
-                            {
-                                if (Math.Abs(sameUnnoTempDgList[i].DgNetWeight) < 0.001M)
-                                    count += 2;
-                            }
-                            if (sameUnnoTempDgList[i].FlashPointAsDecimal == dgToImport.FlashPointAsDecimal)
-                                count += 1;
-
-                            if (count > lastMaxMatch)
-                            {
-                                lastMaxMatch = count;
-                                positionWithMaxMatch = i;
-                            }
-                            if (lastMaxMatch == 8) break;
-                        }
+                        byte positionWithMaxMatch = GetMostMatchingDgFromList(dgToImport, sameUnnoTempDgList);
 
                         //import data to selected dg
                         allUpdatingDgTempList.Remove(sameUnnoTempDgList[positionWithMaxMatch]); //clearing for further comparing of unupdated items
-                        dgToImport.CopyNonImportableDgInfo(sameUnnoTempDgList[positionWithMaxMatch]);
                         indexInDgList = existingCargoPlan.DgList.FindIndex(x => x == sameUnnoTempDgList[positionWithMaxMatch]);
-                        existingCargoPlan.DgList[indexInDgList] = dgToImport;
+                        existingCargoPlan.DgList[indexInDgList].CompleteDgImport(dgToImport);
                         sameUnnoTempDgList[positionWithMaxMatch].HasUpdated = true;
                         break;
                 }
@@ -242,6 +227,43 @@ namespace EasyJob_ProDG.Model.Cargo
                 if (container != null) container.DgCountInContainer--;
             }
             Data.LogWriter.Write($"Dg data successfully imported to existing CargoPlan.");
+        }
+
+
+        /// <summary>
+        /// When there are several Dgs with the same UNNo, to choose one which matches best the updating Dg
+        /// </summary>
+        /// <param name="dgToImport">Updating dg that defines parameters to choose.</param>
+        /// <param name="sameUnnoTempDgList">List to search in.</param>
+        /// <returns>Index of the most matching Dg in the sameUnnoTempDgList.</returns>
+        private static byte GetMostMatchingDgFromList(Dg dgToImport, List<Dg> sameUnnoTempDgList)
+        {
+            byte positionWithMaxMatch = 0;
+            byte lastMaxMatch = 0;
+            for (byte i = 0; i < sameUnnoTempDgList.Count; i++)
+            {
+                byte count = 0;
+                if (sameUnnoTempDgList[i].PackingGroup == dgToImport.PackingGroup)
+                    count += 3;
+                if (Math.Abs(sameUnnoTempDgList[i].DgNetWeight - dgToImport.DgNetWeight) < 0.001M)
+                    count += 4;
+                else
+                {
+                    if (Math.Abs(sameUnnoTempDgList[i].DgNetWeight) < 0.001M)
+                        count += 2;
+                }
+                if (sameUnnoTempDgList[i].FlashPointAsDecimal == dgToImport.FlashPointAsDecimal)
+                    count += 1;
+
+                if (count > lastMaxMatch)
+                {
+                    lastMaxMatch = count;
+                    positionWithMaxMatch = i;
+                }
+                if (lastMaxMatch == 8) break;
+            }
+
+            return positionWithMaxMatch;
         }
 
         /// <summary>
@@ -423,6 +445,17 @@ namespace EasyJob_ProDG.Model.Cargo
             unit.LocationBeforeRestow = string.Empty;
             unit.HasPodChanged = false;
             unit.HasContainerTypeChanged = false;
+        }
+
+        /// <summary>
+        /// Copies all required for the purpose of import information from dgToImport to dgToUpdate
+        /// </summary>
+        /// <param name="dgToUpdate"></param>
+        /// <param name="dgToImport"></param>
+        private static void CompleteDgImport(this Dg dgToUpdate, Dg dgToImport)
+        {
+            dgToUpdate.ImportDgInfo(dgToImport);
+            dgToUpdate.CopyUpdatedTypeAndPODInfo(dgToImport);
         }
 
         /// <summary>

@@ -73,9 +73,15 @@ namespace EasyJob_ProDG.Model.Cargo
         internal static void CopyUpdatedTypeAndPODInfo(this ContainerAbstract toUnit, ContainerAbstract fromUnit)
         {
             if (fromUnit.HasContainerTypeChanged)
+            {
                 toUnit.ContainerType = fromUnit.ContainerType;
+                toUnit.HasContainerTypeChanged = true;
+            }
             if (fromUnit.HasPodChanged)
+            {
                 toUnit.POD = fromUnit.POD;
+                toUnit.HasPodChanged = true;
+            }
         }
 
         /// <summary>
@@ -94,6 +100,35 @@ namespace EasyJob_ProDG.Model.Cargo
             toUnit.LocationBeforeRestow = fromUnit.LocationBeforeRestow;
             toUnit.HasPodChanged = fromUnit.HasPodChanged;
             toUnit.HasContainerTypeChanged = fromUnit.HasContainerTypeChanged;
+        }
+
+        /// <summary>
+        /// Imports Dg info if available from dgToImport to dgToUpdate.
+        /// Used when importing condition.
+        /// </summary>
+        /// <param name="dgToUpdate"></param>
+        /// <param name="dgToImport"></param>
+        internal static void ImportDgInfo(this Dg dgToUpdate, Dg dgToImport)
+        {
+            if (!string.IsNullOrEmpty(dgToImport.DgClass))
+                dgToUpdate.DgClass = dgToImport.DgClass;
+            if (dgToImport.DgSubclassCount > 0)
+                dgToUpdate.DgSubClassArray = dgToImport.DgSubClassArray;
+            if (dgToImport.FlashPointAsDecimal != ProgramDefaultValues.DefaultFlashPointValue)
+                dgToUpdate.FlashPointAsDecimal = dgToImport.FlashPointAsDecimal;
+            if (!string.IsNullOrEmpty(dgToImport.DgEMS))
+                dgToUpdate.DgEMS = dgToImport.DgEMS;
+            if (!string.IsNullOrEmpty(dgToImport.NumberAndTypeOfPackages))
+                dgToUpdate.NumberAndTypeOfPackages = dgToImport.NumberAndTypeOfPackages;
+            if (!string.IsNullOrEmpty(dgToImport.Name))
+                dgToUpdate.Name = dgToImport.Name;
+            if (!string.IsNullOrEmpty(dgToImport.TechnicalName))
+                dgToUpdate.TechnicalName = dgToImport.TechnicalName;
+            dgToUpdate.PackingGroupAsByte = dgToImport.PackingGroupAsByte;
+            dgToUpdate.SegregationGroup = dgToImport.SegregationGroup;
+            dgToUpdate.IsMp = dgToImport.IsMp;
+            dgToUpdate.IsLq = dgToImport.IsLq;
+            dgToUpdate.DgNetWeight = dgToImport.DgNetWeight;
         }
     }
 }

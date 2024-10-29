@@ -62,9 +62,9 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <returns>List of Dg of specified UN no with raw information from IMDG code.</returns>
         private static List<DgFromIMDGCode> GetRecordsFromXml(ushort unno)
         {
-            var chosenEntries = (from entry in xmlDoc.Descendants("DG")
+            var chosenEntries = from entry in xmlDoc.Descendants("DG")
                                  where (int)entry.Attribute("unno") == unno
-                                 select entry);
+                                 select entry;
 
             List<DgFromIMDGCode> list = new();
 

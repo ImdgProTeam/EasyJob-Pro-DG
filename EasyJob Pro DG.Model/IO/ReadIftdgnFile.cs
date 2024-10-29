@@ -10,6 +10,8 @@ namespace EasyJob_ProDG.Model.IO
     internal class ReadIftdgnFile
     {
         private static CargoPlan _cargoPlan;
+        static string tPOL;
+        static string tPOD;
 
         /// <summary>
         /// Converts EdiSegmentArray (of IFTDGN file) into CargoPlan.
@@ -35,7 +37,6 @@ namespace EasyJob_ProDG.Model.IO
 
             Dg dgUnit = null;
             Container container = null;
-            List<ContainerAbstract> listToBeUpdated = new();
 
             for (int i = 0; i < segmentArray.Count; i++)
             {
@@ -57,7 +58,7 @@ namespace EasyJob_ProDG.Model.IO
                         break;
 
                     case "LOC":
-                        DefineLOCsegment(container, listToBeUpdated, segment);
+                        DefineLOCsegment(container, segment);
                         break;
 
                     //Goods items details
@@ -117,7 +118,7 @@ namespace EasyJob_ProDG.Model.IO
 
                     //Split goods placement
                     case "SGP":
-                        DefineSGP(ref container, dgUnit, listToBeUpdated, segment);
+                        DefineSGP(ref container, dgUnit, segment);
                         break;
 
                     default:
@@ -125,7 +126,6 @@ namespace EasyJob_ProDG.Model.IO
                 }
             }
         }
-
 
         #region Methods to define Container properties
 
@@ -155,35 +155,29 @@ namespace EasyJob_ProDG.Model.IO
         /// <param name="pol">reference to pol local variable</param>
         /// <param name="pod">reference to pod local variable</param>
         /// <param name="segment"></param>
-        private static void DefineLOCsegment(Container container, List<ContainerAbstract> listToBeUpdated, string segment)
+        private static void DefineLOCsegment(Container container, string segment)
         {
             var location = ReadBaplieFile.ParseLOCsegment(segment);
 
             //POL
             if (segment.StartsWith("LOC+9+"))
             {
-                if (container == null) return;
-                container.POL = location;
-                foreach (var unit in listToBeUpdated)
-                    unit.POL = location;
+                tPOL = location;
             }
             //POD
             else if (segment.StartsWith("LOC+11"))
             {
-                if (container == null) return;
-                container.POD = location;
-                foreach (var unit in listToBeUpdated)
-                    unit.POD = location;
+                tPOD = location;
             }
             //Container location
             else if (segment.StartsWith("LOC+147"))
             {
                 if (container == null) return;
-
                 container.Location = location;
                 container.HoldNr = Transport.ShipProfile.DefineCargoHoldNumber(container.Bay);
 
-                foreach (var unit in listToBeUpdated)
+                foreach (var unit in _cargoPlan.DgList
+                    .Where(d => d.ContainerNumber == container.ContainerNumber))
                 {
                     unit.Location = location;
                     unit.HoldNr = container.HoldNr;
@@ -221,26 +215,23 @@ namespace EasyJob_ProDG.Model.IO
         /// <param name="pod"></param>
         /// <param name="dgUnit"></param>
         /// <param name="segment"></param>
-        private static void DefineSGP(ref Container container, Dg dgUnit, List<ContainerAbstract> listToBeUpdated, string segment)
+        private static void DefineSGP(ref Container container, Dg dgUnit, string segment)
         {
             //SGP+PONU1903721+6
             string number = segment.Split('+')[1].Replace(" ", "");
 
             if (container == null || !string.Equals(container.ContainerNumber, number))
+            {
                 container = _cargoPlan.Containers.FirstOrDefault(c => c.ContainerNumber == number);
-
-            //in case of new container => clear all items from the listToBeUpdated
-            if (listToBeUpdated.Any(i => !string.Equals(i.ContainerNumber, number)))
-                listToBeUpdated.Clear();
+                container.POD = tPOD;
+                container.POL = tPOL;
+            }
 
             container.DgCountInContainer++;
 
             dgUnit.CopyContainerAbstractInfo(container);
             _cargoPlan.DgList.Add(dgUnit);
-
-            //adding dg to the listToBeUpdated to update POL, POD and Location
-            listToBeUpdated.Add(dgUnit);
-        } 
+        }
 
         #endregion
 
@@ -259,7 +250,7 @@ namespace EasyJob_ProDG.Model.IO
             {
                 //if contains alien symbols - clear them
                 string segregationGroupFromSegmentFinal =
-                    (segregationGroupFromSegment.Contains("("))
+                    segregationGroupFromSegment.Contains("(")
                         ? segregationGroupFromSegment.Remove(segregationGroupFromSegment.IndexOf("("))
                         : segregationGroupFromSegment;
 
@@ -407,7 +398,7 @@ namespace EasyJob_ProDG.Model.IO
                 packingGroupText = "PKG";
             else packingGroupSkipped = true;
             return packingGroupText;
-        } 
+        }
 
         #endregion
 

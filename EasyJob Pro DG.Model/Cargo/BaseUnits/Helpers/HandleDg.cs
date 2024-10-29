@@ -43,5 +43,36 @@ namespace EasyJob_ProDG.Model.Cargo
 
             dg.CompatibilityGroup = group;
         }
+
+        /// <summary>
+        /// For new units being imported - updating missing info from DgList
+        /// </summary>
+        /// <param name="dgToUpdate"></param>
+        internal static void UpdateMissingDgInfo(this Dg dgToUpdate)
+        {
+            if (dgToUpdate.Unno <= 1) return;
+
+            var dgFromImdgCode = new Dg()
+            {
+                Unno = dgToUpdate.Unno,
+                PackingGroupAsByte = dgToUpdate.PackingGroupAsByte
+            };
+            dgFromImdgCode.AssignFromDgList();
+
+            if (dgToUpdate.PackingGroupAsByte == 0 && dgFromImdgCode.PackingGroupAsByte != 0)
+                dgToUpdate.PackingGroupAsByte = dgFromImdgCode.PackingGroupAsByte;
+            if (string.IsNullOrEmpty(dgToUpdate.DgEMS))
+                dgToUpdate.DgEMS = dgFromImdgCode.DgEMS;
+            if (!dgToUpdate.mpDetermined && !dgToUpdate.IsMp)
+                dgToUpdate.IsMp = dgFromImdgCode.IsMp;
+
+            dgToUpdate.SetIMDGCodeValues(dgFromImdgCode);
+
+            if (string.IsNullOrEmpty(dgToUpdate.Name))
+                dgToUpdate.Name = dgFromImdgCode.Name;
+
+            if (string.IsNullOrEmpty(dgToUpdate.SegregationGroup))
+                dgToUpdate.AssignSegregationGroup();
+        }
     }
 }

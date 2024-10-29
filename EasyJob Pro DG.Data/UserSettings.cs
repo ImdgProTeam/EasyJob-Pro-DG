@@ -6,6 +6,15 @@
         public static bool ReadLQfromBaplie { get; set; } = true;
         public static bool ReadMPfromBaplie { get; set; } = true;
 
+
+        // ----- Import Dg info settings -----
+        public static bool DoNotImportPOD { get; set; } = false;
+        public static bool DoNotImportContainerType { get; set; } = false;
+
+
+        #region UI settings
+        // ----- UI settings -----
+
         /// <summary>
         /// Sets if nonamers need to show Container Number as '+NoName+' in accordance with defaults or just blank.
         /// </summary>
@@ -20,7 +29,7 @@
         {
             var noname = string.IsNullOrEmpty(containerNumber) || containerNumber.StartsWith(ProgramDefaultSettingValues.NoNamePrefix);
             var result = noname ? (DisplayNoNameForNonamers ? containerNumber : string.Empty)
-                                : (containerNumber.Length>4 ? containerNumber.Insert(4, " ") : containerNumber);
+                                : (containerNumber.Length > 4 ? containerNumber.Insert(4, " ") : containerNumber);
             return result;
         }
 
@@ -32,6 +41,8 @@
         public static string ContainerNumberFromDisplay(string containerNumber)
         {
             return containerNumber.Replace(" ", "").Replace("|", "").Replace("\\", "");
-        }
+        } 
+
+        #endregion
     }
 }
