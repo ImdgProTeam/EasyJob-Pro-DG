@@ -16,7 +16,8 @@
         ResizeMode="CanResizeWithGrip"
         SizeToContent="Height"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
-        Background="{StaticResource Brush.Background.Panel}">
+        Background="{StaticResource Brush.Background.Panel}"
+        FocusManager.FocusedElement="{Binding ElementName=btnFocusedButton}">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Margin" Value="20 10"/>
@@ -51,7 +52,8 @@
                        Background="Transparent"
                        Text="{Binding Message}"
             />
-            <Button Command="{Binding Button1Command}"
+            <Button x:Name="btnFocusedButton"
+                Command="{Binding Button1Command}"
                     CommandParameter="0">
                 <TextBlock Text="{Binding Button1Capture}"
                            Style="{StaticResource ButtonContent}"

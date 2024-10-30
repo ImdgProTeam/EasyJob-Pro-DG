@@ -1,8 +1,7 @@
-﻿using EasyJob_ProDG.Data.Info_data;
+﻿using EasyJob_ProDG.Data;
+using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.Model.Cargo;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace EasyJob_ProDG.Model.IO
@@ -223,6 +222,13 @@ namespace EasyJob_ProDG.Model.IO
             if (container == null || !string.Equals(container.ContainerNumber, number))
             {
                 container = _cargoPlan.Containers.FirstOrDefault(c => c.ContainerNumber == number);
+                if (container is null)
+                {
+                    string errorMessage = $"Error while reading IFTDGN file. Dg with container number {number} is not declared in EQD segments. The unit will not be created and added in Cargo plan.";
+                    LogWriter.Write(errorMessage);
+                    return;
+                }
+
                 container.POD = tPOD;
                 container.POL = tPOL;
             }
@@ -270,7 +276,7 @@ namespace EasyJob_ProDG.Model.IO
                 }
                 catch (Exception)
                 {
-                    Debug.WriteLine($">>>>>>>IFTDGN segregation group record thrown an exception: {segregationGroupFromSegmentFinal}");
+                    LogWriter.Write($"IFTDGN segregation group record thrown an exception: {segregationGroupFromSegmentFinal}");
                 }
             }
         }

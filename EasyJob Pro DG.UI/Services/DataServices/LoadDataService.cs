@@ -67,7 +67,12 @@ namespace EasyJob_ProDG.UI.Services.DataServices
             {
 #endif
             bool result = CreateCargoPlanFromFile(file, openOption, importOnlySelected, currentPort);
-            _currentProgramData.SetConditionFileName(OpenFile.FileName);
+
+            if (openOption == OpenFile.OpenOption.Import)
+                _currentProgramData.ApendConditionFileNameWithImported();
+            else
+                _currentProgramData.SetConditionFileName(OpenFile.FileName);
+
             return result;
 #if !DEBUG
         }

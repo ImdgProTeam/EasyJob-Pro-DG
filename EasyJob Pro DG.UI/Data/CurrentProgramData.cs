@@ -58,6 +58,11 @@ namespace EasyJob_ProDG.UI.Data
             _conditionFileName = name;
         }
 
+        void ICurrentProgramData.ApendConditionFileNameWithImported()
+        {
+            _conditionFileName += " (+ Imported info)";
+        }
+
         /// <summary>
         /// Sets <see cref="CargoPlan"/> given as parameter as working one.
         /// </summary>

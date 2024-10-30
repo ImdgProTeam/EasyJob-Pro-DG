@@ -140,7 +140,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
                     //find container in plan
                     container = existingCargoPlan.Containers.FirstOrDefault(c => c.ContainerNumber == tempContainerNumber);
-                    if (container == null) 
+                    if (container == null)
                         continue;
                     if (container.IsNotToImport)
                     {
@@ -157,7 +157,6 @@ namespace EasyJob_ProDG.Model.Cargo
                         {
                             container.POD = dgToImport.POD;
                             container.HasPodChanged = true;
-                            dgToImport.HasPodChanged = true;
                         }
                         else container.HasPodChanged = false;
 
@@ -167,7 +166,6 @@ namespace EasyJob_ProDG.Model.Cargo
                         {
                             container.ContainerType = dgToImport.ContainerType;
                             container.HasContainerTypeChanged = true;
-                            dgToImport.HasContainerTypeChanged = true;
                         }
                         else container.HasContainerTypeChanged = false;
 
@@ -178,6 +176,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 //if not to import -> next one
                 if (notToImport || container == null) continue;
 
+                dgToImport.CopyUpdatedTypeAndPODInfo(container);
 
                 //from same container selecting dg with the same unno as dgToImport and not updated yet.
                 List<Dg> sameUnnoTempDgList = existingDgInContainer.Where(d => d.Unno == dgToImport.Unno && !d.HasUpdated).ToList();
@@ -192,7 +191,7 @@ namespace EasyJob_ProDG.Model.Cargo
                         dgToImport.IsNewUnitInPlan = true;
                         dgToImport.UpdateMissingDgInfo();
                         existingCargoPlan.DgList.Insert(
-                            existingCargoPlan.DgList.FindLastIndex(d => d.ContainerNumber == dgToImport.ContainerNumber) + 1, 
+                            existingCargoPlan.DgList.FindLastIndex(d => d.ContainerNumber == dgToImport.ContainerNumber) + 1,
                             dgToImport);
                         container.DgCountInContainer++;
                         break;
