@@ -216,11 +216,16 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 excelapp.Quit();
 
                 WithXl.RunGarbageCollector();
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelcells);
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelWorksheet);
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(activeWorkbook);
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(workbooks);
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelapp);
+                if (excelcells != null)
+                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelcells);
+                if (excelWorksheet != null)
+                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelWorksheet);
+                if (activeWorkbook != null)
+                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(activeWorkbook);
+                if (workbooks != null)
+                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(workbooks);
+                if (excelapp != null)
+                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelapp);
 
                 #endregion
             }
