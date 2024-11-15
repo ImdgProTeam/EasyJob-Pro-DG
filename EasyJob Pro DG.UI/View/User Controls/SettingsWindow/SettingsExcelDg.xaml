@@ -63,7 +63,7 @@
             SelectedItem="{Binding SelectedExcelDgTemplate}"
             SelectedIndex="{Binding SelectedExcelDgTemplateIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             DisplayMemberPath="TemplateName"
-            TextValue="{Binding SelectedExcelDgTemplate.TemplateName}"
+            TextValue="{Binding SelectedExcelDgTemplate.TemplateName, UpdateSourceTrigger=PropertyChanged}"
             Margin="2"
             Grid.Column="1"
             Background="White"
@@ -78,7 +78,7 @@
                Grid.Row="2"
                Grid.Column="0" />
         <TextBox x:Name="txbSheetName"
-                 Text="{Binding SelectedExcelDgTemplate.WorkingSheet}"
+                 Text="{Binding SelectedExcelDgTemplate.WorkingSheet, UpdateSourceTrigger=PropertyChanged}"
                  Tag="Enter excel sheet name"
                  Grid.Row="2"
                  Grid.Column="1" />
@@ -86,7 +86,7 @@
         <Label Content="Start from row"
                Grid.Row="3"
                Grid.Column="0" />
-        <TextBox Text="{Binding SelectedExcelDgTemplate.StartRow}"
+        <TextBox Text="{Binding SelectedExcelDgTemplate.StartRow, UpdateSourceTrigger=PropertyChanged}"
                  Tag="Enter the first row number"
                  Grid.Row="3"
                  Grid.Column="1" />

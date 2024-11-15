@@ -27,15 +27,15 @@ Version workable: Yes
 Changes:
 
 VISUAL
-1. 
+1. Minor changes and improvements to design
 
 ERRORS
-1. 
-2. 
+1. Import dg info - various errors fixed and code improvements
+2. Reading IFTDGN file error fixed
 3. 
 
 NEW
-1. 
+1. No new features implemented
 
 Fully functional release
 -------------------------------------------------------

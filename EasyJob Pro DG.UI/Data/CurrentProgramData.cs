@@ -58,9 +58,15 @@ namespace EasyJob_ProDG.UI.Data
             _conditionFileName = name;
         }
 
+        /// <summary>
+        /// Appends condition file name with "+ Imported" notation.
+        /// </summary>
         void ICurrentProgramData.ApendConditionFileNameWithImported()
         {
-            _conditionFileName += " (+ Imported info)";
+            const string IMPORTED_ADDITION = " (+ Imported info)";
+
+            if (!_conditionFileName.Contains(IMPORTED_ADDITION))
+            _conditionFileName += IMPORTED_ADDITION;
         }
 
         /// <summary>
