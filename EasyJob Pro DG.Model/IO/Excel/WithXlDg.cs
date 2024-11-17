@@ -1,5 +1,6 @@
 ﻿using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.Model.Cargo;
+using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +72,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
 
                 //Determine number of rows = number of dg
                 int rowscount = WithXl.CountRows(excelWorksheet, _template.StartRow, int.Parse(_template[5]));
+                if (rowscount < 1) throw new System.Exception();
 
                 #region StatusBar increment value setup
                 //Setting StatusBar increment value
@@ -184,6 +186,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                     }
                     else container.DgCountInContainer++;
 
+                    #region Status bar update
                     //Status bar update
                     if (Data.ProgressBarReporter.ReportPercentage < 75)
                     {
@@ -196,7 +199,8 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         }
                         else
                             Data.ProgressBarReporter.ReportPercentage += statusBarIncrementValue;
-                    }
+                    } 
+                    #endregion
                 }
 
                 Data.LogWriter.Write($"Dg manifest data read from excel.");
@@ -216,22 +220,16 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 excelapp.Quit();
 
                 WithXl.RunGarbageCollector();
-                if (excelcells != null)
-                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelcells);
-                if (excelWorksheet != null)
-                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelWorksheet);
-                if (activeWorkbook != null)
-                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(activeWorkbook);
-                if (workbooks != null)
-                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(workbooks);
-                if (excelapp != null)
-                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelapp);
+                WithXl.FinalReleaseCOMObjects(excelcells, excelWorksheet, activeWorkbook, workbooks, excelapp);
 
+                Data.LogWriter.Write($"Excel file disconnected.");
                 #endregion
             }
 
             return isImported;
         }
+
+
 
 
         /// <summary>

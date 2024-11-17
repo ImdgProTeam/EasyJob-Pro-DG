@@ -26,9 +26,6 @@ namespace EasyJob_ProDG.Model.IO.Excel
             int rowsCount = 0;
             ExcelApp.Range excelCells = null;
 
-            //choose reference column: for Dg - unno, for others - ContainerNumber
-            //int checkColumn = int.Parse(template is ExcelDgTemplate ? template[5] : template[3]);
-
             while (!stop)
             {
                 excelCells = excelWorksheet.Cells[startRow + rowsCount, checkColumn];
@@ -100,6 +97,19 @@ namespace EasyJob_ProDG.Model.IO.Excel
         {
             GC.Collect();
             GC.WaitForPendingFinalizers();
+        }
+
+        /// <summary>
+        /// Used to Finally release COM objects (such as excel workbooks).
+        /// </summary>
+        /// <param name="objects">List of COM objects to be released in correct order.</param>
+        internal static void FinalReleaseCOMObjects(params object[] objects)
+        {
+            foreach (object obj in objects)
+            {
+                if (obj == null) continue;
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(obj);
+            }
         }
     }
 }
