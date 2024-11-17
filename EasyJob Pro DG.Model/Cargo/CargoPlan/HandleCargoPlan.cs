@@ -102,6 +102,7 @@ namespace EasyJob_ProDG.Model.Cargo
             //List of Dg existing in original plan with container number matching currently importing dg
             List<Dg> existingDgInContainer = new List<Dg>();
             List<string> containerNumbersToImportOnly = new List<string>();
+            List<string> containerNumbersCurrentPOL = new List<string>();
 
             //creating list of selected items for import
             if (importOnlySelected)
@@ -110,6 +111,13 @@ namespace EasyJob_ProDG.Model.Cargo
                     .Where(c => c.IsToImport)
                     .Select(c => c.ContainerNumber).ToList();
             }
+            //creating list of container numbers with current POL
+            if (currentPol != null) 
+            {
+                containerNumbersCurrentPOL = existingCargoPlan.Containers.
+                        Where(c => c.POL == currentPol)
+                        .Select(c => c.ContainerNumber).ToList();
+            }
 
             //commence import from cargoPlanToImportFrom
             foreach (var dgToImport in cargoPlanToImportFrom.DgList)
@@ -117,7 +125,8 @@ namespace EasyJob_ProDG.Model.Cargo
                 //if only import for current POL
                 if (!string.IsNullOrEmpty(currentPol))
                 {
-                    if (dgToImport.POL != currentPol) continue;
+                    if (!containerNumbersCurrentPOL.Contains(dgToImport.ContainerNumber)) 
+                        continue;
                 }
 
                 //if only import selected
@@ -147,6 +156,7 @@ namespace EasyJob_ProDG.Model.Cargo
                         notToImport = true;
                         continue;
                     }
+
 
                     //updating container info
                     if (!container.HasUpdated)
