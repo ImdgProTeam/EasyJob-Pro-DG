@@ -88,14 +88,13 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <returns>Returns new CargoPlan based on existing plan with updated info from given one.</returns>
         private static void ImportDgData(this CargoPlan existingCargoPlan, CargoPlan cargoPlanToImportFrom, bool importOnlySelected = false, string currentPol = null)
         {
-            //TODO: To be tested properly, especially with not iftdgn files.
-
             existingCargoPlan.ClearAllHasUpdated();
 
             string tempContainerNumber = "";
             bool containerNumberChanged;
             bool notToImport = false;
 
+            //Equivalent container in existing plan
             Container container = null;
             //List of all Dg existing originally in a container
             List<Dg> allUpdatingDgTempList = new List<Dg>();
@@ -112,7 +111,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     .Select(c => c.ContainerNumber).ToList();
             }
             //creating list of container numbers with current POL
-            if (currentPol != null) 
+            if (!string.IsNullOrEmpty(currentPol)) 
             {
                 containerNumbersCurrentPOL = existingCargoPlan.Containers.
                         Where(c => c.POL == currentPol)
@@ -163,7 +162,8 @@ namespace EasyJob_ProDG.Model.Cargo
                     {
                         //check if POD changed
                         if (!UserSettings.DoNotImportPOD &&
-                            !string.IsNullOrEmpty(dgToImport.POD) && !string.Equals(container.POD, dgToImport.POD))
+                            !string.IsNullOrEmpty(dgToImport.POD) && 
+                            !string.Equals(container.POD, dgToImport.POD))
                         {
                             container.POD = dgToImport.POD;
                             container.HasPodChanged = true;
@@ -172,7 +172,8 @@ namespace EasyJob_ProDG.Model.Cargo
 
                         //check if container type changed
                         if (!UserSettings.DoNotImportContainerType &&
-                            !string.IsNullOrEmpty(dgToImport.ContainerType) && !string.Equals(container.ContainerType, dgToImport.ContainerType))
+                            !string.IsNullOrEmpty(dgToImport.ContainerType) && 
+                            !string.Equals(container.ContainerType, dgToImport.ContainerType))
                         {
                             container.ContainerType = dgToImport.ContainerType;
                             container.HasContainerTypeChanged = true;
@@ -365,12 +366,10 @@ namespace EasyJob_ProDG.Model.Cargo
                             if (!string.Equals(newContainer.POD, existingContainer.POD))
                             {
                                 newContainer.HasPodChanged = true;
-                                newContainer.POD = newContainer.POD;
                             }
                             if (!string.Equals(newContainer.ContainerType, existingContainer.ContainerType))
                             {
                                 newContainer.HasContainerTypeChanged = true;
-                                newContainer.ContainerType = newContainer.ContainerType;
                             }
 
                             //add unit to the plan
@@ -378,12 +377,12 @@ namespace EasyJob_ProDG.Model.Cargo
                             ShiftContainerToResultingCargoPlan(existingCargoPlan, newContainer, resultingNewCargoPlan, false, newPlan);
                             existingCargoPlan.Containers.Remove(existingContainer);
                             originalContainerNumberList.Remove(existingContainer.ContainerNumber);
-                            i--;
                         }
                         else
                         {
                             // If existing container has a ContainerNumber it will remain in existingPlan until the end of cycle.
                             // Only the newContainer will be added in the same location.
+                            newContainer.IsNewUnitInPlan = true;
                             ShiftContainerToResultingCargoPlan(newPlan, newContainer, resultingNewCargoPlan);
                         }
                         break;
@@ -393,14 +392,14 @@ namespace EasyJob_ProDG.Model.Cargo
                 //if not found - add new item
                 if (!unitFound && !unitLocationOccupied)
                 {
-                    ShiftContainerToResultingCargoPlan(newPlan, newContainer, resultingNewCargoPlan);
+                    ShiftContainerToResultingCargoPlan(sourceCargoPlan: newPlan, container: newContainer, resultingCargoPlan: resultingNewCargoPlan);
                 }
             }
 
             //Remaining containers to be kept in plan
             foreach (var container in containersToBeKeptInPlan)
             {
-                ShiftContainerToResultingCargoPlan(existingCargoPlan, container, resultingNewCargoPlan, false);
+                ShiftContainerToResultingCargoPlan(existingCargoPlan, container, resultingNewCargoPlan, containerIsNew: false);
             }
 
             //voyage

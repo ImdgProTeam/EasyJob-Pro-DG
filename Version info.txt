@@ -32,7 +32,7 @@ VISUAL
 ERRORS
 1. Import dg info - various errors fixed and code improvements
 2. Reading IFTDGN file error fixed
-3. 
+3. Title will be amended with '(+ Imported)' notation when importing info
 
 NEW
 1. No new features implemented
