@@ -12,6 +12,11 @@ namespace EasyJob_ProDG.Data.Info_data
             "5.1", "5.2", "6.1", "6.2", "7", "8", "9"
         };
 
+        public static List<char> AllValidCompatibilityGroupsOfClass1 = new List<char>()
+        {
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'N', 'S'
+        };
+
         public static readonly byte[,] SegregationTable ={
             {5, 5, 5, 4, 2, 2, 4, 4, 4, 4, 4, 4, 2, 4, 2, 4, 0 }, //Explosives 1.1, 1.2, 1.5
             {5, 5, 5, 4, 2, 2, 4, 3, 3, 4, 4, 4, 2, 4, 2, 2, 0 }, //Explosives 1.3, 1.6
@@ -130,7 +135,7 @@ namespace EasyJob_ProDG.Data.Info_data
                 {0, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 5, 9 }    //S
             };
 
-        public static char[] ExplosivesCompatibilityGroupCodes = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'N', 'S' }; 
+        public static char[] ExplosivesCompatibilityGroupCodes = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'N', 'S' };
         #endregion
 
         #region DOC classes
@@ -218,7 +223,7 @@ namespace EasyJob_ProDG.Data.Info_data
         public static ushort[] Table72632 = { 1295, 1818, 2189 };
         public static ushort[] Table72633 = { 3391, 3392, 3393, 3394, 3395, 3396, 3397, 3398, 3399, 3400 };
         public static ushort[] Table72634 = { 1325, 3101, 3102, 3103, 3104, 3105, 3106, 3107, 3108, 3109, 3110, 3111, 3112, 3113, 3114, 3115, 3116, 3117, 3118, 3119, 3120 };
-        public static ushort[] Classes72721 = { 1942, 2067, 1486,1454,1451, 2722,  1477, 1498, 1446, 2464,  1474, 1507 };
+        public static ushort[] Classes72721 = { 1942, 2067, 1486, 1454, 1451, 2722, 1477, 1498, 1446, 2464, 1474, 1507 };
         public static ushort[] BlastingExplosives = { 81, 82, 84, 241, 331, 332 };
 
         /// <summary>
@@ -263,7 +268,7 @@ namespace EasyJob_ProDG.Data.Info_data
             \n\t.1 surface ventilation is required to assist in removing any residual solvent vapour;
             \n\t.2 if bags are stowed without provision for ventilation to circulate throughout the stow and the voyage exceeds 5 days, regular temperature readings shall be taken at varying depths in the hold and recorded; and
             \n\t.3 if the voyage exceeds 5 days, the vessel shall be equipped with facilities for introducing carbon dioxide or inert gas into the cargo spaces."}
-        }; 
+        };
         #endregion
     }
 }

@@ -33,6 +33,7 @@ ERRORS
 1. Import dg info - various errors fixed and code improvements
 2. Reading IFTDGN file error fixed
 3. Title will be amended with '(+ Imported)' notation when importing info
+4. Include technical name command made workable from Menu
 
 NEW
 1. No new features implemented

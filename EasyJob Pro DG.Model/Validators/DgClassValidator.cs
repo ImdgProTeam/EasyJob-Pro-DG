@@ -15,7 +15,7 @@ namespace EasyJob_ProDG.Model.Cargo
         public static bool IsValidDgClass(char c)
         {
             //check for absence of any letters except comptibility groups
-            if(char.IsLetter(c))
+            if (char.IsLetter(c))
                 if (_dgclass != null && !_dgclass.StartsWith("1.") && _dgclass.Length != 3)
                     return false;
                 else
@@ -42,7 +42,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 case '1':
                 case '2':
                 case '3':
-                    if ( _dgclass.Length != 2 || _dgclass[1] != '.') return false;
+                    if (_dgclass.Length != 2 || _dgclass[1] != '.') return false;
                     _dgclass += c;
                     return IsValidDgClass(_dgclass);
                 case '4':
@@ -155,6 +155,66 @@ namespace EasyJob_ProDG.Model.Cargo
         public static void AddChar(char c)
         {
             _dgclass += c;
+        }
+
+        /// <summary>
+        /// Returns true if the <see cref="dgClass"/> and its compatibility group (in case of class 1) are found in IMDGCode dictionary 
+        /// </summary>
+        /// <param name="dgClass"></param>
+        /// <returns></returns>
+        public static bool IsClassAndCompatibilityGroupContainedInIMDGCode(string dgClass)
+        {
+            if(!RoughCheckValidation(dgClass)) return false;
+
+            string _dgClass = dgClass.ParseDgClass();
+            char _compatibilityGroup = dgClass.ParseCompatibilityGroup();
+
+            return IMDGCode.AllValidDgClasses.Contains(_dgClass)
+                && !_dgClass.StartsWith("1") || IsCompatibilityGoupContainedInIMDGCode(_compatibilityGroup);
+        }
+
+        private static string ParseDgClass(this string dgClass)
+        {
+            return dgClass.Length > 3
+                ? dgClass.Substring(0, 3)
+                : dgClass;
+        }
+
+        private static char ParseCompatibilityGroup(this string dgClass)
+        {
+            return dgClass.Length > 3 && dgClass.StartsWith("1")
+                ? dgClass[3]
+                : '0';
+        }
+
+        private static bool RoughCheckValidation(string dgClass)
+        {
+            if (dgClass.Length > 4) return false;
+            if(dgClass.Length > 3 && !dgClass.StartsWith("1")) return false;
+            if(dgClass.Length > 3 && !char.IsLetter(dgClass[3])) return false;
+            return true;
+        }
+
+        /// <summary>
+        /// Returns true if the <see cref="dgClass"/> and is found in IMDGCode dictionary.
+        /// Compatibility group of class 1 will be ignored
+        /// </summary>
+        /// <param name="dgClass"></param>
+        /// <returns></returns>
+        public static bool IsClassContainedInIMDGCode(string dgClass)
+        {
+            string _dgClass = dgClass.ParseDgClass();
+            return IMDGCode.AllValidDgClasses.Contains(_dgClass);
+        }
+
+        /// <summary>
+        /// Returns true if <see cref="group"/> as compatibility group of class 1 is contained in IMDG code.
+        /// </summary>
+        /// <param name="group">Compatibility group of DG of class 1</param>
+        /// <returns></returns>
+        public static bool IsCompatibilityGoupContainedInIMDGCode(char group)
+        {
+            return IMDGCode.AllValidCompatibilityGroupsOfClass1.Contains(group);
         }
     }
 }

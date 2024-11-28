@@ -125,6 +125,9 @@
     <Compile Include="Utility\Messages\ConflictsToBeCheckedAndUpdatedMessage.cs" />
     <Compile Include="Utility\Messages\DgListSelectedItemUpdatedMessage.cs" />
     <Compile Include="Utility\Messages\ShipProfileSavedMessage.cs" />
+    <Compile Include="Validation\DgClassInputValidator.cs" />
+    <Compile Include="Validation\DgSubclassInputValidator.cs" />
+    <Compile Include="Validation\UnnoInputValidator.cs" />
     <Compile Include="ViewModel\MainWindow\ConflictsSectionViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridViewModelBase.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridContainerViewModelBase.cs" />
