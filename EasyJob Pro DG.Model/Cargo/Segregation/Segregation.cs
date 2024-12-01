@@ -582,7 +582,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="class1"></param>
         /// <param name="class2"></param>
         /// <returns></returns>
-        private static byte GetSegregationLevelFromTable(string class1, string class2)
+        protected static byte GetSegregationLevelFromTable(string class1, string class2)
         {
             if (class1 == class2 &&
                 ((class1.Length == 1 && class1 != "1") ||
@@ -999,6 +999,16 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             return ForeAndAft(a, bays).Contains(b.Bay);
         }
+        #endregion
+
+
+        #region Methods supporting testing
+        // ----- Methods to support testing -----
+        public static bool Segregate(Dg a, Dg b, ShipProfile ship)
+        {
+            ship = ship;
+            return (Segregate(a, b));
+        } 
         #endregion
 
     }

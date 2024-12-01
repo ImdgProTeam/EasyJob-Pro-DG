@@ -36,7 +36,7 @@ ERRORS
 4. Include technical name command made workable from Menu
 
 NEW
-1. No new features implemented
+1. Input validation for dg class and subclass implemented.
 
 Fully functional release
 -------------------------------------------------------

@@ -8,31 +8,36 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace EasyJob_ProDG.ModelTests.Cargo
 {
     [TestClass]
-    public class SegregationTests
+    public class SegregationTests : Segregation
     {
+        static Segregation segregation = new Segregation();
+        PrivateObject segregationObject = new PrivateObject(segregation);
         private static List<Dg> dgList;
-        public static ShipProfile ship = new ShipProfile("TestVessel", false)
-        {
-            Row00Exists = true,
-            NumberOfHolds = 3,
-            Holds = new List<CargoHold>()
-                {
-                    new CargoHold(1, 7),
-                    new CargoHold(9, 15),
-                    new CargoHold(17, 23)
-                }
-        };
+        public static ShipProfile ship = ShipProfile.GetDefaultShipProfile();
+
         public TestContext TestContext { get; set; }
 
         ///Method defines Bay, Row and Tier
         static void DefineContainerLocation(Dg dg)
         {
-            dg.HoldNr = ship.DefineCargoHoldNumberNonstatic(dg.Bay);
+            dg.HoldNr = ship.DefineCargoHoldNumberOfBay(dg.Bay);
         }
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
+            //ship profile
+            ship.Row00Exists = true;
+            ship.NumberOfHolds = 3;
+            ship.CargoHolds = new List<CargoHold>()
+                {
+                    new CargoHold(1, 1, 7),
+                    new CargoHold(2, 9, 15),
+                    new CargoHold(3, 17, 23)
+            };
+            ship.SetThisShipProfileToShip();
+            
+
             //Creating dg list
             dgList = new List<Dg>();
 
@@ -76,7 +81,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
             Dg dg4 = new Dg()
             {
                 DgClass = "2.1",
-                DgSubclass = "2.3",
+                DgSubClass = "2.3",
                 Location = "190008",
                 ContainerNumber = "container4",
                 SegregatorClass = null,
@@ -90,7 +95,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
             Dg dg5 = new Dg()
             {
                 DgClass = "6.1",
-                DgSubclass = "8",
+                DgSubClass = "8",
                 Location = "180002",
                 ContainerNumber = "container5",
                 SegregatorClass = null,
@@ -117,7 +122,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
             Dg dg7 = new Dg()
             {
                 DgClass = "3",
-                DgSubclass = "8",
+                DgSubClass = "8",
                 Location = "010502",
                 ContainerNumber = "container7",
                 SegregatorClass = null,
@@ -131,22 +136,21 @@ namespace EasyJob_ProDG.ModelTests.Cargo
 
         }
 
-
         public void TestDgValidValues(Dg unit, ref int result, byte holdNr = 2, int dgClassCount = 1, bool isUnderdeck = false, byte size = 40)
         {
 
-            if (string.Equals(unit.DgClass, unit.AllDgClassesList[0])) result++;
+            if (string.Equals(unit.DgClass, unit.AllDgClasses[0])) result++;
             Debug.WriteLine(string.Format("Unit dg class is {0}", unit.DgClass));
             Debug.WriteLine(string.Format("All dg classes: {0}", unit.AllDgClasses));
-            Debug.WriteLine(string.Format("First dg class: {0}", unit.AllDgClassesList[0]));
+            Debug.WriteLine(string.Format("First dg class: {0}", unit.AllDgClasses[0]));
 
 
-            if (unit.AllDgClassesList.Count == dgClassCount) result++;
-            Debug.WriteLine("All dg classes count is {0}", unit.AllDgClassesList.Count);
+            if (unit.AllDgClasses.Count == dgClassCount) result++;
+            Debug.WriteLine("All dg classes count is {0}", unit.AllDgClasses.Count);
 
             Debug.WriteLine(string.Format("Container location is {0}", unit.Location));
             if (unit.Bay == Convert.ToByte(unit.Location.Replace(" ", "").Substring(0, 3))) result++;
-            Debug.WriteLine("Bay = {0}, substring = {1}", unit.Bay, Convert.ToByte(unit.Location.Replace(" ","").Substring(0, 3)));
+            Debug.WriteLine("Bay = {0}, substring = {1}", unit.Bay, Convert.ToByte(unit.Location.Replace(" ", "").Substring(0, 3)));
             if (unit.Row == Convert.ToByte(unit.Location.Replace(" ", "").Substring(3, 2))) result++;
             Debug.WriteLine("Row = {0}, substring = {1}", unit.Row, Convert.ToByte(unit.Location.Replace(" ", "").Substring(3, 2)));
             if (unit.Tier == Convert.ToByte(unit.Location.Replace(" ", "").Substring(5, 2))) result++;
@@ -181,7 +185,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
             int result = 0;
             Dg unit = dgList[3];
 
-            TestDgValidValues(unit, ref result, holdNr: 3, dgClassCount: 2, isUnderdeck: true, size: 20)  ;
+            TestDgValidValues(unit, ref result, holdNr: 3, dgClassCount: 2, isUnderdeck: true, size: 20);
             Assert.AreEqual(result, 8);
 
         }
@@ -241,7 +245,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
 
 
             Debug.WriteLine("Test two units with no segregator class and no segregator exception");
-            int segrLevel = Segregation.GetSegregationLevelFromTable(a.DgSubclassArray[0], b.DgClass);
+            int segrLevel = Segregation.GetSegregationLevelFromTable(a.DgSubClassArray[0], b.DgClass);
             Debug.WriteLine("Segregation level between two containers: {0}", segrLevel);
             result = Segregation.Segregate(a, b, ship);
             if (result == false)
@@ -265,8 +269,8 @@ namespace EasyJob_ProDG.ModelTests.Cargo
         {
             Dg dgA = new Dg();
             dgA.DgClass = Convert.ToString(TestContext.DataRow["DgA.Dgclass"]);
-            dgA.DgSubclass = Convert.ToString(TestContext.DataRow["DgA.Dgsubclass1"]);
-            dgA.DgSubclass = Convert.ToString(TestContext.DataRow["DgA.Dgsubclass2"]);
+            dgA.DgSubClass = Convert.ToString(TestContext.DataRow["DgA.DgSubClass1"]);
+            dgA.DgSubClass = Convert.ToString(TestContext.DataRow["DgA.DgSubClass2"]);
             dgA.Location = Convert.ToString(TestContext.DataRow["DgA.CntrLocation"]);
             dgA.ContainerNumber = Convert.ToString(TestContext.DataRow["DgA.cntrNr"]);
             dgA.IsClosed = Convert.ToBoolean(TestContext.DataRow["DgA.closed"]);
@@ -282,8 +286,8 @@ namespace EasyJob_ProDG.ModelTests.Cargo
 
             Dg dgB = new Dg();
             dgB.DgClass = Convert.ToString(TestContext.DataRow["dgB.Dgclass"]);
-            dgB.DgSubclass = Convert.ToString(TestContext.DataRow["dgB.Dgsubclass1"]);
-            dgB.DgSubclass = Convert.ToString(TestContext.DataRow["dgB.Dgsubclass2"]);
+            dgB.DgSubClass = Convert.ToString(TestContext.DataRow["dgB.DgSubClass1"]);
+            dgB.DgSubClass = Convert.ToString(TestContext.DataRow["dgB.DgSubClass2"]);
             dgB.Location = Convert.ToString(TestContext.DataRow["dgB.CntrLocation"]);
             dgB.ContainerNumber = Convert.ToString(TestContext.DataRow["dgB.cntrNr"]);
             dgB.IsClosed = Convert.ToBoolean(TestContext.DataRow["dgB.closed"]);
@@ -299,14 +303,14 @@ namespace EasyJob_ProDG.ModelTests.Cargo
 
 
             Debug.WriteLine("Dg A {0} in {1} (IsClosed: {2})", dgA.ContainerNumber, dgA.Location, dgA.IsClosed);
-            Debug.WriteLine("Class {0} ({1})", dgA.DgClass, dgA.DgSubclass);
+            Debug.WriteLine("Class {0} ({1})", dgA.DgClass, dgA.DgSubClass);
             Debug.WriteLine("Segregator class: {0}, SegregatorException: {1} (class {2} level {3})", dgA.SegregatorClass, dgA.SegregatorException != null,
                 dgA.SegregatorException != null ? dgA.SegregatorException.SegrClass : "NA",
                 dgA.SegregatorException != null ? dgA.SegregatorException.SegrCase.ToString() : "NA");
             Debug.WriteLine("Bay {0} Row {1} Tier {2} hold {3} IsUnderdeck {4}", dgA.Bay, dgA.Row, dgA.Tier, dgA.HoldNr, dgA.IsUnderdeck);
             Debug.WriteLine("");
             Debug.WriteLine("Dg B {0} in {1} (IsClosed: {2})", dgB.ContainerNumber, dgB.Location, dgB.IsClosed);
-            Debug.WriteLine("Class {0} ({1})", dgB.DgClass, dgB.DgSubclass);
+            Debug.WriteLine("Class {0} ({1})", dgB.DgClass, dgB.DgSubClass);
             Debug.WriteLine("Segregator class: {0}, SegregatorException: {1} (class {2} level {3})", dgB.SegregatorClass, dgB.SegregatorException != null,
                 dgB.SegregatorException != null ? dgB.SegregatorException.SegrClass : "NA",
                 dgB.SegregatorException != null ? dgB.SegregatorException.SegrCase.ToString() : "NA");
@@ -319,9 +323,9 @@ namespace EasyJob_ProDG.ModelTests.Cargo
             Debug.WriteLine("DG B: Bay {0} Row {1} Tier {2} hold {3} IsUnderdeck {4}", dgB.Bay, dgB.Row, dgB.Tier, dgB.HoldNr, dgB.IsUnderdeck);
             Debug.WriteLine("");
 
-            foreach (string a in dgA.AllDgClassesList)
+            foreach (string a in dgA.AllDgClasses)
             {
-                foreach (string b in dgB.AllDgClassesList)
+                foreach (string b in dgB.AllDgClasses)
                 {
                     var segLevel = Segregation.GetSegregationLevelFromTable(a, b);
                     Debug.WriteLine("Segregation level between class {0} and {1}:   {2}", a, b, segLevel);
@@ -330,7 +334,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
 
             if (dgA.SegregatorClass != null)
             {
-                foreach (var b in dgB.AllDgClassesList)
+                foreach (var b in dgB.AllDgClasses)
                 {
                     var segLevel = Segregation.GetSegregationLevelFromTable(dgA.SegregatorClass, b);
                     Debug.WriteLine("Segregation level between segregator class {0} and class {1}:   {2}", dgA.SegregatorClass, b, segLevel);
@@ -343,7 +347,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
             }
             else if (dgB.SegregatorClass != null)
             {
-                foreach (var a in dgA.AllDgClassesList)
+                foreach (var a in dgA.AllDgClasses)
                 {
                     var segLevel = Segregation.GetSegregationLevelFromTable(dgB.SegregatorClass, a);
                     Debug.WriteLine("Segregation level between segregator class {0} and class {1}:   {2}", dgB.SegregatorClass, a, segLevel);
@@ -358,7 +362,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
             Debug.WriteLine("");
             for (int i = 0; i < 5; i++)
             {
-                bool segCheck = Segregation.SegregationConflictCheck(dgA, dgB, (byte)i, ship);
+                bool segCheck = Segregation.SegregationConflictCheck(dgA, dgB, (byte)i);
                 Debug.WriteLine("Segregation check at level {0} result is {1}", i, segCheck);
             }
 
@@ -388,8 +392,8 @@ namespace EasyJob_ProDG.ModelTests.Cargo
                 IsClosed = true
 
             };
-            a.DgSubclass = "6.1";
-            a.DgSubclass = "8";
+            a.DgSubClass = "6.1";
+            a.DgSubClass = "8";
             DefineContainerLocation(a);
 
             Dg b = new Dg()
@@ -405,14 +409,14 @@ namespace EasyJob_ProDG.ModelTests.Cargo
             DefineContainerLocation(b);
 
             Debug.WriteLine("Dg A {0} in {1} (IsClosed: {2})", a.ContainerNumber, a.Location, a.IsClosed);
-            Debug.WriteLine("Class {0} ({1})", a.DgClass, a.DgSubclass);
+            Debug.WriteLine("Class {0} ({1})", a.DgClass, a.DgSubClass);
             Debug.WriteLine("Segregator class: {0}, SegregatorException: {1} ({2} level {3})", a.SegregatorClass, a.SegregatorException != null,
                 a.SegregatorException != null ? a.SegregatorException.SegrClass : "NA",
                 a.SegregatorException != null ? a.SegregatorException.SegrCase.ToString() : "NA");
             Debug.WriteLine("DG A: Bay {0} Row {1} Tier {2} hold {3} IsUnderdeck {4}", a.Bay, a.Row, a.Tier, a.HoldNr, a.IsUnderdeck);
             Debug.WriteLine("");
             Debug.WriteLine("Dg B {0} in {1} (IsClosed: {2})", b.ContainerNumber, b.Location, b.IsClosed);
-            Debug.WriteLine("Class {0} ({1})", b.DgClass, b.DgSubclass);
+            Debug.WriteLine("Class {0} ({1})", b.DgClass, b.DgSubClass);
             Debug.WriteLine("Segregator class: {0}, SegregatorException: {1} ({2} level {3})", b.SegregatorClass, b.SegregatorException != null,
                 b.SegregatorException != null ? b.SegregatorException.SegrClass : "NA",
                 b.SegregatorException != null ? b.SegregatorException.SegrCase.ToString() : "NA");
@@ -432,13 +436,13 @@ namespace EasyJob_ProDG.ModelTests.Cargo
                 if (b.SegregatorClass == null)
                 {
                     Debug.WriteLine("B has NO segregator class");
-                    Debug.WriteLine("Checking compatibility of each dg class in A: {0}", a.AllDgClassesList);
-                    Debug.WriteLine("Control value of DgClass {0}", a.AllDgClassesList[0]);
-                    foreach (string cla in a.AllDgClassesList)
+                    Debug.WriteLine("Checking compatibility of each dg class in A: {0}", a.AllDgClasses);
+                    Debug.WriteLine("Control value of DgClass {0}", a.AllDgClasses[0]);
+                    foreach (string cla in a.AllDgClasses)
                     {
-                        Debug.WriteLine("Checking compatibility with B all dg classes: {0}", b.AllDgClassesList);
-                        Debug.WriteLine("Control value of DgClass {0}", b.AllDgClassesList[0]);
-                        foreach (string clb in b.AllDgClassesList)
+                        Debug.WriteLine("Checking compatibility with B all dg classes: {0}", b.AllDgClasses);
+                        Debug.WriteLine("Control value of DgClass {0}", b.AllDgClasses[0]);
+                        foreach (string clb in b.AllDgClasses)
                         {
                             _seglevel = (byte)Segregation.GetSegregationLevelFromTable(cla, clb);
                             if (_seglevel == 5) _seglevel5 = _seglevel;
@@ -454,9 +458,9 @@ namespace EasyJob_ProDG.ModelTests.Cargo
                     Debug.WriteLine("B has segregator class {0}", b.SegregatorClass);
                     if (b.SegregatorException == null)
                     {
-                        Debug.WriteLine("Checking compatibility with each dg class in A: {0}", a.AllDgClassesList);
-                        Debug.WriteLine("Control value of DgClass {0}", a.AllDgClassesList[0]);
-                        foreach (string cla in a.AllDgClassesList)
+                        Debug.WriteLine("Checking compatibility with each dg class in A: {0}", a.AllDgClasses);
+                        Debug.WriteLine("Control value of DgClass {0}", a.AllDgClasses[0]);
+                        foreach (string cla in a.AllDgClasses)
                         {
                             _seglevel = (byte)Segregation.GetSegregationLevelFromTable(cla, b.SegregatorClass);
                             if (_seglevel == 5) _seglevel5 = _seglevel;
@@ -467,9 +471,9 @@ namespace EasyJob_ProDG.ModelTests.Cargo
                     {
                         Debug.WriteLine("B has segregator exception: class {0} - level {1}",
                             b.SegregatorException.SegrClass, b.SegregatorException.SegrCase);
-                        Debug.WriteLine("Checking compatibility with each dg class in A: {0}", a.AllDgClassesList);
-                        Debug.WriteLine("Control value of DgClass {0}", a.AllDgClassesList[0]);
-                        foreach (string cla in a.AllDgClassesList)
+                        Debug.WriteLine("Checking compatibility with each dg class in A: {0}", a.AllDgClasses);
+                        Debug.WriteLine("Control value of DgClass {0}", a.AllDgClasses[0]);
+                        foreach (string cla in a.AllDgClasses)
                         {
                             if (cla == b.SegregatorException.SegrClass) _seglevel = b.SegregatorException.SegrCase; //except for class ... 
                             else if (b.SegregatorException.SegrClass == "1" && cla.StartsWith("1")) _seglevel = b.SegregatorException.SegrCase; //in relation to goods of class 1
@@ -495,9 +499,9 @@ namespace EasyJob_ProDG.ModelTests.Cargo
                     if (a.SegregatorException == null)
                     {
 
-                        Debug.WriteLine("Checking compatibility with B all dg classes: {0}", b.AllDgClassesList);
-                        Debug.WriteLine("Control value of DgClass {0}", b.AllDgClassesList[0]);
-                        foreach (string clb in b.AllDgClassesList)
+                        Debug.WriteLine("Checking compatibility with B all dg classes: {0}", b.AllDgClasses);
+                        Debug.WriteLine("Control value of DgClass {0}", b.AllDgClasses[0]);
+                        foreach (string clb in b.AllDgClasses)
                         {
                             _seglevel = (byte)Segregation.GetSegregationLevelFromTable(a.SegregatorClass, clb);
                             if (_seglevel == 5) _seglevel5 = _seglevel;
@@ -506,7 +510,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
                     }
                     else //a.SegregatorException != null
                     {
-                        foreach (string clb in b.AllDgClassesList)
+                        foreach (string clb in b.AllDgClasses)
                         {
                             if (clb == a.SegregatorException.SegrClass) _seglevel = a.SegregatorException.SegrCase; //except for class ... 
                             else if (a.SegregatorException.SegrClass == "1"
@@ -593,8 +597,8 @@ namespace EasyJob_ProDG.ModelTests.Cargo
 
             Debug.WriteLine("Seglevel is {0}", seglevel);
             Debug.WriteLine("Seglevel5 is {0}", _seglevel5);
-            if (_seglevel5 != 0) _conf = Segregation.SegregationConflictCheck(a, b, _seglevel5, ship);
-            if (Segregation.SegregationConflictCheck(a, b, seglevel, ship)) _conf = true;
+            if (_seglevel5 != 0) _conf = Segregation.SegregationConflictCheck(a, b, _seglevel5);
+            if (Segregation.SegregationConflictCheck(a, b, seglevel)) _conf = true;
             Debug.WriteLine("Segregation result is {0}", _conf.ToString());
             Assert.IsTrue(_conf);
         }
@@ -605,7 +609,7 @@ namespace EasyJob_ProDG.ModelTests.Cargo
 
             Debug.WriteLine("Dg Bay is: {0}", dgList[0].Bay);
             Debug.WriteLine("Hold stored in dg before defining is: {0}", dgList[0].HoldNr);
-            byte hold = ship.DefineCargoHoldNumberNonstatic(dgList[0].Bay);
+            byte hold = ShipProfile.DefineCargoHoldNumber(dgList[0].Bay);
             Debug.WriteLine("Hold answer found is: {0}", hold);
 
             Assert.AreEqual(2, hold);
