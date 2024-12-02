@@ -11,9 +11,6 @@ namespace EasyJob_ProDG.Model.Cargo
         public static SpecialStowageGroups SWgroups = new SpecialStowageGroups(true);
         static ShipProfile ship => ShipProfile.Instance;
 
-        public Stowage()
-        {
-        }
 
         /// <summary>
         /// Method checks stowage of all dg in cargoplan
@@ -60,52 +57,6 @@ namespace EasyJob_ProDG.Model.Cargo
             CheckRadioactiveStowage(unit);
         }
 
-        /// <summary>
-        /// Method to determine Stowage category in accordance with IMDG Code paragraph 7.1.3.
-        /// true = conflict
-        /// Method StowageCatCheck implemented only for cargo ships!!!
-        /// </summary>
-        public static bool StowageCatCheck(Dg dg)
-        {
-            bool result = false;
-            if (!dg.IsUnderdeck && !char.IsDigit(dg.StowageCat)) return false;
-            switch (dg.StowageCat)
-            {
-                case 'A':
-                    result = false;
-                    break;
-                case 'B':
-                    result = false;
-                    break;
-                case 'C':
-                    result = true;
-                    break;
-                case 'D':
-                    result = true;
-                    break;
-                case 'E':
-                    result = false;
-                    break;
-                //ADD CHECK FOR CLOSED CARGO TRANSPORT UNITS
-                case '1':
-                    if (!dg.IsClosed && !dg.IsUnderdeck) result = true;
-                    break;
-                case '2':
-                    if (!dg.IsClosed && !dg.IsUnderdeck) result = true;
-                    break;
-                case '3':
-                    if (!dg.IsClosed && !dg.IsUnderdeck) result = true;
-                    break;
-                case '4':
-                    if (!dg.IsClosed) result = true;
-                    break;
-                case '5':
-                    if (!dg.IsClosed || dg.IsUnderdeck) result = true;
-                    break;
-                default: break;
-            }
-            return result;
-        }
 
         /// <summary>
         /// Checking of protection from direct sun (surrounded by containers from 3 sides).
@@ -115,7 +66,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="containers"></param>
         /// <param name="row00Exists"></param>
         /// <returns></returns>
-        public static bool CheckProtectedUnit(Dg unit, ICollection<Container> containers, bool row00Exists)
+        internal static bool CheckProtectedUnit(Dg unit, ICollection<Container> containers, bool row00Exists)
         {
             //reset any previous protection
             bool result = false;
@@ -209,21 +160,6 @@ namespace EasyJob_ProDG.Model.Cargo
             return result;
         }
 
-
-        /// <summary>
-        /// Method to check compliant stowage with DOC
-        /// (true = in compliance)
-        /// </summary>
-        /// <param name="dg"></param>
-        /// <returns></returns>
-        public static bool CheckDoc(Dg dg)
-        {
-            //Transport.ShipProfile _ship = ship;
-            var hold = dg.IsUnderdeck ? dg.HoldNr : 0;
-            byte fromtable = ship.Doc.DOCtable[hold, dg.DgRowInDOC];
-            return fromtable != 0;
-        }
-
         /// <summary>
         /// Checks if unit can be NOT considered protected from source of heat.
         /// Returns true if Not protected, false if protected.
@@ -239,6 +175,68 @@ namespace EasyJob_ProDG.Model.Cargo
                 return !CheckProtectedUnit(dg, containers, ship.Row00Exists);
 
             return false;
+        }
+
+
+        /// <summary>
+        /// Method to determine Stowage category in accordance with IMDG Code paragraph 7.1.3.
+        /// true = conflict
+        /// Method StowageCatCheck implemented only for cargo ships!!!
+        /// </summary>
+        private static bool StowageCatCheck(Dg dg)
+        {
+            bool result = false;
+            if (!dg.IsUnderdeck && !char.IsDigit(dg.StowageCat)) return false;
+            switch (dg.StowageCat)
+            {
+                case 'A':
+                    result = false;
+                    break;
+                case 'B':
+                    result = false;
+                    break;
+                case 'C':
+                    result = true;
+                    break;
+                case 'D':
+                    result = true;
+                    break;
+                case 'E':
+                    result = false;
+                    break;
+                //ADD CHECK FOR CLOSED CARGO TRANSPORT UNITS
+                case '1':
+                    if (!dg.IsClosed && !dg.IsUnderdeck) result = true;
+                    break;
+                case '2':
+                    if (!dg.IsClosed && !dg.IsUnderdeck) result = true;
+                    break;
+                case '3':
+                    if (!dg.IsClosed && !dg.IsUnderdeck) result = true;
+                    break;
+                case '4':
+                    if (!dg.IsClosed) result = true;
+                    break;
+                case '5':
+                    if (!dg.IsClosed || dg.IsUnderdeck) result = true;
+                    break;
+                default: break;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Method to check compliant stowage with DOC
+        /// (true = in compliance, false = conflict)
+        /// </summary>
+        /// <param name="dg"></param>
+        /// <returns>True if in compliance with DOC</returns>
+        private static bool CheckDoc(Dg dg)
+        {
+            var hold = dg.IsUnderdeck ? dg.HoldNr : 0;
+            dg.AssignRowFromDOC();
+            byte fromtable = ship.Doc.DOCtable[hold, dg.DgRowInDOC];
+            return fromtable != 0;
         }
 
         /// <summary>
@@ -344,7 +342,6 @@ namespace EasyJob_ProDG.Model.Cargo
                 unit.AddConflict(ship.IsOnSeaSide(unit), STOW, "SSC7");
             }
         }
-
 
         /// <summary>
         /// Sets 'protected from' side value with correct language and spacing.

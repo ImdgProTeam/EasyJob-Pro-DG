@@ -15,6 +15,7 @@ namespace EasyJob_ProDG.UI.Data
         ShipProfile GetShipProfile();
 
         void SetConditionFileName(string name);
+        void ApendConditionFileNameWithImported();
         void SetCargoPlan(CargoPlan cargoPlan);
     }
 }

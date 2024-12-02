@@ -50,9 +50,20 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 activeWorkbook = excelapp.ActiveWorkbook;
                 excelWorksheet = WithXl.ChooseCorrectSheet(activeWorkbook, _template.WorkingSheet);
                 Data.LogWriter.Write($"Reading reefer data...");
+                Data.ProgressBarReporter.ReportPercentage = 40;
 
                 //Determine number of rows = number of reefers
                 int rowscount = WithXl.CountRows(excelWorksheet, _template.StartRow, int.Parse(_template[3]));
+                if (rowscount < 1) throw new System.Exception();
+
+                #region StatusBar increment value setup
+                //Setting StatusBar increment value
+                float tempStatusBarIncrementValue = 30f / rowscount;
+                float tempIncrementAccummulation = 0.0f;
+                int statusBarIncrementValue = 0;
+                if (tempStatusBarIncrementValue > 1)
+                    statusBarIncrementValue = 30 / rowscount;
+                #endregion
 
                 //Read the list
                 for (int line = templateStartRow; line < rowscount + templateStartRow; line++)
@@ -73,6 +84,22 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         else if (col == byte.Parse(_template[8])) cont.ReeferRemark = value;
                     }
                     if (!excelReefers.Contains(cont)) excelReefers.Add(cont);
+
+                    #region Status bar update
+                    //Status bar update
+                    if (Data.ProgressBarReporter.ReportPercentage < 75)
+                    {
+                        if (statusBarIncrementValue == 0)
+                        {
+                            tempIncrementAccummulation += tempStatusBarIncrementValue;
+                            if (tempIncrementAccummulation < 1) continue;
+                            Data.ProgressBarReporter.ReportPercentage++;
+                            tempIncrementAccummulation--;
+                        }
+                        else
+                            Data.ProgressBarReporter.ReportPercentage += statusBarIncrementValue;
+                    } 
+                    #endregion
                 }
                 Data.LogWriter.Write($"Reefer manifest data read from excel.");
                 isImported = true;
@@ -86,30 +113,9 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 activeWorkbook.Close(null, null, null);
                 if (workbooks != null) workbooks.Close();
                 excelapp.Quit();
-                #region Trying to release MarshalComObjects
-                try { System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelcells); }
-                catch { }
-                try
-                {
-                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelWorksheet);
-                }
-                catch { }
-                try
-                {
-                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(activeWorkbook);
-                }
-                catch { }
-                try
-                {
-                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(workbooks);
-                }
-                catch { }
-                try
-                {
-                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelapp);
-                }
-                catch { } 
-                #endregion
+
+                WithXl.RunGarbageCollector();
+                WithXl.FinalReleaseCOMObjects(excelcells, excelWorksheet, activeWorkbook, workbooks, excelapp);
                 Data.LogWriter.Write($"Excel file disconnected.");
             }
 

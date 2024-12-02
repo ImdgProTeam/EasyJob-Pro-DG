@@ -80,6 +80,7 @@ namespace EasyJob_ProDG.Model.IO
                 Data.LogWriter.Write($"File {fileName} cannot be found.");
                 return null;
             }
+            Data.LogWriter.Write($"Reading {fileName}...");
 
             var fileType = DefineFileType(fileName);
             CargoPlan cargoPlan = new CargoPlan();

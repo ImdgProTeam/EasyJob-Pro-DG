@@ -85,6 +85,7 @@
     <Compile Include="IO\EasyJobCondition\ExportCondition.cs" />
     <Compile Include="IO\ReadIftdgnFile.cs" />
     <Compile Include="IO\ShipProfileIO.cs" />
+    <Compile Include="ProgramDefaultValues.cs" />
     <Compile Include="Transport\CellPosition.cs" />
     <Compile Include="Cargo\Conflicts\Conflicts.cs" />
     <Compile Include="Cargo\BaseUnits\Container.cs" />

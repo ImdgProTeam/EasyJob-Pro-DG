@@ -1,5 +1,5 @@
 ﻿using EasyJob_ProDG.Model.Cargo;
-using EasyJob_ProDG.UI.Data;
+using EasyJob_ProDG.UI.Validation;
 using EasyJob_ProDG.UI.Wrapper.Cargo;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +21,8 @@ namespace EasyJob_ProDG.UI.Wrapper
             set
             {
                 if (Unno == value) return;
-                if (!DataHelper.CheckForExistingUnno(value)) return;
+                if (!UnnoInputValidator.Validate(value))
+                    return;
 
                 SetValue(value);
                 if (value != 1950) IsMax1L = false;
@@ -40,14 +41,17 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                SetValue(value.Trim().Replace(" ", ""));
+                if(DgClass == value) return;
+                if (!DgClassInputValidator.Validate(value, out value))
+                    return;
+
+                SetValue(value);
                 if (Model.DgSubClassArray.Contains(value))
                 {
-                    DgSubClass = DgSubClass.Replace(DgClass, "");
+                    Model.DgSubClass = DgSubClass.Replace(DgClass, "");
                     OnPropertyChanged(nameof(DgSubClass));
-                    return;
                 }
-                
+
                 OnPropertyChanged(nameof(AllDgClasses));
                 UpdateConflictList();
             }
@@ -62,10 +66,10 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                var setvalue = value.Replace(",", " ").Replace("  ", " ").Trim();
-                
+                if(!DgSubclassInputValidator.Validate(value, out string setvalue)) return;
+
                 //Check if DgClass already has the subrisk being input
-                if(setvalue.Split(' ').Any(x => string.Equals(x, DgClass)))
+                if (setvalue.Split(' ').Any(x => string.Equals(x, DgClass)))
                 {
                     setvalue = setvalue.Replace(DgClass, "");
                 }
@@ -88,7 +92,6 @@ namespace EasyJob_ProDG.UI.Wrapper
                 if (!SetValue(value)) return;
                 OnUpdatePackingGroup();
                 UpdateConflictList();
-
             }
         }
 
@@ -161,9 +164,9 @@ namespace EasyJob_ProDG.UI.Wrapper
 
                 UpdateDgStowageConflicts();
 
-                OnPropertyChanged("StowageCat");
-                OnPropertyChanged("StowageSW");
-                OnPropertyChanged("Name");
+                OnPropertyChanged(nameof(StowageCat));
+                OnPropertyChanged(nameof(StowageSW));
+                OnPropertyChanged(nameof(Name));
             }
         }
         public bool IsStabilized
@@ -175,9 +178,9 @@ namespace EasyJob_ProDG.UI.Wrapper
 
                 UpdateDgStowageConflicts();
 
-                OnPropertyChanged("StowageCat");
-                OnPropertyChanged("StowageSW");
-                OnPropertyChanged("Name");
+                OnPropertyChanged(nameof(StowageCat));
+                OnPropertyChanged(nameof(StowageSW));
+                OnPropertyChanged(nameof(Name));
             }
         }
 
@@ -354,7 +357,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         // ---------- Readonly Dg properties ------------------------------
 
         public bool IsConflicted => GetValue<bool>();
-        public string AllDgClasses => string.Join(",", GetValue<List<string>>());
+        public string AllDgClasses => string.Join(", ", GetValue<List<string>>());
         public string Properties => GetValue<string>();
         public string SegregationSG
         {

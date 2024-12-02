@@ -26,20 +26,14 @@ namespace EasyJob_ProDG.Model.Cargo
                 List<DgFromIMDGCode> imdgRecords;
                 imdgRecords = GetRecordsFromXml(dg.Unno);
 
-                int orderInList;
-                orderInList = ChooseOneOfMultipleEntries(imdgRecords, dg.PackingGroupAsByte);
+                int orderInList = ChooseOneOfMultipleEntries(imdgRecords, dg.PackingGroupAsByte);
 
                 //Transfer data from record to dg item
                 DgFromIMDGCode dgFromImdgCode = imdgRecords[orderInList];
                 dgFromImdgCode.SpecialClass();
 
                 //copy original property text instead of "see entry above"
-                while (dgFromImdgCode.Properties == "See entry above.")
-                {
-                    dgFromImdgCode.SetProperties(imdgRecords[orderInList - 1].Properties);
-                    orderInList--;
-                    if (orderInList == 0) break;
-                }
+                dgFromImdgCode.GetSeeEntryAboveProperty(imdgRecords, orderInList);
 
                 // if only packing group changed
                 if (pkgChanged)
@@ -47,7 +41,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     dg.SetIMDGCodeValues(dgFromImdgCode, pkgChanged: true);
                     return;
                 }
-                
+
                 dg.UpdateDgClassAndSubclass(unitIsNew, dgFromImdgCode);
                 dg.UpdateOtherInformation(dgFromImdgCode);
             }
@@ -68,9 +62,9 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <returns>List of Dg of specified UN no with raw information from IMDG code.</returns>
         private static List<DgFromIMDGCode> GetRecordsFromXml(ushort unno)
         {
-            var chosenEntries = (from entry in xmlDoc.Descendants("DG")
+            var chosenEntries = from entry in xmlDoc.Descendants("DG")
                                  where (int)entry.Attribute("unno") == unno
-                                 select entry);
+                                 select entry;
 
             List<DgFromIMDGCode> list = new();
 
@@ -100,9 +94,9 @@ namespace EasyJob_ProDG.Model.Cargo
                 foreach (string x in array)
                     record.SpecialInherited.Add(x != "–" ? Convert.ToUInt16(x) : (ushort)0);
 
-                record.StowageCat = (entry.Element("Stowage").Attribute("category").Value).Length > 1 ?
-                                    (entry.Element("Stowage").Attribute("category").Value)[1] :
-                                    (entry.Element("Stowage").Attribute("category").Value)[0];
+                record.StowageCat = entry.Element("Stowage").Attribute("category").Value.Length > 1 ?
+                                    entry.Element("Stowage").Attribute("category").Value[1] :
+                                    entry.Element("Stowage").Attribute("category").Value[0];
 
                 array = entry.Element("Stowage").Attribute("provision").Value.Split(' ');
                 foreach (string x in array) record.StowageSWInherited.Add(x);
@@ -112,6 +106,9 @@ namespace EasyJob_ProDG.Model.Cargo
 
                 record.SetProperties(entry.Element("Propertiesandobservations").Value);
                 record.DgEMS = entry.Element("EMS").Value;
+
+                record.IsLiquidInherited = entry.Element("Liquid").Value == "true" ? true : false;
+                record.IsFlammableInherited = entry.Element("Flammable").Value == "true" ? true : false;
 
                 list.Add(record);
             }
@@ -274,6 +271,23 @@ namespace EasyJob_ProDG.Model.Cargo
             if (string.IsNullOrEmpty(dg.Name)) dg.Name = dgFromImdgCode.Name;
         }
 
+        /// <summary>
+        /// Copies Properties from the first entry in the series of same UNNo entries,
+        /// in case Property states 'See entry above.'
+        /// </summary>
+        /// <param name="dgFromImdgCode"></param>
+        /// <param name="imdgRecords"></param>
+        /// <param name="orderInList"></param>
+        private static void GetSeeEntryAboveProperty(this DgFromIMDGCode dgFromImdgCode, List<DgFromIMDGCode> imdgRecords, int orderInList)
+        {
+            while (dgFromImdgCode.Properties == "See entry above.")
+            {
+                dgFromImdgCode.SetProperties(imdgRecords[orderInList - 1].Properties);
+                orderInList--;
+                if (orderInList == 0) break;
+            }
+        }
+
 
         /// <summary>
         /// Class extends <see cref="Dg"/> only for the purpose of enable set private and readonly fields and properties from outside.
@@ -308,6 +322,17 @@ namespace EasyJob_ProDG.Model.Cargo
             {
                 get => segregationSG;
                 set => segregationSG = value;
+            }
+
+            internal bool IsLiquidInherited
+            {
+                get => isLiquid;
+                set => isLiquid = value;
+            }
+            internal bool IsFlammableInherited
+            {
+                get => isFlammable;
+                set => isFlammable = value;
             }
 
             internal void SetProperties(string properties)

@@ -55,6 +55,7 @@
     <Compile Include="Cargo\SegregateTest.cs" />
     <Compile Include="IO\ReadBaplieFileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validators\DgClassValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ConflictsInDgList.xml">

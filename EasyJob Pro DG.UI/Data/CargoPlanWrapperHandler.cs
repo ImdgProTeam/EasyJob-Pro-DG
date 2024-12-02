@@ -16,7 +16,7 @@ namespace EasyJob_ProDG.UI.Wrapper
 
 
         // ----- Access to this handler -----
-        internal static CargoPlanWrapperHandler Launch() => _handleCargoPlanWrapper ?? new CargoPlanWrapperHandler();
+        internal static CargoPlanWrapperHandler Launch() => _handleCargoPlanWrapper ??= new CargoPlanWrapperHandler();
 
 
         // -------------- Add/Remove/Modify methods ---------------------------------

@@ -7,7 +7,7 @@ namespace EasyJob_ProDG.Data
     public static class ProgramDefaultSettingValues
     {
         public const string ProgramTitle = "EasyJob ProDG Pro";
-        public const string Copyright = "Copyright ©  2018 - 2024";
+        public const string Copyright = "Copyright ©  2018 - 2025";
         public const string ShipProfileExtension = ".ini";
         public const string DefaultShipProfile = "ShipProfile.ini";
         public const string DgDataBaseFile = "dglist.xml";
@@ -19,6 +19,7 @@ namespace EasyJob_ProDG.Data
         public const string codeYear = "2022";
         public const string ConditionFileExtension = ".ejc";
         public const string NoNamePrefix = "+NONAME+";
+        public const decimal DefaultFlashPointValue = -9999;
 
         public const byte lowestTierOnDeck = 72;
 

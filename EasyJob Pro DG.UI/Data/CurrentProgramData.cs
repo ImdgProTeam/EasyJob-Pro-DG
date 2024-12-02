@@ -59,6 +59,17 @@ namespace EasyJob_ProDG.UI.Data
         }
 
         /// <summary>
+        /// Appends condition file name with "+ Imported" notation.
+        /// </summary>
+        void ICurrentProgramData.ApendConditionFileNameWithImported()
+        {
+            const string IMPORTED_ADDITION = " (+ Imported info)";
+
+            if (!_conditionFileName.Contains(IMPORTED_ADDITION))
+            _conditionFileName += IMPORTED_ADDITION;
+        }
+
+        /// <summary>
         /// Sets <see cref="CargoPlan"/> given as parameter as working one.
         /// </summary>
         /// <param name="cargoPlan"></param>

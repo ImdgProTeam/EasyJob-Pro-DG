@@ -1,7 +1,9 @@
 ﻿using EasyJob_ProDG.Model.Cargo;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("EasyJob_ProDG.ModelTests.Cargo")]
 namespace EasyJob_ProDG.Model.Transport
 {
     public partial class ShipProfile

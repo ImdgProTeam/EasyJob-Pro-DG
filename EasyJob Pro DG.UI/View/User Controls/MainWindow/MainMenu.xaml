@@ -350,8 +350,8 @@
                 <MenuItem Header="Actions">
                     <MenuItem Header="Include Technical Name"
                           IsCheckable="True"
-                          IsChecked="{Binding DgDataGridVM.IsTechnicalNameIncluded, Mode=OneWay}"
-                          Command="{Binding DgDataGridVM.IncludeTechnicalNameCommand}">
+                          IsChecked="{Binding DataGridDgViewModel.IsTechnicalNameIncluded, Mode=OneWay}"
+                          Command="{Binding DataGridDgViewModel.IncludeTechnicalNameCommand}">
 
                     </MenuItem>
                     <MenuItem Header="Add"

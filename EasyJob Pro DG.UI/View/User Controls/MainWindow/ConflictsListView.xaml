@@ -30,7 +30,8 @@
 
 
         <ListBox x:Name="ConflictBox"
-                 ItemsSource="{Binding Source={StaticResource ConflictsView}, UpdateSourceTrigger=PropertyChanged}"
+                 ItemsSource="{Binding Source={StaticResource ConflictsView}, IsAsync=True,
+                                        UpdateSourceTrigger=PropertyChanged}"
                  SelectedItem="{Binding SelectedConflict}"
                  IsSynchronizedWithCurrentItem="True"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"

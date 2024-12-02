@@ -9,7 +9,6 @@ namespace EasyJob_ProDG.UI.Messages
     {
         internal bool OnlyUnitStowageToBeUpdated = false;
         internal bool FullListToBeUpdated = false;
-        internal bool OnlyClearDeletedConflictsList;
         internal DgWrapper dgWrapper;
 
         public DisplayConflictsToBeRefreshedMessage()

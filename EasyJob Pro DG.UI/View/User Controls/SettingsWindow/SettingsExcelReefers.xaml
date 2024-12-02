@@ -63,7 +63,7 @@
                 SelectedItem="{Binding SelectedExcelReeferTemplate}"
                 SelectedIndex="{Binding SelectedExcelReeferTemplateIndex}"
                 DisplayMemberPath="TemplateName"
-                TextValue="{Binding SelectedExcelReeferTemplate.TemplateName}"
+                TextValue="{Binding SelectedExcelReeferTemplate.TemplateName, UpdateSourceTrigger=PropertyChanged}"
                 Margin="2"
                 Grid.Column="1"
                 Background="White"
@@ -78,14 +78,14 @@
                Grid.Row="2"
                Grid.Column="0" />
         <TextBox x:Name="txbSheetName"
-                 Text="{Binding SelectedExcelReeferTemplate.WorkingSheet}"
+                 Text="{Binding SelectedExcelReeferTemplate.WorkingSheet, UpdateSourceTrigger=PropertyChanged}"
                  Tag="Enter excel sheet name"
                  Grid.Row="2"
                  Grid.Column="1" />
         <Label Content="Start from row"
                Grid.Row="3"
                Grid.Column="0" />
-        <TextBox Text="{Binding SelectedExcelReeferTemplate.StartRow}"
+        <TextBox Text="{Binding SelectedExcelReeferTemplate.StartRow, UpdateSourceTrigger=PropertyChanged}"
                  Tag="Enter the first row number"
                  Grid.Row="3"
                  Grid.Column="1" />

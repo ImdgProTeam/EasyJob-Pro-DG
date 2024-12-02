@@ -1,5 +1,6 @@
 ﻿using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.Model.Cargo;
+using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +72,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
 
                 //Determine number of rows = number of dg
                 int rowscount = WithXl.CountRows(excelWorksheet, _template.StartRow, int.Parse(_template[5]));
+                if (rowscount < 1) throw new System.Exception();
 
                 #region StatusBar increment value setup
                 //Setting StatusBar increment value
@@ -113,7 +115,6 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colClass))
                         {
                             unit.DgClass = WithXlAssistToRead.DgClass(value, unit.ContainerNumber);
-                            if (!string.IsNullOrEmpty(unit.DgClass)) unit.AssignSegregationTableRowNumber();
                         }
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colSubclass))
                         {
@@ -185,6 +186,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                     }
                     else container.DgCountInContainer++;
 
+                    #region Status bar update
                     //Status bar update
                     if (Data.ProgressBarReporter.ReportPercentage < 75)
                     {
@@ -197,7 +199,8 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         }
                         else
                             Data.ProgressBarReporter.ReportPercentage += statusBarIncrementValue;
-                    }
+                    } 
+                    #endregion
                 }
 
                 Data.LogWriter.Write($"Dg manifest data read from excel.");
@@ -217,17 +220,16 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 excelapp.Quit();
 
                 WithXl.RunGarbageCollector();
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelcells);
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelWorksheet);
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(activeWorkbook);
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(workbooks);
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(excelapp);
+                WithXl.FinalReleaseCOMObjects(excelcells, excelWorksheet, activeWorkbook, workbooks, excelapp);
 
+                Data.LogWriter.Write($"Excel file disconnected.");
                 #endregion
             }
 
             return isImported;
         }
+
+
 
 
         /// <summary>
@@ -363,9 +365,9 @@ namespace EasyJob_ProDG.Model.IO.Excel
                                 value = dg.DgEMS;
                                 break;
                             case (int)ExcelDgTemplate.Columns.colRemarks:
-                                if (dg.Liquid) value = "Liquid";
-                                if (dg.Flammable) value += value == null ? "Flammable" : ", flammable";
-                                if (dg.EmitFlammableVapours)
+                                if (dg.IsLiquid) value = "Liquid";
+                                if (dg.IsFlammable) value += value == null ? "Flammable" : ", flammable";
+                                if (dg.IsEmitFlammableVapours)
                                     value += value == null ? "Emitting flammable vapours" : ", emitting flammable vapours";
                                 if (dg.SegregationGroupList.Count == 0) continue;
                                 foreach (var x in dg.SegregationGroupList)
