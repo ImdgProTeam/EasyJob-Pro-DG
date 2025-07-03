@@ -18,13 +18,14 @@
 
 VERSION INFO
 
-0.9.0.13
-Date: 
+0.9.0.15
+Date: 30-Jun-2025
 
-Licence: 31 Mar 2025
+Licence: 31 Dec 2026
 
 Version workable: Yes
-Changes:
+Changes: Only licence extended
+
 
 VISUAL
 1. 
@@ -47,7 +48,7 @@ Fully functional release
 0.9.0.12
 Date: 30 Nov 2024
 
-Licence: 31 Mar 2025
+Licence: 30 Jun 2025
 
 Version workable: Yes
 Changes:

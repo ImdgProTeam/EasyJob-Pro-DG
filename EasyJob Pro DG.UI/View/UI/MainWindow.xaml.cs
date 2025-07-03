@@ -99,9 +99,5 @@ namespace EasyJob_ProDG.UI.View.UI
         public delegate void WindowClosing();
         public static event WindowClosing OnWindowClosingEventHandler = null;
 
-        private void MVStatusBar_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
