@@ -43,7 +43,8 @@
         <!--   Black block-->   
         
         <TextBlock x:Name="BlackBlock"
-                               MinHeight="{Binding ElementName=InfoBlock, Path=ActualHeight}"
+                               MinHeight="{Binding BlackBlockHeight, 
+                                            RelativeSource={RelativeSource AncestorType=local:ConflictsSection}}"
                                DockPanel.Dock="Bottom"
                                Margin="2"
                                Padding="10,5,0,0"

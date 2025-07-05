@@ -19,6 +19,7 @@
         FontSize="{StaticResource StandardFontSize}"
         AllowDrop="True"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainWindowViewModel}"
+        d:Height="2000"
         d:DataContext="{d:DesignInstance viewmodel:MainWindowViewModel, d:IsDesignTimeCreatable=True}"
         Activated="Window_Activated"
         Deactivated="Window_Deactivated"
@@ -109,7 +110,8 @@
 
                 <uc:ConflictsSection
                         Grid.Column="1"
-                        Grid.RowSpan="2"/>
+                        Grid.RowSpan="2"
+                        BlackBlockHeight="{Binding ElementName=InfoBlock, Path=ActualHeight}"/>
 
                 <GridSplitter ShowsPreview="False"
                               HorizontalAlignment="Right"
