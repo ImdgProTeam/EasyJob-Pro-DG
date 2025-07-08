@@ -15,10 +15,9 @@
 //////////////////////////////////////////////////////////////////////////
 
 
-
 VERSION INFO
 
-0.9.0.15
+0.9.0.240
 Date: 30-Jun-2025
 
 Licence: 31 Dec 2026
@@ -38,6 +37,21 @@ ERRORS
 
 NEW
 1. 
+
+Fully functional release
+-------------------------------------------------------
+///////////////////////////////////////////////////////
+
+VERSION INFO
+
+0.9.0.15
+Date: 30-Jun-2025
+
+Licence: 31 Dec 2026
+
+Version workable: Yes
+Changes: Only licence extended
+
 
 Fully functional release
 -------------------------------------------------------
