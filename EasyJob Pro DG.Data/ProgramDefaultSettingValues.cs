@@ -15,8 +15,8 @@ namespace EasyJob_ProDG.Data
         public static bool Multiprofile = false;
         public static DirectoryInfo ProgramDirectory = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
         public const string xmlDgListVersion = "2.2";
-        public const string codeAmmendmentVersion = "41-22";
-        public const string codeYear = "2022";
+        public const string codeAmmendmentVersion = "42-24";
+        public const string codeYear = "2024";
         public const string ConditionFileExtension = ".ejc";
         public const string NoNamePrefix = "+NONAME+";
         public const decimal DefaultFlashPointValue = -9999;

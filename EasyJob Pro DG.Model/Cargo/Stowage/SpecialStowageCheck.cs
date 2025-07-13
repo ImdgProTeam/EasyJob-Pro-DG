@@ -142,6 +142,13 @@ namespace EasyJob_ProDG.Model.Cargo
                 case "SW30":
                     result = true;
                     break;
+
+                case "SW31":
+                    // Stow away from potential sources of ignition
+                    result = true;
+                    break;
+
+                    // Hnading codes
                 case "H1":
                     result = true;
                     break;

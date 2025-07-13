@@ -197,6 +197,12 @@ namespace EasyJob_ProDG.Model.Cargo
         }
         private decimal flashPoint;
 
+        /// <summary>
+        /// The value is true if FlashPoint value has not been set. 
+        /// </summary>
+        public bool FlashPointNotDefined => 
+            Math.Abs(FlashPointAsDecimal - ProgramDefaultValues.DefaultFlashPointValue) < 1;
+
         #endregion
 
 
@@ -313,7 +319,7 @@ namespace EasyJob_ProDG.Model.Cargo
         public List<string> SegregationSGList => segregationSG;
         protected List<string> segregationSG;
 
-        public string StowageSW
+        public string? StowageSW
         {
             get
             {

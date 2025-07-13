@@ -506,7 +506,7 @@ namespace EasyJob_ProDG.Model.Cargo
         private static void ReefersComplianceSegregationCheck(Dg unit, IEnumerable<Container> reefers, bool row00Exists, byte reeferMotorFacing)
         {
             if (string.IsNullOrEmpty(unit.DgClass)) return;
-            bool result;
+
             //Check for explosives
             if (unit.DgClass.StartsWith("1") || (unit.SegregatorClass != null && unit.SegregatorClass.StartsWith("1")))
             {
@@ -514,13 +514,33 @@ namespace EasyJob_ProDG.Model.Cargo
                 return;
             }
 
-            //Check for classes 2.1 and 3
-            if (!unit.AllDgClasses.Contains("2.1") && !unit.AllDgClasses.Contains("3") ||
-                (unit.AllDgClasses.Contains("3") && (unit.FlashPointAsDecimal >= 23 && !(Math.Abs(unit.FlashPointAsDecimal - 9999) < 1))))
+            // Check flammables and SW31
+            FlammableWithReefersCheck(unit, reefers, row00Exists, reeferMotorFacing);
+        }
+
+        /// <summary>
+        /// Checks segregation according to 7.4.2.3.2 from reefers of
+        /// class 3 and SW31.
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <param name="reefers"></param>
+        /// <param name="row00Exists"></param>
+        /// <param name="reeferMotorFacing"></param>
+        private static void FlammableWithReefersCheck(Dg unit, IEnumerable<Container> reefers, bool row00Exists, byte reeferMotorFacing)
+        {
+            bool result;
+
+            //Check for classes 2.1 and 3 and "SW31" (IMDG Code 42-24)
+            bool isSW31 = unit.StowageSW?.Contains("SW31") ?? false;
+            bool isNonCompliantClass3 = unit.AllDgClasses.Contains("2.1") && unit.AllDgClasses.Contains("3") ||
+                (unit.AllDgClasses.Contains("3") && !(unit.FlashPointAsDecimal >= 23 && !(unit.FlashPointNotDefined)));
+
+            if (!isSW31 && !isNonCompliantClass3)
                 return;
 
+
             //Check for reefers in the same hold
-            if (unit.IsUnderdeck)
+            if (unit.IsUnderdeck && isNonCompliantClass3)
             {
                 foreach (var reeferU in reefers)
                 {
@@ -529,7 +549,6 @@ namespace EasyJob_ProDG.Model.Cargo
 
                     unit.AddConflict((reeferU.HoldNr == unit.HoldNr && reeferU.IsUnderdeck), segr, "SGC3", reeferU.ConvertToDg());
                 }
-
             }
             else
                 foreach (var reeferOn in reefers)
@@ -538,7 +557,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     if (unit.ContainerNumber == reeferOn.ContainerNumber) continue;
 
                     result = false;
-                    if (!reeferOn.IsUnderdeck)
+                    if (!reeferOn.IsUnderdeck || isSW31)
                         switch (reeferMotorFacing)
                         {
                             case (byte)ShipProfile.MotorFacing.Aft:
@@ -575,7 +594,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 if (dg.DgClass == "7" && dg.ContainerNumber != unit.ContainerNumber)
                     unit.AddConflict((ForeAndAft(unit, dg, 1) && Athwartship(unit, dg, 3, row00Exists)), segr, "SGC8", dg);
         }
-        
+
         /// <summary>
         /// Method gets segregation level of 2 DG classes in Segregation Table
         /// </summary>
@@ -622,7 +641,7 @@ namespace EasyJob_ProDG.Model.Cargo
             if (a.CompatibilityGroup == '0' || b.CompatibilityGroup == '0')
             {
                 //closed cargo transport units
-                if (a.IsClosed && b.IsClosed) 
+                if (a.IsClosed && b.IsClosed)
                     segConflict = SegregationCase2(a, b);
                 //others - under deck
                 else
@@ -634,18 +653,18 @@ namespace EasyJob_ProDG.Model.Cargo
                     }
                     //all other cases
                     else segConflict = true;
-                } 
+                }
                 a.AddConflict(segConflict, segr, "EXPLNIL", b);
                 segConflict = false;
             }
             //segregation according to compatibility group
-            else 
-            { 
+            else
+            {
                 byte permit = explosivesSeg[Array.IndexOf(cGroupCodes, a.CompatibilityGroup),
                                              Array.IndexOf(cGroupCodes, b.CompatibilityGroup)];
                 if (permit == 9) segConflict = false;
                 //closed units
-                else if (a.IsClosed && b.IsClosed) 
+                else if (a.IsClosed && b.IsClosed)
                     segConflict = SegregationCase2(a, b);
                 //under deck
                 else if (a.IsUnderdeck && b.IsUnderdeck)
@@ -1008,7 +1027,7 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             ship = ship;
             return (Segregate(a, b));
-        } 
+        }
         #endregion
 
     }

@@ -51,7 +51,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
             }
             catch (Exception)
             {
-                dgfp = 9999;
+                dgfp = ProgramDefaultValues.DefaultFlashPointValue;
             }
             return dgfp;
         }
