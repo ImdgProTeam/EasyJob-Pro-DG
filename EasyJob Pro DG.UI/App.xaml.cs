@@ -53,7 +53,7 @@ namespace EasyJob_ProDG.UI
         /// </summary>
         private void FirstTimeStart()
         {
-            //UI.Properties.Settings.Default.FirstTimeStart = true;
+            UI.Properties.Settings.Default.Reload();
 
             //If not the first start -> return
             if (!EasyJob_ProDG.UI.Properties.Settings.Default.FirstTimeStart)
