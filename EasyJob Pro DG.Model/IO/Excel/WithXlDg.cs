@@ -352,7 +352,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                                 excelCells.HorizontalAlignment = ExcelApp.Constants.xlCenter;
                                 break;
                             case (int)ExcelDgTemplate.Columns.colFP:
-                                value = Math.Abs(dg.FlashPointAsDecimal - 9999) < 1 ? "" : dg.FlashPoint;
+                                value = dg.FlashPointNotDefined ? "" : dg.FlashPoint;
                                 excelCells.NumberFormat = "0.0";
                                 break;
                             case (int)ExcelDgTemplate.Columns.colMP:

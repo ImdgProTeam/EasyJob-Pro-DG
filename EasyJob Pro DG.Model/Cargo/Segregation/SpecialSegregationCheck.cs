@@ -48,7 +48,7 @@ namespace EasyJob_ProDG.Model.Cargo
                             dg.SegregatorClass = "5.1";
                             break;
                         case "SG68": //If flashpoint 60°C c.c.or below, segregation as for class 3 but “away from” class 4.1.
-                            if (dg.FlashPointAsDecimal <= 60 || dg.FlashPointAsDecimal == 9999)
+                            if (dg.FlashPointAsDecimal <= 60 || dg.FlashPointNotDefined)
                             {
                                 dg.SegregatorClass = "3";
                                 dg.SegregatorException = new SegregatorException("4.1", SegregationCase.AwayFrom);

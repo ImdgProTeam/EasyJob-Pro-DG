@@ -9,7 +9,7 @@ namespace EasyJob_ProDG.Data.Info_data
             {16, @"Samples of new or existing explosive substances or articles may be transported as directed by the competent authority for purposes including: testing, classification, research and development, quality control, or as a commercial sample. Explosive samples which are not wetted or desensitized shall be limited to 10 kg in small packages as specified by the competent authority. Explosive samples which are wetted or desensitized shall be limited to 25 kg."},
             {23, @"Even though this substance has a flammability hazard, it only exhibits such hazard under extreme fire conditions in confined areas."},
             {26, @"This substance is not permitted for transport in portable tanks, or intermediate bulk containers with a capacity exceeding 450 L, due to the potential initiation of an explosion when transported in large volumes."},
-            {28, @"This substance may be transported under the provisions of class 4.1 only if it is so packaged that the percentage of diluent will not fall below that stated, at any time during transport(see 2.4.2.4)."},
+            {28, @"This substance may be transported under the provisions of class 3 or class 4.1 only if it is so packaged that the percentage of diluent will not fall below that stated, at any time during transport (see 2.3.1.4 and 2.4.2.4). In cases where the diluent is not stated, the substance shall be packed so that the amount of explosive substance does not exceed the stated value."},
             {29, "The packages, including bales, are exempt from labelling provided that they are marked with the appropriate class (e.g. \"class 4.2\")."},
             {32, @"When in any other form, this substance is not subject to the provisions of this Code."},
             {37, @"When coated, this substance is not subject to the provisions of this Code."},
@@ -80,50 +80,22 @@ namespace EasyJob_ProDG.Data.Info_data
             { 183, @"The group of alkaline earth metals includes magnesium, calcium, strontium and barium."},
             {188, @"Cells and batteries offered for transport are not subject to other provisions of this Code if they meet
             the following:
-            .1 For a lithium metal or lithium alloy cell, the lithium content is not more than 1 g, and for a lithiumion
-            cell, the watt-hour rating is not more than 20 Wh;
-            .2 For a lithium metal or lithium alloy battery, the aggregate lithium content is not more than 2 g,
-            and for a lithium-ion battery, the watt-hour rating is not more than 100 Wh. Lithium-ion batteries
-            subject to this provision shall be marked with the watt-hour rating on the outside case, except
-            those manufactured before 1 January 2009;
-            .3 Each cell or battery meets the provisions of 2.9.4.1, 2.9.4.5, 2.9.4.6 if applicable and 2.9.4.7;
-            .4 Cells and batteries, except when installed in equipment, shall be packed in inner packagings
-            that completely enclose the cell or battery. Cells and batteries shall be protected so as to
-            prevent short circuits.This includes protection against contact with electrically conductive material within
-            the same packaging that could lead to a short circuit. The inner packagings shall be packed in
-            strong outer packagings which conform to the provisions of 4.1.1.1, 4.1.1.2, and 4.1.1.5;
-            .5 Cells and batteries when installed in equipment shall be protected from damage and short
-            circuit, and the equipment shall be equipped with an effective means of preventing accidental
-            activation.This requirement does not apply to devices which are intentionally active in transport
-            (radio frequency identification (RFID) transmitters, watches, sensors, etc.) and which are not
-            capable of generating a dangerous evolution of heat.When batteries are installed in equipment,
-            the equipment shall be packed in strong outer packagings constructed of suitable material
-            of adequate strength and design in relation to the packaging’s capacity and its intended use
-            unless the battery is afforded equivalent protection by the equipment in which it is contained. When packages are placed in an overpack, the lithium battery mark shall either be clearly visible or be reproduced on the outside of the overpack and the overpack shall be marked with the word 'OVERPACK'. The lettering of the 'OVERPACK' mark shall be at least 12 mm high;
-            .6 Each package shall be marked with the appropriate lithium battery mark, as illustrated in
-            5.2.1.10;
-            Note: Packages containing lithium batteries packed in conformity with the provisions of part 4, chapter 11, packing instructions 965 or 968, Section IB
-            of the ICAO Technical Instructions for the Safe Transport of Dangerous Goods by Air that bear the mark as shown in 5.2.1.10 (lithium battery mark)
-            and the label shown in 5.2.2.2.2, Model No. 9A shall be deemed to meet the provisions of this special provision.
-            This requirement does not apply to:
-            .1 packages containing only button cell batteries installed in equipment(including circuit
-            boards); and
-            .2 packages containing no more than four cells or two batteries installed in equipment, where
-            there are not more than two packages in the consignment.
-            .7 Except when batteries are installed in equipment, each package shall be capable of withstanding
-            a 1.2 m drop test in any orientation without damage to cells or batteries contained therein,
-            without shifting of the contents so as to allow battery to battery (or cell to cell) contact and
-            without release of contents; and
-            .8 Except when batteries are installed in or packed with equipment, packages shall not exceed
-            30 kg gross mass. As used in this special provision 'equipment' means apparatus for which the lithium cells or batteries will provide electrical power for its operation.
-            As used above and elsewhere in this Code, “lithium content” means the mass of lithium in the anode
-            of a lithium metal or lithium alloy cell.
-            Separate entries exist for lithium metal batteries and lithium ion batteries to facilitate the transport of
-            these batteries for specific modes of transport and to enable the application of different emergency
-            response actions.
-            A single cell battery as defined in part III, subsection 38.3.2.3 of the Manual of Tests and Criteria
-            is considered a “cell” and shall be transported according to the requirements for “cells” for the
-            purpose of this special provision."},
+            .1 For a lithium metal or lithium alloy cell, the lithium content is not more than 1 g, and for a lithiumion or sodium-ion cell, the watt-hour rating is not more than 20 Wh;
+            .2 For a lithium metal or lithium alloy battery, the aggregate lithium content is not more than 2 g, and for a lithium-ion or sodium-ion battery, the watt-hour rating is not more than 100 Wh. Lithiumion and sodium-ion batteries subject to this provision shall be marked with the watt-hour rating on the outside case, except lithium-ion batteries manufactured before 1 January 2009;
+            .3 Each lithium cell or battery meets the provisions of 2.9.4.1, 2.9.4.5, 2.9.4.6 if applicable and 2.9.4.7 or for sodium-ion cells or batteries, the provisions of 2.9.5.1, 2.9.5.5 and 2.9.5.6 shall apply;
+            .4 Cells and batteries, except when installed in equipment, shall be packed in inner packagings that completely enclose the cell or battery. Cells and batteries shall be protected so as to prevent short circuits.This includes protection against contact with electrically conductive material within the same packaging that could lead to a short circuit. The inner packagings shall be packed in strong outer packagings which conform to the provisions of 4.1.1.1, 4.1.1.2, and 4.1.1.5;
+            .5 Cells and batteries when installed in equipment shall be protected from damage and short circuit, and the equipment shall be equipped with an effective means of preventing accidental activation.This requirement does not apply to devices which are intentionally active in transport (radio frequency identification (RFID) transmitters, watches, sensors, etc.) and which are not capable of generating a dangerous evolution of heat.When batteries are installed in equipment, the equipment shall be packed in strong outer packagings constructed of suitable material of adequate strength and design in relation to the packaging’s capacity and its intended use unless the battery is afforded equivalent protection by the equipment in which it is contained. When packages are placed in an overpack, the lithium battery mark shall either be clearly visible or be reproduced on the outside of the overpack and the overpack shall be marked with the word 'OVERPACK'. The lettering of the 'OVERPACK' mark shall be at least 12 mm high;
+            .6 Each package shall be marked with the appropriate lithium or sodium ion battery mark, as illustrated in 5.2.1.10;
+                Note: Packages containing lithium batteries packed in conformity with the provisions of part 4, chapter 11, packing instructions 965 or 968, Section IB                 of the ICAO Technical Instructions for the Safe Transport of Dangerous Goods by Air that bear the mark as shown in 5.2.1.10 (lithium battery mark) and              the label shown in 5.2.2.2.2, Model No. 9A shall be deemed to meet the provisions of this special provision.
+                This requirement does not apply to:
+                .1 packages containing only button cell batteries installed in equipment (including circuit boards); and
+                .2 packages containing no more than four cells or two batteries installed in equipment, where there are not more than two packages in the consignment.
+                When packages are placed in an overpack, the lithium or sodium battery mark shall either be clearly visible or be reproduced on the outside of the overpack and the overpack shall be marked with the word “OVERPACK”. The lettering of the “OVERPACK” mark shall be at least 12 mm high;
+            .7 Except when batteries are installed in equipment, each package shall be capable of withstanding a 1.2 m drop test in any orientation without damage to cells or batteries contained therein, without shifting of the contents so as to allow battery to battery (or cell to cell) contact and without release of contents; and
+            .8 Except when cells or batteries are installed in or packed with equipment, packages shall not exceed 30 kg gross mass. As used in this special provision “equipment” means apparatus for which the cells or batteries will provide electrical power for its operation.
+            As used above and elsewhere in this Code, “lithium content” means the mass of lithium in the anode of a lithium metal or lithium alloy cell.
+            Separate entries exist for lithium metal batteries and lithium ion batteries to facilitate the transport of these batteries for specific modes of transport and to enable the application of different emergency response actions.
+            A single cell battery as defined in part III, subsection 38.3.2.3 of the Manual of Tests and Criteria is considered a “cell” and shall be transported according to the requirements for “cells” for the purpose of this special provision."},
             { 190, @"Aerosol dispensers shall be provided with protection against inadvertent discharge. Aerosols
             with a capacity not exceeding 50 mL containing only non-toxic constituents are not subject to the
             provisions of this Code."},
@@ -156,7 +128,8 @@ namespace EasyJob_ProDG.Data.Info_data
             Lighters shall not contain more than 10 g of liquefied petroleum gas.Lighter refills shall not contain
             more than 65 g of liquefied petroleum gas."},
             {203, @"This entry shall not be used for polychlorinated biphenyls, UN 2315."},
-            {204, @"Articles containing smoke-producing substance(s) corrosive according to the criteria for class 8 shall be labelled with a “CORROSIVE” subsidiary hazard label(Model No. 8, see 5.2.2.2.2).\nArticles containing smoke-producing substance(s) toxic by inhalation according to the criteria for class 6.1 shall be labelled with a “TOXIC” subsidiary hazard label(Model No. 6.1, see 5.2.2.2.2)}, except that those manufactured before 31 December 2016 may be transported until 1 January 2019 without a “TOXIC” subsidiary hazard label."},
+            {204, @"Articles containing smoke-producing substance(s) corrosive according to the criteria for class 8 shall be labelled with a “CORROSIVE” subsidiary hazard label(Model No. 8, see 5.2.2.2.2).
+                    Articles containing smoke-producing substance(s) toxic by inhalation according to the criteria for class 6.1 shall be labelled with a “TOXIC” subsidiary hazard label (Model No. 6.1, see 5.2.2.2.2)."},
             {205, @"This entry shall not be used for PENTACHLOROPHENOL, UN 3155."},
             {207, @"Plastics moulding compounds may be made from polystyrene, poly(methyl methacrylate) or other polymeric material."},
             {208, @"The commercial grade of calcium nitrate fertilizer, when consisting mainly of a double salt (calcium nitrate and ammonium nitrate) containing not more than 10% ammonium nitrate and at least 12% water of crystallization, is not subject to the provisions of this Code."},
@@ -183,7 +156,7 @@ namespace EasyJob_ProDG.Data.Info_data
             {226, @"Formulations of these substances containing not less than 30% non-volatile, non-flammable phlegmatizer are not subject to the provisions of this Code."},
             {227, @"When phlegmatized with water and inorganic inert material, the content of urea nitrate may not exceed 75% by mass and the mixture shall not be capable of being detonated by the series 1, type (a) test in the Manual of Tests and Criteria, part I."},
             {228, @"Mixtures not meeting the criteria for flammable gases (class 2.1) shall be transported under UN 3163."},
-            {230, @"Lithium cells and batteries may be transported under this entry if they meet the provisions of 2.9.4."},
+            {230, @"Lithium cells and batteries may be transported under this entry if they meet the provisions of 2.9.4. Sodium-ion cells and batteries may be transported under this entry if they meet the provisions of 2.9.5."},
             {232, @"This entry shall only be used when the substance does not meet the criteria of any other class.
             Transport in cargo transport units other than in tanks shall be in accordance with standards specified
             by the competent authority of the country of origin."},
@@ -255,7 +228,18 @@ namespace EasyJob_ProDG.Data.Info_data
             as set out in 5.4.1.4.1, the packing group shown on the document shall be the most stringent packing group assigned to any individual substance in the kit. Where the kit contains only dangerous goods to which no packing group is assigned, no packin group need be indicated on the dangerous goods transport document.
             \nKits which are carried on board vehicles for first-aid or operating purposes are not subject to the provisions of this Code.
             \nChemical kits and first aid kits containing dangerous goods in inner packagings which do not exceed the quantity limits for limited quantities applicable to individual substances as specified in column 7a of the Dangerous Goods List may be transported in accordance with chapter 3.4."},
-            {252, @"Provided the ammonium nitrate remains in solution under all conditions of transport, aqueous solutions of ammonium nitrate, with not more than 0.2% combustible material, in a concentration not exceeding 80%, are not subject to the provisions of this Code."},
+            {252, @".1 Ammonium nitrate hot concentrated solutions can be transported under this entry provided:
+                        .1 The solution contains not more than 93% ammonium nitrate.
+                        .2 The solution contains at least 7% water.
+                        .3 The solution contains not more than 0.2% combustible material.
+                        .4 The solution contains no chlorine compounds in quantities such that the chloride ion level exceeds 0.02%.
+                        .5 The pH of an aqueous solution of 10% of the substance is between 5 and 7, measured at 25°C.
+                        .6 The maximum allowable transport temperature of the solution is 140°C.
+                    .2 Additionally, ammonium nitrate hot concentrate solutions are not subject to this Code provided:
+                        .1 The solution contains not more than 80% ammonium nitrate.
+                        .2 The solution contains not more than 0.2% combustible material.
+                        .3 The ammonium nitrate remains in solution under all conditions of transport.
+                        .4 The solution does not meet the criteria of any other class or division."},
             {266, @"This substance, when containing less alcohol, water or phlegmatizer than specified, shall not be transported, unless specifically authorized by the competent authority."},
             {267, @"Any explosives, blasting, type C containing chlorates shall be segregated from explosives containing ammonium nitrate or other ammonium salts."},
             {270, @"Aqueous solutions of class 5.1 inorganic solid nitrate substances are considered as not meeting the criteria of class 5.1 if the concentration of the substances in solution at the minimum temperature encountered in transport is not greater than 80% of the saturation limit."},
@@ -271,25 +255,12 @@ namespace EasyJob_ProDG.Data.Info_data
             For UN 3077 and UN 3082 only, the technical name may be a name shown in capital letters in column 2 of the Dangerous Goods List, provided that this name does not include “N.O.S.” and that special provision 274 is not assigned. The name which most appropriately describes the substance or mixture shall be used, e.g.:
             UN 3082, ENVIRONMENTALLY HAZARDOUS SUBSTANCE, LIQUID, N.O.S. (PAINT) 
             UN 3082, ENVIRONMENTALLY HAZARDOUS SUBSTANCE, LIQUID, N.O.S. (PERFUMERY PRODUCTS)."},
-            {277, @"For aerosols or receptacles containing toxic substances, the limited quantity value is 120 mL.For all
-            other aerosols or receptacles, the limited quantity value is 1,000 mL."},
-            {278, @"These substances shall not be classified and transported unless authorized by the competent
-            authority on the basis of results from series 2 tests and series 6(c) tests of part I of the Manual of
-            Tests and Criteria on packages as prepared for transport(see 2.1.3.1). The competent authority shall
-            assign the packing group on the basis of the chapter 2.3 criteria and the package type used for the
+            {277, @"For aerosols or receptacles containing toxic substances, the limited quantity value is 120 mL.For all other aerosols or receptacles, the limited quantity value is 1,000 mL."},
+            {278, @"These substances shall not be classified and transported unless authorized by the competent authority on the basis of results from series 2 tests and series 6(c) tests of part I of the Manual of Tests and Criteria on packages as prepared for transport(see 2.1.3.1). The competent authority shall assign the packing group on the basis of the chapter 2.3 criteria and the package type used for the
             series 6(c) tests."},
-            {279, @"The substance is assigned to this classification or packing group based on human experience rather
-            than the strict application of classification criteria set out in this Code."},
-            {280, @"This entry applies to safety devices for vehicles, vessels or aircraft, e.g.air bag inflators, air bag
-            modules, seat-belt pretensioners, and pyromechanical devices, which contain dangerous goods
-            of class 1 or of other classes, when transported as component parts and if these articles as
-            presented for transport have been tested in accordance with test series 6(c) of part I of the Manual
-            of Tests and Criteria, with no explosion of the device, no fragmentation of device casing or pressure
-            receptacle, and no projection hazard nor thermal effect which would significantly hinder fire-fighting
-            or emergency response efforts in the immediate vicinity.This entry does not apply to life-saving
-            appliances described in special provision 296 (UN Nos. 2990 and 3072)."},
-            {281, @"Transport of hay, straw or bhusa when wet, damp or contaminated with oil is prohibited and when
-            not wet or contaminated with oil is subject to the provisions of this Code."},
+            {279, @"The substance is assigned to this classification or packing group based on human experience rather than the strict application of classification criteria set out in this Code."},
+            {280, @"This entry applies to safety devices for vehicles, vessels or aircraft, e.g. air bag inflators, air bag modules, seat-belt pretensioners, and pyromechanical devices, which contain dangerous goods of class 1 or of other classes, when transported as component parts and if these articles as presented for transport have been tested in accordance with test series 6(c) of part I of the Manual of Tests and Criteria, with no explosion of the device, no fragmentation of device casing or pressure receptacle, and no projection hazard nor thermal effect which would significantly hinder fire-fighting or emergency response efforts in the immediate vicinity. This entry does not apply to life-saving appliances described in special provision 296 (UN Nos. 2990 and 3072) or to fire suppressant dispersing devices described in special provision 407 (UN Nos. 0514 and 3559)."},
+            {281, @"Transport of hay, straw or bhusa when wet, damp or contaminated with oil is prohibited and when not wet or contaminated with oil is subject to the provisions of this Code."},
             {283, @"Articles, containing gas, intended to function as shock absorbers, including impact-energyabsorbing
             devices or pneumatic springs, are not subject to the provisions of this Code provided:
             .1 each article has a gas space capacity not exceeding 1.6 L and a charge pressure not exceeding
@@ -363,24 +334,14 @@ namespace EasyJob_ProDG.Data.Info_data
             packing instruction P407."},
             {295, @"Batteries need not be individually marked and labelled if the pallet bears the appropriate mark and
             label."},
-            {296, @"These entries apply to life-saving appliances such as liferafts, personal flotation devices and
-            self-inflating slides. UN 2990 applies to self-inflating appliances. UN 3072 applies to life-saving
-            appliances that are not self-inflating.Life-saving appliances may contain:
-            .1 signal devices (class 1) which may include smoke and illumination signal flares packed in
-            packagings that prevent them from being inadvertently activated;
-            .2 for UN 2990 only, cartridges, power device of division 1.4, compatibility group S, may be
-            contained for purposes of the self-inflating mechanism and provided that the quantity of
-            explosives per appliance does not exceed 3.2 g;
+            {296, @"These entries apply to life-saving appliances such as liferafts, personal flotation devices and self-inflating slides. UN 2990 applies to self-inflating appliances. UN 3072 applies to life-saving appliances that are not self-inflating.Life-saving appliances may contain:
+            .1 signal devices (class 1) which may include smoke and illumination signal flares packed in packagings that prevent them from being inadvertently activated;
+            .2 for UN 2990 only, cartridges, power device of division 1.4, compatibility group S, may be contained for purposes of the self-inflating mechanism and provided that the quantity of explosives per appliance does not exceed 3.2 g;
             .3 class 2.2 compressed or liquefied gases;
-            .4 electric storage batteries(class 8) and lithium batteries(class 9);
-            .5 first aid kits or repair kits containing small quantities of dangerous goods(e.g.classes 3, 4.1,
-            5.2, 8 or 9 substances); or
-            .6 “Strike anywhere” matches packed in packagings that prevent them from being inadvertently
-            activated.
-            Life-saving appliances packed in strong rigid outer packagings with a total maximum gross mass of
-            40 kg, containing no dangerous goods other than class 2.2 compressed or liquefied gases with no
-            subsidiary hazard in receptacles with a capacity not exceeding 120 mL, installed solely for the purpose
-            of the activation of the appliance, are not subject to the provision of this Code."},
+            .4 electric storage batteries (class 8) and lithium or sodium iron batteries (class 9);
+            .5 first aid kits or repair kits containing small quantities of dangerous goods(e.g.classes 3, 4.1, 5.2, 8 or 9 substances); or
+            .6 “Strike anywhere” matches packed in packagings that prevent them from being inadvertently activated.
+            Life-saving appliances packed in strong rigid outer packagings with a total maximum gross mass of 40 kg, containing no dangerous goods other than class 2.2 compressed or liquefied gases with no subsidiary hazard in receptacles with a capacity not exceeding 120 mL, installed solely for the purpose of the activation of the appliance, are not subject to the provision of this Code."},
             {299, @"Consignments of:
             .1 Cotton, dry having a density not less than 360 kg/m3;
             .2 Flax, dry having a density not less than 400 kg/m3; 3
@@ -408,10 +369,13 @@ namespace EasyJob_ProDG.Data.Info_data
             The mixture for emulsions typically has the following composition: 60–85% ammonium nitrate, 5–30% water, 2–8% fuel, 0.5–4% emulsifier agent, 0–10% soluble flame suppressants, and trace additives.Other inorganic nitrate salts may replace part of the ammonium nitrate.
             The mixture for suspensions and gels typically has the following composition: 60–85% ammonium nitrate, 0–5% sodium or potassium perchlorate, 0–17% hexamine nitrate or monomethylamine nitrate, 5–30% water, 2–15% fuel, 0.5–4% thickening agent, 0–10% soluble flame suppressants, and trace additives. Other inorganic nitrate salts may replace part of the ammonium nitrate.
             Substances shall satisfy the criteria for classification as an ammonium nitrate emulsion, suspension or gel, intermediate for blasting explosives (ANE) of Test Series 8 of the Manual of Tests and Criteria, part I, section 18 and be approved by the competent authority."},
-            {310, @"The testing requirements in the Manual of Tests and Criteria, part III, subsection 38.3 do not apply to production runs, consisting of not more than 100 cells or batteries, or to pre-production prototypes of cells or batteries when these prototypes are transported for testing when packaged in accordance with packing instruction P910 of 4.1.4.1 or LP905 of 4.1.4.3, as applicable.
-            The transport document shall include the following statement: “Transport in accordance with special provision 310”.
-            Damaged or defective cells, batteries, or cells and batteries contained in equipment shall be transported in accordance with special provision 376.
-            Cells, batteries or cells and batteries contained in equipment transported for disposal or recycling may be packaged in accordance with special provision 377 and packing instruction P909 of 4.1.4.1."},
+            {310, @"Cells or batteries from production runs of not more than 100 cells or batteries, or pre-production prototypes of cells or batteries when these prototypes are transported for testing, shall meet the provisions of 2.9.4 with the exception of 2.9.4.1, 2.9.4.5.7, 2.9.4.6.3 if applicable, 2.9.4.6.4 if applicable and 2.9.4.7.
+                    Note: “Transported for testing” includes, but is not limited to, testing described in the Manual of Tests and Criteria, part III, subsection 38.3, integration testing and product performance testing.
+                    These cells and batteries shall be packaged in accordance with packing instruction P910 of 4.1.4.1 or LP905 of 4.1.4.3, as applicable.
+                    Articles (UN Nos. 3537, 3538, 3540, 3541, 3546, 3547 or 3548) may contain such cells or batteries provided that the applicable parts of packing instruction P006 of 4.1.4.1 or LP03 of 4.1.4.3, as applicable, are met.
+                    The transport document shall include the following statement: “Transport in accordance with special provision 310”.
+                    Damaged or defective cells, batteries, or cells and batteries contained in equipment shall be transported in accordance with special provision 376.
+                    Cells, batteries or cells and batteries contained in equipment transported for disposal or recycling may be packaged in accordance with special provision 377 and packing instruction P909 of 4.1.4.1."},
             {311, @"Substances shall not be transported under this entry unless approved by the competent authority
             on the basis of the results of appropriate tests according to part I of the Manual of Tests and Criteria.
             Packaging shall ensure that the percentage of diluent does not fall below that stated in the competent
@@ -443,22 +407,10 @@ namespace EasyJob_ProDG.Data.Info_data
             { 326, @"In the case of fissile uranium hexafluoride, the material shall be classified under UN 2977."},
             { 327, @"Waste aerosols and waste gas cartridges consigned in accordance with 5.4.1.4.3.3 may be transported under UN 1950 or UN 2037, as appropriate, for the purposes of reprocessing or disposal. They need not be protected against movement and inadvertent discharge provided that measures to prevent dangerous build-up of pressure and dangerous atmospheres are addressed. Waste aerosols, other than those leaking or severely deformed, shall be packed in accordance with packing instruction P207 and special provision PP87, or packing instruction LP200 and special packing provision L2. Waste gas cartridges, other than those leaking or severely deformed, shall be packed in accordance with packing instruction P003 and special packing provisions PP17 and PP96, or packing instruction LP200 and special packing provision L2. Leaking or severely deformed aerosols and gas cartridges shall be transported in salvage pressure receptacles or salvage packagings provided appropriate measures are taken to ensure there is no dangerous build-up of pressure. Waste aerosols and waste gas cartridges shall not be transported in closed freight containers.
             Waste gas cartridges that were filled with gases of class 2.2 and have been pierced are not subject to this Code."},
-            { 328, @"This entry applies to fuel cell cartridges, including when contained in equipment or packed with 3
-            equipment.Fuel cell cartridges installed in or integral to a fuel cell system are regarded as contained
-            in equipment. “Fuel cell cartridge” means an article that stores fuel for discharge into the fuel cell
-            through a valve(s) that controls the discharge of fuel into the fuel cell.Fuel cell cartridges, including
-            when contained in equipment, shall be designed and constructed to prevent fuel leakage under
-            normal conditions of transport.
-            Fuel cell cartridge design types using liquids as fuels shall pass an internal pressure test at a
-            pressure of 100 kPa(gauge) without leakage.
-            Except for fuel cell cartridges containing hydrogen in metal hydride, which shall be in compliance
-            with special provision 339, each fuel cell cartridge design type shall be shown to pass a 1.2 m drop
-            test onto an unyielding surface, in the orientation most likely to result in failure of the containment
-            system, with no loss of contents.
-            When lithium metal or lithium ion batteries are contained in the fuel cell system, the consignment
-            shall be consigned under this entry and under the appropriate entries for UN 3091 LITHIUM METAL
-            BATTERIES CONTAINED IN EQUIPMENT or UN 3481 LITHIUM ION BATTERIES CONTAINED IN
-            EQUIPMENT."},
+            { 328, @"This entry applies to fuel cell cartridges, including when contained in equipment or packed with 3 equipment.Fuel cell cartridges installed in or integral to a fuel cell system are regarded as contained in equipment. “Fuel cell cartridge” means an article that stores fuel for discharge into the fuel cell through a valve(s) that controls the discharge of fuel into the fuel cell.Fuel cell cartridges, including when contained in equipment, shall be designed and constructed to prevent fuel leakage under normal conditions of transport.
+            Fuel cell cartridge design types using liquids as fuels shall pass an internal pressure test at a pressure of 100 kPa(gauge) without leakage.
+            Except for fuel cell cartridges containing hydrogen in metal hydride, which shall be in compliance with special provision 339, each fuel cell cartridge design type shall be shown to pass a 1.2 m drop test onto an unyielding surface, in the orientation most likely to result in failure of the containment system, with no loss of contents.
+            When lithium metal, lithium ion or sodium ion batteries are contained in the fuel cell system, the consignment shall be consigned under this entry and under the appropriate entries for UN 3091 LITHIUM METAL BATTERIES CONTAINED IN EQUIPMENT, UN 3481 LITHIUM ION BATTERIES CONTAINED IN EQUIPMENT or UN 3552 SODIUM ION BATTERIES CONTAINED IN EQUIPMENT."},
             { 332, @"Magnesium nitrate hexahydrate is not subject to the provisions of this Code."},
             { 333, @"Ethanol and gasoline, motor spirit or petrol mixtures for use in spark-ignition engines (e.g. in
             automobiles, stationary engines and other engines) shall be assigned to this entry regardless of
@@ -560,95 +512,41 @@ namespace EasyJob_ProDG.Data.Info_data
             of breakage or leakage of the glass inner receptacle; and
             .3 Each glass inner receptacle is protected by a means of preventing puncture of the plastics bag
             (e.g.sleeves or cushioning) in the event of damage to the packaging(e.g.by crushing)."},
-            {343, @"This entry applies to crude oil containing hydrogen sulphide in sufficient concentration that vapours 3
-            evolved from the crude oil can present an inhalation hazard.The packing group assigned shall be
-            determined by the flammability hazard and inhalation hazard, in accordance with the degree of
-            danger presented."},
+            {343, @"This entry applies to crude oil containing hydrogen sulphide in sufficient concentration that vapours 3 evolved from the crude oil can present an inhalation hazard.The packing group assigned shall be determined by the flammability hazard and inhalation hazard, in accordance with the degree of danger presented."},
             { 344, @"The provisions of 6.2.4 shall be met."},
-            { 345, @"This gas contained in open cryogenic receptacles with a maximum capacity of one litre constructed
-            with glass double walls having the space between the inner and outer wall evacuated (vacuum
-            insulated) is not subject to the provisions of this Code provided each receptacle is transported in an
-            outer packaging with suitable cushioning or absorbent materials to protect it from impact damage."},
+            { 345, @"This gas contained in open cryogenic receptacles with a maximum capacity of one litre constructed with glass double walls having the space between the inner and outer wall evacuated (vacuum insulated) is not subject to the provisions of this Code provided each receptacle is transported in an packaging with suitable cushioning or absorbent materials to protect it from impact damage."},
             {
-            346, @"Open cryogenic receptacles conforming to the requirements of packing instruction P203 and
-            containing no dangerous goods except for UN 1977, nitrogen, refrigerated liquid, which is fully
-            absorbed in a porous material, are not subject to any other provisions of this Code."},
+            346, @"Open cryogenic receptacles conforming to the requirements of packing instruction P203 and containing no dangerous goods except for UN 1977, nitrogen, refrigerated liquid, which is fully absorbed in a porous material, are not subject to any other provisions of this Code."},
             {
-            347, @"This entry shall only be used if the results of test series 6(d) of part I of the Manual of Tests and
-            Criteria have demonstrated that any hazardous effects arising from functioning are confined within
-            the package."},
-            { 348, @"Batteries manufactured after 31 December 2011 shall be marked with the Watt hour rating on the
-            outside case."},
-            { 349, @"Mixtures of a hypochlorite with an ammonium salt are not to be accepted for transport. UN 1791
-            hypochlorite solution is a substance of class 8."},
-            {350, @"Ammonium bromate and its aqueous solutions and mixtures of a bromate with an ammonium salt
-            are not to be accepted for transport."},
-            {351, @"Ammonium chlorate and its aqueous solutions and mixtures of a chlorate with an ammonium salt are
-            not to be accepted for transport."},
-            {352, @"Ammonium chlorite and its aqueous solutions and mixtures of a chlorite with an ammonium salt are
-            not to be accepted for transport."},
-            {353, @"Ammonium permanganate and its aqueous solutions and mixtures of a permanganate with an
-            ammonium salt are not to be accepted for transport."},
+            347, @"This entry shall only be used if the results of test series 6(d) of part I of the Manual of Tests and Criteria have demonstrated that any hazardous effects arising from functioning are confined within the package."},
+            { 348, @"Lithium batteries manufactured after 31 December 2011 and sodium ion batteries manufactured after 31 December 2025 shall be marked with the Watt hour rating on the outside case."},
+            { 349, @"Mixtures of a hypochlorite with an ammonium salt are not to be accepted for transport. UN 1791 hypochlorite solution is a substance of class 8."},
+            {350, @"Ammonium bromate and its aqueous solutions and mixtures of a bromate with an ammonium salt are not to be accepted for transport."},
+            {351, @"Ammonium chlorate and its aqueous solutions and mixtures of a chlorate with an ammonium salt are not to be accepted for transport."},
+            {352, @"Ammonium chlorite and its aqueous solutions and mixtures of a chlorite with an ammonium salt are not to be accepted for transport."},
+            {353, @"Ammonium permanganate and its aqueous solutions and mixtures of a permanganate with an ammonium salt are not to be accepted for transport."},
             {354, @"This substance is toxic by inhalation."},
-            {355, @"Oxygen cylinders for emergency use transported under this entry may include installed actuating
-            cartridges (cartridges, power device of class 1.4, compatibility group C or S)}, without changing the
-            classification of class 2.2 provided the total quantity of deflagrating(propellant) explosives does not
-            exceed 3.2 g per oxygen cylinder.The cylinders with the installed actuating cartridges as prepared
-            for transport shall have an effective means of preventing inadvertent activation."},
+            {355, @"Oxygen cylinders for emergency use transported under this entry may include installed actuating cartridges (cartridges, power device of class 1.4, compatibility group C or S)}, without changing the of class 2.2 provided the total quantity of deflagrating(propellant) explosives does not exceed 3.2 g per oxygen cylinder.The cylinders with the installed actuating cartridges as prepared for transport shall have an effective means of preventing inadvertent activation."},
             {356 , @"Metal hydride storage systems installed in vehicles, vessels, machinery, engines or aircraft or in completed components or intended to be installed in vehicles, vessels, machinery, engines or aircraft shall be approved by the competent authority before acceptance for transport. The transport document shall include an indication that the package was approved by the competent authority or a copy of the competent authority approval shall accompany each consignment."},
-            {357, @"Petroleum crude oil containing hydrogen sulphide in sufficient concentration that vapours evolved
-            from the crude oil can present an inhalation hazard shall be consigned under the entry UN 3494
-            PETROLEUM SOUR CRUDE OIL, FLAMMABLE, TOXIC."},
-            {358, @"Nitroglycerin solution in alcohol with more than 1% but not more than 5% nitroglycerin may be
-            classified in class 3 and assigned to UN 3064 provided all the requirements of packing instruction
-            P300 are complied with."},
-            {359, @"Nitroglycerin solution in alcohol with more than 1% but not more than 5% nitroglycerin shall be
-            classified in class 1 and assigned to UN 0144 if not all the requirements of packing instruction P300
-            are complied with."},
-            {360, @"Vehicles only powered by lithium metal batteries or lithium ion batteries shall be assigned to the entry UN 3171 BATTERY POWERED VEHICLE. Lithium batteries installed in cargo transport units, designed only to provide power external to the transport unit shall be assigned to entry UN 3536 LITHIUM BATTERIES INSTALLED IN CARGO TRANSPORT UNIT."},
-            {361, @"This entry applies to electric double layer capacitors with an energy storage capacity greater than
-            0.3 Wh.Capacitors with an energy storage capacity of 0.3 Wh or less are not subject to the provisions
-            of this Code.Energy storage capacity means the energy held by a capacitor, as calculated using
-            the nominal voltage and capacitance.All capacitors to which this entry applies, including capacitors
-            containing an electrolyte that does not meet the classification criteria of any class or division of
-            dangerous goods, shall meet the following conditions:
-            .1 Capacitors not installed in equipment shall be transported in an uncharged state.Capacitors
-            installed in equipment shall be transported either in an uncharged state or protected against
-            short circuit;
+            {357, @"Petroleum crude oil containing hydrogen sulphide in sufficient concentration that vapours evolved from the crude oil can present an inhalation hazard shall be consigned under the entry UN 3494 PETROLEUM SOUR CRUDE OIL, FLAMMABLE, TOXIC."},
+            {358, @"Nitroglycerin solution in alcohol with more than 1% but not more than 5% nitroglycerin may be classified in class 3 and assigned to UN 3064 provided all the requirements of packing instruction P300 are complied with."},
+            {359, @"Nitroglycerin solution in alcohol with more than 1% but not more than 5% nitroglycerin shall be classified in class 1 and assigned to UN 0144 if not all the requirements of packing instruction P300 are complied with."},
+            {360, @"Vehicles only powered by lithium metal, lithium ion or sodium ion batteries shall be assigned to the entries UN 3556 VEHICLE, LITHIUM ION BATTERY POWERED or UN 3557 VEHICLE, LITHIUM METAL BATTERY POWERED or UN 3558 VEHICLE, SODIUM ION BATTERY POWERED, as applicable. Lithium batteries installed in cargo transport units, designed only to provide power external to the transport unit shall be assigned to entry UN 3536 LITHIUM BATTERIES INSTALLED IN CARGO TRANSPORT UNIT."},
+            {361, @"This entry applies to electric double layer capacitors with an energy storage capacity greater than 0.3 Wh.Capacitors with an energy storage capacity of 0.3 Wh or less are not subject to the provisions of this Code.Energy storage capacity means the energy held by a capacitor, as calculated using the nominal voltage and capacitance.All capacitors to which this entry applies, including capacitors containing an electrolyte that does not meet the classification criteria of any class or division of dangerous goods, shall meet the following conditions:
+            .1 Capacitors not installed in equipment shall be transported in an uncharged state.Capacitors installed in equipment shall be transported either in an uncharged state or protected against short circuit;
             .2 Each capacitor shall be protected against a potential short circuit hazard in transport as follows:
-            .1 when a capacitor’s energy storage capacity is less than or equal to 10 Wh or when the
-            energy storage capacity of each capacitor in a module is less than or equal to 10 Wh , the
-            capacitor or module shall be protected against short circuit or be fitted with a metal strap
+            .1 when a capacitor’s energy storage capacity is less than or equal to 10 Wh or when the energy storage capacity of each capacitor in a module is less than or equal to 10 Wh , the capacitor or module shall be protected against short circuit or be fitted with a metal strap
             connecting the terminals; and
-            .2 when the energy storage capacity of a capacitor or a capacitor in a module is more than
-            10 Wh, the capacitor or module shall be fitted with a metal strap connecting the terminals;
-            .3 Capacitors containing dangerous goods shall be designed to withstand a 95 kPa pressure
-            differential;
-            .4 Capacitors shall be designed and constructed to safely relieve pressure that may build up
-            in use, through a vent or a weak point in the capacitor casing.Any liquid which is released
-            upon venting shall be contained by the packaging or by the equipment in which a capacitor is
+            .2 when the energy storage capacity of a capacitor or a capacitor in a module is more than 10 Wh, the capacitor or module shall be fitted with a metal strap connecting the terminals;
+            .3 Capacitors containing dangerous goods shall be designed to withstand a 95 kPa pressure differential;
+            .4 Capacitors shall be designed and constructed to safely relieve pressure that may build up in use, through a vent or a weak point in the capacitor casing.Any liquid which is released upon venting shall be contained by the packaging or by the equipment in which a capacitor is
             installed; and
-            .5 Capacitors manufactured after 31 December 2013 shall be marked with the energy storage
-            capacity in Wh.
-            Capacitors containing an electrolyte not meeting the classification criteria of any class or division of
-            dangerous goods, including when installed in equipment, are not subject to other provisions of this
-            Code.
-            Capacitors containing an electrolyte meeting the classification criteria of any class or division
-            of dangerous goods, with an energy storage capacity of 10 Wh or less are not subject to other
-            provisions of this Code when they are capable of withstanding a 1.2 m drop test unpackaged on an
-            unyielding surface without loss of contents.
-            Capacitors containing an electrolyte meeting the classification criteria of any class or division of
-            dangerous goods that are not installed in equipment and with an energy storage capacity of more
-            than 10 Wh are subject to the provisions of this Code.
-            Capacitors installed in the equipment and containing an electrolyte meeting the classification
-            criteria of any class or division of dangerous goods, are not subject to other provisions of this Code
-            provided the equipment is packaged in a strong outer packaging constructed of suitable material
-            and of adequate strength and design, in relation to the packaging’s intended use and in such a
-            manner as to prevent accidental functioning of capacitors during transport. Large robust equipment
-            containing capacitors may be offered for transport unpackaged or on pallets when capacitors are
-            afforded equivalent protection by the equipment in which they are contained.
-            Note: Capacitors which by design maintain a terminal voltage (e.g.asymmetrical capacitors) do not
-            belong to this entry."},
+            .5 Capacitors manufactured after 31 December 2013 shall be marked with the energy storage capacity in Wh.
+            Capacitors containing an electrolyte not meeting the classification criteria of any class or division of dangerous goods, including when installed in equipment, are not subject to other provisions of this Code.
+            Capacitors containing an electrolyte meeting the classification criteria of any class or division of dangerous goods, with an energy storage capacity of 10 Wh or less are not subject to other provisions of this Code when they are capable of withstanding a 1.2 m drop test unpackaged on an unyielding surface without loss of contents.
+            Capacitors containing an electrolyte meeting the classification criteria of any class or division of dangerous goods that are not installed in equipment and with an energy storage capacity of more than 10 Wh are subject to the provisions of this Code.
+            Capacitors installed in the equipment and containing an electrolyte meeting the classification criteria of any class or division of dangerous goods, are not subject to other provisions of this Code provided the equipment is packaged in a strong outer packaging constructed of suitable material and of adequate strength and design, in relation to the packaging’s intended use and in such a manner as to prevent accidental functioning of capacitors during transport. Large robust equipment containing capacitors may be offered for transport unpackaged or on pallets when capacitors are afforded equivalent protection by the equipment in which they are contained.
+            Note: Capacitors which by design maintain a terminal voltage (e.g.asymmetrical capacitors) do not belong to this entry."},
             {362, @"This entry applies to liquids, pastes or powders, pressurized with a propellant which meets the definition of a gas in 2.2.1.2.1 or 2.2.1.2.2.
             \nNote: A chemical under pressure in an aerosol dispenser shall be transported under UN 1950.
             \nThe following provisions shall apply:
@@ -686,8 +584,8 @@ namespace EasyJob_ProDG.Data.Info_data
             .12 The transport document shall contain the following additional statement 'Transport in accordance with special provision 363'.
             .13 The requirements specified in packing instruction P005 of 4.1.4.1 shall be met."},
             {364, @"This article may only be transported under the provisions of chapter 3.4 if, as presented for transport,the package is capable of passing the test in accordance with test series 6(d) of part I of the Manualof Tests and Criteria as determined by the competent authority."},
-            {365, @"For manufactured instruments and articles containing mercury, see UN 3506."},
-            {366, @"Manufactured instruments and articles containing not more than 1 kg of mercury are not subject tothe provisions of this Code."},
+            {365, @"For manufactured instruments and articles containing mercury or gallium, see UN Nos. 3506 or 3554, as appropriate."},
+            {366, @"Manufactured instruments and articles containing not more than 1 kg of mercury or gallium are not subject to the provisions of this Code."},
             {367, @"For the purposes of documentation and package marking:
             \nThe proper shipping name “PAINT RELATED MATERIAL” may be used for consignments of packages containing “PAINT” and “PAINT RELATED MATERIAL” in the same package;
             \nThe proper shipping name “PAINT RELATED MATERIAL, CORROSIVE, FLAMMABLE” may be used for consignments of packages containing “PAINT, CORROSIVE, FLAMMABLE” and “PAINT RELATED MATERIAL, CORROSIVE, FLAMMABLE” in the same package;
@@ -744,7 +642,8 @@ namespace EasyJob_ProDG.Data.Info_data
             \nThe transport document shall include the statement “Transport in accordance with special provision 373”.
             \nNeutron radiation detectors containing not more than 1 g of boron trifluoride, including those with solder glass joints, are not subject to this Code provided they meet the requirements in paragraph .1 and are packed in accordance with paragraph .2. Radiation detection systems containing such detectors are not subject to this Code provided they are packed in accordance with paragraph .3.
             \nNeutron radiation detectors shall be stowed in accordance with stowage Category A."},
-            {376, @"Lithium ion cells or batteries and lithium metal cells or batteries identified as being damaged or defective such that they do not conform to the type tested according to the applicable provisions of the Manual of Tests and Criteria shall comply with the requirements of this special provision.
+            {375, @"These substances, when carried in single or combination packagings containing a net quantity per single or inner packaging of 5 L or less for liquids or having a net mass per single or inner packaging of 5 kg or less for solids, are not subject to any other provisions of the present Code, provided the packagings meet the general provisions of 4.1.1.1, 4.1.1.2 and 4.1.1.4 to 4.1.1.8." },
+            {376, @"Lithium metal, lithium ion or sodium ion cells or batteries identified as being damaged or defective 3 such that they do not conform to the type tested according to the applicable provisions of the Manual of Tests and Criteria shall comply with the requirements of this special provision.
             For the purposes of this special provision, these may include, but are not limited to:
             – Cells or batteries identified as being defective for safety reasons;
             – Cells or batteries that have leaked or vented;
@@ -757,16 +656,15 @@ namespace EasyJob_ProDG.Data.Info_data
             .4 external and internal short circuit protection, such as voltage or isolation measures;
             .5 the condition of the cell or battery safety features; or
             .6 damage to any internal safety components, such as the battery management system.
-            Cells and batteries shall be transported according to the provisions applicable to UN 3090, UN 3091, UN 3480 and UN 3481, except special provision 230 and as otherwise stated in this special provision.
-            Packages shall be marked “DAMAGED/DEFECTIVE LITHIUM-ION BATTERIES” or “DAMAGED/ DEFECTIVE LITHIUM METAL BATTERIES”, as applicable.
+            Cells and batteries shall be transported according to the provisions applicable to UN 3090, UN 3091, UN 3480, UN 3481, UN 3551 and UN 3552, as appropriate, except special provision 230 and as otherwise stated in this special provision.
             Cells and batteries shall be packed in accordance with packing instructions P908 of 4.1.4.1 or LP904 of 4.1.4.3, as applicable.
             Cells and batteries identified as damaged or defective and liable to rapidly disassemble, dangerously react, produce a flame or a dangerous evolution of heat or a dangerous emission of toxic, corrosive or flammable gases or vapours under normal conditions of transport shall be packed and transported in accordance with packing instruction P911 of 4.1.4.1 or LP906 of 4.1.4.3, as applicable. Alternative packing and/or transport conditions may be authorized by the competent authority. 
             Packages shall be marked 'DAMAGED/DEFECTIVE' in addition to the proper shipping name, as stated in 5.2.1.
             The transport document shall include the following statement 'Transport in accordance with special provision 376'.
             If applicable, a copy of the competent authority approval shall accompany the transport."},
-            {377, @"Lithium ion and lithium metal cells and batteries and equipment containing such cells and batteries transported for disposal or recycling, either packed together with or packed without non-lithium    batteries, may be packaged in accordance with packing instruction P909 of 4.1.4.1.
-            These cells and batteries are not subject to the requirements of section 2.9.4.
-            Packages shall be marked “LITHIUM BATTERIES FOR DISPOSAL” or “LITHIUM BATTERIES FOR RECYCLING”.
+            {377, @"Lithium metal, lithium ion and sodium ion cells and batteries and equipment containing such cells and batteries transported for disposal or recycling, either packed together with or packed without non-lithium or non-sodium ion batteries, may be packaged in accordance with packing instruction P909 of 4.1.4.1.
+            These cells and batteries are not subject to the requirements of section 2.9.4 or 2.9.5.
+            Packages shall be marked “LITHIUM BATTERIES FOR DISPOSAL”, “SODIUM ION BATTERIES FOR DISPOSAL”, “LITHIUM BATTERIES FOR RECYCLING”, or “SODIUM ION BATTERIES FOR RECYCLING”, as appropriate.
             Identified damaged or defective batteries shall be transported in accordance with special provision 376.
             The transport document shall include the following statement: 'Transport in accordance with special provision 377'."},
             { 378, @"Radiation detectors containing this gas in non-refillable pressure receptacles not meeting the
@@ -797,7 +695,7 @@ namespace EasyJob_ProDG.Data.Info_data
             .2 The adsorbent or absorbent material shall not have dangerous properties listed in classes 1 to 8;
             .3 The maximum contents of a receptacle shall be 10 kg of ammonia; and
             .4 Receptacles containing adsorbed or absorbed ammonia shall meet the following conditions:
-                .1 receptacles shall be made of a material compatible with ammonia as specified in ISO 11114-1:2012 + Amd 1:2017;
+                .1 receptacles shall be made of a material compatible with ammonia as specified in ISO 11114-1:2020;
                 .2 receptacles and their means of closure shall be hermetically sealed and able to contain the generated ammonia;
                 .3 each receptacle shall be able to withstand the pressure generated at 85°C with a volumetric expansion no greater than 0.1%;
                 .4 each receptacle shall be fitted with a device that allows for gas evacuation once pressure exceeds 15 bar without violent rupture, explosion or projection; and
@@ -834,12 +732,16 @@ namespace EasyJob_ProDG.Data.Info_data
             {387, @"Lithium batteries in conformity with 2.9.4.6 containing both primary lithium metal cells and rechargeable lithium ion cells shall be assigned to UN 3090 or 3091 as appropriate. When such batteries are transported in accordance with special provision 188, the total lithium content of all lithium metal cells contained in the battery shall not exceed 1.5 g and the total capacity of all lithium ion cells contained in the battery shall not exceed 10 Wh."},
             {388, @"UN 3166 entries apply to vehicles powered by flammable liquid or gas internal combustion engines or fuel cells.
             Vehicles powered by a fuel cell engine shall be assigned to the entries UN 3166 VEHICLE, FUEL CELL, FLAMMABLE GAS POWERED or UN 3166 VEHICLE, FUEL CELL, FLAMMABLE LIQUID POWERED, as appropriate.These entries include hybrid electric vehicles powered by both a fuel cell and an internal combustion engine with wet batteries, sodium batteries, lithium metal batteries or lithium ion batteries, transported with the battery(ies) installed.
-            Other vehicles which contain an internal combustion engine shall be assigned to the entries UN 3166 VEHICLE, FLAMMABLE GAS POWERED or UN 3166 VEHICLE, FLAMMABLE LIQUID POWERED, as appropriate. These entries include hybrid electric vehicles powered by both an internal combustion engine and wet batteries, sodium batteries, lithium metal batteries or lithium ion batteries, transported with the battery(ies) installed. If a vehicle is powered by a flammable liquid and a flammable gas internal combustion engine, it shall be assigned to UN 3166 VEHICLE, FLAMMABLE GAS POWERED.
-            Entry UN 3171 only applies to vehicles powered by wet batteries, sodium batteries, lithium metal batteries or lithium ion batteries and equipment powered by wet batteries or sodium batteries transported with these batteries installed.
-            For the purpose of this special provision, vehicles are self-propelled apparatus designed to carry one or more persons or goods. Examples of such vehicles are cars, motorcycles, scooters, three- and four-wheeled vehicles or motorcycles, trucks, locomotives, bicycles (pedal cycles with a motor) and other vehicles of this type (e.g. self-balancing vehicles or vehicles not equipped with at least one seating position)}, wheelchairs, lawn tractors, self-propelled farming and construction equipment, boats and aircraft. This includes vehicles transported in a packaging. In this case some parts of the vehicle may be detached from its frame to fit into the packaging.
+            Other vehicles which contain an internal combustion engine shall be assigned to the entries UN 3166 VEHICLE, FLAMMABLE GAS POWERED or UN 3166 VEHICLE, FLAMMABLE LIQUID POWERED, as appropriate. These entries include hybrid electric vehicles powered by both an internal combustion engine and wet batteries, sodium batteries, lithium metal batteries or lithium ion batteries, transported with the battery(ies) installed. 
+            If a vehicle is powered by a flammable liquid and a flammable gas internal combustion engine, it shall be assigned to UN 3166 VEHICLE, FLAMMABLE GAS POWERED.
+            Entry UN 3171 only applies to vehicles and equipment powered by wet batteries, metallic sodium batteries or sodium alloy batteries, transported with these batteries installed.
+            UN 3556 VEHICLE, LITHIUM ION BATTERY POWERED, UN 3557 VEHICLE, LITHIUM METAL BATTERY POWERED and UN 3558 VEHICLE, SODIUM ION BATTERY POWERED, as applicable, apply to vehicles powered by lithium ion, lithium metal or sodium ion batteries transported with the batteries installed.
+            For the purpose of this special provision, vehicles are self-propelled apparatus designed to carry one or more persons or goods. Examples of such vehicles are cars, motorcycles, scooters, threeand four-wheeled vehicles or motorcycles, trucks, locomotives, bicycles (pedal cycles with a motor) and other vehicles of this type (e.g. self-balancing vehicles or vehicles not equipped with at least one seating position), wheelchairs, lawn tractors, self-propelled farming and construction equipment, boats and aircraft. When vehicles are transported in a packaging, some parts of the vehicle, other than the battery, may be detached from its frame to fit into the packaging.
             Examples of equipment are lawnmowers, cleaning machines or model boats and model aircraft.
             Equipment powered by lithium metal batteries or lithium ion batteries shall be assigned to the entries UN 3091 LITHIUM METAL BATTERIES CONTAINED IN EQUIPMENT or UN 3091 LITHIUM METAL BATTERIES PACKED WITH EQUIPMENT or UN 3481 LITHIUM ION BATTERIES CONTAINED IN EQUIPMENT or UN 3481 LITHIUM ION BATTERIES PACKED WITH EQUIPMENT, as appropriate. Lithium ion batteries or lithium metal batteries installed in a cargo transport unit and designed only to provide power external to the cargo transport unit shall be assigned to the entry UN 3536 LITHIUM BATTERIES INSTALLED IN CARGO TRANSPORT UNIT lithium ion batteries or lithium metal batteries.
-            Dangerous goods, such as batteries, airbags, fire extinguishers, compressed gas accumulators, safety devices and other integral components of the vehicle that are necessary for the operation of the vehicle or for the safety of its operator or passengers, shall be securely installed in the vehicle and are not otherwise subject to this Code."},
+            Dangerous goods, such as batteries, airbags, fire extinguishers, compressed gas accumulators, safety devices and other integral components of the vehicle that are necessary for the operation of the vehicle or for the safety of its operator or passengers, shall be securely installed in the vehicle and are not otherwise subject to this Code.
+            Lithium batteries shall meet the provisions of 2.9.4, except that 2.9.4.1, 2.9.4.5.7, 2.9.4.6.3 if applicable, 2.9.4.6.4 if applicable and 2.9.4.7 do not apply when batteries of a production run of not more than 100 cells or batteries, or pre-production prototypes of cells or batteries when these prototypes are transported for testing, are installed in vehicles.
+            Where a lithium battery installed in a vehicle is damaged or defective, the battery shall be removed and transported according to SP376, unless otherwise approved by the competent authority."},
 
             { 389, @"This entry only applies to lithium ion batteries or lithium metal batteries installed in a cargo transport unit and designed only to provide power external to the cargo transport unit. The lithium batteries shall meet the requirements of 2.9.4.1 to .7 and contain the necessary systems to prevent overcharge and overdischarge between the batteries.
             \nThe batteries shall be securely attached to the interior structure of the cargo transport unit (e.g. by means of placement in racks, cabinets, etc.) in such a manner as to prevent short circuits, accidental operation, and significant movement relative to the cargo transport unit under the shocks, loadings and vibrations normally incident to transport. Dangerous goods necessary for the safe and proper operation of the cargo transport unit (e.g. fire-extinguishing systems and air-conditioning systems)}, shall be properly secured to or installed in the cargo transport unit and are not otherwise subject to this Code.
@@ -905,11 +807,40 @@ namespace EasyJob_ProDG.Data.Info_data
                     .2 the gas cylinders are connected with the article through pressure regulators and fixed piping in such a way that the pressure of the gas (gauge pressure) in the article does not exceed 35 kPa (0.35 bar);
                     .3 the gas cylinders are properly secured so that they cannot move in relation to the article and are fitted with strong and pressure resistant hoses and pipes;
                     .4 the gas cylinders, pressure regulators, piping and other components are protected from damage and impacts during transport by wooden crates or other suitable means;
-                    .5 the transport document includes the following statement: ""Transport in accordance with special provision 396.""; and
-                    .6 cargo transport units containing articles transported with cylinders with open valves containing a gas presenting a risk of asphyxiation are well ventilated and are marked in accordance with 5.5.3.6." },
+                    .5 the transport document includes the following statement: “Transport in accordance with special provision 396.”; and
+                    .6 cargo transport units containing articles transported with cylinders with open valves containing a gas presenting a risk of asphyxiation are well ventilated and marked in accordance with 5.5.3.6." },
             { 397, @"Mixtures of nitrogen and oxygen containing not less than 19.5% and not more than 23.5% oxygen by volume may be transported under this entry when no other oxidizing gases are present. A division 5.1 subsidiary hazard label is not required for any concentrations within this limit." },
             { 398, @"This entry applies to mixtures of butylenes, 1-butylene, cis-2-butylene and trans-2-butylene. For isobutylene, see UN 1055." },
-
+            {399, @"For articles that meet the definition for DETONATORS, ELECTRONIC as described in appendix B and assigned to UN Nos. 0511, 0512 and 0513, the entries for DETONATORS, ELECTRIC (UN Nos. 0030, 0255 and 0456) may continue to be used until 30 June 2025." },
+            {400, @"Sodium ion cells and batteries and sodium ion cells and batteries contained in or packed with equipment, prepared and offered for transport, are not subject to other provisions of this Code if they meet the following: 
+                    .1 The cell or battery is short-circuited, in a way that the cell or battery does not contain electrical energy. The short-circuiting of the cell or battery shall be easily verifiable (e.g. busbar between terminals). 
+                    .2 Each cell or battery meets the provisions of 2.9.5.1, 2.9.5.2, 2.9.5.4, 2.9.5.5 and 2.9.5.6. 
+                    .3 Each package shall be marked according to 5.2.1.9. 
+                    .4 Except when cells or batteries are installed in equipment, each package shall be capable of withstanding a 1.2 m drop test in any orientation without damage to cells or batteries contained therein, without shifting of the contents so as to allow battery to battery (or cell to cell) contact and without release of contents.
+                    .5 Cells and batteries, when installed in equipment shall be protected from damage. When 3 batteries are installed in equipment, the equipment shall be packed in strong outer packagings constructed of suitable material of adequate strength and design in relation to the packaging’s capacity and its intended use unless the battery is afforded equivalent protection by the equipment in which it is contained.
+                    .6 Each cell, including when it is a component of a battery, shall only contain dangerous goods that are authorized to be transported in accordance with the provisions of chapter 3.4 and in a quantity not exceeding the quantity specified in column 7a of the Dangerous Goods List of chapter 3.2." },
+            {401, @"Sodium ion cells and batteries with organic electrolyte shall be transported as UN 3551 or 3552, as appropriate. Sodium ion cells and batteries with aqueous alkali electrolyte shall be transported as UN 2795 BATTERIES, WET, FILLED WITH ALKALI, electric storage." },
+            {402, @"Substances transported under this entry shall have a vapour pressure at 70°C not exceeding 1.1 MPa (11 bar) and a density at 50°C not lower than 0.525 kg/L." },
+            {403, @"Nitrocellulose (NC) membrane filters covered by this entry with NC content not exceeding 53 g/m2 and an NC net mass not exceeding 300 g per inner packaging, are not subject to these requirements if they meet the following conditions:
+                    .1 They are packed with paper separators of minimum 80 g/m² placed between each layer of NC membrane filters.
+                    .2 They are packed to maintain the alignment of the NC membrane filters and the paper separators in any of the following configurations:
+                        .1 Rolls tightly wound and packed in plastic foil of minimum 80 g/m2 or aluminium pouches with an oxygen permeability of equal or less than 0.1% according to standard ISO 15105-1:2007.
+                        .2 Sheets packed in cardboard of minimum 250 g/m2 or aluminium pouches with an oxygen permeability of equal or less than 0.1% according to standard ISO 15105-1:2007.
+                        .3 Round filters packed in disc holders or cardboard packaging of minimum 250 g/m2 or single packed in pouches of paper and plastic material of total minimum 100 g/m2." },
+            {404, @"Vehicles powered by sodium ion batteries, containing no other dangerous goods, are not subject to other provisions of this Code, if the battery is short-circuited in a way that the battery does not contain electrical energy. The short-circuiting of the battery shall be easily verifiable (e.g. busbar between terminals)." },
+            {405, @"Vehicles are not subject to the marking or labelling requirements of chapter 5.2 when they are not fully enclosed by packagings, crates or other means that prevent ready identification." },
+            {406, @"This entry may be transported in accordance with the limited quantity provisions of chapter 3.4 when transported in pressure receptacles containing not more than 1,000 mL. The pressure receptacles shall meet the requirements of packing instruction P200 of 4.1.4.1 and have a test pressure capacity product not exceeding 15.2 MPa L (152 bar L). The pressure receptacles shall not be packed together with other dangerous goods." },
+            {407, @"Fire suppressant dispersing devices are articles which contain a pyrotechnic substance, which are intended to disperse a fire-extinguishing agent (or aerosol) when activated, and which do not contain any other dangerous goods. These articles, as packaged for transport, shall fulfil the criteria for division 1.4S, when tested in accordance with test series 6(c) of section 16 of part I of the Manual of Tests and Criteria. The device shall be transported with either the means of activation removed or equipped with at least two independent means to prevent accidental activation.
+                    Fire suppressant dispersing devices shall only be assigned to class 9, UN 3559 if the following additional conditions are met:
+                        .1 The device meets the exclusion criteria in 2.1.3.4.2.2, 2.1.3.4.2.3 and 2.1.3.4.2.4.
+                        .2 The suppressant shall be deemed safe for normally occupied spaces in compliance with international or regional standards (e.g. NFPA 2010).
+                        .3 The article shall be packaged in a manner such that when activated, temperatures of the outside of the package shall not exceed 200°C.
+                        .4 This entry shall be used only with the approval of the competent authority of the country of manufacture.
+                    This entry does not apply to “SAFETY DEVICES, electrically initiated” described in special provision 280 (UN 3268)." },
+            {408, @"This entry applies only to aqueous solutions comprised of water, tetramethylammonium hydroxide (TMAH), and no more than 1% of other constituents. Other formulations containing tetramethylammonium hydroxide must be assigned to an appropriate generic or N.O.S. entry (e.g. UN 2927, TOXIC LIQUID, CORROSIVE, ORGANIC, N.O.S., etc.), except as follows:
+                        .1 other formulations containing a surfactant in a concentration > 1% and with not less than 8.75% tetramethylammonium hydroxide must be assigned to UN 2927, TOXIC LIQUID, CORROSIVE, ORGANIC, N.O.S., PG I; and
+                        .2 other formulations containing a surfactant in a concentration > 1% and with more than 2.38% but less than 8.75% tetramethylammonium hydroxide must be assigned to UN 2927, TOXIC LIQUID, CORROSIVE, ORGANIC, N.O.S., PG II." },
+            {409, @"The provisions of chapter 3.2 from the IMDG Code Amendment 41-22 may continue to be applied until 31 December 2026." },
             { 900, @"The transport of the following substances is prohibited:
                 AMMONIUM HYPOCHLORITE
                 AMMONIUM NITRATE liable to self-heating sufficient to initiate decomposition
@@ -945,56 +876,54 @@ namespace EasyJob_ProDG.Data.Info_data
             { 917, @"Scrap with rubber content below 45% or exceeding 840 microns and fully vulcanized hard rubber are not subject to the provisions of this Code." },
             { 920, @"Bars, ingots or sticks are not subject to the provisions of this Code." },
             { 921, @"Zirconium, dry, 254 microns or thicker is not subject to the provisions of this Code." },
-            { 922, @"LEAD PHOSPHITE, DIBASIC which is accompanied by the certificate from the shipper stating that the substance, as offered for shipment, has been stabilized in such a way that it does not possess the properties of class 4.1 is not subject to the provisions of this Code." },
+            { 922, @"With the exception of the documentation requirements in 5.4.4.2, the provisions of this Code do 3 not apply to LEAD PHOSPHITE, DIBASIC which is accompanied by a certificate from the shipper stating that the substance, as offered for shipment, has been stabilized in such a way that it does not possess properties of class 4.1." },
             { 923, @"The temperature shall be checked regularly." },
-            { 925, @"The provisions of this Code do not apply to:
-                – non-activated carbon blacks of mineral origin;
-                – a consignment of carbon if it passes the tests for self-heating substances as reflected in the Manual of Tests and Criteria (see 33.3.1.3.3)}, and is accompanied by a certificate from a laboratory accredited by the competent authority, stating that the product to be loaded has been correctly sampled by trained staff from that laboratory and that the sample was correctly tested and has passed the test; and
-                – carbons made by a steam activation process." },
             { 926, @"This substance shall preferably have been weathered for not less than one month before shipment unless a certificate from a person recognized by the competent authority of the country of shipment states a maximum moisture content of 5%." },
             { 927, @"p -Nitrosodimethylaniline, wetted with more than 50% water is not subject to the provisions of this Code." },
-            { 928, @"The provisions of this Code shall not apply to:
-                – fish meal when acidified and wetted with more than 40% water, by mass, irrespective of other factors;
-                – consignments of fish meal which are accompanied by a certificate issued by a recognized competent authority of the country of shipment or other recognized authority stating that the product has no self-heating properties when transported in packaged form; or
-                – fish meal manufactured from “white” fish with a moisture content of not more than 12% and a fat content of not more than 5% by mass." },
+            { 928, @"The provisions of this Code do not apply:
+                        – to fish meal when acidified and wetted with more than 40% water, by mass, irrespective of other                         factors;
+                        – to fish meal manufactured from “white” fish with a moisture content of not more than 12% and a fat content of not more than 5% by mass; or
+                        – with the exception of the documentation requirements in 5.4.4.2, to consignments of fish meal which are accompanied by a certificate issued by the competent authority of the country of shipment or other recognized authority stating that the product has no self-heating properties when transported in packaged form." },
             { 929, @"If satisfied, as a result of tests, that such relaxation is justified, the competent authority may permit:
                 – the seed cakes described as “SEED CAKE, containing vegetable oil (a) mechanically expelled seeds, containing more than 10% of oil or more than 20% of oil and moisture combined” to be transported under conditions governing “SEED CAKE, containing vegetable oil (b) solvent extractions and expelled seeds, containing not more than 10% of oil and, when the amount of moisture is higher than 10% not more than 20% of oil and moisture combined”, and
                 – the seed cakes described as “SEED CAKE, containing vegetable oil (b) solvent extractions and expelled seeds, containing not more than 10% of oil and, when the amount of moisture is higher than 10% not more than 20% of oil and moisture combined” to be transported under conditions governing SEED CAKE, UN 2217.
             Certificates from the shipper shall state oil content and moisture content and shall accompany the shipment."},
             { 930, @"All pesticides can only be carried under the provisions of this class if accompanied by a certificate supplied by the shipper stating that, when in contact with water, it is not combustible and does not show tendency to autoignition, and that the mixture of gases evolved is not flammable.Otherwise, the provisions of class 4.3 shall be applicable."},
-            { 931, @"A consignment of this substance which is accompanied by a declaration from the shipper stating that it has no self-heating properties is not subject to the provisions of this Code." },
+            { 931, @"With the exception of the documentation requirements in 5.4.4.2, the provisions of this Code do not apply to a consignment of this substance which is accompanied by a certificate from the shipper stating that it has no self-heating properties." },
             { 932, @"Requires a certificate from the maker or shipper, stating that the shipment was stored under cover, but in the open air, in the size in which it was packaged, for not less than 3 days prior to shipment." },
             { 934, @"Requires the percentage range of calcium carbide impurity to be shown on the shipping documents." },
-            { 935, @"Substances which do not evolve flammable gases when wet, which are accompanied by a certificate from the shipper stating that the substance, as offered for shipment, does not evolve flammable gases when wet, are not subject to the provisions of this Code." },
-            { 937, @"The solid hydrated form of this substance is not subject to the provisions of this Code." },
-            { 939, @"A consignment of this substance that is accompanied by a shipper’s certificate stating that it does not contain more than 0.05% maleic anhydride is not subject to the provisions of this Code." },
+            { 935, @"With the exception of the documentation requirements in 5.4.4.2, the provisions of this Code do not apply to substances which do not evolve flammable gases when wet which are accompanied by a certificate from the shipper, stating that the substance as offered for shipment does not evolve flammable gases when wet." },
+            { 939, @"With the exception of the documentation requirements in 5.4.4.2, the provisions of this Code do not apply to a consignment of this substance that is accompanied by a shipper’s certificate stating that it does not contain more than 0.05% maleic anhydride." },
             { 942, @"The concentration and temperature of the solution at the time of loading, its percentage of combustible material and of chlorides as well as the contents of free acid shall be certified." },
             { 943, @"Water-activated articles shall bear a subsidiary hazard label of class 4.3." },
             { 946, @"Requires certification from the shipper that the substance is not of class 4.2." },
             { 948, @"These substances may be transported in bulk in cargo transport units only if their melting point is 75°C or above." },
             { 952, @"UN 1942 may be transported in bulk container if approved by the competent authority." },
-            { 954, @"The provisions of this Code shall not apply to consignments of compressed baled hay with a moisture content of less than 14% shipped in closed cargo transport units and accompanied by a certificate from the shipper stating that the product does not present any class 4.1, UN 1327, hazard in transport and that its moisture content is less than 14%." },
+            { 954, @"With the exception of the documentation requirements in 5.4.4.2, the provisions of this Code do not apply to baled hay with a moisture content of less than 14% shipped in closed cargo transport units and accompanied by a certificate from the shipper stating that the product does not present any class 4.1 UN 1327 hazard in transport and that its moisture content is less than 14%." },
             { 955, @"If a viscous substance and its packaging fulfils the provisions of 2.3.2.5, the packing provisions of chapter 4.1, the marking and labelling provisions of chapter 5.2 and the package testing provisions of chapter 6.1 are not applicable." },
             { 958, @"This entry also covers articles, such as rags, cotton waste, clothing or sawdust, containing polychlorinated biphenyls, polyhalogenated biphenyls or polyhalogenated terphenyls where no free visible liquid is present." },
             { 959, @"Waste aerosols or waste gas cartridges authorized for transport under special provision 327 shall only be transported on short international voyages. Long international voyages are authorized only with the approval of the competent authority. Packagings shall be marked and labelled and cargo transport units shall be marked and placarded for appropriate sub-division of class 2 and, if applicable, the subsidiary hazard(s)." },
             { 960, @"Not subject to the provisions of this Code but may be subject to provisions governing the transport of dangerous goods by other modes." },
-            { 961, @"Vehicles are not subject to the provisions of this Code if any of the following conditions are met:
-                .1 vehicles are stowed on the vehicle, special category and ro-ro spaces or on the weather deck of a ro-ro ship or a cargo space designated by the Administration (flag State) in accordance with SOLAS 74, chapter II-2, regulation 20 as specifically designed and approved for the carriage of vehicles, and there are no signs of leakage from the battery, engine, fuel cell, compressed gas cylinder or accumulator, or fuel tank when applicable.When packed in a cargo transport unit the exception does not apply to container cargo spaces of a ro-ro ship. 
-                In addition, for vehicles powered solely by lithium batteries and hybrid electric vehicles powered by both an internal combustion engine and lithium metal or ion batteries, the lithium batteries shall meet the provisions of 2.9.4, except that 2.9.4.1 and 2.9.4.7 do not apply when pre-production prototype batteries or batteries of a small production run, consisting of not more than 100 batteries, are installed in the vehicle and the vehicle is manufactured and approved according to the provisions applied in the country of manufacture or country of use.Where a lithium battery installed in a vehicle is damaged or defective, the battery shall be removed.
-                .2 vehicles powered by a flammable liquid fuel with a flashpoint of 38°C or above, there are no 3 leaks in any portion of the fuel system, the fuel tank(s) contains 450 L of fuel or less and installed batteries are protected from short-circuit;
-                .3 vehicles powered by a flammable liquid fuel with a flashpoint less than 38°C, the fuel tank(s) are empty and installed batteries are protected from short circuit.Vehicles are considered to be empty of flammable liquid fuel when the fuel tank has been drained and the vehicles cannot be operated due to a lack of fuel. Engine components such as fuel lines, fuel filters and injectors do not need to be cleaned, drained or purged to be considered empty.The fuel tank does not need to be cleaned or purged;
-                .4 vehicles powered by a flammable gas(liquefied or compressed)}, the fuel tank(s) are empty and the positive pressure in the tank does not exceed 2 bar, the fuel shut-off or isolation valve is closed and secured, and installed batteries are protected from short circuit;
-                .5 vehicles solely powered by a wet or dry electric storage battery or a sodium battery, and the battery is protected from short circuit." },
+            { 961, @"Vehicles are not subject to the provisions of this Code, other than those in P912, SP388 and SP977 when applicable, if any of the following conditions are met:
+                        .1 vehicles are stowed on the vehicle, special category and ro-ro spaces or on the weather deck of a ro-ro ship or a cargo space designated by the Administration (flag State) in accordance with SOLAS 74, chapter II-2, regulation 20 as specifically designed and approved for the carriage of vehicles, and there are no signs of leakage from the battery, engine, fuel cell, compressed gas cylinder or accumulator, or fuel tank when applicable. When packed in a cargo transport unit the exception does not apply to container cargo spaces of a ro-ro ship.
+                        .2 vehicles powered by a flammable liquid fuel with a flashpoint of 38°C or above, there are no leaks in any portion of the fuel system, the fuel tank(s) contains 450 L of fuel or less and installed batteries are protected from short-circuit;
+                        .3 vehicles powered by a flammable liquid fuel with a flashpoint less than 38°C, the fuel tank(s) are empty and installed batteries are protected from short circuit. Vehicles are considered to be empty of flammable liquid fuel when the fuel tank has been drained and the vehicles cannot be operated due to a lack of fuel. Engine components such as fuel lines, fuel filters and injectors do not need to be cleaned, drained or purged to be considered empty. The fuel tank does not need to be cleaned or purged;
+                        .4 vehicles powered by a flammable gas (liquefied or compressed), the fuel tank(s) are empty and the positive pressure in the tank does not exceed 2 bar, the fuel shut-off or isolation valve is closed and secured, and installed batteries are protected from short circuit;
+                        .5 vehicles solely powered by a wet or dry electric storage battery or a sodium battery, and the battery is protected from short circuit.
+                        .6 vehicles solely powered by a sodium ion battery, and the battery is short-circuited in a way that the battery does not contain electrical energy. The short circuiting shall be easily identifiable (e.g. busbar between terminals)." },
 
             { 962, @"Vehicles, not meeting the conditions of special provision 961 shall be assigned to class 9 and shall meet the following requirements:
-                .1 vehicles shall not show signs of leakage from batteries, engines, fuel cells, compressed gas cylinders or accumulators, or fuel tank(s) when applicable;
-                .2 for flammable liquid powered vehicles the fuel tank(s) containing the flammable liquid shall not be more than one fourth full and in any case the flammable liquid shall not exceed 250 L unless otherwise approved by the competent authority;
-                .3 for flammable gas powered vehicles, the fuel shut-off valve of the fuel tank(s) shall be securely closed;
-                .4 installed batteries shall be protected from damage, short circuit, and accidental activation during transport.Lithium batteries shall meet the provisions of 2.9.4, except that 2.9.4.1 and 2.9.4.2 do not apply when pre-production prototype batteries or batteries of a small production run, consisting of not more than 100 batteries, are installed in the vehicle and the vehicle is manufactured and approved according to the provisions applied in the country of manufacture or country of use. Where a lithium battery installed in a vehicle is damaged or defective, the battery shall be removed and transported according to SP 376, unless otherwise approved by the competent Authority.
-            The provisions of this Code relevant to marking, labelling, placarding and marine pollutants shall not apply." },
+                        .1 vehicles shall not show signs of leakage from batteries, engines, fuel cells, compressed gas cylinders or accumulators, or fuel tank(s) when applicable;
+                        .2 for flammable liquid powered vehicles the fuel tank(s) containing the flammable liquid shall not be more than one fourth full and in any case the flammable liquid shall not exceed 250 L unless otherwise approved by the competent authority;
+                        .3 for flammable gas powered vehicles, the fuel shut-off valve of the fuel tank(s) shall be securely closed;
+                        .4 installed batteries shall meet the provisions of SP388 or SP977, as applicable, and be protected from damage, short circuit, and accidental activation during transport.
+                    The provisions of this Code relevant to marking, labelling, placarding and marine pollutants shall only apply to vehicles that are fully enclosed by packagings, crates or other means that prevent ready identification (e.g., overpack)." },
             { 963, @"Nickel-metal hydride cells or batteries packed with or contained in equipment and nickel-metal hydride button cells are not subject to the provisions of this Code.
             All other nickel-metal hydride cells or batteries shall be securely packed and protected from short circuit.They are not subject to other provisions of this Code provided that they are loaded in a cargo transport unit in a total quantity of less than 100 kg gross mass.When loaded in a cargo transport unit in a total quantity of 100 kg gross mass or more, they are not subject to other provisions of this Code except those of 5.4.1, 5.4.3 and columns 16a and 16b of the Dangerous Goods List in chapter 3.2." },
-            { 964, @"This substance is not subject to the provisions of this Code when transported in non-friable prills or granules form and if it passes the test for oxidizing solid substances as reflected in the Manual of Tests and Criteria (see 34.4.1) and is accompanied by a certificate from a laboratory accredited by a competent authority, stating that the product has been correctly sampled by trained staff from the laboratory and that the sample was correctly tested and has passed the test." },
+            { 964, @"With the exception of the documentation requirements in 5.4.4.2, the provisions of this Code do not apply to this substance when:
+                        .1 it is transported in non-friable prills or granules form;
+                        .2 it does not meet the criteria for class 5.1 based on the result of one of the tests for oxidizing solid substances as reflected in the UN Manual of Tests and Criteria (see 34.4.1 or 34.4.3); and
+                        .3 it is accompanied by a certificate issued by a laboratory recognized by the competent authority stating the results of the test." },
             { 965, @".1 When transported in cargo transport units, the cargo transport units shall provide an adequate exchange of air in the unit(e.g.by using a ventilated container, open-top container or container in one door off operation) to prevent the build-up of an explosive atmosphere.Alternatively, these entries shall be transported under temperature control in refrigerated cargo transport units that comply with the provisions of 7.3.7.6. When cargo transport units with venting devices are used, these devices shall be kept clear and operable.When mechanical devices are used for ventilation, they shall be explosion-proof to prevent ignition of flammable vapours from the substances.
             .2 The provisions of .1 do not apply if:
                 .1 the substance is packed in hermetically sealed packagings or IBCs, which conform to packing group II performance level for liquid dangerous goods according to the provisions of 6.1 or 6.5, respectively; and
@@ -1009,13 +938,28 @@ namespace EasyJob_ProDG.Data.Info_data
             { 968, @"This entry shall not be used for sea transport.Discarded packaging shall meet the requirements of 4.1.1.11." },
             {969, @"Substances classified in accordance to 2.9.3 are subject to the provisions for marine pollutants. Substances which are transported under UN 3077 and UN 3082 but which do not meet the criteria of 2.9.3 (see 2.9.2.2) are not subject to the provisions for marine pollutants.However for substances that are identified as marine pollutants in this Code (see Index) but which no longer meet the criteria of 2.9.3, the provisions of 2.10.2.6 apply." },
             {  971, @"Battery powered equipment may only be transported provided that the battery shows no sign of leakage and is protected from short-circuit.In this case, no other provisions of this Code apply." },
-            { 972, @"Lithium batteries shall meet the provisions of 2.9.4, except that 2.9.4.1 and 2.9.4.7 do not apply when pre-production prototype batteries or batteries of a small production run, consisting of not more than 100 batteries, are installed in the engine or machinery. Where a lithium battery installed in an engine or machinery is damaged or defective, the battery shall be removed."},
+            { 972, @"Lithium batteries shall meet the provisions of 2.9.4, except that 2.9.4.1, 2.9.4.5.7, 2.9.4.6.3 if applicable, 2.9.4.6.4 if applicable and 2.9.4.7 do not apply when batteries of a production run of not more than 100 cells or batteries, or pre-production prototypes of cells or batteries when these prototypes are transported for testing, are installed in machinery or engines. Where a lithium battery installed in an engine or machinery is damaged or defective, the battery shall be removed."},
 
             { 973, @"Packages, with the exception of bales, shall also display the proper shipping name and the UN number of the substance that they contain in accordance with 5.2.1. In any case, the packages, including bales, are exempt from class marking provided that they are loaded in a cargo transport unit and that they contain goods to which only one UN number has been assigned.The cargo transport units in which the packages, including bales, are loaded shall display any relevant labels, placards and marks in accordance with chapter 5.3."},
 
             { 974, @"These substances may be transported in IMO type 9 tanks."},
             { 975, @"MEDICAL WASTE, CATEGORY A, AFFECTING HUMANS, solid or MEDICAL WASTE, CATEGORY A, AFFECTING ANIMALS only, solid shall only be transported on short international voyages. Long international voyages are authorized only with the approval of the competent authorities of the port State of departure, port State of arrival and flag State." },
-            { 976, @"The transport of this substance shall be prohibited except with the approval of the competent authorities of the port State of departure, port State of arrival and flag State." }
+            { 976, @"The transport of this substance shall be prohibited except with the approval of the competent authorities of the port State of departure, port State of arrival and flag State." },
+            {977, @"Sodium ion batteries shall meet the provisions of 2.9.5." },
+            {978, @".1 For the purpose of this Code, carbon of animal or vegetable origin means carbon, generated in a production or manufacturing process, not formed in a geological process and not obtained from mining. Carbon covered by this entry is produced by pyrolysis of an organic material such as bone, bamboo, coconut shell, jute or wood.
+                    .2 The UN N.4 test according to section 33.4.6 of the UN Manual of Tests and Criteria shall not be used to exempt carbon of animal or vegetable origin (UN 1361) from the provisions of this Code.
+                    .3 Without testing, the material shall be assigned to at least packing group III.
+                    .4 Unless otherwise approved by the competent authority, the following provisions apply:
+                        .1 after production, the unpacked material shall be subject to weathering (stored under cover, but in the open air) for a minimum period of 14 days before being packaged for transport;
+                        or
+                        .2 after pyrolysis, steam and cooling shall be applied to the unpacked material and the material shall be packed under an inert gas atmosphere (e.g. nitrogen); packages shall then be stored under loose cover or in the open air for a minimum of 24 hours before transport.
+                    .5 The material shall be packed into packagings only when the temperature of the material does not exceed 40°C on the day of packing.
+                    .6 When stowed in a cargo transport unit, minimum headspace in the CTU of 30 cm shall be maintained, and:
+                        .1 the stowage height of the package(s) in the unit should not exceed 1.5 m; or
+                        .2 the maximum block size of the packages should be 16 m3 and a minimum of 15 cm of space between blocks should be maintained." },
+            {979, @"With the exception of the documentation requirements in 5.4.4.2, the provisions of this Code do not apply to this substance when:
+                    .1 it is accompanied by a certificate from the shipper stating that the substance is steam activated carbon; or
+                    .2 it is chemically activated carbon, which is accompanied by a certificate issued by a laboratory recognized by the competent authority, stating that the substance does not meet the criteria for class 4.2 based on a negative test result for self-heating substances when tested in accordance with the UN Manual of Tests and Criteria (see 33.4.6)." },
         };
     }
 }

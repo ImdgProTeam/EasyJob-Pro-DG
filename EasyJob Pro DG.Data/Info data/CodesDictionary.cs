@@ -174,7 +174,8 @@ namespace EasyJob_ProDG.Data.Info_data
             {"SW27", "For special stowage provisions, see 7.6.2.7.2.1."},
             {"SW28", "As approved by the competent authority of the country of origin."},
             {"SW29", "For engines or machinery containing fuels with flashpoint equal or greater than 23°C, stowage Category A."},
-            {"SW30", "For special stowage provisions, see 7.1.4.4.5" }
+            {"SW30", "For special stowage provisions, see 7.1.4.4.5" },
+            {"SW31", "Stow away from potential sources of ignition, as determined in 7.4.2.3.2." }
         };
 
 
