@@ -17,6 +17,32 @@
 
 VERSION INFO
 
+0.9.0.241
+Date: 17-Jul-2025
+
+Licence: 31 Dec 2026
+
+Version workable: Yes
+Changes: 
+
+
+VISUAL
+1. 
+
+ERRORS
+1. 
+2. 
+3. 
+4. 
+
+NEW
+1. 
+
+Fully functional release
+-------------------------------------------------------
+///////////////////////////////////////////////////////
+
+
 0.9.0.240
 Date: 17-Jul-2025
 
@@ -25,15 +51,8 @@ Licence: 31 Dec 2026
 Version workable: Yes
 Changes: Implemented amendments 42-24
 
-
-VISUAL
-1. 
-
 ERRORS
 1. Fixes possible issue with wrong behavior in respect of FlashPoint
-2. 
-3. 
-4. 
 
 NEW
 1. Implemented amendments 42-24. New version of dglist.xml - 2.24.
@@ -42,7 +61,6 @@ Fully functional release
 -------------------------------------------------------
 ///////////////////////////////////////////////////////
 
-VERSION INFO
 
 0.9.0.15
 Date: 30-Jun-2025
@@ -56,7 +74,6 @@ Changes: Only licence extended
 Fully functional release
 -------------------------------------------------------
 ///////////////////////////////////////////////////////
-
 
 
 0.9.0.12
