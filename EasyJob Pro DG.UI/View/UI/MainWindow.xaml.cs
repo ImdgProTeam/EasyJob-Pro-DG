@@ -60,7 +60,7 @@ namespace EasyJob_ProDG.UI.View.UI
         #endregion
 
         #region DesignMatters
-        private void SaveConflictColumnWidth()
+        internal void SaveConflictColumnWidth()
         {
             Properties.Settings.Default.ConflictsWidth = WorkingGrid.ColumnDefinitions[1].ActualWidth;
         }

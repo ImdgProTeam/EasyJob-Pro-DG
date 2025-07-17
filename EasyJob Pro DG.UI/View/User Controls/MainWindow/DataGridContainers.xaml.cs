@@ -22,7 +22,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             InitializeComponent();
             LoadColumnSettings();
 
-            MainWindow.OnWindowClosingEventHandler += new MainWindow.WindowClosing(UpdateColumnSettings);
+            MainWindow.OnWindowClosingEventHandler += new MainWindow.WindowClosing(SaveColumnSettings);
         }
 
 
@@ -74,7 +74,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         /// <summary>
         /// Updates settings.settings with ContainerDataTable column settings
         /// </summary>
-        private void UpdateColumnSettings()
+        internal void SaveColumnSettings()
         {
             List<int> displayIndexes = new List<int>();
             List<double> widths = new List<double>();

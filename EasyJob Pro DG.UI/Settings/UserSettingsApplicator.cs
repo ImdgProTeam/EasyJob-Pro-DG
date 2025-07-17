@@ -23,5 +23,19 @@ namespace EasyJob_ProDG.UI.Settings
             settingsService.LoadSettings();
             ViewModelLocator.SettingsWindowVM.SetExcelTemplateValues();
         }
+
+        /// <summary>
+        /// Saves current UI Windows and Controls settings to Properties.Settings.Default.
+        /// </summary>
+        internal static void SaveUserUISettings()
+        {
+            //save colflicts column width
+            ((View.UI.MainWindow)System.Windows.Application.Current.MainWindow)?.SaveConflictColumnWidth();
+
+            //save datagrids column settings
+            ((View.UI.MainWindow)System.Windows.Application.Current.MainWindow)?.MainDgDataGrid.SaveColumnSettings();
+            ((View.UI.MainWindow)System.Windows.Application.Current.MainWindow)?.MainContainerDataGrid.SaveColumnSettings();
+            ((View.UI.MainWindow)System.Windows.Application.Current.MainWindow)?.MainReeferDataGrid.SaveColumnSettings();
+        }
     }
 }

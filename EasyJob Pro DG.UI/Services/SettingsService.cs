@@ -26,6 +26,7 @@ namespace EasyJob_ProDG.UI.Services
         /// </summary>
         public void SaveSettingsToFile()
         {
+            UserSettingsApplicator.SaveUserUISettings();
             UserSettingsFileHandler.SaveSettings();
         }
 
