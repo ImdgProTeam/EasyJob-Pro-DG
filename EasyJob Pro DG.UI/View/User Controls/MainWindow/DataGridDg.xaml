@@ -353,7 +353,7 @@
 
                 <!-- Properties -->
                 <DataGridTextColumn x:Name="propertiesColumn"
-                                    Binding="{Binding Properties}"
+                                    Binding="{Binding Properties, Mode=OneWay}"
                                     Header="Properties"
                                     IsReadOnly="True"
                                     MaxWidth="{StaticResource MaxColumnWidth}"
@@ -384,7 +384,7 @@
                                         ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Special}"
+                            <TextBlock Text="{Binding Special, Mode=OneWay}"
                                        TextWrapping="WrapWithOverflow"
                                        Background="{Binding}" />
                         </DataTemplate>
@@ -402,14 +402,14 @@
 
                 <!-- SW -->
                 <DataGridTextColumn x:Name="swColumn"
-                                    Binding="{Binding StowageSW}"
+                                    Binding="{Binding StowageSW, Mode=OneWay}"
                                     Header="Special stowage requirements"
                                     IsReadOnly="True"
                                     ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}"/>
 
                 <!-- SG -->
                 <DataGridTextColumn x:Name="sgColumn"
-                                    Binding="{Binding SegregationSG}"
+                                    Binding="{Binding SegregationSG, Mode=OneWay}"
                                     Header="Special segregation requirement"
                                     IsReadOnly="True"
                                     ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}"/>
@@ -466,8 +466,9 @@
 
                 <!-- CargoHoldNumber -->
                 <DataGridTextColumn x:Name="cargoHoldColumn"
-                                    Binding="{Binding HoldNr, UpdateSourceTrigger=LostFocus}"
+                                    Binding="{Binding HoldNr, Mode=OneWay}"
                                     Header="Hold number"
+                                    IsReadOnly="True"
                                     >
 
                 </DataGridTextColumn>
@@ -544,7 +545,7 @@
                                         >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=HasLocationChanged, UpdateSourceTrigger=PropertyChanged}"
+                            <CheckBox IsChecked="{Binding Path=HasLocationChanged, Mode=OneWay}"
                                       IsEnabled="False"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -572,7 +573,7 @@
                                         >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=IsNewUnitInPlan, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            <CheckBox IsChecked="{Binding Path=IsNewUnitInPlan, Mode=OneWay}"
                                       IsEnabled="False" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -600,7 +601,7 @@
                                         >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=HasPodChanged, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            <CheckBox IsChecked="{Binding Path=HasPodChanged, Mode=OneWay}"
                                       IsEnabled="False" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -615,7 +616,7 @@
                                         >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding HasContainerTypeChanged, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                            <CheckBox IsChecked="{Binding HasContainerTypeChanged, Mode=OneWay}" 
                                       IsEnabled="False"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

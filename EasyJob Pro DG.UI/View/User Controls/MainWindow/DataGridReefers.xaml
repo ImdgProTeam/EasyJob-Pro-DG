@@ -176,10 +176,11 @@
                 <!-- Is under deck -->
                 <DataGridTemplateColumn x:Name="isUnderdeckColumn"
                                         Header="Is under deck"
-                                        SortMemberPath="IsUnderdeck">
+                                        SortMemberPath="IsUnderdeck"
+                                        IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=IsUnderdeck, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            <CheckBox IsChecked="{Binding Path=IsUnderdeck, Mode=OneWay}"
                                       IsEnabled="False" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -215,10 +216,11 @@
                 <!-- Contains Dg cargo -->
                 <DataGridTemplateColumn x:Name="containsDgColumn"
                                         Header="Contains Dg cargo"
-                                        SortMemberPath="ContainsDgCargo">
+                                        SortMemberPath="ContainsDgCargo"
+                                        IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=ContainsDgCargo, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            <CheckBox IsChecked="{Binding Path=ContainsDgCargo, Mode=OneWay}"
                                       IsEnabled="False" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -396,7 +398,7 @@
                                         SortMemberPath="HasUpdated">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=HasUpdated, UpdateSourceTrigger=PropertyChanged}"
+                            <CheckBox IsChecked="{Binding Path=HasUpdated, Mode=OneWay}"
                                       IsEnabled="False" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -409,7 +411,7 @@
                                         SortMemberPath="HasLocationChanged">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=HasLocationChanged, UpdateSourceTrigger=PropertyChanged}"
+                            <CheckBox IsChecked="{Binding Path=HasLocationChanged, Mode=OneWay}"
                                       IsEnabled="False" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -436,7 +438,7 @@
                                         SortMemberPath="IsNewUnitInPlan">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=IsNewUnitInPlan, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            <CheckBox IsChecked="{Binding Path=IsNewUnitInPlan, Mode=OneWay}"
                                       IsEnabled="False" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -449,7 +451,7 @@
                                         IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=HasPodChanged, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            <CheckBox IsChecked="{Binding Path=HasPodChanged, Mode=OneWay}"
                                       IsEnabled="False" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
