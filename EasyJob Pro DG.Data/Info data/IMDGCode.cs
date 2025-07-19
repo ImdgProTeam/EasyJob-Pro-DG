@@ -17,6 +17,11 @@ namespace EasyJob_ProDG.Data.Info_data
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'N', 'S'
         };
 
+        public static List<char> AllValidStowageCategories = new List<char>()
+        {
+            '0', 'A', 'B', 'C', 'D', 'E', '1', '2', '3', '4', '5'
+        };
+
         public static readonly byte[,] SegregationTable ={
             {5, 5, 5, 4, 2, 2, 4, 4, 4, 4, 4, 4, 2, 4, 2, 4, 0 }, //Explosives 1.1, 1.2, 1.5
             {5, 5, 5, 4, 2, 2, 4, 3, 3, 4, 4, 4, 2, 4, 2, 2, 0 }, //Explosives 1.3, 1.6

@@ -1,7 +1,7 @@
 ﻿using EasyJob_ProDG.Data;
+using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.UI.IO;
 using EasyJob_ProDG.UI.View.UI;
-using EasyJob_ProDG.UI.ViewModel;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.Collections.Generic;
@@ -120,9 +120,9 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
             string strKey = e.Key.ToString();
             string trimmedStrKey;
-            if (strKey.StartsWith("D") && strKey.Length > 1)
+            if (strKey.Length > 1 && (strKey.StartsWith("D") || strKey.StartsWith("NumPad")) )
             {
-                trimmedStrKey = strKey.Replace("D", "");
+                trimmedStrKey = strKey.Replace("D", "").Replace("NumPad","");
             }
             else
             {
@@ -156,14 +156,14 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             }
 
             //Stowage category validation
-            //if (column?.Header != null && column.Header.ToString() == "Stowage category")
-            //{
-            //    if (!isCharKey) return;
-            //    if (DataGridDgViewModel.StowageCategories.Contains(key))
-            //    {
-            //        if (dg != null) dg.StowageCat = key;
-            //    }
-            //}
+            if (column?.Header != null && column.Header.ToString() == "Stowage category")
+            {
+                if (!isCharKey) return;
+                if (IMDGCode.AllValidStowageCategories.Contains(key))
+                {
+                    if (dg != null) dg.StowageCat = key;
+                }
+            }
 
             if (column?.Header != null && column.Header.ToString() == "Proper shipping name")
             {
@@ -385,7 +385,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                 {
                     e.Column.SortDirection = System.ComponentModel.ListSortDirection.Ascending;
                 }
-        } 
+        }
 
         #endregion
     }
