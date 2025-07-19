@@ -4,7 +4,7 @@ namespace EasyJob_ProDG.Data.Info_data
 {
     public static partial class IMDGCode
     {
-        public const ushort MaxUnnoNumber = 3550;
+        public const ushort MaxUnnoNumber = 3560;
         public static List<string> AllValidDgClasses = new List<string>()
         {
             "1.1", "1.2", "1.3", "1.4", "1.5", "1.6",
@@ -42,6 +42,8 @@ namespace EasyJob_ProDG.Data.Info_data
         /// </summary>
         public static byte AssignSegregationTableRowNumber(string dgClass)
         {
+            if (dgClass == null) return 16;
+
             byte tableRow;
 
             var _index = dgClass.Length > 3 ? dgClass.Substring(0, 3) : dgClass;
