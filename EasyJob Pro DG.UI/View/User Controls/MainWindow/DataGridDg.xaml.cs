@@ -1,7 +1,6 @@
 ﻿using EasyJob_ProDG.Data;
 using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.UI.IO;
-using EasyJob_ProDG.UI.View.UI;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.Collections.Generic;
@@ -18,11 +17,8 @@ namespace EasyJob_ProDG.UI.View.User_Controls
     /// <summary>
     /// Логика взаимодействия для DgDataGrid.xaml
     /// </summary>
-    public partial class DataGridDg : AnimatedUserControl
+    public partial class DataGridDg : CommonDataGridUserControl
     {
-        private static bool IsCellEditingOn;
-        private int currentRowIndex = 1;
-        private bool isDeletingRow = false;
         private double OriginalScrollPosition { get; set; }
         private bool IsResizingColumn { get; set; }
 
@@ -31,10 +27,8 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         {
             InitializeComponent();
 
-            LoadColumnSettings();
-
-            MainWindow.OnWindowClosingEventHandler -= new MainWindow.WindowClosing(SaveColumnSettings);
-            MainWindow.OnWindowClosingEventHandler += new MainWindow.WindowClosing(SaveColumnSettings);
+            MainDataTable = MainDgTable;
+            CallBaseConstructorMethods();
         }
 
 
@@ -43,7 +37,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         /// <summary>
         /// Loads column settings for DgDataTable from settings.settings
         /// </summary>
-        internal void LoadColumnSettings()
+        internal override void LoadColumnSettings()
         {
             var displayIndexes = Properties.Settings.Default.DgDataTableDisplayIndex.Split(';');
             var widths = Properties.Settings.Default.DgDataTableWidth.Split(';');
@@ -87,7 +81,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         /// <summary>
         /// Updates settings.settings with DgDataTable actual column settings
         /// </summary>
-        internal void SaveColumnSettings()
+        internal override void SaveColumnSettings()
         {
             List<int> displayIndexes = new List<int>();
             List<double> widths = new List<double>();
@@ -110,50 +104,26 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
         #region Input and cell / text select logic
 
-        private void MainDgTable_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        internal override void MainDataTable_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             DataGrid grid = sender as DataGrid;
             DataGridColumn column = grid?.CurrentColumn;
-            currentRowIndex = grid?.SelectedIndex ?? currentRowIndex;
+
+            base.MainDataTable_PreviewKeyDown(sender, e);
 
             DgWrapper dg = grid?.SelectedItem as DgWrapper;
 
             string strKey = e.Key.ToString();
             string trimmedStrKey;
-            if (strKey.Length > 1 && (strKey.StartsWith("D") || strKey.StartsWith("NumPad")) )
+            if (strKey.Length > 1 && (strKey.StartsWith("D") || strKey.StartsWith("NumPad")))
             {
-                trimmedStrKey = strKey.Replace("D", "").Replace("NumPad","");
+                trimmedStrKey = strKey.Replace("D", "").Replace("NumPad", "");
             }
             else
             {
                 trimmedStrKey = strKey;
             }
             bool isCharKey = Char.TryParse(trimmedStrKey, out var key);
-
-            //Enter key
-            if (e.Key == Key.Enter)
-            {
-                //To start editing cell on pressing Enter
-                if (IsCellEditingOn == false && column is DataGridTextColumn)
-                {
-                    grid?.BeginEdit();
-                    e.Handled = true;
-                    return;
-                }
-
-                //To avoid shifting of focus to the next row after pressing Enter when editing
-                grid?.CommitEdit();
-                e.Handled = true;
-                return;
-            }
-
-            //Delete row
-            if (e.Key == Key.Delete)
-            {
-                isDeletingRow = true;
-                if (currentRowIndex == MainDgTable.Items.Count - 1) currentRowIndex--;
-                return;
-            }
 
             //Stowage category validation
             if (column?.Header != null && column.Header.ToString() == "Stowage category")
@@ -165,12 +135,11 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                 }
             }
 
+            //Proper shipping name
             if (column?.Header != null && column.Header.ToString() == "Proper shipping name")
             {
                 if (!isCharKey) return;
             }
-
-
         }
 
         /// <summary>
@@ -187,26 +156,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             {
 
             }
-        }
-
-        /// <summary>
-        /// Sets Cell into editing mode
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainDgTable_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
-        {
-            IsCellEditingOn = true;
-        }
-
-        /// <summary>
-        /// Sets cell editing mode to off
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainDgTable_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            IsCellEditingOn = false;
         }
 
         private void txbNameColumn_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -229,41 +178,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             {
 
             }
-        }
-
-        #endregion
-
-
-        #region Focus logic
-
-
-        /// <summary>
-        /// Sets focus on a selected row by index
-        /// </summary>
-        /// <param name="rowIndex"></param>
-        private void FocusOnRow(int rowIndex)
-        {
-            try
-            {
-                var cellContent = MainDgTable.Columns[0].GetCellContent(MainDgTable.Items[rowIndex]);
-                if (cellContent?.Parent is DataGridCell cell) cell.Focus();
-            }
-            catch
-            {
-                //ignore
-            }
-        }
-
-        /// <summary>
-        /// Used to focus on row after deletion
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainDgTable_OnUnloadingRow(object sender, DataGridRowEventArgs e)
-        {
-            if (!isDeletingRow) return;
-            FocusOnRow(currentRowIndex);
-            isDeletingRow = false;
         }
 
         #endregion
@@ -374,19 +288,5 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             }
         }
 
-
-        #region Sorting
-        private void MainDgTable_Sorting(object sender, DataGridSortingEventArgs e)
-        {
-            if (e.Column.SortMemberPath.StartsWith("Is")
-                || e.Column.SortMemberPath.StartsWith("Has")
-                || e.Column.SortMemberPath.StartsWith("Contains"))
-                if (e.Column.SortDirection == null)
-                {
-                    e.Column.SortDirection = System.ComponentModel.ListSortDirection.Ascending;
-                }
-        }
-
-        #endregion
     }
 }

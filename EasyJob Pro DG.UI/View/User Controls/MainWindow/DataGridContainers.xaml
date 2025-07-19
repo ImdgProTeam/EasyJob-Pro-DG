@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="EasyJob_ProDG.UI.View.User_Controls.DataGridContainers"
+﻿<local:CommonDataGridUserControl 
+            x:Class="EasyJob_ProDG.UI.View.User_Controls.DataGridContainers"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -13,11 +14,11 @@
              d:DesignHeight="450" d:DesignWidth="800"
              >
 
-    <UserControl.Resources>
+    <local:CommonDataGridUserControl.Resources>
         <converters:VisibilityToInverseBooleanConverter x:Key="VisibilityToInverseBooleanConverter" />
         <converters:BoolInversionConverter x:Key="BoolInversionConverter" />
         <sort:EmptyTextLastSortComparer x:Key="EmptyTextLastSorter" />
-    </UserControl.Resources>
+    </local:CommonDataGridUserControl.Resources>
 
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
@@ -97,10 +98,12 @@
                   Grid.Column="0"
                   Grid.Row="0"
                   SelectionMode="Extended"
-                  Sorting="MainContainerDataTable_Sorting"
+                  Sorting="MainDataTable_Sorting"
                   ap:SelectingContainerDataGridItem.SelectingItem="{Binding SelectedUnit}"
-                  UnloadingRow="MainContainerDataTable_UnloadingRow"
-                  PreviewKeyDown="MainContainerDataTable_PreviewKeyDown"
+                  UnloadingRow="MainDataTable_OnUnloadingRow"
+                  PreviewKeyDown="MainDataTable_PreviewKeyDown"
+                                    BeginningEdit="MainTable_BeginningEdit"
+                  CellEditEnding="MainTable_CellEditEnding"
                   behaviors:DataGridBehavior.DisplayRowNumber="True" 
                   ap:DataGridSortBehavior.AllowCustomSort="True">
 
@@ -155,6 +158,12 @@
                                 Value="50" />
                     <Setter Property="TextAlignment"
                                 Value="Right" />
+                </Style>
+
+                <!-- CheckBox style -->
+                <Style TargetType="{x:Type CheckBox}">
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="Focusable" Value="False"/>
                 </Style>
 
                 <!-- Selection color -->
@@ -455,4 +464,4 @@
             </DataGrid.InputBindings>
         </DataGrid>
     </DockPanel>
-</UserControl>
+</local:CommonDataGridUserControl>

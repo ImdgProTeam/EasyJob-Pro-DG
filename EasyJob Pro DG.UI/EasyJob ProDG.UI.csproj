@@ -255,6 +255,7 @@
       <DependentUpon>winLicence.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogWindows\Info\WinLicenceViewModel.cs" />
+    <Compile Include="View\Helpers\Helpers.cs" />
     <Compile Include="View\Sort\ContainerLeftToRightComparer.cs" />
     <Compile Include="View\Sort\EmptyTextLastSortComparer.cs" />
     <Compile Include="View\Sort\LeftToRightComparer.cs" />
@@ -276,6 +277,7 @@
     <Compile Include="View\DialogWindows\Info\WinLoginViewModel.cs" />
     <Compile Include="View\User Controls\AnimatedUserControl.cs" />
     <Compile Include="View\User Controls\BindingProxy.cs" />
+    <Compile Include="View\User Controls\CommonDataGridUserControl.cs" />
     <Compile Include="View\User Controls\MainWindow\AddContainerToDataGrid.cs">
       <DependentUpon>AddContainerGrid.xaml</DependentUpon>
     </Compile>

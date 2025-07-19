@@ -1,28 +1,23 @@
-﻿using EasyJob_ProDG.UI.View.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.View.User_Controls
 {
     /// <summary>
     /// Логика взаимодействия для DataGridContainers.xaml
     /// </summary>
-    public partial class DataGridContainers : UserControl
+    public partial class DataGridContainers : CommonDataGridUserControl
     {
-        private int currentRowIndex = 1;
-        private bool isDeletingRow = false;
-
-        public DataGridContainers()
+        public DataGridContainers() : base(Animations.AnimationTypes.None)
         {
             InitializeComponent();
-            LoadColumnSettings();
 
-            MainWindow.OnWindowClosingEventHandler += new MainWindow.WindowClosing(SaveColumnSettings);
+            MainDataTable = MainContainerDataTable;
+            CallBaseConstructorMethods();
         }
 
 
@@ -30,7 +25,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         /// <summary>
         /// Loads column settings for ContainerDataTable from settings.settings
         /// </summary>
-        internal void LoadColumnSettings()
+        internal override void LoadColumnSettings()
         {
             var displayIndexes = Properties.Settings.Default.ContainerDataTableDisplayIndex.Split(';');
             var widths = Properties.Settings.Default.ContainerDataTableWidth.Split(';');
@@ -74,7 +69,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         /// <summary>
         /// Updates settings.settings with ContainerDataTable column settings
         /// </summary>
-        internal void SaveColumnSettings()
+        internal override void SaveColumnSettings()
         {
             List<int> displayIndexes = new List<int>();
             List<double> widths = new List<double>();
@@ -95,73 +90,5 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
         #endregion
 
-
-        #region Input logic
-
-        private void MainContainerDataTable_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            DataGrid grid = sender as DataGrid;
-            currentRowIndex = grid?.SelectedIndex ?? currentRowIndex;
-
-            //Delete row
-            if (e.Key == Key.Delete)
-            {
-                isDeletingRow = true;
-                if (currentRowIndex == MainContainerDataTable.Items.Count - 1) currentRowIndex--;
-                return;
-            }
-
-        }
-
-        #endregion
-
-
-        #region Focus logic
-
-        /// <summary>
-        /// Sets focus on a selected row by index
-        /// </summary>
-        /// <param name="rowIndex"></param>
-        private void FocusOnRow(int rowIndex)
-        {
-            try
-            {
-                var cellContent = MainContainerDataTable.Columns[0].GetCellContent(MainContainerDataTable.Items[rowIndex]);
-                if (cellContent?.Parent is DataGridCell cell) cell.Focus();
-            }
-            catch
-            {
-                //ignore
-            }
-        }
-
-        /// <summary>
-        /// Used to focus on row after deletion
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainContainerDataTable_UnloadingRow(object sender, DataGridRowEventArgs e)
-        {
-            if (!isDeletingRow) return;
-            FocusOnRow(currentRowIndex);
-            isDeletingRow = false;
-        }
-
-        #endregion
-
-
-        #region Sorting
-        private void MainContainerDataTable_Sorting(object sender, DataGridSortingEventArgs e)
-        {
-            if (e.Column.SortMemberPath.StartsWith("Is")
-                || e.Column.SortMemberPath.StartsWith("Has")
-                || e.Column.SortMemberPath.StartsWith("Contains"))
-                if (e.Column.SortDirection == null)
-                {
-                    e.Column.SortDirection = System.ComponentModel.ListSortDirection.Ascending;
-                }
-        } 
-
-        #endregion
     }
 }

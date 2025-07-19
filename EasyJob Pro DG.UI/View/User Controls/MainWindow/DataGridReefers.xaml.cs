@@ -1,37 +1,31 @@
 ﻿using EasyJob_ProDG.UI.IO;
-using EasyJob_ProDG.UI.View.UI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.View.User_Controls
 {
     /// <summary>
     /// Логика взаимодействия для DataGridReefers.xaml
     /// </summary>
-    public partial class DataGridReefers : UserControl
+    public partial class DataGridReefers : CommonDataGridUserControl
     {
-        private int currentRowIndex = 1;
-        private bool isDeletingRow = false;
-
-        public DataGridReefers()
+        public DataGridReefers() : base(Animations.AnimationTypes.None)
         {
             InitializeComponent();
 
-            LoadColumnSettings();
-
-            MainWindow.OnWindowClosingEventHandler += new MainWindow.WindowClosing(SaveColumnSettings);
+            MainDataTable = MainReeferDataTable;
+            CallBaseConstructorMethods();
         }
 
         #region Column settings
         /// <summary>
         /// Loads column settings for ReeferDataTable from settings.settings
         /// </summary>
-        internal void LoadColumnSettings()
+        internal override void LoadColumnSettings()
         {
             var displayIndexes = Properties.Settings.Default.ReeferDataTableDisplayIndex.Split(';');
             var widths = Properties.Settings.Default.ReeferDataTableWidth.Split(';');
@@ -41,7 +35,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
             try
             {
-                int index; 
+                int index;
                 double width;
 
                 for (int i = 0; i < displayIndexes.Count(); i++)
@@ -51,7 +45,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                     MainReeferDataTable.Columns[i].DisplayIndex = index;
 
                     width = double.Parse(widths[i]);
-                    if(width < 0) throw new ArgumentOutOfRangeException(nameof(width), "Negative column width");
+                    if (width < 0) throw new ArgumentOutOfRangeException(nameof(width), "Negative column width");
                     MainReeferDataTable.Columns[i].Width = width;
 
                     MainReeferDataTable.Columns[i].Visibility = (System.Windows.Visibility)Enum.Parse(typeof(System.Windows.Visibility), visibilitys[i]);
@@ -75,7 +69,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         /// <summary>
         /// Updates settings.settings with ReeferDataTable column settings
         /// </summary>
-        internal void SaveColumnSettings()
+        internal override void SaveColumnSettings()
         {
             List<int> displayIndexes = new List<int>();
             List<double> widths = new List<double>();
@@ -103,71 +97,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         }
 
         #endregion
-
-
-        #region Input logic
-
-        private void MainReeferDataTable_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            DataGrid grid = sender as DataGrid;
-            currentRowIndex = grid?.SelectedIndex ?? currentRowIndex;
-
-            //Delete row
-            if (e.Key == Key.Delete)
-            {
-                isDeletingRow = true;
-                if (currentRowIndex == MainReeferDataTable.Items.Count - 1) currentRowIndex--;
-                return;
-            }
-
-        } 
-
-        #endregion
-
-
-        #region Focus logic
-
-        /// <summary>
-        /// Sets focus on a selected row by index
-        /// </summary>
-        /// <param name="rowIndex"></param>
-        private void FocusOnRow(int rowIndex)
-        {
-            try
-            {
-                var cellContent = MainReeferDataTable.Columns[0].GetCellContent(MainReeferDataTable.Items[rowIndex]);
-                if (cellContent?.Parent is DataGridCell cell) cell.Focus();
-            }
-            catch
-            {
-                //ignore
-            }
-        }
-
-        /// <summary>
-        /// Used to focus on row after deletion
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainReeferDataTable_UnloadingRow(object sender, DataGridRowEventArgs e)
-        {
-            if (!isDeletingRow) return;
-            FocusOnRow(currentRowIndex);
-            isDeletingRow = false;
-        }
-
-        #endregion
-
-        private void MainContainerDataTable_Sorting(object sender, DataGridSortingEventArgs e)
-        {
-            if (e.Column.SortMemberPath.StartsWith("Is")
-                || e.Column.SortMemberPath.StartsWith("Has")
-                || e.Column.SortMemberPath.StartsWith("Contains"))
-                if (e.Column.SortDirection == null)
-                {
-                    e.Column.SortDirection = System.ComponentModel.ListSortDirection.Ascending;
-                }
-        }
 
     }
 }
