@@ -182,7 +182,7 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             get
             {
-                return flashPoint == ProgramDefaultValues.DefaultFlashPointValue ? "" : flashPoint.ToString(CultureInfo.InvariantCulture);
+                return FlashPointNotDefined ? "" : flashPoint.ToString(CultureInfo.InvariantCulture);
             }
             set
             {
@@ -294,10 +294,10 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         public char StowageCategoryFromIMDGCode
         {
-            get { return stowageCatFromDgList; }
-            set { stowageCatFromDgList = value; }
+            get { return stowageCatFromIMDGCode; }
+            set { stowageCatFromIMDGCode = value; }
         }
-        private char stowageCatFromDgList;
+        private char stowageCatFromIMDGCode;
 
         #endregion
 
@@ -377,8 +377,9 @@ namespace EasyJob_ProDG.Model.Cargo
                 }
                 if (!value)
                 {
-                    Name = Name.Replace(", STABILIZED", "");
-                    StowageCat = stowageCatFromDgList;
+                    if(!string.IsNullOrWhiteSpace(Name))
+                        Name = Name.Replace(", STABILIZED", "");
+                    StowageCat = stowageCatFromIMDGCode;
                     stowageSW = stowageSWfromDgList;
                 }
             }
@@ -404,8 +405,9 @@ namespace EasyJob_ProDG.Model.Cargo
                 else
                 {
                     isWaste = false;
-                    Name = Name.Replace(", WASTE", "");
-                    StowageCat = stowageCatFromDgList;
+                    if(!string.IsNullOrWhiteSpace(Name))
+                        Name = Name.Replace(", WASTE", "");
+                    StowageCat = stowageCatFromIMDGCode;
                 }
             }
         }
@@ -472,6 +474,7 @@ namespace EasyJob_ProDG.Model.Cargo
         public void Clear(ushort unno = 0)
         {
             Unno = unno;
+            dgclass = null;
             dgsubclass[0] = dgsubclass[1] = null;
             allDgClasses.Clear();
             allDgClasses.Add(null);
@@ -482,9 +485,12 @@ namespace EasyJob_ProDG.Model.Cargo
             IsMp = false;
             special.Clear();
             stowageSW.Clear();
+            stowageSWfromDgList?.Clear();
             segregationSG.Clear();
             segregationGroupsListBytes.Clear();
             StowageCat = '0';
+            stowageCatFromIMDGCode = '0';
+            Properties = null;
             Name = null;
             OriginalNameFromCode = null;
             IsFlammable = false;
@@ -492,6 +498,10 @@ namespace EasyJob_ProDG.Model.Cargo
             IsEmitFlammableVapours = false;
             dgClassFromIMDGCode = null;
             DgRowInDOC = 0;
+            IsLq = false;
+            IsWaste = false;
+            IsMax1L = false;
+            IsStabilized = false;
         }
 
         /// <summary>
@@ -514,7 +524,7 @@ namespace EasyJob_ProDG.Model.Cargo
             if (pkgChanged || StowageCat == '0' || StowageCat == '\0')
                 StowageCat = dgFromIMDGCode.StowageCat;
 
-            stowageCatFromDgList = dgFromIMDGCode.StowageCat;
+            stowageCatFromIMDGCode = dgFromIMDGCode.StowageCat;
             stowageSW = dgFromIMDGCode.stowageSW;
             stowageSWfromDgList = dgFromIMDGCode.stowageSW.ToList();
             segregationSG = dgFromIMDGCode.segregationSG;

@@ -17,7 +17,7 @@ namespace EasyJob_ProDG.UI.ViewModel
     public class DataGridDgViewModel : DataGridViewModelBase
     {
         //--------------- Public static properties ----------------------------------
-        public static IList<char> StowageCategories => new List<char>() { 'A', 'B', 'C', 'D', 'E' };
+        public static IList<string> StowageCategories => new List<string>() { "", "A", "B", "C", "D", "E", "01", "02", "03", "04", "05" };
 
         //--------------- Public properties -----------------------------------------
         public ObservableCollection<DgTableColumnSettings> ColumnSettings { get; set; }

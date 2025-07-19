@@ -142,6 +142,7 @@
     <Compile Include="View\Animations\FrameworkElementAnimations.cs" />
     <Compile Include="View\AttachedProperties\DataGridSortBehavior.cs" />
     <Compile Include="View\AttachedProperties\FrameworkElementsAnimationAttachedProperties.cs" />
+    <Compile Include="View\Converters\StowageCategoryConverter.cs" />
     <Compile Include="View\DialogWindows\Info\LicenceAgreement.xaml.cs">
       <DependentUpon>LicenceAgreement.xaml</DependentUpon>
     </Compile>

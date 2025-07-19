@@ -114,7 +114,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 dgToUpdate.DgClass = dgToImport.DgClass;
             if (dgToImport.DgSubclassCount > 0)
                 dgToUpdate.DgSubClassArray = dgToImport.DgSubClassArray;
-            if (dgToImport.FlashPointAsDecimal != ProgramDefaultValues.DefaultFlashPointValue)
+            if (!dgToImport.FlashPointNotDefined)
                 dgToUpdate.FlashPointAsDecimal = dgToImport.FlashPointAsDecimal;
             if (!string.IsNullOrEmpty(dgToImport.DgEMS))
                 dgToUpdate.DgEMS = dgToImport.DgEMS;

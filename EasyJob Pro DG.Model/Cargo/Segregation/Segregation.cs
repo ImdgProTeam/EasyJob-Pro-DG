@@ -532,7 +532,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
             //Check for classes 2.1 and 3 and "SW31" (IMDG Code 42-24)
             bool isSW31 = unit.StowageSW?.Contains("SW31") ?? false;
-            bool isNonCompliantClass3 = unit.AllDgClasses.Contains("2.1") && unit.AllDgClasses.Contains("3") ||
+            bool isNonCompliantClass3 = (unit.AllDgClasses.Contains("2.1") && unit.AllDgClasses.Contains("3")) ||
                 (unit.AllDgClasses.Contains("3") && !(unit.FlashPointAsDecimal >= 23 && !(unit.FlashPointNotDefined)));
 
             if (!isSW31 && !isNonCompliantClass3)

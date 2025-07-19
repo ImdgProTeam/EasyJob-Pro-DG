@@ -475,6 +475,10 @@ namespace EasyJob_ProDG.Model.Cargo
         private static void CheckSegregationWithClass(Dg a, Dg b, string dgClass, SegregationCase segregationCase,
                                                     string sscode, string exceptFromClass = null)
         {
+            // safety check
+            if (a == null || b == null || a.AllDgClasses.Count < 1 || a.AllDgClasses[0] == null ||
+                b.AllDgClasses.Count < 1 || b.AllDgClasses[0] == null) return;
+
             bool conf;
             if (a == b || b.IsLq) return;
             foreach (string s in b.AllDgClasses)

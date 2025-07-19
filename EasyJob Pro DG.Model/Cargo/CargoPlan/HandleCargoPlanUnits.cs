@@ -11,30 +11,6 @@ namespace EasyJob_ProDG.Model.Cargo
         //----------- Add/Remove methods -------------------------------------------------------------------
 
         /// <summary>
-        /// Adds new Dg to CargoPlan
-        /// </summary>
-        /// <param name="dg">New dg to be added to plan</param>
-        public static void AddDg(this CargoPlan cargoPlan, Dg dg)
-        {
-            if (dg == null || string.IsNullOrEmpty(dg.ContainerNumber)) return;
-
-            var container = cargoPlan.Containers.FindContainerByContainerNumber(dg);
-            if (container is null)
-            {
-                container = (Container)dg;
-                cargoPlan.Containers.Add(container);
-                if (dg.IsRf) cargoPlan.Reefers.Add(container);
-            }
-            else
-            {
-                dg.CopyContainerAbstractInfo(container);
-            }
-            dg.UpdateDgInfo();
-            cargoPlan.DgList.Add(dg);
-            container.DgCountInContainer++;
-        }
-
-        /// <summary>
         /// Copies container info from one <see cref="ContainerAbstract"/> to another.
         /// Present method calls respective method from <see cref="Model.IO"/>
         /// </summary>

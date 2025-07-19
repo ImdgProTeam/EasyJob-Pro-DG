@@ -14,9 +14,9 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="dg"></param>
         public static void UpdateDgInfo(this Dg dg)
         {
+            dg.Clear(dg.Unno);
             if (!Validators.UnnoValidator.Validate(dg.Unno)) return;
             
-            dg.Clear(dg.Unno);
             dg.AssignFromDgList(unitIsNew: true);
             dg.AssignSegregationGroup();
         }

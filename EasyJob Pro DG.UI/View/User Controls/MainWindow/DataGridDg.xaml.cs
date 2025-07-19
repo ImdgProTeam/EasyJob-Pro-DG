@@ -156,14 +156,14 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             }
 
             //Stowage category validation
-            if (column?.Header != null && column.Header.ToString() == "Stowage category")
-            {
-                if (!isCharKey) return;
-                if (DataGridDgViewModel.StowageCategories.Contains(key))
-                {
-                    if (dg != null) dg.StowageCat = key;
-                }
-            }
+            //if (column?.Header != null && column.Header.ToString() == "Stowage category")
+            //{
+            //    if (!isCharKey) return;
+            //    if (DataGridDgViewModel.StowageCategories.Contains(key))
+            //    {
+            //        if (dg != null) dg.StowageCat = key;
+            //    }
+            //}
 
             if (column?.Header != null && column.Header.ToString() == "Proper shipping name")
             {

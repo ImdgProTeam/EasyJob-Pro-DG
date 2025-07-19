@@ -20,6 +20,7 @@
         <converters:VisibilityToInverseBooleanConverter x:Key="VisibilityToInverseBooleanConverter" />
         <converters:BoolInversionConverter x:Key="BoolInversionConverter" />
         <converters:DummyConverter x:Key="DummyConverter"/>
+        <converters:StowageCategoryConverter x:Key="StowageCategoryConverter"/>
         <sort:EmptyTextLastSortComparer x:Key="EmptyTextLastSorter" />
     </UserControl.Resources>
 
@@ -394,7 +395,7 @@
                 <!-- Stowage category -->
                 <DataGridComboBoxColumn x:Name="stowCatColumn"
                                         ItemsSource="{Binding Source={x:Static vm:DataGridDgViewModel.StowageCategories}}"
-                                        SelectedItemBinding="{Binding StowageCat, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedItemBinding="{Binding StowageCat, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StowageCategoryConverter}}"
                                         Header="Stowage category"
                                         
                                         >
