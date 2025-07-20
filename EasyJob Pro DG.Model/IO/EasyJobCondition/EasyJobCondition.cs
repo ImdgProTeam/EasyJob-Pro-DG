@@ -389,7 +389,6 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                                 {
                                     Unno = ushort.Parse(segment.Remove(0, 2))
                                 };
-                                dg.AssignSegregationGroup();
                                 count++;
                             }
                             break;
@@ -479,7 +478,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                         }
                     case 54: //IsWaste
                         {
-                            dg.IsWaste = (segment == "W");
+                            dg.SetInitialIsWaste(segment == "W");
                             count++;
                             break;
                         }

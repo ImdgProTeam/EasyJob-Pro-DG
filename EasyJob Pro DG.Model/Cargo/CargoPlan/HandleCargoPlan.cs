@@ -47,7 +47,7 @@ namespace EasyJob_ProDG.Model.Cargo
             }
 
             //Updating cargo plan from database
-            HandleDgList.UpdateDgInfo(cargoPlan.DgList);
+            HandleDgList.UpdateDgInfo(cargoPlan.DgList, OpenFile.DefineFileType(fileName));
             HandleDgList.CheckDgList(cargoPlan.DgList, (byte)OpenFile.FileTypes.Edi);
 
             //Choose what to do with new plan according to OpenOptions

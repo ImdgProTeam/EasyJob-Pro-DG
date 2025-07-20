@@ -14,7 +14,6 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <summary>
         /// Method to update Dg unit with info from dglist.xml
         /// </summary>
-        /// <param name="xmlDoc"></param>
         /// <param name="unitIsNew"></param>
         /// <param name="pkgChanged"></param>
         public static void AssignFromDgList(this Dg dg, bool unitIsNew = false, bool pkgChanged = false)
@@ -23,17 +22,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
             try
             {
-                List<DgFromIMDGCode> imdgRecords;
-                imdgRecords = GetRecordsFromXml(dg.Unno);
-
-                int orderInList = ChooseOneOfMultipleEntries(imdgRecords, dg.PackingGroupAsByte);
-
-                //Transfer data from record to dg item
-                DgFromIMDGCode dgFromImdgCode = imdgRecords[orderInList];
-                dgFromImdgCode.SpecialClass();
-
-                //copy original property text instead of "see entry above"
-                dgFromImdgCode.GetSeeEntryAboveProperty(imdgRecords, orderInList);
+                DgFromIMDGCode dgFromImdgCode = GetFinalDgFromImdgCode(dg);
 
                 // if only packing group changed
                 if (pkgChanged)
@@ -53,6 +42,47 @@ namespace EasyJob_ProDG.Model.Cargo
             }
         }
 
+        /// <summary>
+        /// Method to update only non-changeable Dg unit properties with info from dglist.xml
+        /// </summary>
+        internal static void AssignFromDgListOnlyNonChangeableProperties(this Dg dg)
+        {
+            _messagesToUser = new();
+
+            try
+            {
+                DgFromIMDGCode dgFromImdgCode = GetFinalDgFromImdgCode(dg);
+                dg.SetIMDGCodeValues(dgFromImdgCode);
+            }
+            catch (Exception e)
+            {
+                _messagesToUser.Add($"Could not update information from IMDG Code for unit {dg.ContainerNumber} UNNO {dg.Unno}.");
+                string message = $"Error {e.Message} occurred while attempting to read dg list information for UNNO {dg.Unno} of unit {dg.ContainerNumber}";
+                Data.LogWriter.Write(message);
+            }
+        }
+
+
+        /// <summary>
+        /// Gets records from dglist.xml and selects the most appropriate one.
+        /// Also handling various dglist.xml specific cases to get final record to work with.
+        /// </summary>
+        /// <param name="dg">Reference Dg to be updated with IMDG code values.</param>
+        /// <returns>Final single record to work with.</returns>
+        private static DgFromIMDGCode GetFinalDgFromImdgCode(Dg dg)
+        {
+            List<DgFromIMDGCode> imdgRecords = GetRecordsFromXml(dg.Unno);
+
+            int orderInList = ChooseOneOfMultipleEntries(imdgRecords, dg.PackingGroupAsByte);
+
+            //Transfer data from record to dg item
+            DgFromIMDGCode dgFromImdgCode = imdgRecords[orderInList];
+            dgFromImdgCode.SpecialClass();
+
+            //copy original property text instead of "see entry above"
+            dgFromImdgCode.GetSeeEntryAboveProperty(imdgRecords, orderInList);
+            return dgFromImdgCode;
+        }
 
         /// <summary>
         /// Selects all records (one for each packing group) from IMDG code DgList with matching UN no.

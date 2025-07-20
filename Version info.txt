@@ -30,13 +30,14 @@ VISUAL
 1. 
 
 ERRORS
-1. 
-2. 
-3. 
-4. 
+1. Fixed issue with saving UserSettings.
+2. Fixed MaxUnno not updated with the last amendments implementation.
+3. Fixed not clearing Dg properties when change UNNO to unknown.
+4. Fixed: opening .ejc file will not update all fields, only those non-changeable by user.
 
 NEW
-1. 
+1. Improved Stowage category display text in DataGrid. Also added categories for explosives.
+2. Implemented switching checkboxes with keyboard space.
 
 Fully functional release
 -------------------------------------------------------

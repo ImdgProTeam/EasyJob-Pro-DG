@@ -8,14 +8,18 @@ namespace EasyJob_ProDG.Model.Cargo
         //------------------- Supportive methods to work with Dg list --------------------------------------------------------------
 
         /// <summary>
-        /// Method applies the information from all available sources to units in dg list
+        /// Method applies the information from all available sources to units in dg list.
+        /// For .ejc condition file will change only fixed (unchangeable) information from IMDG Code.
         /// </summary>
         /// <param name="dgList"></param>
-        internal static void UpdateDgInfo(this ICollection<Dg> dgList)
+        internal static void UpdateDgInfo(this ICollection<Dg> dgList, OpenFile.FileTypes fileType)
         {
             foreach (Dg unit in dgList)
             {
-                unit.UpdateDgInfo();
+                if (fileType == OpenFile.FileTypes.Ejc)
+                    unit.UpdateOnlyNonchangeableDgInfo();
+                else
+                    unit.UpdateDgInfo();
             }
             Data.LogWriter.Write($"Dg info updated.");
         }

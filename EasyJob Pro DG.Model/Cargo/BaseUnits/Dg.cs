@@ -393,6 +393,7 @@ namespace EasyJob_ProDG.Model.Cargo
             get => isWaste;
             set
             {
+                if (isWaste == value) return;
                 if (value)
                 {
                     isWaste = true;
@@ -412,6 +413,16 @@ namespace EasyJob_ProDG.Model.Cargo
             }
         }
         private bool isWaste;
+
+        /// <summary>
+        /// Sets IsWaste value directly without executing any other actions.
+        /// Method is used when reading .ejc files.
+        /// </summary>
+        /// <param name="value"></param>
+        internal void SetInitialIsWaste(bool value)
+        {
+            isWaste = value;
+        }
 
         public bool IsMax1L { get; set; }
         public bool IsAsCoolantOrConditioner
@@ -535,6 +546,7 @@ namespace EasyJob_ProDG.Model.Cargo
             isLiquid = dgFromIMDGCode.isLiquid;
             isFlammable = dgFromIMDGCode.isFlammable;
         }
+
         #endregion
 
 

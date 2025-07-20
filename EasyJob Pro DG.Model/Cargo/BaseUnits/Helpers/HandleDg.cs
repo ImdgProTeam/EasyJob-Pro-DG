@@ -21,6 +21,12 @@ namespace EasyJob_ProDG.Model.Cargo
             dg.AssignSegregationGroup();
         }
 
+        public static void UpdateOnlyNonchangeableDgInfo(this Dg dg)
+        {
+            if (!Validators.UnnoValidator.Validate(dg.Unno)) return;
+            dg.AssignFromDgListOnlyNonChangeableProperties();
+        }
+
         internal static void AssignSegregationGroup(this Dg dg)
         {
             var segregationGroupList = IMDGCode.AssignSegregationGroup(dg.Unno);
