@@ -23,11 +23,11 @@ Date: 17-Jul-2025
 Licence: 31 Dec 2026
 
 Version workable: Yes
-Changes: 
+Changes: Fixing few known issues + minor improvements 
 
 
 VISUAL
-1. 
+1. None
 
 ERRORS
 1. Fixed issue with saving UserSettings.
