@@ -17,6 +17,30 @@
 
 VERSION INFO
 
+0.9.0.242
+Date: 
+
+Licence: 31 Dec 2026
+
+Version workable: Yes
+Changes: 
+
+
+VISUAL
+1. 
+
+ERRORS
+1. 
+
+NEW
+1. 
+
+Fully functional release
+-------------------------------------------------------
+///////////////////////////////////////////////////////
+
+
+
 0.9.0.241
 Date: 17-Jul-2025
 
