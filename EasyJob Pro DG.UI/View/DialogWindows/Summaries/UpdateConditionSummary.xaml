@@ -1,0 +1,120 @@
+﻿<local:AnimatedDialogWindow x:Class="EasyJob_ProDG.UI.View.DialogWindows.UpdateConditionSummary"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows" xmlns:usercontrols="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows.Summaries.UserControls"
+        mc:Ignorable="d"
+        xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows.Summaries.Converters"
+        xmlns:converters2="clr-namespace:EasyJob_ProDG.UI.View.Converters"
+        Height="800" Width="400"
+        Title="{Binding Title}"
+        Style="{StaticResource SummaryWindowStyle}"
+        WindowStartupLocation="CenterScreen"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown">
+    <local:AnimatedDialogWindow.Resources>
+        <converters:IntToStringConverter x:Key="ContainerCountConverter"/>
+        <converters2:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters2:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+    </local:AnimatedDialogWindow.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Capture -->
+        <TextBlock Text="{Binding Title}" Style="{StaticResource WindowTitleTextBlock}"
+                   HorizontalAlignment="Left"/>
+
+        <StackPanel Orientation="Vertical" Grid.Row="1"
+                    Background="{StaticResource Brush.Background.Main}"
+                    >
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type usercontrols:UpdateReportBlock}">
+                    <Setter Property="Margin" Value="0 5"/>
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock Text="   Below figures are result of comparison with previous loaded condition."
+                       TextAlignment="Justify" 
+                       TextWrapping="Wrap"
+                       FontStyle="Italic"
+                       Margin="10 0"/>
+            <TextBlock Text="{Binding UpdatedForText}"
+                       HorizontalAlignment="Center"
+                       Margin="0 0 0 2"/>
+            <Border HorizontalAlignment="Stretch" BorderThickness="0.2" BorderBrush="Black"/>
+
+            <!-- No updates -->
+            <TextBlock Text="There are no changes in the new plan."
+                       Visibility="{Binding HasUpdates, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
+
+            <!-- Discharged -->
+            <usercontrols:UpdateReportBlock BlockLabel="Total discharged or cancelled:   "
+                                ToolTip="Total number of units discharged or cancelled."
+                                DataContext="{Binding BlockDischarged}"/>
+            
+            <!-- Discharged wrong POD -->
+            <usercontrols:UpdateReportBlock BlockLabel="Discharged wrong POD:   "
+                                ToolTip="Discharged units destined to another POD."
+                                DataContext="{Binding BlockDischargedWrongPOD}"/>
+            
+            <!-- Cancelled -->
+            <usercontrols:UpdateReportBlock BlockLabel="Cancelled:   "
+                                ToolTip="Units from the present port of loading that are missing in the updated plan."
+                                DataContext="{Binding BlockCancelled}"/>
+            
+            <!-- Loaded -->
+            <usercontrols:UpdateReportBlock BlockLabel="Loaded or added:   "
+                                            ToolTip="Total number of units loaded or added since the previous plan."
+                                            DataContext="{Binding BlockLoaded}"/>
+
+            <!-- Loaded -->
+            <usercontrols:UpdateReportBlock BlockLabel="Added different POL:   "
+                                            ToolTip="Units added with different POL from current."
+                                            DataContext="{Binding BlockLoadedWrongPOL}"/>
+            
+            <!-- Restows -->
+            <usercontrols:UpdateReportBlock BlockLabel="Restowed:   "
+                                ToolTip="Units restowed at present port."
+                                DataContext="{Binding BlockRestows}"/>
+            
+            <!-- Changed loading position -->
+            <usercontrols:UpdateReportBlock BlockLabel="Loading position changed:   "
+                                ToolTip="Units loading position changed."
+                                DataContext="{Binding BlockChangedPosition}"/>
+
+            <!-- Transit cargo -->
+            <usercontrols:UpdateReportBlock BlockLabel="Transit cargo:   "
+                    ToolTip="Total number of units in transit."
+                    DataContext="{Binding BlockTransit}"/>
+        
+            <!-- Changed destination -->
+            <usercontrols:UpdateReportBlock BlockLabel="Destination changed:   "
+                    ToolTip="Units POD changed."
+                    DataContext="{Binding BlockChangedPOD}"/>
+
+            
+            <!-- Check boxes block -->
+            <CheckBox Content="Show all values, including '0'."
+          IsChecked="{Binding ShowZeroValues, Mode=TwoWay}"
+                      Margin="10 15 0 0"
+                      Visibility="{Binding HasUpdates, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <CheckBox Content="Show this window on Condition Update"
+                          IsChecked="{Binding ShowSummaryOnUpdateCondition, Mode=TwoWay}"
+                          Margin="10 5"/>
+        </StackPanel>
+
+        <!-- Bottom -->
+        <Grid Grid.Row="2">
+            <StackPanel>
+
+                <Button Content="Close" 
+                        Click="CloseWindow" 
+                        IsCancel="True" 
+                        Style="{StaticResource SummaryWindowButtonStyle}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</local:AnimatedDialogWindow>

@@ -15,6 +15,8 @@ namespace EasyJob_ProDG.UI.Services
         ObservableCollection<ExcelDgTemplateWrapper> ExcelDgTemplates { get; set; }
         ObservableCollection<ExcelReeferTemplateWrapper> ExcelReeferTemplates { get; set; }
 
+        bool ShowSummaryOnUpdateCondition { get; set; }
+
         void SetSelectedExcelDgTemplateIndex(int selectedExcelDgTemplateIndex);
 
         void SetSelectedExcelReeferTemplateIndex(int selectedExcelReeferTemplateIndex);

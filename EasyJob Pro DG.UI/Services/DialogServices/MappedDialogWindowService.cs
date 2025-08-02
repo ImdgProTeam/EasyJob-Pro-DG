@@ -7,6 +7,7 @@ namespace EasyJob_ProDG.UI.Services.DialogServices
     /// <summary>
     /// Service to display windows in dialog mode with IDialogWindowRequestClose interface
     /// and with prior mapping to ViewModels.
+    /// Mappings done in ServiceHandler.cs
     /// </summary>
     public class MappedDialogWindowService : IMappedDialogWindowService
     {

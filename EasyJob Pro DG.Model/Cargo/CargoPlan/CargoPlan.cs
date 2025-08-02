@@ -1,4 +1,5 @@
 ﻿using EasyJob_ProDG.Model.Transport;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,6 +11,8 @@ namespace EasyJob_ProDG.Model.Cargo
         public List<Container> Containers { get; set; }
         public List<Container> Reefers { get; set; }
         public Voyage VoyageInfo { get; set; }
+
+        public CargoPlanUpdates Updates { get; set; }
 
         /// <summary>
         /// True if <see cref="CargoPlan"/> contains no <see cref="Container"/> nor <see cref="Dg"/>
@@ -59,6 +62,8 @@ namespace EasyJob_ProDG.Model.Cargo
             Reefers = new List<Container>();
             Containers = new List<Container>();
             VoyageInfo = new Voyage();
+            Updates = new CargoPlanUpdates();
         }
+
     }
 }

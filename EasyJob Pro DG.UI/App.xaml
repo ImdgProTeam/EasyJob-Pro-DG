@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="View/Styles\Defaults.xaml" />
                 <ResourceDictionary Source="View/Styles\Windows.xaml" />
                 <ResourceDictionary Source="View/Styles\Expanders.xaml" />
+                <ResourceDictionary Source="View/Styles\ContextMenu.xaml"/>
                 <ResourceDictionary Source="View/Styles\Buttons.xaml" />
                 <ResourceDictionary Source="View/Styles\TextControls.xaml" />
                 <ResourceDictionary Source="View/Styles\Lists.xaml" />

@@ -41,8 +41,9 @@
         public static string ContainerNumberFromDisplay(string containerNumber)
         {
             return containerNumber.Replace(" ", "").Replace("|", "").Replace("\\", "");
-        } 
+        }
 
         #endregion
+
     }
 }

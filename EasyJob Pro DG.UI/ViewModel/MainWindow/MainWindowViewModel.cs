@@ -9,7 +9,11 @@ using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Markup;
+using System.Windows.Threading;
+
+
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
@@ -180,13 +184,17 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
             StatusBarControl.ChangeBarSet(80);
 
-
             await Task.Run(() => GetCargoData());
             StatusBarControl.ChangeBarSet(90);
 
             SetWindowTitle();
             StatusBarControl.ChangeBarSet(100);
             SetIsLoading(false);
+
+            // Show update summary
+            SetConditionUpdateSummaryCreatedStatus(false);
+            if (openOption == OpenFile.OpenOption.Update && Services.SettingsServiceAccess.ShowSummaryOnUpdateCondition)
+                await Application.Current.Dispatcher.InvokeAsync(() => ShowConditionUpdateSummary());
         }
 
 

@@ -56,8 +56,10 @@
     <Compile Include="Cargo\BaseUnits\Helpers\ContainerAbstractTypeHelpers.cs" />
     <Compile Include="Cargo\BaseUnits\Helpers\ContainerConverters.cs" />
     <Compile Include="Cargo\BaseUnits\Helpers\ContainerCopier.cs" />
+    <Compile Include="Cargo\CargoPlan\CargoPlanUpdates.cs" />
     <Compile Include="Cargo\CargoPlan\HandleCargoPlan.cs" />
     <Compile Include="Cargo\CargoPlan\HandleCargoPlanUnits.cs" />
+    <Compile Include="Cargo\CargoPlan\HandleCargoPlanUpdates.cs" />
     <Compile Include="Cargo\Conflicts\DgConflictMethods.cs" />
     <Compile Include="Cargo\CargoPlan\HandleDgList.cs" />
     <Compile Include="Cargo\Interfaces\ICargoPlan.cs" />

@@ -6,6 +6,7 @@ using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.View.DialogWindows;
+using EasyJob_ProDG.UI.View.DialogWindows.Summaries;
 using EasyJob_ProDG.UI.View.UI;
 using System;
 using System.IO;
@@ -39,6 +40,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand ShowCargoSummaryCommand { get; private set; }
         public ICommand ShowPortToPortReportCommand { get; private set; }
         public ICommand ShowDgCargoSummaryCommand { get; private set; }
+        public ICommand ShowConditionUpdateSummaryCommand { get; private set; }
 
         // ----- Files commands -----
         public ICommand NewCargoPlanCommand { get; private set; }
@@ -83,22 +85,29 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void LoadCommands()
         {
             MainWindowLoadedCommand = new DelegateCommand(MainWindowLoadedCommandExecuted);
+
             AddNewDgCommand = new DelegateCommand(OnAddNewDg, CanAddNewDg);
             ReCheckCommand = new DelegateCommand(OnReCheckRequested);
+
             OpenShipProfileWindowCommand = new DelegateCommand(OpenShipProfileWindowExecuted);
             OpenUserSettingsWindowCommand = new DelegateCommand(OpenUserSettingsWindowExecuted);
             SaveSettingsCommand = new DelegateCommand(SaveSettingsToFileExecuted);
             RestoreSettingsCommand = new DelegateCommand(RestoreSettingsFromFileExecuted);
+
             ShowAboutCommand = new DelegateCommand(ShowAboutExecuted);
             ShowLicenseDialogCommand = new DelegateCommand(ShowLicenseDialogExecuted);
             ShowLoginWindowCommand = new DelegateCommand(ShowLoginWindowOnExecuted);
+
             ShowCargoSummaryCommand = new DelegateCommand(ShowCargoSummaryCommandOnExecuted);
             ShowPortToPortReportCommand = new DelegateCommand(ShowPortToPortReportCommandOnExecuted);
             ShowDgCargoSummaryCommand = new DelegateCommand(ShowDgCargoSummaryCommandOnExecuted);
+            ShowConditionUpdateSummaryCommand = new DelegateCommand(ShowConditionUpdateSummaryCommandOnExecuted);
+
             NewCargoPlanCommand = new DelegateCommand(NewCargoPlanCommandOnExecuted);
             OpenFileCommand = new DelegateCommand(OpenOnExecuted);
             SaveFileCommand = new DelegateCommand(SaveOnExecuted);
             UpdateConditionCommand = new DelegateCommand(UpdateConditionOnExecuted, CanExecuteForOptionalOpen);
+
             ImportDataCommand = new DelegateCommand(ImportInfoOnExecuted, CanImportDgInfo);
             ImportDataOnlyPolCommand = new DelegateCommand(ImportInfoOnlyPolOnExecuted, CanImportDgInfo);
             ImportDataOnlySelectedCommand = new DelegateCommand(ImportInfoOnlySelectedOnExecuted, CanImportDgInfoOnlySelected);
@@ -487,6 +496,23 @@ namespace EasyJob_ProDG.UI.ViewModel
             portToPortReportViewModel.CreateReport(WorkingCargoPlan.Model);
             Services.WindowDialogServiceAccess.ShowDialog(new PortToPortReport(), portToPortReportViewModel);
         }
+
+        private void ShowConditionUpdateSummaryCommandOnExecuted(object obj)
+        {
+            ShowConditionUpdateSummary();
+        }
+
+        private void ShowConditionUpdateSummary()
+        {
+            var updateConditionReportViewModel = UpdateConditionSummaryViewModel.CreateReport();
+            Services.WindowDialogServiceAccess.ShowDialog(new UpdateConditionSummary(), updateConditionReportViewModel);
+        }
+
+        private void SetConditionUpdateSummaryCreatedStatus(bool created)
+        {
+            UpdateConditionSummaryViewModel.ReportCreated = created;
+        }
+
 
         #endregion
     }

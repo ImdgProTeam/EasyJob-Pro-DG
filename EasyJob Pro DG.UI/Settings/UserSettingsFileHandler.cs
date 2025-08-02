@@ -98,15 +98,7 @@ namespace EasyJob_ProDG.UI.Settings
                     try
                     {
                         if (element.Name.ToString().Equals("version")) continue;
-
-                        var propertyType = Properties.Settings.Default.Properties[element.Name.ToString()].PropertyType;
-
-                        if (propertyType.Equals(typeof(string)))
-                            Properties.Settings.Default[element.Name.ToString()] = element.Value;
-                        else if (propertyType.Equals(typeof(byte)))
-                            Properties.Settings.Default[element.Name.ToString()] = byte.Parse(element.Value);
-                        else if (propertyType.Equals(typeof(double)))
-                            Properties.Settings.Default[element.Name.ToString()] = double.Parse(element.Value);
+                        SetSettingsPropertyValue(element);
                     }
                     catch (Exception)
                     {
@@ -121,6 +113,18 @@ namespace EasyJob_ProDG.UI.Settings
             }
             Properties.Settings.Default.Save();
             return true;
+        }
+
+        private static void SetSettingsPropertyValue(XElement element)
+        {
+            var propertyType = Properties.Settings.Default.Properties[element.Name.ToString()].PropertyType;
+
+            if (propertyType.Equals(typeof(string)))
+                Properties.Settings.Default[element.Name.ToString()] = element.Value;
+            else if (propertyType.Equals(typeof(byte)))
+                Properties.Settings.Default[element.Name.ToString()] = byte.Parse(element.Value);
+            else if (propertyType.Equals(typeof(double)))
+                Properties.Settings.Default[element.Name.ToString()] = double.Parse(element.Value);
         }
     }
 }

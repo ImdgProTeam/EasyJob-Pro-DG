@@ -1,10 +1,14 @@
 ﻿using EasyJob_ProDG.Model.IO.Excel;
 using EasyJob_ProDG.UI.Wrapper;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 
 namespace EasyJob_ProDG.UI.Settings
 {
+    /// <summary>
+    /// Class is responsible for handling User defined preferences related to UI/display of information.
+    /// </summary>
     public class UserUISettings : IUserUISettings
     {
         #region Settings constants
@@ -12,16 +16,35 @@ namespace EasyJob_ProDG.UI.Settings
         internal const string _FORMATDECIMAL = "# ### ##0.000";
         internal const string EXCEL_DG_TEMPLATE_PREFIX = "ExcelDgTemplate";
         internal const string EXCEL_REEFER_TEMPLATE_PREFIX = "ExcelReeferTemplate";
-        internal const int NumberOfStoredTemplates = 5; 
+        internal const int NumberOfStoredTemplates = 5;
 
         #endregion
 
+        #region Private locals
+        
+        private bool _showSummaryOnUpdateCondition;
+
+        #endregion
+
+        #region UI Settings properties
 
         // Sorting lists
         public enum DgSortOrderPattern { ABC, CBA, LR, RL, LRsnake, RLsnake };
         public DgSortOrderPattern DgSortPattern { get; set; }
         public bool Combine2040BaysWhenSorting { get; private set; }
         public byte LowestTierOnDeck { get; private set; }
+
+        public bool ShowSummaryOnUpdateCondition
+        {
+            get => _showSummaryOnUpdateCondition;
+            set
+            {
+                _showSummaryOnUpdateCondition = value;
+                UpdatePropertiesSettingsDefault(value);
+            }
+        }
+
+        #endregion
 
         #region ExcelTemplates
         //Excel
@@ -118,6 +141,8 @@ namespace EasyJob_ProDG.UI.Settings
             _selectedDgTemplateIndexNumberInSettings = Properties.Settings.Default.SelectedExcelDgTemplate;
             _selectedReeferTemplateIndexNumberInSettings = Properties.Settings.Default.SelectedExcelReeferTemplate;
 
+            _showSummaryOnUpdateCondition = Properties.Settings.Default.ShowSummaryOnUpdateCondition;
+
             CreateTemplateCollections();
         }
 
@@ -180,6 +205,27 @@ namespace EasyJob_ProDG.UI.Settings
 
             Properties.Settings.Default.SelectedExcelReeferTemplate = _selectedReeferTemplateIndexNumberInSettings;
             SetExcelReeferTemplate();
+        }
+
+        /// <summary>
+        /// Sets value to property in Properties.Settings.Default
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="propertyName"></param>
+        private void UpdatePropertiesSettingsDefault(object value, [CallerMemberName] string propertyName = null)
+        {
+            string Value = value.ToString();
+            var propertyType = Properties.Settings.Default.Properties[propertyName]?.PropertyType;
+            if (propertyType is null) return;
+
+            if (propertyType.Equals(typeof(string)))
+                Properties.Settings.Default[propertyName] = Value;
+            else if (propertyType.Equals(typeof(byte)))
+                Properties.Settings.Default[propertyName] = byte.Parse(Value);
+            else if (propertyType.Equals(typeof(double)))
+                Properties.Settings.Default[propertyName] = double.Parse(Value);
+            else if (propertyType.Equals(typeof(bool)))
+                Properties.Settings.Default[propertyName] = bool.Parse(Value);
         }
 
     }

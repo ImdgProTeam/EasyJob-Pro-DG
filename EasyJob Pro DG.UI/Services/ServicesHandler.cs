@@ -131,13 +131,13 @@ namespace EasyJob_ProDG.UI.Services
         private void SetupDialogService()
         {
             SetDialogServiceOwner(System.Windows.Application.Current.MainWindow);
-            RegisterDialogServiceRelations();
+            RegisterMappedDialogServiceRelations();
         }
 
         /// <summary>
         /// Registers windows and their view models in dialog service
         /// </summary>
-        private void RegisterDialogServiceRelations()
+        private void RegisterMappedDialogServiceRelations()
         {
             _mappedDialogWindowService.Register<WelcomeWindowVM, WelcomeWindow>();
             _mappedDialogWindowService.Register<WinLoginViewModel, winLogin>();

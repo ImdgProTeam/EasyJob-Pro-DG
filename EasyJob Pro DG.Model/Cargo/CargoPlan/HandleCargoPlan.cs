@@ -289,6 +289,7 @@ namespace EasyJob_ProDG.Model.Cargo
             //TODO: To be tested properly!
 
             cargoPlan.ClearAllHasUpdated();
+            cargoPlan.ClearUpdates();
 
             var resultingNewCargoPlan = new CargoPlan();
             var existingCargoPlan = cargoPlan.CopyCargoPlan();
@@ -351,7 +352,6 @@ namespace EasyJob_ProDG.Model.Cargo
                 // if no number
                 else if (existingCargoPlan.HasNonamers && newContainer.HasNoNumber)
                 {
-
                     for (int i = 0; i < existingCargoPlan.Containers.Count; i++)
                     {
                         var existingContainer = existingCargoPlan.Containers.ElementAt(i);
@@ -402,10 +402,20 @@ namespace EasyJob_ProDG.Model.Cargo
                 ShiftContainerToResultingCargoPlan(existingCargoPlan, container, resultingNewCargoPlan, containerIsNew: false);
             }
 
+            //Discharged containers
+            foreach(var container in existingCargoPlan.Containers)
+            {
+                resultingNewCargoPlan.AddToDischarged(container);
+            }
+
             //voyage
             resultingNewCargoPlan.VoyageInfo.VoyageNumber = newPlan.VoyageInfo.VoyageNumber;
             resultingNewCargoPlan.VoyageInfo.PortOfDeparture = newPlan.VoyageInfo.PortOfDeparture;
             resultingNewCargoPlan.VoyageInfo.PortOfDestination = newPlan.VoyageInfo.PortOfDestination;
+
+            //updates
+            resultingNewCargoPlan.Updates.HasPOLChanged = 
+                newPlan.VoyageInfo.PortOfDeparture != cargoPlan.VoyageInfo.PortOfDeparture;
 
             Data.LogWriter.Write($"Cargo plan successfully updated.");
             return resultingNewCargoPlan;
@@ -481,6 +491,9 @@ namespace EasyJob_ProDG.Model.Cargo
             //Add new Container
             container.IsNewUnitInPlan = containerIsNew;
             resultingCargoPlan.Containers.Add(container);
+            if(containerIsNew)
+                resultingCargoPlan.AddToLoaded(container);
+
             if (container.IsRf)
             {
                 resultingCargoPlan.Reefers.Add(container);

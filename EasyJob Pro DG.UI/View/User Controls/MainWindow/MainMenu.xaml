@@ -48,27 +48,27 @@
                         ContentSource="Header"
                         RecognizesAccessKey="True" />
                     <Popup x:Name="Popup"
-                        Placement="Bottom"
+                        Placement="Bottom" 
                         IsOpen="{TemplateBinding IsSubmenuOpen}"
                         AllowsTransparency="True"
                         Focusable="False"
                         PopupAnimation="Slide">
                         <Grid>
-                        <Border x:Name="SubmenuBorder"
+                            <Border x:Name="SubmenuBorder"
                             SnapsToDevicePixels="True"
                             BorderThickness="1"
                             Background="{StaticResource Brush.MainMenu.Background}">
-                            <Border.BorderBrush>
-                                <SolidColorBrush Color="Transparent" />
-                            </Border.BorderBrush>
-                            <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto">
-                                <StackPanel IsItemsHost="True"
+                                <Border.BorderBrush>
+                                    <SolidColorBrush Color="Transparent" />
+                                </Border.BorderBrush>
+                                <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto">
+                                    <StackPanel IsItemsHost="True"
                                         KeyboardNavigation.DirectionalNavigation="Cycle" />
-                            </ScrollViewer>
-                        </Border>
+                                </ScrollViewer>
+                            </Border>
                             <Border VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="25" 
-                                    Background="Transparent" BorderBrush="{StaticResource Brush.MainMenu.Disabled.Foreground}" 
-                                    BorderThickness="0,0,1,0"/>
+                                Background="Transparent" BorderBrush="{StaticResource Brush.MainMenu.Disabled.Foreground}" 
+                                BorderThickness="0,0,1,0"/>
                         </Grid>
                     </Popup>
                 </Grid>
@@ -223,16 +223,16 @@
                             Focusable="False"
                             PopupAnimation="Fade">
                         <Grid>
-                        <Border x:Name="SubmenuBorder"
+                            <Border x:Name="SubmenuBorder"
                                 SnapsToDevicePixels="True"
                                 Background="{StaticResource Brush.MainMenu.Background}"
                                 BorderThickness="1" 
                                 BorderBrush="Transparent">
-                            <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto">
-                                <StackPanel IsItemsHost="True"
+                                <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto">
+                                    <StackPanel IsItemsHost="True"
                                             KeyboardNavigation.DirectionalNavigation="Cycle" />
-                            </ScrollViewer>
-                        </Border>
+                                </ScrollViewer>
+                            </Border>
                             <Border VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="25" 
                                     Background="Transparent" BorderBrush="{StaticResource Brush.MainMenu.Disabled.Foreground}" 
                                     BorderThickness="0,0,1,0"/>
@@ -246,11 +246,11 @@
                             Value="Collapsed" />
                 </Trigger>
                 <Trigger Property="IsHighlighted" Value="true">
-                        <Setter Property="Background" TargetName="Border" 
+                    <Setter Property="Background" TargetName="Border" 
                             Value="{StaticResource Brush.MainMenu.SubLevel.Highlight.Background}"/>
-                        <Setter Property="BorderBrush" TargetName="Border" 
+                    <Setter Property="BorderBrush" TargetName="Border" 
                             Value="{StaticResource Brush.MainMenu.SubLevel.Highlight.Border}"/>
-                        <Setter Property="TextBlock.Foreground" TargetName="Border" 
+                    <Setter Property="TextBlock.Foreground" TargetName="Border" 
                             Value="{StaticResource Brush.MainMenu.SubLevel.Highlight.Foreground}"/>
                 </Trigger>
                 <Trigger SourceName="Popup" Property="AllowsTransparency" Value="True">
@@ -286,7 +286,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
     </UserControl.Resources>
 
     <Grid>
@@ -381,6 +381,8 @@
                       Command="{Binding ShowPortToPortReportCommand}"/>
                 <MenuItem Header="IMDG summary"
                           Command="{Binding ShowDgCargoSummaryCommand}"/>
+                <MenuItem Header="Update condition summary"
+                        Command="{Binding ShowConditionUpdateSummaryCommand}"/>
             </MenuItem>
 
             <!-- Settings -->
@@ -399,13 +401,15 @@
             <!-- Help -->
             <MenuItem Header="Help">
                 <MenuItem Header="License"
-                          Command="{Binding ShowLicenseDialogCommand}"></MenuItem>
+                          Command="{Binding ShowLicenseDialogCommand}"
+                          ></MenuItem>
                 <MenuItem Header="About"
-                          Command="{Binding ShowAboutCommand}"></MenuItem>
+                          Command="{Binding ShowAboutCommand}"
+                         ></MenuItem>
                 <!--<MenuItem Header="Login"
                           Command="{Binding ShowLoginWindowCommand}"></MenuItem>-->
             </MenuItem>
-            
+
         </Menu>
     </Grid>
 </local:AnimatedUserControl>

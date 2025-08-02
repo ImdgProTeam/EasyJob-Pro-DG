@@ -39,6 +39,12 @@ namespace EasyJob_ProDG.UI.Services
             UserSettingsApplicator.ApplyUserSettings();
         }
 
+        public bool ShowSummaryOnUpdateCondition
+        {
+            get => _uiSettings.ShowSummaryOnUpdateCondition;
+            set => _uiSettings.ShowSummaryOnUpdateCondition = value;
+        }
+
         #region Excel templates
 
         public int SelectedExcelDgTemplateIndex => _uiSettings.SelectedDgTemplateIndex;

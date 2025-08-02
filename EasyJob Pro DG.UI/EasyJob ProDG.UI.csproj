@@ -121,7 +121,9 @@
     <Compile Include="IO\DialogOpenSettings.cs" />
     <Compile Include="IO\DialogSaveSettings.cs" />
     <Compile Include="Services\DataServices\CargoPlanCheckService.cs" />
+    <Compile Include="Services\DataServices\Interfaces\ICargoUpdatesDataService.cs" />
     <Compile Include="Services\DataServices\Interfaces\ICargoPlanCheckService.cs" />
+    <Compile Include="Services\DataServices\CargoUpdatesDataService.cs" />
     <Compile Include="Services\DialogServices\IWindowDialogService.cs" />
     <Compile Include="Services\FileNameService.cs" />
     <Compile Include="Services\IFileNameService.cs" />
@@ -142,7 +144,10 @@
     <Compile Include="View\Animations\FrameworkElementAnimations.cs" />
     <Compile Include="View\AttachedProperties\DataGridSortBehavior.cs" />
     <Compile Include="View\AttachedProperties\FrameworkElementsAnimationAttachedProperties.cs" />
+    <Compile Include="View\Converters\InverseBooleanToVisiblityConverter.cs" />
+    <Compile Include="View\Converters\MultiplyValueConverter.cs" />
     <Compile Include="View\Converters\StowageCategoryConverter.cs" />
+    <Compile Include="View\Converters\SubstractValueConverter.cs" />
     <Compile Include="View\DialogWindows\Info\LicenceAgreement.xaml.cs">
       <DependentUpon>LicenceAgreement.xaml</DependentUpon>
     </Compile>
@@ -153,6 +158,10 @@
     <Compile Include="View\DialogWindows\Info\WelcomeWindowVM.cs" />
     <Compile Include="View\DialogWindows\Info\WinAboutViewModel.cs" />
     <Compile Include="View\DialogWindows\Summaries\CargoReportViewModel.cs" />
+    <Compile Include="View\DialogWindows\Summaries\Converters\IntToCollapsedConverter.cs" />
+    <Compile Include="View\DialogWindows\Summaries\Converters\IntToStringConverter.cs" />
+    <Compile Include="View\DialogWindows\Summaries\Converters\UpdateReportBlockVisibilityMultiConverter.cs" />
+    <Compile Include="View\DialogWindows\Summaries\Dummy\UpdateReportBlockDummyCondition.cs" />
     <Compile Include="View\DialogWindows\Summaries\Supporting classes\DataTableHelpers.cs" />
     <Compile Include="View\DialogWindows\Summaries\DgSummaryReport.xaml.cs">
       <DependentUpon>DgSummaryReport.xaml</DependentUpon>
@@ -255,6 +264,14 @@
       <DependentUpon>winLicence.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogWindows\Info\WinLicenceViewModel.cs" />
+    <Compile Include="View\DialogWindows\Summaries\Supporting classes\UpdateReportBlockCondition.cs" />
+    <Compile Include="View\DialogWindows\Summaries\UpdateConditionSummary.xaml.cs">
+      <DependentUpon>UpdateConditionSummary.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DialogWindows\Summaries\UpdateConditionSummaryViewModel.cs" />
+    <Compile Include="View\DialogWindows\Summaries\UserControls\UpdateReportBlock.xaml.cs">
+      <DependentUpon>UpdateReportBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Helpers\Helpers.cs" />
     <Compile Include="View\Sort\ContainerLeftToRightComparer.cs" />
     <Compile Include="View\Sort\EmptyTextLastSortComparer.cs" />
@@ -404,7 +421,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DialogWindows\Summaries\UpdateConditionSummary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\Summaries\UserControls\UpdateReportBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Styles\Brushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Styles\ContextMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

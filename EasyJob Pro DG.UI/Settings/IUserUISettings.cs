@@ -17,6 +17,7 @@ namespace EasyJob_ProDG.UI.Settings
         DgSortOrderPattern DgSortPattern { get; set; }
         bool Combine2040BaysWhenSorting { get;  }
         byte LowestTierOnDeck { get;  }
+        bool ShowSummaryOnUpdateCondition { get; set; }
 
 
         void SaveExcelTemplate(string templateSettingsName, string template);

@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="EasyJob_ProDG.UI.View.DialogWindows.Summaries.UserControls.UpdateReportBlock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows.Summaries.UserControls"
+             mc:Ignorable="d" 
+             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows.Summaries.Converters"
+             xmlns:converters2="clr-namespace:EasyJob_ProDG.UI.View.Converters"
+             >
+    <UserControl.Resources>
+        <converters:IntToStringConverter x:Key="IntToStringConverter"/>
+        <converters:IntToCollapsedConverter x:Key="IntToCollapsedConverter"/>
+        <converters:UpdateReportBlockVisibilityMultiConverter x:Key="UpdateReportBlockVisibilityMultiConverter"/>
+        <converters2:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <Style TargetType="TextBlock" >
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource ButtonAsBlackTextLinkStyle}">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+            <Setter Property="Width" Value="130"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid
+        Visibility="{Binding ShowVisible}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="{Binding BlockLabel, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+        <StackPanel Grid.Column="1">
+
+            <Button Content="{Binding ContainersCount, Converter={StaticResource IntToStringConverter}, 
+                    ConverterParameter='container(s)'}"
+                    Command="{Binding ShowContainers}" 
+                    Padding="0 0 23 0"
+                    d:Content="23 container(s)">
+                <Button.Visibility>
+                    <MultiBinding Converter="{StaticResource UpdateReportBlockVisibilityMultiConverter}">
+                        <Binding Path="ContainersCount"/>
+                        <Binding Path="ShowZeroValues"/>
+                    </MultiBinding>
+                </Button.Visibility>
+            </Button>
+
+            <Button Content="{Binding ReefersCount, Converter={StaticResource IntToStringConverter},
+                ConverterParameter='reefer(s)'}"
+                    Command="{Binding ShowReefers}" 
+                    Padding="0 0 43 0"
+                    d:Content="46 reefer(s)">
+                <Button.Visibility>
+                    <MultiBinding Converter="{StaticResource UpdateReportBlockVisibilityMultiConverter}">
+                        <Binding Path="ReefersCount"/>
+                        <Binding Path="ShowZeroValues"/>
+                    </MultiBinding>
+                </Button.Visibility>
+            </Button>
+
+            <Button Content="{Binding DgContainersCount, 
+                Converter={StaticResource IntToStringConverter}, ConverterParameter='DG container(s)'}"
+                    Command="{Binding ShowDg}"
+                    d:Content="5 DG container(s)">
+                <Button.Visibility>
+                    <MultiBinding Converter="{StaticResource UpdateReportBlockVisibilityMultiConverter}">
+                        <Binding Path="DgContainersCount"/>
+                        <Binding Path="ShowZeroValues"/>
+                    </MultiBinding>
+                </Button.Visibility>
+            </Button>
+
+        </StackPanel>
+    </Grid>
+</UserControl>
