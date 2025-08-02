@@ -15,7 +15,6 @@
              >
 
     <local:CommonDataGridUserControl.Resources>
-        <converters:VisibilityToInverseBooleanConverter x:Key="VisibilityToInverseBooleanConverter" />
         <converters:BoolInversionConverter x:Key="BoolInversionConverter" />
         <sort:EmptyTextLastSortComparer x:Key="EmptyTextLastSorter" />
     </local:CommonDataGridUserControl.Resources>
@@ -73,31 +72,18 @@
         <DataGrid x:Name="MainContainerDataTable"
                   ItemsSource="{Binding UnitsPlanView}"
                   SelectedItem="{Binding SelectedUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  IsSynchronizedWithCurrentItem="True"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
-                  
+                 
                   FrozenColumnCount="0"
                   ScrollViewer.CanContentScroll="True"
                   ScrollViewer.IsDeferredScrollingEnabled="False"                 
-                  HorizontalScrollBarVisibility="Auto"
-                  VerticalScrollBarVisibility="Auto"
-                  EnableRowVirtualization="True"
-                  VirtualizingPanel.IsContainerVirtualizable="True"
-                  VirtualizingPanel.IsVirtualizing="True"
+
                   VirtualizingPanel.ScrollUnit="Item"
                   VirtualizingPanel.VirtualizationMode="Recycling"
                   
-                  HeadersVisibility="All"
-                  GridLinesVisibility="None"
-                  AlternationCount="2"
                   Background="{StaticResource Brush.ContainerTable.Background}"
-                  RowBackground="Transparent"
-                  AlternatingRowBackground="{StaticResource Brush.DgTable.AlternateRow}"
-                  Opacity="1"
-                  Grid.Column="0"
-                  Grid.Row="0"
-                  SelectionMode="Extended"
+
+                  Style="{StaticResource MainDataGridCommonStyle}"
+                  
                   Sorting="MainDataTable_Sorting"
                   ap:SelectingContainerDataGridItem.SelectingItem="{Binding SelectedUnit}"
                   UnloadingRow="MainDataTable_OnUnloadingRow"
@@ -110,39 +96,15 @@
             <DataGrid.Resources>
 
                 <!-- Context menu -->
-                <ContextMenu x:Key="DataGridContainersColumnHeaderContextMenu"
-                                    DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}"
-                                    ItemsSource="{Binding Columns, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}">
-                    <ContextMenu.ItemContainerStyle>
-                        <Style TargetType="MenuItem">
-                            <Setter Property="Header"
-                                        Value="{Binding Header}" />
-                            <Setter Property="AutomationProperties.Name"
-                                        Value="{Binding Header}" />
-                            <Setter Property="IsCheckable"
-                                        Value="True" />
-                            <Setter Property="IsChecked"
-                                        Value="{Binding Visibility, Mode=TwoWay, Converter={StaticResource VisibilityToInverseBooleanConverter}}" />
-                            <Style.Triggers>
-                                <Trigger Property="Header"
-                                                Value="N">
-                                    <Setter Property="Visibility"
-                                                Value="Collapsed" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ContextMenu.ItemContainerStyle>
-                </ContextMenu>
+                <ContextMenu x:Key="DataGridColumnHeaderContextMenu"
+             Style="{StaticResource DataGridColumnHeadersContextMenu}"/>
 
                 <!-- Header style -->
                 <Style TargetType="{x:Type DataGridColumnHeader}"
                             BasedOn="{StaticResource DataGridColumnHeaderStyle}">
                     <Setter Property="ContextMenu"
-                        Value="{StaticResource DataGridContainersColumnHeaderContextMenu}" />
-
+                        Value="{StaticResource DataGridColumnHeaderContextMenu}" />
                 </Style>
-
-
 
                 <!-- Cell style -->
                 <Style TargetType="{x:Type DataGridCell}">

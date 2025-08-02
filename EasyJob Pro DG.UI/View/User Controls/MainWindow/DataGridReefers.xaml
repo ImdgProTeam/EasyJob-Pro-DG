@@ -14,7 +14,6 @@
              d:DesignWidth="800">
 
     <local:CommonDataGridUserControl.Resources>
-        <converters:VisibilityToInverseBooleanConverter x:Key="VisibilityToInverseBooleanConverter" />
         <converters:BoolInversionConverter x:Key="BoolInversionConverter" />
         <sort:EmptyTextLastSortComparer x:Key="EmptyTextLastSorter" />
     </local:CommonDataGridUserControl.Resources>
@@ -73,71 +72,40 @@
         <DataGrid x:Name="MainReeferDataTable"
                   ItemsSource="{Binding UnitsPlanView}"
                   SelectedItem="{Binding SelectedUnit, Mode=TwoWay}"
-                  IsSynchronizedWithCurrentItem="True"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
+
                   CanUserSortColumns="True"
                   
                   FrozenColumnCount="0"
                   ScrollViewer.CanContentScroll="True"
-                  ScrollViewer.IsDeferredScrollingEnabled="False"
-                  EnableRowVirtualization="True"
-                  VirtualizingPanel.IsContainerVirtualizable="True"
-                  VirtualizingPanel.IsVirtualizing="True"
+
                   VirtualizingPanel.VirtualizationMode="Recycling"
                   VirtualizingPanel.ScrollUnit="Item"
                   
-                  HeadersVisibility="All"
-                  AlternationCount="2"
-                  GridLinesVisibility="None"
                   Background="{StaticResource Brush.ReeferTable.Background}"
-                  RowBackground="Transparent"
-                  AlternatingRowBackground="{StaticResource Brush.DgTable.AlternateRow}"
-                  Opacity="1"
-                  Grid.Column="0"
-                  Grid.Row="0"
-                  SelectionMode="Extended"
+
+                  Style="{StaticResource MainDataGridCommonStyle}"
+                  
                   ap:SelectingContainerDataGridItem.SelectingItem="{Binding SelectedUnit}"
                   behaviors:DataGridBehavior.DisplayRowNumber="True"
                   ap:DataGridSortBehavior.AllowCustomSort="True"
                   PreviewKeyDown="MainDataTable_PreviewKeyDown"
                   UnloadingRow="MainDataTable_OnUnloadingRow"
                   Sorting="MainDataTable_Sorting"
-                                    BeginningEdit="MainTable_BeginningEdit"
+                  BeginningEdit="MainTable_BeginningEdit"
                   CellEditEnding="MainTable_CellEditEnding"
                   >
 
             <DataGrid.Resources>
 
-                <ContextMenu x:Key="DataGridReefersColumnHeaderContextMenu"
-                             DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}"
-                             ItemsSource="{Binding Columns, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}">
-                    <ContextMenu.ItemContainerStyle>
-                        <Style TargetType="MenuItem">
-                            <Setter Property="Header"
-                                    Value="{Binding Header}" />
-                            <Setter Property="AutomationProperties.Name"
-                                    Value="{Binding Header}" />
-                            <Setter Property="IsCheckable"
-                                    Value="True" />
-                            <Setter Property="IsChecked"
-                                    Value="{Binding Visibility, Mode=TwoWay, Converter={StaticResource VisibilityToInverseBooleanConverter}}" />
-                            <Style.Triggers>
-                                <Trigger Property="Header"
-                                         Value="N">
-                                    <Setter Property="Visibility"
-                                            Value="Collapsed" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ContextMenu.ItemContainerStyle>
-                </ContextMenu>
+                <!-- Context menu -->
+                <ContextMenu x:Key="DataGridColumnHeaderContextMenu"
+                    Style="{StaticResource DataGridColumnHeadersContextMenu}"/>
 
                 <!-- Header style -->
                 <Style TargetType="{x:Type DataGridColumnHeader}"
                        BasedOn="{StaticResource DataGridColumnHeaderStyle}">
                     <Setter Property="ContextMenu"
-                            Value="{StaticResource DataGridReefersColumnHeaderContextMenu}" />
+                            Value="{StaticResource DataGridColumnHeaderContextMenu}" />
                 </Style>
 
                 <!-- CheckBox style -->
@@ -145,13 +113,13 @@
                     <Setter Property="HorizontalAlignment" Value="Center"/>
                     <Setter Property="Focusable" Value="False"/>
                 </Style>
-                
+
                 <!-- Cell style -->
                 <Style TargetType="{x:Type DataGridCell}">
                     <Setter Property="TextBlock.TextAlignment" Value="Right"/>
                     <Setter Property="Padding" Value="10,1"/>
-                </Style>                
-                
+                </Style>
+
 
                 <!-- Selection color -->
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"

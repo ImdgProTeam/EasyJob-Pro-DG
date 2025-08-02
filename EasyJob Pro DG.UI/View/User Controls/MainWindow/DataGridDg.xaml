@@ -10,14 +10,14 @@
              xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties" 
              xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib" 
              xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
-             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls" xmlns:sort="clr-namespace:EasyJob_ProDG.UI.View.Sort"
-                           x:Class="EasyJob_ProDG.UI.View.User_Controls.DataGridDg"
+             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls" 
+             xmlns:sort="clr-namespace:EasyJob_ProDG.UI.View.Sort"
+             x:Class="EasyJob_ProDG.UI.View.User_Controls.DataGridDg"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="1200"
              d:DataContext="{d:DesignInstance vm:DataGridDgViewModel}">
     <UserControl.Resources>
-        <converters:VisibilityToInverseBooleanConverter x:Key="VisibilityToInverseBooleanConverter" />
         <converters:BoolInversionConverter x:Key="BoolInversionConverter" />
         <converters:DummyConverter x:Key="DummyConverter"/>
         <converters:StowageCategoryConverter x:Key="StowageCategoryConverter"/>
@@ -82,32 +82,15 @@
         <DataGrid x:Name="MainDgTable"
                   ItemsSource="{Binding UnitsPlanView}"
                   SelectedItem="{Binding SelectedDg, Mode=TwoWay}"
-                  
-                  IsSynchronizedWithCurrentItem="True"
-                  
-                  FrozenColumnCount="0"
-                  AutoGenerateColumns="False"
-                  HorizontalScrollBarVisibility="Auto"
-                  VerticalScrollBarVisibility="Auto"
-                  
-                  
+                                    
                   ScrollViewer.CanContentScroll="False"
-                  EnableRowVirtualization="True"
-                  VirtualizingPanel.IsContainerVirtualizable="True"
-                  VirtualizingPanel.IsVirtualizing="True"
-                  VirtualizingPanel.VirtualizationMode="Standard"                  
                   VirtualizingPanel.ScrollUnit="Pixel"
-                  CanUserAddRows="False"
-                  HeadersVisibility="All"
-                  GridLinesVisibility="None"
-                  AlternationCount="2"
+                  VirtualizingPanel.VirtualizationMode="Standard"
+                  
                   Background="{StaticResource Brush.DgTable.Background}"
-                  RowBackground="Transparent"
-                  AlternatingRowBackground="{StaticResource Brush.DgTable.AlternateRow}"
-                  
-                  Opacity="1"
-                  
-                  SelectionMode="Extended"
+
+                  Style="{StaticResource MainDataGridCommonStyle}"
+
                   ap:SelectingDgDataGridItem.SelectingItem="{Binding SelectedDg}"
                   PreviewKeyDown="MainDataTable_PreviewKeyDown"
                   BeginningEdit="MainTable_BeginningEdit"
@@ -121,30 +104,10 @@
             <DataGrid.Resources>
                 <!-- Max column width -->
                 <system:Double x:Key="MaxColumnWidth">500.0</system:Double>
-                
+
                 <!-- Context menu -->
                 <ContextMenu x:Key="DataGridColumnHeaderContextMenu"
-                             DataContext="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}"
-                             ItemsSource="{Binding Columns, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}">
-                    <ContextMenu.ItemContainerStyle>
-                        <Style TargetType="MenuItem">
-                            <Setter Property="Header"
-                                    Value="{Binding Header}" />
-                            <Setter Property="AutomationProperties.Name"
-                                    Value="{Binding Header}" />
-                            <Setter Property="IsCheckable"
-                                    Value="True" />
-                            <Setter Property="IsChecked"
-                                    Value="{Binding Visibility, Mode=TwoWay, Converter={StaticResource VisibilityToInverseBooleanConverter}}" />
-                            <Style.Triggers>
-                                <Trigger Property="Header"
-                                         Value="N">
-                                    <Setter Property="Visibility"
-                                            Value="Collapsed" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ContextMenu.ItemContainerStyle>
+                             Style="{StaticResource DataGridColumnHeadersContextMenu}">
                 </ContextMenu>
 
                 <!-- Header style -->
@@ -157,7 +120,6 @@
                 <!-- Cell style -->
                 <Style TargetType="{x:Type DataGridCell}">
                     <Setter Property="IsTabStop" Value="False" />
-                    <Setter Property="BorderThickness" Value="0"/>
                     <Setter Property="TextBlock.TextAlignment" Value="Center"/>
                 </Style>
 
