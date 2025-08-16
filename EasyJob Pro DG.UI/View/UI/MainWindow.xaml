@@ -123,6 +123,7 @@
                               Background="Transparent"
                               Panel.ZIndex="100"/>
 
+                <!-- Data grids -->
                 <TabControl Grid.Column="0"
                             Grid.Row="0"
                             TabStripPlacement="Bottom"
@@ -144,6 +145,15 @@
                              Background="{StaticResource Brush.ContainerTable.Background}">
                         <uc:DataGridContainers x:Name="MainContainerDataGrid"
                                                DataContext="{Binding DataGridContainersViewModel}"/>
+
+                    </TabItem>
+
+                    <!-- Updates -->
+                    <TabItem Header="Updates"
+                             Background="{StaticResource Brush.ContainerTable.Background}"
+                             Visibility="{Binding Visibility, ElementName=MainUpdatesDataGrid}">
+                        <uc:DataGridUpdates x:Name="MainUpdatesDataGrid"
+                           DataContext="{Binding DataGridUpdatesViewModel}"/>
 
                     </TabItem>
                 </TabControl>

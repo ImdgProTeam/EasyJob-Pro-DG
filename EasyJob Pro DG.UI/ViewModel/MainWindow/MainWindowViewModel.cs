@@ -40,6 +40,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public DataGridDgViewModel DataGridDgViewModel => ViewModelLocator.DataGridDgViewModel;
         public DataGridReefersViewModel DataGridReefersViewModel => ViewModelLocator.DataGridReefersViewModel;
         public DataGridContainersViewModel DataGridContainersViewModel => ViewModelLocator.DataGridContainersViewModel;
+        public DataGridUpdatesViewModel DataGridUpdatesViewModel => ViewModelLocator.DataGridUpdatesViewModel;
         public int SelectedDataGridIndex { get; set; }
 
         /// <summary>

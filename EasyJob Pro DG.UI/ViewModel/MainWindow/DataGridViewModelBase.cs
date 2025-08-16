@@ -8,7 +8,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace EasyJob_ProDG.UI.ViewModel.MainWindow
+namespace EasyJob_ProDG.UI.ViewModel
 {
     public abstract class DataGridViewModelBase : Observable
     {

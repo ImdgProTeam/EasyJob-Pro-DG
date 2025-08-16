@@ -8,6 +8,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
     public class UpdateReportBlockCondition : Observable
     {
         private bool _showZeroValues;
+        ShowContainersEventArgs _args;
 
         public int ContainersCount { get; protected set; }
         public int ReefersCount { get; protected set; }
@@ -43,16 +44,19 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
 
         private void OnShowContainers(object obj)
         {
-            OnShowContainersExectued.Invoke(this, new EventArgs());
+            _args.UnitsToShow = Units.Containers;
+            OnShowContainersExectued.Invoke(this, _args);
         }
 
         private void OnShowReefers(object obj)
         {
-            throw new NotImplementedException();
+            _args.UnitsToShow = Units.Reefers;
+            OnShowContainersExectued.Invoke(this, _args);
         }
         private void OnShowDg(object obj)
         {
-            throw new NotImplementedException();
+            _args.UnitsToShow = Units.DgContainers;
+            OnShowContainersExectued.Invoke(this, _args);
         }
 
         private bool CanShowContainers(object obj)
@@ -78,6 +82,10 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
         #region Events
 
         internal event EventHandler OnShowContainersExectued;
+        internal class ShowContainersEventArgs : EventArgs
+        {
+            internal Units UnitsToShow { get; set; }
+        }
 
         #endregion
 
@@ -90,6 +98,8 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
 
             LoadCommands();
             OnPropertyChanged();
+
+            _args = new ShowContainersEventArgs();
         } 
         #endregion
     }

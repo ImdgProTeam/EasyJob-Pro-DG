@@ -1,6 +1,5 @@
 ﻿using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Utility;
-using EasyJob_ProDG.UI.ViewModel.MainWindow;
 using EasyJob_ProDG.UI.Wrapper;
 using System.Collections.Generic;
 

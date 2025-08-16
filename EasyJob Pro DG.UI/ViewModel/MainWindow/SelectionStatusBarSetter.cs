@@ -1,7 +1,7 @@
 ﻿using EasyJob_ProDG.UI.Wrapper;
 using System.Collections.Generic;
 
-namespace EasyJob_ProDG.UI.ViewModel.MainWindow
+namespace EasyJob_ProDG.UI.ViewModel
 {
     internal static class SelectionStatusBarSetter
     {

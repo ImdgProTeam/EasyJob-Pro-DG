@@ -17,5 +17,22 @@ namespace EasyJob_ProDG.UI.Services.DataServices
             !WorkingCargoPlan.Model.Updates.IsEmpty 
             || WorkingCargoPlan.Containers.Any(c => c.HasPodChanged)
             || WorkingCargoPlan.Containers.Any(c => c.HasLocationChanged);
+
+        
+        #region Singleton
+
+        /// <summary>
+        /// Provides access to the service.
+        /// </summary>
+        /// <returns>A reference to the service instance.</returns>
+        public static CargoUpdatesDataService GetCargoUpdatesDataService()
+        {
+            return _instance;
+        }
+
+        private static CargoUpdatesDataService _instance = new CargoUpdatesDataService();
+
+        private CargoUpdatesDataService() { }
+        #endregion
     }
 }

@@ -2,11 +2,13 @@
 using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.Utility.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using static EasyJob_ProDG.UI.View.DialogWindows.Summaries.UpdateReportBlockCondition;
 
 namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
 {
@@ -18,9 +20,10 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
         internal static bool ReportCreated {get; set;}
 
         #region Private members
+
         ISettingsService _settingsService;
 
-        ICargoUpdatesDataService _cargoUpdatesDataService = new CargoUpdatesDataService();
+        ICargoUpdatesDataService _cargoUpdatesDataService = CargoUpdatesDataService.GetCargoUpdatesDataService();
         private bool _showZeroValues; 
 
 
@@ -29,6 +32,14 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
         List<Container> CargoPlanContainers => _cargoUpdatesDataService.WorkingCargoPlan.Model.Containers;
 
         string PortOfLoading => _cargoUpdatesDataService.WorkingCargoPlan.VoyageInfo.PortOfDeparture;
+
+        List<Container> dischargedWrongPODContainers;
+        List<Container> cancelledContainers;
+        List<Container> loadedWronPOLContainers;
+        List<Container> restowedContainers;
+        List<Container> changedPositionContainers;
+        List<Container> changedPODContainers;
+        List<Container> transitContainers;
 
         #endregion
 
@@ -106,36 +117,60 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
 
             // Discharged
             BlockDischarged = CreateBlock(DischargedContainers);
-            BlockDischarged.OnShowContainersExectued -= ShowContainers;
-            BlockDischarged.OnShowContainersExectued += ShowContainers;
-
 
             var dischargedWrongPODTotal = DischargedContainers.Where(c => c.POD != PortOfLoading);
 
             // Discharged wrong POD
-            BlockDischargedWrongPOD = CreateBlock(dischargedWrongPODTotal.Where(c => c.POL != PortOfLoading));
+            dischargedWrongPODContainers = dischargedWrongPODTotal.Where(c => c.POL != PortOfLoading).ToList();
+            BlockDischargedWrongPOD = CreateBlock(dischargedWrongPODContainers);
 
             // Cancelled loading
-            BlockCancelled = CreateBlock(dischargedWrongPODTotal.Where(c => c.POL == PortOfLoading));
+            cancelledContainers = dischargedWrongPODTotal.Where(c => c.POL == PortOfLoading).ToList();
+            BlockCancelled = CreateBlock(cancelledContainers);
 
             // Loaded
             BlockLoaded = CreateBlock(LoadedContainers);
 
             // Added wrong POL
-            BlockLoadedWrongPOL = CreateBlock(LoadedContainers.Where(c => c.POL != PortOfLoading));
+            loadedWronPOLContainers = LoadedContainers.Where(c => c.POL != PortOfLoading).ToList();
+            BlockLoadedWrongPOL = CreateBlock(loadedWronPOLContainers);
 
             // Restows
-            BlockRestows = CreateBlock(CargoPlanContainers.Where(c => c.HasLocationChanged && c.POL != PortOfLoading));
-            
+            restowedContainers = CargoPlanContainers.Where(c => c.HasLocationChanged && c.POL != PortOfLoading).ToList();
+            BlockRestows = CreateBlock(restowedContainers);
+
             // Changed position
-            BlockChangedPosition = CreateBlock(CargoPlanContainers.Where(c => c.HasLocationChanged && c.POL == PortOfLoading));
+            changedPositionContainers = CargoPlanContainers.Where(c => c.HasLocationChanged && c.POL == PortOfLoading).ToList();
+            BlockChangedPosition = CreateBlock(changedPositionContainers);
 
             // Changed POD
-            BlockChangedPOD = CreateBlock(CargoPlanContainers.Where(c => c.HasPodChanged));
+            changedPODContainers = CargoPlanContainers.Where(c => c.HasPodChanged).ToList();
+            BlockChangedPOD = CreateBlock(changedPODContainers);
 
             // Transit cargo
-            BlockTransit = CreateBlock(CargoPlanContainers.Where(c => !LoadedContainers.Contains(c)));
+            transitContainers = CargoPlanContainers.Where(c => !LoadedContainers.Contains(c)).ToList();
+            BlockTransit = CreateBlock(transitContainers);
+
+            SubscribeBlocksToEvents();
         }
+
+        /// <summary>
+        /// Subscribes each block OnShowContainersExecuted event to respective respective
+        /// </summary>
+        private void SubscribeBlocksToEvents()
+        {
+            UnsubscribeEvents();
+            BlockDischarged.OnShowContainersExectued += ShowDischargedContainers;
+            BlockDischargedWrongPOD.OnShowContainersExectued += ShowDischargedWrongContainers;
+            BlockCancelled.OnShowContainersExectued += ShowCancelledContainers;
+            BlockLoaded.OnShowContainersExectued += ShowLoadedContainers;
+            BlockLoadedWrongPOL.OnShowContainersExectued += ShowLoadedWrongContainers;
+            BlockRestows.OnShowContainersExectued += ShowRestowedContainers;
+            BlockChangedPosition.OnShowContainersExectued += ShowChangedPositionContainers;
+            BlockChangedPOD.OnShowContainersExectued += ShowChangedPODContainers;
+            BlockTransit.OnShowContainersExectued += ShowTransitContainers;
+        }
+
 
         /// <summary>
         /// Creates <see cref="UpdateReportBlockCondition"/> with values from the listOfContainers.
@@ -148,15 +183,8 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
             int reefersCount = listOfContainers.Count(c => c.IsRf);
             int dgCount = listOfContainers.Count(c => c.ContainsDgCargo);
             var block = new UpdateReportBlockCondition(containersCount, reefersCount, dgCount);
-            block.OnShowContainersExectued -= ShowContainers;
-            block.OnShowContainersExectued += ShowContainers;
 
             return block;
-        }
-
-        private void ShowContainers(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -189,20 +217,113 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
             }
         }
 
+        /// <summary>
+        /// Unsubscribes all Blocks from subscribed events
+        /// </summary>
+        private void UnsubscribeEvents()
+        {
+            BlockDischarged.OnShowContainersExectued -= ShowDischargedContainers;
+            BlockDischargedWrongPOD.OnShowContainersExectued -= ShowDischargedWrongContainers;
+            BlockCancelled.OnShowContainersExectued -= ShowCancelledContainers;
+            BlockLoaded.OnShowContainersExectued -= ShowLoadedContainers;
+            BlockLoadedWrongPOL.OnShowContainersExectued -= ShowLoadedWrongContainers;
+            BlockRestows.OnShowContainersExectued -= ShowRestowedContainers;
+            BlockChangedPosition.OnShowContainersExectued -= ShowChangedPositionContainers;
+            BlockChangedPOD.OnShowContainersExectued -= ShowChangedPODContainers;
+            BlockTransit.OnShowContainersExectued -= ShowTransitContainers;
+        }
+
         #endregion
 
-        #region Show commands
+        #region Show containers methods
 
+        private void ShowDischargedContainers(object sender, EventArgs e)
+        {
+            var args = e as ShowContainersEventArgs;
+            if (args is null) return;
 
+            DataMessenger.Default.Send(new ShowUpdatesMessage(DischargedContainers, args.UnitsToShow));
+        }
+
+        private void ShowTransitContainers(object sender, EventArgs e)
+        {
+            var args = e as ShowContainersEventArgs;
+            if (args is null) return;
+
+            DataMessenger.Default.Send(new ShowUpdatesMessage(transitContainers, args.UnitsToShow));
+        }
+
+        private void ShowChangedPODContainers(object sender, EventArgs e)
+        {
+            var args = e as ShowContainersEventArgs;
+            if (args is null) return;
+
+            DataMessenger.Default.Send(new ShowUpdatesMessage(changedPODContainers, args.UnitsToShow));
+        }
+
+        private void ShowChangedPositionContainers(object sender, EventArgs e)
+        {
+            var args = e as ShowContainersEventArgs;
+            if (args is null) return;
+
+            DataMessenger.Default.Send(new ShowUpdatesMessage(changedPositionContainers, args.UnitsToShow));
+        }
+
+        private void ShowRestowedContainers(object sender, EventArgs e)
+        {
+            var args = e as ShowContainersEventArgs;
+            if (args is null) return;
+
+            DataMessenger.Default.Send(new ShowUpdatesMessage(restowedContainers, args.UnitsToShow));
+        }
+
+        private void ShowLoadedWrongContainers(object sender, EventArgs e)
+        {
+            var args = e as ShowContainersEventArgs;
+            if (args is null) return;
+
+            DataMessenger.Default.Send(new ShowUpdatesMessage(loadedWronPOLContainers, args.UnitsToShow));
+        }
+
+        private void ShowLoadedContainers(object sender, EventArgs e)
+        {
+            var args = e as ShowContainersEventArgs;
+            if (args is null) return;
+
+            DataMessenger.Default.Send(new ShowUpdatesMessage(LoadedContainers, args.UnitsToShow));
+        }
+
+        private void ShowCancelledContainers(object sender, EventArgs e)
+        {
+            var args = e as ShowContainersEventArgs;
+            if (args is null) return;
+
+            DataMessenger.Default.Send(new ShowUpdatesMessage(cancelledContainers, args.UnitsToShow));
+        }
+
+        private void ShowDischargedWrongContainers(object sender, EventArgs e)
+        {
+            var args = e as ShowContainersEventArgs;
+            if (args is null) return;
+
+            DataMessenger.Default.Send(new ShowUpdatesMessage(dischargedWrongPODContainers, args.UnitsToShow));
+        }
 
         #endregion
 
-        #region Constructor and singleton instance
+        #region Constructor, destructor and singleton instance
+
         private static UpdateConditionSummaryViewModel _instance;
         public UpdateConditionSummaryViewModel()
         {
             _settingsService = ServicesHandler.GetServicesAccess().SettingsServiceAccess;
-        } 
+        }
+
+        ~UpdateConditionSummaryViewModel()
+        {
+            UnsubscribeEvents();
+        }
+
         #endregion
     }
 }

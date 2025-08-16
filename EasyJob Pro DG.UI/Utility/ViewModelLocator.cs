@@ -48,6 +48,15 @@ namespace EasyJob_ProDG.UI.Utility
             }
         }
 
+        private static DataGridUpdatesViewModel dataGridUpdatesViewModel = new DataGridUpdatesViewModel();
+        public static DataGridUpdatesViewModel DataGridUpdatesViewModel
+        {
+            get
+            {
+                return dataGridUpdatesViewModel;
+            }
+        }
+
         private static SettingsWindowVM settingsWindowVM;
         public static SettingsWindowVM SettingsWindowVM
         {

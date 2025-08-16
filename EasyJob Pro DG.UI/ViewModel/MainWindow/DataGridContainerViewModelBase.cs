@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Input;
 
-namespace EasyJob_ProDG.UI.ViewModel.MainWindow
+namespace EasyJob_ProDG.UI.ViewModel
 {
     /// <summary>
     /// Common abstract class for DataGridContainerViewModel and DataGridReefersViewModel
