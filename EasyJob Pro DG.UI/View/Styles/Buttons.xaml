@@ -63,6 +63,26 @@
         <Setter Property="Foreground" Value="{StaticResource Brush.Text.Main}"/>
     </Style>
 
+<!-- Button 'close' in Updates tab -->
+    <Style TargetType="Button" x:Key="TabButtonClose">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="Gray"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
     <!-- Assign all buttons general style -->
     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BasicButton}"/>

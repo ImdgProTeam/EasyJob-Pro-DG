@@ -130,6 +130,7 @@
     <Compile Include="Services\ServicesHandler.cs" />
     <Compile Include="Settings\UserSettingsApplicator.cs" />
     <Compile Include="Utility\AsyncObservableCollection.cs" />
+    <Compile Include="Utility\Messages\ChangeSelectionMessage.cs" />
     <Compile Include="Utility\Messages\ConflictsToBeCheckedAndUpdatedMessage.cs" />
     <Compile Include="Utility\Messages\DgListSelectedItemUpdatedMessage.cs" />
     <Compile Include="Utility\Messages\ShipProfileSavedMessage.cs" />

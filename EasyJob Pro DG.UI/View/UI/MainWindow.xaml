@@ -9,7 +9,7 @@
         xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties" 
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
-        xmlns:viewmodel="clr-namespace:EasyJob_ProDG.UI.ViewModel"
+        xmlns:viewmodel="clr-namespace:EasyJob_ProDG.UI.ViewModel" 
         mc:Ignorable="d"
         Icon="imdg.good.ico"
         Title="{Binding WindowTitle, UpdateSourceTrigger=Default}"
@@ -149,13 +149,24 @@
                     </TabItem>
 
                     <!-- Updates -->
-                    <TabItem Header="Updates"
+                    <TabItem x:Name="tabUpdates"
                              Background="{StaticResource Brush.ContainerTable.Background}"
                              Visibility="{Binding Visibility, ElementName=MainUpdatesDataGrid}">
+                        <TabItem.Header>
+                            <StackPanel Orientation="Horizontal" Background="Transparent">
+                                <TextBlock Text="Updates" Margin="2 3"
+                                       Background="Transparent"/>
+                                <Button Content="x"
+                                        ToolTip="Close"
+                                        Margin="0"
+                                        Command="{Binding CloseUpdatesDataGridCommand}"
+                                        Style="{StaticResource TabButtonClose}"/>
+                            </StackPanel>
+                        </TabItem.Header>
                         <uc:DataGridUpdates x:Name="MainUpdatesDataGrid"
                            DataContext="{Binding DataGridUpdatesViewModel}"/>
-
                     </TabItem>
+                    
                 </TabControl>
 
                 <!---   Info block   -->

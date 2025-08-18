@@ -1,22 +1,24 @@
 ﻿using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.Wrapper;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
     public class DataGridUpdatesViewModel : DataGridViewModelBase
     {
         public Visibility Visible { get; set; }
-        IEnumerable<ContainerWrapper> UpdatedContainers { get; set; }
+        ObservableCollection<ContainerWrapper> UpdatedContainers { get; set; }
+        public ICommand CloseUpdatesDataGridCommand { get; private set; }
 
         #region Constructor
         // ---------- Constructor ---------------
         public DataGridUpdatesViewModel() : base()
         {
-            UpdatedContainers = new List<ContainerWrapper>();
+            UpdatedContainers = new ObservableCollection<ContainerWrapper>();
             Visible = Visibility.Collapsed;
         }
 
@@ -37,7 +39,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         protected override void LoadCommands()
         {
-
+            CloseUpdatesDataGridCommand = new DelegateCommand(CloseUpdatesDataGridCommandOnExecuted);
         }
 
         /// <summary>
@@ -62,17 +64,17 @@ namespace EasyJob_ProDG.UI.ViewModel
             switch (message.Units)
             {
                 case View.Units.Containers:
-                    UpdatedContainers = message.ContainersToShow.Select(c => new ContainerWrapper(c));
+                    UpdatedContainers = [.. message.ContainersToShow.Select(c => new ContainerWrapper(c))];
                     break;
                 case View.Units.Reefers:
-                    UpdatedContainers = message.ContainersToShow
+                    UpdatedContainers = [.. message.ContainersToShow
                         .Where(c => c.IsRf)
-                        .Select(c => new ContainerWrapper(c));
+                        .Select(c => new ContainerWrapper(c))];
                     break;
                 case View.Units.DgContainers:
-                    UpdatedContainers = message.ContainersToShow
+                    UpdatedContainers = [.. message.ContainersToShow
                         .Where(c => c.ContainsDgCargo)
-                        .Select(c => new ContainerWrapper(c));
+                        .Select(c => new ContainerWrapper(c))];
                     break;
                 default:
                     break;
@@ -84,6 +86,17 @@ namespace EasyJob_ProDG.UI.ViewModel
             OnPropertyChanged(nameof(Visible));
         }
 
+        private void CloseUpdatesDataGridCommandOnExecuted(object obj)
+        {
+            HideUpdatesDataGrid();
+            DataMessenger.Default.Send(new ChangeSelectionMessage(), "updates data grid closed");
+        }
+
+        internal void HideUpdatesDataGrid()
+        {
+            Visible = Visibility.Collapsed;
+            OnPropertyChanged(nameof(Visible)); 
+        }
 
         #region Implementation of abstract class methods
 

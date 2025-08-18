@@ -3,6 +3,7 @@ using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.View.DialogWindows;
+using EasyJob_ProDG.UI.View.DialogWindows.Summaries;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
 
@@ -143,6 +144,7 @@ namespace EasyJob_ProDG.UI.Services
             _mappedDialogWindowService.Register<WinLoginViewModel, winLogin>();
             _mappedDialogWindowService.Register<DialogWindowOptionsViewModel, DialogWindowOptions>();
             _mappedDialogWindowService.Register<CargoReportViewModel, CargoReport>();
+            _mappedDialogWindowService.Register<UpdateConditionSummaryViewModel, UpdateConditionSummary>();
         }
 
         /// <summary>

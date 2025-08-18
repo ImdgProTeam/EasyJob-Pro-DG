@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasyJob_ProDG.UI.IO;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -87,6 +88,20 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             Properties.Settings.Default.ContainerDataTableVisibilities = string.Join(";", visibilitys);
         }
 
+
+        #endregion
+
+        #region Export to excel
+
+        /// <summary>
+        /// Exports MainDataGrid as it is displayed to excel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExportToExcel(object sender, RoutedEventArgs e)
+        {
+            ExportDataGridToExcel.ExportToExcel(MainContainerDataTable);
+        }
 
         #endregion
 

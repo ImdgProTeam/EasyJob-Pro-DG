@@ -58,7 +58,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand ImportReeferManifestInfoOnlySelectedCommand { get; private set; }
         public ICommand ImportReeferManifestInfoOnlyPolCommand { get; private set; }
 
-        // ----- Export to excel command -----
+        // ----- Various DataGrids commands -----
+        public ICommand CloseUpdatesDataGridCommand { get; private set; }
         public ICommand ExportToExcelCommand { get; private set; }
 
         // ----- Various commands -----
@@ -115,6 +116,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             ImportReeferManifestInfoOnlySelectedCommand = new DelegateCommand(ImportReeferManifestInfoOnlySelectedOnExecuted, CanAddReeferManifestInfoOnlySelected);
             ImportReeferManifestInfoOnlyPolCommand = new DelegateCommand(ImportReeferManifestInfoOnlyPolOnExecuted, CanAddReeferManifestInfo);
 
+            CloseUpdatesDataGridCommand = new DelegateCommand(CloseUpdatesDataGridCommandOnExecuted);
             ExportToExcelCommand = new DelegateCommand(ExportToExcelOnExecuted);
             SelectionChangedCommand = new DelegateCommand(OnApplicationClosing);
             ApplicationClosingCommand = new DelegateCommand(OnApplicationClosing);
@@ -129,7 +131,12 @@ namespace EasyJob_ProDG.UI.ViewModel
             Application.Current.Shutdown();
         }
 
-        // ----- Export to excel -----
+        // --- Various DataGrids commands ----
+        private void CloseUpdatesDataGridCommandOnExecuted(object obj)
+        {
+            ViewModelLocator.DataGridUpdatesViewModel.HideUpdatesDataGrid();
+            OnChangeSelectionMessageReceived(null);
+        }
 
         /// <summary>
         /// Calls export to excel method
@@ -505,14 +512,13 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void ShowConditionUpdateSummary()
         {
             var updateConditionReportViewModel = UpdateConditionSummaryViewModel.CreateReport();
-            Services.WindowDialogServiceAccess.ShowDialog(new UpdateConditionSummary(), updateConditionReportViewModel);
+            Services.MappedDialogWindowServiceAccess.ShowDialog(updateConditionReportViewModel);
         }
 
         private void SetConditionUpdateSummaryCreatedStatus(bool created)
         {
             UpdateConditionSummaryViewModel.ReportCreated = created;
         }
-
 
         #endregion
     }

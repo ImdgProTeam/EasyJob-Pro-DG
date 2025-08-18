@@ -1,6 +1,7 @@
 ﻿using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Services.DataServices;
+using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Utility.Messages;
 using System;
@@ -8,23 +9,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using static EasyJob_ProDG.UI.View.DialogWindows.Summaries.UpdateReportBlockCondition;
 
 namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
 {
-    public class UpdateConditionSummaryViewModel : Observable
+    public class UpdateConditionSummaryViewModel : Observable, IDialogWindowRequestClose
     {
         /// <summary>
         /// Flag to avoid re-creation of the summary on each show up
         /// </summary>
-        internal static bool ReportCreated {get; set;}
+        internal static bool ReportCreated { get; set; }
+        public ICommand CloseCommand { get; private set; }
 
         #region Private members
 
         ISettingsService _settingsService;
 
         ICargoUpdatesDataService _cargoUpdatesDataService = CargoUpdatesDataService.GetCargoUpdatesDataService();
-        private bool _showZeroValues; 
+        private bool _showZeroValues;
 
 
         List<Container> LoadedContainers => _cargoUpdatesDataService.LoadedContainers;
@@ -78,12 +81,12 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
         public UpdateReportBlockCondition BlockDischarged { get; private set; }
         public UpdateReportBlockCondition BlockDischargedWrongPOD { get; private set; }
         public UpdateReportBlockCondition BlockCancelled { get; private set; }
-        public UpdateReportBlockCondition BlockLoaded { get; private set; } 
-        public UpdateReportBlockCondition BlockLoadedWrongPOL { get; private set; } 
-        public UpdateReportBlockCondition BlockRestows { get; private set; } 
-        public UpdateReportBlockCondition BlockChangedPosition { get; private set; } 
-        public UpdateReportBlockCondition BlockChangedPOD { get; private set; } 
-        public UpdateReportBlockCondition BlockTransit { get; private set; } 
+        public UpdateReportBlockCondition BlockLoaded { get; private set; }
+        public UpdateReportBlockCondition BlockLoadedWrongPOL { get; private set; }
+        public UpdateReportBlockCondition BlockRestows { get; private set; }
+        public UpdateReportBlockCondition BlockChangedPosition { get; private set; }
+        public UpdateReportBlockCondition BlockChangedPOD { get; private set; }
+        public UpdateReportBlockCondition BlockTransit { get; private set; }
 
         public string UpdatedForText { get; private set; }
 
@@ -199,14 +202,14 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
                 property.SetValue(this, new UpdateReportBlockCondition(0, 0, 0));
             }
             return this;
-        } 
+        }
 
         /// <summary>
         /// Sets value to propertyName of all 'Block' properties.
         /// </summary>
         /// <param name="value"></param>
         /// <param name="propertyName"></param>
-        private void SetValueToAllBlockProperties(bool value, [CallerMemberName]string propertyName = null)
+        private void SetValueToAllBlockProperties(bool value, [CallerMemberName] string propertyName = null)
         {
             foreach (var property in typeof(UpdateConditionSummaryViewModel).GetProperties())
             {
@@ -233,90 +236,85 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
             BlockTransit.OnShowContainersExectued -= ShowTransitContainers;
         }
 
+        private void CloseCommandOnExecuted(object obj)
+        {
+            CloseRequested?.Invoke(this, new DialogWindowCloseRequestedEventArgs(true));
+        }
+
         #endregion
 
         #region Show containers methods
 
+        /// <summary>
+        /// Sends a message containing list and type of containers to display.
+        /// Closes dialog window.
+        /// </summary>
+        /// <param name="containers"></param>
+        /// <param name="e"></param>
+        private void SendMessageAndCloseWindow(List<Container> containers, EventArgs e)
+        {
+            var args = e as ShowContainersEventArgs;
+            if (args is null) return;
+
+            DataMessenger.Default.Send(new ShowUpdatesMessage(containers, args.UnitsToShow));
+            CloseRequested?.Invoke(this, new DialogWindowCloseRequestedEventArgs(true));
+        }
+
         private void ShowDischargedContainers(object sender, EventArgs e)
         {
-            var args = e as ShowContainersEventArgs;
-            if (args is null) return;
-
-            DataMessenger.Default.Send(new ShowUpdatesMessage(DischargedContainers, args.UnitsToShow));
+            SendMessageAndCloseWindow(DischargedContainers, e);
         }
-
         private void ShowTransitContainers(object sender, EventArgs e)
         {
-            var args = e as ShowContainersEventArgs;
-            if (args is null) return;
-
-            DataMessenger.Default.Send(new ShowUpdatesMessage(transitContainers, args.UnitsToShow));
+            SendMessageAndCloseWindow(transitContainers, e);
         }
-
         private void ShowChangedPODContainers(object sender, EventArgs e)
         {
-            var args = e as ShowContainersEventArgs;
-            if (args is null) return;
-
-            DataMessenger.Default.Send(new ShowUpdatesMessage(changedPODContainers, args.UnitsToShow));
+            SendMessageAndCloseWindow(changedPODContainers, e);
         }
-
         private void ShowChangedPositionContainers(object sender, EventArgs e)
         {
-            var args = e as ShowContainersEventArgs;
-            if (args is null) return;
-
-            DataMessenger.Default.Send(new ShowUpdatesMessage(changedPositionContainers, args.UnitsToShow));
+            SendMessageAndCloseWindow(changedPositionContainers, e);
         }
-
         private void ShowRestowedContainers(object sender, EventArgs e)
         {
-            var args = e as ShowContainersEventArgs;
-            if (args is null) return;
-
-            DataMessenger.Default.Send(new ShowUpdatesMessage(restowedContainers, args.UnitsToShow));
+            SendMessageAndCloseWindow(restowedContainers, e);
         }
-
         private void ShowLoadedWrongContainers(object sender, EventArgs e)
         {
-            var args = e as ShowContainersEventArgs;
-            if (args is null) return;
-
-            DataMessenger.Default.Send(new ShowUpdatesMessage(loadedWronPOLContainers, args.UnitsToShow));
+            SendMessageAndCloseWindow(loadedWronPOLContainers, e);
         }
-
         private void ShowLoadedContainers(object sender, EventArgs e)
         {
-            var args = e as ShowContainersEventArgs;
-            if (args is null) return;
-
-            DataMessenger.Default.Send(new ShowUpdatesMessage(LoadedContainers, args.UnitsToShow));
+            SendMessageAndCloseWindow(LoadedContainers, e);
         }
-
         private void ShowCancelledContainers(object sender, EventArgs e)
         {
-            var args = e as ShowContainersEventArgs;
-            if (args is null) return;
-
-            DataMessenger.Default.Send(new ShowUpdatesMessage(cancelledContainers, args.UnitsToShow));
+            SendMessageAndCloseWindow(cancelledContainers, e);
         }
-
         private void ShowDischargedWrongContainers(object sender, EventArgs e)
         {
-            var args = e as ShowContainersEventArgs;
-            if (args is null) return;
-
-            DataMessenger.Default.Send(new ShowUpdatesMessage(dischargedWrongPODContainers, args.UnitsToShow));
+            SendMessageAndCloseWindow(dischargedWrongPODContainers, e);
         }
+
+        #endregion
+
+
+        #region IDialogWindowRequestClose
+
+        public event EventHandler<DialogWindowCloseRequestedEventArgs> CloseRequested;
 
         #endregion
 
         #region Constructor, destructor and singleton instance
 
         private static UpdateConditionSummaryViewModel _instance;
+
+
         public UpdateConditionSummaryViewModel()
         {
             _settingsService = ServicesHandler.GetServicesAccess().SettingsServiceAccess;
+            CloseCommand = new DelegateCommand(CloseCommandOnExecuted);
         }
 
         ~UpdateConditionSummaryViewModel()

@@ -5,13 +5,13 @@ using EasyJob_ProDG.UI.IO;
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Markup;
-using System.Windows.Threading;
 
 
 
@@ -110,8 +110,9 @@ namespace EasyJob_ProDG.UI.ViewModel
             DataMessenger.Default.Register<ShipProfileSavedMessage>(this, OnShipProfileSaved, "ship profile saved");
             DataMessenger.Default.Register<ConflictPanelItemViewModel>(this, OnConflictSelectionChanged,
                 "conflict selection changed");
+            DataMessenger.Default.Register<ShowUpdatesMessage>(this, OnShowUpdatesMessageReceived);
+            DataMessenger.Default.Register<ChangeSelectionMessage>(this, OnChangeSelectionMessageReceived, "updates data grid closed");
         }
-
 
         /// <summary>
         /// Updates MainWindow title
@@ -193,11 +194,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             SetIsLoading(false);
 
             // Show update summary
-            SetConditionUpdateSummaryCreatedStatus(false);
-            if (openOption == OpenFile.OpenOption.Update && Services.SettingsServiceAccess.ShowSummaryOnUpdateCondition)
-                await Application.Current.Dispatcher.InvokeAsync(() => ShowConditionUpdateSummary());
+            await SetUpUpdates(openOption);
         }
-
 
         /// <summary>
         /// If Working plan exists, offers options on how to open the file.
@@ -228,6 +226,25 @@ namespace EasyJob_ProDG.UI.ViewModel
                 StatusBarControl.StartProgressBar(10, "Opening...");
                 await Task.Run(() => OpenNewFile(file));
             }
+        }
+
+        /// <summary>
+        ///  Handles necessary actions with Updates on Update condition
+        /// </summary>
+        /// <param name="openOption"></param>
+        /// <returns></returns>
+        private async Task SetUpUpdates(OpenFile.OpenOption openOption)
+        {
+            // close UpdatesDataGrid
+            ViewModelLocator.DataGridUpdatesViewModel.HideUpdatesDataGrid();
+            if (SelectedDataGridIndex == 3)
+                SelectedDataGridIndex = 0;
+            OnPropertyChanged(nameof(SelectedDataGridIndex));
+
+            // create Updates summary
+            SetConditionUpdateSummaryCreatedStatus(false);
+            if (openOption == OpenFile.OpenOption.Update && Services.SettingsServiceAccess.ShowSummaryOnUpdateCondition)
+                await Application.Current.Dispatcher.InvokeAsync(() => ShowConditionUpdateSummary());
         }
 
         /// <summary>
@@ -294,6 +311,16 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         /// <summary>
+        /// Raised when selected to display containers from UpdateSummary
+        /// </summary>
+        /// <param name="message"></param>
+        private void OnShowUpdatesMessageReceived(ShowUpdatesMessage message)
+        {
+            SelectedDataGridIndex = 3;
+            OnPropertyChanged(nameof(SelectedDataGridIndex));
+        }
+
+        /// <summary>
         /// Raised when it is required to call <see cref="GetCargoData"/> method via received message.
         /// </summary>
         private void OnNeedToUpdateCargoPlanMessageReceived(UpdateCargoPlan message)
@@ -324,6 +351,17 @@ namespace EasyJob_ProDG.UI.ViewModel
                 default:
                     break;
             }
+        }
+
+        /// <summary>
+        /// Method changes Selected DataGrid when DataGridUpdates visibility changes to collapsed.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void OnChangeSelectionMessageReceived(ChangeSelectionMessage message)
+        {
+            SelectedDataGridIndex = 0;
+            OnPropertyChanged(nameof (SelectedDataGridIndex));
         }
 
         #endregion

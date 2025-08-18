@@ -111,7 +111,7 @@
             <StackPanel>
 
                 <Button Content="Close" 
-                        Click="CloseWindow" 
+                        Command="{Binding CloseCommand}" 
                         IsCancel="True" 
                         Style="{StaticResource SummaryWindowButtonStyle}"/>
             </StackPanel>

@@ -9,7 +9,8 @@
              xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
              xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:behaviors="clr-namespace:EasyJob_ProDG.UI.Behaviors"
-             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters" xmlns:sort="clr-namespace:EasyJob_ProDG.UI.View.Sort"
+             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters" 
+             xmlns:sort="clr-namespace:EasyJob_ProDG.UI.View.Sort"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
     Visibility="{Binding Visible}"
@@ -43,6 +44,17 @@
                        VerticalAlignment="Center"
                        Grid.Column="1"
                        />
+            <Button Content="To Excel"
+                    Click="ExportToExcel"
+                    Width="100"
+                    Margin="1" 
+                    Grid.Column="2"/>
+            <Button Content="Close"
+                    Width="100"
+                    Margin="1"
+                    HorizontalAlignment="Right"
+                    Command="{Binding CloseUpdatesDataGridCommand}"
+                    Grid.Column="3"/>
         </Grid>
 
         <DataGrid x:Name="MainContainerDataTable"
