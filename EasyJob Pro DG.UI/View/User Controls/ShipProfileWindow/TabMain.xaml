@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.UI"
              xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:ub="clr-namespace:EasyJob_ProDG.UI.Behaviors"
              xmlns:attachedProperties="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties"
              mc:Ignorable="d" 

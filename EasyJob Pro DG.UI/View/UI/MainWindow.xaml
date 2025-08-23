@@ -7,8 +7,6 @@
         xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.UI"
         xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
         xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties" 
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
         xmlns:viewmodel="clr-namespace:EasyJob_ProDG.UI.ViewModel" 
         mc:Ignorable="d"
         Icon="imdg.good.ico"
@@ -53,18 +51,18 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding MainWindowLoadedCommand}"/>
-        </i:EventTrigger>
-        <i:EventTrigger EventName="Closing">
-            <i:InvokeCommandAction Command="{Binding ApplicationClosingCommand}" />
-        </i:EventTrigger>
-        <i:EventTrigger EventName="Drop">
-            <ei:CallMethodAction MethodName="OnFileDrop"
+    <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="Loaded">
+            <behaviors:InvokeCommandAction Command="{Binding MainWindowLoadedCommand}"/>
+        </behaviors:EventTrigger>
+        <behaviors:EventTrigger EventName="Closing">
+            <behaviors:InvokeCommandAction Command="{Binding ApplicationClosingCommand}" />
+        </behaviors:EventTrigger>
+        <behaviors:EventTrigger EventName="Drop">
+            <behaviors:CallMethodAction MethodName="OnFileDrop"
                                  TargetObject="{Binding}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
+        </behaviors:EventTrigger>
+    </behaviors:Interaction.Triggers>
 
     <Grid x:Name="MainGrid">
         <VisualStateManager.VisualStateGroups>
