@@ -242,15 +242,32 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
         /// </summary>
         private void UnsubscribeEvents()
         {
-            BlockDischarged.OnShowContainersExectued -= ShowDischargedContainers;
-            BlockDischargedWrongPOD.OnShowContainersExectued -= ShowDischargedWrongContainers;
-            BlockCancelled.OnShowContainersExectued -= ShowCancelledContainers;
-            BlockLoaded.OnShowContainersExectued -= ShowLoadedContainers;
-            BlockLoadedWrongPOL.OnShowContainersExectued -= ShowLoadedWrongContainers;
-            BlockRestows.OnShowContainersExectued -= ShowRestowedContainers;
-            BlockChangedPosition.OnShowContainersExectued -= ShowChangedPositionContainers;
-            BlockChangedPOD.OnShowContainersExectued -= ShowChangedPODContainers;
-            BlockTransit.OnShowContainersExectued -= ShowTransitContainers;
+            try
+            {
+                if (BlockDischarged is not null)
+                    BlockDischarged.OnShowContainersExectued -= ShowDischargedContainers;
+                if (BlockDischargedWrongPOD is not null)
+                    BlockDischargedWrongPOD.OnShowContainersExectued -= ShowDischargedWrongContainers;
+                if (BlockCancelled is not null)
+                    BlockCancelled.OnShowContainersExectued -= ShowCancelledContainers;
+                if (BlockLoaded is not null)
+                    BlockLoaded.OnShowContainersExectued -= ShowLoadedContainers;
+                if (BlockLoadedWrongPOL is not null)
+                    BlockLoadedWrongPOL.OnShowContainersExectued -= ShowLoadedWrongContainers;
+                if (BlockRestows is not null)
+                    BlockRestows.OnShowContainersExectued -= ShowRestowedContainers;
+                if (BlockChangedPosition is not null)
+                    BlockChangedPosition.OnShowContainersExectued -= ShowChangedPositionContainers;
+                if (BlockChangedPOD is not null)
+                    BlockChangedPOD.OnShowContainersExectued -= ShowChangedPODContainers;
+                if (BlockTransit is not null)
+                    BlockTransit.OnShowContainersExectued -= ShowTransitContainers;
+            }
+            catch (Exception ex)
+            {
+                EasyJob_ProDG.Data.LogWriter.Write($"Exception thrown when called {nameof(UnsubscribeEvents)} in {nameof(UpdateConditionSummaryViewModel)}:");
+                EasyJob_ProDG.Data.LogWriter.Write($"{ex.Message}");
+            }
         }
 
         private void CloseCommandOnExecuted(object obj)
