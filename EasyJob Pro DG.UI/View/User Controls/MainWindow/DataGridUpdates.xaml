@@ -10,8 +10,9 @@
              xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:behaviors="clr-namespace:EasyJob_ProDG.UI.Behaviors"
              xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters" 
-             xmlns:sort="clr-namespace:EasyJob_ProDG.UI.View.Sort"
-             mc:Ignorable="d" 
+             xmlns:sort="clr-namespace:EasyJob_ProDG.UI.View.Sort" 
+    xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows.Summaries.UserControls"
+    mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
     Visibility="{Binding Visible}"
              >
@@ -22,10 +23,12 @@
     </local:CommonDataGridUserControl.Resources>
 
     <DockPanel>
+        <!-- Top panel -->
         <StackPanel DockPanel.Dock="Top">
             <cc:SearchBox Text="{Binding TextToFilter}"/>
         </StackPanel>
 
+        <!-- Status bar -->
         <Grid DockPanel.Dock="Bottom"
                     HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
@@ -35,8 +38,9 @@
                 <ColumnDefinition Width="110"/>
             </Grid.ColumnDefinitions>
             <Label Name="lblSelectionStatus"
-                   Content="Selected: "
+                   Content="{Binding StatusBarTextPrefix}"
                    HorizontalAlignment="Right"
+                   Visibility="{Binding Path=DataGrid.Selec}"
                    />
             <TextBlock Text="{Binding StatusBarText, Mode=OneWay}"
                        HorizontalAlignment="Stretch"
@@ -57,11 +61,19 @@
                     Grid.Column="3"/>
         </Grid>
 
-        <DataGrid x:Name="MainContainerDataTable"
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <uc:UpdateConditionSummaryControl 
+                Margin="2"
+                Grid.Column="1"
+                DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=UpdateConditonSummaryViewModel}"/>
+            <DataGrid x:Name="MainContainerDataTable"
                   ItemsSource="{Binding UnitsPlanView}"
                   SelectedItem="{Binding SelectedUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   IsReadOnly="True"
-                 
                   FrozenColumnCount="0"
                   ScrollViewer.CanContentScroll="True"
                   ScrollViewer.IsDeferredScrollingEnabled="False"                 
@@ -79,219 +91,226 @@
                   behaviors:DataGridBehavior.DisplayRowNumber="True" 
                   ap:DataGridSortBehavior.AllowCustomSort="True">
 
-            <DataGrid.Resources>
+                <DataGrid.Resources>
 
-                <!-- Context menu -->
-                <ContextMenu x:Key="DataGridColumnHeaderContextMenu"
+                    <!-- Context menu -->
+                    <ContextMenu x:Key="DataGridColumnHeaderContextMenu"
                        Style="{StaticResource DataGridColumnHeadersContextMenu}"/>
 
-                <!-- Header style -->
-                <Style TargetType="{x:Type DataGridColumnHeader}"
+                    <!-- Header style -->
+                    <Style TargetType="{x:Type DataGridColumnHeader}"
                             BasedOn="{StaticResource DataGridColumnHeaderStyle}">
-                    <Setter Property="ContextMenu"
+                        <Setter Property="ContextMenu"
                         Value="{StaticResource DataGridColumnHeaderContextMenu}" />
-                </Style>
+                    </Style>
 
-                <!-- Cell style -->
-                <Style TargetType="{x:Type DataGridCell}">
-                    <Setter Property="IsTabStop"
+                    <!-- Cell style -->
+                    <Style TargetType="{x:Type DataGridCell}">
+                        <Setter Property="IsTabStop"
                                 Value="False" />
-                </Style>
+                    </Style>
 
-                <!-- TextBox style-->
-                <Style TargetType="{x:Type TextBox}">
-                    <!--<Setter Property="IsTabStop"
+                    <!-- TextBox style-->
+                    <Style TargetType="{x:Type TextBox}">
+                        <!--<Setter Property="IsTabStop"
                                     Value="True" />-->
-                    <Setter Property="Margin"
+                        <Setter Property="Margin"
                                 Value="50" />
-                    <Setter Property="TextAlignment"
+                        <Setter Property="TextAlignment"
                                 Value="Right" />
-                    <Setter Property="IsReadOnly"
+                        <Setter Property="IsReadOnly"
                             Value="True"/>
-                </Style>
+                    </Style>
 
-                <!-- CheckBox style -->
-                <Style TargetType="{x:Type CheckBox}">
-                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                    <Setter Property="Focusable" Value="False"/>
-                    <Setter Property="IsEnabled" Value="False"/>
-                </Style>
+                    <!-- CheckBox style -->
+                    <Style TargetType="{x:Type CheckBox}">
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                        <Setter Property="Focusable" Value="False"/>
+                        <Setter Property="IsEnabled" Value="False"/>
+                    </Style>
 
-                <!-- Selection color -->
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                    <!-- Selection color -->
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                                  Color="{StaticResource Color.DgTable.HighlightRow}" />
 
-            </DataGrid.Resources>
+                </DataGrid.Resources>
 
 
-            <!-- Columns -->
-            <DataGrid.Columns>
+                <!-- Columns -->
+                <DataGrid.Columns>
 
-                <!-- LOCATION -->
-                <DataGridTextColumn x:Name="positionColumn"
+                    <!-- LOCATION -->
+                    <DataGridTextColumn x:Name="positionColumn"
                                     Binding="{Binding Location, UpdateSourceTrigger=LostFocus}"
                                     Header="Position"
                                     CanUserSort="True"
                                     SortMemberPath="LocationSortable">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style>
-                            <!--<Setter Property="TextBox.TextAlignment"
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <!--<Setter Property="TextBox.TextAlignment"
                                             Value="Right"/>
                             <Setter Property="TextBox.Margin"
                                     Value="5"></Setter>-->
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
 
-                <!-- CONTAINER NUMBER -->
-                <DataGridTextColumn x:Name="numberColumn"
+                    <!-- CONTAINER NUMBER -->
+                    <DataGridTextColumn x:Name="numberColumn"
                                     Binding="{Binding DisplayContainerNumber, UpdateSourceTrigger=LostFocus}"
                                     Header="Container number"
                                     MinWidth="100" />
 
-                <!-- Carrier -->
-                <DataGridTextColumn x:Name="carrierColumn"
+                    <!-- Carrier -->
+                    <DataGridTextColumn x:Name="carrierColumn"
                                     Binding="{Binding Carrier, UpdateSourceTrigger=LostFocus}"
                                     Header="Operator" />
 
-                <!-- POL -->
-                <DataGridTextColumn x:Name="polColumn"
+                    <!-- POL -->
+                    <DataGridTextColumn x:Name="polColumn"
                                     Binding="{Binding POL, UpdateSourceTrigger=LostFocus}"
                                     Header="POL" />
 
-                <!-- POD -->
-                <DataGridTextColumn x:Name="podColumn"
+                    <!-- POD -->
+                    <DataGridTextColumn x:Name="podColumn"
                                     Binding="{Binding POD, UpdateSourceTrigger=LostFocus}"
                                     Header="POD" />
 
-                <!-- Final destination -->
-                <DataGridTextColumn x:Name="finalDestinationColumn"
+                    <!-- Final destination -->
+                    <DataGridTextColumn x:Name="finalDestinationColumn"
                                     Binding="{Binding FinalDestination, UpdateSourceTrigger=LostFocus}"
                                     Header="Final destination" 
                                     ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}"
                                     />
 
-                <!-- Contains Dg cargo -->
-                <DataGridTemplateColumn x:Name="containsDgColumn"
+                    <!-- Contains Dg cargo -->
+                    <DataGridTemplateColumn x:Name="containsDgColumn"
                                         Header="Contains Dg cargo"
                                         CanUserSort="True"
                                         SortMemberPath="ContainsDgCargo"
                                         IsReadOnly="True">
 
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=ContainsDgCargo, Mode=OneWay}"
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=ContainsDgCargo, Mode=OneWay}"
                                       IsEnabled="False" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
-                <!-- Type -->
-                <DataGridTextColumn x:Name="containerTypeColumn"
+                    <!-- Type -->
+                    <DataGridTextColumn x:Name="containerTypeColumn"
                                     Binding="{Binding ContainerType}"
                                     Header="Container type">
-                </DataGridTextColumn>
+                    </DataGridTextColumn>
 
-                <!-- isOPEN -->
-                <DataGridTemplateColumn x:Name="openColumn"
+                    <!-- isOPEN -->
+                    <DataGridTemplateColumn x:Name="openColumn"
                                         Header="Open type"
                                         CanUserSort="True"
                                         SortMemberPath="IsOpen">
 
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=IsOpen, Mode=OneWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=IsOpen, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
-                <!-- isRf -->
-                <DataGridTemplateColumn x:Name="rfColumn"
+                    <!-- isRf -->
+                    <DataGridTemplateColumn x:Name="rfColumn"
                                         Header="Is reefer"
                                         CanUserSort="True"
                                         SortMemberPath="IsRf">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=IsRf, Mode=OneWay}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=IsRf, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
-                <!-- CargoHoldNumber -->
-                <DataGridTextColumn x:Name="cargoHoldColumn"
+                    <!-- CargoHoldNumber -->
+                    <DataGridTextColumn x:Name="cargoHoldColumn"
                                     Binding="{Binding HoldNr, Mode=OneWay}"
                                     IsReadOnly="True"
                                     Header="Hold number">
-                </DataGridTextColumn>
+                    </DataGridTextColumn>
 
-                <!-- HasLocationChanged -->
-                <DataGridTemplateColumn x:Name="locationChangedColumn"
+                    <!-- HasLocationChanged -->
+                    <DataGridTemplateColumn x:Name="locationChangedColumn"
                                         Header="Location changed"
                                         IsReadOnly="True"
                                         CanUserSort="True"
                                         SortMemberPath="HasLocationChanged">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=HasLocationChanged, Mode=OneWay}"
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=HasLocationChanged, Mode=OneWay}"
                                       IsEnabled="False" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
-                <!-- Location before restow -->
-                <DataGridTextColumn x:Name="positionBeforeRestowColumn"
+                    <!-- Location before restow -->
+                    <DataGridTextColumn x:Name="positionBeforeRestowColumn"
                                     Binding="{Binding LocationBeforeRestow, Mode=OneWay}"
                                     Header="Old Position"
                                     IsReadOnly="True"
                                     ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style>
-                            <Setter Property="TextBlock.TextWrapping"
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.TextWrapping"
                                     Value="NoWrap" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
 
-                <!-- HasPodChanged -->
-                <DataGridTemplateColumn x:Name="hasPodChangedColumn"
+                    <!-- HasPodChanged -->
+                    <DataGridTemplateColumn x:Name="hasPodChangedColumn"
                                         Header="POD changed"
                                         CanUserSort="True"
                                         SortMemberPath="HasPodChanged"
                                         IsReadOnly="True">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding Path=HasPodChanged, Mode=OneWay}"
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=HasPodChanged, Mode=OneWay}"
                                       IsEnabled="False" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
-                <!-- HasContainerTypeChanged -->
-                <DataGridTemplateColumn x:Name="hasContainerTypeChangedColumn"
+                    <!-- HasContainerTypeChanged -->
+                    <DataGridTemplateColumn x:Name="hasContainerTypeChangedColumn"
                                         Header="Type changed"
                                         IsReadOnly="True"
                                         CanUserSort="True"
                                         SortMemberPath="HasContainerTypeChanged">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding HasContainerTypeChanged, Mode=OneWay}" 
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding HasContainerTypeChanged, Mode=OneWay}" 
                                       IsEnabled="False"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
 
-            </DataGrid.Columns>
+                </DataGrid.Columns>
 
 
-            <!-- BEHAVIORS -->
-            <behavior:Interaction.Triggers>
-                <behavior:EventTrigger EventName="SelectionChanged">
-                    <behavior:InvokeCommandAction Command="{Binding SelectionChangedCommand}" 
+                <!-- BEHAVIORS -->
+                <behavior:Interaction.Triggers>
+                    <behavior:EventTrigger EventName="SelectionChanged">
+                        <behavior:InvokeCommandAction Command="{Binding SelectionChangedCommand}" 
                                                   CommandParameter="{Binding ElementName=MainContainerDataTable, Path=SelectedItems}"/>
-                </behavior:EventTrigger>
-            </behavior:Interaction.Triggers>
+                    </behavior:EventTrigger>
+                </behavior:Interaction.Triggers>
 
-        </DataGrid>
+            </DataGrid>
+            <GridSplitter 
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                          VerticalAlignment="Stretch"
+                          Width="3"/>
+        </Grid>
+
     </DockPanel>
 </local:CommonDataGridUserControl>

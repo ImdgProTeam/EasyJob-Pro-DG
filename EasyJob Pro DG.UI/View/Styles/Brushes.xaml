@@ -235,4 +235,12 @@
     <SolidColorBrush x:Key="Brush.ToolboxWindow.Background"
                      Color="{StaticResource Color.ToolboxWindow.Background}"
                      p:Freeze="true"/>
+    
+    <!-- Update Condition Summary -->
+    <SolidColorBrush x:Key="Brush.UpdateReportBlock.InactiveText"
+                     Color="{StaticResource Color.UpdateReportColor.InactiveText}"
+                     p:Freeze="true"/>
+    <SolidColorBrush x:Key="Brush.UpdateReportBlock.HighlightText"
+                     Color="{StaticResource Color.UpdateReportColor.HighlightText}"
+                     p:Freeze="true"/>
 </ResourceDictionary>

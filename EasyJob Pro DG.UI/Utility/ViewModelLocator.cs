@@ -1,4 +1,5 @@
-﻿using EasyJob_ProDG.UI.ViewModel;
+﻿using EasyJob_ProDG.UI.View.DialogWindows.Summaries;
+using EasyJob_ProDG.UI.ViewModel;
 
 namespace EasyJob_ProDG.UI.Utility
 {
@@ -65,6 +66,17 @@ namespace EasyJob_ProDG.UI.Utility
                 if (settingsWindowVM is null)
                     settingsWindowVM = new SettingsWindowVM();
                 return settingsWindowVM;
+            }
+        }
+
+        private static UpdateConditionSummaryViewModel updateConditionSummaryVM;
+        public static UpdateConditionSummaryViewModel UpdateConditonSummaryViewModel
+        {
+            get
+            {
+                if (updateConditionSummaryVM is null)
+                    updateConditionSummaryVM = UpdateConditionSummaryViewModel.GetInstance();
+                return updateConditionSummaryVM;
             }
         }
     }
