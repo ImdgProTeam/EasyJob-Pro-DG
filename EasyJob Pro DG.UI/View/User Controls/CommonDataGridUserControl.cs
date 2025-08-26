@@ -1,6 +1,8 @@
-﻿using EasyJob_ProDG.UI.View.Animations;
+﻿using EasyJob_ProDG.UI.IO;
+using EasyJob_ProDG.UI.View.Animations;
 using EasyJob_ProDG.UI.View.UI;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -13,8 +15,10 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         protected bool isDeletingRow = false;
         protected DataGrid MainDataTable { get; set; }
 
+        #region Constructor
+
         public CommonDataGridUserControl(AnimationTypes userControlLoadAnimation, float slideInSeconds = 1.5f,
-                                    AnimationTypes userControlUnloadAnimation = AnimationTypes.None, bool isAnimatedEachTime = false) : base(userControlLoadAnimation, slideInSeconds, userControlLoadAnimation, isAnimatedEachTime)
+                            AnimationTypes userControlUnloadAnimation = AnimationTypes.None, bool isAnimatedEachTime = false) : base(userControlLoadAnimation, slideInSeconds, userControlLoadAnimation, isAnimatedEachTime)
         {
 
         }
@@ -27,7 +31,9 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             LoadColumnSettings();
             MainWindow.OnWindowClosingEventHandler -= new MainWindow.WindowClosing(SaveColumnSettings);
             MainWindow.OnWindowClosingEventHandler += new MainWindow.WindowClosing(SaveColumnSettings);
-        }
+        } 
+
+        #endregion
 
         #region Column settings
 
@@ -148,7 +154,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
         #endregion
 
-
         #region Editing
 
         /// <summary>
@@ -170,6 +175,20 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         {
             IsCellEditingOn = false;
         }
+        #endregion
+
+        #region Export to Excel
+
+        /// <summary>
+        /// Export to Excel DataGrid as displayed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void ExportToExcel(object sender, RoutedEventArgs e)
+        {
+            ExportDataGridToExcel.ExportToExcel(MainDataTable);
+        }
+
         #endregion
     }
 }

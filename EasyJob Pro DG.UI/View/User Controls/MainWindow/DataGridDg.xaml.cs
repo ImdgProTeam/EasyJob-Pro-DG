@@ -243,22 +243,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
 
         #endregion
 
-
-        #region Export to excel
-
-        /// <summary>
-        /// Exports MainDataGrid as it is displayed to excel
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ExportToExcel(object sender, RoutedEventArgs e)
-        {
-            ExportDataGridToExcel.ExportToExcel(MainDgTable);
-        }
-
-        #endregion
-
-
         /// <summary>
         /// Method paints each alternate column in DataGrid with specified color
         /// </summary>

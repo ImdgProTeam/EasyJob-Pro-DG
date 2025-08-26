@@ -90,13 +90,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         #endregion
 
 
-        #region Export to Excel
-        private void ExportToExcel(object sender, RoutedEventArgs e)
-        {
-            ExportDataGridToExcel.ExportToExcel(MainReeferDataTable);
-        }
-
-        #endregion
 
     }
 }

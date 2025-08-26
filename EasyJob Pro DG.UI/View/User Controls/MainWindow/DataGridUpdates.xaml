@@ -70,7 +70,7 @@
                 Margin="2"
                 Grid.Column="1"
                 DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=UpdateConditonSummaryViewModel}"/>
-            <DataGrid x:Name="MainContainerDataTable"
+            <DataGrid x:Name="MainUpdatesDataTable"
                   ItemsSource="{Binding UnitsPlanView}"
                   SelectedItem="{Binding SelectedUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   IsReadOnly="True"

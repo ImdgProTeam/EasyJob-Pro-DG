@@ -17,7 +17,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         {
             InitializeComponent();
 
-            MainDataTable = MainContainerDataTable;
+            MainDataTable = MainUpdatesDataTable;
             CallBaseConstructorMethods();
         }
 
@@ -32,7 +32,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             var widths = Properties.Settings.Default.ContainerDataTableWidth.Split(';');
             var visibilitys = Properties.Settings.Default.ContainerDataTableVisibilities.Split(';');
 
-            if (displayIndexes.Count() != MainContainerDataTable.Columns.Count || displayIndexes.Any(x => int.Parse(x) < 0)) return;
+            if (displayIndexes.Count() != MainUpdatesDataTable.Columns.Count || displayIndexes.Any(x => int.Parse(x) < 0)) return;
 
             try
             {
@@ -43,20 +43,20 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                 {
                     index = int.Parse(displayIndexes[i]);
                     if (index < 0) throw new ArgumentOutOfRangeException(nameof(index), "Negative display index");
-                    MainContainerDataTable.Columns[i].DisplayIndex = index;
+                    MainUpdatesDataTable.Columns[i].DisplayIndex = index;
 
                     width = double.Parse(widths[i]);
                     if (width < 0) throw new ArgumentOutOfRangeException(nameof(width), "Negative column width");
-                    MainContainerDataTable.Columns[i].Width = width;
+                    MainUpdatesDataTable.Columns[i].Width = width;
 
-                    MainContainerDataTable.Columns[i].Visibility = (System.Windows.Visibility)Enum.Parse(typeof(System.Windows.Visibility), visibilitys[i]);
+                    MainUpdatesDataTable.Columns[i].Visibility = (System.Windows.Visibility)Enum.Parse(typeof(System.Windows.Visibility), visibilitys[i]);
                 }
             }
             catch (Exception)
             {
                 Debug.WriteLine("-----> Restoring of ContainerDataTable column settings caused an exception");
                 int i = 0;
-                foreach (var column in MainContainerDataTable.Columns)
+                foreach (var column in MainUpdatesDataTable.Columns)
                 {
                     column.DisplayIndex = i;
                     column.Width = DataGridLength.Auto;
@@ -76,7 +76,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             List<double> widths = new List<double>();
             List<string> visibilitys = new List<string>();
 
-            foreach (var column in MainContainerDataTable.Columns)
+            foreach (var column in MainUpdatesDataTable.Columns)
             {
                 displayIndexes.Add(column.DisplayIndex);
                 widths.Add(column.ActualWidth);
@@ -88,20 +88,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             Properties.Settings.Default.ContainerDataTableVisibilities = string.Join(";", visibilitys);
         }
 
-
-        #endregion
-
-        #region Export to excel
-
-        /// <summary>
-        /// Exports MainDataGrid as it is displayed to excel
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ExportToExcel(object sender, RoutedEventArgs e)
-        {
-            ExportDataGridToExcel.ExportToExcel(MainContainerDataTable);
-        }
 
         #endregion
 
