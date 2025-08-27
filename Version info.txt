@@ -18,22 +18,24 @@
 VERSION INFO
 
 0.9.0.242
-Date: 
+Date: 26-Aug-2025
 
 Licence: 31 Dec 2026
 
 Version workable: Yes
-Changes: 
+Changes: Implemented Update condition summary
 
 
 VISUAL
-1. 
+1. None
 
 ERRORS
-1. 
+1. None
 
 NEW
-1. 
+1. Update condition summary report on Update condition
+2. Update condition data grid
+3. Update condition data grid column settings saving as all datagrids.
 
 Fully functional release
 -------------------------------------------------------
