@@ -260,10 +260,13 @@
     </Compile>
     <Compile Include="View\DialogWindows\Info\WinLicenceViewModel.cs" />
     <Compile Include="View\DialogWindows\Summaries\Supporting classes\UpdateReportBlockCondition.cs" />
-    <Compile Include="View\DialogWindows\Summaries\UpdateConditionSummary.xaml.cs">
-      <DependentUpon>UpdateConditionSummary.xaml</DependentUpon>
+    <Compile Include="View\DialogWindows\Summaries\UpdateConditionSummaryWindow.cs">
+      <DependentUpon>UpdateConditionSummaryWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DialogWindows\Summaries\UpdateConditionSummaryViewModel.cs" />
+    <Compile Include="View\DialogWindows\Summaries\UserControls\UpdateConditionSummaryControl.xaml.cs">
+      <DependentUpon>UpdateConditionSummaryControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DialogWindows\Summaries\UserControls\UpdateReportBlock.xaml.cs">
       <DependentUpon>UpdateReportBlock.xaml</DependentUpon>
     </Compile>
@@ -420,7 +423,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DialogWindows\Summaries\UpdateConditionSummary.xaml">
+    <Page Include="View\DialogWindows\Summaries\UpdateConditionSummaryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\Summaries\UserControls\UpdateConditionSummaryControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -99,7 +99,11 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
         public static UpdateConditionSummaryViewModel CreateReport()
         {
             _instance ??= new UpdateConditionSummaryViewModel();
-            if (ReportCreated) return _instance;
+            if (ReportCreated)
+            {
+                _instance.RemoveAllUpdateReportBlockTextHighlights();
+                return _instance;
+            }
             _instance._showZeroValues = false;
             if (!_instance.HasUpdates) return _instance.CreateBlankBlocks();
 
@@ -155,6 +159,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
             BlockTransit = CreateBlock(transitContainers);
 
             SubscribeBlocksToEvents();
+            OnPropertyChanged(null);
         }
 
         /// <summary>
@@ -173,7 +178,6 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
             BlockChangedPOD.OnShowContainersExectued += ShowChangedPODContainers;
             BlockTransit.OnShowContainersExectued += ShowTransitContainers;
         }
-
 
         /// <summary>
         /// Creates <see cref="UpdateReportBlockCondition"/> with values from the listOfContainers.
@@ -221,19 +225,49 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
         }
 
         /// <summary>
+        /// Calls ClearHighlights method of each UpdateReportBlockCondition property. 
+        /// </summary>
+        private void RemoveAllUpdateReportBlockTextHighlights()
+        {
+            foreach (var property in typeof(UpdateConditionSummaryViewModel).GetProperties())
+            {
+                if (property.PropertyType != typeof(UpdateReportBlockCondition)) continue;
+                var method = property.PropertyType.GetMethod(nameof(UpdateReportBlockCondition.ClearHighlights));
+                method?.Invoke(property.GetValue(this, null), null);
+            }
+        }
+
+        /// <summary>
         /// Unsubscribes all Blocks from subscribed events
         /// </summary>
         private void UnsubscribeEvents()
         {
-            BlockDischarged.OnShowContainersExectued -= ShowDischargedContainers;
-            BlockDischargedWrongPOD.OnShowContainersExectued -= ShowDischargedWrongContainers;
-            BlockCancelled.OnShowContainersExectued -= ShowCancelledContainers;
-            BlockLoaded.OnShowContainersExectued -= ShowLoadedContainers;
-            BlockLoadedWrongPOL.OnShowContainersExectued -= ShowLoadedWrongContainers;
-            BlockRestows.OnShowContainersExectued -= ShowRestowedContainers;
-            BlockChangedPosition.OnShowContainersExectued -= ShowChangedPositionContainers;
-            BlockChangedPOD.OnShowContainersExectued -= ShowChangedPODContainers;
-            BlockTransit.OnShowContainersExectued -= ShowTransitContainers;
+            try
+            {
+                if (BlockDischarged is not null)
+                    BlockDischarged.OnShowContainersExectued -= ShowDischargedContainers;
+                if (BlockDischargedWrongPOD is not null)
+                    BlockDischargedWrongPOD.OnShowContainersExectued -= ShowDischargedWrongContainers;
+                if (BlockCancelled is not null)
+                    BlockCancelled.OnShowContainersExectued -= ShowCancelledContainers;
+                if (BlockLoaded is not null)
+                    BlockLoaded.OnShowContainersExectued -= ShowLoadedContainers;
+                if (BlockLoadedWrongPOL is not null)
+                    BlockLoadedWrongPOL.OnShowContainersExectued -= ShowLoadedWrongContainers;
+                if (BlockRestows is not null)
+                    BlockRestows.OnShowContainersExectued -= ShowRestowedContainers;
+                if (BlockChangedPosition is not null)
+                    BlockChangedPosition.OnShowContainersExectued -= ShowChangedPositionContainers;
+                if (BlockChangedPOD is not null)
+                    BlockChangedPOD.OnShowContainersExectued -= ShowChangedPODContainers;
+                if (BlockTransit is not null)
+                    BlockTransit.OnShowContainersExectued -= ShowTransitContainers;
+            }
+            catch (Exception ex)
+            {
+                EasyJob_ProDG.Data.LogWriter.Write($"Exception thrown when called {nameof(UnsubscribeEvents)} in {nameof(UpdateConditionSummaryViewModel)}:");
+                EasyJob_ProDG.Data.LogWriter.Write($"{ex.Message}");
+            }
         }
 
         private void CloseCommandOnExecuted(object obj)
@@ -251,50 +285,51 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
         /// </summary>
         /// <param name="containers"></param>
         /// <param name="e"></param>
-        private void SendMessageAndCloseWindow(List<Container> containers, EventArgs e)
+        private void SendMessageAndCloseWindow(List<Container> containers, EventArgs e, string displayText = null)
         {
             var args = e as ShowContainersEventArgs;
             if (args is null) return;
 
-            DataMessenger.Default.Send(new ShowUpdatesMessage(containers, args.UnitsToShow));
+            DataMessenger.Default.Send(new ShowUpdatesMessage(containers, args.UnitsToShow, displayText));
+            RemoveAllUpdateReportBlockTextHighlights();
             CloseRequested?.Invoke(this, new DialogWindowCloseRequestedEventArgs(true));
         }
 
         private void ShowDischargedContainers(object sender, EventArgs e)
         {
-            SendMessageAndCloseWindow(DischargedContainers, e);
+            SendMessageAndCloseWindow(DischargedContainers, e, "Discharged or cancelled");
         }
         private void ShowTransitContainers(object sender, EventArgs e)
         {
-            SendMessageAndCloseWindow(transitContainers, e);
+            SendMessageAndCloseWindow(transitContainers, e, "Total in transit");
         }
         private void ShowChangedPODContainers(object sender, EventArgs e)
         {
-            SendMessageAndCloseWindow(changedPODContainers, e);
+            SendMessageAndCloseWindow(changedPODContainers, e, "Port of destination changed");
         }
         private void ShowChangedPositionContainers(object sender, EventArgs e)
         {
-            SendMessageAndCloseWindow(changedPositionContainers, e);
+            SendMessageAndCloseWindow(changedPositionContainers, e, "Stowage position changed");
         }
         private void ShowRestowedContainers(object sender, EventArgs e)
         {
-            SendMessageAndCloseWindow(restowedContainers, e);
+            SendMessageAndCloseWindow(restowedContainers, e, "Restowed");
         }
         private void ShowLoadedWrongContainers(object sender, EventArgs e)
         {
-            SendMessageAndCloseWindow(loadedWronPOLContainers, e);
+            SendMessageAndCloseWindow(loadedWronPOLContainers, e, "Loaded units with wrong POL");
         }
         private void ShowLoadedContainers(object sender, EventArgs e)
         {
-            SendMessageAndCloseWindow(LoadedContainers, e);
+            SendMessageAndCloseWindow(LoadedContainers, e, "Total loaded");
         }
         private void ShowCancelledContainers(object sender, EventArgs e)
         {
-            SendMessageAndCloseWindow(cancelledContainers, e);
+            SendMessageAndCloseWindow(cancelledContainers, e, "Cancelled");
         }
         private void ShowDischargedWrongContainers(object sender, EventArgs e)
         {
-            SendMessageAndCloseWindow(dischargedWrongPODContainers, e);
+            SendMessageAndCloseWindow(dischargedWrongPODContainers, e, "Discharged units with wrong POD");
         }
 
         #endregion
@@ -311,10 +346,20 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
         private static UpdateConditionSummaryViewModel _instance;
 
 
-        public UpdateConditionSummaryViewModel()
+        private UpdateConditionSummaryViewModel()
         {
             _settingsService = ServicesHandler.GetServicesAccess().SettingsServiceAccess;
             CloseCommand = new DelegateCommand(CloseCommandOnExecuted);
+        }
+
+        /// <summary>
+        /// Provides access to the single instance
+        /// </summary>
+        /// <returns></returns>
+        public static UpdateConditionSummaryViewModel GetInstance()
+        {
+            _instance ??= new UpdateConditionSummaryViewModel();
+            return _instance;
         }
 
         ~UpdateConditionSummaryViewModel()

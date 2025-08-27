@@ -144,7 +144,7 @@ namespace EasyJob_ProDG.UI.Services
             _mappedDialogWindowService.Register<WinLoginViewModel, winLogin>();
             _mappedDialogWindowService.Register<DialogWindowOptionsViewModel, DialogWindowOptions>();
             _mappedDialogWindowService.Register<CargoReportViewModel, CargoReport>();
-            _mappedDialogWindowService.Register<UpdateConditionSummaryViewModel, UpdateConditionSummary>();
+            _mappedDialogWindowService.Register<UpdateConditionSummaryViewModel, UpdateConditionSummaryWindow>();
         }
 
         /// <summary>

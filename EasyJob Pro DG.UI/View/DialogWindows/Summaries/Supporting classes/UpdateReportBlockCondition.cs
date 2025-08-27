@@ -14,10 +14,6 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
         public int ReefersCount { get; protected set; }
         public int DgContainersCount { get; protected set; }
 
-        public ICommand ShowContainers { get; private set; }
-        public ICommand ShowReefers { get; private set; }
-        public ICommand ShowDg { get; private set; }
-
         public bool ShowZeroValues
         {
             get => _showZeroValues;
@@ -33,6 +29,52 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
 
         public bool HasValues => ContainersCount > 0 || ReefersCount > 0 || DgContainersCount > 0;
 
+        #region Highlight selection
+        public bool HighlightContainers { get; private set; } = false;
+        public bool HighlightReefers { get; private set; } = false;
+        public bool HighlightDgContainers { get; private set; } = false;
+        public bool HighlightTitle => HighlightContainers || HighlightReefers || HighlightDgContainers;
+
+        /// <summary>
+        /// Sets all 'Highlight' property to false.
+        /// </summary>
+        public void ClearHighlights()
+        {
+            HighlightContainers = false;
+            HighlightReefers = false;
+            HighlightDgContainers = false;
+            OnPropertyChanged(null);
+        }
+
+        private void SetHighlightContainers(bool value)
+        {
+            HighlightContainers = value;
+            OnPropertyChanged(nameof(HighlightContainers));
+            OnPropertyChanged(nameof(HighlightTitle));
+        }
+
+        private void SetHighlightReefers(bool value)
+        {
+            HighlightReefers = value;
+            OnPropertyChanged(nameof(HighlightReefers));
+            OnPropertyChanged(nameof(HighlightTitle));
+        }
+
+        private void SetHighlightDgContainers(bool value)
+        {
+            HighlightDgContainers = value;
+            OnPropertyChanged(nameof(HighlightDgContainers));
+            OnPropertyChanged(nameof(HighlightTitle));
+        }
+        #endregion
+
+
+        #region Commands
+
+        public ICommand ShowContainers { get; private set; }
+        public ICommand ShowReefers { get; private set; }
+        public ICommand ShowDg { get; private set; }
+
         void LoadCommands()
         {
             ShowContainers = new DelegateCommand(OnShowContainers, CanShowContainers);
@@ -40,23 +82,29 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
             ShowDg = new DelegateCommand(OnShowDg, CanShowDg);
         }
 
+        #endregion
+
+
         #region Command methods
 
         private void OnShowContainers(object obj)
         {
             _args.UnitsToShow = Units.Containers;
             OnShowContainersExectued.Invoke(this, _args);
+            SetHighlightContainers(true);
         }
 
         private void OnShowReefers(object obj)
         {
             _args.UnitsToShow = Units.Reefers;
             OnShowContainersExectued.Invoke(this, _args);
+            SetHighlightReefers(true);
         }
         private void OnShowDg(object obj)
         {
             _args.UnitsToShow = Units.DgContainers;
             OnShowContainersExectued.Invoke(this, _args);
+            SetHighlightDgContainers(true);
         }
 
         private bool CanShowContainers(object obj)
@@ -100,7 +148,8 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
             OnPropertyChanged();
 
             _args = new ShowContainersEventArgs();
-        } 
+        }
         #endregion
+
     }
 }

@@ -12,7 +12,9 @@ namespace EasyJob_ProDG.UI.ViewModel
     {
         public Visibility Visible { get; set; }
         ObservableCollection<ContainerWrapper> UpdatedContainers { get; set; }
+        public ContainerWrapper SelectedUnit { get; set; }
         public ICommand CloseUpdatesDataGridCommand { get; private set; }
+        public string StatusBarTextPrefix { get; private set; }
 
         #region Constructor
         // ---------- Constructor ---------------
@@ -60,21 +62,25 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void OnShowUpdatesMessageReceived(ShowUpdatesMessage message)
         {
             if (message is null) return;
+            string unitType = string.Empty;
 
             switch (message.Units)
             {
                 case View.Units.Containers:
                     UpdatedContainers = [.. message.ContainersToShow.Select(c => new ContainerWrapper(c))];
+                    unitType = UpdatedContainers.Count > 0 ? "containers" : "container";
                     break;
                 case View.Units.Reefers:
                     UpdatedContainers = [.. message.ContainersToShow
                         .Where(c => c.IsRf)
                         .Select(c => new ContainerWrapper(c))];
+                    unitType = UpdatedContainers.Count > 0 ? "reefers" : "reefer";
                     break;
                 case View.Units.DgContainers:
                     UpdatedContainers = [.. message.ContainersToShow
                         .Where(c => c.ContainsDgCargo)
                         .Select(c => new ContainerWrapper(c))];
+                    unitType = UpdatedContainers.Count > 0 ? "dg containers" : "dg container";
                     break;
                 default:
                     break;
@@ -82,8 +88,19 @@ namespace EasyJob_ProDG.UI.ViewModel
             SetDataView();
             OnPropertyChanged(nameof(UnitsPlanView));
 
+            SetStatusBarOnMessageReceived(message, unitType);
+
             Visible = Visibility.Visible;
             OnPropertyChanged(nameof(Visible));
+        }
+
+        private void SetStatusBarOnMessageReceived(ShowUpdatesMessage message, string unitType)
+        {
+            SelectedUnit = null;
+            StatusBarTextPrefix = "Updates: ";
+            StatusBarText = $"{message.DisplayText}: {UpdatedContainers.Count} {unitType}";
+            OnPropertyChanged(nameof(StatusBarTextPrefix));
+            OnPropertyChanged(nameof(StatusBarText));
         }
 
         private void CloseUpdatesDataGridCommandOnExecuted(object obj)
@@ -107,6 +124,8 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         protected override void OnSelectionChanged(object obj)
         {
+            StatusBarTextPrefix = "Selected: ";
+            OnPropertyChanged(nameof(StatusBarTextPrefix));
             SetSelectionStatusBar(obj);
         }
         #endregion

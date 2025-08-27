@@ -82,5 +82,9 @@
     <!-- Buttons -->
     <Color x:Key="Color.Button.Background">White</Color>    
     
+    <!-- UpdateConditionSummary -->
+    <Color x:Key="Color.UpdateReportColor.InactiveText">Gray</Color>
+    <Color x:Key="Color.UpdateReportColor.HighlightText">#5499c7</Color>
+    
     
 </ResourceDictionary>

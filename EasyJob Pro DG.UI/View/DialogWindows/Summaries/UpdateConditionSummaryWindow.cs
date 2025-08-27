@@ -5,9 +5,9 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
     /// <summary>
     /// Interaction logic for UpdateConditionSummary.xaml
     /// </summary>
-    public partial class UpdateConditionSummary : AnimatedDialogWindow, IDialogWindow
+    public partial class UpdateConditionSummaryWindow : AnimatedDialogWindow, IDialogWindow
     {
-        public UpdateConditionSummary()
+        public UpdateConditionSummaryWindow()
         {
             InitializeComponent();
         }

@@ -15,8 +15,14 @@
         <converters2:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Style TargetType="TextBlock" >
             <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding HighlightTitle}" Value="True">
+                    <Setter Property="Foreground" Value="{StaticResource Brush.UpdateReportBlock.HighlightText}"/>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
-        <Style TargetType="Button" BasedOn="{StaticResource ButtonAsBlackTextLinkStyle}">
+        <Style x:Key="ThisControlButtonsStyle"
+            TargetType="Button" BasedOn="{StaticResource ButtonAsBlackTextLinkStyle}">
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="HorizontalContentAlignment" Value="Right"/>
             <Setter Property="Width" Value="130"/>
@@ -29,7 +35,9 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="{Binding BlockLabel, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+        <TextBlock Text="{Binding BlockLabel, RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
+            FallbackValue='Group of containers'}">
+        </TextBlock>
         <StackPanel Grid.Column="1">
 
             <Button Content="{Binding ContainersCount, Converter={StaticResource IntToStringConverter}, 
@@ -43,6 +51,15 @@
                         <Binding Path="ShowZeroValues"/>
                     </MultiBinding>
                 </Button.Visibility>
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource ThisControlButtonsStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HighlightContainers}" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource Brush.UpdateReportBlock.HighlightText}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
 
             <Button Content="{Binding ReefersCount, Converter={StaticResource IntToStringConverter},
@@ -56,6 +73,15 @@
                         <Binding Path="ShowZeroValues"/>
                     </MultiBinding>
                 </Button.Visibility>
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource ThisControlButtonsStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HighlightReefers}" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource Brush.UpdateReportBlock.HighlightText}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
 
             <Button Content="{Binding DgContainersCount, 
@@ -68,6 +94,15 @@
                         <Binding Path="ShowZeroValues"/>
                     </MultiBinding>
                 </Button.Visibility>
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource ThisControlButtonsStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HighlightDgContainers}" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource Brush.UpdateReportBlock.HighlightText}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
 
         </StackPanel>

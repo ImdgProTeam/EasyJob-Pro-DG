@@ -11,11 +11,19 @@ namespace EasyJob_ProDG.UI.Utility.Messages
     {
         public Units Units;
         public List<Container> ContainersToShow;
+        public string DisplayText;
 
         public ShowUpdatesMessage(List<Container> containers, Units units)
         {
             ContainersToShow = containers;
             Units = units;
+        }
+
+        public ShowUpdatesMessage(List<Container> containers, Units units, string displayText)
+        {
+            ContainersToShow = containers;
+            Units = units;
+            DisplayText = displayText;
         }
     }
 }
