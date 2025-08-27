@@ -1,5 +1,4 @@
-﻿using EasyJob_ProDG.UI.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -28,9 +27,9 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         /// </summary>
         internal override void LoadColumnSettings()
         {
-            var displayIndexes = Properties.Settings.Default.ContainerDataTableDisplayIndex.Split(';');
-            var widths = Properties.Settings.Default.ContainerDataTableWidth.Split(';');
-            var visibilitys = Properties.Settings.Default.ContainerDataTableVisibilities.Split(';');
+            var displayIndexes = Properties.Settings.Default.UpdatesDataTableDisplayIndex.Split(';');
+            var widths = Properties.Settings.Default.UpdatesDataTableWidth.Split(';');
+            var visibilitys = Properties.Settings.Default.UpdatesDataTableVisibilities.Split(';');
 
             if (displayIndexes.Count() != MainUpdatesDataTable.Columns.Count || displayIndexes.Any(x => int.Parse(x) < 0)) return;
 
@@ -65,6 +64,8 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                 }
                 Debug.WriteLine("-----> Default columns in ConainerDataTable created");
             }
+
+            RestoreSummaryControlColumnWidth();
         }
 
         /// <summary>
@@ -83,11 +84,23 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                 visibilitys.Add(column.Visibility.ToString());
             }
 
-            Properties.Settings.Default.ContainerDataTableDisplayIndex = String.Join(";", displayIndexes);
-            Properties.Settings.Default.ContainerDataTableWidth = String.Join(";", widths);
-            Properties.Settings.Default.ContainerDataTableVisibilities = string.Join(";", visibilitys);
+            Properties.Settings.Default.UpdatesDataTableDisplayIndex = String.Join(";", displayIndexes);
+            Properties.Settings.Default.UpdatesDataTableWidth = String.Join(";", widths);
+            Properties.Settings.Default.UpdatesDataTableVisibilities = string.Join(";", visibilitys);
+
+            SaveSummaryControlColumnWidth();
         }
 
+        private void SaveSummaryControlColumnWidth()
+        {
+            if (MainControlGrid.ColumnDefinitions[1].ActualWidth < 1) return;
+            Properties.Settings.Default.UpdatesControlWidth = MainControlGrid.ColumnDefinitions[1].ActualWidth;
+        }
+
+        private void RestoreSummaryControlColumnWidth()
+        {
+            MainControlGrid.ColumnDefinitions[1].Width = new GridLength(Properties.Settings.Default.UpdatesControlWidth);
+        }
 
         #endregion
 

@@ -346,5 +346,53 @@ namespace EasyJob_ProDG.UI.Properties {
                 this["ShowSummaryOnUpdateCondition"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UpdatesDataTableDisplayIndex {
+            get {
+                return ((string)(this["UpdatesDataTableDisplayIndex"]));
+            }
+            set {
+                this["UpdatesDataTableDisplayIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UpdatesDataTableWidth {
+            get {
+                return ((string)(this["UpdatesDataTableWidth"]));
+            }
+            set {
+                this["UpdatesDataTableWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UpdatesDataTableVisibilities {
+            get {
+                return ((string)(this["UpdatesDataTableVisibilities"]));
+            }
+            set {
+                this["UpdatesDataTableVisibilities"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double UpdatesControlWidth {
+            get {
+                return ((double)(this["UpdatesControlWidth"]));
+            }
+            set {
+                this["UpdatesControlWidth"] = value;
+            }
+        }
     }
 }

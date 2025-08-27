@@ -61,10 +61,10 @@
                     Grid.Column="3"/>
         </Grid>
 
-        <Grid>
+        <Grid x:Name="MainControlGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"/>
-                <ColumnDefinition/>
+                <ColumnDefinition MinWidth="10"/>
             </Grid.ColumnDefinitions>
             <uc:UpdateConditionSummaryControl 
                 Margin="2"

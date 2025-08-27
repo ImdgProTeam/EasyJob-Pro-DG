@@ -6,10 +6,6 @@ namespace EasyJob_ProDG.UI.Settings
 {
     public class DgTableColumnSettings
     {
-
-        //public System.Windows.Visibility Visibility { get; set; }
-        //public int DisplayIndex { get; set; }
-        //public string Width { get; set; }
         public DataGridLength DefaultWidth { get; set; }
 
         public DgTableColumnSettings(int displayIndex)

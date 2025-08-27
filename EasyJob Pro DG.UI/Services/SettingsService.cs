@@ -6,6 +6,7 @@ namespace EasyJob_ProDG.UI.Services
 {
     /// <summary>
     /// Class is used to access <see cref="UserUISettings"/> values and methods.
+    /// Saves and restores UserSettings to/from file
     /// </summary>
     public class SettingsService : ISettingsService
     {
@@ -20,6 +21,17 @@ namespace EasyJob_ProDG.UI.Services
             return _uiSettings.GetSettings();
         }
 
+        #region Settings properties
+
+        public bool ShowSummaryOnUpdateCondition
+        {
+            get => _uiSettings.ShowSummaryOnUpdateCondition;
+            set => _uiSettings.ShowSummaryOnUpdateCondition = value;
+        } 
+
+        #endregion
+
+        #region Save and Restore
 
         /// <summary>
         /// Calls dialog to choose settings file to save settings.
@@ -37,13 +49,9 @@ namespace EasyJob_ProDG.UI.Services
         {
             UserSettingsFileHandler.RestoreSettings();
             UserSettingsApplicator.ApplyUserSettings();
-        }
+        } 
 
-        public bool ShowSummaryOnUpdateCondition
-        {
-            get => _uiSettings.ShowSummaryOnUpdateCondition;
-            set => _uiSettings.ShowSummaryOnUpdateCondition = value;
-        }
+        #endregion
 
         #region Excel templates
 

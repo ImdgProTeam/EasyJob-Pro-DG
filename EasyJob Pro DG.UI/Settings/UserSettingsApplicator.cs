@@ -17,6 +17,7 @@ namespace EasyJob_ProDG.UI.Settings
             ((View.UI.MainWindow)System.Windows.Application.Current.MainWindow)?.MainDgDataGrid.LoadColumnSettings();
             ((View.UI.MainWindow)System.Windows.Application.Current.MainWindow)?.MainContainerDataGrid.LoadColumnSettings();
             ((View.UI.MainWindow)System.Windows.Application.Current.MainWindow)?.MainReeferDataGrid.LoadColumnSettings();
+            ((View.UI.MainWindow)System.Windows.Application.Current.MainWindow)?.MainUpdatesDataGrid.LoadColumnSettings();
 
             //restore excel templates
             SettingsService settingsService = new SettingsService();
@@ -36,6 +37,7 @@ namespace EasyJob_ProDG.UI.Settings
             ((View.UI.MainWindow)System.Windows.Application.Current.MainWindow)?.MainDgDataGrid.SaveColumnSettings();
             ((View.UI.MainWindow)System.Windows.Application.Current.MainWindow)?.MainContainerDataGrid.SaveColumnSettings();
             ((View.UI.MainWindow)System.Windows.Application.Current.MainWindow)?.MainReeferDataGrid.SaveColumnSettings();
+            ((View.UI.MainWindow)System.Windows.Application.Current.MainWindow)?.MainUpdatesDataGrid.SaveColumnSettings();
         }
     }
 }
