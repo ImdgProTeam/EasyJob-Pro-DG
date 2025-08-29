@@ -292,6 +292,38 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
+                    <!-- Remarks -->
+                    <DataGridTextColumn x:Name="remarksColumn"
+                                        Header="Remarks"
+                                        FocusManager.FocusedElement="{Binding ElementName=remarksColumn}"
+                                        Binding="{Binding Remarks, Mode=OneWay}"
+                                        ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBox.TextWrapping"
+                                        Value="WrapWithOverflow" />
+                                <Setter Property="TextBox.MaxLines"
+                                        Value="2" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+                    <!-- Reefer remark -->
+                    <DataGridTextColumn x:Name="reeferRemarkColumn"
+                                        Header="Reefer remark"
+                                        FocusManager.FocusedElement="{Binding ElementName=reeferRemarkColumn}"
+                                        Binding="{Binding ReeferRemark, Mode=OneWay}"
+                                        ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}">
+
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBox.TextWrapping"
+                                        Value="WrapWithOverflow" />
+                                <Setter Property="TextBox.MaxLines"
+                                        Value="2" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
 
                 </DataGrid.Columns>
 
