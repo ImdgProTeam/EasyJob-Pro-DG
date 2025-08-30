@@ -31,6 +31,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
 
         #region Public properties to be used in View
+
         public string WindowTitle { get; private set; }
         public CargoPlanWrapper WorkingCargoPlan => Services.CargoDataServiceAccess.WorkingCargoPlan;
         public Voyage VoyageInfo => WorkingCargoPlan.VoyageInfo ?? null;
@@ -171,11 +172,18 @@ namespace EasyJob_ProDG.UI.ViewModel
             DataMessenger.Default.Send(new CargoDataUpdated(), "cargodataupdated");
         }
 
+
         #region Menu properties and methods
 
-
+        /// <summary>
+        /// Defines if menu item 'Selection' visible or not.
+        /// </summary>
         public bool SelectionMenuVisible => ActiveSheetItemSelected();
 
+        /// <summary>
+        /// Checks if any item in active sheet is selected.
+        /// </summary>
+        /// <returns></returns>
         private bool ActiveSheetItemSelected()
         {
             switch (SelectedDataGridIndex)

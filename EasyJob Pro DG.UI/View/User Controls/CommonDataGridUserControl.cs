@@ -1,4 +1,5 @@
-﻿using EasyJob_ProDG.UI.IO;
+﻿using CustomControlLib;
+using EasyJob_ProDG.UI.IO;
 using EasyJob_ProDG.UI.View.Animations;
 using EasyJob_ProDG.UI.View.UI;
 using System.Linq;
@@ -57,7 +58,12 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             DataGridColumn column = grid?.CurrentColumn;
             currentRowIndex = grid?.SelectedIndex ?? currentRowIndex;
 
-
+            //Search container
+            if (e.Key == Key.F && Keyboard.Modifiers == ModifierKeys.Control) 
+            {
+                SearchBox searchBox = (SearchBox)FindName("SearchBox");
+                if (searchBox != null) searchBox.Focus();
+            }
 
             //Enter key
             if (e.Key == Key.Enter)

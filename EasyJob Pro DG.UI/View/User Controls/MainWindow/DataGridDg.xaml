@@ -29,6 +29,7 @@
         <StackPanel DockPanel.Dock="Top"
                     Orientation="Horizontal">
             <cc:SearchBox Text="{Binding TextToFilter}"
+                          x:Name="SearchBox"
                           Background="AliceBlue"/>
         </StackPanel>
 

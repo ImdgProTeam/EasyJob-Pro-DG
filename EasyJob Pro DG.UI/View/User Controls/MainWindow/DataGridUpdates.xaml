@@ -25,7 +25,8 @@
     <DockPanel>
         <!-- Top panel -->
         <StackPanel DockPanel.Dock="Top">
-            <cc:SearchBox Text="{Binding TextToFilter}"/>
+            <cc:SearchBox Text="{Binding TextToFilter}"
+                          x:Name="SearchBox"/>
         </StackPanel>
 
         <!-- Status bar -->
