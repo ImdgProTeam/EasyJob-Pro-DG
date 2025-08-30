@@ -3,6 +3,7 @@ using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Settings;
 using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.Wrapper;
 using System.Collections;
 using System.Collections.Generic;
@@ -232,7 +233,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         protected override void OnSelectionChanged(object obj)
         {
-            SetSelectionStatusBar(obj);
+            base.OnSelectionChanged(obj);
 
             if (SelectedDg is null) return;
 
@@ -247,6 +248,11 @@ namespace EasyJob_ProDG.UI.ViewModel
             selectionObject = obj;
         }
 
+        protected override void PostCargoDataUpdated()
+        {
+            SelectedDg = null;
+            OnPropertyChanged(nameof(SelectedDg));
+        }
         protected override void SetSelectionStatusBar(object obj)
         {
             StatusBarText = SelectionStatusBarSetter.GetSelectionStatusBarTextForDg(obj);

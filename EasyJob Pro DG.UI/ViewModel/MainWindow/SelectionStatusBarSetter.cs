@@ -12,7 +12,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private static string GenerateStatusBarTextForContainer(object obj)
         {
             var selectedContainers = obj as IList<object>;
-            if (selectedContainers is null)
+            if (selectedContainers is null || selectedContainers.Count == 0)
                 return "None";
             //selected only one Container
             if (selectedContainers.Count == 1)
@@ -65,7 +65,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private static string GenerateSelectionStatusBarForDg(object obj)
         {
             var selectedDgs = obj as IList<object>;
-            if (selectedDgs is null)
+            if (selectedDgs is null || selectedDgs.Count == 0)
                 return "None";
             //selected only one Dg
             if (selectedDgs.Count == 1)

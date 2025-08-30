@@ -78,7 +78,8 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         protected override void OnSelectionChanged(object obj)
         {
-            SetSelectionStatusBar(obj);
+            base.OnSelectionChanged(obj);
+
             if (SelectedUnit is null) return;
 
             if (MenuVisibility == System.Windows.Visibility.Visible)
@@ -90,6 +91,12 @@ namespace EasyJob_ProDG.UI.ViewModel
                 }
             }
             selectionObject = obj;
+        }
+
+        protected override void PostCargoDataUpdated()
+        {
+            SelectedUnit = null;
+            OnPropertyChanged(nameof(SelectedUnit));
         }
 
         private void OnDeleteUnitsRequested(object obj)

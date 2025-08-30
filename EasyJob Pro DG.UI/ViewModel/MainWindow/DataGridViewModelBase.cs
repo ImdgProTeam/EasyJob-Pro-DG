@@ -1,7 +1,9 @@
 ﻿using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.Wrapper;
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Data;
@@ -180,7 +182,16 @@ namespace EasyJob_ProDG.UI.ViewModel
         #region Methods
         // ----- DataGrid interactions -----
 
-        protected abstract void OnSelectionChanged(object obj);
+        /// <summary>
+        /// Called when selection in DataGrid changes
+        /// </summary>
+        /// <param name="obj"></param>
+        protected virtual void OnSelectionChanged(object obj)
+        {
+            SetSelectionStatusBar(obj);
+            DataMessenger.Default.Send(new ChangeSelectionMessage(), "Selected unit changed");
+        }
+
         protected virtual void SetSelectionStatusBar(object selectionObject)
         {
             StatusBarText = SelectionStatusBarSetter.GetSelectionStatusBarTextForContainer(selectionObject);
@@ -202,6 +213,15 @@ namespace EasyJob_ProDG.UI.ViewModel
                 OnPropertyChanged(nameof(WorkingCargoPlan));
                 OnPropertyChanged(nameof(UnitsPlanView));
             });
+            PostCargoDataUpdated();
+        }
+
+        /// <summary>
+        /// Method will be called in the end of OnCargoDataUpdated method.
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
+        protected virtual void PostCargoDataUpdated()
+        {
         }
 
         private void OnCargoPlanUnitPropertyChanged(CargoPlanUnitPropertyChanged changed)

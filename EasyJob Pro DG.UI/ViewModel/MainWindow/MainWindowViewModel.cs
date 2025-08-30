@@ -41,7 +41,16 @@ namespace EasyJob_ProDG.UI.ViewModel
         public DataGridReefersViewModel DataGridReefersViewModel => ViewModelLocator.DataGridReefersViewModel;
         public DataGridContainersViewModel DataGridContainersViewModel => ViewModelLocator.DataGridContainersViewModel;
         public DataGridUpdatesViewModel DataGridUpdatesViewModel => ViewModelLocator.DataGridUpdatesViewModel;
-        public int SelectedDataGridIndex { get; set; }
+        public int SelectedDataGridIndex
+        {
+            get => selectedDataGridIndex;
+            set
+            {
+                selectedDataGridIndex = value;
+                OnPropertyChanged(nameof(SelectionMenuVisible));
+            }
+        }
+        private int selectedDataGridIndex;
 
         /// <summary>
         /// Property indicating if any loading/saving etc. process is running at the moment.
@@ -61,6 +70,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
         }
         private bool isDimmedOverlayVisible;
+
 
         #endregion
 
@@ -111,7 +121,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             DataMessenger.Default.Register<ConflictPanelItemViewModel>(this, OnConflictSelectionChanged,
                 "conflict selection changed");
             DataMessenger.Default.Register<ShowUpdatesMessage>(this, OnShowUpdatesMessageReceived);
-            DataMessenger.Default.Register<ChangeSelectionMessage>(this, OnChangeSelectionMessageReceived, "updates data grid closed");
+            DataMessenger.Default.Register<ChangeSelectionMessage>(this, OnUpdatesDataGridClosedMessageReceived, "updates data grid closed");
+            DataMessenger.Default.Register<ChangeSelectionMessage>(this, OnSelectionChangedMessageReceived, "Selected unit changed");
         }
 
         /// <summary>
@@ -160,6 +171,28 @@ namespace EasyJob_ProDG.UI.ViewModel
             DataMessenger.Default.Send(new CargoDataUpdated(), "cargodataupdated");
         }
 
+        #region Menu properties and methods
+
+
+        public bool SelectionMenuVisible => ActiveSheetItemSelected();
+
+        private bool ActiveSheetItemSelected()
+        {
+            switch (SelectedDataGridIndex)
+            {
+                case 0:
+                    return DataGridDgViewModel.SelectedDg != null;
+                case 1:
+                    return DataGridReefersViewModel.SelectedUnit != null;
+                case 2:
+                    return DataGridContainersViewModel.SelectedUnit != null;
+                default:
+                    return false;
+            }
+        }
+
+
+        #endregion
 
         #region Working with files private methods
 
@@ -354,14 +387,24 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         /// <summary>
+        /// Method invoked when received SelectionChanged message from DatGrids.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void OnSelectionChangedMessageReceived(ChangeSelectionMessage message)
+        {
+            OnPropertyChanged(nameof(SelectionMenuVisible));
+        }
+
+        /// <summary>
         /// Method changes Selected DataGrid when DataGridUpdates visibility changes to collapsed.
         /// </summary>
         /// <param name="message"></param>
         /// <exception cref="NotImplementedException"></exception>
-        private void OnChangeSelectionMessageReceived(ChangeSelectionMessage message)
+        private void OnUpdatesDataGridClosedMessageReceived(ChangeSelectionMessage message)
         {
             SelectedDataGridIndex = 0;
-            OnPropertyChanged(nameof (SelectedDataGridIndex));
+            OnPropertyChanged(nameof(SelectedDataGridIndex));
         }
 
         #endregion

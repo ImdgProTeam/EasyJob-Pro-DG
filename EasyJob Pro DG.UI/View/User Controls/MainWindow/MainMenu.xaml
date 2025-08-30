@@ -4,13 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls" 
+             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
              mc:Ignorable="d"
              FontFamily="{StaticResource MenuFont}"
              FontSize="{StaticResource StandardMenuFontSize}"
              Foreground="{StaticResource Brush.MainMenu.TopMenuItem.Foreground}"
              >
     <UserControl.Resources>
-
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="{x:Type Separator}">
             <Setter Property="Height" Value="1" />
             <Setter Property="Margin" Value="28,4,5,4" />
@@ -373,6 +374,13 @@
                           CommandParameter="ExcelReefers"/>
             </MenuItem>
 
+            <!-- Selection -->
+            <MenuItem Header="Selection"
+                      Visibility="{Binding SelectionMenuVisible, UpdateSourceTrigger=PropertyChanged,
+                Converter={StaticResource BooleanToVisibilityConverter}}">
+                <MenuItem Header="Lock position" />
+            </MenuItem>
+            
             <!-- Summary -->
             <MenuItem Header="Summary">
                 <MenuItem Header="Cargo summary"

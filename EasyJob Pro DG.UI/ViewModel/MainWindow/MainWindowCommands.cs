@@ -135,7 +135,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void CloseUpdatesDataGridCommandOnExecuted(object obj)
         {
             ViewModelLocator.DataGridUpdatesViewModel.HideUpdatesDataGrid();
-            OnChangeSelectionMessageReceived(null);
+            OnUpdatesDataGridClosedMessageReceived(null);
         }
 
         /// <summary>
