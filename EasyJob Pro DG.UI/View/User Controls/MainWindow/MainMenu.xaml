@@ -374,6 +374,12 @@
                           CommandParameter="ExcelReefers"/>
             </MenuItem>
 
+            <!-- Cargo -->
+            <MenuItem Header="Cargo">
+                <MenuItem Header="Merge Port names" 
+                          Command="{Binding ShowMergePortNamesWindowCommand}"/>
+            </MenuItem>
+            
             <!-- Selection -->
             <MenuItem Header="Selection"
                       Visibility="{Binding SelectionMenuVisible, UpdateSourceTrigger=PropertyChanged,

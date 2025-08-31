@@ -152,6 +152,10 @@
     </Compile>
     <Compile Include="View\DialogWindows\Info\WelcomeWindowVM.cs" />
     <Compile Include="View\DialogWindows\Info\WinAboutViewModel.cs" />
+    <Compile Include="View\DialogWindows\SelectionWindows\MergePortNamesViewModel.cs" />
+    <Compile Include="View\DialogWindows\SelectionWindows\MergePortNamesWindow.cs">
+      <DependentUpon>MergePortNamesWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DialogWindows\Summaries\CargoReportViewModel.cs" />
     <Compile Include="View\DialogWindows\Summaries\Converters\IntToCollapsedConverter.cs" />
     <Compile Include="View\DialogWindows\Summaries\Converters\IntToStringConverter.cs" />
@@ -378,6 +382,7 @@
     <Compile Include="Data\CargoPlanUnitPropertyChanger.cs" />
     <Compile Include="Wrapper\Cargo\CargoPlanWrapper.cs" />
     <Compile Include="Wrapper\Cargo\CargoPlanWrapperExtensions.cs" />
+    <Compile Include="Wrapper\Cargo\AbstractContainerWrapperExtensions.cs" />
     <Compile Include="Wrapper\Cargo\ConflictWrapper.cs" />
     <Compile Include="Wrapper\Cargo\ContainerWrapper.cs" />
     <Compile Include="Wrapper\Cargo\DgWrapper.cs" />
@@ -412,6 +417,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DialogWindows\Info\winLicence.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DialogWindows\SelectionWindows\MergePortNamesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -691,6 +700,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -58,6 +58,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand ImportReeferManifestInfoOnlySelectedCommand { get; private set; }
         public ICommand ImportReeferManifestInfoOnlyPolCommand { get; private set; }
 
+        // ----- Toolbox windows -----
+        public ICommand ShowMergePortNamesWindowCommand { get; private set; }
+
         // ----- Various DataGrids commands -----
         public ICommand CloseUpdatesDataGridCommand { get; private set; }
         public ICommand ExportToExcelCommand { get; private set; }
@@ -116,12 +119,15 @@ namespace EasyJob_ProDG.UI.ViewModel
             ImportReeferManifestInfoOnlySelectedCommand = new DelegateCommand(ImportReeferManifestInfoOnlySelectedOnExecuted, CanAddReeferManifestInfoOnlySelected);
             ImportReeferManifestInfoOnlyPolCommand = new DelegateCommand(ImportReeferManifestInfoOnlyPolOnExecuted, CanAddReeferManifestInfo);
 
+            ShowMergePortNamesWindowCommand = new DelegateCommand(ShowMergePortNamesWindowOnExecuted);
+
             CloseUpdatesDataGridCommand = new DelegateCommand(CloseUpdatesDataGridCommandOnExecuted);
             ExportToExcelCommand = new DelegateCommand(ExportToExcelOnExecuted);
             SelectionChangedCommand = new DelegateCommand(OnApplicationClosing);
             ApplicationClosingCommand = new DelegateCommand(OnApplicationClosing);
 
         }
+
 
         #region Command methods
 
@@ -480,9 +486,13 @@ namespace EasyJob_ProDG.UI.ViewModel
             Services.WindowDialogServiceAccess.ShowDialog(new LicenceAgreement(), viewModel);
         }
 
+        // ----- Toolbox windows -----
+        private void ShowMergePortNamesWindowOnExecuted(object obj)
+        {
+            Services.WindowDialogServiceAccess.ShowDialog(new MergePortNamesWindow(), new MergePortNamesViewModel());
+        }
 
         // ----- Summary -----
-
         private void ShowDgCargoSummaryCommandOnExecuted(object obj)
         {
             var dgSummaryReport = new DgSummaryReportViewModel(VoyageInfo);
