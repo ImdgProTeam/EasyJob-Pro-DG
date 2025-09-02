@@ -1,4 +1,4 @@
-﻿using EasyJob_ProDG.UI.View.DialogWindows;
+﻿using EasyJob_ProDG.UI.View.WindowBase;
 using System.Windows;
 
 namespace EasyJob_ProDG.UI.View.UI
@@ -6,7 +6,7 @@ namespace EasyJob_ProDG.UI.View.UI
     /// <summary>
     /// Логика взаимодействия для ShipProfile.xaml
     /// </summary>
-    public partial class ShipProfileWindow : AnimatedDialogWindow
+    public partial class ShipProfileWindow : AnimatedWindow
     {
         public ShipProfileWindow()
         {
