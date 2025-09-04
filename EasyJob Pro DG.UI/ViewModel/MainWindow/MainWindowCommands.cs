@@ -420,7 +420,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         #region Methods calling toolbox windows
         private void OpenShipProfileWindowExecuted(object parameters)
         {
-            Services.WindowDialogServiceAccess.ShowDialog(new ShipProfileWindow(), new ShipProfileWindowVM());
+            Services.WindowDisplayServiceAccess.ShowDialog(new ShipProfileWindow(), new ShipProfileWindowVM());
             SetWindowTitle();
         }
         private void OpenUserSettingsWindowExecuted(object parameters)
@@ -441,15 +441,15 @@ namespace EasyJob_ProDG.UI.ViewModel
                     break;
             }
 
-            Services.WindowDialogServiceAccess.ShowDialog(new SettingsWindow(selectedTab));
+            Services.WindowDisplayServiceAccess.ShowDialog(new SettingsWindow(selectedTab));
         }
         private void ShowAboutExecuted(object parameters)
         {
-            Services.WindowDialogServiceAccess.ShowDialog(new winAbout());
+            Services.WindowDisplayServiceAccess.ShowDialog(new winAbout());
         }
         private void ShowLicenseDialogExecuted(object parameter)
         {
-            Services.WindowDialogServiceAccess.ShowDialog(new winLicence());
+            Services.WindowDisplayServiceAccess.ShowDialog(new winLicence());
         }
         private void ShowLoginWindowOnExecuted(object obj)
         {
@@ -483,13 +483,14 @@ namespace EasyJob_ProDG.UI.ViewModel
         internal void ShowLicenceAgreement(bool isFirstStart = false)
         {
             var viewModel = new LicenceAgreementViewModel(isFirstStart);
-            Services.WindowDialogServiceAccess.ShowDialog(new LicenceAgreement(), viewModel);
+            Services.WindowDisplayServiceAccess.ShowDialog(new LicenceAgreement(), viewModel);
         }
 
         // ----- Toolbox windows -----
         private void ShowMergePortNamesWindowOnExecuted(object obj)
         {
-            Services.WindowDialogServiceAccess.ShowDialog(new MergePortNamesWindow(), new MergePortNamesViewModel());
+            //Services.WindowDisplayServiceAccess.ShowNormal(new MergePortNamesWindow(), new MergePortNamesViewModel());
+            Services.ToolWindowOperatorAccess.ShowMergePortNamesWindow();
         }
 
         // ----- Summary -----
@@ -497,7 +498,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             var dgSummaryReport = new DgSummaryReportViewModel(VoyageInfo);
             dgSummaryReport.CreateReport(WorkingCargoPlan.Model);
-            Services.WindowDialogServiceAccess.ShowDialog(new DgSummaryReport(), dgSummaryReport);
+            Services.WindowDisplayServiceAccess.ShowDialog(new DgSummaryReport(), dgSummaryReport);
         }
 
         private void ShowCargoSummaryCommandOnExecuted(object obj)
@@ -511,7 +512,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             var portToPortReportViewModel = new PortToPortReportViewModel();
             portToPortReportViewModel.CreateReport(WorkingCargoPlan.Model);
-            Services.WindowDialogServiceAccess.ShowDialog(new PortToPortReport(), portToPortReportViewModel);
+            Services.WindowDisplayServiceAccess.ShowDialog(new PortToPortReport(), portToPortReportViewModel);
         }
 
         private void ShowConditionUpdateSummaryCommandOnExecuted(object obj)

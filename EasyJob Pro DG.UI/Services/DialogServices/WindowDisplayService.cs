@@ -6,10 +6,32 @@ namespace EasyJob_ProDG.UI.Services.DialogServices
     /// Service is to display Windows in dialog mode with or without binding to ViewModel 
     /// and without any additional functionality.
     /// </summary>
-    class WindowDialogService : IWindowDialogService
+    class WindowDisplayService : IWindowDisplayService
     {
         /// <summary>
-        /// Displays window.
+        /// Displays normal window.
+        /// </summary>
+        /// <param name="window"></param>
+        public void ShowNormal (Window window)
+        {
+            window.Show();
+        }
+
+        /// <summary>
+        /// Displays window with data bound to viewModel.
+        /// </summary>
+        /// <typeparam name="TViewModel">Type of view model class.</typeparam>
+        /// <param name="window">window to be displayed.</param>
+        /// <param name="viewModel">VM the window DataContext to bound to.</param>
+        public void ShowNormal<TViewModel>(Window window, TViewModel viewModel)
+            where TViewModel : class, new()
+        {
+            window.DataContext = viewModel;
+            window.Show();
+        }
+
+        /// <summary>
+        /// Displays dialog window.
         /// </summary>
         /// <param name="window"></param>
         public void ShowDialog(Window window)
@@ -18,7 +40,7 @@ namespace EasyJob_ProDG.UI.Services.DialogServices
         }
 
         /// <summary>
-        /// Displays window with data bound to viewModel.
+        /// Displays dialog window with data bound to viewModel.
         /// </summary>
         /// <typeparam name="TViewModel">Type of view model class.</typeparam>
         /// <param name="window">window to be displayed.</param>

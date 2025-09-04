@@ -3,11 +3,11 @@
 namespace EasyJob_ProDG.UI.View.DialogWindows
 {
     /// <summary>
-    /// Interaction logic for SelectToolWindow.xaml
+    /// Interaction logic for PortMergeWindow.xaml
     /// </summary>
-    public partial class SortToolWindow : AnimatedWindow
+    public partial class MergePortNamesWindow : AnimatedToolWindow
     {
-        public SortToolWindow()
+        public MergePortNamesWindow()
         {
             InitializeComponent();
         }

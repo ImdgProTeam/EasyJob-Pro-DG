@@ -1,16 +1,20 @@
-﻿<base:AnimatedWindow x:Class="EasyJob_ProDG.UI.View.DialogWindows.MergePortNamesWindow"
-                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                     xmlns:base="clr-namespace:EasyJob_ProDG.UI.View.WindowBase"
-                     xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows"
-                     mc:Ignorable="d"
-                     Width="200"
-                     MinWidth="200"
-                     Style="{StaticResource SummaryWindowStyle}"
-                     WindowStartupLocation="CenterScreen"
-                     MouseLeftButtonDown="Window_MouseLeftButtonDown">
+﻿<base:AnimatedToolWindow x:Class="EasyJob_ProDG.UI.View.DialogWindows.MergePortNamesWindow"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                         xmlns:base="clr-namespace:EasyJob_ProDG.UI.View.WindowBase"
+                         xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows"
+                         mc:Ignorable="d"
+                         Width="200"
+                         MinWidth="200"
+                         Style="{StaticResource ToolWindowStyle}"
+                         Focusable="True"
+                         WindowStartupLocation="CenterScreen"
+                         MouseLeftButtonDown="Window_MouseLeftButtonDown"
+                         Activated="OnGotFocusHandler"
+                         Deactivated="OnLostFocusHandler"
+                         >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -98,4 +102,4 @@
                     IsCancel="True" />
         </StackPanel>
     </Grid>
-</base:AnimatedWindow>
+</base:AnimatedToolWindow>

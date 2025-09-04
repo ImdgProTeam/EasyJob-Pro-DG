@@ -14,7 +14,7 @@
                      DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=SettingsWindowVM}"
                      WindowStartupLocation="CenterScreen"
                      MouseLeftButtonDown="Window_MouseLeftButtonDown"
-                     Style="{StaticResource ToolWindowStyle}">
+                     Style="{StaticResource SettingsWindowStyle}">
 
     <Grid Margin="2">
         <Grid.RowDefinitions>

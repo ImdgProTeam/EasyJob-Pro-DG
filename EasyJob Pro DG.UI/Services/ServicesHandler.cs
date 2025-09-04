@@ -26,7 +26,8 @@ namespace EasyJob_ProDG.UI.Services
         ICargoPlanCheckService _cargoPlanCheckService;
         IConflictDataService _conflictDataService;
         ISettingsService _uiSettingsService;
-        IWindowDialogService _windowDialogService;
+        IWindowDisplayService _windowDisplayService;
+        IToolWindowsOperator _toolWindowOperator;
         IMappedDialogWindowService _mappedDialogWindowService;
         IMessageDialogService _messageDialogService;
         ITitleService _titleService;
@@ -42,7 +43,8 @@ namespace EasyJob_ProDG.UI.Services
         internal ICargoPlanCheckService CargoPlanCheckServiceAccess => _cargoPlanCheckService;
         internal IConflictDataService ConflictDataServiceAccess => _conflictDataService;
         internal ISettingsService SettingsServiceAccess => _uiSettingsService;
-        internal IWindowDialogService WindowDialogServiceAccess => _windowDialogService;
+        internal IWindowDisplayService WindowDisplayServiceAccess => _windowDisplayService;
+        internal IToolWindowsOperator ToolWindowOperatorAccess => _toolWindowOperator;
         internal IMappedDialogWindowService MappedDialogWindowServiceAccess => _mappedDialogWindowService;
         internal IMessageDialogService MessageDialogServiceAccess => _messageDialogService;
         internal ITitleService TitleServiceAccess => _titleService;
@@ -110,7 +112,8 @@ namespace EasyJob_ProDG.UI.Services
             _conflictDataService = ConflictDataService.GetConflictDataService();
             _uiSettingsService = new SettingsService();
             _mappedDialogWindowService = new MappedDialogWindowService(System.Windows.Application.Current.MainWindow);
-            _windowDialogService = new WindowDialogService();
+            _windowDisplayService = new WindowDisplayService();
+            _toolWindowOperator = ToolWindowsOperator.GetOperator();
             _messageDialogService = MessageDialogService.Connect();
             _titleService = new TitleService();
             _fileNameService = new FileNameService();

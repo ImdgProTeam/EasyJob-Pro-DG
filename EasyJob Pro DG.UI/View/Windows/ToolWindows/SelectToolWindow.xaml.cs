@@ -5,9 +5,9 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
     /// <summary>
     /// Interaction logic for SelectToolWindow.xaml
     /// </summary>
-    public partial class FilterToolWindow : AnimatedWindow
+    public partial class SelectToolWindow : AnimatedToolWindow
     {
-        public FilterToolWindow()
+        public SelectToolWindow()
         {
             InitializeComponent();
         }

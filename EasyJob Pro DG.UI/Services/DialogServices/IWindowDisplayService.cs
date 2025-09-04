@@ -6,10 +6,12 @@ namespace EasyJob_ProDG.UI.Services.DialogServices
     /// Interface to service to display Windows in dialog mode with or without binding to ViewModel 
     /// and without any additional functionality.
     /// </summary>
-    internal interface IWindowDialogService
+    internal interface IWindowDisplayService
     {
         void CloseDialog(Window window);
         void ShowDialog(Window window);
         void ShowDialog<TViewModel>(Window window, TViewModel viewModel) where TViewModel : class, new();
+        void ShowNormal(Window window);
+        void ShowNormal<TViewModel>(Window window, TViewModel viewModel) where TViewModel : class, new();
     }
 }

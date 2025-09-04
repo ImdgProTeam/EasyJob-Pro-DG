@@ -116,7 +116,9 @@
     <Compile Include="Services\DataServices\Interfaces\ICargoUpdatesDataService.cs" />
     <Compile Include="Services\DataServices\Interfaces\ICargoPlanCheckService.cs" />
     <Compile Include="Services\DataServices\CargoUpdatesDataService.cs" />
-    <Compile Include="Services\DialogServices\IWindowDialogService.cs" />
+    <Compile Include="Services\DialogServices\IToolWindowsOperator.cs" />
+    <Compile Include="Services\DialogServices\IWindowDisplayService.cs" />
+    <Compile Include="Services\DialogServices\ToolWindowsOperator.cs" />
     <Compile Include="Services\FileNameService.cs" />
     <Compile Include="Services\IFileNameService.cs" />
     <Compile Include="Services\ServicesHandler.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="View\Converters\MultiplyValueConverter.cs" />
     <Compile Include="View\Converters\StowageCategoryConverter.cs" />
     <Compile Include="View\Converters\SubstractValueConverter.cs" />
+    <Compile Include="View\Windows\Base\AnimatedToolWindow.cs" />
     <Compile Include="View\Windows\Info\LicenceAgreement.xaml.cs">
       <DependentUpon>LicenceAgreement.xaml</DependentUpon>
     </Compile>
@@ -152,25 +155,25 @@
     </Compile>
     <Compile Include="View\Windows\Info\WelcomeWindowVM.cs" />
     <Compile Include="View\Windows\Info\WinAboutViewModel.cs" />
-    <Compile Include="View\ToolWindows\FilterToolViewModel.cs" />
-    <Compile Include="View\ToolWindows\SelectionControl.cs" />
-    <Compile Include="View\ToolWindows\SetToolViewModel.cs" />
-    <Compile Include="View\ToolWindows\SetToolWindow.cs">
+    <Compile Include="View\Windows\ToolWindows\FilterToolViewModel.cs" />
+    <Compile Include="View\Windows\ToolWindows\SelectionControl.cs" />
+    <Compile Include="View\Windows\ToolWindows\SetToolViewModel.cs" />
+    <Compile Include="View\Windows\ToolWindows\SetToolWindow.cs">
       <DependentUpon>SetToolWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ToolWindows\SortToolViewModel.cs" />
-    <Compile Include="View\ToolWindows\SortToolWindow.cs">
+    <Compile Include="View\Windows\ToolWindows\SortToolViewModel.cs" />
+    <Compile Include="View\Windows\ToolWindows\SortToolWindow.cs">
       <DependentUpon>SortToolWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ToolWindows\FilterToolWindow.cs">
+    <Compile Include="View\Windows\ToolWindows\FilterToolWindow.cs">
       <DependentUpon>FilterToolWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ToolWindows\MergePortNamesViewModel.cs" />
-    <Compile Include="View\ToolWindows\MergePortNamesWindow.cs">
+    <Compile Include="View\Windows\ToolWindows\MergePortNamesViewModel.cs" />
+    <Compile Include="View\Windows\ToolWindows\MergePortNamesWindow.cs">
       <DependentUpon>MergePortNamesWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ToolWindows\SelectToolViewModel.cs" />
-    <Compile Include="View\ToolWindows\SelectToolWindow.xaml.cs">
+    <Compile Include="View\Windows\ToolWindows\SelectToolViewModel.cs" />
+    <Compile Include="View\Windows\ToolWindows\SelectToolWindow.xaml.cs">
       <DependentUpon>SelectToolWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Windows\Summaries\CargoReportViewModel.cs" />
@@ -242,7 +245,7 @@
     <Compile Include="ViewModel\MainWindow\DataGridReefersViewModel.cs" />
     <Compile Include="Data\VentilationRequirements.cs" />
     <Compile Include="Utility\Observable.cs" />
-    <Compile Include="Services\DialogServices\WindowDialogService.cs" />
+    <Compile Include="Services\DialogServices\WindowDisplayService.cs" />
     <Compile Include="Services\DataServices\CargoDataService.cs" />
     <Compile Include="Services\DataServices\Interfaces\ICargoDataService.cs" />
     <Compile Include="ViewModel\Settings\SettingsWindowVM.cs" />
@@ -437,26 +440,26 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ToolWindows\SelectionControl.xaml">
+    <Page Include="View\Windows\ToolWindows\SelectionControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ToolWindows\SetToolWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\ToolWindows\SortToolWindow.xaml">
+    <Page Include="View\Windows\ToolWindows\SetToolWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\ToolWindows\FilterToolWindow.xaml">
+    <Page Include="View\Windows\ToolWindows\SortToolWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\ToolWindows\MergePortNamesWindow.xaml">
+    <Page Include="View\Windows\ToolWindows\FilterToolWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Windows\ToolWindows\MergePortNamesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ToolWindows\SelectToolWindow.xaml">
+    <Page Include="View\Windows\ToolWindows\SelectToolWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
