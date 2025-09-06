@@ -60,6 +60,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         // ----- Toolbox windows -----
         public ICommand ShowMergePortNamesWindowCommand { get; private set; }
+        public ICommand ShowSelectionToolWindowCommand { get; private set; }
 
         // ----- Various DataGrids commands -----
         public ICommand CloseUpdatesDataGridCommand { get; private set; }
@@ -120,6 +121,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             ImportReeferManifestInfoOnlyPolCommand = new DelegateCommand(ImportReeferManifestInfoOnlyPolOnExecuted, CanAddReeferManifestInfo);
 
             ShowMergePortNamesWindowCommand = new DelegateCommand(ShowMergePortNamesWindowOnExecuted);
+            ShowSelectionToolWindowCommand = new DelegateCommand(OnShowSelectionToolWindowExecuted);
 
             CloseUpdatesDataGridCommand = new DelegateCommand(CloseUpdatesDataGridCommandOnExecuted);
             ExportToExcelCommand = new DelegateCommand(ExportToExcelOnExecuted);
@@ -489,8 +491,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         // ----- Toolbox windows -----
         private void ShowMergePortNamesWindowOnExecuted(object obj)
         {
-            //Services.WindowDisplayServiceAccess.ShowNormal(new MergePortNamesWindow(), new MergePortNamesViewModel());
             Services.ToolWindowOperatorAccess.ShowMergePortNamesWindow();
+        }
+
+        private void OnShowSelectionToolWindowExecuted(object obj)
+        {
+            Services.ToolWindowOperatorAccess.ShowSelectToolWindow();
         }
 
         // ----- Summary -----

@@ -157,6 +157,7 @@
     <Compile Include="View\Windows\Info\WinAboutViewModel.cs" />
     <Compile Include="View\Windows\ToolWindows\FilterToolViewModel.cs" />
     <Compile Include="View\Windows\ToolWindows\SelectionControl.cs" />
+    <Compile Include="View\Windows\ToolWindows\SelectionControlViewModel.cs" />
     <Compile Include="View\Windows\ToolWindows\SetToolViewModel.cs" />
     <Compile Include="View\Windows\ToolWindows\SetToolWindow.cs">
       <DependentUpon>SetToolWindow.xaml</DependentUpon>

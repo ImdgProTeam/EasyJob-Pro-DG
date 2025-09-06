@@ -9,6 +9,7 @@
 
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BTVConverter" />
+        <converters:AnyCellToNullConverter x:Key="AnyCellToNullConverter" />
     </UserControl.Resources>
     <ScrollViewer Grid.Row="1"
                   VerticalScrollBarVisibility="Auto"
@@ -21,17 +22,33 @@
                     <Setter Property="HorizontalAlignment"
                             Value="Right" />
                 </Style>
+                <Style TargetType="TextBox"
+                       BasedOn="{StaticResource TextBoxWithTagAndValidation}">
+                </Style>
                 <Style TargetType="ComboBox">
                     <Setter Property="HorizontalAlignment"
                             Value="Left" />
                     <Setter Property="MinWidth"
                             Value="100" />
+                    <Setter Property="IsEditable"
+                            Value="True" />
+                    <Setter Property="StaysOpenOnEdit"
+                            Value="True" />
                 </Style>
                 <Style TargetType="CheckBox">
                     <Setter Property="HorizontalAlignment"
                             Value="Left" />
                     <Setter Property="Margin"
                             Value="10 0 0 0" />
+                </Style>
+                <Style TargetType="ItemsControl">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </Grid.Resources>
             <Grid.ColumnDefinitions>
@@ -62,88 +79,113 @@
             </Grid.RowDefinitions>
 
             <TextBlock Text="Container number" />
-            <ComboBox Text="XXXX1234567"
+            <ComboBox ItemsSource="{Binding ContainerNumbers}"
+                      SelectedItem="{Binding SelectedNumber}"
+                      Text="{Binding SelectedNumber}"
                       Grid.Column="1"
                       Grid.Row="0" />
 
             <TextBlock Text="Position"
                        Grid.Row="1" />
-            <TextBox Text="220688"
+            <TextBox Text="{Binding Position, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                      Grid.Column="1"
                      Grid.Row="1" />
-            <TextBlock Text="Bay: any Row: any"
-                       Grid.Column="1"
+            <TextBlock Text="{Binding PositionDescription}"
+                       HorizontalAlignment="Right"
+                       Grid.ColumnSpan="2"
                        Grid.Row="2" />
 
             <TextBlock Text="Old Position"
                        Grid.Row="1"
                        Grid.Column="2" />
-            <TextBox Text="220882"
+            <TextBox Text="{Binding OldPosition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                      Grid.Column="3"
                      Grid.Row="1" />
-            <TextBlock Text="Bay: any Row: any"
-                       Grid.Column="3"
+            <TextBlock Text="{Binding OldPositionDescription}"
+                       HorizontalAlignment="Right"
+                       Grid.Column="2"
+                       Grid.ColumnSpan="2"
                        Grid.Row="2" />
 
             <!-- Underdeck -->
             <CheckBox Content="Underdeck"
+                      IsChecked="{Binding IsUnderdeck}"
                       Grid.Row="3" />
             <CheckBox Content="On deck"
+                      IsChecked="{Binding IsOnDeck}"
                       Grid.Row="3"
                       Grid.Column="1" />
+
             <!-- Unit type -->
             <CheckBox Content="Dg"
+                      IsChecked="{Binding IsDG}"
                       Grid.Row="4" />
             <CheckBox Content="Non-dg"
+                      IsChecked="{Binding IsNotDg}"
                       Grid.Row="4"
                       Grid.Column="1" />
             <CheckBox Content="Reefer"
+                      IsChecked="{Binding IsReefer}"
                       Grid.Row="4"
                       Grid.Column="2" />
             <CheckBox Content="Non-reefer"
+                      IsChecked="{Binding IsNonReefer}"
                       Grid.Row="4"
                       Grid.Column="3" />
 
             <!-- POL / POD / Operator / Final destination-->
             <TextBlock Text="POL"
                        Grid.Row="5" />
-            <ComboBox Text="XXOPT"
+            <ComboBox ItemsSource="{Binding POLs}"
+                      SelectedItem="{Binding SelectedPOL}"
+                      Text="{Binding SelectedPOL}"
                       Grid.Column="1"
                       Grid.Row="5" />
 
             <TextBlock Text="POD"
                        Grid.Row="6" />
-            <ComboBox Text="XXOPT"
+            <ComboBox ItemsSource="{Binding PODs}"
+                      SelectedItem="{Binding SelectedPOD}"
+                      Text="{Binding SelectedPOD}"
                       Grid.Column="1"
                       Grid.Row="6" />
 
             <TextBlock Text="Operator"
                        Grid.Row="5"
                        Grid.Column="2" />
-            <ComboBox Text="MSC"
+            <ComboBox ItemsSource="{Binding Operators}"
+                      SelectedItem="{Binding SelectedOperator}"
+                      Text="{Binding SelectedOperator}"
                       Grid.Column="3"
                       Grid.Row="5" />
 
             <TextBlock Text="Final destination"
                        Grid.Row="6"
                        Grid.Column="2" />
-            <ComboBox Text="XXOPT"
+            <ComboBox ItemsSource="{Binding FinalDestinations}"
+                      SelectedItem="{Binding SelectedFinalDestination}"
+                      Text="{Binding SelectedFinalDestination}"
                       Grid.Column="3"
                       Grid.Row="6" />
 
             <TextBlock Text="Container type"
                        Grid.Row="7" />
-            <ComboBox Text="42G0"
+            <ComboBox ItemsSource="{Binding ContainerTypes}"
+                      SelectedItem="{Binding SelectedContainerType}"
+                      Text="{Binding SelectedContainerType}"
                       Grid.Column="1"
                       Grid.Row="7" />
             <CheckBox Content="Open type"
+                      IsChecked="{Binding IsOpenType}"
                       Grid.Row="7"
                       Grid.Column="2" />
 
             <!-- Remarks -->
             <CheckBox Content="Has remarks"
+                      IsChecked="{Binding HasRemarks}"
                       Grid.Row="8" />
             <CheckBox Content="not"
+                      IsChecked="{Binding HasNoRemarks}"
                       Grid.Row="8"
                       Grid.Column="1" />
 
@@ -153,6 +195,7 @@
                     HorizontalAlignment="Stretch"
                     BorderThickness="1"
                     BorderBrush="Black" />
+
             <!-- Changes -->
             <Expander Grid.Row="9"
                       Grid.ColumnSpan="4"
@@ -177,53 +220,69 @@
                     </Grid.RowDefinitions>
 
                     <CheckBox Content="New in plan"
+                              IsChecked="{Binding IsNewInPlan}"
                               Grid.Row="0" />
                     <CheckBox Content="not"
+                              IsChecked="{Binding NotIsNewInPlan}"
                               Grid.Row="0"
                               Grid.Column="1" />
 
                     <CheckBox Content="Position changed"
+                              IsChecked="{Binding HasPositionChanged}"
                               Grid.Row="1" />
                     <CheckBox Content="not"
+                              IsChecked="{Binding NotHasPositionChanged}"
                               Grid.Row="1"
                               Grid.Column="1" />
 
                     <CheckBox Content="Updated"
+                              IsChecked="{Binding HasUpdated}"
                               Grid.Row="2" />
                     <CheckBox Content="not"
+                              IsChecked="{Binding NotHasUpdated}"
                               Grid.Row="2"
                               Grid.Column="1" />
 
                     <CheckBox Content="POD changed"
+                              IsChecked="{Binding HasPODchanged}"
                               Grid.Row="0"
                               Grid.Column="2" />
                     <CheckBox Content="not"
+                              IsChecked="{Binding NotHasPODchanged}"
                               Grid.Row="0"
                               Grid.Column="3" />
                     <CheckBox Content="Type changed"
+                              IsChecked="{Binding HasTypeChanged}"
                               Grid.Row="1"
                               Grid.Column="2" />
                     <CheckBox Content="not"
+                              IsChecked="{Binding NotHasTypeChanged}"
                               Grid.Row="1"
                               Grid.Column="3" />
 
                     <!-- Updatable -->
                     <CheckBox Content="Is Locked"
+                              IsChecked="{Binding IsLocked}"
                               Grid.Row="3" />
                     <CheckBox Content="not"
+                              IsChecked="{Binding NotIsLocked}"
                               Grid.Row="3"
                               Grid.Column="1" />
 
                     <CheckBox Content="To import"
+                              IsChecked="{Binding IsToImport}"
                               Grid.Row="4" />
                     <CheckBox Content="Not to import"
+                              IsChecked="{Binding NotIsToImport}"
                               Grid.Row="4"
                               Grid.Column="1" />
 
                     <CheckBox Content="To be kept in plan"
+                              IsChecked="{Binding IsToBeKeptInPlan}"
                               Grid.Row="3"
                               Grid.Column="2" />
                     <CheckBox Content="not"
+                              IsChecked="{Binding NotIsToBeKeptInPlan}"
                               Grid.Row="3"
                               Grid.Column="3" />
 
@@ -255,18 +314,34 @@
                     <TextBlock Text="UNNO"
                                Grid.Row="0"
                                Grid.Column="0" />
-                    <ComboBox Text="2216"
+                    <ComboBox ItemsSource="{Binding UNNOs}"
+                              SelectedItem="{Binding SelectedUNNO}"
+                              Text="{Binding SelectedUNNO, UpdateSourceTrigger=PropertyChanged}"
                               Grid.Column="1"
-                              Grid.Row="0" />
+                              Grid.Row="0">
+                        <ComboBox.InputBindings>
+                            <KeyBinding Command="{Binding AddSelectedUnnoCommand}"
+                                        Key="Enter" />
+                        </ComboBox.InputBindings>
+                    </ComboBox>
                     <StackPanel Grid.Row="0"
                                 Grid.Column="2"
-                                Grid.ColumnSpan="2"
+                                Grid.ColumnSpan="3"
                                 Orientation="Horizontal">
                         <Button Content="+"
+                                Command="{Binding AddSelectedUnnoCommand}"
                                 ToolTip="Add another UNNO" />
-                        <Button Content="2216" />
-                        <Button Content="3080" />
+                        <ItemsControl ItemsSource="{Binding SelectedUNNOs}">
+                            <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{Binding}"
+                                                Command="{Binding DataContext.RemoveUnnoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}" />
+                                    </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                         <Button HorizontalAlignment="Right"
+                                Command="{Binding ClearSelectedUnnosCommand}"
                                 Content="x"
                                 ToolTip="Clear selection" />
                     </StackPanel>
@@ -275,18 +350,34 @@
                     <TextBlock Text="Dg class"
                                Grid.Row="1"
                                Grid.Column="0" />
-                    <ComboBox Text="2.1"
+                    <ComboBox ItemsSource="{Binding DgClasses}"
+                              SelectedItem="{Binding SelectedDgClass}"
+                              Text="{Binding SelectedDgClass, UpdateSourceTrigger=PropertyChanged}"
                               Grid.Column="1"
-                              Grid.Row="1" />
+                              Grid.Row="1">
+                        <ComboBox.InputBindings>
+                            <KeyBinding Command="{Binding AddSelectedDgClassCommand}"
+                                        Key="Enter" />
+                        </ComboBox.InputBindings>
+                    </ComboBox>
                     <StackPanel Grid.Row="1"
                                 Grid.Column="2"
-                                Grid.ColumnSpan="2"
+                                Grid.ColumnSpan="3"
                                 Orientation="Horizontal">
                         <Button Content="+"
+                                Command="{Binding AddSelectedDgClassCommand}"
                                 ToolTip="Add another class" />
-                        <Button Content="2.1" />
-                        <Button Content="3" />
+                        <ItemsControl ItemsSource="{Binding SelectedDgClasses}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Content="{Binding}"
+                                            Command="{Binding DataContext.RemoveDgClassCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                         <Button HorizontalAlignment="Right"
+                                Command="{Binding ClearSelectedDgClassesCommand}"
                                 Content="x"
                                 ToolTip="Clear selection" />
                     </StackPanel>
@@ -295,26 +386,32 @@
                     <TextBlock Text="Flash point"
                                Grid.Row="2"
                                Grid.Column="0" />
-                    <TextBox Text="+30"
+                    <TextBox Text="{Binding FlashPoint, StringFormat=+ #.#; - #.#; 0}"
                              Grid.Column="3"
                              Grid.Row="2" />
                     <CheckBox Content="less than"
+                              IsChecked="{Binding IsFPlessthan}"
                               Grid.Row="2"
                               Grid.Column="1" />
                     <CheckBox Content="more than"
+                              IsChecked="{Binding IsFPmorethan}"
                               Grid.Row="2"
                               Grid.Column="2" />
 
                     <!-- Conflicted -->
                     <CheckBox Content="Conflicted"
+                              IsChecked="{Binding IsConflicted}"
                               Grid.Row="3" />
                     <CheckBox Content="not"
+                              IsChecked="{Binding NotIsConflicted}"
                               Grid.Row="3"
                               Grid.Column="1" />
                     <!-- Remarks -->
                     <CheckBox Content="Has remarks"
+                              IsChecked="{Binding HasDgRemarks}"
                               Grid.Row="4" />
                     <CheckBox Content="not"
+                              IsChecked="{Binding NotHasDgRemarks}"
                               Grid.Row="4"
                               Grid.Column="1" />
                 </Grid>
@@ -342,21 +439,27 @@
 
                     <!-- Has properties -->
                     <CheckBox Content="Commodity"
+                              IsChecked="{Binding HasCommodity}"
                               Grid.Row="0" />
                     <CheckBox Content="not"
+                              IsChecked="{Binding NotHasCommodity}"
                               Grid.Row="0"
                               Grid.Column="1" />
 
                     <CheckBox Content="Special"
+                              IsChecked="{Binding HasSpecial}"
                               Grid.Row="0"
                               Grid.Column="2" />
                     <CheckBox Content="not"
+                              IsChecked="{Binding NotHasSpecial}"
                               Grid.Row="0"
                               Grid.Column="3" />
 
                     <CheckBox Content="Has remarks"
+                              IsChecked="{Binding HasReeferRemarks}"
                               Grid.Row="1" />
                     <CheckBox Content="not"
+                              IsChecked="{Binding NotHasReeferRemarks}"
                               Grid.Row="1"
                               Grid.Column="1" />
 
@@ -364,13 +467,15 @@
                     <TextBlock Text="Set point"
                                Grid.Row="2"
                                Grid.Column="0" />
-                    <TextBox Text="+30"
+                    <TextBox Text="{Binding SetPoint, StringFormat=+ #.#; - #.#; 0}"
                              Grid.Column="3"
                              Grid.Row="2" />
                     <CheckBox Content="less than"
+                              IsChecked="{Binding IsSPlessthan}"
                               Grid.Row="2"
                               Grid.Column="1" />
                     <CheckBox Content="more than"
+                              IsChecked="{Binding IsSPmorethan}"
                               Grid.Row="2"
                               Grid.Column="2" />
                 </Grid>
@@ -380,8 +485,9 @@
             <TextBlock Text="Search text"
                        Grid.Row="20"
                        Grid.Column="1" />
-            <TextBox  Text="Search free text"
+            <TextBox  Text="{Binding FreeText}"
                       Grid.Column="2"
+                      Grid.ColumnSpan="2"
                       Grid.Row="20" />
         </Grid>
 

@@ -374,10 +374,12 @@
                           CommandParameter="ExcelReefers"/>
             </MenuItem>
 
-            <!-- Cargo -->
-            <MenuItem Header="Cargo">
+            <!-- Tools -->
+            <MenuItem Header="Tools">
                 <MenuItem Header="Merge Port names" 
                           Command="{Binding ShowMergePortNamesWindowCommand}"/>
+                <MenuItem Header="Selection tool"
+                          Command="{Binding ShowSelectionToolWindowCommand}" />
             </MenuItem>
             
             <!-- Selection -->

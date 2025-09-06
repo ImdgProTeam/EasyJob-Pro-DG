@@ -16,8 +16,5 @@ namespace EasyJob_ProDG.UI.View.WindowBase
             window.Opacity = 1.0;
         }
 
-        protected void OnClosed(object sender, System.EventArgs e)
-        {
-        }
     }
 }
