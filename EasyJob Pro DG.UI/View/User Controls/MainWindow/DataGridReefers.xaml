@@ -86,9 +86,11 @@
 
                   Style="{StaticResource MainDataGridCommonStyle}"
                   
-                  ap:SelectingContainerDataGridItem.SelectingItem="{Binding SelectedUnit}"
                   behaviors:DataGridBehavior.DisplayRowNumber="True"
                   ap:DataGridSortBehavior.AllowCustomSort="True"
+                  ap:SelectingContainerDataGridItem.SelectingItem="{Binding SelectedUnit}"
+                  ap:SelectDataGridMultipleItems.GetSelectDataGridMultipleItemsByContainerNumber="{Binding ItemsToSelect}"
+                  
                   PreviewKeyDown="MainDataTable_PreviewKeyDown"
                   UnloadingRow="MainDataTable_OnUnloadingRow"
                   Sorting="MainDataTable_Sorting"

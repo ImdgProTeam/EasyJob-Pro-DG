@@ -91,7 +91,9 @@
                                     BeginningEdit="MainTable_BeginningEdit"
                   CellEditEnding="MainTable_CellEditEnding"
                   behaviors:DataGridBehavior.DisplayRowNumber="True" 
-                  ap:DataGridSortBehavior.AllowCustomSort="True">
+                  ap:DataGridSortBehavior.AllowCustomSort="True"
+                  ap:SelectDataGridMultipleItems.GetSelectDataGridMultipleItemsByContainerNumber="{Binding ItemsToSelect}"
+                  >
 
             <DataGrid.Resources>
 

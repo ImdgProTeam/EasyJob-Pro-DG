@@ -1,16 +1,13 @@
 ﻿using EasyJob_ProDG.Data;
 using EasyJob_ProDG.Data.Info_data;
-using EasyJob_ProDG.UI.IO;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace EasyJob_ProDG.UI.View.User_Controls
 {
@@ -21,7 +18,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
     {
         //private double OriginalScrollPosition { get; set; }
         //private bool IsResizingColumn { get; set; }
-
 
         public DataGridDg() : base(Animations.AnimationTypes.SlideAndFadeInFromLeft)
         {

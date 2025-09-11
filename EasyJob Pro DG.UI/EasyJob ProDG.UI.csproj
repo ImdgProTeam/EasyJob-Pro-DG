@@ -141,6 +141,7 @@
     <Compile Include="View\Animations\FrameworkElementAnimations.cs" />
     <Compile Include="View\AttachedProperties\DataGridSortBehavior.cs" />
     <Compile Include="View\AttachedProperties\FrameworkElementsAnimationAttachedProperties.cs" />
+    <Compile Include="View\AttachedProperties\SelectDataGridMultipleItemsById.cs" />
     <Compile Include="View\Converters\InverseBooleanToVisiblityConverter.cs" />
     <Compile Include="View\Converters\MultiplyValueConverter.cs" />
     <Compile Include="View\Converters\StowageCategoryConverter.cs" />

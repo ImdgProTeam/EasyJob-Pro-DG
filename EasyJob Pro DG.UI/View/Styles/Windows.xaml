@@ -45,7 +45,7 @@
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="ResizeMode" Value="CanResize" />
         <Setter Property="Background" Value="{StaticResource Brush.ToolboxWindow.Background}" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="SizeToContent" Value="Height" />
         <Setter Property="Topmost" Value="True" />
         <Setter Property="FontFamily" Value="{StaticResource BaseFont}" />

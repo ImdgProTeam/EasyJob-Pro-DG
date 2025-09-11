@@ -98,6 +98,7 @@
     <Compile Include="IO\EdiSegmentArray.cs" />
     <Compile Include="Cargo\Segregation\Segregation.cs" />
     <Compile Include="Cargo\Segregation\SegregatorException.cs" />
+    <Compile Include="Cargo\BaseUnits\Helpers\ExtensionMethods.cs" />
     <Compile Include="Transport\ShipProfile.cs" />
     <Compile Include="Transport\ShipProfileHandler.cs" />
     <Compile Include="Cargo\Segregation\SpecialSegregationCheck.cs" />

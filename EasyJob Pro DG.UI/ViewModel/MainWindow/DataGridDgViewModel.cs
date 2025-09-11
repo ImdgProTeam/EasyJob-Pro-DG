@@ -3,7 +3,6 @@ using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Settings;
 using EasyJob_ProDG.UI.Utility;
-using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.Wrapper;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,6 +21,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         //--------------- Public properties -----------------------------------------
         public ObservableCollection<DgTableColumnSettings> ColumnSettings { get; set; }
         public DgWrapper SelectedDg { get; set; }
+
         public bool IsTechnicalNameIncluded { get; set; }
 
 
@@ -101,6 +101,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public override bool CanUserAddUnit => !string.IsNullOrEmpty(UnitToAddNumber) && UnitToAddUnno > 0;
 
         ushort unitToAddUnno;
+
         public ushort UnitToAddUnno
         {
             get => unitToAddUnno;

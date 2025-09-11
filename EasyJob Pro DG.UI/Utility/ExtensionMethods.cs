@@ -97,5 +97,27 @@ namespace EasyJob_ProDG.UI.Utility
             return array;
         }
 
+        /// <summary>
+        /// Compares two strings ignorring letters case.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="stringToCheck"></param>
+        /// <returns></returns>
+        internal static bool ContainsCaseInsensitive(this string source, string stringToCheck)
+        {
+            return source?.IndexOf(stringToCheck, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        /// <summary>
+        /// Compares two strings ignorring letters case and spaces.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="stringToCheck"></param>
+        /// <returns></returns>
+        internal static bool ContainsCaseAndSpaceInsensitive(this string source, string stringToCheck)
+        {
+            if (string.IsNullOrWhiteSpace(source)) return false;
+            return source.ContainsCaseInsensitive(stringToCheck.Replace(" ", ""));
+        }
     }
 }

@@ -20,6 +20,11 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <Grid.Resources>
+            <Style TargetType="{x:Type Button}"
+                   BasedOn="{StaticResource SummaryWindowButtonStyle}">
+            </Style>
+        </Grid.Resources>
         <!-- Capture -->
         <Grid>
             <Grid.ColumnDefinitions>
@@ -31,6 +36,7 @@
             <Button Content="Clear"
                     Command="{Binding ClearCommand}"
                     HorizontalAlignment="Right"
+                    Panel.ZIndex="100"
                     Grid.Column="1" />
         </Grid>
 
@@ -44,12 +50,9 @@
                     Grid.Row="4"
                     Grid.ColumnSpan="2">
             <StackPanel.Resources>
-                <Style TargetType="{x:Type Button}"
-                       BasedOn="{StaticResource SummaryWindowButtonStyle}">
-                </Style>
             </StackPanel.Resources>
             <Button Content="Select"
-                    Command="{Binding ApplyMergePortNamesCommand}"
+                    Command="{Binding SelectCommand}"
                     IsDefault="True" />
             <Button Content="Close"
                     Click="CloseWindow"

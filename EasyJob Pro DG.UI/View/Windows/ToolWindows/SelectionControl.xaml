@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:ub="clr-namespace:EasyJob_ProDG.UI.Behaviors"
              mc:Ignorable="d"
              x:Name="Control">
 
@@ -44,9 +46,9 @@
                 <Style TargetType="ItemsControl">
                     <Setter Property="ItemsPanel">
                         <Setter.Value>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
                         </Setter.Value>
                     </Setter>
                 </Style>
@@ -89,7 +91,11 @@
                        Grid.Row="1" />
             <TextBox Text="{Binding Position, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                      Grid.Column="1"
-                     Grid.Row="1" />
+                     Grid.Row="1">
+                <i:Interaction.Behaviors>
+                    <ub:SelectTextOnFocusBehavior />
+                </i:Interaction.Behaviors>
+            </TextBox>
             <TextBlock Text="{Binding PositionDescription}"
                        HorizontalAlignment="Right"
                        Grid.ColumnSpan="2"
@@ -100,7 +106,11 @@
                        Grid.Column="2" />
             <TextBox Text="{Binding OldPosition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                      Grid.Column="3"
-                     Grid.Row="1" />
+                     Grid.Row="1">
+                <i:Interaction.Behaviors>
+                    <ub:SelectTextOnFocusBehavior />
+                </i:Interaction.Behaviors>
+            </TextBox>
             <TextBlock Text="{Binding OldPositionDescription}"
                        HorizontalAlignment="Right"
                        Grid.Column="2"
@@ -333,11 +343,11 @@
                                 ToolTip="Add another UNNO" />
                         <ItemsControl ItemsSource="{Binding SelectedUNNOs}">
                             <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Content="{Binding}"
-                                                Command="{Binding DataContext.RemoveUnnoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                CommandParameter="{Binding}" />
-                                    </DataTemplate>
+                                <DataTemplate>
+                                    <Button Content="{Binding}"
+                                            Command="{Binding DataContext.RemoveUnnoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}" />
+                                </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <Button HorizontalAlignment="Right"
@@ -388,7 +398,11 @@
                                Grid.Column="0" />
                     <TextBox Text="{Binding FlashPoint, StringFormat=+ #.#; - #.#; 0}"
                              Grid.Column="3"
-                             Grid.Row="2" />
+                             Grid.Row="2">
+                        <i:Interaction.Behaviors>
+                            <ub:SelectTextOnFocusBehavior />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
                     <CheckBox Content="less than"
                               IsChecked="{Binding IsFPlessthan}"
                               Grid.Row="2"
@@ -469,7 +483,11 @@
                                Grid.Column="0" />
                     <TextBox Text="{Binding SetPoint, StringFormat=+ #.#; - #.#; 0}"
                              Grid.Column="3"
-                             Grid.Row="2" />
+                             Grid.Row="2">
+                        <i:Interaction.Behaviors>
+                            <ub:SelectTextOnFocusBehavior />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
                     <CheckBox Content="less than"
                               IsChecked="{Binding IsSPlessthan}"
                               Grid.Row="2"
@@ -485,10 +503,14 @@
             <TextBlock Text="Search text"
                        Grid.Row="20"
                        Grid.Column="1" />
-            <TextBox  Text="{Binding FreeText}"
+            <TextBox  Text="{Binding FreeText, UpdateSourceTrigger=PropertyChanged}"
                       Grid.Column="2"
                       Grid.ColumnSpan="2"
-                      Grid.Row="20" />
+                      Grid.Row="20">
+                <i:Interaction.Behaviors>
+                    <ub:SelectTextOnFocusBehavior />
+                </i:Interaction.Behaviors>
+            </TextBox>
         </Grid>
 
     </ScrollViewer>

@@ -5,6 +5,7 @@ using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -32,6 +33,19 @@ namespace EasyJob_ProDG.UI.ViewModel
         public CargoPlanWrapper WorkingCargoPlan => ViewModelLocator.MainWindowViewModel.WorkingCargoPlan;
         public string StatusBarText { get; protected set; } = "None";
 
+        /// <summary>
+        /// Property used to selectmultiple items from ViewModel by Id or ContainerNumber
+        /// </summary>
+        public List<string> ItemsToSelect
+        {
+            get => itemsToSelect;
+            set
+            {
+                itemsToSelect = value;
+                OnPropertyChanged();
+            }
+        }
+        private List<string> itemsToSelect;
 
         #region Constructor
         // ----- Constructor -----

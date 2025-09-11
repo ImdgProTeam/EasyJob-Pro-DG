@@ -1,6 +1,5 @@
 ﻿using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Wrapper;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -25,13 +24,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             set
             {
                 position = value;
-                cellPosition.DisplayPosition = value;
+                CellPosition.DisplayPosition = value;
                 OnPropertyChanged(nameof(PositionDescription));
             }
         }
         private string position;
-        private CellPositionWrapper cellPosition;
-        public string PositionDescription => cellPosition.DisplayPosition;
+        internal CellPositionWrapper CellPosition;
+        public string PositionDescription => CellPosition.DisplayPosition;
 
         public string OldPosition
         {
@@ -39,14 +38,14 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             set
             {
                 oldPosition = value;
-                cellOldPosition.DisplayPosition = value;
+                CellOldPosition.DisplayPosition = value;
                 OnPropertyChanged(nameof(OldPositionDescription));
             }
 
         }
         private string oldPosition;
-        private CellPositionWrapper cellOldPosition;
-        public string OldPositionDescription => cellOldPosition.DisplayPosition;
+        internal CellPositionWrapper CellOldPosition;
+        public string OldPositionDescription => CellOldPosition.DisplayPosition;
 
         public bool IsUnderdeck
         {
@@ -879,8 +878,8 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         {
             SelectedUNNOs = new ObservableCollection<int>();
             SelectedDgClasses = new ObservableCollection<string>();
-            cellPosition = new CellPositionWrapper();
-            cellOldPosition = new CellPositionWrapper();
+            CellPosition = new CellPositionWrapper();
+            CellOldPosition = new CellPositionWrapper();
 
             AddSelectedUnnoCommand = new DelegateCommand(OnAddSelectedUnnoExecuted, OnAddSelectedUnnoCanExecute);
             ClearSelectedUnnosCommand = new DelegateCommand(OnClearSelectedUnnosExecuted, OnClearSelectedUnnosCanExecute);

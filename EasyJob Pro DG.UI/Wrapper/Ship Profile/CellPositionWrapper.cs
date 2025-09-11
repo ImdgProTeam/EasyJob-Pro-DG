@@ -93,7 +93,7 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         #endregion
 
-        #region Commands
+            #region Commands
 
         public ICommand RemoveCellCommand { get; private set; }
         private void InitializeCommands()
