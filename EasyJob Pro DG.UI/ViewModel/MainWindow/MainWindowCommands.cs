@@ -60,7 +60,9 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         // ----- Toolbox windows -----
         public ICommand ShowMergePortNamesWindowCommand { get; private set; }
+        public ICommand ShowFilterToolWindowCommand { get; private set; }
         public ICommand ShowSelectionToolWindowCommand { get; private set; }
+        public ICommand CloseAllToolWindowsCommand { get; private set; }
 
         // ----- Various DataGrids commands -----
         public ICommand CloseUpdatesDataGridCommand { get; private set; }
@@ -121,7 +123,9 @@ namespace EasyJob_ProDG.UI.ViewModel
             ImportReeferManifestInfoOnlyPolCommand = new DelegateCommand(ImportReeferManifestInfoOnlyPolOnExecuted, CanAddReeferManifestInfo);
 
             ShowMergePortNamesWindowCommand = new DelegateCommand(ShowMergePortNamesWindowOnExecuted);
+            ShowFilterToolWindowCommand = new DelegateCommand(OnShowFilterToolWindowExecuted);
             ShowSelectionToolWindowCommand = new DelegateCommand(OnShowSelectionToolWindowExecuted);
+            CloseAllToolWindowsCommand = new DelegateCommand(CloseAllToolWindowsExecuted);
 
             CloseUpdatesDataGridCommand = new DelegateCommand(CloseUpdatesDataGridCommandOnExecuted);
             ExportToExcelCommand = new DelegateCommand(ExportToExcelOnExecuted);
@@ -129,7 +133,6 @@ namespace EasyJob_ProDG.UI.ViewModel
             ApplicationClosingCommand = new DelegateCommand(OnApplicationClosing);
 
         }
-
 
         #region Command methods
 
@@ -494,9 +497,19 @@ namespace EasyJob_ProDG.UI.ViewModel
             Services.ToolWindowOperatorAccess.ShowMergePortNamesWindow();
         }
 
+        private void OnShowFilterToolWindowExecuted(object obj)
+        {
+            Services.ToolWindowOperatorAccess.ShowFilterToolWindow();
+        }
+
         private void OnShowSelectionToolWindowExecuted(object obj)
         {
             Services.ToolWindowOperatorAccess.ShowSelectToolWindow();
+        }
+
+        private void CloseAllToolWindowsExecuted(object obj)
+        {
+            Services.ToolWindowOperatorAccess.CloseAllWindows();
         }
 
         // ----- Summary -----

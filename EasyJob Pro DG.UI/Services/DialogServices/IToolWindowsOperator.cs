@@ -7,5 +7,6 @@
         void ShowSelectToolWindow();
         void ShowSetToolWindow();
         void ShowSortToolWindow();
+        void CloseAllWindows();
     }
 }

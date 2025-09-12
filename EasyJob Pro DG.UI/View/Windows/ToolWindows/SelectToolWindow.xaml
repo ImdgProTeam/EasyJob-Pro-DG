@@ -52,7 +52,7 @@
             <StackPanel.Resources>
             </StackPanel.Resources>
             <Button Content="Select"
-                    Command="{Binding SelectCommand}"
+                    Command="{Binding ApplyCommand}"
                     IsDefault="True" />
             <Button Content="Close"
                     Click="CloseWindow"

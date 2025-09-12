@@ -156,6 +156,7 @@
     </Compile>
     <Compile Include="View\Windows\Info\WelcomeWindowVM.cs" />
     <Compile Include="View\Windows\Info\WinAboutViewModel.cs" />
+    <Compile Include="View\Windows\ToolWindows\CommonMethods.cs" />
     <Compile Include="View\Windows\ToolWindows\FilterToolViewModel.cs" />
     <Compile Include="View\Windows\ToolWindows\SelectionControl.cs" />
     <Compile Include="View\Windows\ToolWindows\SelectionControlViewModel.cs" />
@@ -400,6 +401,7 @@
     <Compile Include="View\Windows\Summaries\CargoReport.xaml.cs">
       <DependentUpon>CargoReport.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Windows\ToolWindows\ToolWindowViewModelBase.cs" />
     <Compile Include="Wrapper\Cargo\AbstractContainerWrapper.cs" />
     <Compile Include="Data\CargoPlanUnitPropertyChanger.cs" />
     <Compile Include="Wrapper\Cargo\CargoPlanWrapper.cs" />

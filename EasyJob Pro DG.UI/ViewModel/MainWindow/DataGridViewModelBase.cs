@@ -66,8 +66,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             SetVisualElements();
 
             unitsPlanView.Filter += OnUnitsListFiltered;
+            unitsPlanView.Filter += OnAdvanceFiltered;
         }
-
 
         #endregion
 
@@ -145,6 +145,46 @@ namespace EasyJob_ProDG.UI.ViewModel
             if (c.Location.Replace(" ", "").Contains(searchText)) return;
 
             e.Accepted = false;
+        }
+
+        protected List<string> filteredContainerNumbers;
+
+        /// <summary>
+        /// Applies advanced filter to UnitsPlanView based on List of ContainerNumbers as set in <see cref="filteredContainerNumbers"/>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void OnAdvanceFiltered (object sender, FilterEventArgs e)
+        {
+            if (filteredContainerNumbers == null) return;
+
+            if (!(e.Item is ContainerWrapper c) || c.ContainerNumber is null)
+            {
+                e.Accepted = false;
+                return;
+            }
+            if (filteredContainerNumbers.Contains(c.ContainerNumber)) return;
+
+            e.Accepted = false;
+        }
+
+        /// <summary>
+        /// Sets additional filter to UnitsPlanView
+        /// </summary>
+        /// <param name="filteredItems">List of filtered container numbers</param>
+        internal void SetAdditionalFilter(List<string> filteredItems)
+        {
+            filteredContainerNumbers = filteredItems;
+            UnitsPlanView.Refresh();
+        }
+
+        /// <summary>
+        /// Clears additinal filter
+        /// </summary>
+        internal void ClearAdditionalFilter()
+        {
+            filteredContainerNumbers = null;
+            UnitsPlanView.Refresh();
         }
 
         #endregion

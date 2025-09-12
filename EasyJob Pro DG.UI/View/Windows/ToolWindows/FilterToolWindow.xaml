@@ -13,18 +13,31 @@
                          MouseLeftButtonDown="Window_MouseLeftButtonDown"
                          Activated="OnGotFocusHandler"
                          Deactivated="OnLostFocusHandler">
-    <Grid>
+    <Grid TextBlock.FontSize="11">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <Grid.Resources>
+            <Style TargetType="{x:Type Button}"
+                   BasedOn="{StaticResource SummaryWindowButtonStyle}">
+            </Style>
+        </Grid.Resources>
+
         <!-- Capture -->
         <TextBlock Text="Filter tool"
                    Style="{StaticResource WindowTitleTextBlock}" />
+        <Button Content="Clear"
+                Command="{Binding ClearCommand}"
+                HorizontalAlignment="Right"
+                Panel.ZIndex="100"
+                Grid.Column="1" />
 
-        <local:SelectionControl Grid.Row="1" />
+        <!-- Main working part -->
+        <local:SelectionControl Grid.Row="1"
+                                DataContext="{Binding SelectionControlViewModel}" />
 
         <!-- Control buttons -->
         <StackPanel Orientation="Horizontal"
@@ -32,14 +45,9 @@
                     Grid.Row="4"
                     Grid.ColumnSpan="2">
             <StackPanel.Resources>
-                <Style TargetType="{x:Type Button}"
-                       BasedOn="{StaticResource SummaryWindowButtonStyle}">
-                </Style>
             </StackPanel.Resources>
-            <Button Content="Clear"
-                    Command="{Binding ApplyMergePortNamesCommand}" />
             <Button Content="Filter"
-                    Command="{Binding ApplyMergePortNamesCommand}"
+                    Command="{Binding ApplyCommand}"
                     IsDefault="True" />
             <Button Content="Close"
                     Click="CloseWindow"

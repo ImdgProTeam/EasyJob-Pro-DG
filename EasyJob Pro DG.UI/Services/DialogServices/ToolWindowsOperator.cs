@@ -80,6 +80,19 @@ namespace EasyJob_ProDG.UI.Services.DialogServices
             _setToolWindow.Closed += OnWindowClosed;
         }
 
+        public void CloseAllWindows()
+        {
+            if(_mergePortNamesWindow  != null)
+                _mergePortNamesWindow.Close();
+            if(_selectToolWindow != null)
+                _selectToolWindow.Close();
+            if(_filterToolWindow != null)
+                _filterToolWindow.Close();
+            if(_sortToolWindow != null)
+                _sortToolWindow.Close();
+            if(_setToolWindow != null)
+                _setToolWindow.Close();
+        }
 
         private void OnWindowClosed(object sender, EventArgs e)
         {

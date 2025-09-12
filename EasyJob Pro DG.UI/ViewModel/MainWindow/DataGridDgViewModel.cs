@@ -95,6 +95,20 @@ namespace EasyJob_ProDG.UI.ViewModel
             e.Accepted = false;
         }
 
+        protected override void OnAdvanceFiltered(object sender, FilterEventArgs e)
+        {
+            if (filteredContainerNumbers == null) return;
+
+            if (!(e.Item is DgWrapper dg))
+            {
+                e.Accepted = false;
+                return;
+            }
+            if (filteredContainerNumbers.Contains(dg.Model.ID.ToString())) return;
+
+            e.Accepted = false;
+        }
+
         #endregion
 
         #region AddDg Logic
