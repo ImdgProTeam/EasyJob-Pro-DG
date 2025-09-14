@@ -15,14 +15,26 @@
 
     <local:CommonDataGridUserControl.Resources>
         <converters:BoolInversionConverter x:Key="BoolInversionConverter" />
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <sort:EmptyTextLastSortComparer x:Key="EmptyTextLastSorter" />
     </local:CommonDataGridUserControl.Resources>
 
     <DockPanel>
-        <StackPanel DockPanel.Dock="Top">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
             <cc:SearchBox Text="{Binding TextToFilter}"
                           x:Name="SearchBox"/>
-        </StackPanel>
+            <Button Content="Filtered"
+                    HorizontalAlignment="Center"
+                    ToolTip="Clear filter"
+                    Visibility="{Binding AdvancedFilterApplied, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Command="{Binding ClearFilterCommand}"
+                    Grid.Column="1" />
+        </Grid>
 
         <Grid DockPanel.Dock="Bottom"
                     HorizontalAlignment="Stretch">

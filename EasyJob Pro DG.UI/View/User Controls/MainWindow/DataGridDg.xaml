@@ -21,17 +21,29 @@
         <converters:BoolInversionConverter x:Key="BoolInversionConverter" />
         <converters:DummyConverter x:Key="DummyConverter"/>
         <converters:StowageCategoryConverter x:Key="StowageCategoryConverter"/>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <sort:EmptyTextLastSortComparer x:Key="EmptyTextLastSorter" />
     </UserControl.Resources>
 
     <DockPanel>
         <!-- Search and filter panel -->
-        <StackPanel DockPanel.Dock="Top"
-                    Orientation="Horizontal">
+        <Grid DockPanel.Dock="Top"
+                    HorizontalAlignment="Stretch"
+                    >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
             <cc:SearchBox Text="{Binding TextToFilter}"
                           x:Name="SearchBox"
                           Background="AliceBlue"/>
-        </StackPanel>
+            <Button Content="Filtered" HorizontalAlignment="Center" 
+                    ToolTip="Clear filter"
+                    Visibility="{Binding AdvancedFilterApplied, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Command="{Binding ClearFilterCommand}"
+                    Grid.Column="1"/>
+        </Grid>
 
         <!-- Bottom panel-->
         <Grid DockPanel.Dock="Bottom"

@@ -1,5 +1,6 @@
 ﻿using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Wrapper;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,10 +10,41 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 {
     internal class SelectionControlViewModel : Observable
     {
+        #region Internal members
 
+        internal bool IsNoPropertySelected => string.IsNullOrWhiteSpace(SelectedNumber)
+    && string.IsNullOrWhiteSpace(Position) && string.IsNullOrWhiteSpace(OldPosition)
+    && !IsUnderdeck && !isOnDeck && !IsDG && !IsNotDg && !IsReefer && !isNonReefer
+    && string.IsNullOrWhiteSpace(SelectedPOL) && string.IsNullOrWhiteSpace(SelectedPOD)
+    && string.IsNullOrWhiteSpace(SelectedFinalDestination) && string.IsNullOrWhiteSpace(SelectedContainerType)
+    && !IsOpenType && !HasRemarks && !HasNoRemarks && !IsNewInPlan && !NotIsNewInPlan
+    && !HasPositionChanged && !NotHasPositionChanged && !HasUpdated && !NotHasUpdated
+    && !IsLocked && !NotIsLocked && !IsToImport && !NotIsToImport && !HasPODchanged && !NotHasPODchanged
+    && !HasTypeChanged && !NotHasTypeChanged && !IsToBeKeptInPlan && !NotIsToBeKeptInPlan
+    && !SelectedUNNO.HasValue && SelectedUNNOs.Count == 0
+    && string.IsNullOrWhiteSpace(SelectedDgClass) && SelectedDgClasses.Count == 0
+    && !FlashPoint.HasValue && !IsConflicted && !NotIsConflicted && !HasDgRemarks && !NotHasDgRemarks
+    && !HasCommodity && !NotHasCommodity && !HasSpecial && !NotHasSpecial
+    && !HasReeferRemarks && !NotHasReeferRemarks && !SetPoint.HasValue
+    && string.IsNullOrWhiteSpace(FreeText);
+        private bool _isNoPropertySelected = true;
+
+        internal event EventHandler SelectionChanged; 
+
+        #endregion
+
+        // ----- Bindable properties -----
         #region Container number
         public List<string> ContainerNumbers { get; private set; }
-        public string SelectedNumber { get; set; }
+        public string SelectedNumber
+        {
+            get => selectedNumber;
+            set
+            {
+                selectedNumber = value;
+                ChangedSelection();
+            }
+        }
 
         #endregion
 
@@ -26,9 +58,10 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
                 position = value;
                 CellPosition.DisplayPosition = value;
                 OnPropertyChanged(nameof(PositionDescription));
+                ChangedSelection();
             }
         }
-        private string position;
+
         internal CellPositionWrapper CellPosition;
         public string PositionDescription => CellPosition.DisplayPosition;
 
@@ -40,10 +73,11 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
                 oldPosition = value;
                 CellOldPosition.DisplayPosition = value;
                 OnPropertyChanged(nameof(OldPositionDescription));
+                ChangedSelection();
             }
 
         }
-        private string oldPosition;
+
         internal CellPositionWrapper CellOldPosition;
         public string OldPositionDescription => CellOldPosition.DisplayPosition;
 
@@ -53,32 +87,32 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             set
             {
                 isUnderdeck = value;
+                ChangedSelection();
                 if (!isUnderdeck) return;
 
                 isOnDeck = false;
                 OnPropertyChanged(nameof(IsOnDeck));
             }
         }
-        private bool isUnderdeck;
+
         public bool IsOnDeck
         {
             get => isOnDeck;
             set
             {
                 isOnDeck = value;
+                ChangedSelection();
                 if (!isOnDeck) return;
 
                 isUnderdeck = false;
                 OnPropertyChanged(nameof(IsUnderdeck));
             }
         }
-        private bool isOnDeck;
 
         #endregion
 
         #region Type of cargo
         // Type of cargo
-        private bool isDg;
 
         public bool IsDG
         {
@@ -86,6 +120,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             set
             {
                 isDg = value;
+                ChangedSelection();
                 if (!isDg) return;
 
                 isNotDg = false;
@@ -93,14 +128,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool isNotDg;
-
         public bool IsNotDg
         {
             get { return isNotDg; }
             set
             {
                 isNotDg = value;
+                ChangedSelection();
                 if (!value) return;
 
                 isDg = false;
@@ -108,14 +142,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool isReefer;
-
         public bool IsReefer
         {
             get { return isReefer; }
             set
             {
                 isReefer = value;
+                ChangedSelection();
                 if (!value) return;
 
                 isNonReefer = false;
@@ -123,14 +156,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool isNonReefer;
-
         public bool IsNonReefer
         {
             get { return isNonReefer; }
             set
             {
                 isNonReefer = value;
+                ChangedSelection();
                 if (!value) return;
 
                 isReefer = false;
@@ -144,23 +176,69 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         // Container
 
         public List<string> POLs { get; private set; }
-        public string SelectedPOL { get; set; }
+        public string SelectedPOL
+        {
+            get => selectedPOL;
+            set
+            {
+                selectedPOL = value;
+                ChangedSelection();
+            }
+        }
 
         public List<string> PODs { get; private set; }
-        public string SelectedPOD { get; set; }
+        public string SelectedPOD
+        {
+            get => selectedPOD;
+            set
+            {
+                selectedPOD = value;
+                ChangedSelection();
+            }
+        }
 
         public List<string> FinalDestinations { get; private set; }
-        public string SelectedFinalDestination { get; set; }
+        public string SelectedFinalDestination
+        {
+            get => selectedFinalDestination;
+            set
+            {
+                selectedFinalDestination = value;
+                ChangedSelection();
+            }
+        }
 
         public List<string> Operators { get; private set; }
-        public string SelectedOperator { get; set; }
+        public string SelectedOperator
+        {
+            get => selectedOperator;
+            set
+            {
+                selectedOperator = value;
+                ChangedSelection();
+            }
+        }
 
         public List<string> ContainerTypes { get; private set; }
-        public string SelectedContainerType { get; set; }
+        public string SelectedContainerType
+        {
+            get => selectedContainerType;
+            set
+            {
+                selectedContainerType = value;
+                ChangedSelection();
+            }
+        }
 
-        public bool IsOpenType { get; set; }
-
-        private bool hasRemarks;
+        public bool IsOpenType
+        {
+            get => isOpenType;
+            set
+            {
+                isOpenType = value;
+                ChangedSelection();
+            }
+        }
 
         public bool HasRemarks
         {
@@ -168,6 +246,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             set
             {
                 hasRemarks = value;
+                ChangedSelection();
                 if (!value) return;
 
                 hasNoRemarks = false;
@@ -175,14 +254,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool hasNoRemarks;
-
         public bool HasNoRemarks
         {
             get { return hasNoRemarks; }
             set
             {
                 hasNoRemarks = value;
+                ChangedSelection();
                 if (!value) return;
 
                 hasRemarks = false;
@@ -194,7 +272,6 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 
         #region Changes (updates)
         // Changes
-        private bool isNewInPlan;
 
         public bool IsNewInPlan
         {
@@ -202,6 +279,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             set
             {
                 isNewInPlan = value;
+                ChangedSelection();
                 if (!value) return;
 
                 notIsNewInPlan = false;
@@ -209,14 +287,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool notIsNewInPlan;
-
         public bool NotIsNewInPlan
         {
             get { return notIsNewInPlan; }
             set
             {
                 notIsNewInPlan = value;
+                ChangedSelection();
                 if (!value) return;
 
                 isNewInPlan = false;
@@ -224,14 +301,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool hasPositionChanged;
-
         public bool HasPositionChanged
         {
             get { return hasPositionChanged; }
             set
             {
                 hasPositionChanged = value;
+                ChangedSelection();
                 if (!value) return;
 
                 notHasPositionChanged = false;
@@ -239,14 +315,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool notHasPositionChanged;
-
         public bool NotHasPositionChanged
         {
             get { return notHasPositionChanged; }
             set
             {
                 notHasPositionChanged = value;
+                ChangedSelection();
                 if (!value) return;
 
                 hasPositionChanged = false;
@@ -254,14 +329,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool hasUpdated;
-
         public bool HasUpdated
         {
             get { return hasUpdated; }
             set
             {
                 hasUpdated = value;
+                ChangedSelection();
                 if (!value) return;
 
                 notHasUpdated = false;
@@ -269,14 +343,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool notHasUpdated;
-
         public bool NotHasUpdated
         {
             get { return notHasUpdated; }
             set
             {
                 notHasUpdated = value;
+                ChangedSelection();
                 if (!value) return;
 
                 hasUpdated = false;
@@ -284,14 +357,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool isLocked;
-
         public bool IsLocked
         {
             get { return isLocked; }
             set
             {
                 isLocked = value;
+                ChangedSelection();
                 if (!value) return;
 
                 notIsLocked = false;
@@ -299,14 +371,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool notIsLocked;
-
         public bool NotIsLocked
         {
             get { return notIsLocked; }
             set
             {
                 notIsLocked = value;
+                ChangedSelection();
                 if (!value) return;
 
                 isLocked = false;
@@ -314,14 +385,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool isToImport;
-
         public bool IsToImport
         {
             get { return isToImport; }
             set
             {
                 isToImport = value;
+                ChangedSelection();
                 if (!value) return;
 
                 notIsToImport = false;
@@ -329,14 +399,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool notIsToImport;
-
         public bool NotIsToImport
         {
             get { return notIsToImport; }
             set
             {
                 notIsToImport = value;
+                ChangedSelection();
                 if (!value) return;
 
                 isToImport = false;
@@ -344,14 +413,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool hasPODchanged;
-
         public bool HasPODchanged
         {
             get { return hasPODchanged; }
             set
             {
                 hasPODchanged = value;
+                ChangedSelection();
                 if (!value) return;
 
                 notHasPODchanged = false;
@@ -359,14 +427,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool notHasPODchanged;
-
         public bool NotHasPODchanged
         {
             get { return notHasPODchanged; }
             set
             {
                 notHasPODchanged = value;
+                ChangedSelection();
                 if (!value) return;
 
                 hasPODchanged = false;
@@ -374,14 +441,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool hasTypeChanged;
-
         public bool HasTypeChanged
         {
             get { return hasTypeChanged; }
             set
             {
                 hasTypeChanged = value;
+                ChangedSelection();
                 if (!value) return;
 
                 notHasTypeChanged = false;
@@ -389,14 +455,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool notHasTypeChanged;
-
         public bool NotHasTypeChanged
         {
             get { return notHasTypeChanged; }
             set
             {
                 notHasTypeChanged = value;
+                ChangedSelection();
                 if (!value) return;
 
                 hasTypeChanged = false;
@@ -404,14 +469,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool isToBeKeptInPlan;
-
         public bool IsToBeKeptInPlan
         {
             get { return isToBeKeptInPlan; }
             set
             {
                 isToBeKeptInPlan = value;
+                ChangedSelection();
                 if (!value) return;
 
                 notIsToBeKeptInPlan = false;
@@ -419,14 +483,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool notIsToBeKeptInPlan;
-
         public bool NotIsToBeKeptInPlan
         {
             get { return notIsToBeKeptInPlan; }
             set
             {
                 notIsToBeKeptInPlan = value;
+                ChangedSelection();
                 if (!value) return;
 
                 isToBeKeptInPlan = false;
@@ -436,13 +499,20 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 
         #endregion
 
-
         #region Dg
         // Dg
 
         //UNNO
         public List<int> UNNOs { get; private set; }
-        public int? SelectedUNNO { get; set; }
+        public int? SelectedUNNO
+        {
+            get => selectedUNNO;
+            set
+            {
+                selectedUNNO = value;
+                ChangedSelection();
+            }
+        }
         public ObservableCollection<int> SelectedUNNOs { get; private set; }
 
         public ICommand AddSelectedUnnoCommand { get; private set; }
@@ -468,12 +538,14 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         {
             SelectedUNNOs.Remove((int)obj);
             OnPropertyChanged(nameof(SelectedUNNOs));
+            ChangedSelection();
         }
 
         private void OnClearSelectedUnnosExecuted(object obj)
         {
             SelectedUNNOs.Clear();
             OnPropertyChanged(nameof(SelectedUNNOs));
+            ChangedSelection();
         }
 
         private bool OnClearSelectedUnnosCanExecute(object obj)
@@ -484,7 +556,15 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 
         // Dg class
         public List<string> DgClasses { get; private set; }
-        public string SelectedDgClass { get; set; }
+        public string SelectedDgClass
+        {
+            get => selectedDgClass;
+            set
+            {
+                selectedDgClass = value;
+                ChangedSelection();
+            }
+        }
         public ObservableCollection<string> SelectedDgClasses { get; private set; }
 
         public ICommand AddSelectedDgClassCommand { get; private set; }
@@ -510,11 +590,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         {
             SelectedDgClasses.Remove((string)obj);
             OnPropertyChanged(nameof(SelectedDgClasses));
+            ChangedSelection();
         }
         private void OnClearSelectedDgClassesExecuted(object obj)
         {
             SelectedDgClasses.Clear();
             OnPropertyChanged(nameof(SelectedDgClasses));
+            ChangedSelection();
         }
 
         private bool OnClearSelectedDgClassesCanExecute(object obj)
@@ -522,8 +604,15 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             return SelectedDgClasses.Count > 0;
         }
 
-        public decimal? FlashPoint { get; set; }
-        private bool isFPlessthan;
+        public decimal? FlashPoint
+        {
+            get => flashPoint;
+            set
+            {
+                flashPoint = value;
+                ChangedSelection();
+            }
+        }
 
         public bool IsFPlessthan
         {
@@ -538,8 +627,6 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool isFPmorethan;
-
         public bool IsFPmorethan
         {
             get { return isFPmorethan; }
@@ -553,14 +640,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool isConflicted;
-
         public bool IsConflicted
         {
             get { return isConflicted; }
             set
             {
                 isConflicted = value;
+                ChangedSelection();
                 if (!value) return;
 
                 notIsConflicted = false;
@@ -568,14 +654,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool notIsConflicted;
-
         public bool NotIsConflicted
         {
             get { return notIsConflicted; }
             set
             {
                 notIsConflicted = value;
+                ChangedSelection();
                 if (!value) return;
 
                 isConflicted = false;
@@ -583,14 +668,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool hasDgRemarks;
-
         public bool HasDgRemarks
         {
             get { return hasDgRemarks; }
             set
             {
                 hasDgRemarks = value;
+                ChangedSelection();
                 if (!value) return;
 
                 notHasDgRemarks = false;
@@ -598,7 +682,6 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool notHasDgRemarks;
 
         public bool NotHasDgRemarks
         {
@@ -606,6 +689,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             set
             {
                 notHasDgRemarks = value;
+                ChangedSelection();
                 if (!value) return;
 
                 hasDgRemarks = false;
@@ -613,35 +697,10 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-
-        /// <summary>
-        /// Method inserts value to ObservableCollection in ascending order.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
-        /// <param name="collection"></param>
-        private void InsertValueSorted<T>(T value, ObservableCollection<T> collection)
-        {
-            int position = 0;
-            if (collection.Count > 0)
-            {
-                for (int i = 0; i < collection.Count; i++)
-                {
-                    if (Comparer<T>.Default.Compare(collection[i], value) > 0)
-                    {
-                        break;
-                    }
-                    position++;
-                }
-            }
-            collection.Insert(position, value);
-        }
-
         #endregion
 
         #region Reefer
         // Reefer
-        private bool hasCommodity;
 
         public bool HasCommodity
         {
@@ -649,6 +708,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             set
             {
                 hasCommodity = value;
+                ChangedSelection();
                 if (!value) return;
 
                 notHasCommodity = false;
@@ -656,14 +716,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool notHasCommodity;
-
         public bool NotHasCommodity
         {
             get { return notHasCommodity; }
             set
             {
                 notHasCommodity = value;
+                ChangedSelection();
                 if (!value) return;
 
                 hasCommodity = false;
@@ -671,14 +730,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool hasSpecial;
-
         public bool HasSpecial
         {
             get { return hasSpecial; }
             set
             {
                 hasSpecial = value;
+                ChangedSelection();
                 if (!value) return;
 
                 notHasSpecial = false;
@@ -686,15 +744,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-
-        private bool notHasSpecial;
-
         public bool NotHasSpecial
         {
             get { return notHasSpecial; }
             set
             {
                 notHasSpecial = value;
+                ChangedSelection();
                 if (!value) return;
 
                 hasSpecial = false;
@@ -702,14 +758,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool hasReeferRemarks;
-
         public bool HasReeferRemarks
         {
             get { return hasReeferRemarks; }
             set
             {
                 hasReeferRemarks = value;
+                ChangedSelection();
                 if (!value) return;
 
                 notHasReeferRemarks = false;
@@ -717,14 +772,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool notHasReeferRemarks;
-
         public bool NotHasReeferRemarks
         {
             get { return notHasReeferRemarks; }
             set
             {
                 notHasReeferRemarks = value;
+                ChangedSelection();
                 if (!value) return;
 
                 hasReeferRemarks = false;
@@ -732,8 +786,16 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        public decimal? SetPoint { get; set; }
-        private bool isSPlessthan;
+        public decimal? SetPoint
+        {
+            get => setPoint;
+            set
+            {
+                setPoint = value;
+                ChangedSelection();
+            }
+        }
+
         public bool IsSPlessthan
         {
             get { return isSPlessthan; }
@@ -747,7 +809,6 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
         }
 
-        private bool isSPmorethan;
         public bool IsSPmorethan
         {
             get { return isSPmorethan; }
@@ -764,11 +825,83 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 
         #region Other properties
         // Free text
-        public string FreeText { get; set; }
+        public string FreeText
+        {
+            get => freeText;
+            set
+            {
+                freeText = value;
+                ChangedSelection();
+            }
+        }
+
+        #endregion
+
+
+        #region Properties fields
+
+        private string position;
+        private string oldPosition;
+        private bool isUnderdeck;
+        private bool isOnDeck;
+
+        private bool isDg;
+        private bool isNotDg;
+        private bool isReefer;
+        private bool isNonReefer;
+
+         private bool hasRemarks;
+        private bool hasNoRemarks;       
+
+        private bool isNewInPlan;
+        private bool notIsNewInPlan;
+        private bool hasPositionChanged;
+        private bool notHasPositionChanged;
+        private bool hasUpdated;
+        private bool notHasUpdated;
+        private bool isLocked;
+        private bool notIsLocked;
+        private bool isToImport;
+        private bool notIsToImport;
+        private bool hasPODchanged;
+        private bool notHasPODchanged;
+        private bool hasTypeChanged;
+        private bool notHasTypeChanged;
+        private bool isToBeKeptInPlan;
+        private bool notIsToBeKeptInPlan;
+
+        private bool isConflicted;
+        private bool notIsConflicted;
+        private bool hasDgRemarks;
+        private bool notHasDgRemarks;
+
+        private bool hasCommodity;
+        private bool notHasCommodity;
+        private bool hasSpecial;
+        private bool notHasSpecial;
+        private bool hasReeferRemarks;
+        private bool notHasReeferRemarks;
+        private decimal? setPoint;
+        private bool isSPlessthan;
+        private bool isSPmorethan;
+        private string selectedNumber;
+        private string selectedPOL;
+        private string selectedPOD;
+        private string selectedFinalDestination;
+        private string selectedOperator;
+        private string selectedContainerType;
+        private bool isOpenType;
+        private int? selectedUNNO;
+        private string selectedDgClass;
+        private decimal? flashPoint;        
+        private bool isFPlessthan;
+        private bool isFPmorethan;
+        private string freeText;
 
         #endregion
 
         // ----- Methods -----
+        #region Public methods
 
         public void CreateLists(CargoPlanWrapper cargoPlan)
         {
@@ -807,9 +940,9 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         /// </summary>
         public void Clear()
         {
-            SelectedNumber = string.Empty;
-            Position = string.Empty;
-            OldPosition = string.Empty;
+            selectedNumber = string.Empty;
+            position = string.Empty;
+            oldPosition = string.Empty;
             isUnderdeck = false;
             isOnDeck = false;
 
@@ -818,12 +951,12 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             isReefer = false;
             isNonReefer = false;
 
-            SelectedPOL = null;
-            SelectedPOD = null;
-            SelectedFinalDestination = null;
-            SelectedOperator = null;
-            SelectedContainerType = null;
-            IsOpenType = false;
+            selectedPOL = null;
+            selectedPOD = null;
+            selectedFinalDestination = null;
+            selectedOperator = null;
+            selectedContainerType = null;
+            isOpenType = false;
             hasRemarks = false;
             hasNoRemarks = false;
 
@@ -844,11 +977,11 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             isToBeKeptInPlan = false;
             notIsToBeKeptInPlan = false;
 
-            SelectedUNNO = null;
+            selectedUNNO = null;
             SelectedUNNOs.Clear();
-            SelectedDgClass = null;
+            selectedDgClass = null;
             SelectedDgClasses.Clear();
-            FlashPoint = null;
+            flashPoint = null;
             isFPlessthan = false;
             isFPmorethan = false;
             isConflicted = false;
@@ -862,14 +995,53 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             notHasSpecial = false;
             hasReeferRemarks = false;
             notHasReeferRemarks = false;
-            SetPoint = null;
+            setPoint = null;
             isSPlessthan = false;
             isSPmorethan = false;
 
-            FreeText = string.Empty;
+            freeText = string.Empty;
 
             OnPropertyChanged(null);
+            ChangedSelection();
+        } 
+
+        #endregion
+
+        #region Private methods
+
+        private void ChangedSelection()
+        {
+            OnPropertyChanged(nameof(IsNoPropertySelected));
+            if (IsNoPropertySelected == _isNoPropertySelected) return;
+
+            _isNoPropertySelected = IsNoPropertySelected;
+            SelectionChanged?.Invoke(this, null);
         }
+
+        /// <summary>
+        /// Method inserts value to ObservableCollection in ascending order.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <param name="collection"></param>
+        private void InsertValueSorted<T>(T value, ObservableCollection<T> collection)
+        {
+            int position = 0;
+            if (collection.Count > 0)
+            {
+                for (int i = 0; i < collection.Count; i++)
+                {
+                    if (Comparer<T>.Default.Compare(collection[i], value) > 0)
+                    {
+                        break;
+                    }
+                    position++;
+                }
+            }
+            collection.Insert(position, value);
+        } 
+
+        #endregion
 
 
         #region Constructor

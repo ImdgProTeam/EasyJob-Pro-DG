@@ -87,6 +87,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void LoadBaseCommands()
         {
             SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
+            ClearFilterCommand = new DelegateCommand(ClearFilterExecuted);
         }
 
         private void RegisterBaseInDataMessenger()
@@ -148,6 +149,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         protected List<string> filteredContainerNumbers;
+        public bool AdvancedFilterApplied { get; private set; }
 
         /// <summary>
         /// Applies advanced filter to UnitsPlanView based on List of ContainerNumbers as set in <see cref="filteredContainerNumbers"/>
@@ -174,8 +176,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="filteredItems">List of filtered container numbers</param>
         internal void SetAdditionalFilter(List<string> filteredItems)
         {
+            if (filteredItems.Count == 0) return;
             filteredContainerNumbers = filteredItems;
             UnitsPlanView.Refresh();
+
+            AdvancedFilterApplied = true;
+            OnPropertyChanged(nameof(AdvancedFilterApplied));
         }
 
         /// <summary>
@@ -185,6 +191,17 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             filteredContainerNumbers = null;
             UnitsPlanView.Refresh();
+
+            AdvancedFilterApplied = false;
+            OnPropertyChanged(nameof(AdvancedFilterApplied));
+        }
+
+        private void ClearFilterExecuted(object obj)
+        {
+            ClearAdditionalFilter();
+
+            // message will update FilterTool if open
+            DataMessenger.Default.Send(new ChangeSelectionMessage(), "selected data grid changed");
         }
 
         #endregion
@@ -288,6 +305,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         #region Commands
         //--------------- Commands ----------------------------------------
         public ICommand SelectionChangedCommand { get; private set; }
+
+        public ICommand ClearFilterCommand { get; private set; }
 
         #endregion
     }

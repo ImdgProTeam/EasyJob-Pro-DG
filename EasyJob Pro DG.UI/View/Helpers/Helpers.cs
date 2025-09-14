@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Reflection;
+using System.ComponentModel;
 
 namespace EasyJob_ProDG.UI.View
 {

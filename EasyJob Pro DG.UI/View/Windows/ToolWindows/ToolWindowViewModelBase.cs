@@ -2,6 +2,7 @@
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.ViewModel;
 using EasyJob_ProDG.UI.Wrapper;
+using System;
 using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
@@ -27,7 +28,10 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         /// </summary>
         /// <param name="obj"></param>
         protected abstract void OnApplyExecuted(object obj);
-
+        protected virtual bool OnApplyCanExecute(object obj)
+        {
+            return true;
+        }
 
         /// <summary>
         /// Clears all filter values
@@ -49,7 +53,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             SelectionControlViewModel.CreateLists(cargoPlan);
 
             ClearCommand = new DelegateCommand(OnClearCommandExecuted);
-            ApplyCommand = new DelegateCommand(OnApplyExecuted);
+            ApplyCommand = new DelegateCommand(OnApplyExecuted, OnApplyCanExecute);
         }
 
         #endregion

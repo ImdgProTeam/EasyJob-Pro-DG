@@ -5,6 +5,7 @@ using EasyJob_ProDG.UI.IO;
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.View.DialogWindows.Summaries;
 using EasyJob_ProDG.UI.View.UI;
@@ -13,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.ViewModel
@@ -417,6 +419,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             bool canExecute = WorkingCargoPlan != null && !WorkingCargoPlan.IsEmpty;
             return canExecute;
+        }
+
+        public void OnSelectedDataGridChangedExecuted(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (e.Source is not TabControl) return;
+            DataMessenger.Default.Send(new ChangeSelectionMessage(), "selected data grid changed");
         }
 
         #endregion

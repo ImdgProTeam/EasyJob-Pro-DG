@@ -364,11 +364,16 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
                 if (selection.IsConflicted)
                     dgs = dgs.Where(c => c.IsConflicted).ToList();
                 else if (selection.NotIsConflicted)
-                    dgs = dgs.Where(c => !c.IsConflicted).ToList();
+                {
+                    var dgcs = dgs.Where(c => c.IsConflicted).ToList();
+                    dgs = dgs.Where(c => dgcs.All(dg => !string.Equals(dg.ContainerNumber, c.ContainerNumber))).ToList();
+                }
                 if (selection.HasDgRemarks)
                     dgs = dgs.Where(c => !string.IsNullOrWhiteSpace(c.Remarks)).ToList();
                 else if (selection.NotHasDgRemarks)
-                    dgs = dgs.Where(c => string.IsNullOrWhiteSpace(c.Remarks)).ToList();
+                { 
+                    var dgcs = dgs.Where(c => !string.IsNullOrWhiteSpace(c.Remarks)).ToList();
+                    dgs = dgs.Where(c => dgcs.All(dg => !string.Equals(dg.ContainerNumber, c.ContainerNumber))).ToList(); }
                 result = result.Where(c => dgs.Any(dg => string.Equals(dg.ContainerNumber, c.ContainerNumber))).ToList();
             }
 

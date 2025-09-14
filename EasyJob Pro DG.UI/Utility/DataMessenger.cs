@@ -69,7 +69,8 @@ namespace EasyJob_ProDG.UI.Utility
         public void Register<T>(object recipient, Action<T> action, object context)
         {
             var key = new MessengerKey(recipient, context);
-            Dictionary.TryAdd(key, action);
+            if(!Dictionary.ContainsKey(key))
+                Dictionary.TryAdd(key, action);
         }
 
         /// <summary>
@@ -88,7 +89,7 @@ namespace EasyJob_ProDG.UI.Utility
             List<MessengerKey> keysToRemove = new();
             foreach (var entry in Dictionary)
             {
-                if (string.Equals(entry.Key.Recipient.ToString(), recipient.ToString()))
+                if (string.Equals(entry.Key.Recipient?.ToString(), recipient?.ToString()))
                     keysToRemove.Add(entry.Key);
             }
             foreach (var key in keysToRemove)

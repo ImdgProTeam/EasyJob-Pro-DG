@@ -6,8 +6,8 @@
         xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.UI"
         xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
-        xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties" 
-        xmlns:viewmodel="clr-namespace:EasyJob_ProDG.UI.ViewModel" 
+        xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties"
+        xmlns:viewmodel="clr-namespace:EasyJob_ProDG.UI.ViewModel"
         mc:Ignorable="d"
         Icon="imdg.good.ico"
         Title="{Binding WindowTitle, UpdateSourceTrigger=Default}"
@@ -21,8 +21,7 @@
         d:DataContext="{d:DesignInstance viewmodel:MainWindowViewModel, d:IsDesignTimeCreatable=True}"
         Activated="Window_Activated"
         Deactivated="Window_Deactivated"
-        Closing="ClosingApplication"
-        >
+        Closing="ClosingApplication">
 
     <Window.InputBindings>
         <KeyBinding Key="Q"
@@ -48,19 +47,19 @@
     </Window.InputBindings>
 
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
 
     <behaviors:Interaction.Triggers>
         <behaviors:EventTrigger EventName="Loaded">
-            <behaviors:InvokeCommandAction Command="{Binding MainWindowLoadedCommand}"/>
+            <behaviors:InvokeCommandAction Command="{Binding MainWindowLoadedCommand}" />
         </behaviors:EventTrigger>
         <behaviors:EventTrigger EventName="Closing">
             <behaviors:InvokeCommandAction Command="{Binding ApplicationClosingCommand}" />
         </behaviors:EventTrigger>
         <behaviors:EventTrigger EventName="Drop">
             <behaviors:CallMethodAction MethodName="OnFileDrop"
-                                 TargetObject="{Binding}" />
+                                        TargetObject="{Binding}" />
         </behaviors:EventTrigger>
     </behaviors:Interaction.Triggers>
 
@@ -74,12 +73,12 @@
         </Grid.RowDefinitions>
 
         <!---   Status bar   -->
-        <uc:MVStatusBar DockPanel.Dock="Bottom" Panel.ZIndex="1"/>
+        <uc:MVStatusBar DockPanel.Dock="Bottom"
+                        Panel.ZIndex="1" />
 
         <!--   Main working space -->
         <DockPanel Grid.Row="0"
-                   LastChildFill="True"
-                   >
+                   LastChildFill="True">
 
             <!-- Main menu -->
             <StackPanel DockPanel.Dock="Top"
@@ -92,7 +91,7 @@
             <Grid x:Name="WorkingGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition MinWidth="120"/>
+                    <ColumnDefinition MinWidth="120" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -100,16 +99,17 @@
                 </Grid.RowDefinitions>
 
                 <!-- Spinner -->
-                <uc:Spinner VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Panel.ZIndex="10"
-                    IsHitTestVisible="False"
-                    Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                <uc:Spinner VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch"
+                            Panel.ZIndex="10"
+                            IsHitTestVisible="False"
+                            Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
                             Grid.ColumnSpan="2">
                 </uc:Spinner>
 
-                <uc:ConflictsSection
-                        Grid.Column="1"
-                        Grid.RowSpan="2"
-                        BlackBlockHeight="{Binding ElementName=InfoBlock, Path=ActualHeight}"/>
+                <uc:ConflictsSection Grid.Column="1"
+                                     Grid.RowSpan="2"
+                                     BlackBlockHeight="{Binding ElementName=InfoBlock, Path=ActualHeight}" />
 
                 <GridSplitter ShowsPreview="False"
                               HorizontalAlignment="Right"
@@ -117,9 +117,9 @@
                               Width="3"
                               Grid.Column="0"
                               Grid.Row="0"
-                              Grid.RowSpan="2" 
+                              Grid.RowSpan="2"
                               Background="Transparent"
-                              Panel.ZIndex="100"/>
+                              Panel.ZIndex="100" />
 
                 <!-- Data grids -->
                 <TabControl Grid.Column="0"
@@ -127,22 +127,24 @@
                             TabStripPlacement="Bottom"
                             FontFamily="{StaticResource DataGridFont}"
                             FontSize="{StaticResource StandardDataGridFontSize}"
-                            SelectedIndex="{Binding SelectedDataGridIndex, Mode=TwoWay}">
+                            SelectedIndex="{Binding SelectedDataGridIndex, Mode=TwoWay}"
+                            
+                            >
 
                     <TabItem Header="Dangerous goods"
                              Background="{StaticResource Brush.DgTable.Background}">
-                        <uc:DataGridDg x:Name="MainDgDataGrid" 
-                                       DataContext="{Binding DataGridDgViewModel}"/>
+                        <uc:DataGridDg x:Name="MainDgDataGrid"
+                                       DataContext="{Binding DataGridDgViewModel}" />
                     </TabItem>
                     <TabItem Header="Reefers"
                              Background="{StaticResource Brush.ReeferTable.Background}">
                         <uc:DataGridReefers x:Name="MainReeferDataGrid"
-                                            DataContext="{Binding DataGridReefersViewModel}"/>
+                                            DataContext="{Binding DataGridReefersViewModel}" />
                     </TabItem>
                     <TabItem Header="Containers"
                              Background="{StaticResource Brush.ContainerTable.Background}">
                         <uc:DataGridContainers x:Name="MainContainerDataGrid"
-                                               DataContext="{Binding DataGridContainersViewModel}"/>
+                                               DataContext="{Binding DataGridContainersViewModel}" />
 
                     </TabItem>
 
@@ -151,24 +153,32 @@
                              Background="{StaticResource Brush.ContainerTable.Background}"
                              Visibility="{Binding Visibility, ElementName=MainUpdatesDataGrid}">
                         <TabItem.Header>
-                            <StackPanel Orientation="Horizontal" Background="Transparent">
-                                <TextBlock Text="Updates" Margin="2 3"
-                                       Background="Transparent"/>
+                            <StackPanel Orientation="Horizontal"
+                                        Background="Transparent">
+                                <TextBlock Text="Updates"
+                                           Margin="2 3"
+                                           Background="Transparent" />
                                 <Button Content="x"
                                         ToolTip="Close"
                                         Margin="0"
                                         Command="{Binding CloseUpdatesDataGridCommand}"
-                                        Style="{StaticResource TabButtonClose}"/>
+                                        Style="{StaticResource TabButtonClose}" />
                             </StackPanel>
                         </TabItem.Header>
                         <uc:DataGridUpdates x:Name="MainUpdatesDataGrid"
-                           DataContext="{Binding DataGridUpdatesViewModel}"/>
+                                            DataContext="{Binding DataGridUpdatesViewModel}" />
                     </TabItem>
-                    
+ 
+                    <behaviors:Interaction.Triggers>
+                        <behaviors:EventTrigger EventName="SelectionChanged">
+                            <behaviors:CallMethodAction MethodName="OnSelectedDataGridChangedExecuted" TargetObject="{Binding}"/>
+                        </behaviors:EventTrigger>
+                    </behaviors:Interaction.Triggers>
                 </TabControl>
 
                 <!---   Info block   -->
-                <uc:InfoBlock Grid.Row="1" x:Name="InfoBlock"/>
+                <uc:InfoBlock Grid.Row="1"
+                              x:Name="InfoBlock" />
             </Grid>
         </DockPanel>
 
@@ -177,7 +187,7 @@
                 Opacity="0.3"
                 IsHitTestVisible="False"
                 Visibility="Collapsed"
-                ap:FrameworkElementsAnimationAttachedProperties.AnimateFadeInAndOut="{Binding IsDimmedOverlayVisible}"/>
+                ap:FrameworkElementsAnimationAttachedProperties.AnimateFadeInAndOut="{Binding IsDimmedOverlayVisible}" />
 
     </Grid>
 </Window>

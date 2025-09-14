@@ -396,7 +396,8 @@
                     <TextBlock Text="Flash point"
                                Grid.Row="2"
                                Grid.Column="0" />
-                    <TextBox Text="{Binding FlashPoint, StringFormat=+ #.#; - #.#; 0}"
+                    <TextBox Text="{Binding FlashPoint, StringFormat=+ #.#; - #.#; 0, TargetNullValue=''}"
+                             
                              Grid.Column="3"
                              Grid.Row="2">
                         <i:Interaction.Behaviors>
@@ -481,7 +482,7 @@
                     <TextBlock Text="Set point"
                                Grid.Row="2"
                                Grid.Column="0" />
-                    <TextBox Text="{Binding SetPoint, StringFormat=+ #.#; - #.#; 0}"
+                    <TextBox Text="{Binding SetPoint, StringFormat=+ #.#; - #.#; 0, TargetNullValue=''}"
                              Grid.Column="3"
                              Grid.Row="2">
                         <i:Interaction.Behaviors>

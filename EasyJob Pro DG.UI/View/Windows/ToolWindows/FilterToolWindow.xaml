@@ -5,6 +5,7 @@
                          xmlns:base="clr-namespace:EasyJob_ProDG.UI.View.WindowBase"
                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                          xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows"
+                         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
                          mc:Ignorable="d"
                          Height="450"
                          Width="400"
@@ -13,6 +14,12 @@
                          MouseLeftButtonDown="Window_MouseLeftButtonDown"
                          Activated="OnGotFocusHandler"
                          Deactivated="OnLostFocusHandler">
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="Closed">
+            <b:CallMethodAction MethodName="OnWindowClosed"
+                                TargetObject="{Binding}" />
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
     <Grid TextBlock.FontSize="11">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -39,6 +46,8 @@
         <local:SelectionControl Grid.Row="1"
                                 DataContext="{Binding SelectionControlViewModel}" />
 
+        <TextBlock Grid.Row="4"
+                   Text="{Binding StatusBarText}" />
         <!-- Control buttons -->
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Right"
@@ -46,7 +55,7 @@
                     Grid.ColumnSpan="2">
             <StackPanel.Resources>
             </StackPanel.Resources>
-            <Button Content="Filter"
+            <Button Content="{Binding FilterButtonText}"
                     Command="{Binding ApplyCommand}"
                     IsDefault="True" />
             <Button Content="Close"
