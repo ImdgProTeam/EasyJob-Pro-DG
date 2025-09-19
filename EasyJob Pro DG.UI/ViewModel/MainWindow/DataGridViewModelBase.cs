@@ -189,7 +189,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         internal void ClearAdditionalFilter()
         {
             filteredContainerNumbers = null;
-            UnitsPlanView.Refresh();
+            UnitsPlanView?.Refresh();
 
             AdvancedFilterApplied = false;
             OnPropertyChanged(nameof(AdvancedFilterApplied));

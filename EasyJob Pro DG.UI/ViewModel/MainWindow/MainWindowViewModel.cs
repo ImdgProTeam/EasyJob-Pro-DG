@@ -226,7 +226,8 @@ namespace EasyJob_ProDG.UI.ViewModel
                 return;
             }
             StatusBarControl.ChangeBarSet(80);
-            await Application.Current.Dispatcher.InvokeAsync(() => CloseAllToolWindowsExecuted(null));
+            
+            await Application.Current.Dispatcher.InvokeAsync(() => ClearFilters());
 
             await Task.Run(() => GetCargoData());
             StatusBarControl.ChangeBarSet(90);
@@ -238,6 +239,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             // Show update summary
             await SetUpUpdates(openOption);
         }
+
 
         /// <summary>
         /// If Working plan exists, offers options on how to open the file.
@@ -414,6 +416,18 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             SelectedDataGridIndex = 0;
             OnPropertyChanged(nameof(SelectedDataGridIndex));
+        }
+
+        /// <summary>
+        /// Clears additional filters from DataGrids. Closes tool windows.
+        /// </summary>
+        private void ClearFilters()
+        {
+            CloseAllToolWindowsExecuted(null);
+            DataGridDgViewModel.ClearAdditionalFilter();
+            DataGridReefersViewModel.ClearAdditionalFilter();
+            DataGridContainersViewModel.ClearAdditionalFilter();
+            DataGridUpdatesViewModel.ClearAdditionalFilter();
         }
 
         #endregion
