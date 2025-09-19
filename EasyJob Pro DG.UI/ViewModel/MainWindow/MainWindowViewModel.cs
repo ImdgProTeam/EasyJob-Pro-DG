@@ -226,6 +226,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 return;
             }
             StatusBarControl.ChangeBarSet(80);
+            await Application.Current.Dispatcher.InvokeAsync(() => CloseAllToolWindowsExecuted(null));
 
             await Task.Run(() => GetCargoData());
             StatusBarControl.ChangeBarSet(90);

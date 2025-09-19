@@ -38,11 +38,12 @@
             <cc:SearchBox Text="{Binding TextToFilter}"
                           x:Name="SearchBox"
                           Background="AliceBlue"/>
-            <Button Content="Filtered" HorizontalAlignment="Center" 
+            <Button Content="Content below is filtered" HorizontalAlignment="Center" 
                     ToolTip="Clear filter"
                     Visibility="{Binding AdvancedFilterApplied, Converter={StaticResource BooleanToVisibilityConverter}}"
                     Command="{Binding ClearFilterCommand}"
-                    Grid.Column="1"/>
+                    Grid.Column="1">
+            </Button>
         </Grid>
 
         <!-- Bottom panel-->

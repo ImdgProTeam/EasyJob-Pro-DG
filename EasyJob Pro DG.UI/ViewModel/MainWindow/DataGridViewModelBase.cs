@@ -176,7 +176,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="filteredItems">List of filtered container numbers</param>
         internal void SetAdditionalFilter(List<string> filteredItems)
         {
-            if (filteredItems.Count == 0) return;
             filteredContainerNumbers = filteredItems;
             UnitsPlanView.Refresh();
 

@@ -214,7 +214,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
             {
                 #region Close and final release of excel objects
 
-                activeWorkbook.Close(null, null, null);
+                activeWorkbook.Close(false, null, null);
                 workbooks?.Close();
                 excelapp.Quit();
 

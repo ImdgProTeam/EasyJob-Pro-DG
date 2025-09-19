@@ -3,6 +3,7 @@ using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO;
 using EasyJob_ProDG.Model.IO.EasyJobCondition;
 using EasyJob_ProDG.UI.Data;
+using System;
 
 namespace EasyJob_ProDG.UI.Services.DataServices
 {
@@ -62,25 +63,22 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         /// <returns>True if filePath read successfully</returns>
         public bool OpenCargoPlanFromFile(string file, OpenFile.OpenOption openOption = OpenFile.OpenOption.Open, bool importOnlySelected = false, string currentPort = null)
         {
-#if !DEBUG
             try
             {
-#endif
-            bool result = CreateCargoPlanFromFile(file, openOption, importOnlySelected, currentPort);
+                bool result = CreateCargoPlanFromFile(file, openOption, importOnlySelected, currentPort);
 
-            if (openOption == OpenFile.OpenOption.Import)
-                _currentProgramData.ApendConditionFileNameWithImported();
-            else
-                _currentProgramData.SetConditionFileName(OpenFile.FileName);
+                if (openOption == OpenFile.OpenOption.Import)
+                    _currentProgramData.ApendConditionFileNameWithImported();
+                else
+                    _currentProgramData.SetConditionFileName(OpenFile.FileName);
 
-            return result;
-#if !DEBUG
-        }
-            catch
+                return result;
+            }
+            catch (Exception ex)
             {
+                EasyJob_ProDG.Data.LogWriter.Write(ex.Message);
                 return false;
             }
-#endif
         }
 
         /// <summary>

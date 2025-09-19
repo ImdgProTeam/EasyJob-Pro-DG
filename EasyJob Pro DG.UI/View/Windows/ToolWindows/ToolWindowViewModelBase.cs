@@ -44,6 +44,14 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 
         #endregion
 
+        #region Event methods
+
+        private void ExecuteApply(object sender, EventArgs e)
+        {
+            OnApplyExecuted(null);
+        } 
+
+        #endregion
 
         #region Constructor
 
@@ -52,8 +60,16 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             SelectionControlViewModel = new SelectionControlViewModel();
             SelectionControlViewModel.CreateLists(cargoPlan);
 
-            ClearCommand = new DelegateCommand(OnClearCommandExecuted);
+            ClearCommand = new DelegateCommand(OnClearCommandExecuted, OnClearCanExecute);
             ApplyCommand = new DelegateCommand(OnApplyExecuted, OnApplyCanExecute);
+
+            SelectionControlViewModel.CallApply -= ExecuteApply;
+            SelectionControlViewModel.CallApply += ExecuteApply;
+        }
+
+        private bool OnClearCanExecute(object obj)
+        {
+            return !SelectionControlViewModel.IsNoPropertySelected;
         }
 
         #endregion

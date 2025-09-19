@@ -7,25 +7,44 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:ub="clr-namespace:EasyJob_ProDG.UI.Behaviors"
              mc:Ignorable="d"
-             x:Name="Control">
+             x:Name="Control"
+             TextBlock.FontSize="{StaticResource ToolsSmallFontSize}">
 
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BTVConverter" />
         <converters:AnyCellToNullConverter x:Key="AnyCellToNullConverter" />
+
     </UserControl.Resources>
     <ScrollViewer Grid.Row="1"
                   VerticalScrollBarVisibility="Auto"
                   HorizontalScrollBarVisibility="Auto">
 
         <Grid HorizontalAlignment="Stretch"
-              Background="White">
+              Background="{StaticResource Brush.ToolboxWindow.ContentBackground}">
             <Grid.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="HorizontalAlignment"
                             Value="Right" />
+                    <Setter Property="VerticalAlignment"
+                            Value="Center" />
+                </Style>
+                <Style TargetType="TextBlock"
+                       x:Key="PositionDescriptionTextBlock">
+                    <Setter Property="HorizontalAlignment"
+                            Value="Right" />
+                    <Setter Property="VerticalAlignment"
+                            Value="Top" />
+                    <Setter Property="Margin"
+                            Value="0 0 0 10" />
+                    <Setter Property="Foreground"
+                            Value="{StaticResource Brush.Text.Header}" />
                 </Style>
                 <Style TargetType="TextBox"
                        BasedOn="{StaticResource TextBoxWithTagAndValidation}">
+                    <Setter Property="Margin"
+                            Value="3" />
+                    <Setter Property="Background"
+                            Value="{StaticResource Brush.Background.Main}" />
                 </Style>
                 <Style TargetType="ComboBox">
                     <Setter Property="HorizontalAlignment"
@@ -36,6 +55,8 @@
                             Value="True" />
                     <Setter Property="StaysOpenOnEdit"
                             Value="True" />
+                    <Setter Property="Margin"
+                            Value="3" />
                 </Style>
                 <Style TargetType="CheckBox">
                     <Setter Property="HorizontalAlignment"
@@ -52,12 +73,34 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
+                <Style TargetType="Expander"
+                       BasedOn="{StaticResource SelectionControlExpanderStyle}">
+                    <Setter Property="Margin"
+                            Value="1 2" />
+                    <Setter Property="Padding"
+                            Value="0 0 0 10" />
+                </Style>
+                <Style TargetType="Button"
+                       BasedOn="{StaticResource ToolBoxWindowControlButtonStyle}">
+                    <Setter Property="Width"
+                            Value="Auto" />
+                    <Setter Property="Margin"
+                            Value="3 2" />
+                    <Setter Property="Padding"
+                            Value="3 0" />
+                    <Setter Property="BorderThickness"
+                            Value="0" />
+                    <Setter Property="HorizontalContentAlignment"
+                            Value="Center" />
+                    <Setter Property="VerticalContentAlignment"
+                            Value="Center" />
+                </Style>
             </Grid.Resources>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition SharedSizeGroup="column1" />
+                <ColumnDefinition SharedSizeGroup="column2" />
+                <ColumnDefinition SharedSizeGroup="column3" />
+                <ColumnDefinition SharedSizeGroup="column4" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -97,7 +140,7 @@
                 </i:Interaction.Behaviors>
             </TextBox>
             <TextBlock Text="{Binding PositionDescription}"
-                       HorizontalAlignment="Right"
+                       Style="{StaticResource PositionDescriptionTextBlock}"
                        Grid.ColumnSpan="2"
                        Grid.Row="2" />
 
@@ -112,7 +155,7 @@
                 </i:Interaction.Behaviors>
             </TextBox>
             <TextBlock Text="{Binding OldPositionDescription}"
-                       HorizontalAlignment="Right"
+                       Style="{StaticResource PositionDescriptionTextBlock}"
                        Grid.Column="2"
                        Grid.ColumnSpan="2"
                        Grid.Row="2" />
@@ -199,24 +242,18 @@
                       Grid.Row="8"
                       Grid.Column="1" />
 
-            <Border Grid.Row="8"
-                    Grid.ColumnSpan="4"
-                    VerticalAlignment="Bottom"
-                    HorizontalAlignment="Stretch"
-                    BorderThickness="1"
-                    BorderBrush="Black" />
-
             <!-- Changes -->
             <Expander Grid.Row="9"
                       Grid.ColumnSpan="4"
                       Header="Changes"
-                      IsExpanded="True">
+                      IsExpanded="False"
+                      Background="{StaticResource Brush.ToolboxWindow.BlocksBackground}">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
+                        <ColumnDefinition SharedSizeGroup="column1" />
+                        <ColumnDefinition SharedSizeGroup="column2" />
+                        <ColumnDefinition SharedSizeGroup="column3" />
+                        <ColumnDefinition SharedSizeGroup="column4" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -304,13 +341,14 @@
             <Expander Grid.Row="10"
                       Grid.ColumnSpan="4"
                       Header="Dg"
-                      IsExpanded="True">
+                      IsExpanded="True"
+                      Background="{StaticResource Brush.ToolboxWindow.BlocksBackground}">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
+                        <ColumnDefinition SharedSizeGroup="column1" />
+                        <ColumnDefinition SharedSizeGroup="column2" />
+                        <ColumnDefinition SharedSizeGroup="column3" />
+                        <ColumnDefinition SharedSizeGroup="column4" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -327,21 +365,25 @@
                     <ComboBox ItemsSource="{Binding UNNOs}"
                               SelectedItem="{Binding SelectedUNNO}"
                               Text="{Binding SelectedUNNO, UpdateSourceTrigger=PropertyChanged}"
+                              Background="{StaticResource Brush.Background.Main}"
                               Grid.Column="1"
                               Grid.Row="0">
                         <ComboBox.InputBindings>
-                            <KeyBinding Command="{Binding AddSelectedUnnoCommand}"
+                            <KeyBinding Command="{Binding AddSelectedUnnoOrApplyCommand}"
                                         Key="Enter" />
                         </ComboBox.InputBindings>
                     </ComboBox>
                     <StackPanel Grid.Row="0"
                                 Grid.Column="2"
-                                Grid.ColumnSpan="3"
-                                Orientation="Horizontal">
+                                Grid.ColumnSpan="2"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Left">
                         <Button Content="+"
+                                HorizontalAlignment="Left"
                                 Command="{Binding AddSelectedUnnoCommand}"
                                 ToolTip="Add another UNNO" />
-                        <ItemsControl ItemsSource="{Binding SelectedUNNOs}">
+                        <ItemsControl ItemsSource="{Binding SelectedUNNOs}"
+                                      HorizontalAlignment="Left">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Button Content="{Binding}"
@@ -351,6 +393,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <Button HorizontalAlignment="Right"
+                                Margin="5 2"
                                 Command="{Binding ClearSelectedUnnosCommand}"
                                 Content="x"
                                 ToolTip="Clear selection" />
@@ -364,15 +407,16 @@
                               SelectedItem="{Binding SelectedDgClass}"
                               Text="{Binding SelectedDgClass, UpdateSourceTrigger=PropertyChanged}"
                               Grid.Column="1"
-                              Grid.Row="1">
+                              Grid.Row="1"
+                              Background="Red">
                         <ComboBox.InputBindings>
-                            <KeyBinding Command="{Binding AddSelectedDgClassCommand}"
+                            <KeyBinding Command="{Binding AddSelectedDgClassOrApplyCommand}"
                                         Key="Enter" />
                         </ComboBox.InputBindings>
                     </ComboBox>
                     <StackPanel Grid.Row="1"
                                 Grid.Column="2"
-                                Grid.ColumnSpan="3"
+                                Grid.ColumnSpan="2"
                                 Orientation="Horizontal">
                         <Button Content="+"
                                 Command="{Binding AddSelectedDgClassCommand}"
@@ -387,6 +431,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <Button HorizontalAlignment="Right"
+                                Margin="10 2"
                                 Command="{Binding ClearSelectedDgClassesCommand}"
                                 Content="x"
                                 ToolTip="Clear selection" />
@@ -397,7 +442,6 @@
                                Grid.Row="2"
                                Grid.Column="0" />
                     <TextBox Text="{Binding FlashPoint, StringFormat=+ #.#; - #.#; 0, TargetNullValue=''}"
-                             
                              Grid.Column="3"
                              Grid.Row="2">
                         <i:Interaction.Behaviors>
@@ -436,13 +480,14 @@
             <Expander Grid.Row="11"
                       Grid.ColumnSpan="4"
                       Header="Reefers"
-                      IsExpanded="True">
+                      IsExpanded="True"
+                      Background="{StaticResource Brush.ToolboxWindow.BlocksBackground}">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
+                        <ColumnDefinition SharedSizeGroup="column1" />
+                        <ColumnDefinition SharedSizeGroup="column2" />
+                        <ColumnDefinition SharedSizeGroup="column3" />
+                        <ColumnDefinition SharedSizeGroup="column4" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />

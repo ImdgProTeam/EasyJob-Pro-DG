@@ -44,6 +44,10 @@
                     Command="{Binding ReCheckCommand}" />
         <KeyBinding Key="F5"
                     Command="{Binding ReCheckCommand}" />
+        <KeyBinding Key="D1" Modifiers="Ctrl"
+                    Command="{Binding ShowFilterToolWindowCommand}" />
+        <KeyBinding Key="D2" Modifiers="Ctrl"
+                    Command="{Binding ShowSelectionToolWindowCommand}" />
     </Window.InputBindings>
 
     <Window.Resources>
@@ -183,7 +187,7 @@
         </DockPanel>
 
         <!-- Dimmed overlay for modal windows -->
-        <Border Background="LightSlateGray"
+        <Border Background="{StaticResource Brush.DimmedOverlay}"
                 Opacity="0.3"
                 IsHitTestVisible="False"
                 Visibility="Collapsed"

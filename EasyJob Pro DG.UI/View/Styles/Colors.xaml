@@ -14,10 +14,14 @@
 
     <Color x:Key="Color.Background.Expander">Black</Color>
     <Color x:Key="Color.Text.Main">Black</Color>
+    <Color x:Key="Color.Text.Main.Disabled">LightGray</Color>
     <Color x:Key="Color.Text.Header">DimGray</Color>
     <Color x:Key="Color.Text.Hint">Gray</Color>
     <Color x:Key="Color.Border.Main">Black</Color>
     <Color x:Key="Color.Spinner">LightGray</Color>
+    
+    <!-- Dimmed overlay -->
+    <Color x:Key="Color.DimmedOverlay">LightSlateGray</Color>
     
     <!-- Main menu -->
     <Color x:Key="Color.MainMenu.Background">Black</Color>
@@ -78,6 +82,8 @@
     
     <!-- Toolbox window colors -->
     <Color x:Key="Color.ToolboxWindow.Background">DarkGray</Color>
+    <Color x:Key="Color.ToolboxWindow.ContentBackground">White</Color>
+    <Color x:Key="Color.ToolboxWindow.BlocksBackground">WhiteSmoke</Color>
     
     <!-- Buttons -->
     <Color x:Key="Color.Button.Background">White</Color>    

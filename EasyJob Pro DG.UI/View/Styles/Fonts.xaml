@@ -11,4 +11,5 @@
     <system:Double x:Key="StandardDataGridFontSize">12</system:Double>
     <system:Double x:Key="StandardButtonFontSize">14</system:Double>
     <system:Double x:Key="StandardMenuFontSize">13</system:Double>
+    <system:Double x:Key="ToolsSmallFontSize">11</system:Double>
 </ResourceDictionary>

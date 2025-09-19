@@ -32,7 +32,7 @@
             </Grid.ColumnDefinitions>
             <cc:SearchBox Text="{Binding TextToFilter}"
                           x:Name="SearchBox" />
-            <Button Content="Filtered"
+            <Button Content="Content below is filtered"
                     HorizontalAlignment="Center"
                     ToolTip="Clear filter"
                     Visibility="{Binding AdvancedFilterApplied, Converter={StaticResource BooleanToVisibilityConverter}}"

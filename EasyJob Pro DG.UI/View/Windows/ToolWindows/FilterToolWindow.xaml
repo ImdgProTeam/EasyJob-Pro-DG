@@ -20,7 +20,7 @@
                                 TargetObject="{Binding}" />
         </b:EventTrigger>
     </b:Interaction.Triggers>
-    <Grid TextBlock.FontSize="11">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -35,19 +35,26 @@
 
         <!-- Capture -->
         <TextBlock Text="Filter tool"
-                   Style="{StaticResource WindowTitleTextBlock}" />
+                   Style="{StaticResource WindowTitleTextBlock}" 
+                   HorizontalAlignment="Left"/>
         <Button Content="Clear"
                 Command="{Binding ClearCommand}"
                 HorizontalAlignment="Right"
-                Panel.ZIndex="100"
-                Grid.Column="1" />
+                Grid.Column="1"
+                Style="{StaticResource ButtonClearStyle}"
+                FontSize="15"
+                Padding="20 5"/>
 
         <!-- Main working part -->
         <local:SelectionControl Grid.Row="1"
-                                DataContext="{Binding SelectionControlViewModel}" />
+                                DataContext="{Binding SelectionControlViewModel}"
+                                Margin="2"/>
 
+        <!-- Status text -->
         <TextBlock Grid.Row="4"
-                   Text="{Binding StatusBarText}" />
+                   Margin="5 0"
+                   Text="{Binding StatusBarText, FallbackValue='No filter applied'}" />
+        
         <!-- Control buttons -->
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Right"
@@ -55,7 +62,7 @@
                     Grid.ColumnSpan="2">
             <StackPanel.Resources>
             </StackPanel.Resources>
-            <Button Content="{Binding FilterButtonText}"
+            <Button Content="{Binding FilterButtonText, FallbackValue='Filter'}"
                     Command="{Binding ApplyCommand}"
                     IsDefault="True" />
             <Button Content="Close"

@@ -379,9 +379,11 @@
                 <MenuItem Header="Merge Port names" 
                           Command="{Binding ShowMergePortNamesWindowCommand}"/>
                 <MenuItem Header="Filter tool"
-                          Command="{Binding ShowFilterToolWindowCommand}" />
+                          Command="{Binding ShowFilterToolWindowCommand}"
+                          InputGestureText="Ctrl+1" />
                 <MenuItem Header="Selection tool"
-                          Command="{Binding ShowSelectionToolWindowCommand}" />
+                          Command="{Binding ShowSelectionToolWindowCommand}"
+                          InputGestureText="Ctrl+2" />
                 <Separator />
                 <MenuItem Header="Close all tool windows"
                           Command="{Binding CloseAllToolWindowsCommand}" />

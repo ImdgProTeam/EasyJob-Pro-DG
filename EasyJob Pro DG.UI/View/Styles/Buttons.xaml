@@ -62,6 +62,18 @@
     <Style x:Key="ButtonAsBlackTextLinkStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonAsLinkStyle}">
         <Setter Property="Foreground" Value="{StaticResource Brush.Text.Main}"/>
     </Style>
+    
+    <!-- Button 'Clear' style of tool windows -->
+    <Style x:Key="ButtonClearStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonAsLinkStyle}">
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Foreground"
+                        Value="{StaticResource Brush.ToolboxWindow.Background}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
 <!-- Button 'close' in Updates tab -->
     <Style TargetType="Button" x:Key="TabButtonClose">

@@ -15,7 +15,8 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         internal bool IsNoPropertySelected => string.IsNullOrWhiteSpace(SelectedNumber)
     && string.IsNullOrWhiteSpace(Position) && string.IsNullOrWhiteSpace(OldPosition)
     && !IsUnderdeck && !isOnDeck && !IsDG && !IsNotDg && !IsReefer && !isNonReefer
-    && string.IsNullOrWhiteSpace(SelectedPOL) && string.IsNullOrWhiteSpace(SelectedPOD)
+    && string.IsNullOrWhiteSpace(SelectedPOL) && string.IsNullOrWhiteSpace(SelectedPOD) 
+            && string.IsNullOrWhiteSpace(SelectedOperator)
     && string.IsNullOrWhiteSpace(SelectedFinalDestination) && string.IsNullOrWhiteSpace(SelectedContainerType)
     && !IsOpenType && !HasRemarks && !HasNoRemarks && !IsNewInPlan && !NotIsNewInPlan
     && !HasPositionChanged && !NotHasPositionChanged && !HasUpdated && !NotHasUpdated
@@ -30,6 +31,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         private bool _isNoPropertySelected = true;
 
         internal event EventHandler SelectionChanged; 
+        internal event EventHandler CallApply; 
 
         #endregion
 
@@ -516,12 +518,19 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         public ObservableCollection<int> SelectedUNNOs { get; private set; }
 
         public ICommand AddSelectedUnnoCommand { get; private set; }
+        public ICommand AddSelectedUnnoOrApplyCommand { get; private set; }
         public ICommand RemoveUnnoCommand { get; private set; }
         public ICommand ClearSelectedUnnosCommand { get; private set; }
 
         private void OnAddSelectedUnnoExecuted(object obj)
         {
-            if (!SelectedUNNO.HasValue || SelectedUNNOs.Contains(SelectedUNNO.Value))
+            if (!SelectedUNNO.HasValue && SelectedUNNOs.Count > 0)
+            {
+                CallApply.Invoke(this, new EventArgs());
+                return;
+            }
+
+            if (SelectedUNNOs.Contains(SelectedUNNO.Value))
                 return;
 
             InsertValueSorted(SelectedUNNO.Value, SelectedUNNOs);
@@ -568,12 +577,19 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         public ObservableCollection<string> SelectedDgClasses { get; private set; }
 
         public ICommand AddSelectedDgClassCommand { get; private set; }
+        public ICommand AddSelectedDgClassOrApplyCommand { get; private set; }
         public ICommand RemoveDgClassCommand { get; private set; }
         public ICommand ClearSelectedDgClassesCommand { get; private set; }
 
         private void OnAddSelectedDgClassExecuted(object obj)
         {
-            if (string.IsNullOrWhiteSpace(SelectedDgClass) || SelectedDgClasses.Contains(SelectedDgClass))
+            if (string.IsNullOrWhiteSpace(SelectedDgClass) && SelectedDgClasses.Count > 0)
+            {
+                CallApply.Invoke(this, new EventArgs());
+                return;
+            }
+
+            if (SelectedDgClasses.Contains(SelectedDgClass))
                 return;
 
             InsertValueSorted(SelectedDgClass, SelectedDgClasses);
@@ -1054,8 +1070,10 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             CellOldPosition = new CellPositionWrapper();
 
             AddSelectedUnnoCommand = new DelegateCommand(OnAddSelectedUnnoExecuted, OnAddSelectedUnnoCanExecute);
+            AddSelectedUnnoOrApplyCommand = new DelegateCommand(OnAddSelectedUnnoExecuted);
             ClearSelectedUnnosCommand = new DelegateCommand(OnClearSelectedUnnosExecuted, OnClearSelectedUnnosCanExecute);
             AddSelectedDgClassCommand = new DelegateCommand(OnAddSelectedDgClassExecuted, OnAddSelectedDgClassCanExecute);
+            AddSelectedDgClassOrApplyCommand = new DelegateCommand(OnAddSelectedDgClassExecuted);
             ClearSelectedDgClassesCommand = new DelegateCommand(OnClearSelectedDgClassesExecuted, OnClearSelectedDgClassesCanExecute);
             RemoveUnnoCommand = new DelegateCommand(OnRemoveUnnoExecuted);
             RemoveDgClassCommand = new DelegateCommand(OnRemoveDgClassExecuted);

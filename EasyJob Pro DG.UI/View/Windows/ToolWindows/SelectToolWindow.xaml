@@ -13,7 +13,7 @@
                          MouseLeftButtonDown="Window_MouseLeftButtonDown"
                          Activated="OnGotFocusHandler"
                          Deactivated="OnLostFocusHandler">
-    <Grid TextBlock.FontSize="11">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
