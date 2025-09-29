@@ -36,7 +36,8 @@
             <Button Content="Clear"
                     Command="{Binding ClearCommand}"
                     HorizontalAlignment="Right"
-                    Panel.ZIndex="100"
+                    Style="{StaticResource ButtonClearStyle}"
+                    Padding="20 5"
                     Grid.Column="1" />
         </Grid>
 

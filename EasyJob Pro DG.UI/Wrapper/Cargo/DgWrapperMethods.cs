@@ -45,6 +45,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// </summary>
         private void UpdateDgInfoAndUploadChanges()
         {
+            Model.Clear(Unno);
             Model.UpdateDgInfo();
             RefreshDgDataPresentation();
         }

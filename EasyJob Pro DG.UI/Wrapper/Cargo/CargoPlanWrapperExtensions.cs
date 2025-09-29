@@ -56,7 +56,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                 dg.Model.CopyContainerInfo(container.Model);
             }
 
-            dg.Model.UpdateDgInfo();
+            dg.Model.UpdateDgInfo(unitIsNew: true);
             cargoPlan.DgList.Add(dg);
             container.Model.DgCountInContainer++;
 

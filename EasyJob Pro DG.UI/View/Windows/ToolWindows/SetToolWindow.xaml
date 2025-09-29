@@ -24,6 +24,17 @@
         <TextBlock Text="Selection tool"
                    Style="{StaticResource WindowTitleTextBlock}" />
 
+        <Grid Background="{StaticResource Brush.ToolboxWindow.BlocksBackground}"
+              Grid.Row="1" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+        </Grid>
 
         <!-- Control buttons -->
         <StackPanel Orientation="Horizontal"

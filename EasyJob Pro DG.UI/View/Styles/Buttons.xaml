@@ -67,8 +67,7 @@
     <Style x:Key="ButtonClearStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonAsLinkStyle}">
 
         <Style.Triggers>
-            <Trigger Property="IsEnabled"
-                     Value="False">
+            <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground"
                         Value="{StaticResource Brush.ToolboxWindow.Background}" />
             </Trigger>

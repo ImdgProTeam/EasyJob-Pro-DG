@@ -12,12 +12,12 @@ namespace EasyJob_ProDG.Model.Cargo
         /// on a selected dg, if Unno is recognized
         /// </summary>
         /// <param name="dg"></param>
-        public static void UpdateDgInfo(this Dg dg)
+        public static void UpdateDgInfo(this Dg dg, bool unitIsNew = false)
         {
-            dg.Clear(dg.Unno);
+            //dg.Clear(dg.Unno);
             if (!Validators.UnnoValidator.Validate(dg.Unno)) return;
             
-            dg.AssignFromDgList(unitIsNew: true);
+            dg.AssignFromDgList(unitIsNew: unitIsNew);
             dg.AssignSegregationGroup();
         }
 

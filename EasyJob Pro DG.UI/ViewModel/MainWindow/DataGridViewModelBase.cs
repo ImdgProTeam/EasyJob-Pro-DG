@@ -189,6 +189,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         internal void ClearAdditionalFilter()
         {
             filteredContainerNumbers = null;
+
+            ((IEditableCollectionView)UnitsPlanView)?.CommitEdit(); // clears edit mode to enable .Refresh()
             UnitsPlanView?.Refresh();
 
             AdvancedFilterApplied = false;

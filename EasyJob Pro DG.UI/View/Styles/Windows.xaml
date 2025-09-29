@@ -53,7 +53,9 @@
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome CornerRadius="0"
-                              GlassFrameThickness="10"
+                              GlassFrameThickness="0"
+                              ResizeBorderThickness="5"
+                              CaptionHeight="0"
                               UseAeroCaptionButtons="True" />
             </Setter.Value>
         </Setter>
