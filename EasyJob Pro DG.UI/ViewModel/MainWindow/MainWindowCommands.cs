@@ -64,6 +64,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand ShowMergePortNamesWindowCommand { get; private set; }
         public ICommand ShowFilterToolWindowCommand { get; private set; }
         public ICommand ShowSelectionToolWindowCommand { get; private set; }
+        public ICommand ShowSetToolWindowCommand { get; private set; }
         public ICommand CloseAllToolWindowsCommand { get; private set; }
 
         // ----- Various DataGrids commands -----
@@ -127,6 +128,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             ShowMergePortNamesWindowCommand = new DelegateCommand(ShowMergePortNamesWindowOnExecuted);
             ShowFilterToolWindowCommand = new DelegateCommand(OnShowFilterToolWindowExecuted);
             ShowSelectionToolWindowCommand = new DelegateCommand(OnShowSelectionToolWindowExecuted);
+            ShowSetToolWindowCommand = new DelegateCommand(OnShowSetToolWindowExecuted);
             CloseAllToolWindowsCommand = new DelegateCommand(CloseAllToolWindowsExecuted);
 
             CloseUpdatesDataGridCommand = new DelegateCommand(CloseUpdatesDataGridCommandOnExecuted);
@@ -513,6 +515,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void OnShowSelectionToolWindowExecuted(object obj)
         {
             Services.ToolWindowOperatorAccess.ShowSelectToolWindow();
+        }
+
+        private void OnShowSetToolWindowExecuted(object obj)
+        {
+            Services.ToolWindowOperatorAccess.ShowSetToolWindow();
         }
 
         private void CloseAllToolWindowsExecuted(object obj)

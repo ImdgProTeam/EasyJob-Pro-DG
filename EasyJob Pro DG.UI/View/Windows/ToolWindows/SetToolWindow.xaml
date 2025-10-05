@@ -6,8 +6,8 @@
                          xmlns:base="clr-namespace:EasyJob_ProDG.UI.View.WindowBase"
                          xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows"
                          mc:Ignorable="d"
-                         Height="450"
-                         Width="400"
+                         Height="520"
+                         Width="420"
                          Style="{StaticResource ToolWindowStyle}"
                          WindowStartupLocation="CenterScreen"
                          MouseLeftButtonDown="Window_MouseLeftButtonDown"
@@ -20,21 +20,365 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- Capture -->
-        <TextBlock Text="Selection tool"
+        <!--#region Capture -->
+        <TextBlock Text="Set tool"
                    Style="{StaticResource WindowTitleTextBlock}" />
+        <Button Content="Clear"
+                Command="{Binding ClearCommand}"
+                HorizontalAlignment="Right"
+                Grid.Column="1"
+                Style="{StaticResource ButtonClearStyle}"
+                FontSize="15"
+                Padding="20 5" />
+        <!--#endregion-->
 
-        <Grid Background="{StaticResource Brush.ToolboxWindow.BlocksBackground}"
-              Grid.Row="1" HorizontalAlignment="Stretch">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-        </Grid>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <Grid Background="{StaticResource Brush.ToolboxWindow.ContentBackground}"
+              HorizontalAlignment="Stretch"
+              TextBlock.FontSize="{StaticResource ToolsSmallFontSize}">
+                <Grid.Resources>
+                    <!--<system:Integer x:Key="RowHeight">30</system:Integer>-->
+                    <Style TargetType="TextBlock">
+                        <Setter Property="HorizontalAlignment" Value="Right" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                    </Style>
+                    <Style TargetType="ComboBox">
+                        <Setter Property="HorizontalAlignment"
+                            Value="Left" />
+                        <Setter Property="MinWidth" Value="100" />
+                        <Setter Property="IsEditable" Value="True" />
+                        <Setter Property="StaysOpenOnEdit" Value="True" />
+                        <Setter Property="Margin" Value="3" />
+                    </Style>
+                    <Style TargetType="CheckBox">
+                        <Setter Property="HorizontalAlignment" Value="Left" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="Margin" Value="10 0 0 0" />
+                        <Setter Property="ToolTip" Value="{Binding}"/>
+                        <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                    </Style>
+                    <Style TargetType="TextBox"
+                           BasedOn="{StaticResource TextBoxWithTagAndValidation}">
+                        <Setter Property="Margin" Value="3" />
+                        <Setter Property="Background" Value="{StaticResource Brush.Background.Main}" />
+                    </Style>
+                    <Style TargetType="Expander"
+                       BasedOn="{StaticResource SelectionControlExpanderStyle}">
+                        <Setter Property="Margin" Value="1 2" />
+                        <Setter Property="Padding" Value="0 0 0 10" />
+                        <Setter Property="Background" Value="{StaticResource Brush.ToolboxWindow.BlocksBackground}"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="110"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+
+                </Grid.RowDefinitions>
+
+                <!--#region Container properties -->
+                <!-- Check boxes -->
+                <CheckBox Grid.Row="1" Margin="5 0" IsChecked="{Binding cbPOLPOD}"/>
+                <CheckBox Grid.Row="2" Margin="5 0" IsChecked="{Binding cbFinalDestination}"/>
+                <CheckBox Grid.Row="3" Margin="5 0" IsChecked="{Binding cbContainerType}"/>
+                <CheckBox Grid.Row="4" Margin="5 0" IsChecked="{Binding cbReefer}"/>
+                <CheckBox Grid.Row="5" Margin="5 0" IsChecked="{Binding cbContainerRemark}"/>
+
+                <Label Grid.ColumnSpan="3">Container properties</Label>
+
+                <TextBlock Text="POL" Grid.Row="1" Grid.Column="1"/>
+                <ComboBox Grid.Row="1" Grid.Column="2" 
+                          ItemsSource="{Binding POLs}"
+                          SelectedItem="{Binding SelectedPOL}"
+                          Text="{Binding SelectedPOL}"/>
+                <TextBlock Text="POD" Grid.Row="1" Grid.Column="3"/>
+                <ComboBox Grid.Row="1" Grid.Column="4"
+                          ItemsSource="{Binding PODs}"
+                          SelectedItem="{Binding SelectedPOD}"
+                          Text="{Binding SelectedPOD}"/>
+
+                <TextBlock Text="Final destination" Grid.Row="2" Grid.Column="1"/>
+                <ComboBox Grid.Row="2" Grid.Column="2"
+                          ItemsSource="{Binding FinalDestinations}"
+                          SelectedItem="{Binding SelectedFinalDestination}"
+                          Text="{Binding SelectedFinalDestination}"/>
+                <TextBlock Text="Operator" Grid.Row="2" Grid.Column="3"/>
+                <ComboBox Grid.Row="2" Grid.Column="4"
+                          ItemsSource="{Binding Operators}"
+                          SelectedItem="{Binding SelectedOperator}"
+                          Text="{Binding SelectedOperator}"/>
+
+                <TextBlock Text="Container type"
+                       Grid.Row="3"
+                       Grid.Column="1" />
+                <ComboBox Grid.Row="3" Grid.Column="2" 
+                          ItemsSource="{Binding ContainerTypes}"
+                          SelectedItem="{Binding SelectedContainerType}"
+                          Text="{Binding SelectedContainerType}"/>
+                <CheckBox Content="Open type" IsChecked="{Binding IsOpenType}"
+                          Grid.Row="3" Grid.Column="3" />
+                <CheckBox Content="Closed type" IsChecked="{Binding IsClosedType}"
+                          Grid.Row="3" Grid.Column="4" />
+                <CheckBox Content="Reefer" IsChecked="{Binding IsReefer}"
+                      Grid.Row="4" Grid.Column="1" />
+                <CheckBox Content="Non reefer" IsChecked="{Binding IsNonReefer}"
+                      Grid.Row="4" Grid.Column="2" />
+
+                <TextBlock Text="Container remark" Grid.Row="5" Grid.Column="1"/>
+                <TextBox Text="{Binding ContainerRemark}"
+                    Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="3" 
+                     HorizontalAlignment="Stretch"/>
+                <!--#endregion -->
+
+                <!--#region Updates -->
+                <Expander Grid.Row="6" Grid.ColumnSpan="5" Header="Updates"
+                      IsExpanded="False">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="110"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+
+                        <CheckBox Grid.Row="0" Margin="5 0" IsChecked="{Binding cbUpdates1}"/>
+                        <CheckBox Grid.Row="1" Margin="5 0" IsChecked="{Binding cbUpdates2}"/>
+
+                        <CheckBox Content="Is Locked" IsChecked="{Binding IsLocked}"
+                              Grid.Row="0" Grid.Column="1"/>
+                        <CheckBox Content="Not locked" IsChecked="{Binding NotIsLocked}"
+                              Grid.Row="0"
+                              Grid.Column="2" />
+
+                        <CheckBox Content="To import"
+                              IsChecked="{Binding IsToImport}"
+                              Grid.Row="1" Grid.Column="1"/>
+                        <CheckBox Content="Not to import"
+                              IsChecked="{Binding NotIsToImport}"
+                              Grid.Row="1"
+                              Grid.Column="2" />
+
+                        <CheckBox Content="To be kept"
+                                  ToolTip="To be kept in plan"
+                              IsChecked="{Binding IsToBeKeptInPlan}"
+                              Grid.Row="0" Grid.Column="3" />
+                        <CheckBox Content="not"
+                                  ToolTip="Not to be kept in plan"
+                              IsChecked="{Binding NotIsToBeKeptInPlan}"
+                              Grid.Row="0" Grid.Column="4" />
+
+                        <CheckBox Content="Clear import"
+                                  ToolTip="Clear import"
+                              IsChecked="{Binding IsClearImport}"
+                              Grid.Row="1" Grid.Column="3" />
+                        <CheckBox Content="Clear all"
+                              IsChecked="{Binding IsClearAll}"
+                              Grid.Row="1" Grid.Column="4" />
+                    </Grid>
+                </Expander>
+                <!--#endregion-->
+
+                <!--#region Dg -->
+                <Expander Grid.Row="7" Grid.ColumnSpan="5" Header="Dangerous cargo"
+                        IsExpanded="{Binding IsDgExpanded}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="110"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+
+                        <CheckBox Grid.Row="0" Margin="5 0" IsChecked="{Binding cbUnno}"/>
+                        <CheckBox Grid.Row="1" Margin="5 0" IsChecked="{Binding cbNetWeight}"/>
+                        <CheckBox Grid.Row="2" Margin="5 0" IsChecked="{Binding cbPackingGroup}"/>
+                        <CheckBox Grid.Row="3" Margin="5 0" IsChecked="{Binding cbLQ}"/>
+                        <CheckBox Grid.Row="4" Margin="5 0" IsChecked="{Binding cbMax1L}"/>
+                        <CheckBox Grid.Row="5" Margin="5 0" IsChecked="{Binding cbStabilized}"/>
+                        <CheckBox Grid.Row="6" Margin="5 0" IsChecked="{Binding cbFlashPoint}"/>
+                        <CheckBox Grid.Row="7" Margin="5 0" IsChecked="{Binding cbName}"/>
+                        <CheckBox Grid.Row="8" Margin="5 0" IsChecked="{Binding cbTechnicalName}"/>
+                        <CheckBox Grid.Row="9" Margin="5 0" IsChecked="{Binding cbDgRemark}"/>
+
+                        <TextBlock Text="UNNO" Grid.Column="1"/>
+                        <ComboBox ItemsSource="{Binding UNNOs}"
+                                  SelectedItem="{Binding SelectedUNNO}"
+                                  Text="{Binding SelectedUNNO}"
+                                Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"  />
+
+                        <TextBlock Text="Net weight" Grid.Row="1" Grid.Column="1" />
+                        <TextBox Text="{Binding NetWeight, StringFormat=#.#, TargetNullValue=''}"
+                                Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"  />
+
+                        <TextBlock Text="Packing group" Grid.Row="2" Grid.Column="1" />
+                        <ComboBox ItemsSource="{Binding PackingGroups}"
+                                  Text="{Binding PackingGroup}"
+                                    Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"  />
+                        <TextBlock Text="Stowage cat" Grid.Row="2" Grid.Column="3" />
+                        <ComboBox ItemsSource="{Binding StowageCategories}"
+                                SelectedItem="{Binding StowageCategory}"
+                                Grid.Row="2" Grid.Column="4"  />
+
+                        <CheckBox Content="Ltd qty"
+                                  ToolTip="Limited quantity"
+                                IsChecked="{Binding IsLQ}"
+                                Grid.Row="3" Grid.Column="1"  />
+                        <CheckBox Content="not"
+                                IsChecked="{Binding NotIsLQ}"
+                                Grid.Row="3" Grid.Column="2" />
+
+                        <CheckBox Content="MP"
+                                  ToolTip="Marine pollutant"
+                                IsChecked="{Binding IsMP}"
+                                Grid.Row="3" Grid.Column="3"  />
+                        <CheckBox Content="not"
+                                IsChecked="{Binding NotIsMP}"
+                                Grid.Row="3" Grid.Column="4"  />
+
+                        <CheckBox Content="Max 1 l"
+                                IsChecked="{Binding IsMax1L}"
+                                Grid.Row="4" Grid.Column="1" />
+                        <CheckBox Content="not"
+                                IsChecked="{Binding NotIsMax1L}"
+                                Grid.Row="4" Grid.Column="2"  />
+
+                        <CheckBox Content="Waste"
+                                IsChecked="{Binding IsWaste}"
+                                Grid.Row="4" Grid.Column="3"  />
+                        <CheckBox Content="not"
+                                IsChecked="{Binding NotIsWaste}"
+                                Grid.Row="4" Grid.Column="4" />
+
+                        <CheckBox Content="Stabilized"
+                                IsChecked="{Binding IsStabilized}"
+                                Grid.Row="5" Grid.Column="1"/>
+                        <CheckBox Content="not"
+                                IsChecked="{Binding NotIsStabilized}"
+                                Grid.Row="5" Grid.Column="2"/>
+
+                        <TextBlock Text="Flash point" Grid.Row="6" Grid.Column="1"/>
+                        <TextBox Text="{Binding FlashPoint, StringFormat=+ #.#; - #.#; 0, TargetNullValue=''}"
+                                Grid.Row="6" Grid.Column="2" />
+                        <CheckBox Content="Clear flash point"
+                                IsChecked="{Binding IsClearFlashPoint}"
+                                Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="2" />
+
+                        <TextBlock Text="Name" Grid.Row="7" Grid.ColumnSpan="2" ToolTip="Proper shipping name"/>
+                        <ComboBox ItemsSource="{Binding ProperShippingNames}"
+                                  SelectedItem="{Binding ProperShippingName}"
+                                  Text="{Binding ProperShippingName}"
+                            HorizontalAlignment="Stretch"
+                                Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="3" />
+                        <TextBlock Text="Technical name" Grid.Row="8" Grid.Column="1" />
+                        <ComboBox ItemsSource="{Binding TechnicalNames}"
+                                  SelectedItem="{Binding TechnicalName}"
+                                  Text="{Binding TechnicalName}"
+                            HorizontalAlignment="Stretch"
+                                Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="3"/>
+                        <TextBlock Text="Dg remark" Grid.Row="9" Grid.Column="1" />
+                        <ComboBox ItemsSource="{Binding DgRemarks}"
+                                  SelectedItem="{Binding DgRemark}"
+                                  Text="{Binding DgRemark}"
+                                  HorizontalAlignment="Stretch"
+                                Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="3"/>
+
+                    </Grid>
+                </Expander>
+                <!--#endregion-->
+
+                <!--#region Reefers -->
+                <Expander Grid.Row="8" Grid.ColumnSpan="5" Header="Reefers"
+                      IsExpanded="{Binding IsReeferExpanded}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="110"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+
+                        <CheckBox Grid.Row="0" Margin="5 0" IsChecked="{Binding cbSetPoint}"/>
+                        <CheckBox Grid.Row="1" Margin="5 0" IsChecked="{Binding cbLoadTemp}"/>
+                        <CheckBox Grid.Row="2" Margin="5 0" IsChecked="{Binding cbVent}"/>
+                        <CheckBox Grid.Row="3" Margin="5 0" IsChecked="{Binding cbCommodity}"/>
+                        <CheckBox Grid.Row="4" Margin="5 0" IsChecked="{Binding cbReeferSpecial}"/>
+                        <CheckBox Grid.Row="5" Margin="5 0" IsChecked="{Binding cbReeferRemark}"/>
+
+                        <TextBlock Text="Set point" Grid.Row="0" Grid.Column="1"/>
+                        <TextBox Text="{Binding SetPoint, StringFormat=+ #.#; - 0.#; 0, TargetNullValue=''}"
+                                Grid.Row="0" Grid.Column="2" />
+                        <TextBlock Text="Load temp" Grid.Row="1" Grid.Column="1"/>
+                        <TextBox Text="{Binding LoadTemp, StringFormat=+ #.#; - 0.#; 0, TargetNullValue=''}"
+                                Grid.Row="1" Grid.Column="2" />
+                        <TextBlock Text="Vent" Grid.Row="2" Grid.Column="1"/>
+                        <TextBox Text="{Binding ReeferVent}"
+                                Grid.Row="2" Grid.Column="2" />
+
+                        <TextBlock Text="Commodity" Grid.Row="3" Grid.Column="1"
+                                   />
+                        <ComboBox 
+                            ItemsSource="{Binding ReeferCommodities}"
+                            SelectedItem="{Binding ReeferCommodity}"
+                            Text="{Binding ReeferCommodity}"
+                                Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" HorizontalAlignment="Stretch"/>
+                        <TextBlock Text="Special" Grid.Row="4" Grid.Column="1"/>
+                        <ComboBox Text="{Binding ReeferSpecial}"
+                                  ItemsSource="{Binding ReeferSpecials}"
+                                  SelectedItem="{Binding ReeferSpecial}"
+                                Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="3"
+                                   HorizontalAlignment="Stretch"/>
+                        <TextBlock Text="Reefer remark" Grid.Row="5" Grid.Column="1"/>
+                        <ComboBox ItemsSource="{Binding ReeferRemarks}"
+                            SelectedItem="{Binding ReeferRemark}"
+                            Text="{Binding ReeferRemark}"
+                                Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="3"
+                                   HorizontalAlignment="Stretch"/>
+                    </Grid>
+                </Expander>
+                <!--#endregion-->
+            </Grid>
+
+        </ScrollViewer>
 
         <!-- Control buttons -->
         <StackPanel Orientation="Horizontal"
@@ -46,10 +390,9 @@
                        BasedOn="{StaticResource SummaryWindowButtonStyle}">
                 </Style>
             </StackPanel.Resources>
-            <Button Content="Clear"
-                    Command="{Binding ApplyMergePortNamesCommand}" />
-            <Button Content="Apply"
-                    Command="{Binding ApplyMergePortNamesCommand}"
+
+            <Button Content="Set"
+                    Command="{Binding ApplyCommand}"
                     IsDefault="True" />
             <Button Content="Close"
                     Click="CloseWindow"

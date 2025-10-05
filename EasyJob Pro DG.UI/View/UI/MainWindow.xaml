@@ -48,6 +48,8 @@
                     Command="{Binding ShowFilterToolWindowCommand}" />
         <KeyBinding Key="D2" Modifiers="Ctrl"
                     Command="{Binding ShowSelectionToolWindowCommand}" />
+        <KeyBinding Key="D3" Modifiers="Ctrl"
+                    Command="{Binding ShowSetToolWindowCommand}" />
     </Window.InputBindings>
 
     <Window.Resources>

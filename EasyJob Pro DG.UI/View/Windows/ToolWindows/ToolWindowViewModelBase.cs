@@ -17,8 +17,8 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 
         // Public properties
         public SelectionControlViewModel SelectionControlViewModel { get; private set; }
-        public ICommand ClearCommand { get; private set; }
-        public ICommand ApplyCommand { get; private set; }
+        public ICommand ClearCommand { get; protected set; }
+        public ICommand ApplyCommand { get; protected set; }
 
 
         #region Command methods
@@ -40,6 +40,11 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         protected virtual void OnClearCommandExecuted(object obj)
         {
             SelectionControlViewModel.Clear();
+        }
+
+        protected virtual bool OnClearCanExecute(object obj)
+        {
+            return !SelectionControlViewModel.IsNoPropertySelected;
         }
 
         #endregion
@@ -65,11 +70,6 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 
             SelectionControlViewModel.CallApply -= ExecuteApply;
             SelectionControlViewModel.CallApply += ExecuteApply;
-        }
-
-        private bool OnClearCanExecute(object obj)
-        {
-            return !SelectionControlViewModel.IsNoPropertySelected;
         }
 
         #endregion

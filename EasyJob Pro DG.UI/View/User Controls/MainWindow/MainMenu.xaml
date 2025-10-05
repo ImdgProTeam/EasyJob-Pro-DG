@@ -384,6 +384,9 @@
                 <MenuItem Header="Selection tool"
                           Command="{Binding ShowSelectionToolWindowCommand}"
                           InputGestureText="Ctrl+2" />
+                <MenuItem Header="Set tool"
+                          Command="{Binding ShowSetToolWindowCommand}"
+                          InputGestureText="Ctrl+3" />
                 <Separator />
                 <MenuItem Header="Close all tool windows"
                           Command="{Binding CloseAllToolWindowsCommand}" />
