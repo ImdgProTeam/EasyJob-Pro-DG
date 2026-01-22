@@ -41,7 +41,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                if(DgClass == value) return;
+                if (DgClass == value) return;
                 if (!DgClassInputValidator.Validate(value, out value))
                     return;
 
@@ -66,14 +66,21 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<string>();
             set
             {
-                if(!DgSubclassInputValidator.Validate(value, out string setvalue)) return;
-
-                //Check if DgClass already has the subrisk being input
-                if (setvalue.Split(' ').Any(x => string.Equals(x, DgClass)))
+                string setvalue;
+                if (!string.IsNullOrEmpty(value.Trim()) && value.Trim() != "-")
                 {
-                    setvalue = setvalue.Replace(DgClass, "");
-                }
+                    if (!DgSubclassInputValidator.Validate(value, out setvalue)) return;
 
+                    //Check if DgClass already has the subrisk being input
+                    if (setvalue.Split(' ').Any(x => string.Equals(x, DgClass)))
+                    {
+                        setvalue = setvalue.Replace(DgClass, "");
+                    }
+                }
+                else
+                {
+                    setvalue = value.Trim().Replace("-","");
+                }
                 SetValue(setvalue);
                 OnPropertyChanged(nameof(AllDgClasses));
                 UpdateConflictList();
