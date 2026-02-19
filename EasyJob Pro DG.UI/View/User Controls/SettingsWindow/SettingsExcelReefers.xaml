@@ -99,6 +99,7 @@
                   AutoGenerateColumns="False"
                   Grid.Row="5"
                   Grid.ColumnSpan="2"
+                  CanUserDeleteRows="False"
                   IsTabStop="False"
                   Margin="5,0">
 

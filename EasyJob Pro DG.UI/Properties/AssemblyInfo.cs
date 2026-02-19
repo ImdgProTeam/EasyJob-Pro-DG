@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("Desktop version")]
 [assembly: AssemblyCompany("imdg.pro")]
 [assembly: AssemblyProduct("Pro DG Pro")]
-[assembly: AssemblyCopyright("Copyright ©  2018 - 2025")]
+[assembly: AssemblyCopyright("Copyright ©  2018 - 2026")]
 [assembly: AssemblyTrademark("imdg.pro")]
 [assembly: AssemblyCulture("")]
 
