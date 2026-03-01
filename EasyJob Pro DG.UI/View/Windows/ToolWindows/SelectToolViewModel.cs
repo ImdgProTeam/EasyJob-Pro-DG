@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 {
-    internal class SelectToolViewModel : ToolWindowViewModelBase
+    internal class SelectToolViewModel : ToolWindowWithSelectionControlViewModelBase
     {
         /// <summary>
         /// Assigns Selected units list to ItemsToSelect property of a selected DataGrid

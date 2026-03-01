@@ -1,6 +1,9 @@
 ﻿using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DataServices;
+using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EasyJob_ProDG.UI.Wrapper
 {
@@ -11,6 +14,7 @@ namespace EasyJob_ProDG.UI.Wrapper
     {
         // ----------------- Private fields ------------------------------------
         private static CargoPlanWrapperHandler _handleCargoPlanWrapper;
+        private MessageDialogService _messageDialogService => MessageDialogService.Connect();
         private ICargoDataService _cargoDataService;
         private CargoPlanWrapper _cargoPlan => _cargoDataService.WorkingCargoPlan;
 
@@ -38,6 +42,39 @@ namespace EasyJob_ProDG.UI.Wrapper
             _cargoPlan.RefreshCargoPlanValues();
         }
 
+        /// <summary>
+        /// Method works with SetTool to remove reefers from CargoPlan in one action.
+        /// </summary>
+        /// <param name="reefersToRemove"></param>
+        internal void RemoveSeveralReefers(List<ContainerWrapper> reefersToRemove)
+        {
+            bool removed = _messageDialogService.ShowYesNoDialog(
+                       $"Do you want to remove {reefersToRemove.Count} reefers from list", "")
+                   == MessageDialogResult.Yes;
+            if (removed)
+            {
+                foreach (var reefer in reefersToRemove)
+                {
+                    _cargoPlan.RemoveReefer(reefer);
+
+                    var _dgs = _cargoPlan.DgList.Where(x => x.ContainerNumber == reefer.ContainerNumber);
+                    foreach (var dg in _dgs)
+                    {
+                        dg.Model.IsRf = false;
+                        dg.RefreshIsRfProperty();
+                    }
+
+                    var container = _cargoPlan.Containers.FirstOrDefault(x => x.ContainerNumber == reefer.ContainerNumber);
+                    if (container != null)
+                    {
+                        container.Model.IsRf = false;
+                        container.RefreshIsRfProperty();
+                    }
+
+                }
+                _cargoPlan.RefreshCargoPlanValues();
+            }
+        }
 
         private void SubscribeToMessenger()
         {

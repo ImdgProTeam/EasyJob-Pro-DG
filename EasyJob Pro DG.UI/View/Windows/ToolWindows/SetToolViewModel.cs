@@ -1,7 +1,6 @@
 ﻿using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.View.Windows.ToolWindows;
 using EasyJob_ProDG.UI.ViewModel;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -34,7 +33,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 
         private int? selectedUNNO;
         private decimal? netWeight;
-        private string packingGroup;
+        private byte? packingGroup;
         private string stowageCategory;
         private bool isLQ;
         private bool notIsLQ;
@@ -59,9 +58,11 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         private string reeferCommodity;
         private string reeferVent;
 
+
+        private Dictionary<string, string> changes;
         #endregion
 
-        internal bool IsNoPropertySelected => !IsReefer && !IsNonReefer
+        internal bool IsNoPropertySelected => (!IsReefer && !IsNonReefer
     && string.IsNullOrWhiteSpace(SelectedPOL) && string.IsNullOrWhiteSpace(SelectedPOD)
     && string.IsNullOrWhiteSpace(SelectedFinalDestination) && string.IsNullOrWhiteSpace(SelectedOperator)
     && string.IsNullOrWhiteSpace(SelectedContainerType) && !IsOpenType && !isClosedType
@@ -77,10 +78,13 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             && string.IsNullOrWhiteSpace(DgRemark)
     && !SetPoint.HasValue && !LoadTemp.HasValue
     && string.IsNullOrWhiteSpace(ReeferVent) && string.IsNullOrWhiteSpace(ReeferCommodity)
-            && string.IsNullOrWhiteSpace(ReeferSpecial) && string.IsNullOrWhiteSpace(ReeferRemark);
-
-        internal event EventHandler SelectionChanged;
-
+            && string.IsNullOrWhiteSpace(ReeferSpecial) && string.IsNullOrWhiteSpace(ReeferRemark))
+            ||
+            (!cbPOLPOD && !cbFinalDestination && !cbContainerType && !cbReefer && !cbContainerRemark
+            && !cbUpdates1 && !cbUpdates2 && !cbUnno && !cbNetWeight && !cbPackingGroup
+            && !cbLQ && !cbMax1L && !cbStabilized && !cbFlashPoint && !cbName && !cbTechnicalName
+            && !cbDgRemark && !cbSetPoint && !cbLoadTemp && !cbVent && !cbCommodity
+            && !cbReeferSpecial && !cbReeferRemark);
 
         #region Container properties
 
@@ -462,17 +466,51 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             }
         }
 
-        public List<string> PackingGroups => new List<string>() { "", "I", "II", "III" };
+        public List<string> PackingGroups => new List<string>() { "", "-", "I", "II", "III" };
 
         public string PackingGroup
         {
-            get { return packingGroup; }
+            get
+            {
+                return packingGroup switch
+                {
+                    0 => "-",
+                    1 => "I",
+                    2 => "II",
+                    3 => "III",
+                    _ => string.Empty
+                };
+            }
             set
             {
-                packingGroup = value;
+                byte? oldPackingGroup = packingGroup;
+                switch (value.ToUpper().Trim())
+                {
+                    case "1":
+                    case "I":
+                        packingGroup = 1;
+                        break;
+                    case "2":
+                    case "II":
+                        packingGroup = 2;
+                        break;
+                    case "3":
+                    case "III":
+                        packingGroup = 3;
+                        break;
+                    case "":
+                        packingGroup = null;
+                        break;
+                    case "-":
+                    case "0":
+                        packingGroup = 0;
+                        break;
+                    default:
+                        break;
+                }
+                OnPropertyChanged();
+                if (oldPackingGroup == packingGroup) return;
                 ChangedSelection();
-
-                if (string.IsNullOrEmpty(packingGroup)) return;
                 cbPackingGroup = true;
                 OnPropertyChanged(nameof(cbPackingGroup));
             }
@@ -687,7 +725,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         }
 
         public List<string> ProperShippingNames { get; private set; }
-        
+
         public string ProperShippingName
         {
             get { return properShippingName; }
@@ -851,14 +889,29 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 
         protected override void OnApplyExecuted(object obj)
         {
-            throw new System.NotImplementedException();
+            CreateChangesDictionary();
 
+            SendChangesToSelectedDataGrid();
+
+            // update lists in combo boxes after new value set
             CreateLists();
+            OnPropertyChanged(null);
         }
 
         protected override bool OnApplyCanExecute(object obj)
         {
-            return !IsNoPropertySelected;
+            bool isSelected = false;
+            switch (selectedDataGridIndex)
+            {
+                case 0:
+                    isSelected = mainWindowViewModel.DataGridDgViewModel.SelectedDg != null; break;
+                case 1:
+                    isSelected = mainWindowViewModel.DataGridReefersViewModel.SelectedUnit != null; break;
+                case 2:
+                    isSelected = mainWindowViewModel.DataGridContainersViewModel.SelectedUnit != null; break;
+
+            }
+            return isSelected && !IsNoPropertySelected;
         }
 
         protected override void OnClearCommandExecuted(object obj)
@@ -916,9 +969,11 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             if (IsNoPropertySelected == _isNoPropertySelected) return;
 
             _isNoPropertySelected = IsNoPropertySelected;
-            SelectionChanged?.Invoke(this, null);
         }
 
+        /// <summary>
+        /// Sets Dg and Reefer expanders IsExpanded property depending on what DataGrid is selected
+        /// </summary>
         private void SetExpanders()
         {
             IsDgExpanded = selectedDataGridIndex == 0;
@@ -1003,7 +1058,191 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 
             OnPropertyChanged(null);
             ChangedSelection();
-        } 
+        }
+
+
+        /// <summary>
+        /// Creates changes dictionary containing all selected changes in properties
+        /// </summary>
+        private void CreateChangesDictionary()
+        {
+            changes = new();
+
+            if (cbPOLPOD)
+            {
+                if (!string.IsNullOrEmpty(selectedPOL))
+                    changes.Add("POL", selectedPOL);
+                if (!string.IsNullOrEmpty(selectedPOD))
+                    changes.Add("POD", selectedPOD);
+            }
+            if (cbFinalDestination)
+            {
+                if (!string.IsNullOrEmpty(selectedFinalDestination))
+                    changes.Add("FinalDestination", selectedFinalDestination);
+                if (!string.IsNullOrEmpty(selectedOperator))
+                    changes.Add("Carrier", selectedOperator);
+            }
+            if (cbContainerType)
+            {
+                if (!string.IsNullOrEmpty(selectedContainerType))
+                    changes.Add("ContainerType", selectedContainerType);
+                if (isOpenType)
+                    changes.Add("IsClosed", "false");
+                if (isClosedType)
+                    changes.Add("IsClosed", "true");
+            }
+            if (cbReefer)
+            {
+                if (isReefer)
+                    changes.Add("IsRf", "true");
+                if (isNonReefer)
+                    changes.Add("IsRf", "false");
+            }
+            if (cbContainerRemark)
+            {
+                changes.Add("ContainerRemarks", string.IsNullOrEmpty(containerRemark) ? "" : containerRemark);
+            }
+            if (cbUpdates1)
+            {
+                if (isLocked)
+                    changes.Add("IsPositionLockedForChange", "true");
+                if (notIsLocked)
+                    changes.Add("IsPositionLockedForChange", "false");
+                if (isToBeKeptInPlan)
+                    changes.Add("IsToBeKeptInPlan", "true");
+                if (notIsToBeKeptInPlan)
+                    changes.Add("IsToBeKeptInPlan", "false");
+            }
+            if (cbUpdates2)
+            {
+                if (isToImport)
+                    changes.Add("IsToImport", "true");
+                if (notIsToImport)
+                    changes.Add("IsNotToImport", "true");
+                if (isClearImport)
+                {
+                    changes.Add("IsToImport", "false");
+                    changes.Add("IsNotToImport", "false");
+                }
+                if (isClearAll)
+                {
+                    changes.Add("IsToImport", "false");
+                    changes.Add("IsNotToImport", "false");
+                    changes.Add("IsPositionLockedForChange", "false");
+                    changes.Add("IsToBeKeptInPlan", "false");
+                }
+            }
+            if (cbUnno)
+            {
+                if (selectedUNNO.HasValue)
+                    changes.Add("Unno", selectedUNNO.Value.ToString());
+            }
+            if (cbNetWeight)
+            {
+                if (netWeight.HasValue)
+                    changes.Add("DgNetWeight", netWeight.Value.ToString());
+            }
+            if (cbPackingGroup)
+            {
+                if (packingGroup.HasValue)
+                    changes.Add("PackingGroupAsByte", packingGroup.Value.ToString());
+                if (!string.IsNullOrEmpty(stowageCategory))
+                    changes.Add("StowageCat", stowageCategory);
+            }
+            if (cbLQ)
+            {
+                if (isLQ)
+                    changes.Add("IsLq", "true");
+                if (notIsLQ)
+                    changes.Add("IsLq", "false");
+                if (isMP)
+                    changes.Add("IsMp", "true");
+                if (notIsMP)
+                    changes.Add("IsMp", "false");
+            }
+            if (cbMax1L)
+            {
+                if (isMax1L)
+                    changes.Add("IsMax1L", "true");
+                if (isNotMax1L)
+                    changes.Add("IsMax1L", "false");
+                if (isWaste)
+                    changes.Add("IsWaste", "true");
+                if (notIsWaste)
+                    changes.Add("IsWaste", "false");
+            }
+            if (cbStabilized)
+            {
+                if (isStabilized)
+                    changes.Add("IsStabilized", "true");
+                if (notIsStabilized)
+                    changes.Add("IsStabilized", "false");
+            }
+            if (cbFlashPoint)
+            {
+                if (flashPoint.HasValue)
+                {
+                    changes.Add("FlashPointAsDecimal", flashPoint.ToString());
+                }
+                if (isClearFlashPoint)
+                    changes.Add("FlashPointAsDecimal", "clear");
+            }
+            if (cbName)
+            {
+                if (!string.IsNullOrEmpty(properShippingName))
+                    changes.Add("Name", properShippingName);
+            }
+            if (cbTechnicalName)
+            {
+                changes.Add("TechnicalName", string.IsNullOrEmpty(technicalName) ? "" : technicalName);
+            }
+            if (cbDgRemark)
+            {
+                changes.Add("DgRemarks", string.IsNullOrEmpty(dgRemark) ? "" : dgRemark);
+            }
+            if (cbSetPoint)
+            {
+                if (setPoint.HasValue)
+                    changes.Add("SetTemperature", setPoint.ToString());
+            }
+            if (cbLoadTemp)
+            {
+                if (loadTemp.HasValue)
+                    changes.Add("LoadTemperature", loadTemp.ToString());
+            }
+            if (cbVent)
+            {
+                changes.Add("VentSetting", string.IsNullOrEmpty(reeferVent) ? "" : reeferVent);
+            }
+            if (cbCommodity)
+            {
+                changes.Add("Commodity", string.IsNullOrEmpty(reeferCommodity) ? "" : reeferCommodity);
+            }
+            if (cbReeferSpecial)
+            {
+                changes.Add("ReeferSpecial", string.IsNullOrEmpty(reeferSpecial) ? "" : reeferSpecial);
+            }
+            if (cbReeferRemark)
+            {
+                changes.Add("ReeferRemark", string.IsNullOrEmpty(reeferRemark) ? "" : reeferRemark);
+            }
+        }
+
+        private void SendChangesToSelectedDataGrid()
+        {
+            switch (selectedDataGridIndex)
+            {
+                case 0:
+                    mainWindowViewModel.DataGridDgViewModel.ChangeSelectedDgPropertyValues(changes);
+                    break;
+                case 1:
+                    mainWindowViewModel.DataGridReefersViewModel.ChangeSelectedContainerWrapperPropertiesValue(changes);
+                    break;
+                case 2:
+                    mainWindowViewModel.DataGridContainersViewModel.ChangeSelectedContainerWrapperPropertiesValue(changes);
+                    break;
+            }
+        }
 
         #endregion
 

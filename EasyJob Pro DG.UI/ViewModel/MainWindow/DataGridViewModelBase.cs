@@ -34,6 +34,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         public string StatusBarText { get; protected set; } = "None";
 
         /// <summary>
+        /// Provides access to selectionObject containing selected units
+        /// </summary>
+        /// <returns></returns>
+        internal IList<object> GetSelectionObjectList() => (IList<object>)selectionObject;
+
+        /// <summary>
         /// Property used to selectmultiple items from ViewModel by Id or ContainerNumber
         /// </summary>
         public List<string> ItemsToSelect

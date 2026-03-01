@@ -133,6 +133,8 @@
     <Compile Include="Validation\DgSubclassInputValidator.cs" />
     <Compile Include="Validation\UnnoInputValidator.cs" />
     <Compile Include="ViewModel\MainWindow\ConflictsSectionViewModel.cs" />
+    <Compile Include="ViewModel\MainWindow\DataGridContainerVMToolExtensions.cs" />
+    <Compile Include="ViewModel\MainWindow\DataGridDgVMToolExtension.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridUpdatesViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridViewModelBase.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridContainerViewModelBase.cs" />
@@ -156,7 +158,7 @@
     </Compile>
     <Compile Include="View\Windows\Info\WelcomeWindowVM.cs" />
     <Compile Include="View\Windows\Info\WinAboutViewModel.cs" />
-    <Compile Include="View\Windows\ToolWindows\CommonMethods.cs" />
+    <Compile Include="View\Windows\ToolWindows\ToolWindowsCommonMethods.cs" />
     <Compile Include="View\Windows\ToolWindows\FilterToolViewModel.cs" />
     <Compile Include="View\Windows\ToolWindows\SelectionControl.cs" />
     <Compile Include="View\Windows\ToolWindows\SelectionControlViewModel.cs" />
@@ -402,6 +404,7 @@
       <DependentUpon>CargoReport.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Windows\ToolWindows\ToolWindowViewModelBase.cs" />
+    <Compile Include="View\Windows\ToolWindows\ToolWindowWithSelectionControlViewModelBase.cs" />
     <Compile Include="Wrapper\Cargo\AbstractContainerWrapper.cs" />
     <Compile Include="Data\CargoPlanUnitPropertyChanger.cs" />
     <Compile Include="Wrapper\Cargo\CargoPlanWrapper.cs" />

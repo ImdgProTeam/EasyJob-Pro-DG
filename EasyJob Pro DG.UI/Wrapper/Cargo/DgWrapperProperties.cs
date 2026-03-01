@@ -154,6 +154,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                 }
 
                 UpdateConflictList();
+                OnPropertyChanged(nameof(StowageCat));
             }
         }
 

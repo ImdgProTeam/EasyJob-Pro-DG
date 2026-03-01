@@ -46,7 +46,6 @@ namespace EasyJob_ProDG.UI.Utility
             return inputLocation.Trim();
         }
 
-
         /// <summary>
         /// Amends Location with specified property value (bay, row or tier). 
         /// Ignores full location input (returns as it is).
@@ -67,21 +66,6 @@ namespace EasyJob_ProDG.UI.Utility
                 default:
                     return unit.Location;
             }
-        }
-
-        /// <summary>
-        /// Checks if input value is less then '10' and adds '0' before the digit if the case
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="numberOfZeros"></param>
-        /// <returns></returns>
-        private static string AddZeroIfRequired(byte value, byte numberOfZeros = 1)
-        {
-            string result = "";
-            if (value < 10) result += "0";
-            if (value < 100 && numberOfZeros == 2) result += "0";
-            result += value.ToString();
-            return result;
         }
 
         /// <summary>
@@ -118,6 +102,21 @@ namespace EasyJob_ProDG.UI.Utility
         {
             if (string.IsNullOrWhiteSpace(source)) return false;
             return source.ContainsCaseInsensitive(stringToCheck.Replace(" ", ""));
+        }
+
+        /// <summary>
+        /// Checks if input value is less then '10' and adds '0' before the digit if the case
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="numberOfZeros"></param>
+        /// <returns></returns>
+        private static string AddZeroIfRequired(byte value, byte numberOfZeros = 1)
+        {
+            string result = "";
+            if (value < 10) result += "0";
+            if (value < 100 && numberOfZeros == 2) result += "0";
+            result += value.ToString();
+            return result;
         }
     }
 }

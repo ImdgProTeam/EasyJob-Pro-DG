@@ -13,10 +13,8 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         protected CargoPlanWrapper cargoPlan => ServicesHandler.GetServicesAccess().CargoDataServiceAccess.WorkingCargoPlan;
         protected MainWindowViewModel mainWindowViewModel => ViewModelLocator.MainWindowViewModel;
         protected int selectedDataGridIndex => ViewModelLocator.MainWindowViewModel.SelectedDataGridIndex;
-        protected SelectionControlViewModel selection => SelectionControlViewModel;
 
         // Public properties
-        public SelectionControlViewModel SelectionControlViewModel { get; private set; }
         public ICommand ClearCommand { get; protected set; }
         public ICommand ApplyCommand { get; protected set; }
 
@@ -27,7 +25,11 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         /// On 'Apply' button pressed
         /// </summary>
         /// <param name="obj"></param>
-        protected abstract void OnApplyExecuted(object obj);
+        protected virtual void OnApplyExecuted(object obj)
+        {
+            throw new NotImplementedException();
+
+        }
         protected virtual bool OnApplyCanExecute(object obj)
         {
             return true;
@@ -37,15 +39,10 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         /// Clears all filter values
         /// </summary>
         /// <param name="obj"></param>
-        protected virtual void OnClearCommandExecuted(object obj)
-        {
-            SelectionControlViewModel.Clear();
-        }
+        protected abstract void OnClearCommandExecuted(object obj);
 
-        protected virtual bool OnClearCanExecute(object obj)
-        {
-            return !SelectionControlViewModel.IsNoPropertySelected;
-        }
+        protected abstract bool OnClearCanExecute(object obj);
+
 
         #endregion
 
@@ -54,7 +51,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         private void ExecuteApply(object sender, EventArgs e)
         {
             OnApplyExecuted(null);
-        } 
+        }
 
         #endregion
 
@@ -62,14 +59,8 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 
         public ToolWindowViewModelBase()
         {
-            SelectionControlViewModel = new SelectionControlViewModel();
-            SelectionControlViewModel.CreateLists(cargoPlan);
-
             ClearCommand = new DelegateCommand(OnClearCommandExecuted, OnClearCanExecute);
             ApplyCommand = new DelegateCommand(OnApplyExecuted, OnApplyCanExecute);
-
-            SelectionControlViewModel.CallApply -= ExecuteApply;
-            SelectionControlViewModel.CallApply += ExecuteApply;
         }
 
         #endregion

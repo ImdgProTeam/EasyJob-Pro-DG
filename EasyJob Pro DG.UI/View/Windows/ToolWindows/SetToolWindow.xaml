@@ -243,11 +243,12 @@
 
                         <TextBlock Text="Packing group" Grid.Row="2" Grid.Column="1" />
                         <ComboBox ItemsSource="{Binding PackingGroups}"
-                                  Text="{Binding PackingGroup}"
+                                  Text="{Binding PackingGroup, UpdateSourceTrigger=LostFocus}"
                                     Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"  />
                         <TextBlock Text="Stowage cat" Grid.Row="2" Grid.Column="3" />
                         <ComboBox ItemsSource="{Binding StowageCategories}"
                                 SelectedItem="{Binding StowageCategory}"
+                                IsEditable="False"
                                 Grid.Row="2" Grid.Column="4"  />
 
                         <CheckBox Content="Ltd qty"

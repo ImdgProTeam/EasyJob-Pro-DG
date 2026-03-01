@@ -105,7 +105,12 @@ namespace EasyJob_ProDG.Model.Cargo
                 //For AEROSOLS with a capacity above 1 L: category B.
                 //For WASTE AEROSOLS or WASTE GAS CARTRIDGES: category C, clear of living quarters.
                 case "SW22":
-                    if (dg.StowageCat == '-' || dg.StowageCat == ' ' || dg.StowageCat == '0') dg.StowageCat = 'B';
+                    if(dg.IsMax1L || dg.IsLq)
+                    {
+                        dg.StowageCat = 'A';
+                        break;
+                    }
+                    else dg.StowageCat = 'B';
                     if (!dg.IsWaste && (dg.IsUnderdeck || ship.IsInLivingQuarters(dg)))
                         SWgroups.AddSW22 = dg;
                     else if (dg.IsWaste && (dg.IsUnderdeck || ship.IsInLivingQuarters(dg)))

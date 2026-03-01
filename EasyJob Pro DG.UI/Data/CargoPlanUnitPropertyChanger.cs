@@ -4,6 +4,7 @@ using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Wrapper;
+using System;
 using System.Linq;
 using System.Reflection;
 
@@ -15,6 +16,7 @@ namespace EasyJob_ProDG.UI.Data
     internal class CargoPlanUnitPropertyChanger
     {
         private static CargoPlanUnitPropertyChanger _changer = null;
+        private static bool registredInMessenger = false;
         private MessageDialogService _messageDialogService => MessageDialogService.Connect();
         private CargoDataService _cargoDataService => CargoDataService.GetCargoDataService();
         private CargoPlanWrapper _workingCargoPlan => _cargoDataService.WorkingCargoPlan;
@@ -26,7 +28,6 @@ namespace EasyJob_ProDG.UI.Data
 
         private CargoPlanUnitPropertyChanger()
         {
-            RegisterInMessenger();
             ChangeInProgress = false;
         }
 
@@ -39,12 +40,17 @@ namespace EasyJob_ProDG.UI.Data
         internal static void Launch()
         {
             _changer ??= new CargoPlanUnitPropertyChanger();
+
+            if (registredInMessenger) return;
+            _changer.RegisterInMessenger();
+            registredInMessenger = true;
         }
 
         private void RegisterInMessenger()
         {
             DataMessenger.Default.Unregister(_changer);
             DataMessenger.Default.Register<CargoPlanUnitPropertyChanged>(_changer, OnCargoPlanUnitPropertyChanged);
+            //DataMessenger.Default.Register<SetAsNotReefer>(_changer, OnSetAsNotReeferMessageReceived, "remove reefer");
         }
 
         #endregion
@@ -134,7 +140,7 @@ namespace EasyJob_ProDG.UI.Data
         /// <param name="containerNumber">ContainerNumber of units to be updated</param>
         /// <param name="value">New value</param>
         /// <param name="propertyName">Property to be changed</param>
-        private void SetNewCargoPlanUnitPropertyValue(string containerNumber, object value, string propertyName)
+        internal void SetNewCargoPlanUnitPropertyValue(string containerNumber, object value, string propertyName)
         {
             var _dgs = _workingCargoPlan.DgList.Where(x => x.ContainerNumber == containerNumber);
             foreach (var dg in _dgs)
@@ -238,6 +244,5 @@ namespace EasyJob_ProDG.UI.Data
             //to all
             RefreshConflictList();
         }
-
     }
 }

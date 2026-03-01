@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 {
-    internal class FilterToolViewModel : ToolWindowViewModelBase
+    internal class FilterToolViewModel : ToolWindowWithSelectionControlViewModelBase
     {
         #region Private fields
         private bool isToClear => SelectionControlViewModel.IsNoPropertySelected;
