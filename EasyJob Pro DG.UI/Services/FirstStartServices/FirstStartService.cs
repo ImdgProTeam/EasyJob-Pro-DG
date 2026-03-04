@@ -23,7 +23,7 @@ namespace EasyJob_ProDG.UI.Services
                 ExtensionRegistryHelper.SetFileAssociation(ProgramDefaultSettingValues.ConditionFileExtension,
                     Process.GetCurrentProcess().MainModule.FileName);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 MessageBox.Show("Cannot register program extension");
             }

@@ -17,8 +17,8 @@
 
 VERSION INFO
 
-0.9.0.243
-Date: 
+0.9.24.5
+Date: 05 Mar 2026
 
 Licence: 31 Dec 2026
 
@@ -27,13 +27,45 @@ Changes:
 
 
 VISUAL
-1. 
+1. None
 
-ERRORS
+ERRORS FIXED
 1. 
 
 NEW
 1. 
+
+Fully functional release
+-------------------------------------------------------
+///////////////////////////////////////////////////////
+
+
+
+0.9.0.243
+Date: 04 Mar 2026
+
+Licence: 31 Dec 2026
+
+Version workable: Yes
+Changes: Implemented Merge port names, Filter, Select and Set tools 
+
+
+VISUAL
+1. None
+
+ERRORS FIXED
+1. Dg class not correctly read from baplie for unno 1950
+2. FlashPoint not read from baplie
+3. Infinite spinner when loading condition caused by UnitPlanView.Refresh() method.
+4. Not possible to remove subclass
+5. Excel template settings - rows could be deleted by pressing del button
+
+NEW
+1. Ctrl+F to change focus to search box
+2. Merge port names tool
+3. Filter tool
+4. Select tool
+5. Set tool
 
 Fully functional release
 -------------------------------------------------------
