@@ -17,8 +17,9 @@
 
 VERSION INFO
 
-0.9.24.5
-Date: 05 Mar 2026
+
+0.9.24.6
+Date: 
 
 Licence: 31 Dec 2026
 
@@ -30,10 +31,34 @@ VISUAL
 1. None
 
 ERRORS FIXED
-1. 
+1. None
 
 NEW
-1. 
+1. None
+
+Fully functional release
+-------------------------------------------------------
+///////////////////////////////////////////////////////
+
+
+
+0.9.24.5
+Date: 05 Mar 2026
+
+Licence: 31 Dec 2026
+
+Version workable: Yes
+Changes: Only version number change for users distribution
+
+
+VISUAL
+1. None
+
+ERRORS FIXED
+1. None
+
+NEW
+1. None
 
 Fully functional release
 -------------------------------------------------------
