@@ -67,7 +67,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             set
             {
                 string setvalue;
-                if (!string.IsNullOrEmpty(value.Trim()) && value.Trim() != "-")
+                if (!string.IsNullOrEmpty(value.Trim()) && value.Trim() != "-" && value.Trim() != "0")
                 {
                     if (!DgSubclassInputValidator.Validate(value, out setvalue)) return;
 
@@ -79,7 +79,7 @@ namespace EasyJob_ProDG.UI.Wrapper
                 }
                 else
                 {
-                    setvalue = value.Trim().Replace("-","");
+                    setvalue = string.Empty;
                 }
                 SetValue(setvalue);
                 OnPropertyChanged(nameof(AllDgClasses));

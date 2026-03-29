@@ -18,6 +18,9 @@ namespace EasyJob_ProDG.Model.IO.Excel
         /// <returns></returns>
         internal static decimal DgFp(string value)
         {
+            if (decimal.TryParse(value, out decimal d) && d != ProgramDefaultValues.DefaultFlashPointValue)
+                return d;
+
             decimal dgfp;
             string result = null;
             try
@@ -120,8 +123,9 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 }
             }
 
-            var dgclass = result;
-            return dgclass;
+            if (DgClassValidator.IsValidDgClass(result))
+                return result;
+            return string.Empty;
         }
 
         /// <summary>
@@ -131,9 +135,11 @@ namespace EasyJob_ProDG.Model.IO.Excel
         /// <param name="dgUnit"></param>
         /// <param name="excelApp"></param>
         /// <returns></returns>
-        internal static string[] DgSubClass (string value, string containerNumber)
+        internal static string[] DgSubClass(string value, string containerNumber)
         {
-            if (string.IsNullOrEmpty(value)) return new string[0];
+            if (string.IsNullOrEmpty(value)) return new string[2];
+            if (value.ToLower().Contains("see")) return new string[2];
+
             string result = null;
             char lastsymbol = '&', prelastsymbol = '&', nextsymbol = '&';
 
@@ -174,7 +180,8 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         }
                         if (DgClassValidator.IsValidDivision(lastsymbol, c))
                             result += "." + c;
-                        else result += " " + c;
+                        else if (DgClassValidator.IsValidDgClass(result))
+                            result += " " + c;
                         continue;
                     }
                     if (lastsymbol == '.' || lastsymbol == ' ')
@@ -220,14 +227,26 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 #endregion
             }
 
-
-
             if (string.IsNullOrEmpty(result)) return new string[0];
             var dgsubclasses = result.Split(' ');
 
-            foreach (var dgclass in dgsubclasses)
-                if (!DgClassValidator.IsValidDgClass(dgclass))
-                    MessageInvalidClass(dgclass, containerNumber);
+            for (int c = 0; c < dgsubclasses.Length; c++)
+            {
+                if (!DgClassValidator.IsValidDgClass(dgsubclasses[c]))
+                {
+                    MessageInvalidClass(dgsubclasses[c], containerNumber);
+                    dgsubclasses[c] = null;
+                    continue;
+                }
+            }
+
+            //if value assigned -> dgsubclasses array shall contain 2 values
+            if (dgsubclasses.Length == 1) dgsubclasses = new string[2] { dgsubclasses[0], string.Empty };
+
+            //case when no 2 dg passed validation and no 1 did not
+            if (!string.IsNullOrEmpty(dgsubclasses[1]) && string.IsNullOrEmpty(dgsubclasses[0]))
+                dgsubclasses = new string[2] { dgsubclasses[1], string.Empty };
+
             return dgsubclasses;
         }
 
@@ -395,6 +414,29 @@ namespace EasyJob_ProDG.Model.IO.Excel
             }
 
             unit.Remarks = value;
+        }
+
+        internal static bool ParseLQ(string value)
+        {
+            if (value.ToLower() == "true" ||
+                value.ToLower() == "+" ||
+                value.ToLower() == "y" ||
+                value.ToLower().Replace(" ", "") == "ltdqty" ||
+                value.ToLower() == "lq")
+                return true;
+            return false;
+        }
+
+        internal static bool ParseMP(string value)
+        {
+            if (value.ToLower() == "true"
+                                || value.ToLower() == "+"
+                                || value.ToLower() == "y"
+                                || value.ToLower() == "mp"
+                                || value.ToLower() == "p"
+                                || value.ToLower() == "pp")
+                return true;
+            return false;
         }
 
         /// <summary>

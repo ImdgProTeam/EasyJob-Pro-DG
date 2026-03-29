@@ -125,18 +125,12 @@ namespace EasyJob_ProDG.Model.IO.Excel
                             unit.PackingGroup = value;
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colMP))
                         {
-                            if (value.ToLower() == "true"
-                                || value.ToLower() == "y"
-                                || value.ToLower() == "p")
-                                unit.IsMp = true;
+                            unit.IsMp = WithXlAssistToRead.ParseMP(value);
                             if (!string.IsNullOrEmpty(value)) unit.mpDetermined = true;
                         }
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colLQ))
                         {
-                            if (value.ToLower() == "true" ||
-                                value.ToLower() == "y" ||
-                                value.ToLower() == "lq")
-                                unit.IsLq = true;
+                            unit.IsLq = WithXlAssistToRead.ParseLQ(value);
                         }
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colFP))
                         {
@@ -149,10 +143,9 @@ namespace EasyJob_ProDG.Model.IO.Excel
                             WithXlAssistToRead.ParseRemarkColumn(value, unit, cont);
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colNetWt))
                         {
-                            decimal tempValue = 0.0M;
-                            string tmp = value;
-                            bool success = decimal.TryParse(tmp, out tempValue);
-                            unit.DgNetWeight = (decimal)tempValue;
+                            bool success = decimal.TryParse(value, out decimal tempValue);
+                            if(success) 
+                                unit.DgNetWeight = tempValue;
                         }
                         else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colTechName))
                             unit.TechnicalName = value;
@@ -227,9 +220,6 @@ namespace EasyJob_ProDG.Model.IO.Excel
 
             return isImported;
         }
-
-
-
 
         /// <summary>
         /// Method exports the list of Dg into Excel in format according to the template.

@@ -226,7 +226,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 return;
             }
             StatusBarControl.ChangeBarSet(80);
-            
+
             await Application.Current.Dispatcher.InvokeAsync(() => ClearFilters());
 
             await Task.Run(() => GetCargoData());
@@ -438,11 +438,21 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// Sets IsLoading to true before execution of the method, then to false afterwards.
         /// </summary>
         /// <param name="method">Method to be executed</param>
-        private void WrapMethodWithIsLoading(Action method)
+        private void WrapMethodWithIsLoading(Action method, string failureMessage = "Operation failed")
         {
             SetIsLoading(true);
-            method.Invoke();
-            SetIsLoading(false);
+            try
+            {
+                method.Invoke();
+            }
+            catch 
+            {
+                Services.MessageDialogServiceAccess.ShowOkDialog(failureMessage, "Error");
+            }
+            finally
+            {
+                SetIsLoading(false);
+            }
         }
 
         /// <summary>
