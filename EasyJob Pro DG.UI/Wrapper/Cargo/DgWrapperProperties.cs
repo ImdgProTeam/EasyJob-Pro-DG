@@ -241,6 +241,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             set
             {
                 if (!SetValue(value)) return;
+                Model.StowageCategoryChangedByUser = true;
                 UpdateDgStowageConflicts();
             }
         }
@@ -252,8 +253,11 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 SetValue(value);
                 UpdateConflictList();
+                OnPropertyChanged(nameof(StowageCat));
             }
         }
+
+        public decimal FlashPointAsDecimal => GetValue<decimal>();
         #endregion
 
 

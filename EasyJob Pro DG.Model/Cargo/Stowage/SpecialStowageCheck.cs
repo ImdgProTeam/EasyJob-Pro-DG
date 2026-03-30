@@ -105,7 +105,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 //For AEROSOLS with a capacity above 1 L: category B.
                 //For WASTE AEROSOLS or WASTE GAS CARTRIDGES: category C, clear of living quarters.
                 case "SW22":
-                    if(dg.IsMax1L || dg.IsLq)
+                    if (dg.IsMax1L || dg.IsLq)
                     {
                         dg.StowageCat = 'A';
                         break;
@@ -141,8 +141,15 @@ namespace EasyJob_ProDG.Model.Cargo
                     result = true;
                     break;
                 case "SW29":
-                    if (dg.FlashPointAsDecimal >= 23) dg.StowageCat = 'A';
-                    result = true;
+                    if (dg.FlashPointAsDecimal >= 23)
+                    {
+                        dg.StowageCat = 'A';
+                        dg.StowageCategoryChangedByUser = false;
+                        result = true;
+                    }
+                    else if (!dg.StowageCategoryChangedByUser)
+                        dg.StowageCat = dg.StowageCategoryFromIMDGCode;
+                    if (dg.FlashPointNotDefined) result = true;
                     break;
                 case "SW30":
                     result = true;
@@ -153,7 +160,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     result = true;
                     break;
 
-                    // Hnading codes
+                // Hnading codes
                 case "H1":
                     result = true;
                     break;

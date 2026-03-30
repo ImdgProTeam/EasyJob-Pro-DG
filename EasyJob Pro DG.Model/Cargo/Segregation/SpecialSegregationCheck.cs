@@ -553,6 +553,7 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             bool conf;
             if (a == b || b.IsLq) return;
+            if (string.IsNullOrEmpty(b.Name)) return;
 
             foreach (string s in nameContains)
                 if (!b.Name.ToLower().Contains(s.ToLower())) return;

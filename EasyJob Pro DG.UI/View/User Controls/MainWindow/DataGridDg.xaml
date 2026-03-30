@@ -272,8 +272,9 @@
 
                 <!-- Flash point -->
                 <DataGridTextColumn x:Name="fpColumn"
-                                    Binding="{Binding FlashPoint, UpdateSourceTrigger=LostFocus}"
+                                    Binding="{Binding FlashPoint, UpdateSourceTrigger=LostFocus, StringFormat=\{0:0.0\}, TargetNullValue=''}"
                                     Header="Flash point"
+                                    SortMemberPath="FlashPointAsDecimal"
                                     />
 
                 <!-- NetWt -->

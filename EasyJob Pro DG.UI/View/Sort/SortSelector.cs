@@ -1,15 +1,9 @@
 ﻿using EasyJob_ProDG.UI.Wrapper;
-using EasyJob_ProDG.Model.Cargo;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 //Class was used for sorting of container position.
 //But another way of sorting was implemented
 //Class not in use currently
 
-using System.Text;
-using System.Threading.Tasks;
 using static EasyJob_ProDG.UI.Settings.UserUISettings;
 
 namespace EasyJob_ProDG.UI.View.Sort

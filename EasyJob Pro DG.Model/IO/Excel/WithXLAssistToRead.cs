@@ -91,7 +91,8 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         if (DgClassValidator.IsValidDivision(result[0], c))
                         {
                             result += "." + c;
-                            DgClassValidator.AddChar('.'); DgClassValidator.AddChar(c);
+                            DgClassValidator.AddChar('.'); 
+                            DgClassValidator.AddChar(c);
                         }
                         continue;
                     }

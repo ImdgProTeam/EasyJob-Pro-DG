@@ -182,7 +182,8 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             get
             {
-                return FlashPointNotDefined ? "" : flashPoint.ToString(CultureInfo.InvariantCulture);
+                return FlashPointNotDefined ? "" 
+                    : string.Format("{0:+ 0.0;- 0.0; 0.0}", flashPoint);
             }
             set
             {
@@ -200,7 +201,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <summary>
         /// The value is true if FlashPoint value has not been set. 
         /// </summary>
-        public bool FlashPointNotDefined => 
+        public bool FlashPointNotDefined =>
             Math.Abs(FlashPointAsDecimal - ProgramDefaultValues.DefaultFlashPointValue) < 1;
 
         #endregion
@@ -299,6 +300,8 @@ namespace EasyJob_ProDG.Model.Cargo
         }
         private char stowageCatFromIMDGCode;
 
+        public bool StowageCategoryChangedByUser { get; set; }
+
         #endregion
 
 
@@ -377,7 +380,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 }
                 if (!value)
                 {
-                    if(!string.IsNullOrWhiteSpace(Name))
+                    if (!string.IsNullOrWhiteSpace(Name))
                         Name = Name.Replace(", STABILIZED", "");
                     StowageCat = stowageCatFromIMDGCode;
                     stowageSW = stowageSWfromDgList;
@@ -406,7 +409,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 else
                 {
                     isWaste = false;
-                    if(!string.IsNullOrWhiteSpace(Name))
+                    if (!string.IsNullOrWhiteSpace(Name))
                         Name = Name.Replace(", WASTE", "");
                     StowageCat = stowageCatFromIMDGCode;
                 }
