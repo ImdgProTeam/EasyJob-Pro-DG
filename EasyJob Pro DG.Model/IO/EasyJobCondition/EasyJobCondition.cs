@@ -14,6 +14,8 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
     /// </summary>
     internal static class EasyJobCondition
     {
+        const string SYMBOL_OF_NEW_LINE = "<#ln!>";
+
         // -------------- Public methods --------------------------------------------
 
         /// <summary>
@@ -1389,7 +1391,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
             RecordsCreator.AppendRecord(unit.Carrier);
             RecordsCreator.AppendRecord(unit.ContainerType);
             RecordsCreator.AppendRecord(unit.IsClosed ? "C" : "O");
-            RecordsCreator.AppendRecord(ConvertNewLineSymbolsOfRecord(unit.Remarks));
+            RecordsCreator.AppendRecord(ConvertNewLineSymbolsForRecord(unit.Remarks));
             RecordsCreator.AppendRecord(unit.LocationBeforeRestow);
 
             RecordsCreator.AppendWitNewType("U");
@@ -1408,10 +1410,10 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                 RecordsCreator.AppendWitNewType("R");
                 RecordsCreator.AppendRecord(unit.SetTemperature.ToString(CultureInfo.InvariantCulture));
                 RecordsCreator.AppendRecord(unit.VentSetting);
-                RecordsCreator.AppendRecord(ConvertNewLineSymbolsOfRecord(unit.Commodity));
+                RecordsCreator.AppendRecord(ConvertNewLineSymbolsForRecord(unit.Commodity));
                 RecordsCreator.AppendRecord(unit.LoadTemperature.ToString(CultureInfo.InvariantCulture));
-                RecordsCreator.AppendRecord(ConvertNewLineSymbolsOfRecord(unit.ReeferSpecial));
-                RecordsCreator.AppendRecord(ConvertNewLineSymbolsOfRecord(unit.ReeferRemark));
+                RecordsCreator.AppendRecord(ConvertNewLineSymbolsForRecord(unit.ReeferSpecial));
+                RecordsCreator.AppendRecord(ConvertNewLineSymbolsForRecord(unit.ReeferRemark));
             }
 
             if (unit.DgCountInContainer > 0)
@@ -1427,8 +1429,8 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                     RecordsCreator.AppendRecord(dg.FlashPointAsDecimal.ToString());
                     RecordsCreator.AppendRecord(dg.IsMp ? "P" : "N");
                     RecordsCreator.AppendRecord(dg.IsLq ? "LQ" : "N");
-                    RecordsCreator.AppendRecord(ConvertNewLineSymbolsOfRecord("\"(" + dg.Name + ")\""));
-                    RecordsCreator.AppendRecord(ConvertNewLineSymbolsOfRecord(dg.TechnicalName));
+                    RecordsCreator.AppendRecord(ConvertNewLineSymbolsForRecord("\"(" + dg.Name + ")\""));
+                    RecordsCreator.AppendRecord(ConvertNewLineSymbolsForRecord(dg.TechnicalName));
                     RecordsCreator.AppendRecord(dg.IsNameChanged ? "Y" : "N");
                     RecordsCreator.AppendRecord(dg.IsTechnicalNameIncluded ? "Y" : "N");
                     RecordsCreator.AppendRecord("\'" + dg.StowageCat + "\'");
@@ -1436,9 +1438,9 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                     RecordsCreator.AppendRecord(dg.IsWaste ? "W" : "0");
                     RecordsCreator.AppendRecord(RemoveNewLines(dg.DgEMS));
                     RecordsCreator.AppendRecord(dg.SegregationGroupCodes);
-                    RecordsCreator.AppendRecord(ConvertNewLineSymbolsOfRecord(dg.NumberAndTypeOfPackages));
-                    RecordsCreator.AppendRecord(ConvertNewLineSymbolsOfRecord(dg.EmergencyContacts));
-                    RecordsCreator.AppendRecord(ConvertNewLineSymbolsOfRecord(dg.Remarks));
+                    RecordsCreator.AppendRecord(ConvertNewLineSymbolsForRecord(dg.NumberAndTypeOfPackages));
+                    RecordsCreator.AppendRecord(ConvertNewLineSymbolsForRecord(dg.EmergencyContacts));
+                    RecordsCreator.AppendRecord(ConvertNewLineSymbolsForRecord(dg.Remarks));
                 }
             }
 
@@ -1457,9 +1459,32 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
             cargoPlan.DgList.Add(dg);
             container.DgCountInContainer++;
         }
+            
+        /// <summary>
+        /// Converts system newLine symbols into ConditionUnit specified ones in string record.
+        /// </summary>
+        /// <param name="line">Line with symbols to be converted.</param>
+        /// <returns>New line with converted symbols.</returns>
+        private static string ConvertNewLineSymbolsForRecord(string line)
+        {
+            if (string.IsNullOrEmpty(line)) return line;
+
+
+            if (line.Contains("\n") || line.Contains("\r"))
+            {
+                return line.Replace("\r\n", SYMBOL_OF_NEW_LINE)
+                    .Replace("\n\r", SYMBOL_OF_NEW_LINE)
+                    .Replace("\r", SYMBOL_OF_NEW_LINE)
+                    .Replace("\n", SYMBOL_OF_NEW_LINE);
+            }
+            else
+            {
+                return line;
+            }
+        }
 
         /// <summary>
-        /// Converts system newLine symbols into ConditionUnit specified ones in string record, and vice versa.
+        /// Converts ConditionUnit specified newLine symbols into system ones in string record.
         /// </summary>
         /// <param name="line">Line with symbols to be converted.</param>
         /// <returns>New line with converted symbols.</returns>
@@ -1467,24 +1492,17 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         {
             if (string.IsNullOrEmpty(line)) return line;
 
-            const string symbolOfNewLine = "<#ln!>";
 
-            if (line.Contains("\n") || line.Contains("\r"))
+            if (line.Contains(SYMBOL_OF_NEW_LINE))
             {
-                return line.Replace("\r\n", symbolOfNewLine)
-                    .Replace("\n\r", symbolOfNewLine)
-                    .Replace("\r", symbolOfNewLine)
-                    .Replace("\n", symbolOfNewLine);
-            }
-            else if (line.Contains(symbolOfNewLine))
-            {
-                return line.Replace(symbolOfNewLine, "\n");
+                return line.Replace(SYMBOL_OF_NEW_LINE, "\n");
             }
             else
             {
                 return line;
             }
         }
+
 
         /// <summary>
         /// Removes all symbols for new lines from original line.

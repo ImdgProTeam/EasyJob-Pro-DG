@@ -34,7 +34,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         internal static void AppendRecord(string value)
         {
             if (value.Contains("|"))
-                value.Replace("|", ";");
+                value = value.Replace("|", ";");
             stringBuilder.Append(value);
             stringBuilder.Append('|');
         }
