@@ -2,6 +2,7 @@
 
 using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.Transport;
+using Microsoft.Vbe.Interop;
 using System;
 using System.Globalization;
 using System.IO;
@@ -1423,7 +1424,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
                     RecordsCreator.AppendRecord(dg.DgSubClass);
                     RecordsCreator.AppendRecord(dg.DgNetWeight.ToString(CultureInfo.InvariantCulture));
                     RecordsCreator.AppendRecord(dg.PackingGroupAsByte.ToString());
-                    RecordsCreator.AppendRecord(dg.FlashPoint);
+                    RecordsCreator.AppendRecord(dg.FlashPointAsDecimal.ToString());
                     RecordsCreator.AppendRecord(dg.IsMp ? "P" : "N");
                     RecordsCreator.AppendRecord(dg.IsLq ? "LQ" : "N");
                     RecordsCreator.AppendRecord(ConvertNewLineSymbolsOfRecord("\"(" + dg.Name + ")\""));
@@ -1468,9 +1469,12 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
 
             const string symbolOfNewLine = "<#ln!>";
 
-            if (line.Contains("\n"))
+            if (line.Contains("\n") || line.Contains("\r"))
             {
-                return line.Replace("\n", symbolOfNewLine);
+                return line.Replace("\r\n", symbolOfNewLine)
+                    .Replace("\n\r", symbolOfNewLine)
+                    .Replace("\r", symbolOfNewLine)
+                    .Replace("\n", symbolOfNewLine);
             }
             else if (line.Contains(symbolOfNewLine))
             {
