@@ -147,6 +147,7 @@ namespace EasyJob_ProDG.Model.IO
         private static bool DefineSegments()
         {
             Container a = new Container();
+            Dg dgUnit = null;
             int dateLevel = 0;
 
             for (int i = 0; i < _segmentArray.Count; i++)
@@ -236,8 +237,16 @@ namespace EasyJob_ProDG.Model.IO
 
                     #region DG
                     case "DGS":
+                        // Check for DGS+IMD+LQ
+                        if (CheckIMDLQ(segment))
+                        {
+                            if(dgUnit is not null && string.Equals(dgUnit.ContainerNumber, a.ContainerNumber))
+                                dgUnit.IsLq = true;
+                            break;
+                        }
+
                         a.DgCountInContainer++;
-                        Dg dgUnit = new Dg();
+                        dgUnit = new Dg();
 
                         //copy general container info into Dg
                         dgUnit.CopyContainerAbstractInfo(a);
@@ -353,6 +362,16 @@ namespace EasyJob_ProDG.Model.IO
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Returns true if there is a segment like DGS+IMD+LQ in edi file
+        /// </summary>
+        /// <param name="segment"></param>
+        /// <returns></returns>
+        private static bool CheckIMDLQ(string segment)
+        {
+            return string.Equals(segment, "DGS+IMD+LQ");
         }
 
         /// <summary>

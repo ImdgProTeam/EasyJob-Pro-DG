@@ -14,6 +14,9 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
     /// </summary>
     internal static class EasyJobCondition
     {
+        /// <summary>
+        /// Substitute symbol to be used in ejc condition to mark new line in string properties.
+        /// </summary>
         const string SYMBOL_OF_NEW_LINE = "<#ln!>";
 
         // -------------- Public methods --------------------------------------------
