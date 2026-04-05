@@ -17,6 +17,7 @@ namespace EasyJob_ProDG.Model.IO
             Excel,
             Ejc,
             IFTDGN,
+            XML,
             Other,
             None
         }
@@ -58,6 +59,9 @@ namespace EasyJob_ProDG.Model.IO
                     break;
                 case "ejc":
                     ftype = FileTypes.Ejc;
+                    break;
+                case "xml":
+                    ftype = FileTypes.XML;
                     break;
                 default:
                     ftype = FileTypes.Other;
@@ -108,11 +112,11 @@ namespace EasyJob_ProDG.Model.IO
 
                 //open ejc
                 case FileTypes.Ejc:
-                    CargoPlan cPlan = EasyJobCondition.EasyJobCondition.LoadCondition(fileName);
-                    cargoPlan.Containers = cPlan.Containers;
-                    cargoPlan.DgList = cPlan.DgList;
-                    cargoPlan.Reefers = cPlan.Reefers;
-                    cargoPlan.VoyageInfo = cPlan.VoyageInfo;
+                    cargoPlan = EasyJobCondition.EasyJobCondition.LoadCondition(fileName);
+                    break;
+
+                case FileTypes.XML:
+                    cargoPlan = ReadXMLStowageFile.ReadFile(fileName);
                     break;
 
                 //default

@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdditionalFunctions.cs" />
+    <Compile Include="IMDGCodeValidator.cs" />
     <Compile Include="Info data\CodesDictionary.cs" />
     <Compile Include="Info data\ContainerType.cs" />
     <Compile Include="Info data\ContainerTypes.cs" />

@@ -23,7 +23,7 @@ namespace EasyJob_ProDG.UI.IO
             OpenFileDialog dlg = new OpenFileDialog
             {
                 DefaultExt = ".edi",
-                Filter = "Program file (*.edi, *.ejc, *.xls)|*.edi;*.xlsx;*.xls;*.ejc|All files (*.*)|*.*",
+                Filter = "Program file (*.edi, *.ejc, *.xls, *.xml)|*.edi;*.xlsx;*.xls;*.ejc;*.xml|All files (*.*)|*.*",
                 CheckFileExists = true,
                 Multiselect = false
             };

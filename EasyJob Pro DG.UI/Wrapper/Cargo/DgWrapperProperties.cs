@@ -145,7 +145,9 @@ namespace EasyJob_ProDG.UI.Wrapper
                 if (!SetValue(value)) return;
                 if (value)
                 {
-                    if (!Name.ToLower().Replace(" ", "").Replace(".", "").Contains("max1l")) Name += ", Max 1L";
+                    if (!Name.ToLower().Replace(" ", "").Replace(".", "").Contains("max1l") 
+                        || !Name.ToLower().Replace(" ", "").Contains("maximumcapacityof1litre")) 
+                        Name += ", Max 1L";
                     if (IsWaste) IsWaste = false;
                 }
                 else
@@ -209,9 +211,10 @@ namespace EasyJob_ProDG.UI.Wrapper
                 if (oldName.Contains("waste") && !newName.Contains("waste"))
                     IsWaste = false;
                 else if (newName.Contains("waste")) IsWaste = true;
-                else if (oldName.Contains("max1l") && !newName.Contains("max1l"))
+                else if ((oldName.Contains("max1l") && !newName.Contains("max1l")) 
+                    || (oldName.Contains("maximumcapacityof1litre") && !newName.Contains("maximumcapacityof1litre")))
                     IsMax1L = false;
-                else if (newName.Contains("max1l")) IsMax1L = true;
+                else if (newName.Contains("max1l") || newName.Contains("maximumcapacityof1litre")) IsMax1L = true;
                 else if (oldName.Contains("stabilized") && !newName.Contains("stabilized"))
                     IsStabilized = false;
                 else if (newName.Contains("stabilized")) IsStabilized = true;

@@ -82,6 +82,7 @@
     <Compile Include="IO\ReadBaplieFile.cs" />
     <Compile Include="IO\EasyJobCondition\ExportCondition.cs" />
     <Compile Include="IO\ReadIftdgnFile.cs" />
+    <Compile Include="IO\ReadXMLStowageFile.cs" />
     <Compile Include="IO\ShipProfileIO.cs" />
     <Compile Include="ProgramDefaultValues.cs" />
     <Compile Include="Transport\CellPosition.cs" />

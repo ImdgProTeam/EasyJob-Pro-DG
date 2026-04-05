@@ -1470,7 +1470,7 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         /// <returns>New line with converted symbols.</returns>
         private static string ConvertNewLineSymbolsForRecord(string line)
         {
-            if (string.IsNullOrEmpty(line)) return line;
+            if (string.IsNullOrEmpty(line)) return string.Empty;
 
 
             if (line.Contains("\n") || line.Contains("\r"))
