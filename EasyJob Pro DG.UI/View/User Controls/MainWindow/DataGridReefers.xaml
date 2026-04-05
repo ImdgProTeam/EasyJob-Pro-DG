@@ -216,7 +216,7 @@
 
                 <!-- Set point -->
                 <DataGridTextColumn x:Name="setPointColumn"
-                                    Binding="{Binding SetTemperature, UpdateSourceTrigger=LostFocus, StringFormat=0.0}"
+                                    Binding="{Binding SetTemperature, UpdateSourceTrigger=LostFocus, StringFormat=+ 0.0;- 0.0;0.0}"
                                     Header="Set point" />
 
                 <!-- Commodity -->
@@ -271,7 +271,7 @@
 
                 <!-- Load temperature -->
                 <DataGridTextColumn x:Name="loadTempColumn"
-                                    Binding="{Binding LoadTemperature, UpdateSourceTrigger=LostFocus}"
+                                    Binding="{Binding LoadTemperature, UpdateSourceTrigger=LostFocus, StringFormat=+ 0.0;- 0.0;0.0}"
                                     Header="Load temperature" />
 
                 <!-- Reefer special -->
