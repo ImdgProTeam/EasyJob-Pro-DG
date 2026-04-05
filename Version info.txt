@@ -18,7 +18,7 @@
 VERSION INFO
 
 
-0.9.24.6
+0.9.24.7
 Date: 
 
 Licence: 31 Dec 2026
@@ -35,6 +35,35 @@ ERRORS FIXED
 
 NEW
 1. None
+
+Fully functional release
+-------------------------------------------------------
+///////////////////////////////////////////////////////
+
+
+
+0.9.24.6
+Date: 05 Apr 2026
+
+Licence: 31 Dec 2026
+
+Version workable: Yes
+Changes: Implemented reading xml conditions from MSC.
+
+
+VISUAL
+1. Changed display of DG FP and Reefer SP and LoadTemp.
+2. Fixed correct FP sorting
+
+ERRORS FIXED
+1. Fixed not segregating class 2.1 with reefers
+2. Improved stability of reading xl files
+3. Improved saving .ejc condition when there is a new line symbol in a string property
+(in particular when importing from xl). Also added protection against user added '|' symbol.
+4. Fixed: DGS+IMD+LQ' segment in edi
+
+NEW
+1. Implemented reading condition from .xml file provided by MSC
 
 Fully functional release
 -------------------------------------------------------
