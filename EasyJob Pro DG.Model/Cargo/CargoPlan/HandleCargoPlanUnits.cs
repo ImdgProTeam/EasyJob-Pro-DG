@@ -16,10 +16,10 @@ namespace EasyJob_ProDG.Model.Cargo
         /// </summary>
         /// <param name="copyTo"></param>
         /// <param name="copyFrom"></param>
-        public static void CopyContainerInfo (this ContainerAbstract copyTo, ContainerAbstract copyFrom)
+        public static void CopyContainerInfo(this ContainerAbstract copyTo, ContainerAbstract copyFrom)
         {
             copyTo.CopyContainerAbstractInfo(copyFrom);
-        } 
+        }
 
         /// <summary>
         /// Adds new container to CargoPlan
@@ -38,13 +38,102 @@ namespace EasyJob_ProDG.Model.Cargo
             if (cargoPlan.Containers.ContainsUnitWithSameContainerNumberInList(container))
             {
                 Data.LogWriter.Write($"Attempt to add a container with container number which is already in list");
-                return false;
+                if (!HandleUnitWithSameNumberInList(cargoPlan, container))
+                {
+                    return false;
+                }
             }
             #endregion
 
             cargoPlan.Containers.Add(container);
             if (container.IsRf) cargoPlan.Reefers.Add(container);
             return true;
+        }
+
+
+        /// <summary>
+        /// For unit with container number that already exists in the plan, if <see cref="Location"/> is different => append container number with alpha-numerical appendix and do respective change for Dg in <see cref="CargoPlan.DgList"/>
+        /// </summary>
+        /// <param name="cargoPlan"></param>
+        /// <param name="container"></param>
+        /// <returns>True if successfully changed and the unit has unique <see cref="ContainerNumber"/>. False if unit with the same number exists in the same position.</returns>
+        private static bool HandleUnitWithSameNumberInList(CargoPlan cargoPlan, Container container)
+        {
+            var sameNumberUnit = cargoPlan.Containers.FindContainerByContainerNumber(container.ContainerNumber);
+            if (sameNumberUnit is null) return true;
+
+            if (sameNumberUnit.Location == container.Location) return false;
+
+            container.ContainerNumber = AppendDoublerContainerNumber(container, cargoPlan);
+            Data.LogWriter.Write($"Container number {sameNumberUnit.ContainerNumber} appended as {container.ContainerNumber}");
+            AppendDgContainerNumber(sameNumberUnit.ContainerNumber, container, cargoPlan);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Searches if <see cref="Dg"/> with initialContainerNumber exists in Location of appendedNumberContainer in <see cref="CargoPlan"/> and appends ContainerNumebr of such <see cref="Dg"/>
+        /// </summary>
+        /// <param name="initialContainerNumber"></param>
+        /// <param name="appendedNumberContainer"></param>
+        /// <param name="cargoPlan"></param>
+        private static void AppendDgContainerNumber(string initialContainerNumber, Container appendedNumberContainer, CargoPlan cargoPlan)
+        {
+            foreach (var unit in cargoPlan.DgList.FindAll(dg => dg.ContainerNumber == initialContainerNumber && dg.Location == appendedNumberContainer.Location))
+            {
+                if (unit is null) continue;
+                unit.ContainerNumber = appendedNumberContainer.ContainerNumber;
+            }
+        }
+
+        /// <summary>
+        /// Adds unique alpha-numerical appendix to container number.
+        /// </summary>
+        /// <param name="container"></param>
+        /// <param name="cargoPlan"></param>
+        /// <returns>New appended container number.</returns>
+        private static string AppendDoublerContainerNumber(Container container, CargoPlan cargoPlan)
+        {
+            int i = 0;
+            string newNumber = string.Empty;
+            while (i < 1000)
+            {
+                newNumber = $"{container.ContainerNumber}-{i:000}";
+                if (cargoPlan.Containers.FindContainerByContainerNumber(newNumber) is null)
+                {
+                    return newNumber;
+                }
+                i++;
+            }
+            string appendix = string.Empty;
+            for (int x = 65; x < 91; x++)
+            {
+                for (int y = 0; y < 100; y++)
+                {
+                    appendix = $"{(char)x}{y:00}";
+                    newNumber = $"{container.ContainerNumber}-{appendix}";
+                    if (cargoPlan.Containers.FindContainerByContainerNumber(newNumber) is null)
+                    {
+                        return newNumber;
+                    }
+                }
+            }
+            for (int x = 65; x < 91; x++)
+            {
+                for (int y = 65; y < 91; y++)
+                {
+                    for (int z = 0; z < 10; z++)
+                    {
+                        appendix = $"{(char)x}{(char)y}{z}";
+                        newNumber = $"{container.ContainerNumber}-{appendix}";
+                        if (cargoPlan.Containers.FindContainerByContainerNumber(newNumber) is null)
+                        {
+                            return newNumber;
+                        }
+                    }
+                }
+            }
+            return "error";
         }
 
         /// <summary>
