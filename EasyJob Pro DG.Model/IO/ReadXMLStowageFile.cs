@@ -42,6 +42,8 @@ namespace EasyJob_ProDG.Model.IO
                 Container container = new Container();
                 try
                 {
+                    if (FilterDischargedTag(record, cargoPlan.VoyageInfo.PortOfDeparture))
+                        continue;
                     ReadContainer(record, container);
                     ReadReefer(record, container);
                     ReadDgs(cargoPlan, record, container);
@@ -52,10 +54,29 @@ namespace EasyJob_ProDG.Model.IO
                 }
                 finally
                 {
-                    if (!string.IsNullOrEmpty(container.ContainerNumber) || !string.IsNullOrEmpty(container.Location))
+                    if (!string.IsNullOrEmpty(container.ContainerNumber) && !string.IsNullOrEmpty(container.Location))
                         cargoPlan.AddContainer(container);
                 }
             }
+        }
+
+        /// <summary>
+        /// In MSC .xml containers with tag <Discharged>value</Discharged> value == 1 are the containers 
+        /// discharged in the current port - therefore they shall not be added in the <see cref="CargoPlan"/>.
+        /// If <Discharged>1</Discharged> && POD = VoyageInfo.PortOfDeparture => not to be added.
+        /// </summary>
+        /// <param name="record"></param>
+        /// <param name="container"></param>
+        /// <returns>True if the container not to be added to <see cref="CargoPlan"/></returns>
+        private static bool FilterDischargedTag(XElement record, string portOfDeparture)
+        {
+            var value = record.Element("Discharged").Value;
+            var containerPOD = record.Element("DischargingPort").Value;
+
+            if (string.Equals(value, "1") 
+                && string.Equals(containerPOD, portOfDeparture, StringComparison.OrdinalIgnoreCase))
+                return true;
+            return false;
         }
 
         private static void ReadDgs(CargoPlan cargoPlan, XElement record, Container container)
