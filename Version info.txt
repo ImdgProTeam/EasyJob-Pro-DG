@@ -31,7 +31,8 @@ VISUAL
 1. None
 
 ERRORS FIXED
-1. None
+1. Reading xml condition - will now remove units for discharge in port of departure.
+2. Units with same Container numbers will be appended with alpha-numerical appendix and added if loaded in different positions.
 
 NEW
 1. None

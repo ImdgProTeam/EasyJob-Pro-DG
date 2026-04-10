@@ -37,7 +37,7 @@ namespace EasyJob_ProDG.Model.Cargo
             }
             if (cargoPlan.Containers.ContainsUnitWithSameContainerNumberInList(container))
             {
-                Data.LogWriter.Write($"Attempt to add a container with container number which is already in list");
+                Data.LogWriter.Write($"Attempt to add a container with container number {container.ContainerNumber} which is already in list");
                 if (!HandleUnitWithSameNumberInList(cargoPlan, container))
                 {
                     return false;

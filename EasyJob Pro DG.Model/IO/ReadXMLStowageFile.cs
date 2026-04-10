@@ -9,6 +9,8 @@ namespace EasyJob_ProDG.Model.IO
 {
     internal class ReadXMLStowageFile
     {
+        const string DISCHARGED_TAG_VALUE = "1";
+
         /// <summary>
         /// Creates <see cref="CargoPlan"/> from xml file.
         /// </summary>
@@ -73,7 +75,7 @@ namespace EasyJob_ProDG.Model.IO
             var value = record.Element("Discharged").Value;
             var containerPOD = record.Element("DischargingPort").Value;
 
-            if (string.Equals(value, "1") 
+            if (string.Equals(value, DISCHARGED_TAG_VALUE) 
                 && string.Equals(containerPOD, portOfDeparture, StringComparison.OrdinalIgnoreCase))
                 return true;
             return false;
