@@ -18,13 +18,38 @@
 VERSION INFO
 
 
-0.9.24.7
+0.9.24.8
 Date: 
 
 Licence: 31 Dec 2026
 
 Version workable: Yes
 Changes: 
+
+
+VISUAL
+1. None
+
+ERRORS FIXED
+1. None
+
+NEW
+1. None
+
+Fully functional release
+-------------------------------------------------------
+///////////////////////////////////////////////////////
+
+
+
+
+0.9.24.7
+Date: 10 Apr 2026
+
+Licence: 31 Dec 2026
+
+Version workable: Yes
+Changes: Fixed disclosed issues related to xml condition opening
 
 
 VISUAL
