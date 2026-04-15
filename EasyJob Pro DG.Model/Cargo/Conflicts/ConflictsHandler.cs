@@ -2,7 +2,7 @@
 
 namespace EasyJob_ProDG.Model.Cargo
 {
-    internal static class ConflictsHandler
+    public static class ConflictsHandler
     {
 
         #region Add/Replace conflict logic

@@ -16,8 +16,8 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         // --------------- Public properties ------------------------------------
 
-        public bool IsSegregationConflict => _segrConflict;
-        public bool IsStowageConflict => !_segrConflict;
+        internal bool IsSegregationConflict => _segrConflict;
+        internal bool IsStowageConflict => !_segrConflict;
 
         /// <summary>
         /// Textual description of the conflict to be displayed in Conflict item.
@@ -58,17 +58,17 @@ namespace EasyJob_ProDG.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-        public int Unno => _dgUnit.Unno;
-        public string ContainerNumber => _dgUnit.ContainerNumber;
+        internal int Unno => _dgUnit.Unno;
+        internal string ContainerNumber => _dgUnit.ContainerNumber;
         public string DisplayContainerNumber => _dgUnit.DisplayContainerNumber;
-        public int DgID => _dgUnit.Model.ID;
-        public string Location => _dgUnit.Location;
-        public string Code { get; }
+        internal int DgID => _dgUnit.Model.ID;
+        internal string Location => _dgUnit.Location;
+        internal string Code { get; }
         public string GroupParam { get; set; }
-        public int ConflictingDgUnno => _dgB?.Unno ?? 0;
-        public string ConflictingDgNumber => _dgB?.DisplayContainerNumber;
-        public string ConflictingDgLocation => _dgB?.Location;
-        public string Description
+        internal int ConflictingDgUnno => _dgB?.Unno ?? 0;
+        internal string ConflictingDgNumber => _dgB?.DisplayContainerNumber;
+        internal string ConflictingDgLocation => _dgB?.Location;
+        private string Description
         {
             get
             {
@@ -86,7 +86,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <summary>
         /// Describes occupied container location around the unit.
         /// </summary>
-        public string Surrounded => "Unit protected from: " + _dgUnit.Surrounded;
+        private string Surrounded => "Unit protected from: " + _dgUnit.Surrounded;
 
         /// <summary>
         /// Titles for group spoilers in Conflict list
