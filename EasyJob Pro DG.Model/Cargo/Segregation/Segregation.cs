@@ -104,7 +104,7 @@ namespace EasyJob_ProDG.Model.Cargo
                         if (a == b || a.Unno == b.Unno) continue;
                         if (table72631.Contains(b.Unno))
                         {
-                            Conflicts.ReplaceConflict(a, b, "SGC2");
+                            ConflictsHandler.ReplaceConflict(a, b, "SGC2");
                         }
                     }
                 }
@@ -115,7 +115,7 @@ namespace EasyJob_ProDG.Model.Cargo
                         if (a == b || a.Unno == b.Unno) continue;
                         if (table72632.Contains(b.Unno))
                         {
-                            Conflicts.ReplaceConflict(a, b, "SGC2");
+                            ConflictsHandler.ReplaceConflict(a, b, "SGC2");
                         }
                     }
                 }
@@ -126,7 +126,7 @@ namespace EasyJob_ProDG.Model.Cargo
                         if (a == b || a.Unno == b.Unno) continue;
                         if (table72633.Contains(b.Unno))
                         {
-                            Conflicts.ReplaceConflict(a, b, "SGC2");
+                            ConflictsHandler.ReplaceConflict(a, b, "SGC2");
                         }
                     }
                 }
@@ -137,8 +137,8 @@ namespace EasyJob_ProDG.Model.Cargo
                         if (a == b || a.Unno == b.Unno) continue;
                         if (Table72634.Contains(b.Unno))
                         {
-                            if (a.Unno == 1325 || b.Unno == 1325) Conflicts.ReplaceConflict(a, b, "SGC203");
-                            else Conflicts.ReplaceConflict(a, b, "SGC202");
+                            if (a.Unno == 1325 || b.Unno == 1325) ConflictsHandler.ReplaceConflict(a, b, "SGC203");
+                            else ConflictsHandler.ReplaceConflict(a, b, "SGC202");
                         }
                     }
                 }
@@ -170,7 +170,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     foreach (Dg b in dglist)
                     {
                         if (blastingExplosives.Contains(b.Unno) && a.Conflicts.Contains(b))
-                            Conflicts.ReplaceConflict(a, b, "EXPLOTHERS");
+                            ConflictsHandler.ReplaceConflict(a, b, "EXPLOTHERS");
                         if (Athwartship(a, b, 1, ship.Row00Exists) && ForeAndAft(a, b, 1) &&
                             a.IsUnderdeck == b.IsUnderdeck || !a.IsClosed && !b.IsClosed && a.IsUnderdeck &&
                             b.IsUnderdeck && a.HoldNr == b.HoldNr)
@@ -222,7 +222,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 #region AS COOLANT or AS CONDITIONER
                 if (a.IsAsCoolantOrConditioner && a.IsConflicted)
                 {
-                    Conflicts.ReplaceAllSegregationConflicts(a, "EXC9");
+                    ConflictsHandler.ReplaceAllSegregationConflicts(a, "EXC9");
                 }
                 #endregion
 

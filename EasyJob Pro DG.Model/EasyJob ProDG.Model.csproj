@@ -56,6 +56,7 @@
     <Compile Include="Cargo\CargoPlan\HandleCargoPlan.cs" />
     <Compile Include="Cargo\CargoPlan\HandleCargoPlanUnits.cs" />
     <Compile Include="Cargo\CargoPlan\HandleCargoPlanUpdates.cs" />
+    <Compile Include="Cargo\Conflicts\ConflictsHandler.cs" />
     <Compile Include="Cargo\Conflicts\DgConflictMethods.cs" />
     <Compile Include="Cargo\CargoPlan\HandleDgList.cs" />
     <Compile Include="Cargo\Interfaces\ICargoPlan.cs" />
