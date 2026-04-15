@@ -110,6 +110,7 @@ namespace EasyJob_ProDG.Model.Cargo
                         dg.StowageCat = 'A';
                         break;
                     }
+                    else if (dg.IsWaste) dg.StowageCat = 'C';
                     else dg.StowageCat = 'B';
                     if (!dg.IsWaste && (dg.IsUnderdeck || ship.IsInLivingQuarters(dg)))
                         SWgroups.AddSW22 = dg;
