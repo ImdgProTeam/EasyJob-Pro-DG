@@ -50,6 +50,7 @@ namespace EasyJob_ProDG.UI.Data
             conflictsList.UpdateUnitStowageConflicts(unit);
         }
 
+
         // ----- Private methods -----
 
         /// <summary>
@@ -151,22 +152,14 @@ namespace EasyJob_ProDG.UI.Data
             {
                 if (dg != null && unit.ID != dg.Model.ID) continue;
                 var unitWrapper = new DgWrapper(unit);
-                ConflictPanelItemViewModel conf = new ConflictPanelItemViewModel(unitWrapper, "SW19")
-                {
-                    GroupParam =
-                        "SW19 For batteries transported in accordance with special provisions 376 or 377, category C, unless transported on a short international voyage. Please check cargo documents of the following units: "
-                };
+                ConflictPanelItemViewModel conf = new ConflictPanelItemViewModel(unitWrapper, "SW19");
                 conflictsList.AddNewConflict(conf);
             }
             foreach (var unit in specialGroups.ListSW22List)
             {
                 if (dg != null && unit.ID != dg.Model.ID) continue;
                 var unitWrapper = new DgWrapper(unit);
-                ConflictPanelItemViewModel conf = new ConflictPanelItemViewModel(unitWrapper, "SW22")
-                {
-                    GroupParam =
-                        "SW22 For WASTE AEROSOLS and WASTE GAS CARTRIDGES: category C, clear of living quarters. Please check cargo documents of the unit "
-                };
+                ConflictPanelItemViewModel conf = new ConflictPanelItemViewModel(unitWrapper, "SW22");
                 conflictsList.AddNewConflict(conf);
             }
         }
@@ -183,7 +176,7 @@ namespace EasyJob_ProDG.UI.Data
                     foreach (Conflicts.SegregationConflict c in dg.Conflicts.SegregationConflictsList)
                     {
                         var newConflict =
-                            new ConflictPanelItemViewModel(dg, c.Code, true, new DgWrapper(c.DgInConflict));
+                            new ConflictPanelItemViewModel(dg, c.Code, ConflictTypes.Segregation, new DgWrapper(c.DgInConflict));
                         conflictsList.AddNewConflict(newConflict);
                     }
                 }

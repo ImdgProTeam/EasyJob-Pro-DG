@@ -66,6 +66,8 @@
     <Compile Include="Cargo\BaseUnits\LocationOnBoard.cs" />
     <Compile Include="Cargo\BaseUnits\Helpers\RandomizeID.cs" />
     <Compile Include="Cargo\Segregation\SegregationExtensionMethods.cs" />
+    <Compile Include="UserInformator\InformationMessage.cs" />
+    <Compile Include="UserInformator\InformationMessageType.cs" />
     <Compile Include="IO\EasyJobCondition\CargoPlanAssociated.cs" />
     <Compile Include="IO\EasyJobCondition\ConditionUnit.cs" />
     <Compile Include="IO\EasyJobCondition\ConditionUnitConverter.cs" />
@@ -94,7 +96,7 @@
     <Compile Include="DG Data\DOCRowsHandler.cs" />
     <Compile Include="DG Data\IMDGCodeDgListHandler.cs" />
     <Compile Include="Cargo\BaseUnits\Helpers\HandleDg.cs" />
-    <Compile Include="Output.cs" />
+    <Compile Include="UserInformator\UserInformator.cs" />
     <Compile Include="ProgramFiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IO\EdiSegmentArray.cs" />

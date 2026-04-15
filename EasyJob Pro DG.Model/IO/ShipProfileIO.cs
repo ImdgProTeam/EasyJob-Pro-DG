@@ -19,7 +19,10 @@ namespace EasyJob_ProDG.Model.IO
             if (!File.Exists(fullPath))
             {
                 ////Case file not found
-                Output.ThrowMessage("Ship configuration file not found.\nA default ship profile configuration will be loaded. That will affect the accuracy of stowage and segregation check.");
+                UserInformator.AddMessage(
+                    new InformationMessage("Ship configuration file not found",
+                    "\nA default ship profile configuration is loaded. That affects the accuracy of stowage and segregation check. Please open 'Settings' and 'Edit Ship Profile'.",
+                    InformationMessageType.ShipProfile));
                 LogWriter.Write($"File {fileName} does not exist.");
                 LogWriter.Write($"Default Ship profile will be loaded");
                 return null;

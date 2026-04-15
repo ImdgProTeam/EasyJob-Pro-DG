@@ -50,7 +50,10 @@ namespace EasyJob_ProDG.Model.Transport
             var singleHoldDOC = new byte[NumberOfClasses];
             string[] lineSplit = line.Split(',');
             if (lineSplit.Length != NumberOfClasses)
-                Output.ThrowMessage("Error number of classes handed over to DOC!");
+                UserInformator.AddMessage(new InformationMessage(
+                    "Errors detected in Ship Profile",
+                    "Wrong number of classes read from Document of compliance. Please open 'Settings' and 'Edit Ship Profile'.",
+                    InformationMessageType.ShipProfile));
             byte i = 0;
             foreach (string figure in lineSplit)
             {

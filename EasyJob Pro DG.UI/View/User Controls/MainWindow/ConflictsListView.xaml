@@ -154,7 +154,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <!-- Conflict header text -->
-                                <TextBlock Text="{Binding DisplayContainerNumber, UpdateSourceTrigger=PropertyChanged}"
+                                <TextBlock Text="{Binding DisplayConflictHeader, UpdateSourceTrigger=PropertyChanged}"
                                            Margin="5,2"
                                            Grid.Column="1">
                                     <TextBlock.Resources>
@@ -239,7 +239,7 @@
                                       Margin="0,0,10,0"
                                       Padding="5,5,10,5"
                                       IsReadOnly="True"
-                                      Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}">
+                                      Text="{Binding DisplayText, UpdateSourceTrigger=PropertyChanged}">
                                 <TextBox.Resources>
                                     <Style TargetType="TextBox">
                                         <Setter Property="TextAlignment"

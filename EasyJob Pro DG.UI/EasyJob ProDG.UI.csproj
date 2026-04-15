@@ -117,6 +117,8 @@
     <Compile Include="Services\DataServices\Interfaces\ICargoUpdatesDataService.cs" />
     <Compile Include="Services\DataServices\Interfaces\ICargoPlanCheckService.cs" />
     <Compile Include="Services\DataServices\CargoUpdatesDataService.cs" />
+    <Compile Include="Services\DataServices\Interfaces\IUserInformatorService.cs" />
+    <Compile Include="Services\DataServices\UserInformatorService.cs" />
     <Compile Include="Services\DialogServices\IToolWindowsOperator.cs" />
     <Compile Include="Services\DialogServices\IWindowDisplayService.cs" />
     <Compile Include="Services\DialogServices\ToolWindowsOperator.cs" />

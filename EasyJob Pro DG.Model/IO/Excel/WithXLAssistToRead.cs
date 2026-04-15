@@ -450,15 +450,9 @@ namespace EasyJob_ProDG.Model.IO.Excel
         private static void MessageInvalidClass
             (string dgClass, string containerNumber)
         {
-            //TODO: To be implemented
-            //IMessageDialogService message = new MessageDialogService();
-            //if(message.ShowOKCancelDialog(@"While reading Excel file an error in dg class of unit {0} 
-            //                            unno {1} has been detected. Please check your excel file, 
-            //                            record at row {0} column {1}. Would you like to continue? y/n", "Caution!") == MessageDialogResult.Cancel)
-            //{ _excelapp.Quit();
-            //  //TO INPUT METHOD TO CLOSE THE APP
-            //}
-            Output.ThrowMessage("Method to deal with invalid class not implemented.");
+            UserInformator.AddMessage(new InformationMessage("Could not correctly read DG class from excel file",
+                $"While reading Excel file an error in DG class of unit {containerNumber} has been detected: '{dgClass}' is not a valid DG class. Please check the excel file.",
+                InformationMessageType.ReadingCondition));
         }
     }
 }
