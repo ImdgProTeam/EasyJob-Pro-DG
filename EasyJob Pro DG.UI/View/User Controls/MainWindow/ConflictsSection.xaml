@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls" 
              mc:Ignorable="d" 
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=ConflictsSectionViewModel}"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="400">
         <DockPanel 
             LastChildFill="True">
 
@@ -15,10 +15,11 @@
         
         <Grid DockPanel.Dock="Top">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
                 <TextBlock Text="List of conflicts"
                                    Margin="0,0,0,5"
                                    Padding="40,0,5,0"
@@ -26,23 +27,20 @@
                                    VerticalAlignment="Bottom"
                                    HorizontalAlignment="Center"
                                    FontWeight="DemiBold"
-                                   Grid.Column="0">
+                                   >
                 </TextBlock>
-                <Button Content="Re-check"
-                                MaxWidth="100"
-                                MaxHeight="30"
-                                Margin="5"
-                                    Padding="20, 5"
-                                    VerticalContentAlignment="Center"
-                                    Grid.Column="1"
-                                Command="{Binding ReCheckCommand}" />
+
+                <local:ConflictsFilterPanel HorizontalAlignment="Stretch"
+                                            Grid.Row="1"
+                                            DataContext="{Binding FilterButtons}"
+                                            />
             </Grid>
         </Grid>
 
         
         <!--   Black block-->   
         
-        <TextBlock x:Name="BlackBlock"
+        <!--<TextBlock x:Name="BlackBlock"
                                MinHeight="{Binding BlackBlockHeight, 
                                             RelativeSource={RelativeSource AncestorType=local:ConflictsSection}}"
                                DockPanel.Dock="Bottom"
@@ -53,7 +51,18 @@
                                FontWeight="DemiBold"
                                Text="{Binding Vents.VentHoldsFullText}"
                                TextWrapping="WrapWithOverflow"
-                               TextAlignment="Left" />
+                               TextAlignment="Left" />-->
+        <Grid DockPanel.Dock="Bottom">
+            <Button Content="Re-check"
+                    MaxWidth="100"
+                    MaxHeight="30"
+                    Margin="5"
+                    Padding="20, 5"
+                    VerticalContentAlignment="Center"
+                    HorizontalAlignment="Right"
+                    Grid.Column="1"
+                    Command="{Binding ReCheckCommand}" />
+        </Grid>
 
         <!---   Conflicts list   -->
         <local:ConflictsListView />

@@ -1,5 +1,4 @@
-﻿using EasyJob_ProDG.Model.Cargo;
-using EasyJob_ProDG.UI.ViewModel;
+﻿using EasyJob_ProDG.UI.ViewModel;
 using EasyJob_ProDG.UI.Wrapper;
 using System.Windows.Threading;
 
@@ -147,7 +146,7 @@ namespace EasyJob_ProDG.UI.Data
         /// </summary>
         private static void CreateSwConflicts(this ConflictsList conflictsList, DgWrapper dg = null)
         {
-            var specialGroups = Stowage.SWgroups;
+            var specialGroups = Model.Cargo.Stowage.SWgroups;
             foreach (var unit in specialGroups.ListSW19List)
             {
                 if (dg != null && unit.ID != dg.Model.ID) continue;
@@ -173,7 +172,7 @@ namespace EasyJob_ProDG.UI.Data
             foreach (DgWrapper dg in dgList)
                 if (dg.IsConflicted && dg.Conflicts.FailedSegregation)
                 {
-                    foreach (Conflicts.SegregationConflict c in dg.Conflicts.SegregationConflictsList)
+                    foreach (Model.Cargo.Conflicts.SegregationConflict c in dg.Conflicts.SegregationConflictsList)
                     {
                         var newConflict =
                             new ConflictPanelItemViewModel(dg, c.Code, ConflictTypes.Segregation, new DgWrapper(c.DgInConflict));

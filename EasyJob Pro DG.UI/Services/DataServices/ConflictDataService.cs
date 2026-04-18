@@ -7,8 +7,8 @@ namespace EasyJob_ProDG.UI.Services.DataServices
     /// </summary>
     internal class ConflictDataService : IConflictDataService
     {
-        ICargoDataService _cargoDataService => CargoDataService.GetCargoDataService(); 
-        
+        ICargoDataService _cargoDataService => CargoDataService.GetCargoDataService();
+
         #region Singleton
 
         /// <summary>
@@ -18,10 +18,10 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         public static ConflictDataService GetConflictDataService()
         {
             return _instance;
-        } 
+        }
 
         private static readonly ConflictDataService _instance = new ConflictDataService();
-        
+
         #endregion
 
         public ConflictsList Conflicts { get; private set; }
@@ -44,14 +44,13 @@ namespace EasyJob_ProDG.UI.Services.DataServices
             return Vents;
         }
 
-
         #region Constructor
 
         private ConflictDataService()
         {
             Conflicts = new();
             Vents = new();
-        } 
+        }
 
         #endregion
     }

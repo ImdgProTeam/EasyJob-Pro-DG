@@ -2,17 +2,26 @@
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.ViewModel.Conflicts;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
     public class ConflictsSectionViewModel : Observable
     {
-
         // Private fields
         IConflictDataService conflictDataService;
-        
+        ConflictListViewModel conflictListViewModel = ViewModelLocator.ConflictListViewModel;
+
         // Public members
+        public ObservableCollection<ConflictFilterButtonVM> FilterButtons { get; private set; }
+
+        internal bool IsFiltered => FilterButtons.Any(b => b.IsSelected);
+        internal List<ConflictTypes> FilteredConflictTypes { get; private set; }
+
         public VentilationRequirements Vents { get; set; }
 
 
@@ -25,6 +34,49 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void OnReCheckRequested(object obj)
         {
             DataMessenger.Default.Send(new ConflictsToBeCheckedAndUpdatedMessage(true));
+        }
+
+        /// <summary>
+        /// Creates <see cref="FilterButtons"/> and fills it with <see cref="ConflictFilterButtonVM"/> to be used to filter conflicts.
+        /// </summary>
+        private void CreateFilterButtons()
+        {
+            FilterButtons = new ObservableCollection<ConflictFilterButtonVM>()
+            {
+                new ConflictFilterButtonVM(ConflictTypes.Stowage, "SW")
+                {
+                    Hint="Stowage conflicts",
+                    AssignedCommand=new DelegateCommand(OnFilterButtonPressed)
+                },
+                new ConflictFilterButtonVM(ConflictTypes.Segregation, "SG")
+                {
+                    Hint="Segregarion conflicts",
+                    AssignedCommand=new DelegateCommand(OnFilterButtonPressed)
+                },
+                new ConflictFilterButtonVM(ConflictTypes.VentRequirement, "Vent")
+                {
+                    Hint="Ventilation requirements",
+                    AssignedCommand=new DelegateCommand(OnFilterButtonPressed)
+                },
+                new ConflictFilterButtonVM(ConflictTypes.Info, "Info")
+                {
+                    Hint="Information messages",
+                    AssignedCommand=new DelegateCommand(OnFilterButtonPressed)
+                },
+            };
+        }
+
+        private void OnFilterButtonPressed(object obj)
+        {
+            var conflict = obj as ConflictFilterButtonVM;
+            if (conflict is null) return;
+
+            if (conflict.IsSelected)
+                FilteredConflictTypes.Add(conflict.ConflictType);
+            else
+                FilteredConflictTypes.Remove(conflict.ConflictType);
+
+            conflictListViewModel.SetConflictsFilter(FilteredConflictTypes);
         }
 
         #region Commands
@@ -43,9 +95,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             conflictDataService = ConflictDataService.GetConflictDataService();
             LoadCommands();
-            
+
             Vents = conflictDataService.GetVentilationRequirements();
+            FilteredConflictTypes = new();
+            CreateFilterButtons();
         }
+
 
         #endregion
     }

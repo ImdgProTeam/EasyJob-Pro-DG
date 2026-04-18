@@ -1,7 +1,6 @@
 ﻿using EasyJob_ProDG.Data.Info_data;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 
 namespace EasyJob_ProDG.Model.Cargo
@@ -182,7 +181,7 @@ namespace EasyJob_ProDG.Model.Cargo
         {
             get
             {
-                return FlashPointNotDefined ? "" 
+                return FlashPointNotDefined ? ""
                     : string.Format("{0:+ 0.0;- 0.0; 0.0}", flashPoint);
             }
             set

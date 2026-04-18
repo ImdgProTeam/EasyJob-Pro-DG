@@ -1,10 +1,11 @@
-﻿using EasyJob_ProDG.UI.Messages;
-using EasyJob_ProDG.UI.Utility;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
+﻿using EasyJob_ProDG.UI.Data;
+using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DataServices;
+using EasyJob_ProDG.UI.Utility;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
@@ -16,6 +17,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         //readonly fields
         readonly IConflictDataService conflictDataService;
         private List<ConflictPanelItemViewModel> deletedConflicts = new List<ConflictPanelItemViewModel>();
+        private ObservableCollection<ConflictPanelItemViewModel> allConflicts;
+        private List<ConflictTypes> conflictsFilter;
 
         #endregion
 
@@ -28,8 +31,19 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ObservableCollection<ConflictPanelItemViewModel> DisplayConflicts { get; private set; }
         public ConflictPanelItemViewModel SelectedConflict { get; set; }
 
+
         #endregion
 
+        internal void SetConflictsFilter(ICollection<ConflictTypes> conflictsTypes = null)
+        {
+            if (conflictsTypes == null)
+                conflictsFilter.Clear();
+            else
+            {
+                conflictsFilter = (List<ConflictTypes>)conflictsTypes;
+            }
+            SetDisplayConflicts();
+        }
 
         #region Private methods
 
@@ -39,7 +53,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         private void SetDisplayConflicts()
         {
-            DisplayConflicts = conflictDataService.GetConflicts();
+            allConflicts = conflictDataService.GetConflicts();
+            SetFilteredDisplayConflicts();
 
             // Cleaning conflicts that has already been ordered to delete
             if (deletedConflicts.Count > 0)
@@ -61,6 +76,29 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
         }
 
+        private void SetFilteredDisplayConflicts()
+        {
+            foreach (var conflict in allConflicts)
+            {
+                if (conflictsFilter.Count == 0)
+                {
+                    if (!DisplayConflicts.Any(c => c.Equals(conflict)))
+                        DisplayConflicts.Add(conflict);
+                }
+                else
+                {
+                    if (conflictsFilter.Contains(conflict.ConflictType))
+                    {
+                        if (!DisplayConflicts.Any(c => c.Equals(conflict)))
+                            DisplayConflicts.Add(conflict);
+                    }
+                    else 
+                        DisplayConflicts.Remove(DisplayConflicts.FirstOrDefault(c => c.Equals(conflict)));
+                }
+            }
+
+        }
+
         /// <summary>
         /// Refreshes <see cref="DisplayConflicts"/> depending on <see cref="DisplayConflictsToBeRefreshedMessage"/> parameters.
         /// </summary>
@@ -80,6 +118,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             if (obj.FullListToBeUpdated)
             {
                 deletedConflicts.Clear();
+                DisplayConflicts.Clear();
             }
             SetDisplayConflicts();
         }
@@ -140,6 +179,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             RemoveConflictCommand = new DelegateCommand(RemoveConflict);
             RemoveSimilarConflictCommand = new DelegateCommand(RemoveSimilarConflicts);
 
+            conflictsFilter = new();
+            DisplayConflicts = new();
             conflictDataService = ConflictDataService.GetConflictDataService();
 
             SetDisplayConflicts();

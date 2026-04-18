@@ -12,6 +12,8 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private readonly DgWrapper _dgUnit;
         private readonly DgWrapper _dgB;
+        private bool isVisible;
+        private int _conflictID;
 
 
         #region Internal members
@@ -67,6 +69,17 @@ namespace EasyJob_ProDG.UI.ViewModel
                 if (Code.StartsWith("SW22")) return "SW22";
                 if (IsSegregationConflict) return "Segregation";
                 else return "Stowage";
+            }
+        }
+
+        
+
+        public bool IsVisible 
+        { get => isVisible;
+            set
+            {
+                isVisible = value;
+                OnPropertyChanged();
             }
         }
 
@@ -154,7 +167,9 @@ namespace EasyJob_ProDG.UI.ViewModel
                 && this.Unno == conflict.Unno
                 && this._dgUnit.AllDgClasses.All(c => conflict._dgUnit.AllDgClasses.Any(x => string.Equals(x, c)))
                 && Code == conflict.Code
-                && DgID == conflict.DgID;
+                && DgID == conflict.DgID
+                && ConflictingDgUnno == conflict.ConflictingDgUnno
+                && ConflictingDgNumber == conflict.ConflictingDgNumber;
         }
         #endregion
 
@@ -169,6 +184,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             _dgB = dgB;
             Code = code;
             ConflictType = conflictType;
+            isVisible = true;
         }
         #endregion
     }

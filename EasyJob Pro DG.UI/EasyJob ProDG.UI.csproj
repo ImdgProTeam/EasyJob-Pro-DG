@@ -109,6 +109,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="Data\Conflicts\ConflictsListFilter.cs" />
     <Compile Include="Data\Conflicts\ConflictsListHandler.cs" />
     <Compile Include="Data\Conflicts\ConflictTypes.cs" />
     <Compile Include="IO\DialogOpenSettings.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Validation\DgClassInputValidator.cs" />
     <Compile Include="Validation\DgSubclassInputValidator.cs" />
     <Compile Include="Validation\UnnoInputValidator.cs" />
+    <Compile Include="ViewModel\Conflicts\ConflictFilterButtonVM.cs" />
     <Compile Include="ViewModel\Conflicts\ConflictsSectionViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridContainerVMToolExtensions.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridDgVMToolExtension.cs" />
@@ -151,6 +153,9 @@
     <Compile Include="View\Converters\MultiplyValueConverter.cs" />
     <Compile Include="View\Converters\StowageCategoryConverter.cs" />
     <Compile Include="View\Converters\SubstractValueConverter.cs" />
+    <Compile Include="View\User Controls\MainWindow\ConflictsFilterPanel.xaml.cs">
+      <DependentUpon>ConflictsFilterPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Windows\Base\AnimatedToolWindow.cs" />
     <Compile Include="View\Windows\Info\LicenceAgreement.xaml.cs">
       <DependentUpon>LicenceAgreement.xaml</DependentUpon>
@@ -433,6 +438,10 @@
     <Compile Include="Wrapper\ModelWrappers\ModelChangeTrackingWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\OuterRowWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\ShipProfileWrapper.cs" />
+    <Page Include="View\User Controls\MainWindow\ConflictsFilterPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Windows\DialogWindows\DialogWindowOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
