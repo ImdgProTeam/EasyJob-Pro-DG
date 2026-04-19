@@ -7,6 +7,7 @@ using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.View.DialogWindows;
+using EasyJob_ProDG.UI.ViewModel.Conflicts;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.Threading.Tasks;
@@ -163,7 +164,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             Services.CargoPlanCheckServiceAccess.CheckCargoPlan();
 
             // Refreshes conflicts list
-            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(), "update conflicts");
+            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(true), "update conflicts");
 
             //OnPropertyChange
             RefreshView();
@@ -378,19 +379,21 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj">Selected conflict</param>
         private void OnConflictSelectionChanged(ConflictPanelItemViewModel obj)
         {
-            if (obj is null)
-                return;
+            if (obj is null) return;
+
+            var dgConf = obj as DgConflictPanelItemViewModel;
+            if (dgConf is null) return;
 
             switch (SelectedDataGridIndex)
             {
                 case 0:
-                    DataGridDgViewModel.SelectDg(obj.DgID);
+                    DataGridDgViewModel.SelectDg(dgConf.DgID);
                     break;
                 case 1:
-                    DataGridReefersViewModel.SelectUnit(obj.ContainerNumber);
+                    DataGridReefersViewModel.SelectUnit(dgConf.ContainerNumber);
                     break;
                 case 2:
-                    DataGridContainersViewModel.SelectUnit(obj.ContainerNumber);
+                    DataGridContainersViewModel.SelectUnit(dgConf.ContainerNumber);
                     break;
                 default:
                     break;

@@ -9,7 +9,6 @@ using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
-
     public class ConflictListViewModel : Observable
     {
         #region Private fields
@@ -34,6 +33,10 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         #endregion
 
+        /// <summary>
+        /// Sets <see cref="ConflictsList"/> filter made of collection of <see cref="ConflictTypes"/>
+        /// </summary>
+        /// <param name="conflictsTypes"></param>
         internal void SetConflictsFilter(ICollection<ConflictTypes> conflictsTypes = null)
         {
             if (conflictsTypes == null)
@@ -56,26 +59,15 @@ namespace EasyJob_ProDG.UI.ViewModel
             allConflicts = conflictDataService.GetConflicts();
             SetFilteredDisplayConflicts();
 
-            // Cleaning conflicts that has already been ordered to delete
-            if (deletedConflicts.Count > 0)
-            {
-                for (int i = 0; i < DisplayConflicts.Count; i++)
-                {
-                    var conflict = DisplayConflicts[i];
-                    if (deletedConflicts.Any(c => c.Equals(conflict)))
-                    {
-                        DisplayConflicts.Remove(conflict);
-                        i--;
-                    }
-                }
-            }
-
             foreach (var conflict in DisplayConflicts)
             {
                 conflict.RefreshConflictText();
             }
         }
 
+        /// <summary>
+        /// Filters from <see cref="DisplayConflicts"/> only those that pass <see cref="conflictsFilter"/> and not deleted.
+        /// </summary>
         private void SetFilteredDisplayConflicts()
         {
             foreach (var conflict in allConflicts)
@@ -83,20 +75,25 @@ namespace EasyJob_ProDG.UI.ViewModel
                 if (conflictsFilter.Count == 0)
                 {
                     if (!DisplayConflicts.Any(c => c.Equals(conflict)))
-                        DisplayConflicts.Add(conflict);
+                        if (!deletedConflicts.Any(c => c.Equals(conflict)))
+                            DisplayConflicts.Add(conflict);
                 }
                 else
                 {
                     if (conflictsFilter.Contains(conflict.ConflictType))
                     {
                         if (!DisplayConflicts.Any(c => c.Equals(conflict)))
-                            DisplayConflicts.Add(conflict);
+                            if (!deletedConflicts.Any(c => c.Equals(conflict)))
+                                DisplayConflicts.Add(conflict);
                     }
-                    else 
+                    else
                         DisplayConflicts.Remove(DisplayConflicts.FirstOrDefault(c => c.Equals(conflict)));
                 }
             }
 
+            var conflictsToRemove = DisplayConflicts.Where(c => !allConflicts.Any(conf =>  conf.Equals(c))).ToList();
+            foreach (var conflict in conflictsToRemove)
+                DisplayConflicts.Remove(conflict);
         }
 
         /// <summary>
@@ -105,21 +102,14 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj">Contains parameters.</param>
         private void OnDisplayConflictsToBeRefreshedMessageReceived(DisplayConflictsToBeRefreshedMessage obj)
         {
-            // TODO: Implement logic to update only selected unit stowage conflicts
-            //if (obj.OnlyUnitStowageToBeUpdated)
-            //{
-            //    if (!obj.dgWrapper.IsConflicted && DisplayConflicts.Any(w => w.DgID == obj.dgWrapper.)
-            //    {
-
-            //        DisplayConflicts.Remove()
-            //    }
-            //}
-
+            //called by Re-check button or new condition after open or update
             if (obj.FullListToBeUpdated)
             {
                 deletedConflicts.Clear();
-                DisplayConflicts.Clear();
+                DisplayConflicts = new();
+                OnPropertyChanged(nameof(DisplayConflicts));
             }
+
             SetDisplayConflicts();
         }
 

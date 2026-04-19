@@ -46,24 +46,28 @@ namespace EasyJob_ProDG.UI.ViewModel
                 new ConflictFilterButtonVM(ConflictTypes.Stowage, "SW")
                 {
                     Hint="Stowage conflicts",
-                    AssignedCommand=new DelegateCommand(OnFilterButtonPressed)
                 },
                 new ConflictFilterButtonVM(ConflictTypes.Segregation, "SG")
                 {
                     Hint="Segregarion conflicts",
-                    AssignedCommand=new DelegateCommand(OnFilterButtonPressed)
                 },
                 new ConflictFilterButtonVM(ConflictTypes.VentRequirement, "Vent")
                 {
                     Hint="Ventilation requirements",
-                    AssignedCommand=new DelegateCommand(OnFilterButtonPressed)
+                },
+                new ConflictFilterButtonVM(ConflictTypes.Handling, "Handling")
+                {
+                    Hint="Handling instructions",
                 },
                 new ConflictFilterButtonVM(ConflictTypes.Info, "Info")
                 {
                     Hint="Information messages",
-                    AssignedCommand=new DelegateCommand(OnFilterButtonPressed)
                 },
             };
+            foreach (var filterButton in FilterButtons)
+            {
+                filterButton.AssignedCommand = new DelegateCommand(OnFilterButtonPressed);
+            }
         }
 
         private void OnFilterButtonPressed(object obj)

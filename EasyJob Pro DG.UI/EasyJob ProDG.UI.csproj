@@ -138,6 +138,7 @@
     <Compile Include="Validation\UnnoInputValidator.cs" />
     <Compile Include="ViewModel\Conflicts\ConflictFilterButtonVM.cs" />
     <Compile Include="ViewModel\Conflicts\ConflictsSectionViewModel.cs" />
+    <Compile Include="ViewModel\Conflicts\DgConflictPanelItemViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridContainerVMToolExtensions.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridDgVMToolExtension.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridUpdatesViewModel.cs" />

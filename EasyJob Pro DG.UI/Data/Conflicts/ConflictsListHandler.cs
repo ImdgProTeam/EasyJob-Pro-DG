@@ -1,4 +1,5 @@
 ﻿using EasyJob_ProDG.UI.ViewModel;
+using EasyJob_ProDG.UI.ViewModel.Conflicts;
 using EasyJob_ProDG.UI.Wrapper;
 using System.Windows.Threading;
 
@@ -103,7 +104,9 @@ namespace EasyJob_ProDG.UI.Data
             //Clear unit associated stowage conflicts
             for (ushort i = 0, n = 0; i < iterations; i++, n++)
             {
-                var conflict = conflictsList[n];
+                var conflict = conflictsList[n] as DgConflictPanelItemViewModel;
+                if (conflict is null) continue;
+
                 if (conflict.IsStowageConflict && conflict.DgID == unit.Model.ID)
                 {
                     conflictsList.Remove(conflict);
@@ -134,7 +137,7 @@ namespace EasyJob_ProDG.UI.Data
             if (dg.IsConflicted && dg.Conflicts.FailedStowage)
                 foreach (string s in dg.Conflicts.StowageConflictsList)
                 {
-                    var newConflict = new ConflictPanelItemViewModel(dg, s);
+                    var newConflict = new DgConflictPanelItemViewModel(dg, s);
                     conflictsList.AddNewConflict(newConflict);
                 }
         }
@@ -151,14 +154,14 @@ namespace EasyJob_ProDG.UI.Data
             {
                 if (dg != null && unit.ID != dg.Model.ID) continue;
                 var unitWrapper = new DgWrapper(unit);
-                ConflictPanelItemViewModel conf = new ConflictPanelItemViewModel(unitWrapper, "SW19");
+                DgConflictPanelItemViewModel conf = new DgConflictPanelItemViewModel(unitWrapper, "SW19");
                 conflictsList.AddNewConflict(conf);
             }
             foreach (var unit in specialGroups.ListSW22List)
             {
                 if (dg != null && unit.ID != dg.Model.ID) continue;
                 var unitWrapper = new DgWrapper(unit);
-                ConflictPanelItemViewModel conf = new ConflictPanelItemViewModel(unitWrapper, "SW22");
+                DgConflictPanelItemViewModel conf = new DgConflictPanelItemViewModel(unitWrapper, "SW22");
                 conflictsList.AddNewConflict(conf);
             }
         }
@@ -175,7 +178,7 @@ namespace EasyJob_ProDG.UI.Data
                     foreach (Model.Cargo.Conflicts.SegregationConflict c in dg.Conflicts.SegregationConflictsList)
                     {
                         var newConflict =
-                            new ConflictPanelItemViewModel(dg, c.Code, ConflictTypes.Segregation, new DgWrapper(c.DgInConflict));
+                            new DgConflictPanelItemViewModel(dg, c.Code, ConflictTypes.Segregation, new DgWrapper(c.DgInConflict));
                         conflictsList.AddNewConflict(newConflict);
                     }
                 }
@@ -195,7 +198,8 @@ namespace EasyJob_ProDG.UI.Data
             //Remove redundant conflicts
             for (int i = 0; i < count; i++)
             {
-                var con = conflictsList[i - c];
+                var con = conflictsList[i - c] as DgConflictPanelItemViewModel;
+                if (con is null) continue;
 
                 //Check if reference unit removed from the list
                 if (dgList.Contains(con.ContainerNumber))
@@ -219,7 +223,7 @@ namespace EasyJob_ProDG.UI.Data
             }
 
             //Add new conflicts
-            foreach (var conf in tempConflicts)
+            foreach (DgConflictPanelItemViewModel conf in tempConflicts)
             {
                 conflictsList.AddNewConflict(conf);
             }
