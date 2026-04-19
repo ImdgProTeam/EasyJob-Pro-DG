@@ -2,7 +2,8 @@
                     xmlns:p="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.Styles">
-    <!-- Basic colors -->
+    
+    <!--Basic colors -->
     <SolidColorBrush x:Key="Brush.Basic.Orange"
                      Color="{StaticResource Color.Basic.Orange}"
                      p:Freeze="True"/>
@@ -16,7 +17,7 @@
                      Color="{StaticResource Color.Basic.LightGray}"
                      p:Freeze="True"/>
 
-    <!-- Main colors -->
+    <!--#region Main colors -->
     <SolidColorBrush x:Key="Brush.Background.Main"
                      Color="{StaticResource Color.Background.Main}" 
                      p:Freeze="true"/>
@@ -44,7 +45,10 @@
     <SolidColorBrush x:Key="Brush.SelectedItem"
                      Color="{StaticResource Color.DgTable.HighlightRow}"
                      p:Freeze="true"/>
+    <!--#endregion-->
 
+    <!--#region Graphics colors -->
+    
     <!-- Spinner -->
     <LinearGradientBrush x:Key="Brush.Spinner" p:Freeze ="true">
         <GradientStop Color="{StaticResource Color.Spinner}" Offset="1"/>
@@ -56,15 +60,18 @@
                      Color="{StaticResource Color.DimmedOverlay}"
                      p:Freeze="true" />
 
-    <!-- Info block -->
+    <!--#endregion-->
+
+    <!--#region Info block -->
     <SolidColorBrush x:Key="Brush.InfoBlock.Background"
                      Color="{StaticResource Color.InfoBlock.Background}"
                      p:Freeze="True"/>
     <SolidColorBrush x:Key="Brush.InfoBlock.Foreground"
                      Color="{StaticResource Color.InfoBlock.Foreground}"
                      p:Freeze="True"/>
+    <!--#endregion-->
     
-    <!-- Dg Table -->
+    <!--#region Dg Table -->
     <LinearGradientBrush x:Key="Brush.DgTable.Background"
                          StartPoint="0.0,0.0"
                          EndPoint="1.0,1.0"
@@ -78,8 +85,9 @@
     <SolidColorBrush x:Key="Brush.DgTable.AlternateRow"
                      Color="{StaticResource Color.DgTable.AlternateRow}" 
                      p:Freeze="true"/>
+    <!--#endregion-->
 
-    <!-- Reefer Table -->
+    <!--#region Reefer Table -->
     <LinearGradientBrush x:Key="Brush.ReeferTable.Background"
                          StartPoint="0.0,0.0"
                          EndPoint="1.0,1.0"
@@ -89,8 +97,9 @@
         <GradientStop Color="{StaticResource Color.ReeferTable.Background.Gradient2}"
                       Offset="0.9" />
     </LinearGradientBrush>
+    <!--#endregion-->
 
-    <!-- Container Table -->
+    <!--#region Container Table -->
     <LinearGradientBrush x:Key="Brush.ContainerTable.Background"
                          StartPoint="0.0,0.0"
                          EndPoint="1.0,1.0"
@@ -100,8 +109,9 @@
         <GradientStop Color="{StaticResource Color.ContainerTable.Background.Gradient2}"
                       Offset="0.9" />
     </LinearGradientBrush>
+    <!--#endregion-->
 
-    <!-- Conflict list -->
+    <!--#region Conflict list -->
     <SolidColorBrush x:Key="Brush.ConflictList.Items.Background"
                      Color="{StaticResource Color.Background.Conflicts.Item}" 
                      p:Freeze="true"/>
@@ -148,49 +158,51 @@
     <SolidColorBrush x:Key="Brush.ConflictItem.Selected.Foreground"
                      Color="{StaticResource Color.ConflictItem.Selected.Foreground}"
                      p:Freeze="true"/>
+    <!--#endregion-->
 
-    <!-- Expander colors -->
+    <!--#region Expander colors -->
     <SolidColorBrush x:Key="Brush.Background.Expander"
-                     Color="{StaticResource Color.Background.Expander}" 
-                     p:Freeze="true"/>
+                     Color="{StaticResource Color.Background.Expander}"
+                     p:Freeze="true" />
     <SolidColorBrush x:Key="Expander.MouseOver.Circle.Stroke"
-                     Color="OrangeRed" 
-                     p:Freeze="true"/>
+                     Color="OrangeRed"
+                     p:Freeze="true" />
     <SolidColorBrush x:Key="Expander.MouseOver.Circle.Fill"
-                     Color="Orange" 
-                     p:Freeze="true"/>
+                     Color="Orange"
+                     p:Freeze="true" />
     <SolidColorBrush x:Key="Expander.MouseOver.Arrow.Stroke"
-                     Color="{StaticResource Color.Element.MouseOver}" 
-                     p:Freeze="true"/>
+                     Color="{StaticResource Color.Element.MouseOver}"
+                     p:Freeze="true" />
     <SolidColorBrush x:Key="Expander.Pressed.Circle.Stroke"
-                     Color="#FF3C77DD" 
-                     p:Freeze="true"/>
+                     Color="#FF3C77DD"
+                     p:Freeze="true" />
     <SolidColorBrush x:Key="Expander.Pressed.Circle.Fill"
-                     Color="#FFD9ECFF" 
-                     p:Freeze="true"/>
+                     Color="#FFD9ECFF"
+                     p:Freeze="true" />
     <SolidColorBrush x:Key="Expander.Pressed.Arrow.Stroke"
-                     Color="{StaticResource Color.Element.Pressed}" 
-                     p:Freeze="true"/>
+                     Color="{StaticResource Color.Element.Pressed}"
+                     p:Freeze="true" />
     <SolidColorBrush x:Key="Expander.Disabled.Circle.Stroke"
-                     Color="#FFBCBCBC" 
-                     p:Freeze="true"/>
+                     Color="#FFBCBCBC"
+                     p:Freeze="true" />
     <SolidColorBrush x:Key="Expander.Disabled.Circle.Fill"
-                     Color="#FFE6E6E6" 
-                     p:Freeze="true"/>
+                     Color="#FFE6E6E6"
+                     p:Freeze="true" />
     <SolidColorBrush x:Key="Expander.Disabled.Arrow.Stroke"
-                     Color="{StaticResource Color.Element.Disabled}" 
-                     p:Freeze="true"/>
+                     Color="{StaticResource Color.Element.Disabled}"
+                     p:Freeze="true" />
     <SolidColorBrush x:Key="Expander.Static.Circle.Fill"
-                     Color="#FFFFFFFF" 
-                     p:Freeze="true"/>
+                     Color="#FFFFFFFF"
+                     p:Freeze="true" />
     <SolidColorBrush x:Key="Expander.Static.Circle.Stroke"
-                     Color="#FF333333" 
-                     p:Freeze="true"/>
+                     Color="#FF333333"
+                     p:Freeze="true" />
     <SolidColorBrush x:Key="Expander.Static.Arrow.Stroke"
-                     Color="{StaticResource Color.Element.Main}" 
-                     p:Freeze="true"/>
+                     Color="{StaticResource Color.Element.Main}"
+                     p:Freeze="true" />
+    <!--#endregion-->
 
-    <!-- MainMenu colors -->
+    <!--#region MainMenu colors -->
     <SolidColorBrush x:Key="Brush.MainMenu.Background" 
                      Color="{StaticResource Color.MainMenu.Background}"
                      p:Freeze="true"/>
@@ -216,16 +228,18 @@
                      Color="{StaticResource Color.MainMenu.SubLevel.Highlight.Background}"
                      Opacity="0.2"
                      p:Freeze="true"/>
-
-    <!-- Black block colors -->
+    <!--#endregion-->
+    
+    <!--#region Black block colors -->
     <SolidColorBrush x:Key="Brush.BlackBlock.Background" 
                      Color="{StaticResource Color.BlackBlock.Background}"
                      p:Freeze="true"/>
     <SolidColorBrush x:Key="Brush.BlackBlock.Foreground" 
                      Color="{StaticResource Color.BlackBlock.Foreground}"
                      p:Freeze="true"/>
+    <!--#endregion-->
     
-    <!-- Controls colors -->
+    <!--region Controls colors -->
     <SolidColorBrush x:Key="Brush.TextBoxWithTag.Background"
                      Color="{StaticResource Color.TextBoxWithTag.Background}"
                      p:Freeze="true"/>
@@ -238,8 +252,9 @@
     <SolidColorBrush x:Key="Brush.Button.Background"
                      Color="{StaticResource Color.Button.Background}"
                      p:Freeze="True"/>
+    <!--#endregion-->
 
-    <!-- Toolbox Windows brushes -->
+    <!--#region Toolbox Windows brushes -->
     <SolidColorBrush x:Key="Brush.ToolboxWindow.Background"
                      Color="{StaticResource Color.ToolboxWindow.Background}"
                      p:Freeze="true"/>
@@ -249,12 +264,29 @@
     <SolidColorBrush x:Key="Brush.ToolboxWindow.BlocksBackground"
                      Color="{StaticResource Color.ToolboxWindow.BlocksBackground}"
                      p:Freeze="true"/>
+    <!--#endregion-->
     
-    <!-- Update Condition Summary -->
+    <!--#region Update Condition Summary -->
     <SolidColorBrush x:Key="Brush.UpdateReportBlock.InactiveText"
                      Color="{StaticResource Color.UpdateReportColor.InactiveText}"
                      p:Freeze="true"/>
     <SolidColorBrush x:Key="Brush.UpdateReportBlock.HighlightText"
                      Color="{StaticResource Color.UpdateReportColor.HighlightText}"
                      p:Freeze="true"/>
+    <!--#endregion-->
+    
+    <!--#region IconColors -->
+    <SolidColorBrush x:Key="Brush.Icon.MouseOver"
+                     Color="{StaticResource Color.DgTable.HighlightRow}"
+                     p:Freeze="true" />
+    <SolidColorBrush x:Key="Brush.Icon.IsSelected"
+                     Color="{StaticResource Color.DgTable.HighlightRow}"
+                     p:Freeze="true" />
+    <SolidColorBrush x:Key="Brush.Icon.Disabled"
+                     Color="{StaticResource Color.MainMenu.Disabled.Foreground}"
+                     p:Freeze="true" />
+    <SolidColorBrush x:Key="Brush.Icon.NotificationBadge"
+                     Color="{StaticResource Color.Basic.Orange}"
+                     p:Freeze="true" />
+    <!--#endregion-->
 </ResourceDictionary>

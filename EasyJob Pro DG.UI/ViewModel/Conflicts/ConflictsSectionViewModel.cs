@@ -15,6 +15,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         // Private fields
         IConflictDataService conflictDataService;
         ConflictListViewModel conflictListViewModel = ViewModelLocator.ConflictListViewModel;
+        ConflictFilterButtonVM clearAllButton;
 
         // Public members
         public ObservableCollection<ConflictFilterButtonVM> FilterButtons { get; private set; }
@@ -55,7 +56,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 {
                     Hint="Ventilation requirements",
                 },
-                new ConflictFilterButtonVM(ConflictTypes.Handling, "Handling")
+                new ConflictFilterButtonVM(ConflictTypes.Handling, "Hand")
                 {
                     Hint="Handling instructions",
                 },
@@ -68,6 +69,26 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 filterButton.AssignedCommand = new DelegateCommand(OnFilterButtonPressed);
             }
+
+            clearAllButton = new ConflictFilterButtonVM(ConflictTypes.None, "Clear", "Show all conflicts")
+            {
+                AssignedCommand = new DelegateCommand(ClearFilters),
+                IsActive = false
+            };
+            FilterButtons.Add(clearAllButton);
+        }
+
+        private void ClearFilters(object obj)
+        {
+            foreach (var button in FilterButtons)
+            {
+                button.IsSelected = false;
+                button.RefreshView();
+            }
+            FilteredConflictTypes.Clear();
+            conflictListViewModel.SetConflictsFilter();
+
+            EnableClearAllButton();
         }
 
         private void OnFilterButtonPressed(object obj)
@@ -80,7 +101,18 @@ namespace EasyJob_ProDG.UI.ViewModel
             else
                 FilteredConflictTypes.Remove(conflict.ConflictType);
 
+            EnableClearAllButton();
+
             conflictListViewModel.SetConflictsFilter(FilteredConflictTypes);
+        }
+
+        private void EnableClearAllButton()
+        {
+            if (FilteredConflictTypes.Count > 0)
+                clearAllButton.IsActive = true;
+            else clearAllButton.IsActive = false;
+            clearAllButton.RefreshView();
+
         }
 
         #region Commands

@@ -21,8 +21,7 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="List of conflicts"
-                                   Margin="0,0,0,5"
-                                   Padding="40,0,5,0"
+                                   Margin="0,8,0,2"
                                    FontSize="{StaticResource StandardButtonFontSize}"
                                    VerticalAlignment="Bottom"
                                    HorizontalAlignment="Center"
@@ -30,12 +29,9 @@
                                    >
                 </TextBlock>
 
-                <local:ConflictsFilterPanel HorizontalAlignment="Stretch"
-                                            Grid.Row="1"
-                                            DataContext="{Binding FilterButtons}"
-                                            />
             </Grid>
         </Grid>
+
 
         
         <!--   Black block-->   
@@ -63,6 +59,10 @@
                     Grid.Column="1"
                     Command="{Binding ReCheckCommand}" />
         </Grid>
+
+        <local:ConflictsFilterPanel HorizontalAlignment="Stretch"
+                                    DockPanel.Dock="Bottom"
+                                    DataContext="{Binding FilterButtons}" />
 
         <!---   Conflicts list   -->
         <local:ConflictsListView />
