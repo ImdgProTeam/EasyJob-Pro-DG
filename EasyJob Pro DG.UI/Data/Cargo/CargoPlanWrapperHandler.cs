@@ -37,7 +37,6 @@ namespace EasyJob_ProDG.UI.Wrapper
                 _cargoPlan.RemoveRemovedDgFromCargoPlan(dgWrapper);
             }
 
-            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage());
             DataMessenger.Default.Send(new UpdateCargoPlan(), "Need to update cargo plan");
             _cargoPlan.RefreshCargoPlanValues();
         }

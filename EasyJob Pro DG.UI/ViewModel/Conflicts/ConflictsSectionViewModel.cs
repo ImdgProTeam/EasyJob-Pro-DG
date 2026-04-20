@@ -3,6 +3,7 @@ using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.ViewModel.Conflicts;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -17,15 +18,16 @@ namespace EasyJob_ProDG.UI.ViewModel
         ConflictListViewModel conflictListViewModel = ViewModelLocator.ConflictListViewModel;
         ConflictFilterButtonVM clearAllButton;
 
-        // Public members
+        // Public and internal members
         public ObservableCollection<ConflictFilterButtonVM> FilterButtons { get; private set; }
+        public VentilationRequirements Vents { get; set; }
 
         internal bool IsFiltered => FilterButtons.Any(b => b.IsSelected);
         internal List<ConflictTypes> FilteredConflictTypes { get; private set; }
 
-        public VentilationRequirements Vents { get; set; }
 
 
+        #region Private methods
         // Private methods
 
         /// <summary>
@@ -76,6 +78,8 @@ namespace EasyJob_ProDG.UI.ViewModel
                 IsActive = false
             };
             FilterButtons.Add(clearAllButton);
+
+            SetIsAlertBadgeOnFilterButtons(null, null);
         }
 
         private void ClearFilters(object obj)
@@ -106,6 +110,9 @@ namespace EasyJob_ProDG.UI.ViewModel
             conflictListViewModel.SetConflictsFilter(FilteredConflictTypes);
         }
 
+        /// <summary>
+        /// Makes 'Clear all' button enabled or disabled depending on if any other button IsSelected.
+        /// </summary>
         private void EnableClearAllButton()
         {
             if (FilteredConflictTypes.Count > 0)
@@ -114,6 +121,24 @@ namespace EasyJob_ProDG.UI.ViewModel
             clearAllButton.RefreshView();
 
         }
+
+        /// <summary>
+        /// Sets alert badges on top of buttons if conflict type exists.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SetIsAlertBadgeOnFilterButtons(object sender, EventArgs e)
+        {
+            foreach (var button in FilterButtons)
+            {
+                if (conflictListViewModel.ExistingConflictTypes.Contains(button.ConflictType))
+                    button.IsAlert = true;
+                else button.IsAlert = false;
+                button.RefreshView();
+            }
+        } 
+
+        #endregion
 
         #region Commands
         public ICommand ReCheckCommand { get; private set; }
@@ -134,6 +159,10 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             Vents = conflictDataService.GetVentilationRequirements();
             FilteredConflictTypes = new();
+
+            conflictListViewModel.DisplayConflictsSet -= SetIsAlertBadgeOnFilterButtons;
+            conflictListViewModel.DisplayConflictsSet += SetIsAlertBadgeOnFilterButtons;
+
             CreateFilterButtons();
         }
 

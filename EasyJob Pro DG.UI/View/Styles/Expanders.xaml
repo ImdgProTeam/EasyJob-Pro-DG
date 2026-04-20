@@ -100,6 +100,7 @@
             </Setter>
         </Style.Setters>
         <Style.Triggers>
+            <!-- Colors of conflict groups -->
             <DataTrigger Binding="{Binding Path=Name}"
                                  Value="Segregation">
                 <Setter Property="TextBox.Foreground" Value="{StaticResource Brush.ConflictList.Text.Segregation}"/>

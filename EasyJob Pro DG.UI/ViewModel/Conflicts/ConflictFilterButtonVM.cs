@@ -26,6 +26,7 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
         {
             OnPropertyChanged(nameof(IsSelected));
             OnPropertyChanged(nameof(IsActive));
+            OnPropertyChanged(nameof(IsAlert));
         }
 
         public ConflictFilterButtonVM(ConflictTypes conflictType, string title, string hint = "", bool isActive = true)

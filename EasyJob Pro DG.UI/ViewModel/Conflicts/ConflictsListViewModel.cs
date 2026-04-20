@@ -2,6 +2,7 @@
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Utility;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -30,8 +31,10 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ObservableCollection<ConflictPanelItemViewModel> DisplayConflicts { get; private set; }
         public ConflictPanelItemViewModel SelectedConflict { get; set; }
 
-
+        internal List<ConflictTypes> ExistingConflictTypes => allConflicts.Select(c => c.ConflictType).Distinct().ToList();
         #endregion
+
+        #region Public and internal methods
 
         /// <summary>
         /// Sets <see cref="ConflictsList"/> filter made of collection of <see cref="ConflictTypes"/>
@@ -46,7 +49,9 @@ namespace EasyJob_ProDG.UI.ViewModel
                 conflictsFilter = (List<ConflictTypes>)conflictsTypes;
             }
             SetDisplayConflicts();
-        }
+        } 
+
+        #endregion
 
         #region Private methods
 
@@ -63,6 +68,13 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 conflict.RefreshConflictText();
             }
+
+            RaiseDisplayConflictsSetNotificationEvent();
+        }
+
+        private void RaiseDisplayConflictsSetNotificationEvent()
+        {
+            DisplayConflictsSet?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -159,6 +171,23 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         #endregion
 
+        #region Commands
+        //Commands
+        public ICommand DoubleClickOnSelectedItem { get; private set; }
+        public ICommand RemoveConflictCommand { get; private set; }
+        public ICommand RemoveSimilarConflictCommand { get; private set; }
+
+        #endregion
+
+        #region Events
+        
+        /// <summary>
+        /// Raised when DisplayConflicts are set.
+        /// </summary>
+        internal event EventHandler DisplayConflictsSet;  
+
+        #endregion
+
         #region Constructor
         //Constructor
         public ConflictListViewModel()
@@ -175,14 +204,6 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             SetDisplayConflicts();
         }
-
-        #endregion
-
-        #region Commands
-        //Commands
-        public ICommand DoubleClickOnSelectedItem { get; private set; }
-        public ICommand RemoveConflictCommand { get; private set; }
-        public ICommand RemoveSimilarConflictCommand { get; private set; }
 
         #endregion
     }
