@@ -33,21 +33,6 @@
         </Grid>
 
 
-        
-        <!--   Black block-->   
-        
-        <!--<TextBlock x:Name="BlackBlock"
-                               MinHeight="{Binding BlackBlockHeight, 
-                                            RelativeSource={RelativeSource AncestorType=local:ConflictsSection}}"
-                               DockPanel.Dock="Bottom"
-                               Margin="2"
-                               Padding="10,5,0,0"
-                               Background="{StaticResource Brush.BlackBlock.Background}"
-                               Foreground="{StaticResource Brush.BlackBlock.Foreground}"
-                               FontWeight="DemiBold"
-                               Text="{Binding Vents.VentHoldsFullText}"
-                               TextWrapping="WrapWithOverflow"
-                               TextAlignment="Left" />-->
         <Grid DockPanel.Dock="Bottom">
             <Button Content="Re-check"
                     MaxWidth="100"

@@ -277,7 +277,10 @@
     
     <!--#region IconColors -->
     <SolidColorBrush x:Key="Brush.Icon.MouseOver"
-                     Color="{StaticResource Color.DgTable.HighlightRow}"
+                     Color="{StaticResource Color.Basic.Gray}"
+                     p:Freeze="true" />
+    <SolidColorBrush x:Key="Brush.Icon.MouseOverOnSelected"
+                     Color="{StaticResource Color.Basic.Gray}"
                      p:Freeze="true" />
     <SolidColorBrush x:Key="Brush.Icon.IsSelected"
                      Color="{StaticResource Color.DgTable.HighlightRow}"

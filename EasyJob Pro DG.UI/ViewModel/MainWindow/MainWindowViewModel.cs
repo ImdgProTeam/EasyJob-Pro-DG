@@ -118,7 +118,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private void SubscribeToMessenger()
         {
-            DataMessenger.Default.Register<UpdateCargoPlan>(this, OnNeedToUpdateCargoPlanMessageReceived, "Need to update cargo plan");
+            DataMessenger.Default.Register<UpdateCargoPlan>(this, OnNeedToUpdateCargoPlanMessageReceived, "after dg removal");
             DataMessenger.Default.Register<ShipProfileSavedMessage>(this, OnShipProfileSaved, "ship profile saved");
             DataMessenger.Default.Register<ConflictPanelItemViewModel>(this, OnConflictSelectionChanged,
                 "conflict selection changed");
@@ -154,8 +154,9 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         /// <summary>
         /// Gets public properties values from cargo and conflict data services
+        /// 
         /// </summary>
-        private void GetCargoData()
+        private void GetCargoData(bool rebuildConflictList = true)
         {
             //Get data from cargoDataService
             Services.CargoDataServiceAccess.GetCargoPlan();
@@ -164,7 +165,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             Services.CargoPlanCheckServiceAccess.CheckCargoPlan();
 
             // Refreshes conflicts list
-            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(true), "update conflicts");
+            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(rebuildConflictList), "update conflicts");
 
             //OnPropertyChange
             RefreshView();
@@ -367,10 +368,11 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         /// <summary>
         /// Raised when it is required to call <see cref="GetCargoData"/> method via received message.
+        /// One case use -> When dg removed
         /// </summary>
         private void OnNeedToUpdateCargoPlanMessageReceived(UpdateCargoPlan message)
         {
-            GetCargoData();
+            GetCargoData(false);
         }
 
         /// <summary>

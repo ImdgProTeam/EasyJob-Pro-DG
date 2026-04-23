@@ -1,12 +1,20 @@
 ﻿using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.Wrapper;
+using System;
 using System.Linq;
 
 namespace EasyJob_ProDG.UI.ViewModel.Conflicts
 {
     public class DgConflictPanelItemViewModel : ConflictPanelItemViewModel
     {
+        const string GROUP_TITLE_SW19 = "SW19";
+        const string GROUP_TITLE_SW22 = "SW22";
+        const string GROUP_TITLE_STOWAGE = "Stowage";
+        const string GROUP_TITLE_SEGREGATION = "Segregation";
+        const string GROUP_TITLE_HANDLING = "Handling";
+
+
         // --------------- Private fields ---------------------------------------
 
         private readonly DgWrapper _dgUnit;
@@ -43,10 +51,11 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
             get
             {
                 if (Code.StartsWith("vent")) return "Hold ventilation";
-                if (Code.StartsWith("SW19")) return "SW19";
-                if (Code.StartsWith("SW22")) return "SW22";
-                if (IsSegregationConflict) return "Segregation";
-                else return "Stowage";
+                if (Code.StartsWith("SW19")) return GROUP_TITLE_SW19;
+                if (Code.StartsWith("SW22")) return GROUP_TITLE_SW22;
+                if (ConflictType == ConflictTypes.Handling) return GROUP_TITLE_HANDLING;
+                if (IsSegregationConflict) return GROUP_TITLE_SEGREGATION;
+                else return GROUP_TITLE_STOWAGE;
             }
         }
 
@@ -127,17 +136,6 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
             return result;
         }
 
-        ///// <summary>
-        ///// Calls OnPropertyChanged for its properties
-        ///// </summary>
-        ///// <param name="obj"></param>
-        //internal override void RefreshConflictText()
-        //{
-        //    OnPropertyChanged(nameof(_dgUnit.DisplayContainerNumber));
-        //    base.RefreshConflictText();
-
-        //}
-
         #region Constructor 
 
         // --------------- Public constructors ----------------------------------
@@ -156,7 +154,6 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
             _dgB = dgB;
             Code = code;
             this.ConflictType = conflictType;
-            DisplayConflictHeader = _dgUnit.DisplayContainerNumber;
         }
 
         #endregion

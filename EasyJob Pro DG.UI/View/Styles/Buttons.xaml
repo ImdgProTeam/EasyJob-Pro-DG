@@ -163,6 +163,7 @@
                                               VerticalAlignment="Center" />
                         </Grid>
                     </Border>
+                    
                     <!-- Icons -->
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource Self}}"
@@ -222,6 +223,14 @@
                 <Setter Property="Foreground"
                         Value="{StaticResource Brush.Icon.Disabled}" />
             </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="IsChecked" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Foreground"
+                        Value="{StaticResource Brush.Icon.MouseOverOnSelected}" />
+            </MultiTrigger>
         </Style.Triggers>
     </Style>
 

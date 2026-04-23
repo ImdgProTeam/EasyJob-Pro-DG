@@ -77,20 +77,18 @@
                                             </Expander.Header>
                                             <ItemsPresenter />
                                         </Expander>
+                                        
                                         <!-- Setting group icons -->
                                         <ControlTemplate.Triggers>
-                                            <DataTrigger Binding="{Binding Name}"
-                                                         Value="Stowage">
+                                            <DataTrigger Binding="{Binding Name}" Value="Stowage">
                                                 <Setter TargetName="IconHolder" Property="Text"
                                                         Value="{StaticResource StowageIcon}" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Name}"
-                                                         Value="SW22">
+                                            <DataTrigger Binding="{Binding Name}" Value="SW22">
                                                 <Setter TargetName="IconHolder" Property="Text"
                                                         Value="{StaticResource StowageIcon}" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Name}"
-                                                         Value="SW19">
+                                            <DataTrigger Binding="{Binding Name}" Value="SW19">
                                                 <Setter TargetName="IconHolder" Property="Text"
                                                         Value="{StaticResource StowageIcon}" />
                                             </DataTrigger>
@@ -98,7 +96,16 @@
                                                 <Setter TargetName="IconHolder" Property="Text"
                                                         Value="{StaticResource SegregationIcon}" />
                                             </DataTrigger>
+                                            <DataTrigger Binding="{Binding Name}" Value="Handling">
+                                                <Setter TargetName="IconHolder" Property="Text"
+                                                        Value="{StaticResource HandlingIcon}" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Name}" Value="Hold ventilation">
+                                                <Setter TargetName="IconHolder" Property="Text"
+                                                        Value="{StaticResource HoldVentIcon}" />
+                                            </DataTrigger>
                                         </ControlTemplate.Triggers>
+                                        
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
@@ -275,20 +282,13 @@
                                       Text="{Binding DisplayText, UpdateSourceTrigger=PropertyChanged}">
                                 <TextBox.Resources>
                                     <Style TargetType="TextBox">
-                                        <Setter Property="TextAlignment"
-                                                Value="Justify" />
-                                        <Setter Property="TextWrapping"
-                                                Value="WrapWithOverflow" />
-                                        <Setter Property="MaxLines"
-                                                Value="8" />
-                                        <Setter Property="Background"
-                                                Value="Transparent" />
-                                        <Setter Property="BorderThickness"
-                                                Value="0" />
-                                        <Setter Property="IsHitTestVisible"
-                                                Value="False" />
-                                        <Setter Property="Focusable"
-                                                Value="True" />
+                                        <Setter Property="TextAlignment" Value="Justify" />
+                                        <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+                                        <Setter Property="MaxLines" Value="8" />
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="IsHitTestVisible" Value="False" />
+                                        <Setter Property="Focusable" Value="True" />
                                         <Setter Property="Foreground"
                                                 Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}" />
 

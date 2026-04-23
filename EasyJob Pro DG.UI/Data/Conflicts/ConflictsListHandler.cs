@@ -62,6 +62,7 @@ namespace EasyJob_ProDG.UI.Data
             conflictsList.CreateStowageConflictList(dgList);
             conflictsList.CreateSegregationConflictList(dgList);
             conflictsList.CreateSwConflicts();
+            conflictsList.CreateHoldVentRequirements();
         }
 
         /// <summary>
@@ -137,7 +138,9 @@ namespace EasyJob_ProDG.UI.Data
             if (dg.IsConflicted && dg.Conflicts.FailedStowage)
                 foreach (string s in dg.Conflicts.StowageConflictsList)
                 {
-                    var newConflict = new DgConflictPanelItemViewModel(dg, s);
+                    ConflictTypes conflictType = s.StartsWith("H")
+                        ? ConflictTypes.Handling : ConflictTypes.Stowage;
+                    var newConflict = new DgConflictPanelItemViewModel(dg, s, conflictType);
                     conflictsList.AddNewConflict(newConflict);
                 }
         }
@@ -164,6 +167,20 @@ namespace EasyJob_ProDG.UI.Data
                 DgConflictPanelItemViewModel conf = new DgConflictPanelItemViewModel(unitWrapper, "SW22");
                 conflictsList.AddNewConflict(conf);
             }
+        }
+
+
+        private static void CreateHoldVentRequirements(this ConflictsList conflictsList)
+        {
+            var vents = new VentilationRequirements();
+            vents.Check();
+            if (!vents.IsEmpty)
+                conflictsList.AddNewConflict(
+                    new GeneralConflictPanelItemViewModel(
+                        "Ventilation",
+                        vents.VentHoldsFullText,
+                        string.Empty,
+                        ConflictTypes.VentRequirement));
         }
 
         /// <summary>
@@ -199,10 +216,17 @@ namespace EasyJob_ProDG.UI.Data
             for (int i = 0; i < count; i++)
             {
                 var con = conflictsList[i - c] as DgConflictPanelItemViewModel;
-                if (con is null) continue;
 
                 //Check if reference unit removed from the list
-                if (dgList.Contains(con.ContainerNumber))
+
+                //General conflicts
+                if (con is null)
+                {
+                    if (tempConflicts.Contains(conflictsList[i - c]))
+                        continue;
+                }
+                //Dg conflicts
+                else if (dgList.Contains(con.ContainerNumber))
                 {
                     //Stowage
                     if (con.IsStowageConflict)
@@ -223,7 +247,7 @@ namespace EasyJob_ProDG.UI.Data
             }
 
             //Add new conflicts
-            foreach (DgConflictPanelItemViewModel conf in tempConflicts)
+            foreach (ConflictPanelItemViewModel conf in tempConflicts)
             {
                 conflictsList.AddNewConflict(conf);
             }

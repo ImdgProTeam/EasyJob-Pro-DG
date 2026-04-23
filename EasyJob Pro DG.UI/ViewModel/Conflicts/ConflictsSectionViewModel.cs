@@ -14,7 +14,6 @@ namespace EasyJob_ProDG.UI.ViewModel
     public class ConflictsSectionViewModel : Observable
     {
         // Private fields
-        IConflictDataService conflictDataService;
         ConflictListViewModel conflictListViewModel = ViewModelLocator.ConflictListViewModel;
         ConflictFilterButtonVM clearAllButton;
 
@@ -154,10 +153,8 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         public ConflictsSectionViewModel()
         {
-            conflictDataService = ConflictDataService.GetConflictDataService();
             LoadCommands();
 
-            Vents = conflictDataService.GetVentilationRequirements();
             FilteredConflictTypes = new();
 
             conflictListViewModel.DisplayConflictsSet -= SetIsAlertBadgeOnFilterButtons;

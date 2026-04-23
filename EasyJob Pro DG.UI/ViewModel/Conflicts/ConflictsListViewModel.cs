@@ -49,7 +49,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 conflictsFilter = (List<ConflictTypes>)conflictsTypes;
             }
             SetDisplayConflicts();
-        } 
+        }
 
         #endregion
 
@@ -61,7 +61,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         private void SetDisplayConflicts()
         {
-            allConflicts = conflictDataService.GetConflicts();
+            GatherAllConflicts();
             SetFilteredDisplayConflicts();
 
             foreach (var conflict in DisplayConflicts)
@@ -70,6 +70,14 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
 
             RaiseDisplayConflictsSetNotificationEvent();
+        }
+
+        /// <summary>
+        /// Receives all conflicts from <see cref="ConflictDataService"/>
+        /// </summary>
+        private void GatherAllConflicts()
+        {
+            allConflicts = conflictDataService.GetConflicts();
         }
 
         private void RaiseDisplayConflictsSetNotificationEvent()
@@ -103,7 +111,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 }
             }
 
-            var conflictsToRemove = DisplayConflicts.Where(c => !allConflicts.Any(conf =>  conf.Equals(c))).ToList();
+            var conflictsToRemove = DisplayConflicts.Where(c => !allConflicts.Any(conf => conf.Equals(c))).ToList();
             foreach (var conflict in conflictsToRemove)
                 DisplayConflicts.Remove(conflict);
         }
@@ -180,11 +188,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         #endregion
 
         #region Events
-        
+
         /// <summary>
         /// Raised when DisplayConflicts are set.
         /// </summary>
-        internal event EventHandler DisplayConflictsSet;  
+        internal event EventHandler DisplayConflictsSet;
 
         #endregion
 

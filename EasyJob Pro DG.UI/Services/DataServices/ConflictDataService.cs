@@ -3,7 +3,7 @@
 namespace EasyJob_ProDG.UI.Services.DataServices
 {
     /// <summary>
-    /// Provides Conflicts and VentilationRequirements.
+    /// Provides Conflicts
     /// </summary>
     internal class ConflictDataService : IConflictDataService
     {
@@ -25,7 +25,6 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         #endregion
 
         public ConflictsList Conflicts { get; private set; }
-        public VentilationRequirements Vents { get; private set; }
 
         /// <summary>
         /// Creates <see cref="Conflicts"/> and <see cref="Vents"/>
@@ -33,23 +32,16 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         /// <returns><see cref="Conflicts"/></returns>
         public ConflictsList GetConflicts()
         {
-            //Display info
             Conflicts.CreateConflictList(_cargoDataService.WorkingCargoPlan.DgList);
-            Vents.Check();
             return Conflicts;
         }
 
-        public VentilationRequirements GetVentilationRequirements()
-        {
-            return Vents;
-        }
 
         #region Constructor
 
         private ConflictDataService()
         {
             Conflicts = new();
-            Vents = new();
         }
 
         #endregion

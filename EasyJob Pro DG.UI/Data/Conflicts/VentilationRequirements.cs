@@ -10,47 +10,48 @@ namespace EasyJob_ProDG.UI.Data
 
         private readonly SortedSet<byte> _ventHolds = new SortedSet<byte>();
 
-        //public string VentHoldsFullText
-        //{
-        //    get
-        //    {
-        //        string result = "";
-        //        if (_ventHolds.Count > 0)
-        //        {
-        //            result = "Mechanical ventilation shall be started in: \n";
-        //            foreach (var hold in _ventHolds)
-        //            {
-        //                result += "- hold " + hold + "\n";
-        //            }
-        //        }
+        public string VentHoldsFullText
+        {
+            get
+            {
+                string result = "";
+                if (_ventHolds.Count > 0)
+                {
+                    result = "Mechanical ventilation shall be started in: \n";
+                    foreach (var hold in _ventHolds)
+                    {
+                        result += "- hold " + hold + "\n";
+                    }
+                }
 
-        //        return result;
-        //    }
-        //}
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// True if there is no requirement for ventilation.
+        /// </summary>
+        public bool IsEmpty => _ventHolds.Count == 0;
 
 
         // ---------------------- Methods -----------------------------------------------
 
-        public void Clear()
+        private void Clear()
         {
             _ventHolds.Clear();
             OnPropertyChanged();
         }
 
-        public bool Contains(byte value)
+        private bool Contains(byte value)
         {
             return _ventHolds.Contains(value);
         }
 
-        public void Add(byte value)
+        private void Add(byte value)
         {
             if (Contains(value)) return;
-
             _ventHolds.Add(value);
-            OnPropertyChanged();
         }
-
-        public SortedSet<byte> GetVentHolds() => _ventHolds;
 
         /// <summary>
         /// Method checks if there are any vent hold requirements in stowage and updates same in the class
@@ -60,7 +61,6 @@ namespace EasyJob_ProDG.UI.Data
             Clear();
             foreach (var hold in Stowage.SWgroups.VentHoldsList)
                 Add(hold);
-           // OnPropertyChanged(nameof(VentHoldsFullText));
         }
 
     }

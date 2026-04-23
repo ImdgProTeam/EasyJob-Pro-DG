@@ -1,6 +1,5 @@
 ﻿using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.Utility;
-using EasyJob_ProDG.UI.Wrapper;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
@@ -11,7 +10,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         // --------------- Internal properties ------------------------------------
 
         public ConflictTypes ConflictType { get; protected set; }
-
         public string Code { get; protected set; }
 
         #endregion
@@ -43,10 +41,6 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         #endregion
 
-
-
-
-
         #region Methods
 
         /// <summary>
@@ -74,7 +68,9 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         public virtual bool Equals(ConflictPanelItemViewModel conflict)
         {
-            return this == conflict;
+            return ConflictType == conflict.ConflictType
+                && DisplayConflictHeader == conflict.DisplayConflictHeader
+                && DisplayText == conflict.DisplayText;
         }
         #endregion
 
