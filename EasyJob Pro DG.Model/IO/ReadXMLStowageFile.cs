@@ -75,7 +75,7 @@ namespace EasyJob_ProDG.Model.IO
             var value = record.Element("Discharged").Value;
             var containerPOD = record.Element("DischargingPort").Value;
 
-            if (string.Equals(value, DISCHARGED_TAG_VALUE) 
+            if (string.Equals(value, DISCHARGED_TAG_VALUE)
                 && string.Equals(containerPOD, portOfDeparture, StringComparison.OrdinalIgnoreCase))
                 return true;
             return false;
@@ -124,7 +124,7 @@ namespace EasyJob_ProDG.Model.IO
                             dg.mpDetermined = true;
 
                         dg.Name = dgRecord.Element("Substance").Value;
-                        if (dg.Unno == 1950 && (dg.Name.Contains("MAXIMUM CAPACITY OF 1 LITRE") || dg.Name.ToLower().Replace(" ","").Contains("max1l")))
+                        if (dg.Unno == 1950 && (dg.Name.Contains("MAXIMUM CAPACITY OF 1 LITRE") || dg.Name.ToLower().Replace(" ", "").Contains("max1l")))
                             dg.IsMax1L = true;
 
                         string technicalName = dgRecord.Element("PSNameEnglish").Value;
@@ -162,22 +162,19 @@ namespace EasyJob_ProDG.Model.IO
 
         private static void ReadReefer(XElement record, Container container)
         {
-            if (string.Equals(record.Element("IsReeferContainer").Value.ToString().ToLower(), "true"))
+            var reeferRecord = record.Element("OperatingReefer");
+            if (reeferRecord == null) return;
+
+            container.IsRf = true;
+
+            if (decimal.TryParse(reeferRecord.Element("Temperature").Value, out decimal setTemp))
             {
-                container.IsRf = true;
-                var reeferRecord = record.Element("OperatingReefer");
-                if (reeferRecord != null)
+                if (string.Equals(reeferRecord.Element("TemperatureUnit")?.Value, "F"))
                 {
-                    if (decimal.TryParse(reeferRecord.Element("Temperature").Value, out decimal setTemp))
-                    {
-                        if (string.Equals(reeferRecord.Element("TemperatureUnit").Value, "F"))
-                        {
-                            container.SetTemperature = setTemp.ToCelcium();
-                        }
-                        else
-                            container.SetTemperature = setTemp;
-                    }
+                    container.SetTemperature = setTemp.ToCelcium();
                 }
+                else
+                    container.SetTemperature = setTemp;
             }
         }
 
@@ -203,20 +200,20 @@ namespace EasyJob_ProDG.Model.IO
             {
                 correctDgClass = inputDgClass;
             }
-            if(inputDgClass.Length == 2 && char.IsDigit(inputDgClass[0]) && char.IsDigit(inputDgClass[1]) )
+            if (inputDgClass.Length == 2 && char.IsDigit(inputDgClass[0]) && char.IsDigit(inputDgClass[1]))
             {
                 correctDgClass = $"{inputDgClass[0]}.{inputDgClass[1]}";
             }
-            if( inputDgClass.Length == 3 && char.IsLetter(inputDgClass[2]) 
+            if (inputDgClass.Length == 3 && char.IsLetter(inputDgClass[2])
                 && char.IsDigit(inputDgClass[0]) && char.IsDigit(inputDgClass[1]))
             {
-                correctDgClass = inputDgClass.Insert(1,".");
+                correctDgClass = inputDgClass.Insert(1, ".");
             }
-            if(inputDgClass.Length == 4 && IMDGCodeValidator.IsValidDgClass(inputDgClass))
+            if (inputDgClass.Length == 4 && IMDGCodeValidator.IsValidDgClass(inputDgClass))
             {
                 correctDgClass = inputDgClass;
             }
-            if(IMDGCodeValidator.IsValidDgClass(correctDgClass)) return true;
+            if (IMDGCodeValidator.IsValidDgClass(correctDgClass)) return true;
 
 
             return false;
