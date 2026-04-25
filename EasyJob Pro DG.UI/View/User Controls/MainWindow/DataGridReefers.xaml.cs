@@ -1,5 +1,4 @@
-﻿using EasyJob_ProDG.UI.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -88,8 +87,5 @@ namespace EasyJob_ProDG.UI.View.User_Controls
         }
 
         #endregion
-
-
-
     }
 }

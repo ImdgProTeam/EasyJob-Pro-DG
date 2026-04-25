@@ -458,6 +458,21 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
+                <!-- HasOperationModeChanged -->
+                <DataGridTemplateColumn x:Name="hasChangedLiveReeferModeColumn"
+                                        Header="Mode changed"
+                                        IsReadOnly="True"
+                                        
+                                        SortMemberPath="HasChangedLiveReeferMode">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding HasChangedLiveReeferMode, Mode=OneWay}"
+                                      IsEnabled="False" 
+                                      ToolTip="In the previous plan the unit was not a live reefer."/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
             </DataGrid.Columns>
 
             <!-- BEHAVIORS -->
