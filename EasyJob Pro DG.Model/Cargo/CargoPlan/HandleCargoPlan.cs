@@ -111,7 +111,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     .Select(c => c.ContainerNumber).ToList();
             }
             //creating list of container numbers with current POL
-            if (!string.IsNullOrEmpty(currentPol)) 
+            if (!string.IsNullOrEmpty(currentPol))
             {
                 containerNumbersCurrentPOL = existingCargoPlan.Containers.
                         Where(c => c.POL == currentPol)
@@ -124,7 +124,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 //if only import for current POL
                 if (!string.IsNullOrEmpty(currentPol))
                 {
-                    if (!containerNumbersCurrentPOL.Contains(dgToImport.ContainerNumber)) 
+                    if (!containerNumbersCurrentPOL.Contains(dgToImport.ContainerNumber))
                         continue;
                 }
 
@@ -162,7 +162,7 @@ namespace EasyJob_ProDG.Model.Cargo
                     {
                         //check if POD changed
                         if (!UserSettings.DoNotImportPOD &&
-                            !string.IsNullOrEmpty(dgToImport.POD) && 
+                            !string.IsNullOrEmpty(dgToImport.POD) &&
                             !string.Equals(container.POD, dgToImport.POD))
                         {
                             container.POD = dgToImport.POD;
@@ -172,7 +172,7 @@ namespace EasyJob_ProDG.Model.Cargo
 
                         //check if container type changed
                         if (!UserSettings.DoNotImportContainerType &&
-                            !string.IsNullOrEmpty(dgToImport.ContainerType) && 
+                            !string.IsNullOrEmpty(dgToImport.ContainerType) &&
                             !string.Equals(container.ContainerType, dgToImport.ContainerType))
                         {
                             container.ContainerType = dgToImport.ContainerType;
@@ -286,8 +286,6 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <returns>New resulting CargoPlan</returns>
         private static CargoPlan UpdateCargoPlan(this CargoPlan cargoPlan, CargoPlan newPlan)
         {
-            //TODO: To be tested properly!
-
             cargoPlan.ClearAllHasUpdated();
             cargoPlan.ClearUpdates();
 
@@ -338,6 +336,27 @@ namespace EasyJob_ProDG.Model.Cargo
                         {
                             existingContainer.HasContainerTypeChanged = true;
                             existingContainer.ContainerType = newContainer.ContainerType;
+                        }
+
+                        //add/remove reefer logic
+                        if (newContainer.IsRf != existingContainer.IsRf)
+                        {
+                            existingContainer.IsRf = newContainer.IsRf;
+                            existingContainer.HasChangedLiveReeferMode = true;
+                            if (newContainer.IsRf)
+                                existingContainer.CopyReeferInfo(newContainer);
+                        }
+
+                        //reefer setpoint change logic
+                        if (existingContainer.IsRf)
+                        {
+                            if(existingContainer.SetTemperature != newContainer.SetTemperature)
+                            {
+                                existingContainer.OldSetTemperature = existingContainer.SetTemperature;
+                                existingContainer.SetTemperature = newContainer.SetTemperature;
+                                existingContainer.HasSetPointChanged = true;
+                                existingContainer.ReeferRemark += $"\nOld set point was {existingContainer.OldSetTemperature:+0.0;-0.0;0.0}";
+                            }
                         }
 
                         //add unit to the plan
@@ -403,7 +422,7 @@ namespace EasyJob_ProDG.Model.Cargo
             }
 
             //Discharged containers
-            foreach(var container in existingCargoPlan.Containers)
+            foreach (var container in existingCargoPlan.Containers)
             {
                 resultingNewCargoPlan.AddToDischarged(container);
             }
@@ -414,7 +433,7 @@ namespace EasyJob_ProDG.Model.Cargo
             resultingNewCargoPlan.VoyageInfo.PortOfDestination = newPlan.VoyageInfo.PortOfDestination;
 
             //updates
-            resultingNewCargoPlan.Updates.HasPOLChanged = 
+            resultingNewCargoPlan.Updates.HasPOLChanged =
                 newPlan.VoyageInfo.PortOfDeparture != cargoPlan.VoyageInfo.PortOfDeparture;
 
             Data.LogWriter.Write($"Cargo plan successfully updated.");
@@ -456,13 +475,15 @@ namespace EasyJob_ProDG.Model.Cargo
         /// Resets all IUpdatable properties of the unit to false or null.
         /// </summary>
         /// <param name="unit">CargoPlan unit to be reset.</param>
-        private static void ClearUnitUpdates(IUpdatable unit)
+        private static void ClearUnitUpdates(Container unit)
         {
             unit.HasUpdated = false;
             unit.HasLocationChanged = false;
             unit.LocationBeforeRestow = string.Empty;
             unit.HasPodChanged = false;
             unit.HasContainerTypeChanged = false;
+
+            unit.ResetUpdatableReefer();
         }
 
         /// <summary>
@@ -491,7 +512,7 @@ namespace EasyJob_ProDG.Model.Cargo
             //Add new Container
             container.IsNewUnitInPlan = containerIsNew;
             resultingCargoPlan.Containers.Add(container);
-            if(containerIsNew)
+            if (containerIsNew)
                 resultingCargoPlan.AddToLoaded(container);
 
             if (container.IsRf)

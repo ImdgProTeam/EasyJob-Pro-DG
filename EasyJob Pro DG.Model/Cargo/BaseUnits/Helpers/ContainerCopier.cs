@@ -130,5 +130,20 @@ namespace EasyJob_ProDG.Model.Cargo
             dgToUpdate.IsLq = dgToImport.IsLq;
             dgToUpdate.DgNetWeight = dgToImport.DgNetWeight;
         }
+
+        /// <summary>
+        /// Copies all <see cref="IReefer"/> info from one unit to another
+        /// </summary>
+        /// <param name="reeferTo"></param>
+        /// <param name="reeferFrom"></param>
+        internal static void CopyReeferInfo(this IReefer reeferTo, IReefer reeferFrom)
+        {
+            reeferTo.SetTemperature = reeferFrom.SetTemperature;
+            reeferTo.VentSetting = reeferFrom.VentSetting;
+            reeferTo.Commodity = reeferFrom.Commodity;
+            reeferTo.ReeferSpecial = reeferFrom.ReeferSpecial;
+            reeferTo.LoadTemperature = reeferFrom.LoadTemperature;
+            reeferTo.ReeferRemark = reeferFrom.ReeferRemark;
+        }
     }
 }

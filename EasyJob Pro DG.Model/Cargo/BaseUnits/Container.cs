@@ -1,7 +1,7 @@
 ﻿namespace EasyJob_ProDG.Model.Cargo
 {
 
-    public class Container : ContainerAbstract, IReefer
+    public class Container : ContainerAbstract, IReefer, IO.IUpdatableReefer
     {
         #region Public properties
         // -------------- public properties -----------------------------------------
@@ -23,7 +23,6 @@
         public string ReeferSpecial { get; set; }
         public string ReeferRemark { get; set; }
 
-
         /// <summary>
         /// Removes all reefer-related property values.
         /// </summary>
@@ -38,6 +37,22 @@
         }
         #endregion
 
+        #region IUpdatableReefer
+        // ----- IUpdatableReefer
+        public bool HasChangedLiveReeferMode { get; set; }
+        public bool HasSetPointChanged { get; set; }
+        public decimal OldSetTemperature { get; set; }
+
+        /// <summary>
+        /// Sets <see cref="IUpdatableReefer"/> properties to false.
+        /// </summary>
+        public void ResetUpdatableReefer()
+        {
+            HasChangedLiveReeferMode = false;
+            HasSetPointChanged = false;
+        }
+
+        #endregion
 
         #region Public methods
         // -------------- public methods --------------------------------------------
