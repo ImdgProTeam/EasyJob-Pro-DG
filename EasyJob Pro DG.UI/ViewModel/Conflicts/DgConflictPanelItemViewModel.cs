@@ -1,7 +1,6 @@
 ﻿using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.Wrapper;
-using System;
 using System.Linq;
 
 namespace EasyJob_ProDG.UI.ViewModel.Conflicts
@@ -40,7 +39,6 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
 
         #region Display properties
 
-
         public override string DisplayConflictHeader => ContainerNumber;
 
         /// <summary>
@@ -50,7 +48,6 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
         {
             get
             {
-                if (Code.StartsWith("vent")) return "Hold ventilation";
                 if (Code.StartsWith("SW19")) return GROUP_TITLE_SW19;
                 if (Code.StartsWith("SW22")) return GROUP_TITLE_SW22;
                 if (ConflictType == ConflictTypes.Handling) return GROUP_TITLE_HANDLING;
@@ -61,50 +58,7 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
 
         #endregion
 
-        private string Description
-        {
-            get
-            {
-                //case fishmeal protected from heat
-                if (string.Equals(Code, "SSC3b"))
-                    return CodesDictionary.ConflictCodes[Code] + "\n" + Surrounded;
-                if (CodesDictionary.ConflictCodesPrefixes.Contains(CodesDictionary.GetCodePrefix(Code)))
-                    return CodesDictionary.ConflictCodes[Code];
-                else return Code + ": " + (IsSegregationConflict ? CodesDictionary.Segregation[Code]
-                        : (CodesDictionary.Stowage[Code] + (Code == "SW1" ? "\n" + Surrounded : ""))
-                        );
-            }
-        }
-
-        /// <summary>
-        /// Describes occupied container location around the unit.
-        /// </summary>
-        private string Surrounded => "Unit protected from: " + _dgUnit.Surrounded;
-
-        #region Override system methods
-        // ---------------- Overrided system methods ----------------------------
-        public override string ToString()
-        {
-            string result = DisplayConflictHeader + " in " + Location + " unno " + Unno + (IsSegregationConflict ? (" in conf with" + ConflictingDgNumber) : null);
-            return result;
-        }
-
-        public override bool Equals(ConflictPanelItemViewModel conflict)
-        {
-            var dgConflict = conflict as DgConflictPanelItemViewModel;
-            if (dgConflict is null) return false;
-            
-            return this.ContainerNumber == dgConflict.ContainerNumber
-                && this.Location == dgConflict.Location
-                && this.Unno == dgConflict.Unno
-                && this._dgUnit.AllDgClasses.All(c => dgConflict._dgUnit.AllDgClasses.Any(x => string.Equals(x, c)))
-                && Code == dgConflict.Code
-                && DgID == dgConflict.DgID
-                && ConflictingDgUnno == dgConflict.ConflictingDgUnno
-                && ConflictingDgNumber == dgConflict.ConflictingDgNumber;
-        }
-
-        #endregion
+        #region Protected override methods
 
         protected override string CreateDisplayText()
         {
@@ -135,6 +89,57 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
             result += "\n" + Description;
             return result;
         }
+
+        #endregion
+
+        #region Private methods and properties
+
+        private string Description
+        {
+            get
+            {
+                //case fishmeal protected from heat
+                if (string.Equals(Code, "SSC3b"))
+                    return CodesDictionary.ConflictCodes[Code] + "\n" + Surrounded;
+                if (CodesDictionary.ConflictCodesPrefixes.Contains(CodesDictionary.GetCodePrefix(Code)))
+                    return CodesDictionary.ConflictCodes[Code];
+                else return Code + ": " + (IsSegregationConflict ? CodesDictionary.Segregation[Code]
+                        : (CodesDictionary.Stowage[Code] + (Code == "SW1" ? "\n" + Surrounded : ""))
+                        );
+            }
+        }
+
+        /// <summary>
+        /// Describes occupied container location around the unit.
+        /// </summary>
+        private string Surrounded => "Unit protected from: " + _dgUnit.Surrounded; 
+
+        #endregion
+
+        #region Override system methods
+        // ---------------- Overrided system methods ----------------------------
+        public override string ToString()
+        {
+            string result = DisplayConflictHeader + " in " + Location + " unno " + Unno + (IsSegregationConflict ? (" in conf with" + ConflictingDgNumber) : null);
+            return result;
+        }
+
+        public override bool Equals(ConflictPanelItemViewModel conflict)
+        {
+            var dgConflict = conflict as DgConflictPanelItemViewModel;
+            if (dgConflict is null) return false;
+
+            return this.ContainerNumber == dgConflict.ContainerNumber
+                && this.Location == dgConflict.Location
+                && this.Unno == dgConflict.Unno
+                && this._dgUnit.AllDgClasses.All(c => dgConflict._dgUnit.AllDgClasses.Any(x => string.Equals(x, c)))
+                && Code == dgConflict.Code
+                && DgID == dgConflict.DgID
+                && ConflictingDgUnno == dgConflict.ConflictingDgUnno
+                && ConflictingDgNumber == dgConflict.ConflictingDgNumber;
+        }
+
+        #endregion
 
         #region Constructor 
 

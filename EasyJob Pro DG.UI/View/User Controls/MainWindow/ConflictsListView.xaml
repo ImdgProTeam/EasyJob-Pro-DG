@@ -104,6 +104,10 @@
                                                 <Setter TargetName="IconHolder" Property="Text"
                                                         Value="{StaticResource HoldVentIcon}" />
                                             </DataTrigger>
+                                            <DataTrigger Binding="{Binding Name}" Value="Information">
+                                                <Setter TargetName="IconHolder" Property="Text"
+                                                        Value="{StaticResource InformationIcon}" />
+                                            </DataTrigger>
                                         </ControlTemplate.Triggers>
                                         
                                     </ControlTemplate>

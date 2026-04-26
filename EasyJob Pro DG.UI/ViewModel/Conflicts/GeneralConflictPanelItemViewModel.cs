@@ -4,6 +4,9 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
 {
     public class GeneralConflictPanelItemViewModel : ConflictPanelItemViewModel
     {
+        const string GROUP_TITLE_VENTILATION = "Hold ventilation";
+        const string GROUP_TITLE_INFO = "Information";
+
         // --------------- Private fields ---------------------------------------
         private string _title;
         private string _description;
@@ -22,10 +25,8 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
         {
             get
             {
-                if (ConflictType == ConflictTypes.VentRequirement) return "Hold ventilation";
-                if (Code.StartsWith("SW19")) return "SW19";
-                if (Code.StartsWith("SW22")) return "SW22";
-                else return "Stowage";
+                if (ConflictType == ConflictTypes.VentRequirement) return GROUP_TITLE_VENTILATION;
+                else return GROUP_TITLE_INFO;
             }
         }
 

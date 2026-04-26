@@ -63,6 +63,7 @@ namespace EasyJob_ProDG.UI.Data
             conflictsList.CreateSegregationConflictList(dgList);
             conflictsList.CreateSwConflicts();
             conflictsList.CreateHoldVentRequirements();
+            conflictsList.CreateWarnings();
         }
 
         /// <summary>
@@ -169,7 +170,10 @@ namespace EasyJob_ProDG.UI.Data
             }
         }
 
-
+        /// <summary>
+        /// Adds vents requirements as new single conflict to <see cref="ConflictsList"/>
+        /// </summary>
+        /// <param name="conflictsList"></param>
         private static void CreateHoldVentRequirements(this ConflictsList conflictsList)
         {
             var vents = new VentilationRequirements();
@@ -252,5 +256,6 @@ namespace EasyJob_ProDG.UI.Data
                 conflictsList.AddNewConflict(conf);
             }
         }
+
     }
 }

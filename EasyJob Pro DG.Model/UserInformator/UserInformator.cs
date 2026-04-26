@@ -88,7 +88,7 @@ namespace EasyJob_ProDG.Model
         /// Receive a list of all stored <see cref="InformationMessage"/>s.
         /// </summary>
         /// <returns></returns>
-        public static List<InformationMessage> GetAllMessages()
+        private static List<InformationMessage> GetAllMessages()
         {
             List<InformationMessage> result =
             [

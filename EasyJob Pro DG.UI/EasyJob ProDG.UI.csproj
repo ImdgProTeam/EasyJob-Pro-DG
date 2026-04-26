@@ -111,6 +111,7 @@
     </ApplicationDefinition>
     <Compile Include="Data\Conflicts\ConflictsListFilter.cs" />
     <Compile Include="Data\Conflicts\ConflictsListHandler.cs" />
+    <Compile Include="Data\Conflicts\ConflictsListWarningsHandler.cs" />
     <Compile Include="Data\Conflicts\ConflictTypes.cs" />
     <Compile Include="IO\DialogOpenSettings.cs" />
     <Compile Include="IO\DialogSaveSettings.cs" />
