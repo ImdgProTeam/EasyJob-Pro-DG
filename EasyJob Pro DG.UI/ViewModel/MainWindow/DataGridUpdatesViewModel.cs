@@ -1,6 +1,7 @@
 ﻿using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.Wrapper;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -64,27 +65,29 @@ namespace EasyJob_ProDG.UI.ViewModel
             if (message is null) return;
             string unitType = string.Empty;
 
-            switch (message.Units)
-            {
-                case View.Units.Containers:
-                    UpdatedContainers = [.. message.ContainersToShow.Select(c => new ContainerWrapper(c))];
-                    unitType = UpdatedContainers.Count > 0 ? "containers" : "container";
-                    break;
-                case View.Units.Reefers:
-                    UpdatedContainers = [.. message.ContainersToShow
+            if (!HandleReeferModeChanged(message, ref unitType))
+                switch (message.Units)
+                {
+                    case View.Units.Containers:
+                        UpdatedContainers = [.. message.ContainersToShow.Select(c => new ContainerWrapper(c))];
+                        unitType = UpdatedContainers.Count > 0 ? "containers" : "container";
+                        break;
+                    case View.Units.Reefers:
+                        UpdatedContainers = [.. message.ContainersToShow
                         .Where(c => c.IsRf)
                         .Select(c => new ContainerWrapper(c))];
-                    unitType = UpdatedContainers.Count > 0 ? "reefers" : "reefer";
-                    break;
-                case View.Units.DgContainers:
-                    UpdatedContainers = [.. message.ContainersToShow
+                        unitType = UpdatedContainers.Count > 0 ? "reefers" : "reefer";
+                        break;
+                    case View.Units.DgContainers:
+                        UpdatedContainers = [.. message.ContainersToShow
                         .Where(c => c.ContainsDgCargo)
                         .Select(c => new ContainerWrapper(c))];
-                    unitType = UpdatedContainers.Count > 0 ? "dg containers" : "dg container";
-                    break;
-                default:
-                    break;
-            }
+                        unitType = UpdatedContainers.Count > 0 ? "dg containers" : "dg container";
+                        break;
+                    default:
+                        break;
+                }
+
             SetDataView();
             OnPropertyChanged(nameof(UnitsPlanView));
 
@@ -92,6 +95,26 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             Visible = Visibility.Visible;
             OnPropertyChanged(nameof(Visible));
+        }
+
+        private bool HandleReeferModeChanged(ShowUpdatesMessage message, ref string unitType)
+        {
+            if (!string.Equals(message.DisplayText, "Operating mode changed")) return false;
+
+            switch (message.Units)
+            {
+                case View.Units.Containers:
+                    UpdatedContainers = [.. message.ContainersToShow.Where(c => !c.IsRf).Select(c => new ContainerWrapper(c))];
+                    unitType = UpdatedContainers.Count > 0 ? "inactive reefers" : "inactive reefer";
+                    break;
+                case View.Units.Reefers:
+                    UpdatedContainers = [.. message.ContainersToShow
+                        .Where(c => c.IsRf)
+                        .Select(c => new ContainerWrapper(c))];
+                    unitType = UpdatedContainers.Count > 0 ? "live reefers" : "live reefer";
+                    break;
+            }
+            return true;
         }
 
         private void SetStatusBarOnMessageReceived(ShowUpdatesMessage message, string unitType)
@@ -112,7 +135,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         internal void HideUpdatesDataGrid()
         {
             Visible = Visibility.Collapsed;
-            OnPropertyChanged(nameof(Visible)); 
+            OnPropertyChanged(nameof(Visible));
         }
 
         #region Implementation of abstract class methods

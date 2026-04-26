@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="EasyJob_ProDG.UI.View.DialogWindows.Summaries.UserControls.UpdateReeferModeReportBlock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows.Summaries.UserControls"
+             mc:Ignorable="d" 
+             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows.Summaries.Converters"
+             xmlns:converters2="clr-namespace:EasyJob_ProDG.UI.View.Converters"
+             >
+    <UserControl.Resources>
+        <converters:IntToStringConverter x:Key="IntToStringConverter"/>
+        <converters:IntToCollapsedConverter x:Key="IntToCollapsedConverter"/>
+        <converters:UpdateReportBlockVisibilityMultiConverter x:Key="UpdateReportBlockVisibilityMultiConverter"/>
+        <converters2:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <Style TargetType="TextBlock" >
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding HighlightTitle}" Value="True">
+                    <Setter Property="Foreground" Value="{StaticResource Brush.UpdateReportBlock.HighlightText}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ThisControlButtonsStyle"
+            TargetType="Button" BasedOn="{StaticResource ButtonAsBlackTextLinkStyle}">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+            <Setter Property="Width" Value="150"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid
+        Visibility="{Binding ShowVisible}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="{Binding BlockLabel, RelativeSource={RelativeSource AncestorType={x:Type UserControl}},
+            FallbackValue='Group of containers'}">
+        </TextBlock>
+        <StackPanel Grid.Column="1">
+
+            <Button Content="{Binding ContainersCount, Converter={StaticResource IntToStringConverter}, 
+                    ConverterParameter='dry reefer(s)'}"
+                    Command="{Binding ShowContainers}" 
+                    Padding="0 0 23 0"
+                    d:Content="22 355 dry reefer(s)">
+                <Button.Visibility>
+                    <MultiBinding Converter="{StaticResource UpdateReportBlockVisibilityMultiConverter}">
+                        <Binding Path="ContainersCount"/>
+                        <Binding Path="ShowZeroValues"/>
+                    </MultiBinding>
+                </Button.Visibility>
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource ThisControlButtonsStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HighlightContainers}" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource Brush.UpdateReportBlock.HighlightText}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <Button Content="{Binding ReefersCount, Converter={StaticResource IntToStringConverter},
+                ConverterParameter='live reefer(s)'}"
+                    Command="{Binding ShowReefers}" 
+                    Padding="0 0 21 0"
+                    d:Content="46 live reefer(s)">
+                <Button.Visibility>
+                    <MultiBinding Converter="{StaticResource UpdateReportBlockVisibilityMultiConverter}">
+                        <Binding Path="ReefersCount"/>
+                        <Binding Path="ShowZeroValues"/>
+                    </MultiBinding>
+                </Button.Visibility>
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource ThisControlButtonsStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HighlightReefers}" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource Brush.UpdateReportBlock.HighlightText}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            
+        </StackPanel>
+    </Grid>
+</UserControl>

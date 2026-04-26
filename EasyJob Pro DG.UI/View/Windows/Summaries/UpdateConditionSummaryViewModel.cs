@@ -42,6 +42,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
         List<Container> restowedContainers;
         List<Container> changedPositionContainers;
         List<Container> changedPODContainers;
+        List<Container> changedModeReefers;
         List<Container> transitContainers;
 
         #endregion
@@ -86,6 +87,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
         public UpdateReportBlockCondition BlockRestows { get; private set; }
         public UpdateReportBlockCondition BlockChangedPosition { get; private set; }
         public UpdateReportBlockCondition BlockChangedPOD { get; private set; }
+        public UpdateReportBlockCondition BlockChangedReeferMode { get; private set; }
         public UpdateReportBlockCondition BlockTransit { get; private set; }
 
         public string UpdatedForText { get; private set; }
@@ -154,6 +156,10 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
             changedPODContainers = CargoPlanContainers.Where(c => c.HasPodChanged).ToList();
             BlockChangedPOD = CreateBlock(changedPODContainers);
 
+            // Changed reefer mode
+            changedModeReefers = CargoPlanContainers.Where(c => c.HasChangedLiveReeferMode).ToList();
+            BlockChangedReeferMode = CreateReeferModeBlock(changedModeReefers);
+
             // Transit cargo
             transitContainers = CargoPlanContainers.Where(c => !LoadedContainers.Contains(c)).ToList();
             BlockTransit = CreateBlock(transitContainers);
@@ -176,6 +182,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
             BlockRestows.OnShowContainersExectued += ShowRestowedContainers;
             BlockChangedPosition.OnShowContainersExectued += ShowChangedPositionContainers;
             BlockChangedPOD.OnShowContainersExectued += ShowChangedPODContainers;
+            BlockChangedReeferMode.OnShowContainersExectued += ShowChangedModeReefers;
             BlockTransit.OnShowContainersExectued += ShowTransitContainers;
         }
 
@@ -190,6 +197,15 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
             int reefersCount = listOfContainers.Count(c => c.IsRf);
             int dgCount = listOfContainers.Count(c => c.ContainsDgCargo);
             var block = new UpdateReportBlockCondition(containersCount, reefersCount, dgCount);
+
+            return block;
+        }
+
+        private UpdateReportBlockCondition CreateReeferModeBlock(List<Container> listOfContainers)
+        {
+            int containersCount = listOfContainers.Count(c => !c.IsRf);
+            int reefersCount = listOfContainers.Count(c => c.IsRf);
+            var block = new UpdateReportBlockCondition(containersCount, reefersCount, 0);
 
             return block;
         }
@@ -260,6 +276,8 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
                     BlockChangedPosition.OnShowContainersExectued -= ShowChangedPositionContainers;
                 if (BlockChangedPOD is not null)
                     BlockChangedPOD.OnShowContainersExectued -= ShowChangedPODContainers;
+                if (BlockChangedReeferMode is not null)
+                    BlockChangedReeferMode.OnShowContainersExectued -= ShowChangedModeReefers;
                 if (BlockTransit is not null)
                     BlockTransit.OnShowContainersExectued -= ShowTransitContainers;
             }
@@ -306,6 +324,10 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.Summaries
         private void ShowChangedPODContainers(object sender, EventArgs e)
         {
             SendMessageAndCloseWindow(changedPODContainers, e, "Port of destination changed");
+        }
+        private void ShowChangedModeReefers(object sender, EventArgs e)
+        {
+            SendMessageAndCloseWindow(changedModeReefers, e, "Operating mode changed");
         }
         private void ShowChangedPositionContainers(object sender, EventArgs e)
         {

@@ -16,9 +16,9 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         public bool HasUpdates => 
             !WorkingCargoPlan.Model.Updates.IsEmpty 
             || WorkingCargoPlan.Containers.Any(c => c.HasPodChanged)
-            || WorkingCargoPlan.Containers.Any(c => c.HasLocationChanged);
-
-        
+            || WorkingCargoPlan.Containers.Any(c => c.HasLocationChanged)
+            || WorkingCargoPlan.Containers.Any(c => c.HasChangedLiveReeferMode);
+                
         #region Singleton
 
         /// <summary>

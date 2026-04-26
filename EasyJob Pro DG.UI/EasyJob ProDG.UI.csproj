@@ -158,6 +158,9 @@
     </Compile>
     <Compile Include="View\Windows\Info\WelcomeWindowVM.cs" />
     <Compile Include="View\Windows\Info\WinAboutViewModel.cs" />
+    <Compile Include="View\Windows\Summaries\UserControls\UpdateReeferModeReportBlock.cs">
+      <DependentUpon>UpdateReeferModeReportBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Windows\ToolWindows\ToolWindowsCommonMethods.cs" />
     <Compile Include="View\Windows\ToolWindows\FilterToolViewModel.cs" />
     <Compile Include="View\Windows\ToolWindows\SelectionControl.cs" />
@@ -446,6 +449,10 @@
     <Page Include="View\Windows\Info\winLicence.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Windows\Summaries\UserControls\UpdateReeferModeReportBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Windows\ToolWindows\SelectionControl.xaml">
       <Generator>MSBuild:Compile</Generator>
