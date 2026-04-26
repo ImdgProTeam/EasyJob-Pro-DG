@@ -15,6 +15,7 @@
         <converters2:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Style TargetType="TextBlock" >
             <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="TextAlignment" Value="Right"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding HighlightTitle}" Value="True">
                     <Setter Property="Foreground" Value="{StaticResource Brush.UpdateReportBlock.HighlightText}"/>

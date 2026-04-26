@@ -66,27 +66,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             string unitType = string.Empty;
 
             if (!HandleReeferModeChanged(message, ref unitType))
-                switch (message.Units)
-                {
-                    case View.Units.Containers:
-                        UpdatedContainers = [.. message.ContainersToShow.Select(c => new ContainerWrapper(c))];
-                        unitType = UpdatedContainers.Count > 0 ? "containers" : "container";
-                        break;
-                    case View.Units.Reefers:
-                        UpdatedContainers = [.. message.ContainersToShow
-                        .Where(c => c.IsRf)
-                        .Select(c => new ContainerWrapper(c))];
-                        unitType = UpdatedContainers.Count > 0 ? "reefers" : "reefer";
-                        break;
-                    case View.Units.DgContainers:
-                        UpdatedContainers = [.. message.ContainersToShow
-                        .Where(c => c.ContainsDgCargo)
-                        .Select(c => new ContainerWrapper(c))];
-                        unitType = UpdatedContainers.Count > 0 ? "dg containers" : "dg container";
-                        break;
-                    default:
-                        break;
-                }
+                SetUpdatedContainersAndUnitType(message, ref unitType);
 
             SetDataView();
             OnPropertyChanged(nameof(UnitsPlanView));
@@ -95,6 +75,31 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             Visible = Visibility.Visible;
             OnPropertyChanged(nameof(Visible));
+        }
+
+        private void SetUpdatedContainersAndUnitType(ShowUpdatesMessage message, ref string unitType)
+        {
+            switch (message.Units)
+            {
+                case View.Units.Containers:
+                    UpdatedContainers = [.. message.ContainersToShow.Select(c => new ContainerWrapper(c))];
+                    unitType = UpdatedContainers.Count > 0 ? "containers" : "container";
+                    break;
+                case View.Units.Reefers:
+                    UpdatedContainers = [.. message.ContainersToShow
+                        .Where(c => c.IsRf)
+                        .Select(c => new ContainerWrapper(c))];
+                    unitType = UpdatedContainers.Count > 0 ? "reefers" : "reefer";
+                    break;
+                case View.Units.DgContainers:
+                    UpdatedContainers = [.. message.ContainersToShow
+                        .Where(c => c.ContainsDgCargo)
+                        .Select(c => new ContainerWrapper(c))];
+                    unitType = UpdatedContainers.Count > 0 ? "dg containers" : "dg container";
+                    break;
+                default:
+                    break;
+            }
         }
 
         private bool HandleReeferModeChanged(ShowUpdatesMessage message, ref string unitType)
