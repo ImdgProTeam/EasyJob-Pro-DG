@@ -19,22 +19,25 @@ VERSION INFO
 
 
 0.9.24.8
-Date: 
+Date: 26 April 2026
 
 Licence: 31 Dec 2026
 
 Version workable: Yes
-Changes: 
+Changes: Conflicts filter, more conflict groups, reefer operational mode change in updates, set temperature change is monitored
 
 
 VISUAL
-1. None
+1. Re-arranged ConflictsSection.
+2. New column 'Mode changed' in DataGridReefes 
 
 ERRORS FIXED
-1. None
+1. Change in reefer operational mode will be updated with 'Update' condition.
 
 NEW
-1. None
+1. New conflicts groups
+2. Conflicts filter
+3. Monitoring changes in reefers operational mode and set points.
 
 Fully functional release
 -------------------------------------------------------
