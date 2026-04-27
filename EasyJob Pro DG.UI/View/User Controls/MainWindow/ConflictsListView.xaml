@@ -20,7 +20,6 @@
                 <PropertyGroupDescription PropertyName="ConflictGroupTitle" />
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
-        <!--<converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />-->
     </UserControl.Resources>
 
     <Grid x:Name="mainConflictListGrid">
