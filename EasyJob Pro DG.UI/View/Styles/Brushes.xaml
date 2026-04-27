@@ -277,7 +277,7 @@
     
     <!--#region IconColors -->
     <SolidColorBrush x:Key="Brush.Icon.MouseOver"
-                     Color="{StaticResource Color.Basic.Gray}"
+                     Color="{StaticResource Color.DgTable.HighlightRow}"
                      p:Freeze="true" />
     <SolidColorBrush x:Key="Brush.Icon.MouseOverOnSelected"
                      Color="{StaticResource Color.Basic.Gray}"
@@ -292,4 +292,9 @@
                      Color="{StaticResource Color.Basic.Orange}"
                      p:Freeze="true" />
     <!--#endregion-->
+    
+    <!-- Button colors -->
+    <SolidColorBrush x:Key="Brush.Button.ReCheck.MouseOver.Background"
+                     Color="{StaticResource Color.Button.ReCheck.MouseOver.Background}"
+                     p:Freeze="true" />
 </ResourceDictionary>

@@ -234,4 +234,42 @@
         </Style.Triggers>
     </Style>
 
+    <!-- Re-check conflicts button -->
+    <Style x:Key="RecheckButtonStyle"
+        TargetType="{x:Type Button}"
+           BasedOn="{StaticResource BasicButton}"
+           >
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="FontFamily" Value="{StaticResource IconsFont}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="border"
+                                    Property="Background"
+                                    Value="{StaticResource Brush.Button.ReCheck.MouseOver.Background}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>    
+                </ControlTemplate>
+                
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <!--<Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground"
+                        Value="{StaticResource Brush.Icon.MouseOver}" />
+            </Trigger>-->
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

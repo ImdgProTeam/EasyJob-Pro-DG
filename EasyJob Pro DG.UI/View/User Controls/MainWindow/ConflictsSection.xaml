@@ -10,7 +10,6 @@
         <DockPanel 
             LastChildFill="True">
 
-        
         <!-- Conflict list header and Update button -->
         
         <Grid DockPanel.Dock="Top">
@@ -33,21 +32,22 @@
         </Grid>
 
 
-        <Grid DockPanel.Dock="Bottom">
-            <Button Content="Re-check"
-                    MaxWidth="100"
-                    MaxHeight="30"
-                    Margin="5"
-                    Padding="20, 5"
-                    VerticalContentAlignment="Center"
+        <StackPanel DockPanel.Dock="Bottom"
+                    Orientation="Horizontal"
                     HorizontalAlignment="Right"
-                    Grid.Column="1"
-                    Command="{Binding ReCheckCommand}" />
-        </Grid>
-
+                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                    CanHorizontallyScroll="True">
         <local:ConflictsFilterPanel HorizontalAlignment="Stretch"
-                                    DockPanel.Dock="Bottom"
                                     DataContext="{Binding FilterButtons}" />
+
+            <Button Content="{StaticResource RefreshIcon}"
+                    ToolTip="Re-check conflicts"
+                    Padding="8"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource RecheckButtonStyle}"
+                    Command="{Binding ReCheckCommand}" />
+
+        </StackPanel>
 
         <!---   Conflicts list   -->
         <local:ConflictsListView />

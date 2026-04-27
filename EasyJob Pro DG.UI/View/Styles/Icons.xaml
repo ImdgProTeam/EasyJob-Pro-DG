@@ -2,10 +2,16 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:EasyJob_ProDG.Style"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="SpinnerIcon">&#xf1ce;</system:String>
     <system:String x:Key="StowageIcon">&#xf039;</system:String> 
     <system:String x:Key="SegregationIcon">&#xf009;</system:String> 
-    <system:String x:Key="HoldVentIcon">&#xf069;</system:String> 
-    <system:String x:Key="HandlingIcon">&#xf187;</system:String> 
+    <!--<system:String x:Key="HoldVentIcon">&#xf069;</system:String>--> 
+    <system:String x:Key="HoldVentIcon">&#xf2dc;</system:String> 
+    <!--<system:String x:Key="HandlingIcon">&#xf187;</system:String>--> 
+    <system:String x:Key="HandlingIcon">&#xf256;</system:String> 
     <system:String x:Key="InformationIcon">&#xf05a;</system:String> 
-    <system:String x:Key="ClearAllIcon">&#xf2d4;</system:String> 
+    <!--<system:String x:Key="ClearAllIcon">&#xf2d4;</system:String>--> 
+    <system:String x:Key="ClearAllIcon">&#xf2d4;</system:String>
+
+    <system:String x:Key="RefreshIcon">&#xf01e;</system:String> 
 </ResourceDictionary>

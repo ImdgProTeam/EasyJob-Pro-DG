@@ -46,8 +46,8 @@
         <ListBox.Resources>
 
             <DataTemplate DataType="{x:Type vm:ConflictFilterButtonVM}">
-                <ToggleButton VerticalAlignment="Stretch"
-                              Margin="2"
+                <ToggleButton 
+                              Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
                               Content="{Binding Title}"
                               ToolTip="{Binding Hint}"
                               IsEnabled="{Binding IsActive}"

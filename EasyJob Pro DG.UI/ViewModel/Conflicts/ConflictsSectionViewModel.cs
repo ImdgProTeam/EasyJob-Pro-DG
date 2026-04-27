@@ -51,7 +51,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 },
                 new ConflictFilterButtonVM(ConflictTypes.Segregation, "SG")
                 {
-                    Hint="Segregarion conflicts",
+                    Hint="Segregation conflicts",
                 },
                 new ConflictFilterButtonVM(ConflictTypes.VentRequirement, "Vent")
                 {
