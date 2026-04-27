@@ -86,7 +86,8 @@
     <Color x:Key="Color.ToolboxWindow.BlocksBackground">WhiteSmoke</Color>
     
     <!-- Buttons -->
-    <Color x:Key="Color.Button.Background">White</Color>    
+    <Color x:Key="Color.Button.Background">White</Color>
+    <Color x:Key="Color.Button.ReCheck.MouseOver.Background">LightBlue</Color>
     
     <!-- UpdateConditionSummary -->
     <Color x:Key="Color.UpdateReportColor.InactiveText">Gray</Color>

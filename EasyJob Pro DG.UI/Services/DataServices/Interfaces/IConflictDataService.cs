@@ -3,11 +3,10 @@
 namespace EasyJob_ProDG.UI.Services.DataServices
 {
     /// <summary>
-    /// Provides Conflicts and VentilationRequirements.
+    /// Provides Conflicts.
     /// </summary>
     internal interface IConflictDataService
     {
         ConflictsList GetConflicts();
-        VentilationRequirements GetVentilationRequirements();
     }
 }

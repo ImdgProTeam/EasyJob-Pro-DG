@@ -1,20 +1,30 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters">
 
+    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    
     <!-- Basic button style (will be used as general style for all the buttons in the application -->
-    <Style TargetType="{x:Type Button}" x:Key="BasicButton">
-        <Setter Property="Margin" Value="4" />
-        <Setter Property="FontSize" Value="{StaticResource StandardButtonFontSize}" />
-        <Setter Property="Background" Value="{StaticResource Brush.Button.Background}" />
+    <Style TargetType="{x:Type Button}"
+           x:Key="BasicButton">
+        <Setter Property="Margin"
+                Value="4" />
+        <Setter Property="FontSize"
+                Value="{StaticResource StandardButtonFontSize}" />
+        <Setter Property="Background"
+                Value="{StaticResource Brush.Button.Background}" />
     </Style>
 
     <!-- Toolbox windows bottom buttons style -->
     <Style x:Key="ToolBoxWindowControlButtonStyle"
            BasedOn="{StaticResource BasicButton}"
            TargetType="{x:Type Button}">
-        <Setter Property="Margin" Value="5"/>
-        <Setter Property="MaxWidth" Value="120"/>
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Margin"
+                Value="5" />
+        <Setter Property="MaxWidth"
+                Value="120" />
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
     </Style>
 
 
@@ -22,31 +32,43 @@
     <Style x:Key="SummaryWindowButtonStyle"
            BasedOn="{StaticResource ToolBoxWindowControlButtonStyle}"
            TargetType="Button">
-        <Setter Property="Padding" Value="10, 3"/>
-        <Setter Property="MinWidth" Value="90"/>
+        <Setter Property="Padding"
+                Value="10, 3" />
+        <Setter Property="MinWidth"
+                Value="90" />
     </Style>
 
     <!-- Button style with appearence of hyperlink -->
-    <Style x:Key="ButtonAsLinkStyle" TargetType="{x:Type Button}">
-        <Setter Property="Foreground" Value="{StaticResource Brush.Basic.Hyperlink.Blue}"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Focusable" Value="False"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Style x:Key="ButtonAsLinkStyle"
+           TargetType="{x:Type Button}">
+        <Setter Property="Foreground"
+                Value="{StaticResource Brush.Basic.Hyperlink.Blue}" />
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="Cursor"
+                Value="Hand" />
+        <Setter Property="Focusable"
+                Value="False" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border Background="{TemplateBinding Background}"
-                                BorderThickness="0">
-                        <TextBlock HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center"
-                                   Text="{TemplateBinding Content}"  
+                            BorderThickness="0">
+                        <TextBlock HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="Center"
+                                   Text="{TemplateBinding Content}"
                                    Margin="{TemplateBinding Padding}">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="TextBlock.TextDecorations" Value="Underline"/>
-                                            <Setter Property="Foreground" Value="{StaticResource Brush.Basic.Orange}"/>
+                                        <Trigger Property="IsMouseOver"
+                                                 Value="True">
+                                            <Setter Property="TextBlock.TextDecorations"
+                                                    Value="Underline" />
+                                            <Setter Property="Foreground"
+                                                    Value="{StaticResource Brush.Basic.Orange}" />
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
@@ -57,45 +79,197 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!-- Button style with appearence as black hyperlink -->
-    <Style x:Key="ButtonAsBlackTextLinkStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonAsLinkStyle}">
-        <Setter Property="Foreground" Value="{StaticResource Brush.Text.Main}"/>
+    <Style x:Key="ButtonAsBlackTextLinkStyle"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource ButtonAsLinkStyle}">
+        <Setter Property="Foreground"
+                Value="{StaticResource Brush.Text.Main}" />
     </Style>
-    
+
     <!-- Button 'Clear' style of tool windows -->
-    <Style x:Key="ButtonClearStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonAsLinkStyle}">
+    <Style x:Key="ButtonClearStyle"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource ButtonAsLinkStyle}">
 
         <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
+            <Trigger Property="IsEnabled"
+                     Value="False">
                 <Setter Property="Foreground"
                         Value="{StaticResource Brush.ToolboxWindow.Background}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
-<!-- Button 'close' in Updates tab -->
-    <Style TargetType="Button" x:Key="TabButtonClose">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
+    <!-- Button 'close' in Updates tab -->
+    <Style TargetType="Button"
+           x:Key="TabButtonClose">
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="Foreground"
+                Value="Transparent" />
+        <Setter Property="BorderThickness"
+                Value="0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="{StaticResource Brush.UpdateReportBlock.InactiveText}"/>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Foreground"
+                        Value="{StaticResource Brush.UpdateReportBlock.InactiveText}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <!-- Assign all buttons general style -->
-    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BasicButton}"/>
+    <Style TargetType="{x:Type Button}"
+           BasedOn="{StaticResource BasicButton}" />
 
+    <!-- Conflict filter buttons with alert icons -->
+    <Style TargetType="ToggleButton"
+           x:Key="CheckButtonWithIcon">
+        <Setter Property="FontFamily" Value="{StaticResource IconsFont}" />
+        <Setter Property="FontSize" Value="{StaticResource StandardIconFontSize}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="5">
+                        <Grid>
+                            <Ellipse Fill="{StaticResource Brush.Icon.NotificationBadge}"
+                                     Visibility="{Binding IsAlert, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                     HorizontalAlignment="Right"
+                                     VerticalAlignment="Top"
+                                     Margin="0 -1 -2 0"
+                                     Height="5"
+                                     Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Self}}">
+                            </Ellipse>
+                            <!--<TextBlock Text="&#xf039;" />-->
+                            <ContentPresenter x:Name="IconPresenter"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    
+                    <!-- Icons -->
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource Self}}"
+                                     Value="SW">
+                            <Setter TargetName="IconPresenter"
+                                    Property="Content"
+                                    Value="{StaticResource StowageIcon}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource Self}}"
+                                     Value="SG">
+                            <Setter TargetName="IconPresenter"
+                                    Property="Content"
+                                    Value="{StaticResource SegregationIcon}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource Self}}"
+                                     Value="Vent">
+                            <Setter TargetName="IconPresenter"
+                                    Property="Content"
+                                    Value="{StaticResource HoldVentIcon}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource Self}}"
+                                     Value="Hand">
+                            <Setter TargetName="IconPresenter"
+                                    Property="Content"
+                                    Value="{StaticResource HandlingIcon}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource Self}}"
+                                     Value="Info">
+                            <Setter TargetName="IconPresenter"
+                                    Property="Content"
+                                    Value="{StaticResource InformationIcon}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource Self}}"
+                                     Value="Clear">
+                            <Setter TargetName="IconPresenter"
+                                    Property="Content"
+                                    Value="{StaticResource ClearAllIcon}" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Foreground"
+                        Value="{StaticResource Brush.Icon.MouseOver}" />
+            </Trigger>
+            <Trigger Property="IsChecked"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="{StaticResource Brush.Icon.IsSelected}" />
+            </Trigger>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Foreground"
+                        Value="{StaticResource Brush.Icon.Disabled}" />
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="IsChecked" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Foreground"
+                        Value="{StaticResource Brush.Icon.MouseOverOnSelected}" />
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Re-check conflicts button -->
+    <Style x:Key="RecheckButtonStyle"
+        TargetType="{x:Type Button}"
+           BasedOn="{StaticResource BasicButton}"
+           >
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="FontFamily" Value="{StaticResource IconsFont}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="border"
+                                    Property="Background"
+                                    Value="{StaticResource Brush.Button.ReCheck.MouseOver.Background}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>    
+                </ControlTemplate>
+                
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <!--<Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground"
+                        Value="{StaticResource Brush.Icon.MouseOver}" />
+            </Trigger>-->
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

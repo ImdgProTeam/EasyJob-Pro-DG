@@ -25,6 +25,7 @@ namespace EasyJob_ProDG.UI.Services
         ICargoDataService _cargoDataService;
         ICargoPlanCheckService _cargoPlanCheckService;
         IConflictDataService _conflictDataService;
+        IUserInformatorService _userInformatorService;
         ISettingsService _uiSettingsService;
         IWindowDisplayService _windowDisplayService;
         IToolWindowsOperator _toolWindowOperator;
@@ -42,6 +43,7 @@ namespace EasyJob_ProDG.UI.Services
         internal ICargoDataService CargoDataServiceAccess => _cargoDataService;
         internal ICargoPlanCheckService CargoPlanCheckServiceAccess => _cargoPlanCheckService;
         internal IConflictDataService ConflictDataServiceAccess => _conflictDataService;
+        internal IUserInformatorService UserInformatorServiceAcess => _userInformatorService;
         internal ISettingsService SettingsServiceAccess => _uiSettingsService;
         internal IWindowDisplayService WindowDisplayServiceAccess => _windowDisplayService;
         internal IToolWindowsOperator ToolWindowOperatorAccess => _toolWindowOperator;
@@ -110,6 +112,7 @@ namespace EasyJob_ProDG.UI.Services
             _cargoDataService = CargoDataService.GetCargoDataService();
             _cargoPlanCheckService = CargoPlanCheckService.GetCargoPlanCheckService();
             _conflictDataService = ConflictDataService.GetConflictDataService();
+            _userInformatorService = UserInformatorService.GetService();
             _uiSettingsService = new SettingsService();
             _mappedDialogWindowService = new MappedDialogWindowService(System.Windows.Application.Current.MainWindow);
             _windowDisplayService = new WindowDisplayService();

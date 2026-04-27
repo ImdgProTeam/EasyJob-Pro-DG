@@ -7,6 +7,7 @@ using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.View.DialogWindows;
+using EasyJob_ProDG.UI.ViewModel.Conflicts;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.Threading.Tasks;
@@ -117,7 +118,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private void SubscribeToMessenger()
         {
-            DataMessenger.Default.Register<UpdateCargoPlan>(this, OnNeedToUpdateCargoPlanMessageReceived, "Need to update cargo plan");
+            DataMessenger.Default.Register<UpdateCargoPlan>(this, OnNeedToUpdateCargoPlanMessageReceived, "after dg removal");
             DataMessenger.Default.Register<ShipProfileSavedMessage>(this, OnShipProfileSaved, "ship profile saved");
             DataMessenger.Default.Register<ConflictPanelItemViewModel>(this, OnConflictSelectionChanged,
                 "conflict selection changed");
@@ -153,8 +154,9 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         /// <summary>
         /// Gets public properties values from cargo and conflict data services
+        /// 
         /// </summary>
-        private void GetCargoData()
+        private void GetCargoData(bool rebuildConflictList = true)
         {
             //Get data from cargoDataService
             Services.CargoDataServiceAccess.GetCargoPlan();
@@ -163,7 +165,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             Services.CargoPlanCheckServiceAccess.CheckCargoPlan();
 
             // Refreshes conflicts list
-            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(), "update conflicts");
+            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(rebuildConflictList), "update conflicts");
 
             //OnPropertyChange
             RefreshView();
@@ -366,10 +368,11 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         /// <summary>
         /// Raised when it is required to call <see cref="GetCargoData"/> method via received message.
+        /// One case use -> When dg removed
         /// </summary>
         private void OnNeedToUpdateCargoPlanMessageReceived(UpdateCargoPlan message)
         {
-            GetCargoData();
+            GetCargoData(false);
         }
 
         /// <summary>
@@ -378,19 +381,21 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj">Selected conflict</param>
         private void OnConflictSelectionChanged(ConflictPanelItemViewModel obj)
         {
-            if (obj is null)
-                return;
+            if (obj is null) return;
+
+            var dgConf = obj as DgConflictPanelItemViewModel;
+            if (dgConf is null) return;
 
             switch (SelectedDataGridIndex)
             {
                 case 0:
-                    DataGridDgViewModel.SelectDg(obj.DgID);
+                    DataGridDgViewModel.SelectDg(dgConf.DgID);
                     break;
                 case 1:
-                    DataGridReefersViewModel.SelectUnit(obj.ContainerNumber);
+                    DataGridReefersViewModel.SelectUnit(dgConf.ContainerNumber);
                     break;
                 case 2:
-                    DataGridContainersViewModel.SelectUnit(obj.ContainerNumber);
+                    DataGridContainersViewModel.SelectUnit(dgConf.ContainerNumber);
                     break;
                 default:
                     break;

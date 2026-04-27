@@ -39,7 +39,7 @@
                 </Style>
             </Border.Resources>
         </Border>
-        <TextBlock Text="&#xf1ce;" 
+        <TextBlock Text="{StaticResource SpinnerIcon}" 
                        FontSize="80"
                        FontWeight="UltraLight"
                        FontFamily="{StaticResource IconsFont}"

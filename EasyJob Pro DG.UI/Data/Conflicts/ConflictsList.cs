@@ -1,5 +1,7 @@
 ﻿using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.ViewModel;
+using EasyJob_ProDG.UI.ViewModel.Conflicts;
+using System.Linq;
 
 namespace EasyJob_ProDG.UI.Data
 {
@@ -10,10 +12,21 @@ namespace EasyJob_ProDG.UI.Data
         /// Method add a new ConflictPanelItem to ConflictList, if it does not already exist
         /// </summary>
         /// <param name="conf"></param>
-        public void AddNewConflict(ConflictPanelItemViewModel conf)
+        public void AddNewConflict(DgConflictPanelItemViewModel conflict)
         {
-            if (Contains(conf)) return;
-            Add(conf);
+            if (Contains(conflict)) return;
+            Add(conflict);
+        }
+
+        public void AddNewConflict(ConflictPanelItemViewModel conflict)
+        {
+            if (conflict is DgConflictPanelItemViewModel)
+                AddNewConflict(conflict as DgConflictPanelItemViewModel);
+            else
+            {
+                if (!Contains(conflict))
+                    Add(conflict);
+            }
         }
 
         /// <summary>
@@ -21,10 +34,13 @@ namespace EasyJob_ProDG.UI.Data
         /// </summary>
         /// <param name="conflict">ConflictPanelItem to be checked</param>
         /// <returns></returns>
-        public new bool Contains(ConflictPanelItemViewModel conflict)
+        public bool Contains(DgConflictPanelItemViewModel conflict)
         {
-            foreach (var con in this)
+            foreach (ConflictPanelItemViewModel confl in this)
             {
+                var con = confl as DgConflictPanelItemViewModel;
+                if (con is null) continue;
+
                 if (con.DgID == conflict.DgID
                     && con.Location == conflict.Location
                     && con.Code == conflict.Code
@@ -46,5 +62,12 @@ namespace EasyJob_ProDG.UI.Data
             return false;
         }
 
+        public bool Contains(ConflictPanelItemViewModel conflict)
+        {
+            if (conflict is DgConflictPanelItemViewModel)
+                return Contains(conflict as DgConflictPanelItemViewModel);
+
+            return this.Any(c => c.Equals(conflict));
+        }
     }
 }

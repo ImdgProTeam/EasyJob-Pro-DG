@@ -126,7 +126,7 @@ namespace EasyJob_ProDG.Model.IO
                 dgUnit.DgEMS = FormatEms(dgSegment[6]);
                 if (dgSegment.Length > 8 && dgSegment[8] != "")
                 {
-                    Output.ThrowMessage(dgSegment[8]);
+                    LogWriter.Write($"Reading baplie: detected dg {dgUnit.ContainerNumber} unno {dgUnit.Unno} with abnormal number of segments. Segment 9: {dgSegment[8]}");
                 }
             }
             //DG subclasses

@@ -3,12 +3,12 @@
 namespace EasyJob_ProDG.UI.Services.DataServices
 {
     /// <summary>
-    /// Provides Conflicts and VentilationRequirements.
+    /// Provides Conflicts
     /// </summary>
     internal class ConflictDataService : IConflictDataService
     {
-        ICargoDataService _cargoDataService => CargoDataService.GetCargoDataService(); 
-        
+        ICargoDataService _cargoDataService => CargoDataService.GetCargoDataService();
+
         #region Singleton
 
         /// <summary>
@@ -18,14 +18,13 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         public static ConflictDataService GetConflictDataService()
         {
             return _instance;
-        } 
+        }
 
         private static readonly ConflictDataService _instance = new ConflictDataService();
-        
+
         #endregion
 
         public ConflictsList Conflicts { get; private set; }
-        public VentilationRequirements Vents { get; private set; }
 
         /// <summary>
         /// Creates <see cref="Conflicts"/> and <see cref="Vents"/>
@@ -33,15 +32,8 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         /// <returns><see cref="Conflicts"/></returns>
         public ConflictsList GetConflicts()
         {
-            //Display info
             Conflicts.CreateConflictList(_cargoDataService.WorkingCargoPlan.DgList);
-            Vents.Check();
             return Conflicts;
-        }
-
-        public VentilationRequirements GetVentilationRequirements()
-        {
-            return Vents;
         }
 
 
@@ -50,8 +42,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         private ConflictDataService()
         {
             Conflicts = new();
-            Vents = new();
-        } 
+        }
 
         #endregion
     }

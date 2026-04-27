@@ -28,26 +28,29 @@ namespace EasyJob_ProDG.UI.Data
             }
         }
 
+        /// <summary>
+        /// True if there is no requirement for ventilation.
+        /// </summary>
+        public bool IsEmpty => _ventHolds.Count == 0;
+
 
         // ---------------------- Methods -----------------------------------------------
 
-        public void Clear()
+        private void Clear()
         {
             _ventHolds.Clear();
             OnPropertyChanged();
         }
 
-        public bool Contains(byte value)
+        private bool Contains(byte value)
         {
             return _ventHolds.Contains(value);
         }
 
-        public void Add(byte value)
+        private void Add(byte value)
         {
             if (Contains(value)) return;
-
             _ventHolds.Add(value);
-            OnPropertyChanged();
         }
 
         /// <summary>
@@ -58,7 +61,6 @@ namespace EasyJob_ProDG.UI.Data
             Clear();
             foreach (var hold in Stowage.SWgroups.VentHoldsList)
                 Add(hold);
-            OnPropertyChanged(nameof(VentHoldsFullText));
         }
 
     }
