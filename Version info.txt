@@ -18,6 +18,31 @@
 VERSION INFO
 
 
+0.9.24.9
+Date: 
+
+Licence: 31 Dec 2026
+
+Version workable: Yes
+Changes: 
+
+
+VISUAL
+1. 
+
+ERRORS FIXED
+1. 
+
+NEW
+1. 
+
+Fully functional release
+-------------------------------------------------------
+///////////////////////////////////////////////////////
+
+
+
+
 0.9.24.8
 Date: 26 April 2026
 
