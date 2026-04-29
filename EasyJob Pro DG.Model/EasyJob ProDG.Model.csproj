@@ -47,6 +47,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cargo\BaseUnits\Helpers\LocationOnBoardExtensions.cs" />
     <Compile Include="Cargo\CargoPlan\CargoPlanExtensionMethods.cs" />
     <Compile Include="Cargo\BaseUnits\ContainerAbstract.cs" />
     <Compile Include="Cargo\BaseUnits\Helpers\ContainerAbstractTypeHelpers.cs" />

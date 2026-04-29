@@ -1,6 +1,7 @@
 ﻿using EasyJob_ProDG.Data;
 using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO;
+using EasyJob_ProDG.UI.Validation;
 using EasyJob_ProDG.UI.View.Sort;
 using System;
 using System.Runtime.CompilerServices;
@@ -35,6 +36,7 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             {
                 var oldValue = Location;
 
+                if (!LocationInputValidator.Validate(Model, ref value)) return;
                 if (!SetValue(value)) return;
                 _locationSortable = null;
 

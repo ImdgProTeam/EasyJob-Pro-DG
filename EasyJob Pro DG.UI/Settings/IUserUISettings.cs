@@ -19,6 +19,7 @@ namespace EasyJob_ProDG.UI.Settings
         byte LowestTierOnDeck { get;  }
         bool ShowSummaryOnUpdateCondition { get; set; }
 
+        bool AllowRowIncrementWithPlusButton { get; set; }
 
         void SaveExcelTemplate(string templateSettingsName, string template);
         void SaveSelectedExcelTemplateIndeces();

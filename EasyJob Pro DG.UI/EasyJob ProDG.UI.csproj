@@ -136,6 +136,7 @@
     <Compile Include="Utility\Messages\ShowUpdatesMessage.cs" />
     <Compile Include="Validation\DgClassInputValidator.cs" />
     <Compile Include="Validation\DgSubclassInputValidator.cs" />
+    <Compile Include="Validation\LocationInputValidator.cs" />
     <Compile Include="Validation\UnnoInputValidator.cs" />
     <Compile Include="ViewModel\Conflicts\ConflictFilterButtonVM.cs" />
     <Compile Include="ViewModel\Conflicts\ConflictsSectionViewModel.cs" />

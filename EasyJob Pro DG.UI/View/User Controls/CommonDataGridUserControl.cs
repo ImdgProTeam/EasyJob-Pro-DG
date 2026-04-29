@@ -1,7 +1,11 @@
-﻿using CustomControlLib;
+﻿
+using CustomControlLib;
+using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.UI.IO;
+using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.View.Animations;
 using EasyJob_ProDG.UI.View.UI;
+using EasyJob_ProDG.UI.Wrapper.Cargo;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -102,6 +106,24 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                     var checkBox = checkBoxes.FirstOrDefault();
                     if (checkBox.IsEnabled == false) return;
                     checkBox.IsChecked = !checkBox.IsChecked;
+                }
+            }
+
+            //'+' & '-' for row change
+            if (!IsCellEditingOn && string.Equals(column?.Header, "Position")
+                && ServicesHandler.GetServicesAccess().SettingsServiceAccess.GetSettings().AllowRowIncrementWithPlusButton)
+            {
+                if (e.Key == Key.Add || e.Key == Key.OemPlus)
+                {
+                    var unit = MainDataTable.SelectedItem as ILocationOnBoard;
+                    unit.SetLocation(0, (byte)(unit.Row + 1));
+                    e.Handled = true;
+                }
+                if (e.Key == Key.Subtract || e.Key == Key.OemMinus)
+                {
+                    var unit = MainDataTable.SelectedItem as ILocationOnBoard;
+                    unit.SetLocation(0, (byte)(unit.Row > 0 ? unit.Row - 1 : unit.Row));
+                    e.Handled = true;
                 }
             }
         }

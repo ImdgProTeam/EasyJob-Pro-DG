@@ -44,6 +44,8 @@ namespace EasyJob_ProDG.UI.Settings
             }
         }
 
+        public bool AllowRowIncrementWithPlusButton { get; set; }
+
         #endregion
 
         #region ExcelTemplates
@@ -114,6 +116,7 @@ namespace EasyJob_ProDG.UI.Settings
             DgSortPattern = DgSortOrderPattern.LRsnake;
             Combine2040BaysWhenSorting = false;
             LowestTierOnDeck = 72;
+            AllowRowIncrementWithPlusButton = true;
 
             ReadSettingsFromSettings();
 
