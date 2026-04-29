@@ -644,7 +644,7 @@
 
                 <!-- EMS -->
                 <DataGridTextColumn x:Name="emsColumn"
-                                    Binding="{Binding DgEMS}"
+                                    Binding="{Binding DgEMS, UpdateSourceTrigger=LostFocus}"
                                     Header="EmS"
                                     />
 

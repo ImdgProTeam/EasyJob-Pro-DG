@@ -280,6 +280,8 @@ namespace EasyJob_ProDG.UI.Wrapper
             }
             set
             {
+                if (!DgEMSInputValidator.Validate(DgEMS, ref value))
+                    return;
                 SetValue(value);
             }
         }
