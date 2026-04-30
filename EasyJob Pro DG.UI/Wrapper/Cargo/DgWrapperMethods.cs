@@ -34,6 +34,24 @@ namespace EasyJob_ProDG.UI.Wrapper
                 Name = Name.Remove(Name.Length - 1);
             IsTechnicalNameIncluded = false;
         }
+
+        /// <summary>
+        /// Restores proper shipping name as it is recorded in IMDG Code.
+        /// </summary>
+        public void RestoreProperShippingName()
+        {
+            Model.Name = OriginalNameFromCode;
+            IsNameChanged = false;
+            IsTechnicalNameIncluded = false;
+            if (IsMax1L && !Name.ToLower().Contains("max 1l"))
+                Model.Name += ", Max 1L";
+            if (IsWaste && !Name.ToLower().Contains("waste"))
+                Model.Name += ", WASTE";
+            if (IsStabilized && !Name.ToLower().Contains("stabilized"))
+                Model.Name += ", STABILIZED";
+
+            OnPropertyChanged(nameof(Name));
+        }
         #endregion
 
 

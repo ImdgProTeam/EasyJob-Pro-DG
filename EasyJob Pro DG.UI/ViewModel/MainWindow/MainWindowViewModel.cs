@@ -50,6 +50,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 selectedDataGridIndex = value;
                 OnPropertyChanged(nameof(SelectionMenuVisible));
+                OnPropertyChanged(nameof(DgActionsSubMenuVisible));
             }
         }
         private int selectedDataGridIndex;
@@ -201,7 +202,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
         }
 
-
+        public bool DgActionsSubMenuVisible => SelectedDataGridIndex == 0;
         #endregion
 
         #region Working with files private methods

@@ -4,6 +4,7 @@ using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Settings;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Wrapper;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -51,8 +52,10 @@ namespace EasyJob_ProDG.UI.ViewModel
             AddDgCommand = new DelegateCommand(OnAddNewUnit);
             DeleteDg = new DelegateCommand(OnDgDeleteRequested);
             IncludeTechnicalNameCommand = new DelegateCommand(IncludeTechnicalNameOnExecuted);
+            RestoreProperShippingNameFromIMDGCode = new DelegateCommand(RestoreProperShippingNameFromIMDGCodeOnExecuted);
             DisplayAddDgMenuCommand = new DelegateCommand(OnDisplayAddDgMenu);
         }
+
 
         /// <summary>
         /// Sets data source to View property
@@ -199,6 +202,34 @@ namespace EasyJob_ProDG.UI.ViewModel
         //--------------- Private methods -------------------------------------------
 
         /// <summary>
+        /// Restores Proper Shipping Name as it is stated in IMDG Code
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void RestoreProperShippingNameFromIMDGCodeOnExecuted(object obj)
+        {
+            if (string.Equals((string)obj, "All"))
+            {
+                foreach (var dg in WorkingCargoPlan.DgList)
+                {
+                    dg.RestoreProperShippingName();
+                }
+                IsTechnicalNameIncluded = false;
+            }
+            if (string.Equals((string)obj, "Selection"))
+            {
+                if (selectionObject == null) return;
+
+                foreach(DgWrapper dg in GetSelectionObjectList())
+                {
+                    if (dg is null) continue;
+                    dg.RestoreProperShippingName();
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Includes or removes TechnicalName to ProperShippingName of all Dg in WorkingCargoPlan
         /// </summary>
         /// <param name="obj"></param>
@@ -290,6 +321,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         #region Commands
         //--------------- Commands --------------------------------------------------
 
+        public ICommand RestoreProperShippingNameFromIMDGCode { get; set; }
         public ICommand IncludeTechnicalNameCommand { get; set; }
         public ICommand ToExcel { get; private set; }
         public ICommand DeleteDg { get; private set; }

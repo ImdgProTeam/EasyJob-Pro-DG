@@ -202,7 +202,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<string>(); }
             set
             {
-                string oldName = Name.ToLower().Replace(" ", "").Replace(".", ""); ;
+                string oldName = Name.ToLower().Replace(" ", "").Replace(".", "");
                 string newName = value.ToLower().Replace(" ", "").Replace(".", "");
 
                 if (!SetValue(value)) return;

@@ -59,11 +59,11 @@ namespace EasyJob_ProDG.UI.Data
         /// <param name="dgList"></param>
         private static void CreateAllConflicts(this ConflictsList conflictsList, DgWrapperList dgList)
         {
+            conflictsList.CreateWarnings();
             conflictsList.CreateStowageConflictList(dgList);
             conflictsList.CreateSegregationConflictList(dgList);
             conflictsList.CreateSwConflicts();
             conflictsList.CreateHoldVentRequirements();
-            conflictsList.CreateWarnings();
         }
 
         /// <summary>

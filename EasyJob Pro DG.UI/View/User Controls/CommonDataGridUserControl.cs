@@ -5,7 +5,6 @@ using EasyJob_ProDG.UI.IO;
 using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.View.Animations;
 using EasyJob_ProDG.UI.View.UI;
-using EasyJob_ProDG.UI.Wrapper.Cargo;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,7 +35,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             LoadColumnSettings();
             MainWindow.OnWindowClosingEventHandler -= new MainWindow.WindowClosing(SaveColumnSettings);
             MainWindow.OnWindowClosingEventHandler += new MainWindow.WindowClosing(SaveColumnSettings);
-        } 
+        }
 
         #endregion
 
@@ -63,7 +62,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             currentRowIndex = grid?.SelectedIndex ?? currentRowIndex;
 
             //Search container
-            if (e.Key == Key.F && Keyboard.Modifiers == ModifierKeys.Control) 
+            if (e.Key == Key.F && Keyboard.Modifiers == ModifierKeys.Control)
             {
                 SearchBox searchBox = (SearchBox)FindName("SearchBox");
                 if (searchBox != null) searchBox.Focus();
