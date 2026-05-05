@@ -62,7 +62,9 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
                 var oldValue = ContainerNumber;
                 var newValue = value.ToUpper();
 
+                if(!Data.DataHelper.HandleContainerNumberAlreadyExists(newValue)) return;
                 if (!SetValue(newValue)) return;
+
                 OnPropertyChanged(nameof(HasNoNumber));
                 NotifyOfChangedContainerProperty(newValue, oldValue);
                 OnPropertyChanged(nameof(DisplayContainerNumber));

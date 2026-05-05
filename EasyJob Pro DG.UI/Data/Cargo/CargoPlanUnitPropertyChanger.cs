@@ -49,10 +49,59 @@ namespace EasyJob_ProDG.UI.Data
         {
             DataMessenger.Default.Unregister(_changer);
             DataMessenger.Default.Register<CargoPlanUnitPropertyChanged>(_changer, OnCargoPlanUnitPropertyChanged);
-            //DataMessenger.Default.Register<SetAsNotReefer>(_changer, OnSetAsNotReeferMessageReceived, "remove reefer");
         }
 
         #endregion
+
+        /// <summary>
+        /// Sets value to chosen property name to all units in WorkingCargoPlan with the same containerNumber
+        /// </summary>
+        /// <param name="containerNumber">ContainerNumber of units to be updated</param>
+        /// <param name="value">New value</param>
+        /// <param name="propertyName">Property to be changed</param>
+        internal void SetNewCargoPlanUnitPropertyValue(string containerNumber, object value, string propertyName)
+        {
+            var _dgs = _workingCargoPlan.DgList.Where(x => x.ContainerNumber == containerNumber);
+            foreach (var dg in _dgs)
+            {
+                if (dg.ContainerNumber != containerNumber)
+                    continue;
+
+                PropertyInfo dgInfo = dg.GetType().GetProperty(propertyName);
+                if (dgInfo == null) continue;
+
+                if (dgInfo.GetValue(dg).ToString() != value.ToString())
+                    dgInfo.SetValue(dg, value);
+            }
+
+            var container = _workingCargoPlan.Containers.FirstOrDefault(x => x.ContainerNumber == containerNumber);
+            if (container != null)
+            {
+                PropertyInfo containerInfo = container.GetType().GetProperty(propertyName);
+                if (containerInfo == null)
+                    throw new System.ArgumentNullException(propertyName, $"Unable to locate property for container number {containerNumber} in CargoPlan.Containers");
+
+                if (containerInfo.GetValue(container).ToString() != value.ToString())
+                    containerInfo.SetValue(container, value);
+                container.Refresh();
+            }
+
+            var reefer = _workingCargoPlan.Reefers.FirstOrDefault(x => x.ContainerNumber == containerNumber);
+            if (reefer != null)
+            {
+                PropertyInfo reeferInfo = reefer.GetType().GetProperty(propertyName);
+                if (reeferInfo == null)
+                    throw new System.ArgumentNullException(propertyName, $"Unable to locate property for container number {containerNumber} in CargoPlan.Reefers");
+
+                if (reeferInfo.GetValue(reefer).ToString() != value.ToString())
+                    reeferInfo.SetValue(reefer, value);
+                reefer.Refresh();
+            }
+
+            _workingCargoPlan.RefreshCargoPlanValues();
+        }
+
+        #region Private methods
 
         /// <summary>
         /// Handles change of any unit property changed message received
@@ -134,54 +183,6 @@ namespace EasyJob_ProDG.UI.Data
         }
 
         /// <summary>
-        /// Sets value to chosen property name to all units in WorkingCargoPlan with the same containerNumber
-        /// </summary>
-        /// <param name="containerNumber">ContainerNumber of units to be updated</param>
-        /// <param name="value">New value</param>
-        /// <param name="propertyName">Property to be changed</param>
-        internal void SetNewCargoPlanUnitPropertyValue(string containerNumber, object value, string propertyName)
-        {
-            var _dgs = _workingCargoPlan.DgList.Where(x => x.ContainerNumber == containerNumber);
-            foreach (var dg in _dgs)
-            {
-                if (dg.ContainerNumber != containerNumber)
-                    continue;
-
-                PropertyInfo dgInfo = dg.GetType().GetProperty(propertyName);
-                if (dgInfo == null) continue;
-
-                if (dgInfo.GetValue(dg).ToString() != value.ToString())
-                    dgInfo.SetValue(dg, value);
-            }
-
-            var container = _workingCargoPlan.Containers.FirstOrDefault(x => x.ContainerNumber == containerNumber);
-            if (container != null)
-            {
-                PropertyInfo containerInfo = container.GetType().GetProperty(propertyName);
-                if (containerInfo == null) 
-                    throw new System.ArgumentNullException(propertyName, $"Unable to locate property for container number {containerNumber} in CargoPlan.Containers");
-
-                if (containerInfo.GetValue(container).ToString() != value.ToString())
-                    containerInfo.SetValue(container, value);
-                container.Refresh();
-            }
-
-            var reefer = _workingCargoPlan.Reefers.FirstOrDefault(x => x.ContainerNumber == containerNumber);
-            if (reefer != null)
-            {
-                PropertyInfo reeferInfo = reefer.GetType().GetProperty(propertyName);
-                if (reeferInfo == null) 
-                    throw new System.ArgumentNullException(propertyName, $"Unable to locate property for container number {containerNumber} in CargoPlan.Reefers");
-
-                if (reeferInfo.GetValue(reefer).ToString() != value.ToString())
-                    reeferInfo.SetValue(reefer, value);
-                reefer.Refresh();
-            }
-
-            _workingCargoPlan.RefreshCargoPlanValues();
-        }
-
-        /// <summary>
         /// Changes container number to all items with matching number in all lists 
         /// </summary>
         /// <param name="value"></param>
@@ -205,7 +206,7 @@ namespace EasyJob_ProDG.UI.Data
             }
 
             var reefer = _workingCargoPlan.Reefers.FirstOrDefault(x => x.ContainerNumber == oldValue);
-            if(reefer is null) return;
+            if (reefer is null) return;
             if (reefer.ContainerNumber != oldValue) return;
             if (reefer.ContainerNumber != value)
                 reefer.ContainerNumber = value;
@@ -243,5 +244,7 @@ namespace EasyJob_ProDG.UI.Data
             //to all
             RefreshConflictList();
         }
+
+        #endregion
     }
 }
