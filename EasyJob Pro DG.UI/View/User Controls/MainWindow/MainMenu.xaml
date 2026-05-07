@@ -470,6 +470,23 @@
                       Visibility="{Binding SelectionMenuVisible, UpdateSourceTrigger=PropertyChanged,
                 Converter={StaticResource BooleanToVisibilityConverter}}">
                 <MenuItem Header="Lock position" />
+                
+                <!-- Dg datagrid-->
+
+                <Separator Visibility="{Binding DgActionsSubMenuVisible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <MenuItem Header="Dangerous cargo"
+                          IsEnabled="False"
+                          Visibility="{Binding DgActionsSubMenuVisible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <MenuItem Header="Set name from IMDG Code"
+                          Command="{Binding DataGridDgViewModel.RestoreProperShippingNameFromIMDGCode}"
+                          CommandParameter="Selection"
+                          Visibility="{Binding DgActionsSubMenuVisible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <MenuItem Header="Include technical name"
+                          IsCheckable="True"
+                          IsChecked="{Binding DataGridDgViewModel.IsTechnicalNameOfSelectedDgIncluded, Mode=OneWay}"
+                          Command="{Binding DataGridDgViewModel.IncludeTechnicalNameCommand}"
+                          CommandParameter="Selection"
+                          Visibility="{Binding DgActionsSubMenuVisible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </MenuItem>
 
             <!-- Summary -->

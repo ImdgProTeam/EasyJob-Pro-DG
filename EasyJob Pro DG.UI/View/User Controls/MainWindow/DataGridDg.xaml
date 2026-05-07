@@ -115,8 +115,12 @@
                   ap:DataGridSortBehavior.AllowCustomSort="True"
                   ap:SelectDataGridMultipleItems.SelectDataGridMultipleItemsById="{Binding ItemsToSelect}"
                   >
-
             <DataGrid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="DataGridsContextMenus.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+                
                 <!-- Max column width -->
                 <system:Double x:Key="MaxColumnWidth">500.0</system:Double>
 
@@ -164,8 +168,7 @@
                 <!-- Selection color -->
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
                                  Color="{StaticResource Color.DgTable.HighlightRow}" />
-
-
+                </ResourceDictionary>
             </DataGrid.Resources>
 
 
@@ -192,8 +195,9 @@
                 <DataGridTextColumn x:Name="numberColumn"
                                     Binding="{Binding DisplayContainerNumber, UpdateSourceTrigger=LostFocus}"
                                     Header="Container number"
-                                    MinWidth="100"
-                                    />
+                                    MinWidth="100">
+
+                </DataGridTextColumn>
 
                 <!-- Carrier -->
                 <DataGridTextColumn x:Name="carrierColumn"
@@ -251,6 +255,9 @@
                                     Value="WrapWithOverflow" />
                             <Setter Property="TextBlock.TextTrimming"
                                     Value="CharacterEllipsis"/>
+                            <Setter Property="TextBlock.ContextMenu"
+                                    Value="{DynamicResource ProperShippingNameContextMenu}">
+                            </Setter>
 
                         </Style>
                     </DataGridTextColumn.ElementStyle>

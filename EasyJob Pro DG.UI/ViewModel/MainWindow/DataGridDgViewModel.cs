@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -24,6 +25,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         public DgWrapper SelectedDg { get; set; }
 
         public bool IsTechnicalNameIncluded { get; set; }
+
+        /// <summary>
+        /// Property used for context menu of selected row
+        /// </summary>
+        public bool IsTechnicalNameOfSelectedDgIncluded => SelectedDg.IsTechnicalNameIncluded;
 
 
         #region Constructor
@@ -220,7 +226,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 if (selectionObject == null) return;
 
-                foreach(DgWrapper dg in GetSelectionObjectList())
+                foreach (DgWrapper dg in GetSelectionObjectList())
                 {
                     if (dg is null) continue;
                     dg.RestoreProperShippingName();
@@ -235,7 +241,28 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         private void IncludeTechnicalNameOnExecuted(object obj)
         {
-            if (IsTechnicalNameIncluded)
+            if (string.Equals((string)obj, "Selection"))
+            {
+                if (selectionObject == null) return;
+
+                if (SelectedDg.IsTechnicalNameIncluded)
+                {
+                    foreach (DgWrapper dg in GetSelectionObjectList())
+                    {
+                        dg.RemoveTechnicalName();
+                    }
+                }
+                else
+                {
+                    foreach (DgWrapper dg in GetSelectionObjectList())
+                    {
+                        dg.IncludeTechnicalName();
+                    }
+                }
+                CheckSetTechnicalNameIncluded();
+            }
+            // Case for all units
+            else if (IsTechnicalNameIncluded)
             {
                 foreach (var dg in WorkingCargoPlan.DgList)
                 {
@@ -252,6 +279,22 @@ namespace EasyJob_ProDG.UI.ViewModel
                 }
 
                 IsTechnicalNameIncluded = true;
+            }
+            OnPropertyChanged(nameof(IsTechnicalNameIncluded));
+        }
+
+        /// <summary>
+        /// Assisting method to define if any <see cref="DgWrapper"/> has <see cref="DgWrapper.IsTechnicalNameIncluded"/> and sets respectively <see cref="IsTechnicalNameIncluded"/> property.
+        /// </summary>
+        private void CheckSetTechnicalNameIncluded()
+        {
+            if (WorkingCargoPlan.DgList.Any(dg => dg.IsTechnicalNameIncluded))
+            {
+                IsTechnicalNameIncluded = true;
+            }
+            else
+            {
+                IsTechnicalNameIncluded = false;
             }
             OnPropertyChanged(nameof(IsTechnicalNameIncluded));
         }
@@ -292,6 +335,8 @@ namespace EasyJob_ProDG.UI.ViewModel
                 }
             }
             selectionObject = obj;
+
+            OnPropertyChanged(nameof(IsTechnicalNameOfSelectedDgIncluded));
         }
 
         protected override void PostCargoDataUpdated()

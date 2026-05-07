@@ -3,6 +3,7 @@
                     xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters">
     <converters:VisibilityToInverseBooleanConverter x:Key="VisibilityToInverseBooleanConverter" />
 
+    <!-- Context menu with column titles when clicking on headers -->
     <Style x:Key="DataGridColumnHeadersContextMenu" TargetType="ContextMenu">
         <Setter Property="DataContext" Value="{Binding Path=PlacementTarget, RelativeSource={RelativeSource Self}}"/>
         <Setter Property="ItemsSource" Value="{Binding Columns, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"/>

@@ -20,6 +20,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             if (string.IsNullOrEmpty(TechnicalName)) return;
             Name += "\n" + TechnicalName;
             IsTechnicalNameIncluded = true;
+            OnPropertyChanged(nameof(IsTechnicalNameIncluded));
         }
 
         /// <summary>
@@ -33,6 +34,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             if (Name.EndsWith("\n"))
                 Name = Name.Remove(Name.Length - 1);
             IsTechnicalNameIncluded = false;
+            OnPropertyChanged(nameof(IsTechnicalNameIncluded));
         }
 
         /// <summary>
