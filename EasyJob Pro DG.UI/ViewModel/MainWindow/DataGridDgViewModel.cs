@@ -37,6 +37,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public DataGridDgViewModel() : base()
         {
             LoadServices();
+            CheckSetTechnicalNameIncluded();
         }
         #endregion
 
@@ -202,6 +203,11 @@ namespace EasyJob_ProDG.UI.ViewModel
             OnPropertyChanged(nameof(SelectedDg));
         }
 
+        internal void RefreshControls()
+        {
+            CheckSetTechnicalNameIncluded();
+        }
+
         #endregion
 
         #region Private methods
@@ -232,6 +238,8 @@ namespace EasyJob_ProDG.UI.ViewModel
                     dg.RestoreProperShippingName();
                 }
             }
+            OnPropertyChanged(nameof(IsTechnicalNameIncluded));
+            OnPropertyChanged(nameof(IsTechnicalNameOfSelectedDgIncluded));
         }
 
 

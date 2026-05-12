@@ -355,7 +355,8 @@ namespace EasyJob_ProDG.Model.Cargo
                                 existingContainer.OldSetTemperature = existingContainer.SetTemperature;
                                 existingContainer.SetTemperature = newContainer.SetTemperature;
                                 existingContainer.HasSetPointChanged = true;
-                                existingContainer.ReeferRemark += $"\nOld set point was {existingContainer.OldSetTemperature:+0.0;-0.0;0.0}";
+                                existingContainer.ReeferRemark += string.IsNullOrWhiteSpace(existingContainer.ReeferRemark) ? "\n" : "" 
+                                     + $"\nOld set point was {existingContainer.OldSetTemperature:+0.0;-0.0;0.0}";
                             }
                         }
 

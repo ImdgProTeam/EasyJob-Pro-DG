@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace CustomControlLib
 {
@@ -81,6 +82,11 @@ namespace CustomControlLib
         #region Methods
         private void OnButtonClick()
         {
+            ClearText();
+        }
+
+        private void ClearText()
+        {
             Text = string.Empty;
         }
 
@@ -97,6 +103,22 @@ namespace CustomControlLib
             if (ButtonClear is null) return;
             ButtonClear.IsEnabled = !string.IsNullOrEmpty(Text);
         }
+        #endregion
+
+        #region Override methods
+
+        //protected override void OnKeyDown(KeyEventArgs e)
+        //{
+        //    base.OnKeyDown(e);
+
+        //    //Clears text box on press Escape
+        //    if (e.Key == Key.Escape)
+        //    {
+        //        ClearText();
+        //        e.Handled = true;
+        //    }
+        //} 
+
         #endregion
     }
 }

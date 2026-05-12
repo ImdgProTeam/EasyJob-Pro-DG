@@ -342,6 +342,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             OnPropertyChanged(nameof(WorkingCargoPlan));
             OnPropertyChanged(nameof(VoyageInfo));
+            DataGridDgViewModel?.RefreshControls();
         }
 
         /// <summary>
