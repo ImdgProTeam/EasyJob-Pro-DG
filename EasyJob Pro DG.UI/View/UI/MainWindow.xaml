@@ -39,6 +39,9 @@
         <KeyBinding Key="I"
                     Modifiers="Ctrl"
                     Command="{Binding ImportDataCommand}" />
+        <KeyBinding Key="S"
+                    Modifiers="Ctrl"
+                    Command="{Binding SaveFileCommand}" />
         <KeyBinding Key="R"
                     Modifiers="Ctrl"
                     Command="{Binding ReCheckCommand}" />

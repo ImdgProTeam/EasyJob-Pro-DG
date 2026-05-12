@@ -29,7 +29,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <summary>
         /// Property used for context menu of selected row
         /// </summary>
-        public bool IsTechnicalNameOfSelectedDgIncluded => SelectedDg.IsTechnicalNameIncluded;
+        public bool IsTechnicalNameOfSelectedDgIncluded => SelectedDg?.IsTechnicalNameIncluded ?? false;
 
 
         #region Constructor
