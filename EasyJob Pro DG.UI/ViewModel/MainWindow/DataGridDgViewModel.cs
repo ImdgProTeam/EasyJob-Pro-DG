@@ -37,7 +37,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public DataGridDgViewModel() : base()
         {
             LoadServices();
-            CheckSetTechnicalNameIncluded();
+            RefreshControls();
         }
         #endregion
 
@@ -59,7 +59,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             AddDgCommand = new DelegateCommand(OnAddNewUnit);
             DeleteDg = new DelegateCommand(OnDgDeleteRequested);
             IncludeTechnicalNameCommand = new DelegateCommand(IncludeTechnicalNameOnExecuted);
-            RestoreProperShippingNameFromIMDGCode = new DelegateCommand(RestoreProperShippingNameFromIMDGCodeOnExecuted);
+            RestoreProperShippingNameFromIMDGCodeCommand = new DelegateCommand(RestoreProperShippingNameFromIMDGCodeOnExecuted);
             DisplayAddDgMenuCommand = new DelegateCommand(OnDisplayAddDgMenu);
         }
 
@@ -328,6 +328,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             DataMessenger.Default.Send<UpdateCargoPlan>(new UpdateCargoPlan(selectedDgArray), "Remove dg");
         }
 
+        // ------ Override methods from base abstract class -----
         protected override void OnSelectionChanged(object obj)
         {
             base.OnSelectionChanged(obj);
@@ -374,7 +375,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         #region Commands
         //--------------- Commands --------------------------------------------------
 
-        public ICommand RestoreProperShippingNameFromIMDGCode { get; set; }
+        public ICommand RestoreProperShippingNameFromIMDGCodeCommand { get; set; }
         public ICommand IncludeTechnicalNameCommand { get; set; }
         public ICommand ToExcel { get; private set; }
         public ICommand DeleteDg { get; private set; }

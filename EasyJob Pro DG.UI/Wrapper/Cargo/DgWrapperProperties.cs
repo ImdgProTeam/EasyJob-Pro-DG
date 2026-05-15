@@ -8,7 +8,6 @@ namespace EasyJob_ProDG.UI.Wrapper
 {
     public partial class DgWrapper : AbstractContainerWrapper<Dg>
     {
-
         #region Dg properties with complex functionality
         //--------------- Properties related to Dangerous Cargo ---------------------
 
@@ -139,24 +138,12 @@ namespace EasyJob_ProDG.UI.Wrapper
             get => GetValue<bool>();
             set
             {
-                if (IsMax1L == value) return;
-                if (value && Unno != 1950) return;
-
                 if (!SetValue(value)) return;
-                if (value)
-                {
-                    if (!Name.ToLower().Replace(" ", "").Replace(".", "").Contains("max1l") 
-                        || !Name.ToLower().Replace(" ", "").Contains("maximumcapacityof1litre")) 
-                        Name += ", Max 1L";
-                    if (IsWaste) IsWaste = false;
-                }
-                else
-                {
-                    Name = Name.Replace(", Max 1L", "");
-                }
 
                 UpdateConflictList();
                 OnPropertyChanged(nameof(StowageCat));
+                OnPropertyChanged(nameof(IsWaste));
+                OnPropertyChanged(nameof(Name));
             }
         }
 
@@ -167,16 +154,12 @@ namespace EasyJob_ProDG.UI.Wrapper
             {
                 if (!SetValue(value)) return;
 
-                if (value)
-                {
-                    if (Unno == 1950) IsMax1L = false;
-                }
-
                 UpdateDgStowageConflicts();
 
                 OnPropertyChanged(nameof(StowageCat));
                 OnPropertyChanged(nameof(StowageSW));
                 OnPropertyChanged(nameof(Name));
+                OnPropertyChanged(nameof(IsMax1L));
             }
         }
         public bool IsStabilized
@@ -202,22 +185,23 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<string>(); }
             set
             {
-                string oldName = Name.ToLower().Replace(" ", "").Replace(".", "");
-                string newName = value.ToLower().Replace(" ", "").Replace(".", "");
+                string oldName = Name.NormalizeNameForComparison();
+                string newName = value.NormalizeNameForComparison();
 
                 if (!SetValue(value)) return;
                 IsNameChanged = !string.Equals(OriginalNameFromCode, value);
 
-                if (oldName.Contains("waste") && !newName.Contains("waste"))
+                if (oldName.ContainsWaste() && !newName.ContainsWaste())
                     IsWaste = false;
-                else if (newName.Contains("waste")) IsWaste = true;
-                else if ((oldName.Contains("max1l") && !newName.Contains("max1l")) 
-                    || (oldName.Contains("maximumcapacityof1litre") && !newName.Contains("maximumcapacityof1litre")))
+                else if (newName.ContainsWaste()) IsWaste = true;
+                else if (oldName.ContainsMax1Litre() && !newName.ContainsMax1Litre()) 
                     IsMax1L = false;
-                else if (newName.Contains("max1l") || newName.Contains("maximumcapacityof1litre")) IsMax1L = true;
-                else if (oldName.Contains("stabilized") && !newName.Contains("stabilized"))
+                else if (newName.ContainsMax1Litre() || newName.ContainsMax1Litre()) 
+                    IsMax1L = true;
+                if (oldName.ContainsStabilized() && !newName.ContainsStabilized())
                     IsStabilized = false;
-                else if (newName.Contains("stabilized")) IsStabilized = true;
+                else if (newName.ContainsStabilized()) 
+                    IsStabilized = true;
 
                 // AS COOLANT OR AS CONDITIONER 5.5.3.2.1
                 if (oldName.Contains("coolant") && !newName.Contains("coolant") ||

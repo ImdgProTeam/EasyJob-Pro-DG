@@ -411,12 +411,12 @@
                     <MenuItem Header="-> Selection"
                               Visibility="{Binding DgActionsSubMenuVisible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}"
                               IsEnabled="{Binding SelectionMenuVisible, UpdateSourceTrigger=PropertyChanged}"
-                              Command="{Binding DataGridDgViewModel.RestoreProperShippingNameFromIMDGCode}"
+                              Command="{Binding DataGridDgViewModel.RestoreProperShippingNameFromIMDGCodeCommand}"
                               CommandParameter="Selection">
                     </MenuItem>
                     <MenuItem Header="-> All"
                               Visibility="{Binding DgActionsSubMenuVisible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}"
-                              Command="{Binding DataGridDgViewModel.RestoreProperShippingNameFromIMDGCode}"
+                              Command="{Binding DataGridDgViewModel.RestoreProperShippingNameFromIMDGCodeCommand}"
                               CommandParameter="All">
                     </MenuItem>
                     <Separator Visibility="{Binding DgActionsSubMenuVisible, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}"/>

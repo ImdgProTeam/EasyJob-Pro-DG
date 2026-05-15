@@ -12,7 +12,7 @@
         </ContextMenu.Resources>
         
         <MenuItem Header="Set name from IMDG Code"
-                  Command="{Binding RestoreProperShippingNameFromIMDGCode}"
+                  Command="{Binding RestoreProperShippingNameFromIMDGCodeCommand}"
                   CommandParameter="Selection"/>
         <MenuItem Header="Include technical name"
                   IsCheckable="True"
@@ -20,7 +20,13 @@
                   Command="{Binding IncludeTechnicalNameCommand}"
                   CommandParameter="Selection"/>
         <Separator />
-        <MenuItem Header="2nd row" />
+        <MenuItem Header="LIMITED QUANTITY" />
+        <MenuItem Header="MAXIMUN 1 LITRE" />
+        <MenuItem Header="STABILIZED" />
+        <MenuItem Header="WASTE" />
+        <MenuItem Header="EMPTY UNCLEANED" />
+        <MenuItem Header="RESIDUE LAST CONTAINED" />
+        <MenuItem Header="MOLTEN" />
 
     </ContextMenu>
 </ResourceDictionary>

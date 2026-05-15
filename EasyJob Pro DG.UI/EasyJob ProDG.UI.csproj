@@ -431,6 +431,7 @@
     <Compile Include="Wrapper\Cargo\DgWrapperMethods.cs" />
     <Compile Include="Wrapper\Cargo\DgWrapperProperties.cs" />
     <Compile Include="Data\Cargo\CargoPlanWrapperHandler.cs" />
+    <Compile Include="Wrapper\Cargo\DgWrapperPropertiesHelpers.cs" />
     <Compile Include="Wrapper\ModelWrappers\ChangeTrackingCollection.cs" />
     <Compile Include="Wrapper\ModelWrappers\ModelWrapper.cs" />
     <Compile Include="Wrapper\ModelWrappers\ModelByteDummy.cs" />

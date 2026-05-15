@@ -7,6 +7,15 @@ namespace EasyJob_ProDG.Model.Cargo
 {
     public partial class Dg : ContainerAbstract, IO.IUpdatable
     {
+        #region Proper shipping name constants
+
+        const string PSN_MAX1L = "Max 1L";
+        const string PSN_STABILIZED = "STABILIZED";
+        const string CODE_STABILIZED = "STABILIZED";
+        const string PSN_WASTE = "WASTE";
+
+        #endregion
+
         #region Fields Declarations
 
         /// <summary>
@@ -371,24 +380,24 @@ namespace EasyJob_ProDG.Model.Cargo
 
                 if (value)
                 {
-                    if (!Name.ToLower().Replace(" ", "").Contains("stabilized"))
-                        Name += ", STABILIZED";
+                    if (!Name.ContainsStabilized())
+                        this.ApendNameWith(PSN_STABILIZED);
+                    isStabilizedWordAddedToProperShippingName = true;
+
                     StowageCat = 'D';
                     stowageSW.Add("SW1");
-
                 }
                 if (!value)
                 {
-                    if (!string.IsNullOrWhiteSpace(Name))
-                        Name = Name.Replace(", STABILIZED", "");
+                    this.RemoveFromName(PSN_STABILIZED);
+                    isStabilizedWordAddedToProperShippingName = false;
                     StowageCat = stowageCatFromIMDGCode;
                     stowageSW = stowageSWfromDgList;
                 }
             }
         }
-        private bool isStabilizedWordInOriginalProperShippingName => OriginalNameFromCode?.Contains("STABILIZED") ?? false;
-        private bool isStabilizedWordAddedToProperShippingName => !string.IsNullOrEmpty(Name)
-            && Name.ToUpper().Contains("STABILIZED") && !isStabilizedWordInOriginalProperShippingName;
+        private bool isStabilizedWordInOriginalProperShippingName => OriginalNameFromCode?.Contains(CODE_STABILIZED) ?? false;
+        private bool isStabilizedWordAddedToProperShippingName;
 
         public bool IsWaste
         {
@@ -399,7 +408,10 @@ namespace EasyJob_ProDG.Model.Cargo
                 if (value)
                 {
                     isWaste = true;
-                    if (!Name.ToLower().Replace(" ", "").Contains("waste")) Name += ", WASTE";
+                    if (!Name.ContainsWaste())
+                        this.ApendNameWith(PSN_WASTE);
+                    if (Unno == 1950)
+                        IsMax1L = false;
                     if (IMDGCode.SW22RelatedUnnos.Contains(Unno))
                     {
                         StowageCat = 'C';
@@ -408,12 +420,12 @@ namespace EasyJob_ProDG.Model.Cargo
                 else
                 {
                     isWaste = false;
-                    if (!string.IsNullOrWhiteSpace(Name))
-                        Name = Name.Replace(", WASTE", "");
+                    this.RemoveFromName(PSN_WASTE);
                     StowageCat = stowageCatFromIMDGCode;
                 }
             }
         }
+
         private bool isWaste;
 
         /// <summary>
@@ -426,7 +438,30 @@ namespace EasyJob_ProDG.Model.Cargo
             isWaste = value;
         }
 
-        public bool IsMax1L { get; set; }
+        public bool IsMax1L
+        {
+            get => isMax1L;
+            set
+            {
+                if (isMax1L == value) return;
+                if (value && Unno != 1950) return;
+
+                isMax1L = value;
+
+                if (value)
+                {
+                    if (!Name.ContainsMax1Litre())
+                        this.ApendNameWith(PSN_MAX1L);
+                    if (IsWaste) IsWaste = false;
+                }
+                else
+                {
+                    this.RemoveFromName(PSN_MAX1L);
+                }
+            }
+        }
+        private bool isMax1L;
+
         public bool IsAsCoolantOrConditioner
         {
             get => !string.IsNullOrEmpty(Name) && (Name.ToUpper().Contains("COOLANT") || Name.ToUpper().Contains("CONDITIONER"));
@@ -512,8 +547,8 @@ namespace EasyJob_ProDG.Model.Cargo
             dgClassFromIMDGCode = null;
             DgRowInDOC = 0;
             IsLq = false;
-            IsWaste = false;
-            IsMax1L = false;
+            isWaste = false;
+            isMax1L = false;
             IsStabilized = false;
         }
 

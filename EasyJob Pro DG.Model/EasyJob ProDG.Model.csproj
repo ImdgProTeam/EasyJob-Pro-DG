@@ -47,6 +47,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cargo\BaseUnits\Helpers\DgNameHelpers.cs" />
     <Compile Include="Cargo\BaseUnits\Helpers\LocationOnBoardExtensions.cs" />
     <Compile Include="Cargo\CargoPlan\CargoPlanExtensionMethods.cs" />
     <Compile Include="Cargo\BaseUnits\ContainerAbstract.cs" />
@@ -104,7 +105,6 @@
     <Compile Include="IO\EdiSegmentArray.cs" />
     <Compile Include="Cargo\Segregation\Segregation.cs" />
     <Compile Include="Cargo\Segregation\SegregatorException.cs" />
-    <Compile Include="Cargo\BaseUnits\Helpers\ExtensionMethods.cs" />
     <Compile Include="Transport\ShipProfile.cs" />
     <Compile Include="Transport\ShipProfileHandler.cs" />
     <Compile Include="Cargo\Segregation\SpecialSegregationCheck.cs" />
