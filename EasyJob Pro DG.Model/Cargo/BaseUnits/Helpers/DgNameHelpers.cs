@@ -7,6 +7,8 @@ namespace EasyJob_ProDG.Model.Cargo
         private static string[] Wastes => ["waste", "iswaste"];
         private static string[] Stabilizeds => ["stabilized"];
         private static string[] Max1Ls => ["max1l", "maximumcapacityof1litre"];
+        private static string[] Conditioners => ["conditioner"];
+        private static string[] Coolants => ["coolant"];
 
         internal static string AppendedFormattedText(this string text) => ", " + text;
 
@@ -66,6 +68,66 @@ namespace EasyJob_ProDG.Model.Cargo
             if (Max1Ls.Any(m => name.ToLower().Replace(" ", "").Contains(m)))
                 return true;
             return false;
+        }
+
+        /// <summary>
+        /// Checks if name contains one of variations of "Conditioner".
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>True if the name contains a "Conditioner".</returns>
+        public static bool ContainsConditioner(this string name)
+        {
+            if (Conditioners.Any(c => name.ToLower().Replace(" ", "").Contains(c)))
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if name contains one of variations of "Coolant".
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>True if the name contains a "Coolant".</returns>
+        public static bool ContainsCoolant(this string name)
+        {
+            if (Coolants.Any(c => name.ToLower().Replace(" ", "").Contains(c)))
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Returns 'WASTE' appendix as defined in <see cref="Dg"/> class
+        /// </summary>
+        /// <returns>string ", WASTE"</returns>
+        public static string GetWasteAppendixToName()
+        {
+            return Dg.PSN_WASTE.AppendedFormattedText();
+        }
+
+        /// <summary>
+        /// Adds ', WASTE' to Name property of <see cref="Dg"/>
+        /// </summary>
+        /// <param name="dg"></param>
+        public static void AddToNameWaste(this Dg dg)
+        {
+            dg.ApendNameWith(Dg.PSN_WASTE);
+        }
+
+        /// <summary>
+        /// Adds ', WASTE' to Name property of <see cref="Dg"/>
+        /// </summary>
+        /// <param name="dg"></param>
+        public static void AddToNameStabilized(this Dg dg)
+        {
+            dg.ApendNameWith(Dg.PSN_STABILIZED);
+        }
+
+        /// <summary>
+        /// Adds ', WASTE' to Name property of <see cref="Dg"/>
+        /// </summary>
+        /// <param name="dg"></param>
+        public static void AddToNameMax1l(this Dg dg)
+        {
+            dg.ApendNameWith(Dg.PSN_MAX1L);
         }
     }
 }

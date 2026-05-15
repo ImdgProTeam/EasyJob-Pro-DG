@@ -204,10 +204,10 @@ namespace EasyJob_ProDG.UI.Wrapper
                     IsStabilized = true;
 
                 // AS COOLANT OR AS CONDITIONER 5.5.3.2.1
-                if (oldName.Contains("coolant") && !newName.Contains("coolant") ||
-                    oldName.Contains("conditioner") && !newName.Contains("conditioner") ||
-                    !oldName.Contains("coolant") && newName.Contains("coolant") ||
-                    !oldName.Contains("conditioner") && newName.Contains("conditioner"))
+                if (oldName.ContainsCoolant() && !newName.ContainsCoolant() ||
+                    oldName.ContainsConditioner() && !newName.ContainsConditioner() ||
+                    !oldName.ContainsCoolant() && newName.ContainsCoolant() ||
+                    !oldName.ContainsConditioner() && newName.ContainsConditioner())
                     UpdateConflictList();
             }
         }

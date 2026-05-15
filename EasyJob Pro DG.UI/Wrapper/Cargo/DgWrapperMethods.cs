@@ -45,12 +45,12 @@ namespace EasyJob_ProDG.UI.Wrapper
             Model.Name = OriginalNameFromCode;
             IsNameChanged = false;
             IsTechnicalNameIncluded = false;
-            if (IsMax1L && !Name.ToLower().Contains("max 1l"))
-                Model.Name += ", Max 1L";
-            if (IsWaste && !Name.ToLower().Contains("waste"))
-                Model.Name += ", WASTE";
-            if (IsStabilized && !Name.ToLower().Contains("stabilized"))
-                Model.Name += ", STABILIZED";
+            if (IsMax1L && !Name.ContainsMax1Litre())
+                Model.AddToNameMax1l();
+            if (IsWaste && !Name.ContainsWaste())
+                Model.AddToNameWaste();
+            if (IsStabilized && !Name.ContainsStabilized())
+                Model.AddToNameStabilized();
 
             OnPropertyChanged(nameof(Name));
         }

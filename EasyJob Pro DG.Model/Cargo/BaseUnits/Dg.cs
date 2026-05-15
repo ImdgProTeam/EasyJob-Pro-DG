@@ -9,10 +9,12 @@ namespace EasyJob_ProDG.Model.Cargo
     {
         #region Proper shipping name constants
 
-        const string PSN_MAX1L = "Max 1L";
-        const string PSN_STABILIZED = "STABILIZED";
+        internal const string PSN_MAX1L = "Max 1L";
+        internal const string PSN_STABILIZED = "STABILIZED";
         const string CODE_STABILIZED = "STABILIZED";
-        const string PSN_WASTE = "WASTE";
+        internal const string PSN_WASTE = "WASTE";
+        const string PSN_COOLANT = "COOLANT";
+        const string PSN_CONDITIONER = "CONDITIONER";
 
         #endregion
 
@@ -464,7 +466,9 @@ namespace EasyJob_ProDG.Model.Cargo
 
         public bool IsAsCoolantOrConditioner
         {
-            get => !string.IsNullOrEmpty(Name) && (Name.ToUpper().Contains("COOLANT") || Name.ToUpper().Contains("CONDITIONER"));
+            get => !string.IsNullOrEmpty(Name) 
+                && (Name.ToUpper().Contains(PSN_COOLANT) 
+                || Name.ToUpper().Contains(PSN_CONDITIONER));
         }
 
         public bool IsSelfReactive
