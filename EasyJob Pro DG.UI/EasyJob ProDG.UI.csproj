@@ -144,6 +144,7 @@
     <Compile Include="ViewModel\Conflicts\GeneralConflictPanelItemViewModel.cs" />
     <Compile Include="ViewModel\Conflicts\DgConflictPanelItemViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridContainerVMToolExtensions.cs" />
+    <Compile Include="ViewModel\MainWindow\DataGridDgContextMenuViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridDgVMToolExtension.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridUpdatesViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridViewModelBase.cs" />

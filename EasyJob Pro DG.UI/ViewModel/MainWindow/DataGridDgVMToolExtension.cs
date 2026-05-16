@@ -8,8 +8,17 @@ using System.Reflection;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
+    /// <summary>
+    /// Extension class used by Tools.
+    /// </summary>
     internal static class DataGridDgVMToolExtension
     {
+        /// <summary>
+        /// Changes properties of Selected Dgs according to changes dictionary.
+        /// Used by SetTool.
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <param name="changes"></param>
         internal static void ChangeSelectedDgPropertyValues(this DataGridDgViewModel viewModel, Dictionary<string, string> changes)
         {
             if (viewModel == null || viewModel.GetSelectionObjectList().Count < 1 || changes.Count < 1) return;

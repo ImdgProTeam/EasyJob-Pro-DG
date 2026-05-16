@@ -6,7 +6,7 @@ namespace EasyJob_ProDG.Model.Cargo
     {
         private static string[] Wastes => ["waste", "iswaste"];
         private static string[] Stabilizeds => ["stabilized"];
-        private static string[] Max1Ls => ["max1l", "maximumcapacityof1litre"];
+        private static string[] Max1Ls => ["max1l", "maximumcapacityof1litre", "maximumcapacityof1liter", "maximum1litre"];
         private static string[] Conditioners => ["conditioner"];
         private static string[] Coolants => ["coolant"];
 

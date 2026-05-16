@@ -17,6 +17,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 {
     public class DataGridDgViewModel : DataGridViewModelBase
     {
+
         //--------------- Public static properties ----------------------------------
         public static IList<string> StowageCategories => new List<string>() { "", "A", "B", "C", "D", "E", "01", "02", "03", "04", "05" };
 
@@ -27,10 +28,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         public bool IsTechnicalNameIncluded { get; set; }
 
         /// <summary>
-        /// Property used for context menu of selected row
+        /// Property used to bound ContextMenu items and checkboxes.
         /// </summary>
-        public bool IsTechnicalNameOfSelectedDgIncluded => SelectedDg?.IsTechnicalNameIncluded ?? false;
-
+        public DataGridDgContextMenuViewModel ContextMenuViewModel { get; }
 
         #region Constructor
         //--------------- Constructor -----------------------------------------------
@@ -38,6 +38,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             LoadServices();
             RefreshControls();
+            ContextMenuViewModel = new DataGridDgContextMenuViewModel();
         }
         #endregion
 
@@ -59,6 +60,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             AddDgCommand = new DelegateCommand(OnAddNewUnit);
             DeleteDg = new DelegateCommand(OnDgDeleteRequested);
             IncludeTechnicalNameCommand = new DelegateCommand(IncludeTechnicalNameOnExecuted);
+            AppendProperShippingNameCommand = new DelegateCommand(AppendProperShippingName);
             RestoreProperShippingNameFromIMDGCodeCommand = new DelegateCommand(RestoreProperShippingNameFromIMDGCodeOnExecuted);
             DisplayAddDgMenuCommand = new DelegateCommand(OnDisplayAddDgMenu);
         }
@@ -239,9 +241,8 @@ namespace EasyJob_ProDG.UI.ViewModel
                 }
             }
             OnPropertyChanged(nameof(IsTechnicalNameIncluded));
-            OnPropertyChanged(nameof(IsTechnicalNameOfSelectedDgIncluded));
+            OnPropertyChanged(nameof(ContextMenuViewModel.IsTechnicalNameOfSelectedDgIncluded));
         }
-
 
         /// <summary>
         /// Includes or removes TechnicalName to ProperShippingName of all Dg in WorkingCargoPlan
@@ -308,7 +309,16 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         /// <summary>
-        /// Requests user weather to delete selected dg(s) and sends message to WorkingCargoPlan respectively
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        private void AppendProperShippingName(object obj)
+        {
+            ContextMenuViewModel.AppendProperShippingName(obj);
+        }
+
+        /// <summary>"RESIDUE LAST CONTAINED" />
+        /// Requests "MOLTEN" />user weather to delete selected dg(s) and sends message to WorkingCargoPlan respectively
         /// </summary>
         /// <param name="obj"></param>
         private void OnDgDeleteRequested(object obj)
@@ -345,7 +355,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
             selectionObject = obj;
 
-            OnPropertyChanged(nameof(IsTechnicalNameOfSelectedDgIncluded));
+            ContextMenuViewModel.SetSelectedDg(SelectedDg);
+            ContextMenuViewModel.RefreshAllIsChecked();
         }
 
         protected override void PostCargoDataUpdated()
@@ -381,6 +392,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand DeleteDg { get; private set; }
         public ICommand AddDgCommand { get; private set; }
         public ICommand DisplayAddDgMenuCommand { get; private set; }
+        public ICommand AppendProperShippingNameCommand { get; private set; }
 
         #endregion
     }
