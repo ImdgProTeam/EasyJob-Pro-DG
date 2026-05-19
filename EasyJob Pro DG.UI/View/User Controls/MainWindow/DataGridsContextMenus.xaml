@@ -7,11 +7,16 @@
         <ContextMenu.Resources>
             <Style TargetType="MenuItem">
                 <Setter Property="IsCheckable"
-                        Value="False" />
+                        Value="True" />
+                <Setter Property="Command"
+                        Value="{Binding AppendProperShippingNameCommand}" />
+                <Setter Property="CommandParameter"
+                        Value="{Binding Header, RelativeSource={RelativeSource Self}}" />
             </Style>
         </ContextMenu.Resources>
         
         <MenuItem Header="Set name from IMDG Code"
+                  IsCheckable="False"
                   Command="{Binding RestoreProperShippingNameFromIMDGCodeCommand}"
                   CommandParameter="Selection"/>
         <MenuItem Header="Include technical name"
@@ -19,42 +24,35 @@
                   IsChecked="{Binding ContextMenuViewModel.IsTechnicalNameOfSelectedDgIncluded, Mode=OneWay}"
                   Command="{Binding IncludeTechnicalNameCommand}"
                   CommandParameter="Selection"/>
+        
         <Separator />
+        
         <MenuItem Header="{Binding ContextMenuViewModel.HeaderTitleLTDQTY}"
-                  IsCheckable="True"
-                  IsChecked="{Binding ContextMenuViewModel.IsToNameIncludedLimitedQuantity, Mode=OneWay}"
-                  Command="{Binding AppendProperShippingNameCommand}"
-                  CommandParameter="{Binding Header, RelativeSource={RelativeSource Self}}"/>
+                  IsChecked="{Binding ContextMenuViewModel.IsToNameIncludedLimitedQuantity, Mode=OneWay}" />
+
         <MenuItem Header="{Binding ContextMenuViewModel.HeaderTitleMAX1L}"
-                  IsCheckable="True"
-                  IsChecked="{Binding ContextMenuViewModel.IsToNameIncludedMax1l, Mode=OneWay}"
-                  Command="{Binding AppendProperShippingNameCommand}"
-                  CommandParameter="{Binding Header, RelativeSource={RelativeSource Self}}"/>
-        <MenuItem Header="{Binding ContextMenuViewModel.HeaderTitleSTABILIZED}"
-                  IsCheckable="True"
-                  IsChecked="{Binding ContextMenuViewModel.IsToNameIncludedStabilized, Mode=OneWay}"
-                  Command="{Binding AppendProperShippingNameCommand}"
-                  CommandParameter="{Binding Header, RelativeSource={RelativeSource Self}}" />
+                  IsChecked="{Binding ContextMenuViewModel.IsToNameIncludedMax1l, Mode=OneWay}"/>
+        
         <MenuItem Header="{Binding ContextMenuViewModel.HeaderTitleWASTE}"
-                  IsCheckable="True"
-                  IsChecked="{Binding ContextMenuViewModel.IsToNameIncludedWaste, Mode=OneWay}"
-                  Command="{Binding AppendProperShippingNameCommand}"
-                  CommandParameter="{Binding Header, RelativeSource={RelativeSource Self}}" />
+                  IsChecked="{Binding ContextMenuViewModel.IsToNameIncludedWaste, Mode=OneWay}" />
+
+        <MenuItem Header="{Binding ContextMenuViewModel.HeaderTitleSTABILIZED}"
+                  IsChecked="{Binding ContextMenuViewModel.IsToNameIncludedStabilized, Mode=OneWay}"/>
+        
+        <MenuItem Header="{Binding ContextMenuViewModel.HeaderTitleMOLTEN}"
+                  IsChecked="{Binding ContextMenuViewModel.IsToNameIncludedMolten, Mode=OneWay}"/>
+        
         <MenuItem Header="{Binding ContextMenuViewModel.HeaderTitleEMPTY_UNCLEANED}"
-                  IsCheckable="True"
-                  IsChecked="{Binding ContextMenuViewModel.IsToNameIncludedEmptyUncleaned, Mode=OneWay}"
-                  Command="{Binding AppendProperShippingNameCommand}"
-                  CommandParameter="{Binding Header, RelativeSource={RelativeSource Self}}" />
+                  IsChecked="{Binding ContextMenuViewModel.IsToNameIncludedEmptyUncleaned, Mode=OneWay}"/>
+        
+        <MenuItem Header="{Binding ContextMenuViewModel.HeaderTitleRESIDUE}"
+                  IsChecked="{Binding ContextMenuViewModel.IsToNameIncludedResidue, Mode=OneWay}"/>
+        
         <MenuItem Header="{Binding ContextMenuViewModel.HeaderTitleCOOLANT}"
-                  IsCheckable="True"
-                  IsChecked="{Binding ContextMenuViewModel.IsToNameIncludedAsCoolant, Mode=OneWay}"
-                  Command="{Binding AppendProperShippingNameCommand}"
-                  CommandParameter="{Binding Header, RelativeSource={RelativeSource Self}}" />
+                  IsChecked="{Binding ContextMenuViewModel.IsToNameIncludedAsCoolant, Mode=OneWay}" />
+        
         <MenuItem Header="{Binding ContextMenuViewModel.HeaderTitleCONDITIONER}"
-                  IsCheckable="True"
-                  IsChecked="{Binding ContextMenuViewModel.IsToNameIncludedAsConditioner, Mode=OneWay}"
-                  Command="{Binding AppendProperShippingNameCommand}"
-                  CommandParameter="{Binding Header, RelativeSource={RelativeSource Self}}" />
+                  IsChecked="{Binding ContextMenuViewModel.IsToNameIncludedAsConditioner, Mode=OneWay}"/>
 
     </ContextMenu>
 </ResourceDictionary>
