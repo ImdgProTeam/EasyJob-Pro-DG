@@ -71,6 +71,13 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             //Enter key
             if (e.Key == Key.Enter)
             {
+                //Except for ComboBoxes (otherwise keyboard input will not work with dropdown)
+                DependencyObject focusedElement = Keyboard.FocusedElement as DependencyObject;
+                if(focusedElement != null && Helpers.IsInsideComboBox(focusedElement))
+                {
+                    return;
+                }
+
                 //To start editing cell on pressing Enter
                 if (IsCellEditingOn == false && column is DataGridTextColumn)
                 {

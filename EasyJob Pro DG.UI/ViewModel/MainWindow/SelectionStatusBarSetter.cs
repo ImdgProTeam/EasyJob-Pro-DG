@@ -7,7 +7,7 @@ namespace EasyJob_ProDG.UI.ViewModel
     {
         internal static string GetSelectionStatusBarTextForContainer(object obj)
         {
-            return GenerateStatusBarTextForContainer(obj);
+            return "Selected: " + GenerateStatusBarTextForContainer(obj);
         }
         private static string GenerateStatusBarTextForContainer(object obj)
         {
@@ -60,7 +60,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         internal static string GetSelectionStatusBarTextForDg(object obj)
         {
-            return GenerateSelectionStatusBarForDg(obj);
+            return "Selected: " + GenerateSelectionStatusBarForDg(obj);
         }
         private static string GenerateSelectionStatusBarForDg(object obj)
         {

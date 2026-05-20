@@ -22,7 +22,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         protected object selectionObject;
         protected IMessageDialogService _messageDialogService => MessageDialogService.Connect();
         protected Dispatcher dispatcher;
-
+        protected bool _isRefreshing;
 
         // ----- Public properties -----
 
@@ -31,7 +31,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         public ICollectionView UnitsPlanView => unitsPlanView?.View;
         public CargoPlanWrapper WorkingCargoPlan => ViewModelLocator.MainWindowViewModel.WorkingCargoPlan;
-        public string StatusBarText { get; protected set; } = "None";
+        public string StatusBarText { get; protected set; } = "Selected: None";
 
         /// <summary>
         /// Provides access to selectionObject containing selected units
@@ -128,7 +128,28 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 if (textToFilter == value) return;
                 textToFilter = value;
-                UnitsPlanView.Refresh();
+
+                _isRefreshing = true;
+                UnitsPlanView?.Refresh();
+                _isRefreshing = false;
+
+                //filter text input
+                if (!string.IsNullOrEmpty(textToFilter))
+                {
+                    IsFilterApplied = true;
+                    SetStatusBarOnFilter();
+                }
+                //both search filter and advanced filters are clear
+                else if (filteredContainerNumbers is null || filteredContainerNumbers.Count == 0)
+                {
+                    IsFilterApplied = false;
+                    SetStatusBarOnFilterCleared();
+                }
+                //advanced filter not clear
+                else
+                    SetStatusBarOnFilter();
+
+                OnPropertyChanged(nameof(IsFilterApplied));
             }
         }
 
@@ -155,14 +176,14 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         protected List<string> filteredContainerNumbers;
-        public bool AdvancedFilterApplied { get; private set; }
+        public bool IsFilterApplied { get; private set; }
 
         /// <summary>
         /// Applies advanced filter to UnitsPlanView based on List of ContainerNumbers as set in <see cref="filteredContainerNumbers"/>
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected virtual void OnAdvanceFiltered (object sender, FilterEventArgs e)
+        protected virtual void OnAdvanceFiltered(object sender, FilterEventArgs e)
         {
             if (filteredContainerNumbers == null) return;
 
@@ -183,29 +204,36 @@ namespace EasyJob_ProDG.UI.ViewModel
         internal void SetAdditionalFilter(List<string> filteredItems)
         {
             filteredContainerNumbers = filteredItems;
-            UnitsPlanView.Refresh();
+            UnitsPlanView?.Refresh();
 
-            AdvancedFilterApplied = true;
-            OnPropertyChanged(nameof(AdvancedFilterApplied));
+            IsFilterApplied = true;
+            OnPropertyChanged(nameof(IsFilterApplied));
+
+            SetStatusBarOnFilter();
         }
 
         /// <summary>
         /// Clears additinal filter
         /// </summary>
-        internal void ClearAdditionalFilter()
+        internal void ClearFilters()
         {
+            textToFilter = null;
+            OnPropertyChanged(nameof(TextToFilter));
+
             filteredContainerNumbers = null;
 
             ((IEditableCollectionView)UnitsPlanView)?.CommitEdit(); // clears edit mode to enable .Refresh()
             UnitsPlanView?.Refresh();
 
-            AdvancedFilterApplied = false;
-            OnPropertyChanged(nameof(AdvancedFilterApplied));
+            IsFilterApplied = false;
+            OnPropertyChanged(nameof(IsFilterApplied));
+
+            SetStatusBarOnFilterCleared();
         }
 
         private void ClearFilterExecuted(object obj)
         {
-            ClearAdditionalFilter();
+            ClearFilters();
 
             // message will update FilterTool if open
             DataMessenger.Default.Send(new ChangeSelectionMessage(), "selected data grid changed");
@@ -276,6 +304,20 @@ namespace EasyJob_ProDG.UI.ViewModel
             OnPropertyChanged(nameof(StatusBarText));
         }
 
+        /// <summary>
+        /// Sets StatusBar test upon filter or clear filter.
+        /// </summary>
+        protected virtual void SetStatusBarOnFilter()
+        {
+            StatusBarText = $"Filtered: {((CollectionView)(unitsPlanView.View)).Count} units";
+            OnPropertyChanged(nameof(StatusBarText));
+        }
+
+        private void SetStatusBarOnFilterCleared()
+        {
+            StatusBarText = "Filter cleared";
+            OnPropertyChanged(nameof(StatusBarText));
+        }
 
         // ----- Message methods -----
 

@@ -1,46 +1,46 @@
 ﻿<local:CommonDataGridUserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:vm="clr-namespace:EasyJob_ProDG.UI.ViewModel"
-             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
-             xmlns:behaviors="clr-namespace:EasyJob_ProDG.UI.Behaviors"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
-             xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties" 
-             xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib" 
-             xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
-             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls" 
-             xmlns:sort="clr-namespace:EasyJob_ProDG.UI.View.Sort"
-             x:Class="EasyJob_ProDG.UI.View.User_Controls.DataGridDg"
-             mc:Ignorable="d"
-             d:DesignHeight="300"
-             d:DesignWidth="1200"
-             d:DataContext="{d:DesignInstance vm:DataGridDgViewModel}">
+                                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                 xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
+                                 xmlns:vm="clr-namespace:EasyJob_ProDG.UI.ViewModel"
+                                 xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
+                                 xmlns:behaviors="clr-namespace:EasyJob_ProDG.UI.Behaviors"
+                                 xmlns:system="clr-namespace:System;assembly=mscorlib"
+                                 xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties"
+                                 xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
+                                 xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
+                                 xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
+                                 xmlns:sort="clr-namespace:EasyJob_ProDG.UI.View.Sort"
+                                 x:Class="EasyJob_ProDG.UI.View.User_Controls.DataGridDg"
+                                 mc:Ignorable="d"
+                                 d:DesignHeight="300"
+                                 d:DesignWidth="1200"
+                                 d:DataContext="{d:DesignInstance vm:DataGridDgViewModel}">
     <UserControl.Resources>
         <converters:BoolInversionConverter x:Key="BoolInversionConverter" />
-        <converters:DummyConverter x:Key="DummyConverter"/>
-        <converters:StowageCategoryConverter x:Key="StowageCategoryConverter"/>
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:DummyConverter x:Key="DummyConverter" />
+        <converters:StowageCategoryConverter x:Key="StowageCategoryConverter" />
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <sort:EmptyTextLastSortComparer x:Key="EmptyTextLastSorter" />
     </UserControl.Resources>
 
     <DockPanel>
         <!-- Search and filter panel -->
         <Grid DockPanel.Dock="Top"
-                    HorizontalAlignment="Stretch"
-                    >
+              HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
             <cc:SearchBox Text="{Binding TextToFilter}"
                           x:Name="SearchBox"
-                          Background="AliceBlue"/>
-            <Button Content="Content below is filtered" HorizontalAlignment="Center" 
+                          Background="AliceBlue" />
+            <Button Content="Content below is filtered"
+                    HorizontalAlignment="Center"
                     ToolTip="Clear filter"
-                    Visibility="{Binding AdvancedFilterApplied, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Visibility="{Binding IsFilterApplied, Converter={StaticResource BooleanToVisibilityConverter}}"
                     Command="{Binding ClearFilterCommand}"
                     Grid.Column="1">
             </Button>
@@ -48,38 +48,35 @@
 
         <!-- Bottom panel-->
         <Grid DockPanel.Dock="Bottom"
-                    HorizontalAlignment="Stretch">
+              HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80"/>
                 <ColumnDefinition />
-                <ColumnDefinition Width="110"/>
-                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="110" />
+                <ColumnDefinition Width="110" />
             </Grid.ColumnDefinitions>
-            <Label Name="lblSelectionStatus"
-                   Content="Selected: "
-                   HorizontalAlignment="Right"
-                   />
+
             <TextBlock Text="{Binding StatusBarText, Mode=OneWay}"
                        HorizontalAlignment="Stretch"
                        TextAlignment="Left"
                        VerticalAlignment="Center"
-                       Grid.Column="1"
-                       />
+                       Grid.Column="0" />
             <Button Content="Add"
                     Width="100"
                     Margin="1"
                     HorizontalAlignment="Right"
                     Command="{Binding DisplayAddDgMenuCommand}"
-                    Grid.Column="2"/>
+                    Grid.Column="2" />
             <Button Content="To Excel"
                     Click="ExportToExcel"
                     Width="100"
-                    Margin="1" 
-                    Grid.Column="3"/>
+                    Margin="1"
+                    Grid.Column="3" />
         </Grid>
 
         <!-- Add dg -->
-        <uc:AddContainerToDataGrid Title="Add dg |" DockPanel.Dock="Bottom" 
+        <uc:AddContainerToDataGrid Title="Add dg |"
+                                   DockPanel.Dock="Bottom"
                                    IsAddDg="True"
                                    Visibility="{Binding MenuVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    ContainerNumber="{Binding UnitToAddNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -88,7 +85,7 @@
                                    CanUserAdd="{Binding CanUserAddUnit, UpdateSourceTrigger=PropertyChanged}">
             <behavior:Interaction.Triggers>
                 <behavior:EventTrigger EventName="AddItem">
-                    <behavior:InvokeCommandAction Command="{Binding AddDgCommand}"/>
+                    <behavior:InvokeCommandAction Command="{Binding AddDgCommand}" />
                 </behavior:EventTrigger>
             </behavior:Interaction.Triggers>
         </uc:AddContainerToDataGrid>
@@ -96,78 +93,124 @@
         <DataGrid x:Name="MainDgTable"
                   ItemsSource="{Binding UnitsPlanView}"
                   SelectedItem="{Binding SelectedDg, Mode=TwoWay}"
-                                    
-                  ScrollViewer.CanContentScroll="False"
-                  VirtualizingPanel.ScrollUnit="Pixel"
-                  VirtualizingPanel.VirtualizationMode="Standard"
-                  
+                  ScrollViewer.CanContentScroll="True"
+                  VirtualizingPanel.ScrollUnit="Item"
+                  VirtualizingPanel.VirtualizationMode="Recycling"
+                  VirtualizingPanel.IsVirtualizing="True"
                   Background="{StaticResource Brush.DgTable.Background}"
-
                   Style="{StaticResource MainDataGridCommonStyle}"
-
                   ap:SelectingDgDataGridItem.SelectingItem="{Binding SelectedDg}"
-                  PreviewKeyDown="MainDataTable_PreviewKeyDown"
-                  BeginningEdit="MainTable_BeginningEdit"
-                  CellEditEnding="MainTable_CellEditEnding"
-                  UnloadingRow="MainDataTable_OnUnloadingRow"
-                  Sorting="MainDataTable_Sorting"
                   behaviors:DataGridBehavior.DisplayRowNumber="True"
                   ap:DataGridSortBehavior.AllowCustomSort="True"
                   ap:SelectDataGridMultipleItems.SelectDataGridMultipleItemsById="{Binding ItemsToSelect}"
-                  >
+                  PreviewKeyDown="MainDataTable_PreviewKeyDown"
+                  UnloadingRow="MainDataTable_OnUnloadingRow"
+                  Sorting="MainDataTable_Sorting"
+                  BeginningEdit="MainTable_BeginningEdit"
+                  CellEditEnding="MainTable_CellEditEnding"
+                  IsSynchronizedWithCurrentItem="False">
             <DataGrid.Resources>
-            <ResourceDictionary>
-                <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="DataGridsContextMenus.xaml" />
-                </ResourceDictionary.MergedDictionaries>
-                
-                <!-- Max column width -->
-                <system:Double x:Key="MaxColumnWidth">500.0</system:Double>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="DataGridsContextMenus.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
 
-                <!-- Context menu -->
-                <ContextMenu x:Key="DataGridColumnHeaderContextMenu"
-                             Style="{StaticResource DataGridColumnHeadersContextMenu}">
-                </ContextMenu>
+                    <!-- Max column width -->
+                    <system:Double x:Key="MaxColumnWidth">500.0</system:Double>
 
-                <!-- Header style -->
-                <Style TargetType="{x:Type DataGridColumnHeader}"
-                       BasedOn="{StaticResource DataGridColumnHeaderStyle}">
-                    <Setter Property="ContextMenu"
-                            Value="{StaticResource DataGridColumnHeaderContextMenu}" />
-                </Style>
+                    <!-- Context menu -->
+                    <ContextMenu x:Key="DataGridColumnHeaderContextMenu"
+                                 Style="{StaticResource DataGridColumnHeadersContextMenu}">
+                    </ContextMenu>
 
-                <!-- Cell style -->
-                <Style TargetType="{x:Type DataGridCell}">
-                    <Setter Property="IsTabStop" Value="False" />
-                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
-                </Style>
+                    <!-- Header style -->
+                    <Style TargetType="{x:Type DataGridColumnHeader}"
+                           BasedOn="{StaticResource DataGridColumnHeaderStyle}">
+                        <Setter Property="ContextMenu"
+                                Value="{StaticResource DataGridColumnHeaderContextMenu}" />
+                    </Style>
 
-                <Style TargetType="{x:Type TextBlock}">
-                    <Setter Property="HorizontalAlignment" Value="Right"/>
-                    <Setter Property="Padding" Value="5,0"/>
-                </Style>
+                    <!-- Cell style -->
+                    <Style TargetType="{x:Type DataGridCell}">
+                        <Setter Property="IsTabStop"
+                                Value="False" />
+                        <Setter Property="TextBlock.TextAlignment"
+                                Value="Center" />
+                    </Style>
 
-                <!-- TextBox style-->
-                <Style TargetType="{x:Type TextBox}">
-                    <!--<Setter Property="IsTabStop"
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="HorizontalAlignment"
+                                Value="Right" />
+                        <Setter Property="Padding"
+                                Value="5,0" />
+                    </Style>
+
+                    <!-- TextBox style-->
+                    <Style TargetType="{x:Type TextBox}">
+                        <!--<Setter Property="IsTabStop"
                             Value="True" />-->
-                    <Setter Property="Margin" Value="50" />
-                    <Setter Property="TextAlignment" Value="Right" />
-                </Style>
+                        <Setter Property="Margin"
+                                Value="50" />
+                        <Setter Property="TextAlignment"
+                                Value="Right" />
+                    </Style>
 
-                <!-- CheckBox style -->
-                <Style TargetType="{x:Type CheckBox}">
-                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                    <Setter Property="Focusable" Value="False"/>
-                </Style>
+                    <!-- CheckBox style -->
+                    <Style TargetType="{x:Type CheckBox}">
+                        <Setter Property="HorizontalAlignment"
+                                Value="Center" />
+                        <Setter Property="Focusable"
+                                Value="False" />
+                    </Style>
 
-                <Style TargetType="{x:Type ComboBox}">
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                </Style>
+                    <Style TargetType="{x:Type ComboBox}">
+                        <Setter Property="HorizontalContentAlignment"
+                                Value="Center" />
+                    </Style>
 
-                <!-- Selection color -->
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                                 Color="{StaticResource Color.DgTable.HighlightRow}" />
+                    <ControlTemplate x:Key="NoArrowComboTemplate"
+                                     TargetType="{x:Type ComboBox}">
+                        <Grid>
+                            <ContentPresenter Name="ContentSite"
+                                              IsHitTestVisible="False"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              Margin="5,2"
+                                              VerticalAlignment="Center" />
+
+                            <ToggleButton IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                          Background="Transparent"
+                                          BorderBrush="Transparent"
+                                          Opacity="0" />
+
+                            <Popup x:Name="Popup"
+                                   Placement="Bottom"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   PopupAnimation="Slide">
+                                <Grid x:Name="DropDown"
+                                      SnapsToDevicePixels="True"
+                                      MinWidth="{TemplateBinding ActualWidth}"
+                                      MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border Name="DropDownBorder"
+                                            Background="White"
+                                            BorderBrush="LightGray"
+                                            BorderThickness="1" />
+                                    <ScrollViewer Margin="4"
+                                                  SnapsToDevicePixels="True">
+                                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                        KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+
+                    <!-- Selection color -->
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                     Color="{StaticResource Color.DgTable.HighlightRow}" />
                 </ResourceDictionary>
             </DataGrid.Resources>
 
@@ -178,9 +221,8 @@
                 <!-- LOCATION -->
                 <DataGridTextColumn x:Name="positionColumn"
                                     Binding="{Binding Location, UpdateSourceTrigger=LostFocus}"
-                                        SortMemberPath="LocationSortable"
-                                    Header="Position"
-                                    >
+                                    SortMemberPath="LocationSortable"
+                                    Header="Position">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <!--<Setter Property="TextBox.TextAlignment"
@@ -202,44 +244,38 @@
                 <!-- Carrier -->
                 <DataGridTextColumn x:Name="carrierColumn"
                                     Binding="{Binding Carrier, UpdateSourceTrigger=LostFocus}"
-                                    Header="Operator"
-                                    />
+                                    Header="Operator" />
 
                 <!-- POL -->
                 <DataGridTextColumn x:Name="polColumn"
                                     Binding="{Binding POL, UpdateSourceTrigger=LostFocus}"
-                                    Header="POL"
-                                    />
+                                    Header="POL" />
 
                 <!-- POD -->
                 <DataGridTextColumn x:Name="podColumn"
                                     Binding="{Binding POD, UpdateSourceTrigger=LostFocus}"
-                                    Header="POD"
-                                    />
+                                    Header="POD" />
 
                 <!-- Final destination -->
                 <DataGridTextColumn x:Name="finalDestinationColumn"
                                     Binding="{Binding FinalDestination, UpdateSourceTrigger=LostFocus}"
                                     Header="Final destination"
-                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}"/>
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}" />
 
                 <!-- Unno -->
                 <DataGridTextColumn x:Name="unnoColumn"
                                     Binding="{Binding Unno, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=\{0:0000\}}"
-                                    Header="UNNO"
-                                    />
+                                    Header="UNNO" />
 
                 <!-- Dg class -->
                 <DataGridTextColumn x:Name="dgClassColumn"
                                     Binding="{Binding DgClass, UpdateSourceTrigger=LostFocus}"
-                                    Header="Dg class"
-                                    />
+                                    Header="Dg class" />
 
                 <!-- Dg subclasses -->
                 <DataGridTextColumn x:Name="dgSubclassColumn"
                                     Binding="{Binding DgSubClass, UpdateSourceTrigger=LostFocus}"
-                                    Header="Dg subclass"
-                                    />
+                                    Header="Dg subclass" />
 
                 <!-- Proper shipping name -->
                 <DataGridTextColumn x:Name="nameColumn"
@@ -254,7 +290,7 @@
                             <Setter Property="TextBlock.TextWrapping"
                                     Value="WrapWithOverflow" />
                             <Setter Property="TextBlock.TextTrimming"
-                                    Value="CharacterEllipsis"/>
+                                    Value="CharacterEllipsis" />
                             <Setter Property="TextBlock.ContextMenu"
                                     Value="{DynamicResource ProperShippingNameContextMenu}">
                             </Setter>
@@ -274,21 +310,18 @@
                 <!-- Packing group -->
                 <DataGridTextColumn x:Name="pkgColumn"
                                     Binding="{Binding PackingGroup, UpdateSourceTrigger=LostFocus}"
-                                    Header="Packing group"
-                                    />
+                                    Header="Packing group" />
 
                 <!-- Flash point -->
                 <DataGridTextColumn x:Name="fpColumn"
                                     Binding="{Binding FlashPoint, UpdateSourceTrigger=LostFocus, StringFormat=\{0:0.0\}, TargetNullValue=''}"
                                     Header="Flash point"
-                                    SortMemberPath="FlashPointAsDecimal"
-                                    />
+                                    SortMemberPath="FlashPointAsDecimal" />
 
                 <!-- NetWt -->
                 <DataGridTextColumn x:Name="netColumn"
                                     Binding="{Binding DgNetWeight, StringFormat=\{0:0.000\}, UpdateSourceTrigger=LostFocus}"
-                                    Header="Net weight"
-                                    >
+                                    Header="Net weight">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBox.TextAlignment"
@@ -303,12 +336,10 @@
                 <DataGridTemplateColumn x:Name="lqColumn"
                                         Header="LQ"
                                         CanUserSort="True"
-                                        SortMemberPath="IsLq"
-                                        >
+                                        SortMemberPath="IsLq">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox 
-                                IsChecked="{Binding Path=IsLq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <CheckBox IsChecked="{Binding Path=IsLq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -317,8 +348,7 @@
                 <DataGridTemplateColumn x:Name="rfColumn"
                                         Header="Is reefer"
                                         CanUserSort="True"
-                                        SortMemberPath="IsRf"
-                                        >
+                                        SortMemberPath="IsRf">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=IsRf, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -330,8 +360,7 @@
                 <DataGridTemplateColumn x:Name="mpColumn"
                                         Header="Marine pollutant"
                                         CanUserSort="True"
-                                        SortMemberPath="IsMp"
-                                        >
+                                        SortMemberPath="IsMp">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=IsMp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -345,9 +374,7 @@
                                     Header="Properties"
                                     IsReadOnly="True"
                                     MaxWidth="{StaticResource MaxColumnWidth}"
-                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                    
-                                    >
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <DataGridTextColumn.ElementStyle>
                         <Style>
                             <Setter Property="TextBlock.TextWrapping"
@@ -355,8 +382,9 @@
                             <Setter Property="TextBox.MaxLines"
                                     Value="3" />
                             <Setter Property="TextBlock.TextTrimming"
-                                    Value="CharacterEllipsis"/>
-                            <Setter Property="TextBlock.TextAlignment" Value="Justify"/>
+                                    Value="CharacterEllipsis" />
+                            <Setter Property="TextBlock.TextAlignment"
+                                    Value="Justify" />
                             <!--<Setter Property="TextBlock.ToolTip"
                                     Value="{Binding Properties}"/>
                             <Setter Property="ToolTip.Placement"
@@ -380,27 +408,51 @@
                 </DataGridTemplateColumn>
 
                 <!-- Stowage category -->
-                <DataGridComboBoxColumn x:Name="stowCatColumn"
-                                        ItemsSource="{Binding Source={x:Static vm:DataGridDgViewModel.StowageCategories}}"
-                                        SelectedItemBinding="{Binding StowageCat, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StowageCategoryConverter}}"
-                                        Header="Stowage category"
-                                        
-                                        >
-                </DataGridComboBoxColumn>
+                <DataGridTemplateColumn x:Name="stowCatColumn"
+                                        Header="Stowage category">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding StowageCat, Converter={StaticResource StowageCategoryConverter}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{x:Static vm:DataGridDgViewModel.StowageCategories}"
+                                      SelectedItem="{Binding StowageCat, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StowageCategoryConverter}}"
+                                      Template="{StaticResource NoArrowComboTemplate}"
+                                      DropDownClosed="ComboBox_DropDownClosed">
+                                <ComboBox.Style>
+                                    <Style TargetType="ComboBox">
+                                        <EventSetter Event="SelectionChanged"
+                                                     Handler="BlockComboBoxBubbling" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsVisible"
+                                                     Value="True">
+                                                <Setter Property="IsDropDownOpen"
+                                                        Value="True" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ComboBox.Style>
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
 
                 <!-- SW -->
                 <DataGridTextColumn x:Name="swColumn"
                                     Binding="{Binding StowageSW, Mode=OneWay}"
                                     Header="Special stowage requirements"
                                     IsReadOnly="True"
-                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}"/>
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}" />
 
                 <!-- SG -->
                 <DataGridTextColumn x:Name="sgColumn"
                                     Binding="{Binding SegregationSG, Mode=OneWay}"
                                     Header="Special segregation requirement"
                                     IsReadOnly="True"
-                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}"/>
+                                    ap:DataGridSortBehavior.CustomSorter="{StaticResource EmptyTextLastSorter}" />
 
                 <!-- Segregation groups -->
                 <DataGridTextColumn x:Name="segrGroupColumn"
@@ -421,8 +473,7 @@
                 <!-- TYPE -->
                 <DataGridTextColumn x:Name="containerTypeColumn"
                                     Binding="{Binding ContainerType, UpdateSourceTrigger=LostFocus}"
-                                    Header="Container type"
-                                    >
+                                    Header="Container type">
 
                     <DataGridTextColumn.ElementStyle>
                         <Style>
@@ -443,8 +494,7 @@
                 <DataGridTemplateColumn x:Name="openColumn"
                                         Header="Open type"
                                         CanUserSort="True"
-                                        SortMemberPath="IsOpen"
-                                        >
+                                        SortMemberPath="IsOpen">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=IsOpen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -456,8 +506,7 @@
                 <DataGridTextColumn x:Name="cargoHoldColumn"
                                     Binding="{Binding HoldNr, Mode=OneWay}"
                                     Header="Hold number"
-                                    IsReadOnly="True"
-                                    >
+                                    IsReadOnly="True">
 
                 </DataGridTextColumn>
 
@@ -465,14 +514,11 @@
                 <DataGridTemplateColumn x:Name="isLockedColumn"
                                         Header="Is Locked"
                                         CanUserSort="True"
-                                        SortMemberPath="IsPositionLockedForChange"
-                                        >
+                                        SortMemberPath="IsPositionLockedForChange">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox 
-                                IsChecked="{Binding Path=IsPositionLockedForChange, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                IsEnabled="{Binding Path=HasNoNumber, Converter={StaticResource BoolInversionConverter}, UpdateSourceTrigger=PropertyChanged}"
-                                />
+                            <CheckBox IsChecked="{Binding Path=IsPositionLockedForChange, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      IsEnabled="{Binding Path=HasNoNumber, Converter={StaticResource BoolInversionConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -481,14 +527,11 @@
                 <DataGridTemplateColumn x:Name="isToBeKept"
                                         Header="To be kept in plan"
                                         CanUserSort="True"
-                                        SortMemberPath="IsToBeKeptInPlan"
-                                        >
+                                        SortMemberPath="IsToBeKeptInPlan">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox 
-                                IsChecked="{Binding Path=IsToBeKeptInPlan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                IsEnabled="{Binding Path=HasNoNumber, Converter={StaticResource BoolInversionConverter}, UpdateSourceTrigger=PropertyChanged}"
-                                />
+                            <CheckBox IsChecked="{Binding Path=IsToBeKeptInPlan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      IsEnabled="{Binding Path=HasNoNumber, Converter={StaticResource BoolInversionConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -497,14 +540,11 @@
                 <DataGridTemplateColumn x:Name="isToBeImportedColumn"
                                         Header="Import"
                                         CanUserSort="True"
-                                        SortMemberPath="IsToImport"
-                                        >
+                                        SortMemberPath="IsToImport">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox 
-                                IsChecked="{Binding Path=IsToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                IsEnabled="{Binding Path=HasNoNumber, Converter={StaticResource BoolInversionConverter}, UpdateSourceTrigger=PropertyChanged}"
-                                />
+                            <CheckBox IsChecked="{Binding Path=IsToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      IsEnabled="{Binding Path=HasNoNumber, Converter={StaticResource BoolInversionConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -513,14 +553,11 @@
                 <DataGridTemplateColumn x:Name="isNotToBeImportedColumn"
                                         Header="Not to import"
                                         CanUserSort="True"
-                                        SortMemberPath="IsNotToImport"
-                                        >
+                                        SortMemberPath="IsNotToImport">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox 
-                                IsChecked="{Binding Path=IsNotToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                IsEnabled="{Binding Path=HasNoNumber, Converter={StaticResource BoolInversionConverter}, UpdateSourceTrigger=PropertyChanged}"
-                                />
+                            <CheckBox IsChecked="{Binding Path=IsNotToImport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      IsEnabled="{Binding Path=HasNoNumber, Converter={StaticResource BoolInversionConverter}, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -529,12 +566,11 @@
                 <DataGridTemplateColumn x:Name="locationChangedColumn"
                                         Header="Location changed"
                                         CanUserSort="True"
-                                        SortMemberPath="HasLocationChanged"
-                                        >
+                                        SortMemberPath="HasLocationChanged">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=HasLocationChanged, Mode=OneWay}"
-                                      IsEnabled="False"/>
+                                      IsEnabled="False" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -557,8 +593,7 @@
                 <DataGridTemplateColumn x:Name="newUnitColumn"
                                         Header="Is New in plan"
                                         CanUserSort="True"
-                                        SortMemberPath="IsNewUnitInPlan"
-                                        >
+                                        SortMemberPath="IsNewUnitInPlan">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=IsNewUnitInPlan, Mode=OneWay}"
@@ -572,11 +607,11 @@
                                         Header="Has Updated"
                                         CanUserSort="True"
                                         SortMemberPath="HasUpdated"
-                                        IsReadOnly="True"
-                                        >
+                                        IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding HasUpdated, Mode=OneWay}" IsEnabled="False"/>
+                            <CheckBox IsChecked="{Binding HasUpdated, Mode=OneWay}"
+                                      IsEnabled="False" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -585,8 +620,7 @@
                 <DataGridTemplateColumn x:Name="hasPodChangedColumn"
                                         Header="POD changed"
                                         CanUserSort="True"
-                                        SortMemberPath="HasPodChanged"
-                                        >
+                                        SortMemberPath="HasPodChanged">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=HasPodChanged, Mode=OneWay}"
@@ -600,12 +634,11 @@
                                         Header="Type changed"
                                         IsReadOnly="True"
                                         CanUserSort="True"
-                                        SortMemberPath="HasContainerTypeChanged"
-                                        >
+                                        SortMemberPath="HasContainerTypeChanged">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding HasContainerTypeChanged, Mode=OneWay}" 
-                                      IsEnabled="False"/>
+                            <CheckBox IsChecked="{Binding HasContainerTypeChanged, Mode=OneWay}"
+                                      IsEnabled="False" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -614,8 +647,7 @@
                 <DataGridTemplateColumn x:Name="isMax1LColumn"
                                         Header="Max 1L"
                                         CanUserSort="True"
-                                        SortMemberPath="IsMax1L"
-                                        >
+                                        SortMemberPath="IsMax1L">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=IsMax1L, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -627,8 +659,7 @@
                 <DataGridTemplateColumn x:Name="isWasteColumn"
                                         Header="Waste"
                                         CanUserSort="True"
-                                        SortMemberPath="IsWaste"
-                                        >
+                                        SortMemberPath="IsWaste">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=IsWaste, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -640,8 +671,7 @@
                 <DataGridTemplateColumn x:Name="isStabilizedColumn"
                                         Header="Stabilized"
                                         CanUserSort="True"
-                                        SortMemberPath="IsStabilized"
-                                        >
+                                        SortMemberPath="IsStabilized">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding Path=IsStabilized, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -652,8 +682,7 @@
                 <!-- EMS -->
                 <DataGridTextColumn x:Name="emsColumn"
                                     Binding="{Binding DgEMS, UpdateSourceTrigger=LostFocus}"
-                                    Header="EmS"
-                                    />
+                                    Header="EmS" />
 
                 <!-- TechnicalName -->
                 <DataGridTextColumn x:Name="technicalNameColumn"
@@ -772,7 +801,10 @@
                     </DataGridTextColumn.EditingElementStyle>
                 </DataGridTextColumn>
 
-                <DataGridTemplateColumn IsReadOnly="True" Width="500" CanUserReorder="False" CanUserResize="False"
+                <DataGridTemplateColumn IsReadOnly="True"
+                                        Width="500"
+                                        CanUserReorder="False"
+                                        CanUserResize="False"
                                         CanUserSort="False" />
 
             </DataGrid.Columns>
@@ -781,7 +813,7 @@
             <!-- BEHAVIORS -->
             <behavior:Interaction.Triggers>
                 <behavior:EventTrigger EventName="SelectionChanged">
-                    <behavior:InvokeCommandAction Command="{Binding SelectionChangedCommand}" 
+                    <behavior:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
                                                   CommandParameter="{Binding ElementName=MainDgTable, Path=SelectedItems}" />
                 </behavior:EventTrigger>
             </behavior:Interaction.Triggers>

@@ -431,10 +431,10 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void ClearFilters()
         {
             CloseAllToolWindowsExecuted(null);
-            DataGridDgViewModel.ClearAdditionalFilter();
-            DataGridReefersViewModel.ClearAdditionalFilter();
-            DataGridContainersViewModel.ClearAdditionalFilter();
-            DataGridUpdatesViewModel.ClearAdditionalFilter();
+            DataGridDgViewModel.ClearFilters();
+            DataGridReefersViewModel.ClearFilters();
+            DataGridContainersViewModel.ClearFilters();
+            DataGridUpdatesViewModel.ClearFilters();
         }
 
         #endregion

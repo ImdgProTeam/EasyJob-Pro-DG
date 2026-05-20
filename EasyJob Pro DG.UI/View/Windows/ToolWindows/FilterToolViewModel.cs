@@ -85,7 +85,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
                         }
                         else
                         {
-                            mainWindowViewModel.DataGridDgViewModel.ClearAdditionalFilter();
+                            mainWindowViewModel.DataGridDgViewModel.ClearFilters();
                             OnFilterCleared();
                         }
                         break;
@@ -100,7 +100,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
                         }
                         else
                         {
-                            mainWindowViewModel.DataGridReefersViewModel.ClearAdditionalFilter();
+                            mainWindowViewModel.DataGridReefersViewModel.ClearFilters();
                             OnFilterCleared();
                         }
                         break;
@@ -115,7 +115,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
                         }
                         else
                         {
-                            mainWindowViewModel.DataGridContainersViewModel.ClearAdditionalFilter();
+                            mainWindowViewModel.DataGridContainersViewModel.ClearFilters();
                             OnFilterCleared();
                         }
                         break;
@@ -130,7 +130,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
                         }
                         else
                         {
-                            mainWindowViewModel.DataGridUpdatesViewModel?.ClearAdditionalFilter();
+                            mainWindowViewModel.DataGridUpdatesViewModel?.ClearFilters();
                             OnFilterCleared();
                         }
                         break;
@@ -149,22 +149,22 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             switch (selectedDataGridIndex)
             {
                 case 0:
-                    if (mainWindowViewModel.DataGridDgViewModel.AdvancedFilterApplied)
+                    if (mainWindowViewModel.DataGridDgViewModel.IsFilterApplied)
                         OnFilterApplied();
                     else OnFilterCleared();
                     break;
                 case 1:
-                    if (mainWindowViewModel.DataGridReefersViewModel.AdvancedFilterApplied)
+                    if (mainWindowViewModel.DataGridReefersViewModel.IsFilterApplied)
                         OnFilterApplied();
                     else OnFilterCleared();
                     break;
                 case 2:
-                    if (mainWindowViewModel.DataGridContainersViewModel.AdvancedFilterApplied)
+                    if (mainWindowViewModel.DataGridContainersViewModel.IsFilterApplied)
                         OnFilterApplied();
                     else OnFilterCleared();
                     break;
                 case 3:
-                    if (mainWindowViewModel.DataGridUpdatesViewModel.AdvancedFilterApplied)
+                    if (mainWindowViewModel.DataGridUpdatesViewModel.IsFilterApplied)
                         OnFilterApplied();
                     else OnFilterCleared();
                     break;

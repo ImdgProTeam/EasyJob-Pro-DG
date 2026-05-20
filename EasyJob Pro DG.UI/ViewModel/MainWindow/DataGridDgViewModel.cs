@@ -341,6 +341,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         // ------ Override methods from base abstract class -----
         protected override void OnSelectionChanged(object obj)
         {
+            if(_isRefreshing) return;
             base.OnSelectionChanged(obj);
 
             if (SelectedDg is null) return;
@@ -367,6 +368,15 @@ namespace EasyJob_ProDG.UI.ViewModel
         protected override void SetSelectionStatusBar(object obj)
         {
             StatusBarText = SelectionStatusBarSetter.GetSelectionStatusBarTextForDg(obj);
+            OnPropertyChanged(nameof(StatusBarText));
+        }
+        protected override void SetStatusBarOnFilter()
+        {
+            int itemsCount = ((CollectionView)UnitsPlanView).Count;
+            int unitsCount = ((CollectionView)UnitsPlanView).Cast<DgWrapper>().Select(item => item.ContainerNumber).Distinct().Count();
+
+
+            StatusBarText = $"Filtered: {itemsCount} dg items in {unitsCount} containers.";
             OnPropertyChanged(nameof(StatusBarText));
         }
 
