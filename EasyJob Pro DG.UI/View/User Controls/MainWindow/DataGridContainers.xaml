@@ -9,7 +9,8 @@
              xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
              xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:behaviors="clr-namespace:EasyJob_ProDG.UI.Behaviors"
-             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters" xmlns:sort="clr-namespace:EasyJob_ProDG.UI.View.Sort"
+             xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters" 
+             xmlns:sort="clr-namespace:EasyJob_ProDG.UI.View.Sort"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              >
@@ -27,7 +28,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
-            <cc:SearchBox Text="{Binding TextToFilter}" x:Name="SearchBox"/>
+            <local:SearchBoxUserControl x:Name="SearchBoxUserControl" />
             <Button Content="Content below is filtered"
                     HorizontalAlignment="Center"
                     ToolTip="Clear filter"

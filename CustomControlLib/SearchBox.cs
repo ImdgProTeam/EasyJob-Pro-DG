@@ -1,15 +1,18 @@
-﻿using System.Windows;
+﻿using System.Collections;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
+using System.Windows.Media;
 
 namespace CustomControlLib
 {
 
     [TemplatePart(Name = buttonClear, Type = typeof(Button))]
+    [TemplatePart(Name = buttonSettings, Type = typeof(Button))]
     [TemplatePart(Name = searchTextBox, Type = typeof(TextBox))]
     public class SearchBox : Control
     {
         private const string buttonClear = "PART_buttonClear";
+        private const string buttonSettings = "PART_buttonSettings";
         private const string searchTextBox = "PART_SearchTextBox";
 
         static SearchBox()
@@ -22,6 +25,10 @@ namespace CustomControlLib
 
             var txbSearch = GetTemplateChild(searchTextBox) as TextBox;
             ButtonClear = GetTemplateChild(buttonClear) as Button;
+            ButtonSettings = GetTemplateChild(buttonSettings) as Button;
+
+
+            this.GotFocus -= SearchBox_GotFocus;
             this.GotFocus += SearchBox_GotFocus;
         }
 
@@ -53,6 +60,33 @@ namespace CustomControlLib
             OnButtonClick();
         }
 
+        Button btnSettings;
+        protected Button ButtonSettings
+        {
+            get { return btnSettings; }
+            set
+            {
+                if (btnSettings != null)
+                {
+                    btnSettings.Click -= new RoutedEventHandler(btnSettings_Click);
+                }
+
+                btnSettings = value;
+
+                if (btnSettings != null)
+                {
+                    btnSettings.Click += new RoutedEventHandler(btnSettings_Click);
+                }
+            }
+        }
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.ContextMenu != null)
+            {
+                button.ContextMenu.IsOpen = true;
+            }
+        }
+
 
         #endregion
 
@@ -78,6 +112,41 @@ namespace CustomControlLib
         }
         #endregion
 
+        #region Settings button Properties
+
+        public string SettingsButtonIcon
+        {
+            get { return (string)GetValue(SettingsButtonIconProperty); }
+            set { SetValue(SettingsButtonIconProperty, value); }
+        }
+
+        public static readonly DependencyProperty SettingsButtonIconProperty =
+            DependencyProperty.Register(nameof(SettingsButtonIcon), typeof(string), typeof(SearchBox), new PropertyMetadata("o"));
+
+
+        public FontFamily SettingsButtonFontFamily
+        {
+            get { return (FontFamily)GetValue(SettingsButtonFontFamilyProperty); }
+            set { SetValue(SettingsButtonFontFamilyProperty, value); }
+        }
+
+        public static readonly DependencyProperty SettingsButtonFontFamilyProperty =
+            DependencyProperty.Register(nameof(SettingsButtonFontFamily), typeof(FontFamily), typeof(SearchBox), new PropertyMetadata(new FontFamily("Segoe UI")));
+
+        #endregion
+
+        #region Settings menu
+
+        public IEnumerable SettingsMenuItemsSource
+        {
+            get { return (IEnumerable)GetValue(SettingsMenuItemsSourceProperty); }
+            set { SetValue(SettingsMenuItemsSourceProperty, value); }
+        }
+
+        public static readonly DependencyProperty SettingsMenuItemsSourceProperty =
+            DependencyProperty.Register(nameof(SettingsMenuItemsSource), typeof(IEnumerable), typeof(SearchBox), new PropertyMetadata(null));
+
+        #endregion
 
         #region Methods
         private void OnButtonClick()

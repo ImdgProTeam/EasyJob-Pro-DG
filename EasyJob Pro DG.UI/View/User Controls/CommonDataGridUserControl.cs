@@ -64,7 +64,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             //Search container
             if (e.Key == Key.F && Keyboard.Modifiers == ModifierKeys.Control)
             {
-                SearchBox searchBox = (SearchBox)FindName("SearchBox");
+                UserControl searchBox = (UserControl)FindName("SearchBoxUserControl");
                 if (searchBox != null) searchBox.Focus();
             }
 

@@ -9,7 +9,6 @@
                                  xmlns:system="clr-namespace:System;assembly=mscorlib"
                                  xmlns:ap="clr-namespace:EasyJob_ProDG.UI.View.AttachedProperties"
                                  xmlns:cc="clr-namespace:CustomControlLib;assembly=CustomControlLib"
-                                 xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
                                  xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
                                  xmlns:sort="clr-namespace:EasyJob_ProDG.UI.View.Sort"
                                  x:Class="EasyJob_ProDG.UI.View.User_Controls.DataGridDg"
@@ -34,9 +33,9 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
-            <cc:SearchBox Text="{Binding TextToFilter}"
-                          x:Name="SearchBox"
-                          Background="AliceBlue" />
+
+            <local:SearchBoxUserControl x:Name="SearchBoxUserControl"/>
+            
             <Button Content="Content below is filtered"
                     HorizontalAlignment="Center"
                     ToolTip="Clear filter"
@@ -75,7 +74,7 @@
         </Grid>
 
         <!-- Add dg -->
-        <uc:AddContainerToDataGrid Title="Add dg |"
+        <local:AddContainerToDataGrid Title="Add dg |"
                                    DockPanel.Dock="Bottom"
                                    IsAddDg="True"
                                    Visibility="{Binding MenuVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -88,7 +87,7 @@
                     <behavior:InvokeCommandAction Command="{Binding AddDgCommand}" />
                 </behavior:EventTrigger>
             </behavior:Interaction.Triggers>
-        </uc:AddContainerToDataGrid>
+        </local:AddContainerToDataGrid>
 
         <DataGrid x:Name="MainDgTable"
                   ItemsSource="{Binding UnitsPlanView}"

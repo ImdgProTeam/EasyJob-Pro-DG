@@ -162,6 +162,9 @@
     <Compile Include="View\User Controls\MainWindow\ConflictsFilterPanel.xaml.cs">
       <DependentUpon>ConflictsFilterPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\User Controls\MainWindow\SearchBoxUserControl.cs">
+      <DependentUpon>SearchBoxUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Windows\Base\AnimatedToolWindow.cs" />
     <Compile Include="View\Windows\Info\LicenceAgreement.xaml.cs">
       <DependentUpon>LicenceAgreement.xaml</DependentUpon>
@@ -453,6 +456,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\User Controls\MainWindow\DataGridsContextMenus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User Controls\MainWindow\SearchBoxUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

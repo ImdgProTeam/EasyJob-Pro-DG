@@ -25,8 +25,7 @@
                 <ControlTemplate TargetType="{x:Type local:NumericalTextBoxWithButtons}">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            >
+                            BorderThickness="{TemplateBinding BorderThickness}">
                         <StackPanel Orientation="Horizontal">
                             <RepeatButton x:Name="PART_ButtonLess"
                                           Interval="{Binding Interval, RelativeSource={RelativeSource TemplatedParent}}"
@@ -46,8 +45,7 @@
                                      TextAlignment="Center"
                                      VerticalAlignment="Center"
                                      Width="30"
-                                     IsTabStop="True"
-                                      />
+                                     IsTabStop="True" />
                             <RepeatButton x:Name="PART_ButtonMore"
                                           Interval="{Binding Interval, RelativeSource={RelativeSource TemplatedParent}}"
                                           Width="15"
@@ -77,47 +75,69 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:SearchBox}">
+                    <ControlTemplate.Resources>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="PART_ButtonBorder"
+                                                Height="{Binding ElementName=PART_SearchTextBox, Path=ActualHeight}"
+                                                BorderThickness="0"
+                                                Background="Transparent"
+                                                Padding="7,0">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="FontWeight" Value="DemiBold" />
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Foreground" Value="LightGray" />
+                                            </Trigger>
+                                            <Trigger Property="IsMouseCaptured" Value="True">
+                                                <Setter Property="Foreground" Value="Transparent" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ControlTemplate.Resources>
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Margin="{TemplateBinding Margin}">
-                        <StackPanel Orientation="Horizontal" Margin="{TemplateBinding Padding}">
-                            <Label Content="Search"/>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="{TemplateBinding Padding}">
+                            <Label Content="Search" 
+                                   VerticalAlignment="Bottom"/>
                             <TextBox x:Name="PART_SearchTextBox"
                                      Text="{Binding Text, Delay=500, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                      TextWrapping="NoWrap"
+                                     ToolTip="Type text to search"
                                      Margin="3, 3"
                                      MinWidth="80"
+                                     MinHeight="20"
+                                     MaxHeight="20"
                                      TextAlignment="Left"
-                                     />
+                                     VerticalContentAlignment="Center"/>
                             <Button x:Name="PART_buttonClear"
                                     Content="x"
+                                    ToolTip="Clear filter"
                                     IsCancel="True"
-                                    VerticalContentAlignment="Center"
-                                    Height="{Binding ElementName=PART_SearchTextBox, Path=ActualHeight}"
-                                    Margin="3, 0, 10, 0">
-                                <Button.Template>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border BorderThickness="0"
-                                                Background="Transparent"
-                                                x:Name="PART_ButtonBorder"
-                                                Padding="7,0">
-                                            <ContentPresenter/>
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="FontWeight" Value="DemiBold"/>
-                                            </Trigger>
-                                            <Trigger Property="IsEnabled" Value="False">
-                                                <Setter Property="Foreground" 
-                                                Value="LightGray"/>
-                                            </Trigger>
-                                            <Trigger Property="IsMouseCaptured" Value="True">
-                                                <Setter Property="Foreground" Value="Transparent"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Button.Template>
+                                    Margin="2, 0">
+                            </Button>
+                            <Button x:Name="PART_buttonSettings"
+                                    Content="{TemplateBinding SettingsButtonIcon}"
+                                    FontFamily="{TemplateBinding SettingsButtonFontFamily}"
+                                    ToolTip="Set up quick search"
+                                    Margin="0, 0, 8, 0">
+                                <Button.ContextMenu>
+                                    <ContextMenu ItemsSource="{Binding SettingsMenuItemsSource, RelativeSource={RelativeSource TemplatedParent}}"
+                                                 Placement="Bottom"
+                                                 PlacementTarget="{Binding ElementName=PART_buttonSettings}" />
+                                </Button.ContextMenu>
+
                             </Button>
                         </StackPanel>
                     </Border>
@@ -144,17 +164,15 @@
                                       Background="{TemplateBinding Background}"
                                       Margin="15 0 25 0">
                             </ComboBox>
-                            <TextBox 
-                                x:Name="PART_TextInputField"
-                                Text="{Binding TextValue, RelativeSource={RelativeSource TemplatedParent}, 
+                            <TextBox x:Name="PART_TextInputField"
+                                     Text="{Binding TextValue, RelativeSource={RelativeSource TemplatedParent}, 
                                             UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                                TextWrapping="NoWrap"
-                                Margin="15 0 45 0"
-                                Padding="12 0"
-                                TextAlignment="Left"
-                                Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"
-                                Opacity="100"
-                                />
+                                     TextWrapping="NoWrap"
+                                     Margin="15 0 45 0"
+                                     Padding="12 0"
+                                     TextAlignment="Left"
+                                     Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"
+                                     Opacity="100" />
                         </Grid>
                     </Border>
                 </ControlTemplate>

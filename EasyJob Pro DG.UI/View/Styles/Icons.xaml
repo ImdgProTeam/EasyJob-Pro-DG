@@ -12,6 +12,7 @@
     <system:String x:Key="InformationIcon">&#xf05a;</system:String> 
     <!--<system:String x:Key="ClearAllIcon">&#xf2d4;</system:String>--> 
     <system:String x:Key="ClearAllIcon">&#xf2d4;</system:String>
+    <system:String x:Key="SettingsIcon">&#xf013;</system:String>
 
     <system:String x:Key="RefreshIcon">&#xf01e;</system:String> 
 </ResourceDictionary>

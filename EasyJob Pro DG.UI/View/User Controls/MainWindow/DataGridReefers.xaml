@@ -26,8 +26,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
-            <cc:SearchBox Text="{Binding TextToFilter}"
-                          x:Name="SearchBox"/>
+            <local:SearchBoxUserControl x:Name="SearchBoxUserControl" />
             <Button Content="Content below is filtered"
                     HorizontalAlignment="Center"
                     ToolTip="Clear filter"
