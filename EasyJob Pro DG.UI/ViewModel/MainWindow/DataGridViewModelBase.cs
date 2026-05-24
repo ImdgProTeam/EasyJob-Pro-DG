@@ -171,6 +171,8 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             if (c.ContainerNumber.ToLower().Contains(searchText)) return;
             if (c.Location.Replace(" ", "").Contains(searchText)) return;
+            if(isPOLIncluded && c.POL.Replace(" ","").ToLower().Contains(searchText)) return;
+            if(isPODIncluded && c.POD.Replace(" ","").ToLower().Contains(searchText)) return;
 
             e.Accepted = false;
         }
@@ -241,6 +243,39 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         #endregion
 
+        #region SearchBox options
+
+        protected static bool isPOLIncluded;
+        protected static bool isPODIncluded;
+
+        public bool IsPOLIncluded
+        { get => isPOLIncluded;
+            set
+            {
+                isPOLIncluded = value;
+                ReSetTextToFilter();
+            }
+        }
+
+        public bool IsPODIncluded 
+        { 
+            get => isPODIncluded;
+            set
+            {
+                isPODIncluded = value;
+                ReSetTextToFilter();
+            }
+        }
+
+        private void ReSetTextToFilter()
+        {
+            var temp = textToFilter;
+            textToFilter = string.Empty;
+            TextToFilter = temp;
+        }
+
+        #endregion
+
         #region AddUnitLogic
 
         public virtual bool CanUserAddUnit => !string.IsNullOrEmpty(UnitToAddNumber);
@@ -258,6 +293,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         protected string unitToAddLocation;
+
         public string UnitToAddLocation
         {
             get => unitToAddLocation;

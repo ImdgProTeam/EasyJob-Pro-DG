@@ -25,8 +25,8 @@
                   SettingsButtonIcon="{StaticResource SettingsIcon}">
         <cc:SearchBox.SettingsMenuItemsSource>
             <x:Array Type="{x:Type FrameworkElement}">
-                <MenuItem Header="POL" />
-                <MenuItem Header="POD" />
+                <MenuItem Header="POL" IsChecked="{Binding IsPOLIncluded, Mode=TwoWay}"/>
+                <MenuItem Header="POD" IsChecked="{Binding IsPODIncluded, Mode=TwoWay}"/>
             </x:Array>
         </cc:SearchBox.SettingsMenuItemsSource>
     </cc:SearchBox>

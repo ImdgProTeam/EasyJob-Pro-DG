@@ -273,28 +273,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             e.Handled = true;
         }
 
-        private void ComboBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                ComboBox comboBox = sender as ComboBox;
-                if (comboBox is null) return;
-                
-                    DataGrid grid = Helpers.FindParent<DataGrid>(comboBox);
-                    if (grid != null)
-                    {
-                        grid?.CommitEdit(DataGridEditingUnit.Cell, true);
-
-                    }
-
-                    e.Handled = true;
-
-                
-
-
-            }
-        }
-
         private void ComboBox_DropDownClosed(object sender, EventArgs e)
         {
             ComboBox comboBox = sender as ComboBox;
@@ -309,8 +287,6 @@ namespace EasyJob_ProDG.UI.View.User_Controls
                 }), System.Windows.Threading.DispatcherPriority.Background);
 
             }
-
-
         }
     }
 }

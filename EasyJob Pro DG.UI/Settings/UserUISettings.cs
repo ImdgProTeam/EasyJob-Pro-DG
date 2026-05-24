@@ -46,6 +46,7 @@ namespace EasyJob_ProDG.UI.Settings
 
         public bool AllowRowIncrementWithPlusButton { get; set; }
 
+
         #endregion
 
         #region ExcelTemplates
@@ -97,6 +98,11 @@ namespace EasyJob_ProDG.UI.Settings
 
         #endregion
 
+        #region Runtime preferences
+
+        internal bool[] SearchBoxFilterOptions = new bool[2] { false, false};
+
+        #endregion
 
         // -------------- Main methods ----------------------------------------------
         #region Public methods

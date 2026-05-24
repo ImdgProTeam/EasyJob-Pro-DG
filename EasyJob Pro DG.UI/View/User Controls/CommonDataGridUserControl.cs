@@ -1,6 +1,4 @@
-﻿
-using CustomControlLib;
-using EasyJob_ProDG.Model.Cargo;
+﻿using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.UI.IO;
 using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.View.Animations;
@@ -64,8 +62,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             //Search container
             if (e.Key == Key.F && Keyboard.Modifiers == ModifierKeys.Control)
             {
-                UserControl searchBox = (UserControl)FindName("SearchBoxUserControl");
-                if (searchBox != null) searchBox.Focus();
+                FocusOnSearchBox();
             }
 
             //Enter key
@@ -73,7 +70,7 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             {
                 //Except for ComboBoxes (otherwise keyboard input will not work with dropdown)
                 DependencyObject focusedElement = Keyboard.FocusedElement as DependencyObject;
-                if(focusedElement != null && Helpers.IsInsideComboBox(focusedElement))
+                if (focusedElement != null && Helpers.IsInsideComboBox(focusedElement))
                 {
                     return;
                 }
@@ -170,6 +167,12 @@ namespace EasyJob_ProDG.UI.View.User_Controls
             if (!isDeletingRow) return;
             FocusOnRow(currentRowIndex);
             isDeletingRow = false;
+        }
+
+        private void FocusOnSearchBox()
+        {
+            UserControl searchBox = (UserControl)FindName("SearchBoxUserControl");
+            if (searchBox != null) searchBox.Focus();
         }
 
         #endregion

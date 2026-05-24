@@ -36,7 +36,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         //--------------- Constructor -----------------------------------------------
         public DataGridDgViewModel() : base()
         {
-            LoadServices();
             RefreshControls();
             ContextMenuViewModel = new DataGridDgContextMenuViewModel();
         }
@@ -103,6 +102,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             if (dg.ContainerNumber.ToLower().Contains(searchText)) return;
             if (dg.Unno.ToString().Contains(searchText)) return;
             if (dg.Location.Replace(" ", "").Contains(searchText)) return;
+            if (isPOLIncluded && dg.POL.Replace(" ", "").ToLower().Contains(searchText)) return;
+            if (isPODIncluded && dg.POD.Replace(" ", "").ToLower().Contains(searchText)) return;
 
             e.Accepted = false;
         }

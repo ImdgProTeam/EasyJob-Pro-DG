@@ -25,6 +25,7 @@
     </UserControl.Resources>
 
     <DockPanel>
+        
         <!-- Search and filter panel -->
         <Grid DockPanel.Dock="Top"
               HorizontalAlignment="Stretch">

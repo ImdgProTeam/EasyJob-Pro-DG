@@ -19,6 +19,7 @@
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainWindowViewModel}"
         d:Height="2000"
         d:DataContext="{d:DesignInstance viewmodel:MainWindowViewModel, d:IsDesignTimeCreatable=True}"
+        FocusManager.FocusedElement="{Binding ElementName=MainDgDataGrid}"
         Activated="Window_Activated"
         Deactivated="Window_Deactivated"
         Closing="ClosingApplication">
