@@ -36,14 +36,9 @@
             </Grid.ColumnDefinitions>
 
             <local:SearchBoxUserControl x:Name="SearchBoxUserControl"/>
-            
-            <Button Content="Content below is filtered"
-                    HorizontalAlignment="Center"
-                    ToolTip="Clear filter"
-                    Visibility="{Binding IsFilterApplied, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    Command="{Binding ClearFilterCommand}"
-                    Grid.Column="1">
-            </Button>
+
+            <local:ContentFilteredUserControl HorizontalAlignment="Center"
+                                              Grid.Column="1" />
         </Grid>
 
         <!-- Bottom panel-->

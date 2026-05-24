@@ -162,6 +162,9 @@
     <Compile Include="View\User Controls\MainWindow\ConflictsFilterPanel.xaml.cs">
       <DependentUpon>ConflictsFilterPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\User Controls\MainWindow\ContentFilteredUserControl.xaml.cs">
+      <DependentUpon>ContentFilteredUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\User Controls\MainWindow\SearchBoxUserControl.cs">
       <DependentUpon>SearchBoxUserControl.xaml</DependentUpon>
     </Compile>
@@ -452,6 +455,10 @@
     <Compile Include="Wrapper\Ship Profile\OuterRowWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\ShipProfileWrapper.cs" />
     <Page Include="View\User Controls\MainWindow\ConflictsFilterPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\User Controls\MainWindow\ContentFilteredUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
