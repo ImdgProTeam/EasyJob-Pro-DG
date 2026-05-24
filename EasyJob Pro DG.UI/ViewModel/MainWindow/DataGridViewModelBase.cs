@@ -351,7 +351,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private void SetStatusBarOnFilterCleared()
         {
-            StatusBarText = "Filter cleared";
+            StatusBarText = "No filter applied.";
             OnPropertyChanged(nameof(StatusBarText));
         }
 
