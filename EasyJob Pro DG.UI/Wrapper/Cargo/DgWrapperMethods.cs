@@ -1,7 +1,10 @@
-﻿using EasyJob_ProDG.Model.Cargo;
+﻿using EasyJob_ProDG.Data.Info_data;
+using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Wrapper.Cargo;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace EasyJob_ProDG.UI.Wrapper
@@ -54,6 +57,69 @@ namespace EasyJob_ProDG.UI.Wrapper
 
             OnPropertyChanged(nameof(Name));
         }
+        #endregion
+
+        #region SegregationGroups methods
+
+        /// <summary>
+        /// Creates <see cref="SegregationGroups"/> to be used as a selectable dropdown in <see cref="SegregationGroup"/> column.
+        /// Called only once a cell selected for edit.
+        /// </summary>
+        private void CreateSegregationGroups()
+        {
+            if (_segregationGroups != null) return;
+            _segregationGroups = new ObservableCollection<SegregationGroupWrapper>();
+            for (byte i = 0; i <= IMDGCode.SegregationGroupsNumber; i++)
+            {
+                var item = new SegregationGroupWrapper()
+                {
+                    Code = IMDGCode.SegregationGroupsCodes[i],
+                    Name = IMDGCode.SegregationGroups[i],
+                    Number = i,
+                    IsSelected = Model.SegregationGroupList.Contains(i)
+                };
+                item.IsAsPerCode = Model.SegregationSGList.Contains(item.Code);
+                item.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == nameof(SegregationGroupWrapper.IsSelected))
+                    {
+                        HandleSegregationGroupsSelection();
+                    }
+                };
+                _segregationGroups.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Called when selected items in SegregationGroups dropdown menu
+        /// </summary>
+        private void HandleSegregationGroupsSelection()
+        {
+            if (_segregationGroups.First(g => g.Number == 0).IsSelected)
+            {
+                foreach (var item in _segregationGroups)
+                {
+                    item.IsSelected = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets SegregationGroups to Model from selected <see cref="_segregationGroups"/>.
+        /// Calls <see cref="UpdateConflictList"/> in the end.
+        /// </summary>
+        internal void SetSegregationGroups()
+        {
+            Model.ClearSegregationGroups();
+            foreach (var item in _segregationGroups)
+            {
+                if (item.IsSelected)
+                    Model.SegregationGroupList.Add(item.Number);
+            }
+            OnPropertyChanged(nameof(SegregationGroup));
+            UpdateConflictList();
+        }
+
         #endregion
 
 

@@ -7,17 +7,6 @@ namespace EasyJob_ProDG.Model.Cargo
 {
     public partial class Dg : ContainerAbstract, IO.IUpdatable
     {
-        #region Proper shipping name constants
-
-        internal const string PSN_MAX1L = "Max 1L";
-        internal const string PSN_STABILIZED = "STABILIZED";
-        const string CODE_STABILIZED = "STABILIZED";
-        internal const string PSN_WASTE = "WASTE";
-        const string PSN_COOLANT = "COOLANT";
-        const string PSN_CONDITIONER = "CONDITIONER";
-
-        #endregion
-
         #region Fields Declarations
 
         /// <summary>
@@ -285,6 +274,11 @@ namespace EasyJob_ProDG.Model.Cargo
         public List<byte> SegregationGroupList => segregationGroupsListBytes;
         private readonly List<byte> segregationGroupsListBytes;
 
+        public void ClearSegregationGroups()
+        {
+            segregationGroupsListBytes.Clear();
+        }
+
         /// <summary>
         /// Returns string with all segregation group codes (e.g. "SSG1") listed.
         /// </summary>
@@ -383,7 +377,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 if (value)
                 {
                     if (!Name.ContainsStabilized())
-                        this.ApendNameWith(PSN_STABILIZED);
+                        this.ApendNameWith(DgConstants.PSN_STABILIZED);
                     isStabilizedWordAddedToProperShippingName = true;
 
                     StowageCat = 'D';
@@ -391,14 +385,14 @@ namespace EasyJob_ProDG.Model.Cargo
                 }
                 if (!value)
                 {
-                    this.RemoveFromName(PSN_STABILIZED);
+                    this.RemoveFromName(DgConstants.PSN_STABILIZED);
                     isStabilizedWordAddedToProperShippingName = false;
                     StowageCat = stowageCatFromIMDGCode;
                     stowageSW = stowageSWfromDgList;
                 }
             }
         }
-        private bool isStabilizedWordInOriginalProperShippingName => OriginalNameFromCode?.Contains(CODE_STABILIZED) ?? false;
+        private bool isStabilizedWordInOriginalProperShippingName => OriginalNameFromCode?.Contains(DgConstants.CODE_STABILIZED) ?? false;
         private bool isStabilizedWordAddedToProperShippingName;
 
         public bool IsWaste
@@ -411,7 +405,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 {
                     isWaste = true;
                     if (!Name.ContainsWaste())
-                        this.ApendNameWith(PSN_WASTE);
+                        this.ApendNameWith(DgConstants.PSN_WASTE);
                     if (Unno == 1950)
                         IsMax1L = false;
                     if (IMDGCode.SW22RelatedUnnos.Contains(Unno))
@@ -422,7 +416,7 @@ namespace EasyJob_ProDG.Model.Cargo
                 else
                 {
                     isWaste = false;
-                    this.RemoveFromName(PSN_WASTE);
+                    this.RemoveFromName(DgConstants.PSN_WASTE);
                     StowageCat = stowageCatFromIMDGCode;
                 }
             }
@@ -453,12 +447,12 @@ namespace EasyJob_ProDG.Model.Cargo
                 if (value)
                 {
                     if (!Name.ContainsMax1Litre())
-                        this.ApendNameWith(PSN_MAX1L);
+                        this.ApendNameWith(DgConstants.PSN_MAX1L);
                     if (IsWaste) IsWaste = false;
                 }
                 else
                 {
-                    this.RemoveFromName(PSN_MAX1L);
+                    this.RemoveFromName(DgConstants.PSN_MAX1L);
                 }
             }
         }
@@ -467,8 +461,8 @@ namespace EasyJob_ProDG.Model.Cargo
         public bool IsAsCoolantOrConditioner
         {
             get => !string.IsNullOrEmpty(Name) 
-                && (Name.ToUpper().Contains(PSN_COOLANT) 
-                || Name.ToUpper().Contains(PSN_CONDITIONER));
+                && (Name.ToUpper().Contains(DgConstants.PSN_COOLANT) 
+                || Name.ToUpper().Contains(DgConstants.PSN_CONDITIONER));
         }
 
         public bool IsSelfReactive

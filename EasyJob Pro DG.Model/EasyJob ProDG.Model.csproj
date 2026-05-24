@@ -47,6 +47,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cargo\BaseUnits\Helpers\DgConstants.cs" />
     <Compile Include="Cargo\BaseUnits\Helpers\DgNameHelpers.cs" />
     <Compile Include="Cargo\BaseUnits\Helpers\LocationOnBoardExtensions.cs" />
     <Compile Include="Cargo\CargoPlan\CargoPlanExtensionMethods.cs" />

@@ -20,6 +20,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         //--------------- Public static properties ----------------------------------
         public static IList<string> StowageCategories => new List<string>() { "", "A", "B", "C", "D", "E", "01", "02", "03", "04", "05" };
+        
 
         //--------------- Public properties -----------------------------------------
         public ObservableCollection<DgTableColumnSettings> ColumnSettings { get; set; }
@@ -62,6 +63,12 @@ namespace EasyJob_ProDG.UI.ViewModel
             AppendProperShippingNameCommand = new DelegateCommand(AppendProperShippingName);
             RestoreProperShippingNameFromIMDGCodeCommand = new DelegateCommand(RestoreProperShippingNameFromIMDGCodeOnExecuted);
             DisplayAddDgMenuCommand = new DelegateCommand(OnDisplayAddDgMenu);
+            UpdateSegregationGroupsCommand = new DelegateCommand(OnUpdateSegregationGroups);
+        }
+
+        private void OnUpdateSegregationGroups(object obj)
+        {
+            ((DgWrapper)obj).SetSegregationGroups();
         }
 
 
@@ -410,6 +417,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand AddDgCommand { get; private set; }
         public ICommand DisplayAddDgMenuCommand { get; private set; }
         public ICommand AppendProperShippingNameCommand { get; private set; }
+        public ICommand UpdateSegregationGroupsCommand { get; private set; }
 
         #endregion
     }

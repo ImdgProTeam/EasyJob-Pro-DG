@@ -100,7 +100,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <returns>string ", WASTE"</returns>
         public static string GetWasteAppendixToName()
         {
-            return Dg.PSN_WASTE.AppendedFormattedText();
+            return DgConstants.PSN_WASTE.AppendedFormattedText();
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="dg"></param>
         public static void AddToNameWaste(this Dg dg)
         {
-            dg.ApendNameWith(Dg.PSN_WASTE);
+            dg.ApendNameWith(DgConstants.PSN_WASTE);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="dg"></param>
         public static void AddToNameStabilized(this Dg dg)
         {
-            dg.ApendNameWith(Dg.PSN_STABILIZED);
+            dg.ApendNameWith(DgConstants.PSN_STABILIZED);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace EasyJob_ProDG.Model.Cargo
         /// <param name="dg"></param>
         public static void AddToNameMax1l(this Dg dg)
         {
-            dg.ApendNameWith(Dg.PSN_MAX1L);
+            dg.ApendNameWith(DgConstants.PSN_MAX1L);
         }
     }
 }

@@ -1,7 +1,10 @@
-﻿using EasyJob_ProDG.Model.Cargo;
+﻿using EasyJob_ProDG.Data.Info_data;
+using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.UI.Validation;
 using EasyJob_ProDG.UI.Wrapper.Cargo;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace EasyJob_ProDG.UI.Wrapper
@@ -247,6 +250,29 @@ namespace EasyJob_ProDG.UI.Wrapper
         public decimal FlashPointAsDecimal => GetValue<decimal>();
         #endregion
 
+        #region Segregation groups
+
+        public string SegregationGroup
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        /// <summary>
+        /// Bound to DropDown list of SegregationGrop column on edit.
+        /// </summary>
+        public ObservableCollection<SegregationGroupWrapper> SegregationGroups
+        {
+            get
+            {
+                CreateSegregationGroups();
+                return _segregationGroups;
+            }
+        }
+
+        private ObservableCollection<SegregationGroupWrapper> _segregationGroups;
+
+        #endregion
 
         #region Dg properties without additional functionality
         // --------- Dg properties without additional functionality -------
@@ -333,11 +359,6 @@ namespace EasyJob_ProDG.UI.Wrapper
         {
             get => GetValue<string>();
             set => SetValue(value);
-        }
-        public string SegregationGroup
-        {
-            get { return GetValue<string>(); }
-            set { SetValue(value); }
         }
 
         /// <summary>

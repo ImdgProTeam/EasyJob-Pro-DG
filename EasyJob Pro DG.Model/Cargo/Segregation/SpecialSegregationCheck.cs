@@ -359,7 +359,7 @@ namespace EasyJob_ProDG.Model.Cargo
                         break;
 
                     case "SG59": //Stow “separated from” permanganates.
-                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.perchlorates, SegregationCase.SeparatedFrom, sscode);
+                        CheckSegregationWithSpecialGroup(a, dglist, IMDGCode.SegregationGroup.permanganates, SegregationCase.SeparatedFrom, sscode);
                         break;
 
                     case "SG60": //Stow “separated from” peroxides.
