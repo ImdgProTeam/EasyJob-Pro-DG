@@ -1,9 +1,10 @@
-﻿using EasyJob_ProDG.UI.Wrapper;
+﻿using EasyJob_ProDG.Model.IO;
+using EasyJob_ProDG.UI.Wrapper;
 using System.Collections.Generic;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
-    internal static class SelectionStatusBarSetter
+    internal static class SelectionStatusBarTextGenerator
     {
         internal static string GetSelectionStatusBarTextForContainer(object obj)
         {
@@ -127,6 +128,46 @@ namespace EasyJob_ProDG.UI.ViewModel
                     $" | POD changed:{changedPODCount,3}";
             }
 
+        }
+
+        /// <summary>
+        /// Generates required text for StatusBar upon condition successful load. 
+        /// </summary>
+        internal static string GenerateStatusBarTextOnConditionLoaded(string fileName, OpenFile.OpenOption openOption)
+        {
+            string statusBarText;
+
+            switch (openOption)
+            {
+                case OpenFile.OpenOption.Update:
+                    statusBarText = $"Condition succesfully updated with {fileName}";
+                    break;
+                case OpenFile.OpenOption.Import:
+                    statusBarText = $"DG data succesfully imported from {fileName}";
+                    break;
+                case OpenFile.OpenOption.Open:
+                default:
+                    statusBarText = $"Condition {fileName} loaded.";
+                    break;
+            }
+
+            return statusBarText;
+        }
+
+        /// <summary>
+        /// Generates required text for StatusBar upon succesfull import of Reefer manifest info. 
+        /// </summary>
+        internal static string GenerateStatusBarMessageOnReeferInfoImported(string fileName)
+        {
+            return $"Reefer data succesfully imported from {fileName}";
+        }
+
+        /// <summary>
+        /// Generates required text for StatusBar upon failure to import Reefer manifest info. 
+        /// </summary>
+        internal static string GenerateStatusBarMessageOnReeferInfoImportFailed(string fileName)
+        {
+            return $"Failed to import reefer data from {fileName}";
         }
     }
 }

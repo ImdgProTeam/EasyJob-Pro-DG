@@ -8,6 +8,7 @@ using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.ViewModel.Conflicts;
+using EasyJob_ProDG.UI.ViewModel.MainWindow;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.Threading.Tasks;
@@ -27,6 +28,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// Access to all services
         /// </summary>
         ServicesHandler Services;
+        string _fileName;
 
         #endregion
 
@@ -51,9 +53,12 @@ namespace EasyJob_ProDG.UI.ViewModel
                 selectedDataGridIndex = value;
                 OnPropertyChanged(nameof(SelectionMenuVisible));
                 OnPropertyChanged(nameof(DgActionsSubMenuVisible));
+                if (selectedDataGridIndex != (int)DataGridViewModels.Updates)
+                    SelectedDataGrid.RefreshStatusBar();
             }
         }
         private int selectedDataGridIndex;
+
 
         /// <summary>
         /// Property indicating if any loading/saving etc. process is running at the moment.
@@ -74,6 +79,29 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         private bool isDimmedOverlayVisible;
 
+        /// <summary>
+        /// Returns currently selected DataGrid ViewModel.
+        /// </summary>
+        private DataGridViewModelBase SelectedDataGrid
+        {
+            get
+            {
+                switch (selectedDataGridIndex)
+                {
+                    case (int)DataGridViewModels.Dg:
+                        return DataGridDgViewModel;
+                    case (int)DataGridViewModels.Reefers:
+                        return DataGridReefersViewModel;
+                    case (int)DataGridViewModels.Containers:
+                        return DataGridContainersViewModel;
+                    case (int)DataGridViewModels.Updates:
+                        return DataGridUpdatesViewModel;
+                    case -1:
+                    default:
+                        return null;
+                }
+            }
+        }
 
         #endregion
 
@@ -220,6 +248,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
 
             SetIsLoading(true);
+            _fileName = file;
+
             StatusBarControl.ChangeBarSet(25);
             if (!Services.LoadDataServiceAccess.OpenCargoPlanFromFile(file, openOption, importOnlySelected, currentPort))
             {
@@ -239,8 +269,21 @@ namespace EasyJob_ProDG.UI.ViewModel
             StatusBarControl.ChangeBarSet(100);
             SetIsLoading(false);
 
+            bool isDataGridUpdatesSelected = selectedDataGridIndex == (int)DataGridViewModels.Updates;
+
+            SetStatusBarMessageOnConditionLoaded(openOption);
+
             // Show update summary
-            await SetUpUpdates(openOption);
+            await SetUpUpdates(openOption, file);
+        }
+
+        /// <summary>
+        /// Sets <see cref="StatusBarText"/> in selected <see cref="DataGridViewModelBase"/> upon condition successful load. 
+        /// </summary>
+        private void SetStatusBarMessageOnConditionLoaded(OpenFile.OpenOption openOption)
+        {
+            string statusBarText = SelectionStatusBarTextGenerator.GenerateStatusBarTextOnConditionLoaded(_fileName, openOption);
+            SelectedDataGrid.SetStatusBarText(statusBarText);
         }
 
 
@@ -280,14 +323,16 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         /// <param name="openOption"></param>
         /// <returns></returns>
-        private async Task SetUpUpdates(OpenFile.OpenOption openOption)
+        private async Task SetUpUpdates(OpenFile.OpenOption openOption, string fileName)
         {
             // close UpdatesDataGrid
             ViewModelLocator.DataGridUpdatesViewModel.HideUpdatesDataGrid();
             if (SelectedDataGridIndex == 3)
+            {
                 SelectedDataGridIndex = 0;
-            OnPropertyChanged(nameof(SelectedDataGridIndex));
-
+                OnPropertyChanged(nameof(SelectedDataGridIndex));
+                SetStatusBarMessageOnConditionLoaded(openOption);
+            }
             // create Updates summary
             SetConditionUpdateSummaryCreatedStatus(false);
             if (openOption == OpenFile.OpenOption.Update && Services.SettingsServiceAccess.ShowSummaryOnUpdateCondition)
@@ -321,11 +366,26 @@ namespace EasyJob_ProDG.UI.ViewModel
                 Services.MessageDialogServiceAccess.ShowOkDialog("Manifest file can not be read", "Error");
                 StatusBarControl.Cancel();
                 SetIsLoading(false);
+                SetStatusBarMessageOnReeferManifestInfoImportFailed(file);
+                return;
             }
             StatusBarControl.ChangeBarSet(90);
             DataMessenger.Default.Send<CargoDataUpdated>(new CargoDataUpdated(), "reeferinfoupdated");
             StatusBarControl.ChangeBarSet(100);
             SetIsLoading(false);
+            SetStatusBarMessageOnReeferManifestInfoImport(file);
+        }
+
+        private void SetStatusBarMessageOnReeferManifestInfoImport(string file)
+        {
+            string statusBarText = SelectionStatusBarTextGenerator.GenerateStatusBarMessageOnReeferInfoImported(file);
+            SelectedDataGrid.SetStatusBarText(statusBarText);
+        }
+
+        private void SetStatusBarMessageOnReeferManifestInfoImportFailed(string file)
+        {
+            string statusBarText = SelectionStatusBarTextGenerator.GenerateStatusBarMessageOnReeferInfoImportFailed(file);
+            SelectedDataGrid.SetStatusBarText(statusBarText);
         }
 
         #endregion
@@ -390,13 +450,13 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             switch (SelectedDataGridIndex)
             {
-                case 0:
+                case (int)DataGridViewModels.Dg:
                     DataGridDgViewModel.SelectDg(dgConf.DgID);
                     break;
-                case 1:
+                case (int)DataGridViewModels.Reefers:
                     DataGridReefersViewModel.SelectUnit(dgConf.ContainerNumber);
                     break;
-                case 2:
+                case (int)DataGridViewModels.Containers:
                     DataGridContainersViewModel.SelectUnit(dgConf.ContainerNumber);
                     break;
                 default:
@@ -452,7 +512,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 method.Invoke();
             }
-            catch 
+            catch
             {
                 Services.MessageDialogServiceAccess.ShowOkDialog(failureMessage, "Error");
             }

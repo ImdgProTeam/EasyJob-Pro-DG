@@ -30,34 +30,30 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
-            <cc:SearchBox Text="{Binding TextToFilter}"
-                          x:Name="SearchBox" />
-            <Button Content="Content below is filtered"
-                    HorizontalAlignment="Center"
-                    ToolTip="Clear filter"
-                    Visibility="{Binding AdvancedFilterApplied, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    Command="{Binding ClearFilterCommand}"
-                    Grid.Column="1" />
+            
+            <local:SearchBoxUserControl x:Name="SearchBoxUserControl" />
+            <local:ContentFilteredUserControl HorizontalAlignment="Center"
+                                              Grid.Column="1" />
         </Grid>
 
         <!-- Status bar -->
         <Grid DockPanel.Dock="Bottom"
               HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80" />
                 <ColumnDefinition />
+                <ColumnDefinition Width="20"/>
                 <ColumnDefinition Width="110" />
                 <ColumnDefinition Width="110" />
             </Grid.ColumnDefinitions>
-            <Label Name="lblSelectionStatus"
-                   Content="{Binding StatusBarTextPrefix}"
-                   HorizontalAlignment="Right"
-                   Visibility="{Binding Path=DataGrid.Selec}" />
+
+            <!-- Status bar -->
             <TextBlock Text="{Binding StatusBarText, Mode=OneWay}"
                        HorizontalAlignment="Stretch"
                        TextAlignment="Left"
                        VerticalAlignment="Center"
-                       Grid.Column="1" />
+                       Grid.Column="0" />
+            
+            <!-- Buttons -->
             <Button Content="To Excel"
                     Click="ExportToExcel"
                     Width="100"

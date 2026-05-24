@@ -330,14 +330,16 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj"></param>
         protected virtual void OnSelectionChanged(object obj)
         {
+            if (_isRefreshing) return;
+
             SetSelectionStatusBar(obj);
             DataMessenger.Default.Send(new ChangeSelectionMessage(), "Selected unit changed");
         }
 
         protected virtual void SetSelectionStatusBar(object selectionObject)
         {
-            StatusBarText = SelectionStatusBarSetter.GetSelectionStatusBarTextForContainer(selectionObject);
-            OnPropertyChanged(nameof(StatusBarText));
+            if (selectionObject is null || ((IList<object>)selectionObject).Count == 0 && !string.IsNullOrWhiteSpace(StatusBarText)) return;
+            RefreshStatusBar(selectionObject);
         }
 
         /// <summary>
@@ -355,6 +357,28 @@ namespace EasyJob_ProDG.UI.ViewModel
             OnPropertyChanged(nameof(StatusBarText));
         }
 
+        /// <summary>
+        /// Method sets <see cref="StatusBarText"/>
+        /// </summary>
+        /// <param name="text"></param>
+        internal void SetStatusBarText(string text)
+        {
+            StatusBarText = text;
+            OnPropertyChanged(nameof (StatusBarText));
+        }
+
+        internal virtual void RefreshStatusBar()
+        {
+            StatusBarText = SelectionStatusBarTextGenerator.GetSelectionStatusBarTextForContainer(GetSelectionObjectList());
+            OnPropertyChanged(nameof(StatusBarText));
+        }
+
+        internal virtual void RefreshStatusBar(object selectionObject)
+        {
+            StatusBarText = SelectionStatusBarTextGenerator.GetSelectionStatusBarTextForContainer(selectionObject);
+            OnPropertyChanged(nameof(StatusBarText));
+        }
+
         // ----- Message methods -----
 
         /// <summary>
@@ -363,12 +387,14 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="obj">none</param>
         private void OnCargoDataUpdated(CargoDataUpdated obj)
         {
+            _isRefreshing = true;
             dispatcher.Invoke(() =>
             {
                 SetDataView();
                 OnPropertyChanged(nameof(WorkingCargoPlan));
                 OnPropertyChanged(nameof(UnitsPlanView));
             });
+            _isRefreshing = false;
             PostCargoDataUpdated();
         }
 

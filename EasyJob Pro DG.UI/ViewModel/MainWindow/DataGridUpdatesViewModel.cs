@@ -1,7 +1,6 @@
 ﻿using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.Wrapper;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -15,7 +14,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         ObservableCollection<ContainerWrapper> UpdatedContainers { get; set; }
         public ContainerWrapper SelectedUnit { get; set; }
         public ICommand CloseUpdatesDataGridCommand { get; private set; }
-        public string StatusBarTextPrefix { get; private set; }
+
 
         #region Constructor
         // ---------- Constructor ---------------
@@ -125,9 +124,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void SetStatusBarOnMessageReceived(ShowUpdatesMessage message, string unitType)
         {
             SelectedUnit = null;
-            StatusBarTextPrefix = "Updates: ";
-            StatusBarText = $"{message.DisplayText}: {UpdatedContainers.Count} {unitType}";
-            OnPropertyChanged(nameof(StatusBarTextPrefix));
+            StatusBarText = $"Updates: {message.DisplayText}: {UpdatedContainers.Count} {unitType}";
             OnPropertyChanged(nameof(StatusBarText));
         }
 
@@ -150,12 +147,6 @@ namespace EasyJob_ProDG.UI.ViewModel
             throw new System.NotImplementedException();
         }
 
-        protected override void OnSelectionChanged(object obj)
-        {
-            StatusBarTextPrefix = "Selected: ";
-            OnPropertyChanged(nameof(StatusBarTextPrefix));
-            SetSelectionStatusBar(obj);
-        }
         #endregion
 
         #region Commands

@@ -368,7 +368,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         protected override void SetSelectionStatusBar(object obj)
         {
-            StatusBarText = SelectionStatusBarSetter.GetSelectionStatusBarTextForDg(obj);
+            StatusBarText = SelectionStatusBarTextGenerator.GetSelectionStatusBarTextForDg(obj);
             OnPropertyChanged(nameof(StatusBarText));
         }
         protected override void SetStatusBarOnFilter()
@@ -378,6 +378,12 @@ namespace EasyJob_ProDG.UI.ViewModel
 
 
             StatusBarText = $"Filtered: {itemsCount} dg items in {unitsCount} containers.";
+            OnPropertyChanged(nameof(StatusBarText));
+        }
+
+        internal override void RefreshStatusBar()
+        {
+            StatusBarText = SelectionStatusBarTextGenerator.GetSelectionStatusBarTextForDg(GetSelectionObjectList());
             OnPropertyChanged(nameof(StatusBarText));
         }
 

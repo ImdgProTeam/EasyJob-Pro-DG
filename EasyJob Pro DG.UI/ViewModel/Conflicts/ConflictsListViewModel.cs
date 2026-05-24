@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.ViewModel
@@ -19,6 +20,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         private List<ConflictPanelItemViewModel> deletedConflicts = new List<ConflictPanelItemViewModel>();
         private ObservableCollection<ConflictPanelItemViewModel> allConflicts;
         private List<ConflictTypes> conflictsFilter;
+
+        private readonly object _collectionLock = new object();
 
         #endregion
 
@@ -126,7 +129,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             if (obj.FullListToBeUpdated)
             {
                 deletedConflicts.Clear();
-                DisplayConflicts = new();
+                DisplayConflicts?.Clear();
                 OnPropertyChanged(nameof(DisplayConflicts));
             }
 
@@ -208,6 +211,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             conflictsFilter = new();
             DisplayConflicts = new();
+            BindingOperations.EnableCollectionSynchronization(DisplayConflicts, _collectionLock);
             conflictDataService = ConflictDataService.GetConflictDataService();
 
             SetDisplayConflicts();

@@ -78,6 +78,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         protected override void OnSelectionChanged(object obj)
         {
+            if (_isRefreshing) return;
             base.OnSelectionChanged(obj);
 
             if (SelectedUnit is null) return;

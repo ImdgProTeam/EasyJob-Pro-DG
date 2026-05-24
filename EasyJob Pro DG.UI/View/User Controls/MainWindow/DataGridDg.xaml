@@ -41,7 +41,7 @@
                                               Grid.Column="1" />
         </Grid>
 
-        <!-- Bottom panel-->
+        <!-- Bottom panel -->
         <Grid DockPanel.Dock="Bottom"
               HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
@@ -51,11 +51,14 @@
                 <ColumnDefinition Width="110" />
             </Grid.ColumnDefinitions>
 
+            <!-- Status Bar -->
             <TextBlock Text="{Binding StatusBarText, Mode=OneWay}"
                        HorizontalAlignment="Stretch"
                        TextAlignment="Left"
                        VerticalAlignment="Center"
                        Grid.Column="0" />
+            
+            <!-- Buttons -->
             <Button Content="Add"
                     Width="100"
                     Margin="1"
