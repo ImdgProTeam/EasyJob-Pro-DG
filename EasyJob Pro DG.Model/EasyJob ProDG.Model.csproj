@@ -69,6 +69,10 @@
     <Compile Include="Cargo\BaseUnits\LocationOnBoard.cs" />
     <Compile Include="Cargo\BaseUnits\Helpers\RandomizeID.cs" />
     <Compile Include="Cargo\Segregation\SegregationExtensionMethods.cs" />
+    <Compile Include="UserDefinedConflicts\UserDefinedConflictsService.cs" />
+    <Compile Include="UserDefinedConflicts\UserDefinedCondition.cs" />
+    <Compile Include="UserDefinedConflicts\UserDefinedConflict.cs" />
+    <Compile Include="UserDefinedConflicts\UserDefinedConflictsCheckService.cs" />
     <Compile Include="UserInformator\InformationMessage.cs" />
     <Compile Include="UserInformator\InformationMessageType.cs" />
     <Compile Include="IO\EasyJobCondition\CargoPlanAssociated.cs" />

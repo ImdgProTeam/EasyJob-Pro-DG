@@ -119,6 +119,7 @@
     <Compile Include="Services\DataServices\Interfaces\ICargoUpdatesDataService.cs" />
     <Compile Include="Services\DataServices\Interfaces\ICargoPlanCheckService.cs" />
     <Compile Include="Services\DataServices\CargoUpdatesDataService.cs" />
+    <Compile Include="Services\DataServices\Interfaces\IUserDefinedConflictsService.cs" />
     <Compile Include="Services\DataServices\Interfaces\IUserInformatorService.cs" />
     <Compile Include="Services\DataServices\UserInformatorService.cs" />
     <Compile Include="Services\DialogServices\IToolWindowsOperator.cs" />
@@ -456,6 +457,8 @@
     <Compile Include="Wrapper\ModelWrappers\ModelChangeTrackingWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\OuterRowWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\ShipProfileWrapper.cs" />
+    <Compile Include="Wrapper\UserDefinedConflicts\UserDefinedConditionWrapper.cs" />
+    <Compile Include="Wrapper\UserDefinedConflicts\UserDefinedConflictWrapper.cs" />
     <Page Include="View\User Controls\MainWindow\ConflictsFilterPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
