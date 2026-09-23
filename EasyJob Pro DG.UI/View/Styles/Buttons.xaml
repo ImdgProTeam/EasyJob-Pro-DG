@@ -197,6 +197,12 @@
                                     Value="{StaticResource InformationIcon}" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource Self}}"
+                                     Value="User">
+                            <Setter TargetName="IconPresenter"
+                                    Property="Content"
+                                    Value="{StaticResource UserConflictsIcon}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Content, RelativeSource={RelativeSource Self}}"
                                      Value="Clear">
                             <Setter TargetName="IconPresenter"
                                     Property="Content"

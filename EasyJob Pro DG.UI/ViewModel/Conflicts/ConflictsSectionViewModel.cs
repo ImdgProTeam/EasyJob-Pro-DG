@@ -1,6 +1,5 @@
 ﻿using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.Messages;
-using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.ViewModel.Conflicts;
 using System;
@@ -64,6 +63,10 @@ namespace EasyJob_ProDG.UI.ViewModel
                 new ConflictFilterButtonVM(ConflictTypes.Info, "Info")
                 {
                     Hint="Information messages",
+                },
+                new ConflictFilterButtonVM(ConflictTypes.UserDefined, "User")
+                {
+                    Hint="User defined conflicts",
                 },
             };
             foreach (var filterButton in FilterButtons)
@@ -135,7 +138,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 else button.IsAlert = false;
                 button.RefreshView();
             }
-        } 
+        }
 
         #endregion
 

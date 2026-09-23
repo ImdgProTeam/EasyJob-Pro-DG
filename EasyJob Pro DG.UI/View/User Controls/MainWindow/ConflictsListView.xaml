@@ -107,6 +107,11 @@
                                                 <Setter TargetName="IconHolder" Property="Text"
                                                         Value="{StaticResource InformationIcon}" />
                                             </DataTrigger>
+                                            <DataTrigger Binding="{Binding Name}"
+                                                         Value="User defined conflicts">
+                                                <Setter TargetName="IconHolder" Property="Text"
+                                                        Value="{StaticResource UserConflictsIcon}" />
+                                            </DataTrigger>
                                         </ControlTemplate.Triggers>
                                         
                                     </ControlTemplate>

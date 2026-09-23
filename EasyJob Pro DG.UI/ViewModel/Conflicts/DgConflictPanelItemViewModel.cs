@@ -12,6 +12,7 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
         const string GROUP_TITLE_STOWAGE = "Stowage";
         const string GROUP_TITLE_SEGREGATION = "Segregation";
         const string GROUP_TITLE_HANDLING = "Handling";
+        const string GROUP_TITLE_USER_DEFINED = "User defined conflicts";
 
 
         // --------------- Private fields ---------------------------------------
@@ -52,6 +53,7 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
                 if (Code.StartsWith("SW22")) return GROUP_TITLE_SW22;
                 if (ConflictType == ConflictTypes.Handling) return GROUP_TITLE_HANDLING;
                 if (IsSegregationConflict) return GROUP_TITLE_SEGREGATION;
+                if (ConflictType == ConflictTypes.UserDefined) return GROUP_TITLE_USER_DEFINED;
                 else return GROUP_TITLE_STOWAGE;
             }
         }
