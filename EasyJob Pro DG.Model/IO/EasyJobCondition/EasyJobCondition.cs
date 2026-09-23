@@ -28,9 +28,12 @@ namespace EasyJob_ProDG.Model.IO.EasyJobCondition
         /// <param name="cargoPlan">CargoPlan to be recorded</param>
         public static void SaveCondition(string filePath, CargoPlan cargoPlan)
         {
-            StreamWriter writer = new StreamWriter(filePath);
-            WriteCargoPlanAssociatedToStream(new CargoPlanAssociated(cargoPlan), writer);
-            writer.Close();
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                WriteCargoPlanAssociatedToStream(new CargoPlanAssociated(cargoPlan), writer);
+                writer.Close();
+            }
+
             Data.LogWriter.Write($"Condition saved as {filePath}");
         }
 

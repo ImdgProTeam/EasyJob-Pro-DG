@@ -69,6 +69,12 @@
     <Compile Include="Cargo\BaseUnits\LocationOnBoard.cs" />
     <Compile Include="Cargo\BaseUnits\Helpers\RandomizeID.cs" />
     <Compile Include="Cargo\Segregation\SegregationExtensionMethods.cs" />
+    <Compile Include="IO\StowageFile\ReadCargoPlan.cs" />
+    <Compile Include="IO\UserDefinedConditions\UDC_IO.cs" />
+    <Compile Include="IO\UserDefinedConditions\UDC_Records.cs" />
+    <Compile Include="UserDefinedConflicts\UserDefinedConditionRepository.cs" />
+    <Compile Include="UserDefinedConflicts\UserDefinedConditionRepositoryHandler.cs" />
+    <Compile Include="UserDefinedConflicts\UserDefinedConditionType.cs" />
     <Compile Include="UserDefinedConflicts\UserDefinedConflictsService.cs" />
     <Compile Include="UserDefinedConflicts\UserDefinedCondition.cs" />
     <Compile Include="UserDefinedConflicts\UserDefinedConflict.cs" />
@@ -90,10 +96,10 @@
     <Compile Include="IO\IUpdatable.cs" />
     <Compile Include="IO\IUpdatableReefer.cs" />
     <Compile Include="IO\OpenFile.cs" />
-    <Compile Include="IO\ReadBaplieFile.cs" />
+    <Compile Include="IO\StowageFile\ReadBaplieFile.cs" />
     <Compile Include="IO\EasyJobCondition\ExportCondition.cs" />
-    <Compile Include="IO\ReadIftdgnFile.cs" />
-    <Compile Include="IO\ReadXMLStowageFile.cs" />
+    <Compile Include="IO\StowageFile\ReadIftdgnFile.cs" />
+    <Compile Include="IO\StowageFile\ReadXMLStowageFile.cs" />
     <Compile Include="IO\ShipProfileIO.cs" />
     <Compile Include="ProgramDefaultValues.cs" />
     <Compile Include="Transport\CellPosition.cs" />
@@ -107,7 +113,7 @@
     <Compile Include="UserInformator\UserInformator.cs" />
     <Compile Include="ProgramFiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IO\EdiSegmentArray.cs" />
+    <Compile Include="IO\StowageFile\EdiSegmentArray.cs" />
     <Compile Include="Cargo\Segregation\Segregation.cs" />
     <Compile Include="Cargo\Segregation\SegregatorException.cs" />
     <Compile Include="Transport\ShipProfile.cs" />
@@ -168,6 +174,7 @@
       <Link>.editorconfig</Link>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

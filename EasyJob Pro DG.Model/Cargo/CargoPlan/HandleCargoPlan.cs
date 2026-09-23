@@ -36,7 +36,7 @@ namespace EasyJob_ProDG.Model.Cargo
             ShipProfile ownShip = ShipProfile.Instance;
 
             //creating cargo plan from file
-            var cargoPlan = OpenFile.ReadCargoPlanFromFile(fileName);
+            var cargoPlan = ReadCargoPlan.ReadCargoPlanFromFile(fileName);
             if (cargoPlan is null || cargoPlan.IsEmpty) return cargoPlan;
 
             // if need to import only dg info - then not required to update dg info

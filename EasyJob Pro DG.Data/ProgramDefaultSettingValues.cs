@@ -10,6 +10,7 @@ namespace EasyJob_ProDG.Data
         public const string Copyright = "Copyright ©  2018 - 2026";
         public const string ShipProfileExtension = ".ini";
         public const string DefaultShipProfile = "ShipProfile.ini";
+        public const string DefaultUserDefinedConditionsFile = "udc.ucr";
         public const string DgDataBaseFile = "dglist.xml";
         public static bool AlwaysOpenDefaultProfile = true;
         public static bool Multiprofile = false;

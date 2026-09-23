@@ -1,45 +1,48 @@
-﻿namespace EasyJob_ProDG.Model.UserDefinedConflicts
+﻿using EasyJob_ProDG.Model.Transport;
+
+namespace EasyJob_ProDG.Model.UserDefinedConflicts
 {
+    /// <summary>
+    /// Describes <see cref="UserDefinedCondition"/> - a set of requirements defined by a user to popup as a conflict if condition is met.
+    /// </summary>
     public class UserDefinedCondition
     {
         public UserDefinedConditionType ConditionType { get; set; }
-        public string ConditionDescription { get; set; }
+        public string ConditionValue { get; set; }
+        public CellPosition CellPosition { get; set; }
+
+        public UserDefinedConditionOption ConditionOption { get; set; }
 
 
-        public string GetDescription(string containerNumber)
+        public override bool Equals(object obj)
         {
-            return "";
+            if(obj == null || !(obj is UserDefinedCondition)) return false;
+            return this.Equals((UserDefinedCondition)obj);
         }
-    }
 
+        public bool Equals(UserDefinedCondition condition)
+        {
+            return ConditionType == condition.ConditionType
+                && string.Equals(ConditionValue, condition.ConditionValue)
+                && CellPosition == condition.CellPosition
+                && ConditionOption == condition.ConditionOption;
+        }
 
-    public enum UserDefinedConditionType
-    {
-        General = 0,
-        
-        ContainerNumberLoaded = 1,
-        ContainerNumberDischarged = 2,
-        
-        CellPositionLoaded = 3,
-        CellPositionEmpty = 4,
-        
-        ContainerLocationChanged =5,
-        ContainerPODchanged = 6,
-        
-        ContainerPropertyLoaded = 7,
-        DgPropertyLoaded = 8,
-        ReeferPropertyLoaded = 9,
+        #region Constructors
 
-        DgNameContainsLoaded = 10,
-        DgClassLoaded = 11,
-        DgUnnoLoaded = 12,
+        public UserDefinedCondition(UserDefinedConditionType conditionType, string conditionValue, CellPosition cellPosition = null, UserDefinedConditionOption conditionOption = 0)
+        {
+            ConditionType = conditionType;
+            ConditionValue = conditionValue;
+            ConditionOption = conditionOption;
+            CellPosition = cellPosition ?? new CellPosition();
+        }
 
-        ReeferSetPointLoaded = 13,
-        ReeferCommodityContains = 14,
+        public UserDefinedCondition()
+        {
 
-        NoNetWeightUnitsOnboard = 15,
-        POLUnitsOnboard = 16,
-        PODUnitsOnboard = 17,
+        } 
 
+        #endregion
     }
 }

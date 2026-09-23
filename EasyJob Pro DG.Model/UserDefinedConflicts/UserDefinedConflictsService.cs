@@ -2,6 +2,9 @@
 
 namespace EasyJob_ProDG.Model.UserDefinedConflicts
 {
+    /// <summary>
+    /// Contains Lists of <see cref="UserDefinedConflict"/> and <see cref="UserDefinedCondition"/> to be manipulated by users.
+    /// </summary>
     public class UserDefinedConflictsService
     {
         List<UserDefinedConflict> conflicts;
@@ -11,6 +14,12 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
 
         public List<UserDefinedConflict> GetConflicts => conflicts;
         public List<UserDefinedCondition> GetConditions => conditions;
+
+
+        private void CheckConflicts()
+        {
+            conflicts = checkService.CheckConflicts(null, conditions);
+        }
 
         #region Add/remove methods
 
@@ -44,6 +53,7 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
         {
             conditions = new List<UserDefinedCondition>();
             conflicts = new List<UserDefinedConflict>();
+            checkService = new UserDefinedConflictsCheckService();
         }
     }
 }

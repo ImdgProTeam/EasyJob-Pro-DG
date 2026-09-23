@@ -113,6 +113,7 @@
     <Compile Include="Data\Conflicts\ConflictsListHandler.cs" />
     <Compile Include="Data\Conflicts\ConflictsListWarningsHandler.cs" />
     <Compile Include="Data\Conflicts\ConflictTypes.cs" />
+    <Compile Include="Data\UserDefinedConflicts\UserDefinedConditionRepository.cs" />
     <Compile Include="IO\DialogOpenSettings.cs" />
     <Compile Include="IO\DialogSaveSettings.cs" />
     <Compile Include="Services\DataServices\CargoPlanCheckService.cs" />
@@ -121,6 +122,8 @@
     <Compile Include="Services\DataServices\CargoUpdatesDataService.cs" />
     <Compile Include="Services\DataServices\Interfaces\IUserDefinedConflictsService.cs" />
     <Compile Include="Services\DataServices\Interfaces\IUserInformatorService.cs" />
+    <Compile Include="Services\DataServices\Interfaces\IUserDefinedConditionService.cs" />
+    <Compile Include="Services\DataServices\UserDefinedConditionsService.cs" />
     <Compile Include="Services\DataServices\UserInformatorService.cs" />
     <Compile Include="Services\DialogServices\IToolWindowsOperator.cs" />
     <Compile Include="Services\DialogServices\IWindowDisplayService.cs" />

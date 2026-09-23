@@ -33,6 +33,7 @@ namespace EasyJob_ProDG.UI.Services
         IMessageDialogService _messageDialogService;
         ITitleService _titleService;
         IFileNameService _fileNameService;
+        IUserDefinedConditionService _userUserDefinedConditionService;
 
         #endregion
 
@@ -51,6 +52,7 @@ namespace EasyJob_ProDG.UI.Services
         internal IMessageDialogService MessageDialogServiceAccess => _messageDialogService;
         internal ITitleService TitleServiceAccess => _titleService;
         internal IFileNameService FileNameServiceAccess => _fileNameService;
+        internal IUserDefinedConditionService UserDefindedConditionService => _userUserDefinedConditionService;
 
         #endregion
 
@@ -120,6 +122,7 @@ namespace EasyJob_ProDG.UI.Services
             _messageDialogService = MessageDialogService.Connect();
             _titleService = new TitleService();
             _fileNameService = new FileNameService();
+            _userUserDefinedConditionService = UserDefinedConditionsService.GetService();
         }
 
         private void RegisterInMessenger()

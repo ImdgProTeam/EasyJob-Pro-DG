@@ -414,7 +414,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void SaveWorkingCondition()
         {
             //todo: Implement file name saving and restoring on startup
-            Services.LoadDataServiceAccess.SaveConditionToFile(ProgramDefaultSettingValues.ProgramDirectory + Properties.Settings.Default.WorkingCargoPlanFile);
+            Services.LoadDataServiceAccess.SaveConditionToFile(
+                OpenFile.GetFileFullPath(Properties.Settings.Default.WorkingCargoPlanFile));
         }
 
         private bool CanExecuteForOptionalOpen(object obj)
