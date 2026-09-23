@@ -30,7 +30,19 @@ namespace EasyJob_ProDG.Data
             catch(Exception ex)
             {
                 Debug.WriteLine($"!!!!! Log Write method thrown an exception - {ex.Message} - while writing message \"{message}\"");
+#if DEBUG
+                Debug.WriteLine("------ > !!!! Log Write method thrown an exception !!!!");
+#endif
             }
+        }
+
+        /// <summary>
+        /// Writes the message to the log preceeded with 'ERROR' notation.
+        /// </summary>
+        /// <param name="message"></param>
+        public static void WriteError(string message)
+        {
+            Write($"ERROR: {message}");
         }
 
         /// <summary>
@@ -77,6 +89,10 @@ namespace EasyJob_ProDG.Data
                 sw.WriteLine(DateTime.Now.ToString(datePattern));
                 sw.WriteLine();
             }
+
+#if DEBUG
+            Debug.WriteLine("------ > Log closed.");
+#endif
         }
 
 
