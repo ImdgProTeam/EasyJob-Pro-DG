@@ -7,13 +7,12 @@
     <Application.Resources>
         <ResourceDictionary>
             <utility:ViewModelLocator x:Key="ViewModelLocator" />
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="View/Styles\Colors.xaml" />
                 <ResourceDictionary Source="View/Styles\Brushes.xaml" />
                 <ResourceDictionary Source="View/Styles\Fonts.xaml" />
                 <ResourceDictionary Source="View/Styles\Icons.xaml" />
-                
-                <ResourceDictionary Source="View/Styles\Defaults.xaml" />
                 <ResourceDictionary Source="View/Styles\Windows.xaml" />
                 <ResourceDictionary Source="View/Styles\Expanders.xaml" />
                 <ResourceDictionary Source="View/Styles\ContextMenu.xaml"/>

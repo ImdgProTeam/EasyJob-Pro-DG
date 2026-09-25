@@ -113,7 +113,8 @@
     <Compile Include="Data\Conflicts\ConflictsListHandler.cs" />
     <Compile Include="Data\Conflicts\ConflictsListWarningsHandler.cs" />
     <Compile Include="Data\Conflicts\ConflictTypes.cs" />
-    <Compile Include="Data\UserDefinedConflicts\UserDefinedConditionRepository.cs" />
+    <Compile Include="Data\UserDefinedConflicts\UserDefinedConflictsList.cs" />
+    <Compile Include="Data\UserDefinedConflicts\UserDefinedConflictsListHandler.cs" />
     <Compile Include="IO\DialogOpenSettings.cs" />
     <Compile Include="IO\DialogSaveSettings.cs" />
     <Compile Include="Services\DataServices\CargoPlanCheckService.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Services\DataServices\Interfaces\IUserInformatorService.cs" />
     <Compile Include="Services\DataServices\Interfaces\IUserDefinedConditionService.cs" />
     <Compile Include="Services\DataServices\UserDefinedConditionsService.cs" />
+    <Compile Include="Services\DataServices\UserDefinedConflictsCheckService.cs" />
     <Compile Include="Services\DataServices\UserInformatorService.cs" />
     <Compile Include="Services\DialogServices\IToolWindowsOperator.cs" />
     <Compile Include="Services\DialogServices\IWindowDisplayService.cs" />
@@ -174,6 +176,7 @@
       <DependentUpon>SearchBoxUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Windows\Base\AnimatedToolWindow.cs" />
+    <Compile Include="View\Windows\Base\ToolWindowTemplate.cs" />
     <Compile Include="View\Windows\Info\LicenceAgreement.xaml.cs">
       <DependentUpon>LicenceAgreement.xaml</DependentUpon>
     </Compile>
@@ -186,10 +189,15 @@
     <Compile Include="View\Windows\Summaries\UserControls\UpdateReeferModeReportBlock.cs">
       <DependentUpon>UpdateReeferModeReportBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Windows\ToolWindows\ToolWindowsCommonMethods.cs" />
+    <Compile Include="View\Windows\ToolWindows\Selection Control\ToolWindowsDesignTimeViewModel.cs" />
+    <Compile Include="View\Windows\ToolWindows\UserDefinedConditionsToolWindow.cs">
+      <DependentUpon>UserDefinedConditionsToolWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Windows\ToolWindows\UserDefinedConditionToolViewModel.cs" />
+    <Compile Include="View\Windows\ToolWindows\Base\ToolWindowsCommonMethods.cs" />
     <Compile Include="View\Windows\ToolWindows\FilterToolViewModel.cs" />
-    <Compile Include="View\Windows\ToolWindows\SelectionControl.cs" />
-    <Compile Include="View\Windows\ToolWindows\SelectionControlViewModel.cs" />
+    <Compile Include="View\Windows\ToolWindows\Selection Control\SelectionControl.cs" />
+    <Compile Include="View\Windows\ToolWindows\Selection Control\SelectionControlViewModel.cs" />
     <Compile Include="View\Windows\ToolWindows\SetToolViewModel.cs" />
     <Compile Include="View\Windows\ToolWindows\SetToolWindow.cs">
       <DependentUpon>SetToolWindow.xaml</DependentUpon>
@@ -431,8 +439,8 @@
     <Compile Include="View\Windows\Summaries\CargoReport.xaml.cs">
       <DependentUpon>CargoReport.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Windows\ToolWindows\ToolWindowViewModelBase.cs" />
-    <Compile Include="View\Windows\ToolWindows\ToolWindowWithSelectionControlViewModelBase.cs" />
+    <Compile Include="View\Windows\ToolWindows\Base\ToolWindowViewModelBase.cs" />
+    <Compile Include="View\Windows\ToolWindows\Base\ToolWindowWithSelectionControlViewModelBase.cs" />
     <Compile Include="Wrapper\Cargo\AbstractContainerWrapper.cs" />
     <Compile Include="Data\Cargo\CargoPlanUnitPropertyChanger.cs" />
     <Compile Include="Wrapper\Cargo\CargoPlanWrapper.cs" />
@@ -462,6 +470,10 @@
     <Compile Include="Wrapper\Ship Profile\ShipProfileWrapper.cs" />
     <Compile Include="Wrapper\UserDefinedConflicts\UserDefinedConditionWrapper.cs" />
     <Compile Include="Wrapper\UserDefinedConflicts\UserDefinedConflictWrapper.cs" />
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\User Controls\MainWindow\ConflictsFilterPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -498,8 +510,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Windows\ToolWindows\SelectionControl.xaml">
+    <Page Include="View\Windows\ToolWindows\Selection Control\SelectionControl.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Windows\ToolWindows\UserDefinedConditionsToolWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Windows\ToolWindows\SetToolWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -578,10 +594,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Styles\Colors.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Styles\Defaults.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

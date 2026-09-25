@@ -17,7 +17,7 @@
     </UserControl.Resources>
     <ScrollViewer Grid.Row="1"
                   VerticalScrollBarVisibility="Auto"
-                  HorizontalScrollBarVisibility="Auto">
+                  HorizontalScrollBarVisibility="Hidden">
 
         <Grid HorizontalAlignment="Stretch"
               Background="{StaticResource Brush.ToolboxWindow.ContentBackground}">

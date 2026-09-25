@@ -5,6 +5,7 @@ using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 {
@@ -21,12 +22,14 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         /// <summary>
         /// Text on 'Apply' button
         /// </summary>
-        public string FilterButtonText { get; private set; }
+        public string ApplyButtonText { get; private set; }
 
         /// <summary>
         /// Text on Status bar
         /// </summary>
         public string StatusBarText { get; private set; } = $"No filter applied"; 
+
+        public ICommand WindowClosedCommand { get; set;  }
 
         #endregion
 
@@ -38,7 +41,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void OnWindowClosed(object sender, System.EventArgs e)
+        public void OnWindowClosed(object obj)
         {
             DataMessenger.Default.UnregisterAll(this);
         } 
@@ -193,9 +196,9 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         private void SelectionChanged(object sender, EventArgs e)
         {
             if (SelectionControlViewModel.IsNoPropertySelected)
-                FilterButtonText = $"Clear filter";
-            else FilterButtonText = $"Filter";
-            OnPropertyChanged(nameof(FilterButtonText));
+                ApplyButtonText = $"Clear filter";
+            else ApplyButtonText = $"Filter";
+            OnPropertyChanged(nameof(ApplyButtonText));
         }
 
         #endregion
@@ -203,9 +206,11 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         #region Constructor
         public FilterToolViewModel() : base()
         {
-            FilterButtonText = $"Filter";
+            ApplyButtonText = $"Filter";
             SelectionControlViewModel.SelectionChanged += SelectionChanged;
             DataMessenger.Default.Register<ChangeSelectionMessage>(this, OnSelectedDataGridChanged, "selected data grid changed");
+
+            WindowClosedCommand = new DelegateCommand(OnWindowClosed);
         } 
 
         #endregion

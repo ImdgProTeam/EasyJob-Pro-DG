@@ -1,13 +1,4 @@
-﻿using EasyJob_ProDG.UI.Services;
-using EasyJob_ProDG.UI.Utility;
-using EasyJob_ProDG.UI.ViewModel;
-using EasyJob_ProDG.UI.Wrapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System;
 
 namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 {
