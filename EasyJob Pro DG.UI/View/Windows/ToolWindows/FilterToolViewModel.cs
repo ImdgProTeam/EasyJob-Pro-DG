@@ -19,10 +19,10 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 
         #region Bindable properties
 
-        /// <summary>
-        /// Text on 'Apply' button
-        /// </summary>
-        public string ApplyButtonText { get; private set; }
+        ///// <summary>
+        ///// Text on 'Apply' button
+        ///// </summary>
+        //public override string ApplyButtonText { get; protected set; }
 
         /// <summary>
         /// Text on Status bar

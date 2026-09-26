@@ -80,6 +80,11 @@ namespace EasyJob_ProDG.UI.Services.DialogServices
             _setToolWindow.Closed += OnWindowClosed;
         }
 
+        public void ShowUDCToolWindow()
+        {
+            throw new NotImplementedException();
+        }
+
         public void CloseAllWindows()
         {
             if(_mergePortNamesWindow  != null)

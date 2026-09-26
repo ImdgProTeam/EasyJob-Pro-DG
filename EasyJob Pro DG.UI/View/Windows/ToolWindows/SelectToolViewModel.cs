@@ -7,6 +7,8 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 {
     internal class SelectToolViewModel : ToolWindowWithSelectionControlViewModelBase
     {
+        public override string ApplyButtonText => $"Select";
+
         /// <summary>
         /// Assigns Selected units list to ItemsToSelect property of a selected DataGrid
         /// </summary>

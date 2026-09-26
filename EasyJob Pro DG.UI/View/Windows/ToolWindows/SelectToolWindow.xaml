@@ -1,63 +1,16 @@
-﻿<base:AnimatedToolWindow x:Class="EasyJob_ProDG.UI.View.DialogWindows.SelectToolWindow"
+﻿<wind:ToolWindowTemplate x:Class="EasyJob_ProDG.UI.View.DialogWindows.SelectToolWindow"
                          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                         xmlns:base="clr-namespace:EasyJob_ProDG.UI.View.WindowBase"
+                         xmlns:wind="clr-namespace:EasyJob_ProDG.UI.View.Windows"
                          xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows"
                          mc:Ignorable="d"
                          Height="600"
-                         Width="400"
-                         Style="{StaticResource ToolWindowStyle}"
+                         CaptureText="Selection tool"
+                         ApplyCommand="{Binding ApplyCommand}"
                          WindowStartupLocation="CenterScreen"
-                         MouseLeftButtonDown="Window_MouseLeftButtonDown"
-                         Activated="OnGotFocusHandler"
-                         Deactivated="OnLostFocusHandler">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+                         >
+        <local:SelectionControl Grid.Row="1" DataContext="{Binding SelectionControlViewModel}"/>
 
-        <Grid.Resources>
-            <Style TargetType="{x:Type Button}"
-                   BasedOn="{StaticResource SummaryWindowButtonStyle}">
-            </Style>
-        </Grid.Resources>
-        <!-- Capture -->
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="Selection tool"
-                       Style="{StaticResource WindowTitleTextBlock}" />
-            <Button Content="Clear"
-                    Command="{Binding ClearCommand}"
-                    HorizontalAlignment="Right"
-                    Style="{StaticResource ButtonClearStyle}"
-                    Padding="20 5"
-                    Grid.Column="1" />
-        </Grid>
-
-        <!-- Main working part -->
-        <local:SelectionControl Grid.Row="1"
-                                DataContext="{Binding SelectionControlViewModel}"/>
-
-        <!-- Control buttons -->
-        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    Grid.Row="4"
-                    Grid.ColumnSpan="2">
-            <StackPanel.Resources>
-            </StackPanel.Resources>
-            <Button Content="Select"
-                    Command="{Binding ApplyCommand}"
-                    IsDefault="True" />
-            <Button Content="Close"
-                    Click="CloseWindow"
-                    IsCancel="True" />
-        </StackPanel>
-    </Grid>
-</base:AnimatedToolWindow>
+</wind:ToolWindowTemplate>

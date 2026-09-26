@@ -16,7 +16,7 @@ namespace EasyJob_ProDG.UI.View.Windows
 
         public static readonly DependencyProperty ApplyButtonTextProperty =
         DependencyProperty.Register(nameof(ApplyButtonText), typeof(string), typeof(ToolWindowTemplate),
-            new PropertyMetadata("Apply button text"));
+            new PropertyMetadata("Apply"));
 
         public static readonly DependencyProperty ApplyCommandProperty =
             DependencyProperty.Register(nameof(ApplyCommand), typeof(ICommand), typeof(ToolWindowTemplate));
@@ -54,6 +54,7 @@ namespace EasyJob_ProDG.UI.View.Windows
             set => SetValue(WindowCloseCommandProperty, value);
         }
 
+
         // Static constructor for application of template.
         static ToolWindowTemplate()
         {
@@ -71,7 +72,6 @@ namespace EasyJob_ProDG.UI.View.Windows
             base.OnApplyTemplate();
 
             SetDragMove();
-
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace EasyJob_ProDG.UI.View.Windows
         /// <param name="obj"></param>
         private void OnClose(object obj)
         {
-            WindowCloseCommand.Execute(null);
+            WindowCloseCommand?.Execute(null);
             CloseWindow(this, null);
         }
 

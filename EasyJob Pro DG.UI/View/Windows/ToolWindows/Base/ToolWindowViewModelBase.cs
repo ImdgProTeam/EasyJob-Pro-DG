@@ -18,6 +18,8 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         public ICommand ClearCommand { get; protected set; }
         public ICommand ApplyCommand { get; protected set; }
 
+        public virtual string ApplyButtonText { get; protected set; }
+
 
         #region Command methods
 

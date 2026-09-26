@@ -1249,6 +1249,8 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 
         #region Constructor
 
+        public override string ApplyButtonText => "Set";
+
         public SetToolViewModel()
         {
             CreateLists();
