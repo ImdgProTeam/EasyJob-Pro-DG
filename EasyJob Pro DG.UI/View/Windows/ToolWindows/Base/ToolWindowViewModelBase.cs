@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 {
-    internal abstract class ToolWindowViewModelBase : Observable
+    internal abstract class ToolWindowViewModelBase : Observable, IDisposable
     {
         // Private fields
         protected CargoPlanWrapper cargoPlan => ServicesHandler.GetServicesAccess().CargoDataServiceAccess.WorkingCargoPlan;
@@ -17,7 +17,11 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         // Public properties
         public ICommand ClearCommand { get; protected set; }
         public ICommand ApplyCommand { get; protected set; }
+        public ICommand WindowClosedCommand { get; set; }
 
+        /// <summary>
+        /// Text displayed on 'Apply' button
+        /// </summary>
         public virtual string ApplyButtonText { get; protected set; }
 
 
@@ -45,6 +49,15 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 
         protected abstract bool OnClearCanExecute(object obj);
 
+        /// <summary>
+        /// Called when window closed.
+        /// Additional actions can be assigned when closing the associated window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void OnWindowClosed(object obj)
+        {
+        }
 
         #endregion
 
@@ -57,12 +70,22 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 
         #endregion
 
+        #region IDisposable
+        public void Dispose()
+        {
+            DataMessenger.Default.UnregisterAll(this);
+        } 
+
+        #endregion
+
+
         #region Constructor
 
         public ToolWindowViewModelBase()
         {
             ClearCommand = new DelegateCommand(OnClearCommandExecuted, OnClearCanExecute);
             ApplyCommand = new DelegateCommand(OnApplyExecuted, OnApplyCanExecute);
+            WindowClosedCommand = new DelegateCommand(OnWindowClosed);
         }
 
         #endregion

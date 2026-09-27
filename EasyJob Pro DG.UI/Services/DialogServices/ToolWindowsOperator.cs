@@ -1,7 +1,10 @@
-﻿using EasyJob_ProDG.UI.View.DialogWindows;
+﻿using EasyJob_ProDG.Data;
+using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.View.DialogWindows.ToolWindows;
+using EasyJob_ProDG.UI.View.WindowBase;
 using System;
-using System.Windows;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EasyJob_ProDG.UI.Services.DialogServices
 {
@@ -13,117 +16,113 @@ namespace EasyJob_ProDG.UI.Services.DialogServices
     {
         private IWindowDisplayService _displayService => ServicesHandler.GetServicesAccess().WindowDisplayServiceAccess;
 
-        private MergePortNamesWindow _mergePortNamesWindow;
-        private SelectToolWindow _selectToolWindow;
-        private FilterToolWindow _filterToolWindow;
-        private SortToolWindow _sortToolWindow;
-        private SetToolWindow _setToolWindow;
+        private readonly Dictionary<Type, AnimatedToolWindow> _openWindows;
 
 
         public void ShowMergePortNamesWindow()
         {
-            if (_mergePortNamesWindow != null)
-            {
-                _mergePortNamesWindow.Focus();
-                return;
-            }
-            _mergePortNamesWindow = new MergePortNamesWindow();
-            _displayService.ShowNormal(_mergePortNamesWindow, new MergePortNamesViewModel());
-            _mergePortNamesWindow.Closed += OnWindowClosed;
+            ShowWindow<MergePortNamesWindow, MergePortNamesViewModel>();
         }
 
         public void ShowSelectToolWindow()
         {
-            if (_selectToolWindow != null)
-            {
-                _selectToolWindow.Focus();
-                return;
-            }
-            _selectToolWindow = new SelectToolWindow();
-            _displayService.ShowNormal(_selectToolWindow, new SelectToolViewModel());
-            _selectToolWindow.Closed += OnWindowClosed;
+            ShowWindow<SelectToolWindow, SelectToolViewModel>();
         }
 
         public void ShowFilterToolWindow()
         {
-            if (_filterToolWindow != null)
-            {
-                _filterToolWindow.Focus();
-                return;
-            }
-            _filterToolWindow = new FilterToolWindow();
-            _displayService.ShowNormal(_filterToolWindow, new FilterToolViewModel());
-            _filterToolWindow.Closed += OnWindowClosed;
+            ShowWindow<FilterToolWindow, FilterToolViewModel>();
         }
 
         public void ShowSortToolWindow()
         {
-            if (_sortToolWindow != null)
-            {
-                _sortToolWindow.Focus();
-                return;
-            }
-            _sortToolWindow = new SortToolWindow();
-            _displayService.ShowNormal(_sortToolWindow, new SortToolViewModel());
-            _sortToolWindow.Closed += OnWindowClosed;
+            ShowWindow<SortToolWindow, SortToolViewModel>();
         }
 
         public void ShowSetToolWindow()
         {
-            if (_setToolWindow != null)
-            {
-                _setToolWindow.Focus();
-                return;
-            }
-            _setToolWindow = new SetToolWindow();
-            _displayService.ShowNormal(_setToolWindow, new SetToolViewModel());
-            _setToolWindow.Closed += OnWindowClosed;
+            ShowWindow<SetToolWindow, SetToolViewModel>();
         }
 
         public void ShowUDCToolWindow()
         {
-            throw new NotImplementedException();
+            ShowWindow<UserDefinedConditionsToolWindow, UserDefinedConditionToolViewModel>();
+        }
+
+
+
+        /// <summary>
+        /// Method focuses on existing window, otherwise creates new window bound to new viewModel.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="VM"></param>
+        /// <returns>True if the window succesfully created. False if the window already exists.</returns>
+        private bool ShowWindow<T, VM>()
+            where T : AnimatedToolWindow
+            where VM : class, new()
+        {
+            var type = typeof(T);
+
+            //focus on existing window
+            if (GetWindow<T>() is { } existing)
+            {
+                existing.Focus();
+                return false;
+            }
+
+            //create constructors for window and view model
+            var ctorWindow = typeof(T).GetConstructor(Type.EmptyTypes);
+            var ctorVM = typeof(VM).GetConstructor(Type.EmptyTypes);
+
+            if (ctorWindow == null || ctorVM == null)
+            {
+                LogWriter.WriteError($"Could not create constructor for type {typeof(T)} or {typeof(VM)} while creating tool window.");
+            }
+
+            //create instances of window and view model
+            VM vm;
+            T window = (T)ctorWindow.Invoke(null);
+            vm = (VM)ctorVM.Invoke(null);
+
+            //display window
+            _displayService.ShowNormal(window, vm);
+            window.Closed += OnWindowClosed;
+
+            //add to openWindows collection
+            _openWindows[typeof(T)] = window;
+
+            return true;
         }
 
         public void CloseAllWindows()
         {
-            if(_mergePortNamesWindow  != null)
-                _mergePortNamesWindow.Close();
-            if(_selectToolWindow != null)
-                _selectToolWindow.Close();
-            if(_filterToolWindow != null)
-                _filterToolWindow.Close();
-            if(_sortToolWindow != null)
-                _sortToolWindow.Close();
-            if(_setToolWindow != null)
-                _setToolWindow.Close();
+            foreach (AnimatedToolWindow window in _openWindows.Values.ToList())
+            {
+                window.Close();
+            }
         }
 
         private void OnWindowClosed(object sender, EventArgs e)
         {
-            var _window = sender as Window;
-            _window.Closed -= OnWindowClosed;
-            if (_window == _mergePortNamesWindow)
+            if (sender is not AnimatedToolWindow window)
+                return;
+
+            window.Closed -= OnWindowClosed;
+            if (window.DataContext is IDisposable disposable)
             {
-                _mergePortNamesWindow = null;
+                disposable.Dispose();
             }
-            if (_window == _selectToolWindow)
-            {
-                _selectToolWindow = null;
-            }
-            if (_window == _filterToolWindow)
-            {
-                _filterToolWindow = null;
-            }
-            if (_window == _sortToolWindow)
-            {
-                _sortToolWindow = null;
-            }
-            if (_window == _setToolWindow)
-            {
-                _setToolWindow = null;
-            }
+
+            _openWindows.Remove(window.GetType());
         }
+
+        /// <summary>
+        /// Returns window from <see cref="_openWindows"/>, if exists, by its type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        private T? GetWindow<T>() where T : AnimatedToolWindow
+                    => _openWindows.TryGetValue(typeof(T), out var w) ? (T)w : null;
 
 
         #region Singleton
@@ -131,16 +130,13 @@ namespace EasyJob_ProDG.UI.Services.DialogServices
         static ToolWindowsOperator _instance;
         public static ToolWindowsOperator GetOperator()
         {
-            if (_instance == null)
-            {
-                _instance = new ToolWindowsOperator();
-            }
+            _instance ??= new ToolWindowsOperator();
             return _instance;
         }
 
         private ToolWindowsOperator()
         {
-
+            _openWindows = new();
         }
 
         #endregion

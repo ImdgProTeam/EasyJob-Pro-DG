@@ -25,35 +25,65 @@ namespace EasyJob_ProDG.UI.View.Windows
         public static readonly DependencyProperty WindowCloseCommandProperty =
             DependencyProperty.Register(nameof(WindowCloseCommand), typeof(ICommand), typeof(ToolWindowTemplate));
 
+        public static readonly DependencyProperty ApplyButtonVisibilityProperty =
+            DependencyProperty.Register(nameof(ApplyButtonVisibility), typeof(Visibility), typeof(ToolWindowTemplate), new PropertyMetadata(Visibility.Visible));
 
+
+        /// <summary>
+        /// Text displayed in the window capture
+        /// </summary>
         public string CaptureText
         {
             get => (string)GetValue(CaptureTextProperty);
             set => SetValue(CaptureTextProperty, value);
         }
 
+        /// <summary>
+        /// Text displayed in 'Apply' button
+        /// </summary>
         public string ApplyButtonText
         {
             get => (string)GetValue(ApplyButtonTextProperty);
             set => SetValue(ApplyButtonTextProperty, value);
         }
 
+        /// <summary>
+        /// Invokes command when pressed on 'Apply' button
+        /// </summary>
         public ICommand ApplyCommand
         {
             get => (ICommand)GetValue(ApplyCommandProperty);
             set => SetValue(ApplyCommandProperty, value);
         }
+
+        /// <summary>
+        /// Invokes command when pressed on 'Close' button, used solely to close the window.
+        /// </summary>
         public ICommand OnCloseButtonPressedCommand
         {
             get => (ICommand)GetValue(OnCloseButtonPressedCommandProperty);
             set => SetValue(OnCloseButtonPressedCommandProperty, value);
         }
+
+        /// <summary>
+        /// Invokes command when pressed on 'Close' button, if additional actions are required.
+        /// </summary>
         public ICommand WindowCloseCommand
         {
             get => (ICommand)GetValue(WindowCloseCommandProperty);
             set => SetValue(WindowCloseCommandProperty, value);
         }
 
+        /// <summary>
+        /// Defines visibility state of 'Apply' button
+        /// </summary>
+        public Visibility ApplyButtonVisibility
+        {
+            get { return (Visibility)GetValue(ApplyButtonVisibilityProperty); }
+            set { SetValue(ApplyButtonVisibilityProperty, value); }
+        }
+
+        #region Constructors
 
         // Static constructor for application of template.
         static ToolWindowTemplate()
@@ -72,7 +102,11 @@ namespace EasyJob_ProDG.UI.View.Windows
             base.OnApplyTemplate();
 
             SetDragMove();
-        }
+        } 
+
+        #endregion
+
+        #region Window methods
 
         /// <summary>
         /// Method finds element named PART_DragBody and registers MouseLeftButtonDown method from base class <see cref="FeaturedWindow"/>
@@ -94,7 +128,9 @@ namespace EasyJob_ProDG.UI.View.Windows
         {
             WindowCloseCommand?.Execute(null);
             CloseWindow(this, null);
-        }
+        } 
+
+        #endregion
 
     }
 }

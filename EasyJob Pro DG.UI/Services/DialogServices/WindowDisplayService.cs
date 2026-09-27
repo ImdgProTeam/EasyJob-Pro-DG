@@ -8,21 +8,11 @@ namespace EasyJob_ProDG.UI.Services.DialogServices
     /// </summary>
     class WindowDisplayService : IWindowDisplayService
     {
-        /// <summary>
-        /// Displays normal window.
-        /// </summary>
-        /// <param name="window"></param>
-        public void ShowNormal (Window window)
+        public void ShowNormal(Window window)
         {
             window.Show();
         }
 
-        /// <summary>
-        /// Displays window with data bound to viewModel.
-        /// </summary>
-        /// <typeparam name="TViewModel">Type of view model class.</typeparam>
-        /// <param name="window">window to be displayed.</param>
-        /// <param name="viewModel">VM the window DataContext to bound to.</param>
         public void ShowNormal<TViewModel>(Window window, TViewModel viewModel)
             where TViewModel : class, new()
         {
@@ -30,21 +20,11 @@ namespace EasyJob_ProDG.UI.Services.DialogServices
             window.Show();
         }
 
-        /// <summary>
-        /// Displays dialog window.
-        /// </summary>
-        /// <param name="window"></param>
         public void ShowDialog(Window window)
         {
             window.ShowDialog();
         }
 
-        /// <summary>
-        /// Displays dialog window with data bound to viewModel.
-        /// </summary>
-        /// <typeparam name="TViewModel">Type of view model class.</typeparam>
-        /// <param name="window">window to be displayed.</param>
-        /// <param name="viewModel">VM the window DataContext to bound to.</param>
         public void ShowDialog<TViewModel>(Window window, TViewModel viewModel)
             where TViewModel : class, new()
         {
@@ -52,10 +32,6 @@ namespace EasyJob_ProDG.UI.Services.DialogServices
             window.ShowDialog();
         }
 
-        /// <summary>
-        /// Closes window.
-        /// </summary>
-        /// <param name="window"></param>
         public void CloseDialog(Window window)
         {
             window.Close();

@@ -5,7 +5,6 @@ using EasyJob_ProDG.UI.Wrapper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 {
@@ -19,32 +18,15 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 
         #region Bindable properties
 
-        ///// <summary>
-        ///// Text on 'Apply' button
-        ///// </summary>
-        //public override string ApplyButtonText { get; protected set; }
-
         /// <summary>
         /// Text on Status bar
         /// </summary>
         public string StatusBarText { get; private set; } = $"No filter applied"; 
 
-        public ICommand WindowClosedCommand { get; set;  }
-
         #endregion
 
 
         #region Public methods
-
-        /// <summary>
-        /// Method bound to Closed event of FilterWindow.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void OnWindowClosed(object obj)
-        {
-            DataMessenger.Default.UnregisterAll(this);
-        } 
 
         #endregion
 
@@ -210,7 +192,6 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             SelectionControlViewModel.SelectionChanged += SelectionChanged;
             DataMessenger.Default.Register<ChangeSelectionMessage>(this, OnSelectedDataGridChanged, "selected data grid changed");
 
-            WindowClosedCommand = new DelegateCommand(OnWindowClosed);
         } 
 
         #endregion
