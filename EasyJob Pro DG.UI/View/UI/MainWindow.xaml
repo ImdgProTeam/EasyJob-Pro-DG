@@ -48,6 +48,8 @@
                     Command="{Binding ReCheckCommand}" />
         <KeyBinding Key="F5"
                     Command="{Binding ReCheckCommand}" />
+        <KeyBinding Key="D0" Modifiers="Ctrl"
+                    Command="{Binding ShowUserDefinedConditionWindowCommand}" />
         <KeyBinding Key="D1" Modifiers="Ctrl"
                     Command="{Binding ShowFilterToolWindowCommand}" />
         <KeyBinding Key="D2" Modifiers="Ctrl"
