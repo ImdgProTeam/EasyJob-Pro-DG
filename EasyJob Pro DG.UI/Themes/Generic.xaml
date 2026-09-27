@@ -89,6 +89,7 @@
                                 <Button Content="{Binding ApplyButtonText}"
                                         Command="{TemplateBinding ApplyCommand}"
                                         IsDefault="True"
+                                        Visibility="{TemplateBinding ApplyButtonVisibility}"
                                         Style="{DynamicResource SummaryWindowButtonStyle}" />
                                 <Button Content="Close"
                                         Command="{TemplateBinding OnCloseButtonPressedCommand}"

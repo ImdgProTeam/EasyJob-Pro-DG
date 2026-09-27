@@ -56,7 +56,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 
         protected override bool OnClearCanExecute(object obj)
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
         #endregion

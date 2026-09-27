@@ -460,6 +460,9 @@
                 <MenuItem Header="Set tool"
                           Command="{Binding ShowSetToolWindowCommand}"
                           InputGestureText="Ctrl+3" />
+                <MenuItem Header="User-defined conflicts"
+                          Command="{Binding ShowUserDefinedConditionWindowCommand}"
+                          InputGestureText="Ctrl+0" />
                 <Separator />
                 <MenuItem Header="Close all tool windows"
                           Command="{Binding CloseAllToolWindowsCommand}" />

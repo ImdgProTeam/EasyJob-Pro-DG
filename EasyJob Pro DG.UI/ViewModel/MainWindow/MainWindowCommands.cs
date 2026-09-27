@@ -76,6 +76,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand ApplicationClosingCommand { get; private set; }
         public ICommand MainWindowLoadedCommand { get; private set; }
 
+        // ----- User-defined conditions -----
+        public ICommand ShowUserDefinedConditionWindowCommand { get; private set; }
+
 
         // ----------- Registered commands ------------------------------------------
         public DelegateCommand CloseApplicationCommand
@@ -129,6 +132,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             ShowFilterToolWindowCommand = new DelegateCommand(OnShowFilterToolWindowExecuted);
             ShowSelectionToolWindowCommand = new DelegateCommand(OnShowSelectionToolWindowExecuted);
             ShowSetToolWindowCommand = new DelegateCommand(OnShowSetToolWindowExecuted);
+            ShowUserDefinedConditionWindowCommand = new DelegateCommand(OnShowUserDefinedConditionWindowExecuted);
             CloseAllToolWindowsCommand = new DelegateCommand(CloseAllToolWindowsExecuted);
 
             CloseUpdatesDataGridCommand = new DelegateCommand(CloseUpdatesDataGridCommandOnExecuted);
@@ -521,6 +525,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void OnShowSetToolWindowExecuted(object obj)
         {
             Services.ToolWindowOperatorAccess.ShowSetToolWindow();
+        }
+
+        private void OnShowUserDefinedConditionWindowExecuted(object obj)
+        {
+            Services.ToolWindowOperatorAccess.ShowUDCToolWindow();
         }
 
         private void CloseAllToolWindowsExecuted(object obj)
