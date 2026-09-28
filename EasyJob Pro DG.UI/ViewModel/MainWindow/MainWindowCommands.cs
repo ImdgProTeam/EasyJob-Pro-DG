@@ -532,7 +532,11 @@ namespace EasyJob_ProDG.UI.ViewModel
             Services.ToolWindowOperatorAccess.ShowUDCToolWindow();
         }
 
-        private void CloseAllToolWindowsExecuted(object obj)
+        /// <summary>
+        /// Closes all open tool windows
+        /// </summary>
+        /// <param name="obj"></param>
+        internal void CloseAllToolWindowsExecuted(object obj)
         {
             Services.ToolWindowOperatorAccess.CloseAllWindows();
         }

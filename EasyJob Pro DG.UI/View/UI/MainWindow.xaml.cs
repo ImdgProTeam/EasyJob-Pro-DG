@@ -1,4 +1,5 @@
 ﻿using EasyJob_ProDG.UI.ViewModel;
+using System;
 using System.ComponentModel;
 using System.Windows;
 
@@ -57,6 +58,15 @@ namespace EasyJob_ProDG.UI.View.UI
             Properties.Settings.Default.WindowPosition = this.RestoreBounds;
             Properties.Settings.Default.Save();
         }
+
+        /// <summary>
+        /// Closes all open tool windows on closing of the main window.
+        /// </summary>
+        private void CloseAllToolWindows()
+        {
+            (DataContext as MainWindowViewModel)?.CloseAllToolWindowsExecuted(null);
+        }
+
         #endregion
 
         #region DesignMatters
@@ -76,6 +86,7 @@ namespace EasyJob_ProDG.UI.View.UI
         {
             OnWindowClosingEventHandler.Invoke();
 
+            CloseAllToolWindows();
             SaveConflictColumnWidth();
             SaveCurrentWindowLocationToSettings();
         }
