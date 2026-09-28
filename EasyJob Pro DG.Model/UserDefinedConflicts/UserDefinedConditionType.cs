@@ -16,17 +16,12 @@
         ContainerLocationChanged,
         ContainerPODchanged,
         
-        ContainerPropertyLoaded,
-        DgPropertyLoaded,
-        ReeferPropertyLoaded,
-
         DgNameContainsLoaded,
+        DgTechnicalNameContains,
         DgClassLoaded,
         DgUnnoLoaded,
-
-        DgNameContainsLoadedInCellPosition,
-        DgClassLoadedInCellPosition,
-        DgUnnoLoadedInCellPosition,
+        DgFPLoaded,
+        ReeferContainingDgLoaded,
 
         ReeferSetPointLoaded,
         ReeferCommodityContains,
@@ -39,15 +34,5 @@
 
         FreeText = 255
 
-    }
-
-    public enum UserDefinedConditionOption : byte
-    {
-        EqualTo = 0,
-        NotEqualTo = 1,
-        GreaterThan = 2,
-        LessThan = 3,
-        GreaterThanOrEqualTo = 4,
-        LessThanOrEqualTo = 5
     }
 }

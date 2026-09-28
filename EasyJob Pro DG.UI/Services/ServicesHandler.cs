@@ -52,7 +52,7 @@ namespace EasyJob_ProDG.UI.Services
         internal IMessageDialogService MessageDialogServiceAccess => _messageDialogService;
         internal ITitleService TitleServiceAccess => _titleService;
         internal IFileNameService FileNameServiceAccess => _fileNameService;
-        internal IUserDefinedConditionService UserDefindedConditionService => _userUserDefinedConditionService;
+        internal IUserDefinedConditionService UserDefindedConditionServiceAccess => _userUserDefinedConditionService;
 
         #endregion
 

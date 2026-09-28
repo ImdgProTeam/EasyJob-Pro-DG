@@ -1,17 +1,17 @@
 ﻿<UserControl x:Class="EasyJob_ProDG.UI.View.User_Controls.ConflictsSection"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls" 
-             mc:Ignorable="d" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
+             mc:Ignorable="d"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=ConflictsSectionViewModel}"
-             d:DesignHeight="450" d:DesignWidth="400">
-        <DockPanel 
-            LastChildFill="True">
+             d:DesignHeight="450"
+             d:DesignWidth="400">
+    <DockPanel LastChildFill="True">
 
         <!-- Conflict list header and Update button -->
-        
+
         <Grid DockPanel.Dock="Top">
             <Grid>
                 <Grid.RowDefinitions>
@@ -19,26 +19,39 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
+                <!-- Text 'Lost of conflicts' -->
                 <TextBlock Text="List of conflicts"
-                                   Margin="0,8,0,2"
-                                   FontSize="{StaticResource StandardButtonFontSize}"
-                                   VerticalAlignment="Bottom"
-                                   HorizontalAlignment="Center"
-                                   FontWeight="DemiBold"
-                                   >
+                           Margin="0,8,0,2"
+                           FontSize="{StaticResource StandardButtonFontSize}"
+                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Center"
+                           FontWeight="DemiBold">
                 </TextBlock>
+
+                <!-- User-defined conflicts button -->
+                <Button HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        VerticalContentAlignment="Center"
+                        BorderBrush="Transparent"
+                        Padding="5"
+                        Margin="2 1"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                        Style="{StaticResource RecheckButtonStyle}"
+                        ToolTip="Manage user-defined conditions"
+                        Content="{StaticResource SettingsIcon}"
+                        Command="{Binding ShowUserDefinedConditionWindowCommand}" />
 
             </Grid>
         </Grid>
 
-
+        <!-- Conflicts filter panel -->
         <StackPanel DockPanel.Dock="Bottom"
                     Orientation="Horizontal"
                     HorizontalAlignment="Right"
                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
                     CanHorizontallyScroll="True">
-        <local:ConflictsFilterPanel HorizontalAlignment="Stretch"
-                                    DataContext="{Binding FilterButtons}" />
+            <local:ConflictsFilterPanel HorizontalAlignment="Stretch"
+                                        DataContext="{Binding FilterButtons}" />
 
             <Button Content="{StaticResource RefreshIcon}"
                     ToolTip="Re-check conflicts"
@@ -49,9 +62,10 @@
 
         </StackPanel>
 
+
         <!---   Conflicts list   -->
         <local:ConflictsListView />
 
-        </DockPanel>
+    </DockPanel>
 </UserControl>
 

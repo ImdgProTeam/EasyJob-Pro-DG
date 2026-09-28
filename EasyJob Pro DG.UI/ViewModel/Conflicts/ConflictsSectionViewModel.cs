@@ -66,7 +66,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 },
                 new ConflictFilterButtonVM(ConflictTypes.UserDefined, "User")
                 {
-                    Hint="User defined conflicts",
+                    Hint="User-defined conflicts",
                 },
             };
             foreach (var filterButton in FilterButtons)

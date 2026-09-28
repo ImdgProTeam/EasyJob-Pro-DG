@@ -1,4 +1,5 @@
-﻿using EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts;
+﻿using EasyJob_ProDG.UI.Wrapper;
+using EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 

@@ -18,7 +18,8 @@
              BorderBrush="Transparent"
              Padding="0"
              HorizontalAlignment="Right"
-             ItemsSource="{Binding}">
+             ItemsSource="{Binding}"
+             ToolTip="Conflicts filter options">
         <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
                 <StackPanel Orientation="Horizontal"

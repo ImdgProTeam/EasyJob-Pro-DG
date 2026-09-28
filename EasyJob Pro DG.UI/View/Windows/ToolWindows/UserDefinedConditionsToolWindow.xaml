@@ -7,99 +7,178 @@
                          xmlns:wind="clr-namespace:EasyJob_ProDG.UI.View.Windows"
                          mc:Ignorable="d"
                          Height="400"
+                         Width="400"
                          CaptureText="Manage user-defined conditions"
+                         ApplyButtonVisibility="Collapsed"
                          WindowStartupLocation="CenterScreen">
+    <!--<wind:ToolWindowTemplate.Resources>
 
-        <!-- Main working part -->
-        <DockPanel LastChildFill="True"
-                   VerticalAlignment="Stretch">
+        <Style TargetType="CheckBox">
+            <Setter Property="HorizontalAlignment"
+                    Value="Left" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="Margin"
+                    Value="10 0 0 0" />
+            <Setter Property="ToolTip"
+                    Value="{Binding}" />
+            <Setter Property="TextBlock.TextWrapping"
+                    Value="Wrap" />
+        </Style>
 
-            <!-- Description -->
-            <TextBlock DockPanel.Dock="Top"
-                       HorizontalAlignment="Stretch"
-                       Background="WhiteSmoke"
-                       TextAlignment="Center"
-                       TextWrapping="Wrap"
-                       Margin="5"
-                       Text="{Binding DescriptionText, 
+    </wind:ToolWindowTemplate.Resources>-->
+
+    <!-- Main working part -->
+    <DockPanel LastChildFill="True"
+               VerticalAlignment="Stretch"
+               Background="{StaticResource Brush.ToolboxWindow.ContentBackground}">
+
+        <!-- Description -->
+        <TextBlock DockPanel.Dock="Top"
+                   HorizontalAlignment="Stretch"
+                   Background="WhiteSmoke"
+                   TextAlignment="Center"
+                   TextWrapping="Wrap"
+                   Margin="5"
+                   Focusable="False"
+                   Text="{Binding DescriptionText, 
                             FallbackValue='User-defined conditions provide notifications to user (same as conflicts) when conditions are met.'}">
 
-            </TextBlock>
+        </TextBlock>
 
 
-            <DataGrid DockPanel.Dock="Top"
-                      ItemsSource="{Binding UserDefinedConditions}"
-                      HorizontalScrollBarVisibility="Disabled"
-                      VerticalScrollBarVisibility="Auto"
-                      VerticalAlignment="Stretch"
-                      Margin="5">
-                <DataGrid.ColumnHeaderStyle>
-                    <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="HorizontalContentAlignment"
-                                Value="Center" />
-                    </Style>
-                </DataGrid.ColumnHeaderStyle>
+        <DataGrid DockPanel.Dock="Top"
+                  ItemsSource="{Binding ActiveConditions}"
+                  SelectedItem="{Binding SelectedCondition}"
+                  IsSynchronizedWithCurrentItem="True"
+                  AutoGenerateColumns="False"
+                  HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Auto"
+                  VerticalAlignment="Stretch"
+                  Focusable="False"
+                  IsTabStop="False"
+                  Margin="5">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="HorizontalContentAlignment"
+                            Value="Center" />
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
 
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="N"
-                                        Binding="{Binding Number}" />
-                    <DataGridTextColumn Header="Condition"
-                                        Width="*"
-                                        Binding="{Binding ConditionDescription}" />
-                    <DataGridTemplateColumn>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="+"
-                                        ToolTip=""
-                                        Command="{Binding EditConditionCommand}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="-"
-                                        ToolTip="Remove condition"
-                                        Command="{Binding RemoveConditionCommand}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="N"
+                                    Binding="{Binding ConditionNumberInList}" />
+                <DataGridTextColumn Header="Condition"
+                                    Width="*"
+                                    Binding="{Binding ConditionDescription}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextAlignment"
+                                    Value="Left" />
+                            <Setter Property="TextWrapping"
+                                    Value="WrapWithOverflow" />
+                            <Setter Property="TextTrimming"
+                                    Value="None" />
+                            <Setter Property="VerticalAlignment"
+                                    Value="Top" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding ToolTipText}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="+"
+                                    ToolTip="Edit condition"
+                                    Command="{Binding DataContext.EditSelectedConditonCommand,
+                                RelativeSource={RelativeSource AncestorType=wind:ToolWindowTemplate}}"
+                                    />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="-"
+                                    ToolTip="Remove condition"
+                                    Command="{Binding DataContext.RemoveSelectedConditonCommand,
+                                RelativeSource={RelativeSource AncestorType=wind:ToolWindowTemplate}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
 
-            <TextBlock Height="2"
-                       Background="WhiteSmoke" />
+        <TextBlock Height="2"
+                   Background="WhiteSmoke" />
 
-            <Grid DockPanel.Dock="Bottom"
-                  Margin="5"
-                  VerticalAlignment="Bottom">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+        <Grid DockPanel.Dock="Bottom"
+              Margin="5"
+              VerticalAlignment="Bottom">
+            <Grid.Resources>
+                <Style TargetType="TextBox"
+                       BasedOn="{StaticResource TextBoxWithTagAndValidation}">
+                    <Setter Property="Margin"
+                            Value="3" />
+                    <Setter Property="Background"
+                            Value="{StaticResource Brush.Background.Main}" />
+                </Style>
+                <Style TargetType="Button"
+                       BasedOn="{StaticResource ToolBoxWindowControlButtonStyle}" />
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-                <ComboBox Grid.ColumnSpan="1" />
-                <TextBox Grid.Row="1"
-                         Text="Enter value" />
-                <TextBlock Grid.Row="2"
-                           Grid.ColumnSpan="2"
-                           Text="Hint here" />
+            <ComboBox Grid.ColumnSpan="1"
+                      ItemsSource="{Binding ConditionTypesList}"
+                      SelectedIndex="{Binding SelectedConditionIndex, UpdateSourceTrigger=PropertyChanged}"
+                      IsSynchronizedWithCurrentItem="True"
+                      HorizontalAlignment="Stretch"
+                      MinWidth="100"
+                      Margin="3"/>
+            <TextBox Grid.Row="2"
+                     Style="{StaticResource TextBoxWithTagAndValidation}"
+                     Text="{Binding EditableConditionValueText, 
+                UpdateSourceTrigger=PropertyChanged}"
+                     Tag="Enter value"/>
+            <TextBox Grid.Row="3"
+                     Style="{StaticResource TextBoxWithTagAndValidation}"
+                     Text="{Binding EditableConditionCommentText, 
+                UpdateSourceTrigger=LostFocus}" 
+                     Tag="Enter your comment"/>
+            <TextBlock Grid.Row="1"
+                       Grid.ColumnSpan="2"
+                       VerticalAlignment="Bottom"
+                       TextWrapping="WrapWithOverflow"
+                       Margin="12 0"
+                       Focusable="False"
+                       Foreground="{StaticResource Brush.Text.Header}"
+                       Text="{Binding AddConditionHintText, FallbackValue='Hint here'}" />
 
-                <Button Grid.Column="1"
-                        Grid.Row="0"
-                        Content="New"
-                        ToolTip="Add new condition" />
-                <Button Grid.Column="1"
-                        Grid.Row="1"
-                        Content="Add"
-                        ToolTip="Add condition" />
-            </Grid>
+            <Button Grid.Column="1"
+                    Grid.Row="0"
+                    Content="New"
+                    ToolTip="Add new condition" />
+            <Button Grid.Column="1"
+                    Grid.Row="3"
+                    Content="{Binding AddButtonText, FallbackValue='Add'}"
+                    ToolTip="Add condition"
+                    Command="{Binding AddNewCondition}" />
+        </Grid>
 
-        </DockPanel>
+    </DockPanel>
 
 </wind:ToolWindowTemplate>

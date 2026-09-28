@@ -189,7 +189,6 @@
     <Compile Include="View\Windows\Summaries\UserControls\UpdateReeferModeReportBlock.cs">
       <DependentUpon>UpdateReeferModeReportBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Windows\ToolWindows\Selection Control\ToolWindowsDesignTimeViewModel.cs" />
     <Compile Include="View\Windows\ToolWindows\UserDefinedConditionsToolWindow.cs">
       <DependentUpon>UserDefinedConditionsToolWindow.xaml</DependentUpon>
     </Compile>

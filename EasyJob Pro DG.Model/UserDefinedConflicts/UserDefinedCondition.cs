@@ -12,7 +12,7 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
         public CellPosition CellPosition { get; set; }
 
         public UserDefinedConditionOption ConditionOption { get; set; }
-
+        public string ConditionComment { get; set;  }
 
         public override bool Equals(object obj)
         {

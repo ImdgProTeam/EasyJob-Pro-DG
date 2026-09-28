@@ -1,5 +1,8 @@
 ﻿using EasyJob_ProDG.Model.UserDefinedConflicts;
+using EasyJob_ProDG.UI.Wrapper;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace EasyJob_ProDG.UI.Services.DataServices
 {
@@ -9,18 +12,39 @@ namespace EasyJob_ProDG.UI.Services.DataServices
     public class UserDefinedConditionsService : IUserDefinedConditionService
     {
         private UserDefinedConditionRepositoryHandler _repositoryHandler;
+        private ObservableCollection<UserDefinedConditionWrapper> _conditions;
 
-        public List<UserDefinedCondition> GetConditions =>
-            _repositoryHandler.GetConditions;
-
-        public bool AddCondition(UserDefinedCondition condition, out bool alreadyExists)
+        public ObservableCollection<UserDefinedConditionWrapper> GetConditionWrappers
         {
-            return _repositoryHandler.AddCondition(condition, out alreadyExists);
+            get
+            {
+                CreateConditions();
+                return _conditions;
+            }
         }
 
-        public bool RemoveCondition(UserDefinedCondition condition)
+        private void CreateConditions()
         {
-            return _repositoryHandler.RemoveCondition(condition);
+            if (_conditions == null)
+            {
+                _conditions = new ObservableCollection<UserDefinedConditionWrapper>();
+                foreach (var condition in _repositoryHandler.GetConditions)
+                {
+                    _conditions.Add(new UserDefinedConditionWrapper(condition));
+                }
+                RegisterCollection<UserDefinedConditionWrapper, UserDefinedCondition>(_conditions, _repositoryHandler.GetConditions);
+            }
+        }
+
+
+        public bool AddCondition(UserDefinedConditionWrapper conditionWrapper, out bool alreadyExists)
+        {
+            return _repositoryHandler.AddCondition(conditionWrapper.Model, out alreadyExists);
+        }
+
+        public bool RemoveCondition(UserDefinedConditionWrapper conditionWrapper)
+        {
+            return _repositoryHandler.RemoveCondition(conditionWrapper.Model);
         }
 
         /// <summary>
@@ -30,6 +54,29 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         public static UserDefinedConditionsService GetService()
         {
             return _instance ??= new UserDefinedConditionsService();
+        }
+
+
+        protected virtual void RegisterCollection<TWrapper, TModel>(ObservableCollection<TWrapper> wrapperCollection,
+    List<TModel> modelCollection) where TWrapper : ModelWrapper<TModel>
+        {
+            wrapperCollection.CollectionChanged += (s, e) =>
+            {
+                if (e.OldItems != null)
+                {
+                    foreach (var item in e.OldItems.Cast<TWrapper>())
+                    {
+                        modelCollection.Remove(item.Model);
+                    }
+                }
+                if (e.NewItems != null)
+                {
+                    foreach (var item in e.NewItems.Cast<TWrapper>())
+                    {
+                        modelCollection.Add(item.Model);
+                    }
+                }
+            };
         }
 
         #region Sindleton constructor

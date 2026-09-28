@@ -58,6 +58,11 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
                 case UserDefinedConditionType.CellPositionEmpty:
                     isConflicted = !cargoPlan.Containers.Any(c => (ILocationOnBoard)c == condition.CellPosition);
                     break;
+                case UserDefinedConditionType.CellPositionLoadedWithReefer:
+                    //conflictedContainerNumbersList.AddRange([.. cargoPlan.Containers.Where(c => c.IsRf && (c as ILocationOnBoard) == condition.CellPosition).Select(c => c.ContainerNumber)]);
+                case UserDefinedConditionType.CellPositionLoadedWithDg:
+                    //conflictedContainerNumbersList.AddRange([.. cargoPlan.Containers.Where(c => c.ContainsDgCargo && (c as ILocationOnBoard) == condition.CellPosition).Select(c => c.ContainerNumber)]);
+                    break;
                 case UserDefinedConditionType.ContainerLocationChanged:
                     isConflicted = cargoPlan.Containers.Any(c => c.ContainerNumber == condition.ConditionValue && c.HasLocationChanged);
                     conflictedContainerNumbersList.Add(condition.ConditionValue);
@@ -66,22 +71,29 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
                     isConflicted = cargoPlan.Containers.Any(c => c.ContainerNumber == condition.ConditionValue && c.HasPodChanged);
                     conflictedContainerNumbersList.Add(condition.ConditionValue);
                     break;
-                case UserDefinedConditionType.ContainerPropertyLoaded:
-                    //conflictedContainerNumbersList.AddRange([...cargoPlan.Containers])
-                    break;
-                case UserDefinedConditionType.DgPropertyLoaded:
-                    break;
-                case UserDefinedConditionType.ReeferPropertyLoaded:
-                    break;
+
                 case UserDefinedConditionType.DgNameContainsLoaded:
                     conflictedContainerNumbersList.AddRange([.. cargoPlan.DgList.Where(d => d.Name != null && d.Name.ToLower().Trim().Contains(condition.ConditionValue.ToLower().Trim())).Select(dg => dg.ContainerNumber)]);
+                    //conflictedContainerNumbersList.AddRange([.. cargoPlan.DgList.Where(d => d.Name.ToLower().Trim().Contains(condition.ConditionValue.ToLower().Trim()) && (d as ILocationOnBoard) == condition.CellPosition).Select(dg => dg.ContainerNumber)]);
+                    break;
+                case UserDefinedConditionType.DgTechnicalNameContains:
+                    //conflictedContainerNumbersList.AddRange([.. cargoPlan.DgList.Where(d => d.Name != null && d.Name.ToLower().Trim().Contains(condition.ConditionValue.ToLower().Trim())).Select(dg => dg.ContainerNumber)]);
                     break;
                 case UserDefinedConditionType.DgClassLoaded:
                     conflictedContainerNumbersList.AddRange([.. cargoPlan.DgList.Where(d => d.AllDgClasses.Any(c => c.ToLower().Contains(condition.ConditionValue.ToLower().Trim()))).Select(dg => dg.ContainerNumber)]);
+                    //conflictedContainerNumbersList.AddRange([.. cargoPlan.DgList.Where(d => d.AllDgClasses.Contains(condition.ConditionValue) && (d as ILocationOnBoard) == condition.CellPosition).Select(dg => dg.ContainerNumber)]);
                     break;
                 case UserDefinedConditionType.DgUnnoLoaded:
                     conflictedContainerNumbersList.AddRange([.. cargoPlan.DgList.Where(d => d.Unno == int.Parse(condition.ConditionValue)).Select(dg => dg.ContainerNumber)]);
+                    //conflictedContainerNumbersList.AddRange([.. cargoPlan.DgList.Where(d => d.Unno == int.Parse(condition.ConditionValue) && (d as ILocationOnBoard) == condition.CellPosition).Select(dg => dg.ContainerNumber)]);
                     break;
+                case UserDefinedConditionType.DgFPLoaded:
+                    //conflictedContainerNumbersList.AddRange([.. cargoPlan.DgList.Where(d => d.Unno == int.Parse(condition.ConditionValue)).Select(dg => dg.ContainerNumber)]);
+                    break;
+                case UserDefinedConditionType.ReeferContainingDgLoaded:
+                    //conflictedContainerNumbersList.AddRange([.. cargoPlan.DgList.Where(d => d.Unno == int.Parse(condition.ConditionValue)).Select(dg => dg.ContainerNumber)]);
+                    break;
+
                 case UserDefinedConditionType.ReeferSetPointLoaded:
                     if (!decimal.TryParse(condition.ConditionValue, out decimal setPoint))
                         break;
@@ -108,21 +120,7 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
                 case UserDefinedConditionType.PODUnitsOnboard:
                     conflictedContainerNumbersList.AddRange([.. cargoPlan.Containers.Where(c => c.POD.ToLower().Trim().Contains(condition.ConditionValue.ToLower().Trim())).Select(c => c.ContainerNumber)]);
                     break;
-                case UserDefinedConditionType.CellPositionLoadedWithReefer:
-                    conflictedContainerNumbersList.AddRange([.. cargoPlan.Containers.Where(c => c.IsRf && (c as ILocationOnBoard) == condition.CellPosition).Select(c => c.ContainerNumber)]);
-                    break;
-                case UserDefinedConditionType.CellPositionLoadedWithDg:
-                    conflictedContainerNumbersList.AddRange([.. cargoPlan.Containers.Where(c => c.ContainsDgCargo && (c as ILocationOnBoard) == condition.CellPosition).Select(c => c.ContainerNumber)]);
-                    break;
-                case UserDefinedConditionType.DgNameContainsLoadedInCellPosition:
-                    conflictedContainerNumbersList.AddRange([.. cargoPlan.DgList.Where(d => d.Name.ToLower().Trim().Contains(condition.ConditionValue.ToLower().Trim()) && (d as ILocationOnBoard) == condition.CellPosition).Select(dg => dg.ContainerNumber)]);
-                    break;
-                case UserDefinedConditionType.DgClassLoadedInCellPosition:
-                    conflictedContainerNumbersList.AddRange([.. cargoPlan.DgList.Where(d => d.AllDgClasses.Contains(condition.ConditionValue) && (d as ILocationOnBoard) == condition.CellPosition).Select(dg => dg.ContainerNumber)]);
-                    break;
-                case UserDefinedConditionType.DgUnnoLoadedInCellPosition:
-                    conflictedContainerNumbersList.AddRange([.. cargoPlan.DgList.Where(d => d.Unno == int.Parse(condition.ConditionValue) && (d as ILocationOnBoard) == condition.CellPosition).Select(dg => dg.ContainerNumber)]);
-                    break;
+
                 case UserDefinedConditionType.ContainerNumberNotInPosition:
                     if (cargoPlan.Containers.Any(c => string.Equals(c.ContainerNumber, condition.ConditionValue) 
                     && (c as ILocationOnBoard) != condition.CellPosition))
