@@ -109,6 +109,8 @@ namespace EasyJob_ProDG.Model.Transport
         //------------ System override methods -----------
         public override string ToString()
         {
+            if (IsEmpty) return $"Position: Any";
+
             string result;
             string bayStr = (Bay == 0 ? "any" : ((Bay > 9 ? "" : "0") + Bay.ToString()));
             string rowStr = (Row == 99 ? "any" : ((Row > 9 ? "" : "0") + Row.ToString()));

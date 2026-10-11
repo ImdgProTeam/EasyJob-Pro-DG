@@ -12,32 +12,37 @@ namespace EasyJob_ProDG.UI.Validation
         /// <returns></returns>
         internal static bool Validate(string inputValue, out string outputValidValue)
         {
-            outputValidValue = inputValue.Trim()
+            string tempOutputValue;
+            outputValidValue = string.Empty;
+
+            tempOutputValue = inputValue.Trim()
                 .Replace(" ", "")
                 .Replace(",", ".")
                 .ToUpper();
 
-            if (!char.IsDigit(outputValidValue[0])) return false;
+            if (!char.IsDigit(tempOutputValue[0])) return false;
             // no dg class length is more than 4 symbols
-            if (outputValidValue.Length > 4) return false;
+            if (tempOutputValue.Length > 4) return false;
             //if length is 4 -> there should be a '.' and a letter at the end (1.4s)
-            if (outputValidValue.Length > 3 && !char.IsLetter(outputValidValue[3]) && outputValidValue[1] != '.') return false;
+            if (tempOutputValue.Length > 3 && !char.IsLetter(tempOutputValue[3]) && tempOutputValue[1] != '.') return false;
             //if length is 3 -> there shall be a period or a letter at the end (5.1 or 14s)
-            if (outputValidValue.Length > 2 && (outputValidValue[1] != '.' && !char.IsLetter(outputValidValue[2]))) return false;
+            if (tempOutputValue.Length > 2 && (tempOutputValue[1] != '.' && !char.IsLetter(tempOutputValue[2]))) return false;
 
 
             //if length is 2 -> period is skipped
-            if (outputValidValue.Length > 1 && char.IsDigit(outputValidValue[1]))
-                outputValidValue = outputValidValue.Insert(1, ".");
+            if (tempOutputValue.Length > 1 && char.IsDigit(tempOutputValue[1]))
+                tempOutputValue = tempOutputValue.Insert(1, ".");
 
             //checking if compatibility group is valid
-            if (outputValidValue.Length > 3
-                && (!DgClassValidator.IsCompatibilityGoupContainedInIMDGCode(outputValidValue[3])
-                || !outputValidValue.StartsWith("1")))
-                outputValidValue = outputValidValue.Substring(0, 3);
+            if (tempOutputValue.Length > 3
+                && (!DgClassValidator.IsCompatibilityGoupContainedInIMDGCode(tempOutputValue[3])
+                || !tempOutputValue.StartsWith("1")))
+                tempOutputValue = tempOutputValue.Substring(0, 3);
 
-            if (!DgClassValidator.IsClassContainedInIMDGCode(outputValidValue))
+            if (!DgClassValidator.IsClassContainedInIMDGCode(tempOutputValue))
                 return false;
+
+            outputValidValue = tempOutputValue;
             return true;
         }
     }
