@@ -1,4 +1,5 @@
 ﻿using EasyJob_ProDG.Model.Transport;
+using EasyJob_ProDG.Model.UserDefinedConflicts;
 using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
@@ -13,13 +14,29 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 {
     internal class UserDefinedConditionToolViewModel : ToolWindowViewModelBase
     {
+        #region Text constants
+        // ----- Text constants -----
+        const string ENTER_VALUE = "Enter value";
+        const string ENTER_TEXT = "Enter text";
+        const string ENTER_CONTAINER_NUMBER = "Enter container number";
+        const string ENTER_NO_VALUE_REQUIRED = "No value required";
+        const string ENTER_PORT_CODE = "Enter port code";
+        const string ENTER_POSITION = "Enter position";
+        const string ENTER_PART_OF_NAME = "Enter part of name";
+        const string ENTER_DG_CLASS = "Enter valid DG class";
+        const string ENTER_UNNO = "Enter UNNO";
+
+        public string DescriptionText =>
+            $"User-defined conditions alert you with notifications in conflicts section. The alerts will show up when:";
+
+        #endregion
+
+
         // ----- Connected Services -----
 
         private IMessageDialogService _messageDialogService => Services.ServicesHandler.GetServicesAccess().MessageDialogServiceAccess;
         private IUserDefinedConditionService _userDefinedConditionService => Services.ServicesHandler.GetServicesAccess().UserDefindedConditionServiceAccess;
 
-        public string DescriptionText =>
-            $"User-defined conditions provide notifications (same like conflicts) when conditions met.";
 
 
         /// <summary>
@@ -53,6 +70,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 
         #region Conditions grid
 
+        #region Bindable properties
         // ----- Bindable properties -----
 
         /// <summary>
@@ -75,7 +93,9 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         /// </summary>
         public ICommand EditSelectedConditonCommand { get; set; }
 
+        #endregion
 
+        #region Command methods
         // ----- Command methods -----
 
         private bool RemoveSelectedConditionCommandCanExecute(object obj)
@@ -103,6 +123,9 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             SelectedConditionEdit();
         }
 
+        #endregion
+
+        #region Private methods
         // ----- Private methods -----
 
         /// <summary>
@@ -119,10 +142,27 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 
         #endregion
 
+        #endregion
+
+
         #region Add/edit conditions
+        // ----- Add/edit conditions section -----
+
+        #region Private fields
+        // ----- Private fields -----
+
+        private string _correctEditableConditionValue;
+        private bool _editableConditionValueIsValid;
+
+        private UserDefinedConditionOption _correctEditableConditionOption;
+
+        #endregion
+
+
+        #region Public properties
+        // ----- Public properties -----
 
         public UserDefinedConditionWrapper EditableCondition { get; set; }
-        public ICommand AddNewCondition { get; set; }
 
         /// <summary>
         /// Text to be bound to 'Add' or 'Save' button content
@@ -130,9 +170,182 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         public string AddButtonText { get; private set; }
 
         /// <summary>
+        /// Text property bound to hint textbox at the Value textbox to assist with correct entry.
+        /// </summary>
+        public string AddConditionHintText { get; private set; }
+
+        /// <summary>
+        /// Property bound to Add/edit condition Value text ('Enter value')
+        /// </summary>
+        public string EditableConditionCommentText { get; set; }
+
+        public ICommand AddNewCondition { get; set; }
+        public ICommand ClearConditionFieldsCommand { get; set; } 
+
+        #endregion
+
+
+        // ----- Private methods -----
+
+        /// <summary>
+        /// Sets <see cref="AddConditionHintText"/> according to chosen type and inputs
+        /// </summary>
+        private void SetConditionHintText()
+        {
+            AddConditionHintText = UserDefinedConditionsToolViewModelHelpers.GenerateConditionHintText
+                                                                                    (selectedConditionIndex,
+                                                                                    _correctEditableConditionValue, EditableConditionCellPosition, _correctEditableConditionOption);
+            OnPropertyChanged(nameof(AddConditionHintText));
+        }
+
+        /// <summary>
+        /// Checks if all required fields of the <see cref="EditableCondition"/> fulfil to add the UDC.
+        /// </summary>
+        private bool CheckIfEditableConditionIsValid()
+        {
+            if (!_editableConditionValueIsValid)
+            {
+                return false;
+            }
+
+            switch (selectedConditionIndex)
+            {
+                //FreeText = 255 21
+                case 21:
+                case (byte)UserDefinedConditionType.General:
+                case (byte)UserDefinedConditionType.ContainerNumberLoaded:
+                case (byte)UserDefinedConditionType.ContainerNumberDischarged:
+                case (byte)UserDefinedConditionType.ContainerLocationChanged:
+                case (byte)UserDefinedConditionType.ContainerPODchanged:
+                case (byte)UserDefinedConditionType.DgNameContainsLoaded:
+                case (byte)UserDefinedConditionType.DgTechnicalNameContains:
+                case (byte)UserDefinedConditionType.DgClassLoaded:
+                case (byte)UserDefinedConditionType.DgUnnoLoaded:
+                case (byte)UserDefinedConditionType.DgFPLoaded:
+                case (byte)UserDefinedConditionType.ReeferContainingDgLoaded:
+                case (byte)UserDefinedConditionType.ReeferSetPointLoaded:
+                case (byte)UserDefinedConditionType.ReeferCommodityContains:
+                case (byte)UserDefinedConditionType.NoNetWeightUnitsOnboard:
+                case (byte)UserDefinedConditionType.POLUnitsOnboard:
+                case (byte)UserDefinedConditionType.PODUnitsOnboard:
+                    break;
+
+                case (byte)UserDefinedConditionType.ContainerNumberNotInPosition:
+                case (byte)UserDefinedConditionType.CellPositionLoaded:
+                case (byte)UserDefinedConditionType.CellPositionEmpty:
+                case (byte)UserDefinedConditionType.CellPositionLoadedWithReefer:
+                case (byte)UserDefinedConditionType.CellPositionLoadedWithDg:
+                    if (EditableConditionCellPosition.IsEmpty)
+                        return false;
+                    break;
+
+                default:
+                    break;
+            }
+
+            return true; 
+        }
+
+
+        #region TextBox ConditionValue
+
+        // ----- Value TextBox -----
+
+        private string _editableConditionValueText = string.Empty;
+
+        /// <summary>
+        /// Property bound to Add/edit condition Value text ('Enter value')
+        /// </summary>
+        public string EditableConditionValueText
+        {
+            get => _editableConditionValueText;
+            set
+            {
+                _editableConditionValueText = value;
+                OnEditableConditionValueTextChanged();
+            }
+        }
+
+        private void OnEditableConditionValueTextChanged()
+        {
+            CheckCorrectInputWithSelectedIndex();
+
+            TryParseAndValidateValue();
+
+            SetConditionHintText();
+        }
+
+        private void TryParseAndValidateValue()
+        {
+            _editableConditionValueIsValid =
+                _editableConditionValueText.TryParseValue(selectedConditionIndex,
+                                                     out _correctEditableConditionValue,
+                                                     out _correctEditableConditionOption);
+        }
+
+        /// <summary>
+        /// Handles individual cases of input, e.g. when required to change input field or selected index.
+        /// </summary>
+        private void CheckCorrectInputWithSelectedIndex()
+        {
+            // Switch to 'Free text' from 'Select option'
+            if (selectedConditionIndex == 0)
+                SelectedConditionIndex = 21;
+
+            // Sync typing with 'CellPoisition' in case when value expects for position
+            if (selectedConditionIndex >= 3 && selectedConditionIndex <= 6)
+                EditableConditionCellPositionText = _editableConditionValueText;
+        }
+
+        public bool IsEditableConditionValueTextBoxEnabled { get; private set; } = true;
+        public string EditableConditionValueTextBoxTag { get; private set; } 
+
+        #endregion
+
+
+        #region TextBox CellPosition
+        // ----- CellPosition TextBox -----
+
+        private string _editableConditionCellPositionText;
+        public CellPositionWrapper EditableConditionCellPosition { get; set; }
+
+        /// <summary>
+        /// Property bound to Add/edit condition CellPosition text ('Enter value')
+        /// </summary>
+        public string EditableConditionCellPositionText
+        {
+            get => _editableConditionCellPositionText;
+            set
+            {
+                _editableConditionCellPositionText = value;
+                EditableConditionCellPosition.DisplayPosition = value;
+                CellPositionHintText = EditableConditionCellPosition.DisplayPosition;
+                OnPropertyChanged(nameof(CellPositionHintText));
+
+                SetConditionHintText();
+            }
+        }
+
+        public bool IsEditableConditionCellPositionTextBoxEnabled { get; private set; } = true;
+        public string EditableConditionCellPositionTextBoxTag { get; private set; }
+
+        /// <summary>
+        /// Text property bound to hint textbox at the CellPosition textbox to assist with correct entry.
+        /// </summary>
+        public string CellPositionHintText { get; private set; }
+
+        #endregion
+
+
+        #region ComboBox Condition type
+        // ----- ComboBox selection of ConditionType -----
+
+        /// <summary>
         /// List of ConditionTypes description to be used in Add new condition combo box.
         /// </summary>
         public List<string> ConditionTypesList { get; private set; }
+
+        private int selectedConditionIndex;
 
         /// <summary>
         /// Index of selected item from <see cref="ConditionTypesList"/>
@@ -149,94 +362,168 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         }
 
         /// <summary>
-        /// Property bound to Add/edit condition Value text ('Enter value')
+        /// Sets visual attributes and text to the panel controls depending on the selected Type.
         /// </summary>
-        public string EditableConditionValueText
+        private void OnSelectedConditionTypeIndexChanged()
         {
-            get => editableConditionValueText;
-            set
+            // Set enabled property of CellPosition TextBox and tag text of Value TextBox
+            switch (selectedConditionIndex)
             {
-                editableConditionValueText = value;
-                OnEditableConditionValueTextChanged();
+                case (byte)UserDefinedConditionType.General:
+                //FreeText = 255 21
+                case 21:
+                    EditableConditionValueTextBoxTag = ENTER_TEXT;
+                    DisableCellPositionTextBox();
+                    break;
+
+                case (byte)UserDefinedConditionType.ContainerLocationChanged:
+                case (byte)UserDefinedConditionType.ContainerPODchanged:
+                    EditableConditionValueTextBoxTag = ENTER_CONTAINER_NUMBER;
+                    DisableCellPositionTextBox();
+                    break;
+
+                case (byte)UserDefinedConditionType.NoNetWeightUnitsOnboard:
+                    EditableConditionValueTextBoxTag = ENTER_NO_VALUE_REQUIRED;
+                    DisableCellPositionTextBox();
+                    break;
+
+                case (byte)UserDefinedConditionType.POLUnitsOnboard:
+                case (byte)UserDefinedConditionType.PODUnitsOnboard:
+                    EditableConditionValueTextBoxTag = ENTER_PORT_CODE;
+                    EnableCellPositionTextBox();
+                    break;
+
+                case (byte)UserDefinedConditionType.ContainerNumberLoaded:
+                case (byte)UserDefinedConditionType.ContainerNumberDischarged:
+                case (byte)UserDefinedConditionType.ContainerNumberNotInPosition:
+                    EditableConditionValueTextBoxTag = ENTER_CONTAINER_NUMBER;
+                    EnableCellPositionTextBox();
+                    break;
+
+                case (byte)UserDefinedConditionType.CellPositionLoaded:
+                case (byte)UserDefinedConditionType.CellPositionEmpty:
+                case (byte)UserDefinedConditionType.CellPositionLoadedWithReefer:
+                case (byte)UserDefinedConditionType.CellPositionLoadedWithDg:
+                    EditableConditionValueTextBoxTag = ENTER_POSITION;
+                    EnableCellPositionTextBox();
+                    if (string.IsNullOrWhiteSpace(EditableConditionCellPositionText)
+                        && !string.IsNullOrWhiteSpace(EditableConditionValueText))
+                        EditableConditionCellPositionText = EditableConditionValueText;
+                    break;
+
+                case (byte)UserDefinedConditionType.DgNameContainsLoaded:
+                case (byte)UserDefinedConditionType.DgTechnicalNameContains:
+                case (byte)UserDefinedConditionType.ReeferCommodityContains:
+                    EditableConditionValueTextBoxTag = ENTER_PART_OF_NAME;
+                    EnableCellPositionTextBox();
+                    break;
+
+                case (byte)UserDefinedConditionType.DgClassLoaded:
+                    EditableConditionValueTextBoxTag = ENTER_DG_CLASS;
+                    EnableCellPositionTextBox();
+                    break;
+                case (byte)UserDefinedConditionType.DgUnnoLoaded:
+                    EditableConditionValueTextBoxTag = ENTER_UNNO;
+                    EnableCellPositionTextBox();
+                    break;
+                case (byte)UserDefinedConditionType.DgFPLoaded:
+                case (byte)UserDefinedConditionType.ReeferSetPointLoaded:
+                    EditableConditionValueTextBoxTag = ENTER_VALUE;
+                    EnableCellPositionTextBox();
+                    break;
+                case (byte)UserDefinedConditionType.ReeferContainingDgLoaded:
+                    EditableConditionValueTextBoxTag = ENTER_NO_VALUE_REQUIRED;
+                    EnableCellPositionTextBox();
+                    break;
+
+                default:
+                    EditableConditionValueTextBoxTag = ENTER_VALUE;
+                    EnableCellPositionTextBox();
+                    break;
+
             }
-        }
 
-        /// <summary>
-        /// Property bound to Add/edit condition Value text ('Enter value')
-        /// </summary>
-        public string EditableConditionCommentText{ get; set; }
-
-        /// <summary>
-        /// Text property bound to hint textbox below Value textbox to assist with correct entry.
-        /// </summary>
-        public string AddConditionHintText { get; private set; }
-
-        private void OnEditableConditionValueTextChanged()
-        {
-            EditableCondition.ConditionType = (Model.UserDefinedConflicts.UserDefinedConditionType)selectedConditionIndex;
-            EditableCondition.ConditionValue = editableConditionValueText;
-            EditableCondition.ConditionComment = EditableConditionCommentText;
-            EditableCondition.CellPosition = GetCellPosition();
-
-            AddConditionHintText = editableConditionValueText;
-
-            CheckIfEditableConditionIsValid();
+            TryParseAndValidateValue();
+            SetConditionHintText();
             RefreshEditableConditionView();
         }
 
-        private void CheckIfEditableConditionIsValid()
+        private void DisableCellPositionTextBox()
         {
-            if(EditableCondition.CellPosition is not null && !string.IsNullOrEmpty(EditableCondition.ConditionValue))
-                _isEditableConditionValid = true;
+            IsEditableConditionCellPositionTextBoxEnabled = false;
+            EditableConditionCellPositionTextBoxTag = string.Empty;
+            EditableConditionCellPositionText = string.Empty;
+            CellPositionHintText = string.Empty;
         }
 
-        private CellPosition GetCellPosition()
+        private void EnableCellPositionTextBox()
         {
-            return new CellPosition();
+            IsEditableConditionCellPositionTextBoxEnabled = true;
+            EditableConditionCellPositionTextBoxTag = ENTER_POSITION;
+            if (string.IsNullOrWhiteSpace(EditableConditionCellPositionText))
+                CellPositionHintText = "Position: Any";
         }
 
-        private void OnSelectedConditionTypeIndexChanged()
-        {
-            //throw new NotImplementedException();
-        }
-
-        private bool _isEditableConditionValid;
-        private int selectedConditionIndex;
-        private string editableConditionValueText;
+        #endregion
 
 
+        #region Command methods
         // ----- Command methods -----
 
         private bool AddNewConditionCommandCanExecute(object obj)
         {
-            if (_isEditableConditionValid)
-                return true;
-            return false;
+            return CheckIfEditableConditionIsValid();
         }
 
         private void OnAddNewConditionCommandExecuted(object obj)
         {
-            EditableCondition.ConditionDescription = $"{editableConditionValueText}: {selectedConditionIndex}";
+            EditableCondition.ConditionType = (Model.UserDefinedConflicts.UserDefinedConditionType)selectedConditionIndex;
+            EditableCondition.ConditionComment = EditableConditionCommentText;
+            EditableCondition.CellPosition = EditableConditionCellPosition.Model;
+            EditableCondition.ConditionValue = _correctEditableConditionValue;
+
+            //CHANGE LINES BELOW
+            EditableCondition.ConditionDescription = $"{_editableConditionValueText}: {selectedConditionIndex}";
             EditableCondition.ToolTipText = EditableConditionCommentText;
             EditableCondition.ConditionNumberInList = (uint)ActiveConditions.Count + 1;
 
             ActiveConditions.Add(EditableCondition);
+
+            ClearAddSection();
+        }
+
+        /// <summary>
+        /// Clears all the 'Add' section
+        /// </summary>
+        private void ClearAddSection()
+        {
             EditableCondition = new(new());
             ResetEditableFields();
             RefreshEditableConditionView();
         }
 
+        /// <summary>
+        /// Clears all editable fields in add condition section (after add or new)
+        /// </summary>
         private void ResetEditableFields()
         {
-            editableConditionValueText = string.Empty;
+            EditableConditionValueText = string.Empty;
+            EditableConditionCellPositionText = string.Empty;
             EditableConditionCommentText = string.Empty;
+
             AddConditionHintText = string.Empty;
+            CellPositionHintText = string.Empty;
         }
 
+        /// <summary>
+        /// Refreshes all bindable properties
+        /// </summary>
         private void RefreshEditableConditionView()
         {
             OnPropertyChanged(null);
-        }
+        } 
+
+        #endregion
 
         #endregion
 
@@ -297,12 +584,20 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             EditSelectedConditonCommand = new DelegateCommand(OnEditSelectedConditionCommandExecuted, EditSelectedConditionCommandCanExecute);
 
             AddNewCondition = new DelegateCommand(OnAddNewConditionCommandExecuted, AddNewConditionCommandCanExecute);
+            ClearConditionFieldsCommand = new DelegateCommand(OnClearConditionFieldsCommandExecuted);
+        }
+
+        private void OnClearConditionFieldsCommandExecuted(object obj)
+        {
+            ClearAddSection();
         }
 
         private void SetInitialTextValues()
-        {  
-            AddButtonText = "Test";
-            AddConditionHintText = "Test hint text here";
+        {
+            AddButtonText = "Add";
+            AddConditionHintText = "Choose options below";
+            EditableConditionValueTextBoxTag = "Enter text";
+            OnSelectedConditionTypeIndexChanged();
         }
 
         private void LoadData()
@@ -313,6 +608,9 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             ConditionTypesList = conditionTypesText;
 
             EditableCondition = new UserDefinedConditionWrapper(new Model.UserDefinedConflicts.UserDefinedCondition());
+            EditableConditionCellPosition = new CellPositionWrapper(new CellPosition());
+            EditableConditionCellPosition.AcceptEmpty = true;
+
         }
 
 
@@ -320,7 +618,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         private List<string> conditionTypesText => new()
         {
             //General = 0,
-            "",
+            "Select option",
             //ContainerNumberLoaded, 1
             "Loaded container with number: ",
             //ContainerNumberDischarged, 2
@@ -374,8 +672,11 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             "Free text"
         };
 
+
+
         #endregion
 
+        #region Test data
 
         /// <summary>
         /// Method can be called in constructor to get test data if connection to services is missing.
@@ -407,5 +708,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             AddButtonText = "Test";
             AddConditionHintText = "Test hint text here";
         }
+
+        #endregion
     }
 }

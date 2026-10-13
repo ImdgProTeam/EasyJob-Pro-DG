@@ -18,7 +18,8 @@ namespace EasyJob_ProDG.UI.Wrapper
             set
             {
                 HasError = !Model.TryChangeCellPosition(value);
-                if (IsEmpty) HasError = true;
+                if (!AcceptEmpty && IsEmpty) 
+                    HasError = true;
             }
         }
 
@@ -40,6 +41,11 @@ namespace EasyJob_ProDG.UI.Wrapper
         public bool IsEmpty => Model.Bay == 0 && Model.Row == 99 && Model.Tier == 0 && Model.HoldNr == 0 && Model.Underdeck == 0;
         public bool HasError { get; private set; }
         public bool HasErrorOrEmpty => HasError || Model.IsEmpty;
+
+        /// <summary>
+        /// If True, allows to accept Empty <see cref="CellPosition"/> without <see cref="HasError"/>.
+        /// </summary>
+        internal bool AcceptEmpty { get; set; } = false;
 
         #endregion
 

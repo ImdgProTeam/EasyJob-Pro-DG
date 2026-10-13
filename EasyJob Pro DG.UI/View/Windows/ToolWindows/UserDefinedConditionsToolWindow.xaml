@@ -5,6 +5,7 @@
                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                          xmlns:base="clr-namespace:EasyJob_ProDG.UI.View.WindowBase"
                          xmlns:wind="clr-namespace:EasyJob_ProDG.UI.View.Windows"
+                         xmlns:converters="clr-namespace:EasyJob_ProDG.UI.View.Converters"
                          mc:Ignorable="d"
                          Height="400"
                          Width="400"
@@ -47,6 +48,111 @@
         </TextBlock>
 
 
+
+
+        <!--<TextBlock Height="2"
+                   HorizontalAlignment="Stretch"
+                   Background="WhiteSmoke" />-->
+
+        <Grid DockPanel.Dock="Bottom"
+              Panel.ZIndex="0"
+              Margin="5 0 5 5"
+              MinHeight="150"
+              VerticalAlignment="Bottom">
+            <Grid.Resources>
+                <Style TargetType="TextBox"
+                       BasedOn="{StaticResource TextBoxWithTagAndValidation}">
+                    <Setter Property="Margin"
+                            Value="3" />
+                </Style>
+                <Style TargetType="Button"
+                       BasedOn="{StaticResource ToolBoxWindowControlButtonStyle}" />
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Entry hint -->
+            <TextBlock Grid.Row="0"
+                       Grid.ColumnSpan="2"
+                       VerticalAlignment="Bottom"
+                       TextWrapping="WrapWithOverflow"
+                       Margin="12 0"
+                       Focusable="False"
+                       Foreground="{StaticResource Brush.Text.Header}"
+                       FontStyle="Italic"
+                       Text="{Binding AddConditionHintText, FallbackValue='Hint here'}" />
+
+            <!-- Condition type selection -->
+            <ComboBox Grid.ColumnSpan="2"
+                      Grid.Row="1"
+                      ItemsSource="{Binding ConditionTypesList}"
+                      SelectedIndex="{Binding SelectedConditionIndex, UpdateSourceTrigger=PropertyChanged}"
+                      IsSynchronizedWithCurrentItem="True"
+                      HorizontalAlignment="Stretch"
+                      VerticalContentAlignment="Center"
+                      ToolTip="Select option"
+                      MinWidth="100"
+                      Margin="3" />
+
+            <TextBox Grid.Row="2"
+                     x:Name="txbCellPosition"
+                     IsEnabled="{Binding IsEditableConditionValueTextBoxEnabled}"
+                     Text="{Binding EditableConditionValueText, 
+                UpdateSourceTrigger=PropertyChanged}"
+                     Tag="{Binding EditableConditionValueTextBoxTag, FallbackValue='Enter value'}" />
+
+            <!-- Cell position hint -->
+            <TextBlock Grid.Row="4"
+                       Grid.ColumnSpan="2"
+                       VerticalAlignment="Top"
+                       TextWrapping="WrapWithOverflow"
+                       Margin="12 -4 12 0"
+                       Focusable="False"
+                       Foreground="{StaticResource Brush.Text.Header}"
+                       FontSize="{StaticResource ToolsSmallFontSize}"
+                       FontStyle="Italic"
+                       Text="{Binding CellPositionHintText,
+                                        FallbackValue='Position: Any'}" />
+            <TextBox Grid.Row="3"
+                     Height="{Binding ActualHeight, ElementName=txbCellPosition}"
+                     IsEnabled="{Binding IsEditableConditionCellPositionTextBoxEnabled}"
+                     Text="{Binding EditableConditionCellPositionText, 
+                                    ValidatesOnDataErrors=True,
+                                    UpdateSourceTrigger=PropertyChanged}"
+                     Tag="{Binding EditableConditionCellPositionTextBoxTag, FallbackValue='Enter position'}" />
+
+            <!-- Comment -->
+            <TextBox Grid.Row="5"
+                     Height="{Binding ActualHeight, ElementName=txbCellPosition}"
+                     Text="{Binding EditableConditionCommentText, 
+                UpdateSourceTrigger=LostFocus}"
+                     Tag="Enter your comment" />
+
+            <!-- Add/new buttons -->
+            <Button Grid.Column="1"
+                    Grid.Row="2"
+                    Content="New"
+                    ToolTip="Add new condition"
+                    Command="{Binding ClearConditionFieldsCommand}"/>
+
+            <Button Grid.Column="1"
+                    Grid.Row="5"
+                    Content="{Binding AddButtonText, FallbackValue='Add'}"
+                    ToolTip="Add condition"
+                    Command="{Binding AddNewCondition}" />
+
+        </Grid>
+
         <DataGrid DockPanel.Dock="Top"
                   ItemsSource="{Binding ActiveConditions}"
                   SelectedItem="{Binding SelectedCondition}"
@@ -55,6 +161,7 @@
                   HorizontalScrollBarVisibility="Disabled"
                   VerticalScrollBarVisibility="Auto"
                   VerticalAlignment="Stretch"
+                  MinHeight="100"
                   Focusable="False"
                   IsTabStop="False"
                   Margin="5">
@@ -64,6 +171,19 @@
                             Value="Center" />
                 </Style>
             </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="TextAlignment"
+                            Value="Left" />
+                    <Setter Property="TextWrapping"
+                            Value="WrapWithOverflow" />
+                    <Setter Property="TextTrimming"
+                            Value="None" />
+                    <Setter Property="VerticalAlignment"
+                            Value="Top" />
+                </Style>
+
+            </DataGrid.Resources>
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="N"
@@ -71,7 +191,7 @@
                 <DataGridTextColumn Header="Condition"
                                     Width="*"
                                     Binding="{Binding ConditionDescription}">
-                    <DataGridTextColumn.ElementStyle>
+                    <!--<DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="TextAlignment"
                                     Value="Left" />
@@ -82,11 +202,33 @@
                             <Setter Property="VerticalAlignment"
                                     Value="Top" />
                         </Style>
-                    </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn.ElementStyle>-->
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="ToolTip"
                                     Value="{Binding ToolTipText}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Comment"
+                                    Width="80"
+                                    Binding="{Binding ConditionComment}">
+                    <!--<DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextAlignment"
+                                    Value="Left" />
+                            <Setter Property="TextWrapping"
+                                    Value="WrapWithOverflow" />
+                            <Setter Property="TextTrimming"
+                                    Value="None" />
+                            <Setter Property="VerticalAlignment"
+                                    Value="Top" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>-->
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding ConditionComment}" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
@@ -96,8 +238,7 @@
                             <Button Content="+"
                                     ToolTip="Edit condition"
                                     Command="{Binding DataContext.EditSelectedConditonCommand,
-                                RelativeSource={RelativeSource AncestorType=wind:ToolWindowTemplate}}"
-                                    />
+                                RelativeSource={RelativeSource AncestorType=wind:ToolWindowTemplate}}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -113,72 +254,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-
-        <TextBlock Height="2"
-                   Background="WhiteSmoke" />
-
-        <Grid DockPanel.Dock="Bottom"
-              Margin="5"
-              VerticalAlignment="Bottom">
-            <Grid.Resources>
-                <Style TargetType="TextBox"
-                       BasedOn="{StaticResource TextBoxWithTagAndValidation}">
-                    <Setter Property="Margin"
-                            Value="3" />
-                    <Setter Property="Background"
-                            Value="{StaticResource Brush.Background.Main}" />
-                </Style>
-                <Style TargetType="Button"
-                       BasedOn="{StaticResource ToolBoxWindowControlButtonStyle}" />
-            </Grid.Resources>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <ComboBox Grid.ColumnSpan="1"
-                      ItemsSource="{Binding ConditionTypesList}"
-                      SelectedIndex="{Binding SelectedConditionIndex, UpdateSourceTrigger=PropertyChanged}"
-                      IsSynchronizedWithCurrentItem="True"
-                      HorizontalAlignment="Stretch"
-                      MinWidth="100"
-                      Margin="3"/>
-            <TextBox Grid.Row="2"
-                     Style="{StaticResource TextBoxWithTagAndValidation}"
-                     Text="{Binding EditableConditionValueText, 
-                UpdateSourceTrigger=PropertyChanged}"
-                     Tag="Enter value"/>
-            <TextBox Grid.Row="3"
-                     Style="{StaticResource TextBoxWithTagAndValidation}"
-                     Text="{Binding EditableConditionCommentText, 
-                UpdateSourceTrigger=LostFocus}" 
-                     Tag="Enter your comment"/>
-            <TextBlock Grid.Row="1"
-                       Grid.ColumnSpan="2"
-                       VerticalAlignment="Bottom"
-                       TextWrapping="WrapWithOverflow"
-                       Margin="12 0"
-                       Focusable="False"
-                       Foreground="{StaticResource Brush.Text.Header}"
-                       Text="{Binding AddConditionHintText, FallbackValue='Hint here'}" />
-
-            <Button Grid.Column="1"
-                    Grid.Row="0"
-                    Content="New"
-                    ToolTip="Add new condition" />
-            <Button Grid.Column="1"
-                    Grid.Row="3"
-                    Content="{Binding AddButtonText, FallbackValue='Add'}"
-                    ToolTip="Add condition"
-                    Command="{Binding AddNewCondition}" />
-        </Grid>
-
     </DockPanel>
 
 </wind:ToolWindowTemplate>
