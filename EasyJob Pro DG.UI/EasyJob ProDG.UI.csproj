@@ -469,6 +469,7 @@
     <Compile Include="Wrapper\Ship Profile\OuterRowWrapper.cs" />
     <Compile Include="Wrapper\Ship Profile\ShipProfileWrapper.cs" />
     <Compile Include="Wrapper\UserDefinedConflicts\UserDefinedConditionWrapper.cs" />
+    <Compile Include="Wrapper\UserDefinedConflicts\UserDefinedConditionWrapperExtensions.cs" />
     <Compile Include="Wrapper\UserDefinedConflicts\UserDefinedConflictWrapper.cs" />
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>

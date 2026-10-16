@@ -7,6 +7,8 @@ namespace EasyJob_ProDG.Model.Transport
     {
         #region Public properties
 
+        public const string ANY_POSITION = "Position: Any";
+
         //------------- Properties -------------------------
 
         public byte this[byte index]
@@ -109,7 +111,7 @@ namespace EasyJob_ProDG.Model.Transport
         //------------ System override methods -----------
         public override string ToString()
         {
-            if (IsEmpty) return $"Position: Any";
+            if (IsEmpty) return ANY_POSITION;
 
             string result;
             string bayStr = (Bay == 0 ? "any" : ((Bay > 9 ? "" : "0") + Bay.ToString()));

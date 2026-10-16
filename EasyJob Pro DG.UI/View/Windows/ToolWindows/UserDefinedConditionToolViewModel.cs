@@ -5,6 +5,7 @@ using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.View.Windows.ToolWindows;
 using EasyJob_ProDG.UI.Wrapper;
+using EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,16 +27,24 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         const string ENTER_DG_CLASS = "Enter valid DG class";
         const string ENTER_UNNO = "Enter UNNO";
 
+        const string ADD_BUTTON_TEXT = "Add";
+        const string ADD_BUTTON_TOOLTIP = "Add condition";
+        const string SAVE_BUTTON_TEXT = "Save";
+        const string SAVE_BUTTON_TOOLTIP = "Save condition";
+
         public string DescriptionText =>
             $"User-defined conditions alert you with notifications in conflicts section. The alerts will show up when:";
 
         #endregion
 
 
+        #region Connected services
         // ----- Connected Services -----
 
         private IMessageDialogService _messageDialogService => Services.ServicesHandler.GetServicesAccess().MessageDialogServiceAccess;
-        private IUserDefinedConditionService _userDefinedConditionService => Services.ServicesHandler.GetServicesAccess().UserDefindedConditionServiceAccess;
+        private IUserDefinedConditionService _userDefinedConditionService => Services.ServicesHandler.GetServicesAccess().UserDefindedConditionServiceAccess; 
+
+        #endregion
 
 
 
@@ -121,6 +130,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         private void OnEditSelectedConditionCommandExecuted(object obj)
         {
             SelectedConditionEdit();
+            SetSaveButtonProperties();
         }
 
         #endregion
@@ -153,6 +163,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 
         private string _correctEditableConditionValue;
         private bool _editableConditionValueIsValid;
+        private bool _isEditingExistingCondition = false;
 
         private UserDefinedConditionOption _correctEditableConditionOption;
 
@@ -170,6 +181,11 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         public string AddButtonText { get; private set; }
 
         /// <summary>
+        /// Text to be bound to 'Add' or 'Save' button ToolTip
+        /// </summary>
+        public string AddButtonToolTip { get; private set; }
+
+        /// <summary>
         /// Text property bound to hint textbox at the Value textbox to assist with correct entry.
         /// </summary>
         public string AddConditionHintText { get; private set; }
@@ -180,11 +196,11 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         public string EditableConditionCommentText { get; set; }
 
         public ICommand AddNewCondition { get; set; }
-        public ICommand ClearConditionFieldsCommand { get; set; } 
+        public ICommand ClearConditionFieldsCommand { get; set; }
 
         #endregion
 
-
+        #region Private methods
         // ----- Private methods -----
 
         /// <summary>
@@ -243,8 +259,50 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
                     break;
             }
 
-            return true; 
+            return true;
         }
+
+        /// <summary>
+        /// Sets visual properties on Add/Save button according to 'Add'
+        /// </summary>
+        private void SetAddButtonProperties()
+        {
+            AddButtonText = ADD_BUTTON_TEXT;
+            AddButtonToolTip = ADD_BUTTON_TOOLTIP;
+            OnPropertyChanged(nameof(AddButtonText));
+            OnPropertyChanged(nameof(AddButtonToolTip));
+        }
+
+        /// <summary>
+        /// Sets visual properties on Add/Save button according to 'Save'
+        /// </summary>
+        private void SetSaveButtonProperties()
+        {
+            AddButtonText = SAVE_BUTTON_TEXT;
+            AddButtonToolTip = SAVE_BUTTON_TOOLTIP;
+            OnPropertyChanged(nameof(AddButtonText));
+            OnPropertyChanged(nameof(AddButtonToolTip));
+        }
+
+        /// <summary>
+        /// Changes isEditing flag to false;
+        /// </summary>
+        private void StopEditing()
+        {
+            _isEditingExistingCondition = false;
+        }
+
+        /// <summary>
+        /// Used to correctly display <>= symbols when edit conditons with numerical values.
+        /// </summary>
+        /// <param name="conditionValue"></param>
+        /// <returns></returns>
+        private string CreateEditableConditionValueTextFromConditionValue(string conditionValue)
+        {
+            return UserDefinedConditionsToolViewModelHelpers.CreateEnterValueFromConditionValue(conditionValue, selectedConditionIndex, _correctEditableConditionOption);
+        } 
+
+        #endregion
 
 
         #region TextBox ConditionValue
@@ -283,6 +341,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
                                                      out _correctEditableConditionOption);
         }
 
+
         /// <summary>
         /// Handles individual cases of input, e.g. when required to change input field or selected index.
         /// </summary>
@@ -294,11 +353,14 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 
             // Sync typing with 'CellPoisition' in case when value expects for position
             if (selectedConditionIndex >= 3 && selectedConditionIndex <= 6)
+            {
                 EditableConditionCellPositionText = _editableConditionValueText;
+                OnPropertyChanged(nameof(EditableConditionCellPositionText));
+            }
         }
 
         public bool IsEditableConditionValueTextBoxEnabled { get; private set; } = true;
-        public string EditableConditionValueTextBoxTag { get; private set; } 
+        public string EditableConditionValueTextBoxTag { get; private set; }
 
         #endregion
 
@@ -470,26 +532,49 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         #region Command methods
         // ----- Command methods -----
 
-        private bool AddNewConditionCommandCanExecute(object obj)
+        private bool AddSaveNewConditionCommandCanExecute(object obj)
         {
             return CheckIfEditableConditionIsValid();
         }
 
-        private void OnAddNewConditionCommandExecuted(object obj)
+        private void OnAddSaveNewConditionCommandExecuted(object obj)
         {
             EditableCondition.ConditionType = (Model.UserDefinedConflicts.UserDefinedConditionType)selectedConditionIndex;
             EditableCondition.ConditionComment = EditableConditionCommentText;
-            EditableCondition.CellPosition = EditableConditionCellPosition.Model;
+            EditableCondition.CellPosition = EditableConditionCellPosition.Model.Clone();
             EditableCondition.ConditionValue = _correctEditableConditionValue;
+            EditableCondition.ConditionOption = _correctEditableConditionOption;
 
-            //CHANGE LINES BELOW
-            EditableCondition.ConditionDescription = $"{_editableConditionValueText}: {selectedConditionIndex}";
-            EditableCondition.ToolTipText = EditableConditionCommentText;
-            EditableCondition.ConditionNumberInList = (uint)ActiveConditions.Count + 1;
 
-            ActiveConditions.Add(EditableCondition);
+            if (!_isEditingExistingCondition)
+            {
+                EditableCondition.ConditionNumberInList = (uint)ActiveConditions.Count + 1;
+                ActiveConditions.Add(EditableCondition.Clone());
+            }
 
             ClearAddSection();
+            SetAddButtonProperties();
+            StopEditing();
+        }
+
+        private void SelectedConditionEdit()
+        {
+            _isEditingExistingCondition = true;
+            EditableCondition = SelectedCondition;
+
+            selectedConditionIndex = (int)EditableCondition.ConditionType;
+
+            _correctEditableConditionOption = EditableCondition.ConditionOption;
+            _editableConditionValueText = CreateEditableConditionValueTextFromConditionValue(EditableCondition.ConditionValue);
+            _correctEditableConditionValue = EditableCondition.ConditionValue;
+            EditableConditionCellPosition = new CellPositionWrapper(EditableCondition.CellPosition.Clone());
+            _editableConditionCellPositionText = EditableConditionCellPosition.DisplayPosition;
+            CellPositionHintText = EditableConditionCellPosition.DisplayPosition;
+            EditableConditionCommentText = EditableCondition.ConditionComment;
+
+            OnSelectedConditionTypeIndexChanged();
+            RefreshEditableConditionView();
+            SetConditionHintText();
         }
 
         /// <summary>
@@ -499,6 +584,8 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         {
             EditableCondition = new(new());
             ResetEditableFields();
+            StopEditing();
+            SetAddButtonProperties();
             RefreshEditableConditionView();
         }
 
@@ -521,7 +608,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         private void RefreshEditableConditionView()
         {
             OnPropertyChanged(null);
-        } 
+        }
 
         #endregion
 
@@ -554,16 +641,12 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             return false;
         }
 
-        #endregion
-
-
-
-
-
-        private void SelectedConditionEdit()
+        private void OnClearConditionFieldsCommandExecuted(object obj)
         {
-            throw new NotImplementedException();
+            ClearAddSection();
         }
+
+        #endregion
 
 
         #region Constructor
@@ -575,7 +658,6 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             //LoadTestData();
 
             SetInitialTextValues();
-
         }
 
         private void LoadCommands()
@@ -583,22 +665,19 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             RemoveSelectedConditonCommand = new DelegateCommand(OnRemoveSelectedConditionCommandExecuted, RemoveSelectedConditionCommandCanExecute);
             EditSelectedConditonCommand = new DelegateCommand(OnEditSelectedConditionCommandExecuted, EditSelectedConditionCommandCanExecute);
 
-            AddNewCondition = new DelegateCommand(OnAddNewConditionCommandExecuted, AddNewConditionCommandCanExecute);
+            AddNewCondition = new DelegateCommand(OnAddSaveNewConditionCommandExecuted, AddSaveNewConditionCommandCanExecute);
             ClearConditionFieldsCommand = new DelegateCommand(OnClearConditionFieldsCommandExecuted);
-        }
-
-        private void OnClearConditionFieldsCommandExecuted(object obj)
-        {
-            ClearAddSection();
         }
 
         private void SetInitialTextValues()
         {
-            AddButtonText = "Add";
+            SetAddButtonProperties();
             AddConditionHintText = "Choose options below";
             EditableConditionValueTextBoxTag = "Enter text";
             OnSelectedConditionTypeIndexChanged();
         }
+
+
 
         private void LoadData()
         {

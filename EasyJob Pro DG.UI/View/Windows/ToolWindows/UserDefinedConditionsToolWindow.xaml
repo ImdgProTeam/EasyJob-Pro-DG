@@ -135,7 +135,7 @@
             <TextBox Grid.Row="5"
                      Height="{Binding ActualHeight, ElementName=txbCellPosition}"
                      Text="{Binding EditableConditionCommentText, 
-                UpdateSourceTrigger=LostFocus}"
+                UpdateSourceTrigger=PropertyChanged}"
                      Tag="Enter your comment" />
 
             <!-- Add/new buttons -->
@@ -148,7 +148,8 @@
             <Button Grid.Column="1"
                     Grid.Row="5"
                     Content="{Binding AddButtonText, FallbackValue='Add'}"
-                    ToolTip="Add condition"
+                    ToolTip="{Binding AddButtonToolTip}"
+                    IsDefault="True"
                     Command="{Binding AddNewCondition}" />
 
         </Grid>

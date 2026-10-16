@@ -44,6 +44,10 @@
             if (onePosition == null) return null;
             bool read = true;
             CellPosition tempCell = new CellPosition();
+
+            if(string.Equals(onePosition, CellPosition.ANY_POSITION))
+                return tempCell;
+
             int commandAddress = -1; //Shows to which position to record the number
             bool complicatedPosition = false;
             foreach (char letter in onePosition)
@@ -55,7 +59,7 @@
 
             if (complicatedPosition)
             {
-                foreach (var line in onePosition.Split(' '))
+                foreach (var line in onePosition.Split([' ',',']))
                 {
                     if (line == "") continue;
                     if (char.IsDigit(line[0]))

@@ -18,6 +18,13 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         const string ENTER_PORT_CODE = $"Enter port code";
         const string ENTER_VALUE = $"Enter value";
 
+        // ----- Default symbols or text to display with numeric values having options
+        const string DEFAULT_LESS_THAN = "<";
+        const string DEFAULT_LESS_THAN_OR_EQUAL = "<=";
+        const string DEFAULT_MORE_THAN = ">";
+        const string DEFAULT_MORE_THAN_OR_EQUAL = ">=";
+
+
         #region AddConditionHint
         // ----- Add condition hint -----
 
@@ -371,15 +378,23 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 
             bool lastCharIsDigit = false;
             bool negativeSign = false;
+            string tempValue = string.Empty;
+            char? scale = null;
+            decimal numericValue;
+            bool successfullParse;
+
             correctValue = string.Empty;
 
             foreach (char c in workingString)
             {
                 if (char.IsDigit(c) || lastCharIsDigit && (char.Equals(c, '.') || char.Equals(c, ',')))
                 {
-                    if (!lastCharIsDigit && negativeSign)
-                        correctValue += "-";
-                    correctValue += c;
+                    if (!lastCharIsDigit)
+                    {
+                        if (negativeSign)
+                            tempValue += "-";
+                    }
+                    tempValue += c;
                     lastCharIsDigit = true;
                 }
                 else if (char.Equals(c, '-'))
@@ -390,17 +405,23 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
                 {
                     negativeSign = false;
                     if (!lastCharIsDigit) continue;
+
                     if (char.Equals(c, 'c') || workingString.EndsWith("c"))
-                        correctValue += " C";
+                        scale = 'C';
                     else if (char.Equals(c, 'f') || workingString.EndsWith("f"))
-                        correctValue += " F";
+                        scale = 'F';
                     break;
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(correctValue))
-                return true;
-            return false;
+            successfullParse = decimal.TryParse(tempValue, out numericValue);
+
+            if (!successfullParse) return false;
+
+            correctValue = (numericValue == 0 ? "0"
+                : ((numericValue > 0 ? "+" : "") + $"{numericValue:0.###}"))
+                + (scale.HasValue ? $" {scale.Value}" : "");
+            return true;
         }
 
         private static bool TryParsePortCode(this string inputValue, out string correctValue)
@@ -469,5 +490,42 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         }
 
         #endregion
+
+        /// <summary>
+        /// Returns value with decorations or additional symbols if required by selected type and option
+        /// </summary>
+        /// <param name="conditionValue"></param>
+        /// <param name="selectedConditionIndex"></param>
+        /// <param name="option"></param>
+        /// <returns></returns>
+        internal static string CreateEnterValueFromConditionValue(string conditionValue, int selectedConditionIndex, UserDefinedConditionOption option)
+        {
+            if (selectedConditionIndex == (byte)UserDefinedConditionType.DgFPLoaded
+                || selectedConditionIndex == (byte)UserDefinedConditionType.ReeferSetPointLoaded)
+            {
+                string optionText;
+                switch (option)
+                {
+                    case UserDefinedConditionOption.GreaterThan:
+                        optionText = DEFAULT_MORE_THAN;
+                        break;
+                    case UserDefinedConditionOption.GreaterThanOrEqualTo:
+                        optionText = DEFAULT_MORE_THAN_OR_EQUAL;
+                        break;
+                    case UserDefinedConditionOption.LessThan:
+                        optionText = DEFAULT_LESS_THAN;
+                        break;
+                    case UserDefinedConditionOption.LessThanOrEqualTo:
+                        optionText = DEFAULT_LESS_THAN_OR_EQUAL;
+                        break;
+                    case UserDefinedConditionOption.EqualTo:
+                    default:
+                        optionText = string.Empty;
+                        break;
+                }
+                return $"{optionText}{(string.IsNullOrWhiteSpace(optionText) ? "" : " ")}{conditionValue}";
+            }
+            else return conditionValue;
+        }
     }
 }

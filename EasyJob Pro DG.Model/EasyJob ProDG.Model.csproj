@@ -72,6 +72,7 @@
     <Compile Include="IO\StowageFile\ReadCargoPlan.cs" />
     <Compile Include="IO\UserDefinedConditions\UDC_IO.cs" />
     <Compile Include="IO\UserDefinedConditions\UDC_Records.cs" />
+    <Compile Include="Transport\CellPositionExtensions.cs" />
     <Compile Include="Transport\CellPositionTryChange.cs" />
     <Compile Include="UserDefinedConflicts\UserDefinedConditionOption.cs" />
     <Compile Include="UserDefinedConflicts\UserDefinedConditionRepository.cs" />

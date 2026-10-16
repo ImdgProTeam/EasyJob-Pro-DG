@@ -79,7 +79,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
             };
         }
 
-        #region Sindleton constructor
+        #region Singleton constructor
 
         static UserDefinedConditionsService _instance;
 
