@@ -10,7 +10,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
     public interface IUserDefinedConditionService
     {
         /// <summary>
-        /// Provides list of actual <see cref="UserDefinedCondition"/>s
+        /// Provides list of actual <see cref="UserDefinedCondition"/>s in form of <see cref="UserDefinedConditionWrapper"/>
         /// </summary>
         public ObservableCollection<UserDefinedConditionWrapper> GetConditionWrappers { get; }
 
@@ -28,6 +28,16 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         /// <param name="condition"></param>
         /// <returns></returns>
         bool RemoveCondition(UserDefinedConditionWrapper conditionWrapper);
+
+        /// <summary>
+        /// Deletes all <see cref="UserDefinedCondition"/>s and <see cref="UserDefinedConditionWrapper"/>s from monitoring
+        /// </summary>
+        void ClearConditions();
+
+        /// <summary>
+        /// Saves existing changes to <see cref="UserDefinedCondition"/>s
+        /// </summary>
+        void SaveConditions();
 
     }
 }

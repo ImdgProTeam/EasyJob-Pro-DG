@@ -1,8 +1,6 @@
 ﻿using EasyJob_ProDG.Model.UserDefinedConflicts;
 using EasyJob_ProDG.UI.Wrapper;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace EasyJob_ProDG.UI.Services.DataServices
 {
@@ -32,19 +30,40 @@ namespace EasyJob_ProDG.UI.Services.DataServices
                 {
                     _conditions.Add(new UserDefinedConditionWrapper(condition));
                 }
-                RegisterCollection<UserDefinedConditionWrapper, UserDefinedCondition>(_conditions, _repositoryHandler.GetConditions);
+                //RegisterCollection<UserDefinedConditionWrapper, UserDefinedCondition>(_conditions, _repositoryHandler.GetConditions);
             }
         }
 
 
         public bool AddCondition(UserDefinedConditionWrapper conditionWrapper, out bool alreadyExists)
         {
-            return _repositoryHandler.AddCondition(conditionWrapper.Model, out alreadyExists);
+            if (_repositoryHandler.AddCondition(conditionWrapper.Model, out alreadyExists))
+            {
+                _conditions.Add(conditionWrapper);
+                return true;
+            }
+            return false;
         }
 
         public bool RemoveCondition(UserDefinedConditionWrapper conditionWrapper)
         {
-            return _repositoryHandler.RemoveCondition(conditionWrapper.Model);
+            if (_repositoryHandler.RemoveCondition(conditionWrapper.Model))
+            {
+                _conditions.Remove(conditionWrapper);
+                return true;
+            }
+            return false;
+        }
+
+        public void ClearConditions()
+        {
+            _repositoryHandler.ClearRepository();
+            _conditions.Clear();
+        }
+
+        public void SaveConditions()
+        {
+            _repositoryHandler.SaveRepository();
         }
 
         /// <summary>
@@ -57,27 +76,27 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         }
 
 
-        protected virtual void RegisterCollection<TWrapper, TModel>(ObservableCollection<TWrapper> wrapperCollection,
-    List<TModel> modelCollection) where TWrapper : ModelWrapper<TModel>
-        {
-            wrapperCollection.CollectionChanged += (s, e) =>
-            {
-                if (e.OldItems != null)
-                {
-                    foreach (var item in e.OldItems.Cast<TWrapper>())
-                    {
-                        modelCollection.Remove(item.Model);
-                    }
-                }
-                if (e.NewItems != null)
-                {
-                    foreach (var item in e.NewItems.Cast<TWrapper>())
-                    {
-                        modelCollection.Add(item.Model);
-                    }
-                }
-            };
-        }
+        //    protected virtual void RegisterCollection<TWrapper, TModel>(ObservableCollection<TWrapper> wrapperCollection,
+        //List<TModel> modelCollection) where TWrapper : ModelWrapper<TModel>
+        //    {
+        //        wrapperCollection.CollectionChanged += (s, e) =>
+        //        {
+        //            if (e.OldItems != null)
+        //            {
+        //                foreach (var item in e.OldItems.Cast<TWrapper>())
+        //                {
+        //                    modelCollection.Remove(item.Model);
+        //                }
+        //            }
+        //            if (e.NewItems != null)
+        //            {
+        //                foreach (var item in e.NewItems.Cast<TWrapper>())
+        //                {
+        //                    modelCollection.Add(item.Model);
+        //                }
+        //            }
+        //        };
+        //    }
 
         #region Singleton constructor
 

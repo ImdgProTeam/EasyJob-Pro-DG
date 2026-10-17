@@ -131,19 +131,20 @@ namespace EasyJob_ProDG.Model.IO.UserDefinedConditions
             {
                 string[] segment = line.Split('|');
 
-                var condition = new UserDefinedCondition()
+                var condition = new UserDefinedCondition();
                 {
-                    ConditionType = (UserDefinedConditionType)(byte.Parse(segment[0])),
-                    ConditionValue = segment[1],
-                    CellPosition = new Transport.CellPosition()
+                    condition.ConditionType = (UserDefinedConditionType)(byte.Parse(segment[0]));
+                    condition.ConditionValue = segment[1];
+                    condition.CellPosition = new Transport.CellPosition()
                     {
                         HoldNr = byte.Parse(segment[2]),
                         Bay = byte.Parse(segment[3]),
                         Row = byte.Parse(segment[4]),
                         Tier = byte.Parse(segment[5]),
                         Underdeck = byte.Parse(segment[6])
-                    },
-                    ConditionOption = (UserDefinedConditionOption)(byte.Parse(segment[7]))
+                    };
+                    condition.ConditionOption = (UserDefinedConditionOption)(byte.Parse(segment[7]));
+                    condition.ConditionComment = segment[8];
                 };
 
                 return condition;
@@ -164,11 +165,13 @@ namespace EasyJob_ProDG.Model.IO.UserDefinedConditions
         /// <returns></returns>
         private static string CreateConditionRecord(UserDefinedCondition condition)
         {
-            string result = $"{condition.ConditionType}|" +
-                $"{condition.ConditionValue}" +
+            string result = $"{(byte)condition.ConditionType}|" +
+                $"{condition.ConditionValue}|" +
                 $"{condition.CellPosition.HoldNr}|{condition.CellPosition.Bay}|{condition.CellPosition.Row}|" +
                 $"{condition.CellPosition.Tier}|{condition.CellPosition.Underdeck}|" +
-                $"{condition.ConditionOption}||";
+                $"{(byte)condition.ConditionOption}|" +
+                $"{condition.ConditionComment}" +
+                END_OF_LINE_MARKER;
 
             return result;
         } 

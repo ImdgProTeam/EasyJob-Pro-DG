@@ -24,7 +24,7 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
         {
             if (_repository.AddCondition(condition, out alreadyExists))
             {
-                UDC_IO.CreateUDCFile(_repository);
+                SaveRepository();
                 return true;
             }
             return false;
@@ -40,7 +40,7 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
         {
             if (_repository.RemoveCondition(condition))
             {
-                UDC_IO.CreateUDCFile(_repository);
+                SaveRepository();
                 return true;
             }
             return false;
@@ -52,6 +52,14 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
         public void ClearRepository()
         {
             _repository.Clear();
+            SaveRepository();
+        }
+
+        /// <summary>
+        /// Saves the <see cref="UserDefinedConditionRepository"/> to file.
+        /// </summary>
+        public void SaveRepository()
+        {
             UDC_IO.CreateUDCFile(_repository);
         }
 
