@@ -1,9 +1,8 @@
-﻿using EasyJob_ProDG.Data;
-using EasyJob_ProDG.Model.UserDefinedConflicts;
+﻿using EasyJob_ProDG.Model.UserDefinedConflicts;
 using EasyJob_ProDG.UI.Validation;
 using EasyJob_ProDG.UI.View.DialogWindows.ToolWindows;
 using EasyJob_ProDG.UI.Wrapper;
-using System;
+using EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts;
 using System.Linq;
 
 namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
@@ -13,6 +12,9 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
     /// </summary>
     internal static class UserDefinedConditionsToolViewModelHelpers
     {
+        #region Text constants
+        // ----- Text constants -----
+
         const string ENTER_VALID_POSITION = "Enter valid position, e.g. 220182 or hold 1";
         const string ENTER_CONTAINER_NUMBER = $"Enter correct container number or a part of it";
         const string ENTER_PORT_CODE = $"Enter port code";
@@ -23,6 +25,8 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         const string DEFAULT_LESS_THAN_OR_EQUAL = "<=";
         const string DEFAULT_MORE_THAN = ">";
         const string DEFAULT_MORE_THAN_OR_EQUAL = ">=";
+
+        #endregion
 
 
         #region AddConditionHint
@@ -36,6 +40,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             switch (selectedConditionIndex)
             {
                 case (byte)UserDefinedConditionType.General:
+                case (byte)UserDefinedConditionType.FreeText:
                 //FreeText = 255 21
                 case 21:
                     resultHintText = "Enter any text to display it in Conflict section.";
@@ -69,47 +74,25 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
                 case (byte)UserDefinedConditionType.ContainerNumberLoaded:
                     if (HasNoEntry(conditionValue))
                         resultHintText = ENTER_CONTAINER_NUMBER;
-                    else if (conditionValue.Length < 11)
-                    {
-                        resultHintText = $"Container with number containing '{conditionValue}' is loaded"
-                            + (cellPosition.IsEmpty ? "" : $" in {cellPosition}");
-                    }
-                    else
-                        resultHintText = $"Container with number {UserSettings.ContainerNumberToDisplay(conditionValue)} is loaded"
-                            + (cellPosition.IsEmpty ? "" : $" in {cellPosition}");
+                    else resultHintText = $"{UserDefinedConditionDescription.ContainerNumberContainingValue(conditionValue)} is loaded"
+                            + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
                 case (byte)UserDefinedConditionType.ContainerNumberDischarged:
                     if (HasNoEntry(conditionValue))
                         resultHintText = ENTER_CONTAINER_NUMBER;
-                    else if (conditionValue.Length < 11)
-                    {
-                        resultHintText = $"Container with number containing '{conditionValue}' is discharged or not loaded"
-                            + (cellPosition.IsEmpty ? "" : $" in {cellPosition}");
-                    }
-                    else
-                        resultHintText = $"Container with number {UserSettings.ContainerNumberToDisplay(conditionValue)} is discharged or not loaded"
-                            + (cellPosition.IsEmpty ? "" : $" in {cellPosition}");
+                    else resultHintText = $"{UserDefinedConditionDescription.ContainerNumberContainingValue(conditionValue)} is discharged or not loaded"
+                            + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
 
                 case (byte)UserDefinedConditionType.ContainerLocationChanged:
                     if (HasNoEntry(conditionValue))
                         resultHintText = ENTER_CONTAINER_NUMBER;
-                    else if (conditionValue.Length < 11)
-                    {
-                        resultHintText = $"Position of container with number containing '{conditionValue}' has changed.";
-                    }
-                    else
-                        resultHintText = $"Position of container with number {UserSettings.ContainerNumberToDisplay(conditionValue)} has changed";
+                    else resultHintText = $"Position of {UserDefinedConditionDescription.ContainerNumberContainingValue(conditionValue)} has changed";
                     break;
                 case (byte)UserDefinedConditionType.ContainerPODchanged:
                     if (HasNoEntry(conditionValue))
                         resultHintText = ENTER_CONTAINER_NUMBER;
-                    else if (conditionValue.Length < 11)
-                    {
-                        resultHintText = $"Container with number containing '{conditionValue}' port of discharging has changed.";
-                    }
-                    else
-                        resultHintText = $"Container with number {UserSettings.ContainerNumberToDisplay(conditionValue)} port of discharging has changed";
+                    else resultHintText = $"{UserDefinedConditionDescription.ContainerNumberContainingValue(conditionValue)} port of discharging has changed";
                     break;
 
                 case (byte)UserDefinedConditionType.DgNameContainsLoaded:
@@ -117,21 +100,21 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
                         resultHintText = ENTER_VALUE;
                     else
                         resultHintText = $"Dangerous cargo with '{conditionValue}' in its proper shipping name is loaded"
-                            + (cellPosition.IsEmpty ? "" : $" in position {cellPosition}");
+                            + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
                 case (byte)UserDefinedConditionType.DgTechnicalNameContains:
                     if (HasNoEntry(conditionValue))
                         resultHintText = ENTER_VALUE;
                     else
                         resultHintText = $"Dangerous cargo with '{conditionValue}' in its technical name is loaded"
-                            + (cellPosition.IsEmpty ? "" : $" in position {cellPosition}");
+                            + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
                 case (byte)UserDefinedConditionType.ReeferCommodityContains:
                     if (HasNoEntry(conditionValue))
                         resultHintText = ENTER_VALUE;
                     else
                         resultHintText = $"Reefer cargo with '{conditionValue}' in its commodity is loaded"
-                            + (cellPosition.IsEmpty ? "" : $" in position {cellPosition}");
+                            + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
 
 
@@ -140,35 +123,35 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
                         resultHintText = ENTER_VALUE;
                     else
                         resultHintText = $"Dangerous cargo with class '{conditionValue}' is loaded"
-                            + (cellPosition.IsEmpty ? "" : $" in position {cellPosition}");
+                            + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
                 case (byte)UserDefinedConditionType.DgUnnoLoaded:
                     if (HasNoEntry(conditionValue))
                         resultHintText = ENTER_VALUE;
                     else
                         resultHintText = $"Dangerous cargo with UNNO {ushort.Parse(conditionValue): 0000} is loaded"
-                            + (cellPosition.IsEmpty ? "" : $" in position {cellPosition}");
+                            + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
 
 
                 case (byte)UserDefinedConditionType.ReeferContainingDgLoaded:
                     resultHintText = $"Reefer containing dangerous goods is loaded"
-                    + (cellPosition.IsEmpty ? "" : $" in position {cellPosition}");
+                    + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
 
                 case (byte)UserDefinedConditionType.DgFPLoaded:
                     if (HasNoEntry(conditionValue))
                         resultHintText = ENTER_VALUE;
                     else
-                        resultHintText = $"Dangerous cargo with flash point {DefineConditionOption(conditionOption)}{conditionValue}"
-                            + (cellPosition.IsEmpty ? "" : $" in position {cellPosition}");
+                        resultHintText = $"Dangerous cargo with flash point {UserDefinedConditionDescription.DefineConditionOption(conditionOption)}{conditionValue}"
+                            + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
                 case (byte)UserDefinedConditionType.ReeferSetPointLoaded:
                     if (HasNoEntry(conditionValue))
                         resultHintText = ENTER_VALUE;
                     else
-                        resultHintText = $"Reefer with set point {DefineConditionOption(conditionOption)}{conditionValue}"
-                            + (cellPosition.IsEmpty ? "" : $" in position {cellPosition}");
+                        resultHintText = $"Reefer with set point {UserDefinedConditionDescription.DefineConditionOption(conditionOption)}{conditionValue}"
+                            + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
 
                 case (byte)UserDefinedConditionType.POLUnitsOnboard:
@@ -176,14 +159,14 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
                         resultHintText = ENTER_PORT_CODE;
                     else
                         resultHintText = $"Container with port of loading '{conditionValue}' is loaded"
-                            + (cellPosition.IsEmpty ? "" : $" in position {cellPosition}");
+                            + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
                 case (byte)UserDefinedConditionType.PODUnitsOnboard:
                     if (HasNoEntry(conditionValue))
                         resultHintText = ENTER_PORT_CODE;
                     else
                         resultHintText = $"Container with port of discharging '{conditionValue}' is loaded"
-                            + (cellPosition.IsEmpty ? "" : $" in position {cellPosition}");
+                            + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
 
                 case (byte)UserDefinedConditionType.ContainerNumberNotInPosition:
@@ -193,16 +176,12 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
                         resultHintText = ENTER_CONTAINER_NUMBER;
                     else if (cellPosition.IsEmpty)
                         resultHintText = ENTER_VALID_POSITION;
-                    else if (conditionValue.Length < 11)
-                    {
-                        resultHintText = $"Container with number containing '{conditionValue}' is not in {cellPosition}";
-                    }
                     else
-                        resultHintText = $"Container with number {UserSettings.ContainerNumberToDisplay(conditionValue)} is not in {cellPosition}";
+                        resultHintText = $"{UserDefinedConditionDescription.ContainerNumberContainingValue(conditionValue)} is not in {cellPosition}";
                     break;
 
                 case (byte)UserDefinedConditionType.NoNetWeightUnitsOnboard:
-                    resultHintText = $"Any dangerous cargo has no net weight value";
+                    resultHintText = $"Any dangerous cargo has no Net Weight value";
                     break;
                 default:
                     resultHintText = $"Select an option below and type values in the text boxes";
@@ -212,34 +191,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             return resultHintText;
         }
 
-        private static string DefineConditionOption(UserDefinedConditionOption conditionOption)
-        {
-            string result;
 
-            switch (conditionOption)
-            {
-                case UserDefinedConditionOption.GreaterThanOrEqualTo:
-                    result = "equal or greater than ";
-                    break;
-                case UserDefinedConditionOption.GreaterThan:
-                    result = "greater than ";
-                    break;
-                case UserDefinedConditionOption.LessThanOrEqualTo:
-                    result = "equal or less than ";
-                    break;
-                case UserDefinedConditionOption.LessThan:
-                    result = "less than ";
-                    break;
-                case UserDefinedConditionOption.EqualTo:
-                    result = "equal to ";
-                    break;
-                default:
-                    result = string.Empty;
-                    break;
-            }
-
-            return result;
-        }
 
         /// <summary>
         /// Checks if no recognized entry made to any value or cellposition fields.
@@ -275,6 +227,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             switch (selectedConditionIndex)
             {
                 case (byte)UserDefinedConditionType.General:
+                case (byte)UserDefinedConditionType.FreeText:
                 //FreeText = 255 21
                 case 21:
                     correctValue = inputValue;
@@ -491,6 +444,9 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 
         #endregion
 
+        #region Input and format helpers
+        // ----- Input and format helpers -----
+
         /// <summary>
         /// Returns value with decorations or additional symbols if required by selected type and option
         /// </summary>
@@ -527,5 +483,31 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             }
             else return conditionValue;
         }
+
+        /// <summary>
+        /// Returns correct <see cref="UserDefinedConditionType"/> from selected index taking into account difference in numbers
+        /// </summary>
+        /// <param name="selectedIndex"></param>
+        /// <returns></returns>
+        internal static UserDefinedConditionType GetProperUserDefinedConditionType(this int selectedIndex)
+        {
+            if (selectedIndex == 21)
+            {
+                return UserDefinedConditionType.FreeText;
+            }
+            else return (UserDefinedConditionType)selectedIndex;
+        }
+
+        /// <summary>
+        /// Removes or replaces any symbol from input text that may affect further work with conditions
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        internal static string RemoveForbiddenSymbols(this string input)
+        {
+            return input.Replace("|", "/");
+        }
+
+        #endregion
     }
 }

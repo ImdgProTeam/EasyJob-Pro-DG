@@ -145,7 +145,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         {
             foreach (UserDefinedConditionWrapper condition in ActiveConditions)
             {
-                condition.ConditionNumberInList = (uint)ActiveConditions.IndexOf(condition);
+                condition.ConditionNumberInList = (uint)ActiveConditions.IndexOf(condition) + 1;
                 condition.RefreshView();
             }
         }
@@ -162,6 +162,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         // ----- Private fields -----
 
         private string _correctEditableConditionValue;
+        private string _editableConditionCommentText;
         private bool _editableConditionValueIsValid;
         private bool _isEditingExistingCondition = false;
 
@@ -196,9 +197,8 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         public string EditableConditionCommentText
         {
             get => _editableConditionCommentText;
-            set => _editableConditionCommentText = RemoveForbiddenSymbols(value);
+            set => _editableConditionCommentText = value.RemoveForbiddenSymbols();
         }
-        private string _editableConditionCommentText;
 
         public ICommand AddNewCondition { get; set; }
         public ICommand ClearConditionFieldsCommand { get; set; }
@@ -307,16 +307,6 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             return UserDefinedConditionsToolViewModelHelpers.CreateEnterValueFromConditionValue(conditionValue, selectedConditionIndex, _correctEditableConditionOption);
         }
 
-        /// <summary>
-        /// Removes or replaces any symbol that may affect further work with conditions
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        private string RemoveForbiddenSymbols(string input)
-        {
-            return input.Replace("|", "/");
-        }
-
         #endregion
 
 
@@ -334,7 +324,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             get => _editableConditionValueText;
             set
             {
-                _editableConditionValueText = RemoveForbiddenSymbols(value);
+                _editableConditionValueText = value.RemoveForbiddenSymbols();
                 OnEditableConditionValueTextChanged();
             }
         }
@@ -538,7 +528,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             IsEditableConditionCellPositionTextBoxEnabled = true;
             EditableConditionCellPositionTextBoxTag = ENTER_POSITION;
             if (string.IsNullOrWhiteSpace(EditableConditionCellPositionText))
-                CellPositionHintText = "Position: Any";
+                CellPositionHintText = CellPosition.ANY_POSITION;
         }
 
         #endregion
@@ -554,11 +544,12 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 
         private void OnAddSaveNewConditionCommandExecuted(object obj)
         {
-            EditableCondition.ConditionType = (Model.UserDefinedConflicts.UserDefinedConditionType)selectedConditionIndex;
+            EditableCondition.ConditionType = selectedConditionIndex.GetProperUserDefinedConditionType();
             EditableCondition.ConditionComment = EditableConditionCommentText;
             EditableCondition.CellPosition = EditableConditionCellPosition.Model.Clone();
             EditableCondition.ConditionValue = _correctEditableConditionValue;
             EditableCondition.ConditionOption = _correctEditableConditionOption;
+            EditableCondition.UpdateDescription();
 
 
             if (!_isEditingExistingCondition)
@@ -569,6 +560,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             else
             {
                 _userDefinedConditionService.SaveConditions();
+                EditableCondition.RefreshView();
             }
 
             ClearAddSection();
@@ -636,10 +628,6 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
 
         #region Common command methods
 
-        /// <summary>
-        /// On 'Select' button pressed
-        /// </summary>
-        /// <param name="obj"></param>
         protected override void OnApplyExecuted(object obj)
         {
             throw new NotImplementedException();
@@ -699,6 +687,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
         private void LoadData()
         {
             ActiveConditions = _userDefinedConditionService.GetConditionWrappers;
+            SetActiveConditionsDescription();
             ReviseConditonNumbersInList();
 
             ConditionTypesList = conditionTypesText;
@@ -706,6 +695,15 @@ namespace EasyJob_ProDG.UI.View.DialogWindows.ToolWindows
             EditableCondition = new UserDefinedConditionWrapper(new Model.UserDefinedConflicts.UserDefinedCondition());
             EditableConditionCellPosition = new CellPositionWrapper(new CellPosition());
             EditableConditionCellPosition.AcceptEmpty = true;
+        }
+
+        private void SetActiveConditionsDescription()
+        {
+            if (ActiveConditions.Count == 0) return;
+            foreach (var condition in ActiveConditions)
+            {
+                condition.UpdateDescription();
+            }
         }
 
         private List<string> conditionTypesText => new()
