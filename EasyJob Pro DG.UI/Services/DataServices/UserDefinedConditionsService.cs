@@ -21,19 +21,6 @@ namespace EasyJob_ProDG.UI.Services.DataServices
             }
         }
 
-        private void CreateConditions()
-        {
-            if (_conditions == null)
-            {
-                _conditions = new ObservableCollection<UserDefinedConditionWrapper>();
-                foreach (var condition in _repositoryHandler.GetConditions)
-                {
-                    _conditions.Add(new UserDefinedConditionWrapper(condition));
-                }
-                //RegisterCollection<UserDefinedConditionWrapper, UserDefinedCondition>(_conditions, _repositoryHandler.GetConditions);
-            }
-        }
-
 
         public bool AddCondition(UserDefinedConditionWrapper conditionWrapper, out bool alreadyExists)
         {
@@ -75,28 +62,17 @@ namespace EasyJob_ProDG.UI.Services.DataServices
             return _instance ??= new UserDefinedConditionsService();
         }
 
-
-        //    protected virtual void RegisterCollection<TWrapper, TModel>(ObservableCollection<TWrapper> wrapperCollection,
-        //List<TModel> modelCollection) where TWrapper : ModelWrapper<TModel>
-        //    {
-        //        wrapperCollection.CollectionChanged += (s, e) =>
-        //        {
-        //            if (e.OldItems != null)
-        //            {
-        //                foreach (var item in e.OldItems.Cast<TWrapper>())
-        //                {
-        //                    modelCollection.Remove(item.Model);
-        //                }
-        //            }
-        //            if (e.NewItems != null)
-        //            {
-        //                foreach (var item in e.NewItems.Cast<TWrapper>())
-        //                {
-        //                    modelCollection.Add(item.Model);
-        //                }
-        //            }
-        //        };
-        //    }
+        private void CreateConditions()
+        {
+            if (_conditions == null)
+            {
+                _conditions = new ObservableCollection<UserDefinedConditionWrapper>();
+                foreach (var condition in _repositoryHandler.GetConditions)
+                {
+                    _conditions.Add(new UserDefinedConditionWrapper(condition));
+                }
+            }
+        }
 
         #region Singleton constructor
 

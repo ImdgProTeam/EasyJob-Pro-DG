@@ -441,6 +441,8 @@
     </Compile>
     <Compile Include="View\Windows\ToolWindows\Base\ToolWindowViewModelBase.cs" />
     <Compile Include="View\Windows\ToolWindows\Base\ToolWindowWithSelectionControlViewModelBase.cs" />
+    <Compile Include="View\Windows\ToolWindows\UserDefinedConditionToolViewModelActiveConditions.cs" />
+    <Compile Include="View\Windows\ToolWindows\UserDefinedConditionToolViewModelAddSaveSection.cs" />
     <Compile Include="Wrapper\Cargo\AbstractContainerWrapper.cs" />
     <Compile Include="Data\Cargo\CargoPlanUnitPropertyChanger.cs" />
     <Compile Include="Wrapper\Cargo\CargoPlanWrapper.cs" />

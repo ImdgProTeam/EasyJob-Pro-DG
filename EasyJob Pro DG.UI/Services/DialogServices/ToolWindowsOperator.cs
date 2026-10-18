@@ -2,6 +2,7 @@
 using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.View.DialogWindows.ToolWindows;
 using EasyJob_ProDG.UI.View.WindowBase;
+using EasyJob_ProDG.UI.View.Windows.ToolWindows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +49,6 @@ namespace EasyJob_ProDG.UI.Services.DialogServices
         {
             ShowWindow<UserDefinedConditionsToolWindow, UserDefinedConditionToolViewModel>();
         }
-
 
 
         /// <summary>

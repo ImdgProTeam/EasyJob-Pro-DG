@@ -1,6 +1,5 @@
 ﻿using EasyJob_ProDG.Model.UserDefinedConflicts;
 using EasyJob_ProDG.UI.Validation;
-using EasyJob_ProDG.UI.View.DialogWindows.ToolWindows;
 using EasyJob_ProDG.UI.Wrapper;
 using EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts;
 using System.Linq;
