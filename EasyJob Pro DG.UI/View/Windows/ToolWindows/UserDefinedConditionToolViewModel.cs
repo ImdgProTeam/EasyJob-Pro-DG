@@ -83,7 +83,21 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 
         private void OnClearConditionFieldsCommandExecuted(object obj)
         {
-            ClearAddSection();
+            if (!string.IsNullOrWhiteSpace(EditableConditionValueText) ||
+                !string.IsNullOrWhiteSpace(EditableConditionCellPositionText) ||
+                _isEditingExistingCondition)
+            {
+                if (CheckConfirmToCancelChanges())
+                    ClearAddSection();
+
+            }
+        }
+
+        private bool CheckConfirmToCancelChanges()
+        {
+            if (_messageDialogService.ShowOkCancelDialog($"All changes will be lost", "Cancel changes") != MessageDialogResult.OK)
+                return false;
+            return true;
         }
 
         #endregion

@@ -183,6 +183,13 @@
                     <Setter Property="VerticalAlignment"
                             Value="Top" />
                 </Style>
+                <Style TargetType="{x:Type Button}"
+                       BasedOn="{StaticResource ToolBoxWindowControlButtonStyle}">
+                    <Setter Property="Margin"
+                            Value="-2" />
+                    <Setter Property="FontFamily"
+                            Value="{StaticResource IconsFont}" />
+                </Style>
 
             </DataGrid.Resources>
 
@@ -192,18 +199,6 @@
                 <DataGridTextColumn Header="Condition"
                                     Width="*"
                                     Binding="{Binding ConditionDescription}">
-                    <!--<DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="TextAlignment"
-                                    Value="Left" />
-                            <Setter Property="TextWrapping"
-                                    Value="WrapWithOverflow" />
-                            <Setter Property="TextTrimming"
-                                    Value="None" />
-                            <Setter Property="VerticalAlignment"
-                                    Value="Top" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>-->
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="ToolTip"
@@ -214,18 +209,6 @@
                 <DataGridTextColumn Header="Comment"
                                     Width="80"
                                     Binding="{Binding ConditionComment}">
-                    <!--<DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="TextAlignment"
-                                    Value="Left" />
-                            <Setter Property="TextWrapping"
-                                    Value="WrapWithOverflow" />
-                            <Setter Property="TextTrimming"
-                                    Value="None" />
-                            <Setter Property="VerticalAlignment"
-                                    Value="Top" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>-->
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="ToolTip"
@@ -236,7 +219,8 @@
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="+"
+                            <Button 
+                                    Content="{StaticResource IconEdit}"
                                     ToolTip="Edit condition"
                                     Command="{Binding DataContext.EditSelectedConditonCommand,
                                 RelativeSource={RelativeSource AncestorType=wind:ToolWindowTemplate}}" />
@@ -246,7 +230,8 @@
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="-"
+                            <Button 
+                                    Content="{StaticResource IconDelete}"
                                     ToolTip="Remove condition"
                                     Command="{Binding DataContext.RemoveSelectedConditonCommand,
                                 RelativeSource={RelativeSource AncestorType=wind:ToolWindowTemplate}}" />

@@ -13,6 +13,10 @@
     <!--<system:String x:Key="ClearAllIcon">&#xf2d4;</system:String>--> 
     <system:String x:Key="ClearAllIcon">&#xf2d4;</system:String>
     <system:String x:Key="SettingsIcon">&#xf013;</system:String>
+    
+    <system:String x:Key="IconEdit">&#xf044;</system:String>
+    <system:String x:Key="IconDelete">&#xf1f8;</system:String>
+    
 
     <system:String x:Key="RefreshIcon">&#xf01e;</system:String> 
 </ResourceDictionary>
