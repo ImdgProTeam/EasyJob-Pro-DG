@@ -2,7 +2,7 @@
 
 namespace EasyJob_ProDG.UI.ViewModel.Conflicts
 {
-    public class GeneralConflictPanelItemViewModel : ConflictPanelItemViewModel
+    public class PanelConflictItemGeneralViewModel : PanelConflictItemBaseViewModel
     {
         const string GROUP_TITLE_VENTILATION = "Hold ventilation";
         const string GROUP_TITLE_INFO = "Information";
@@ -58,7 +58,7 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
         /// <param name="description"></param>
         /// <param name="code">Conflict code</param>
         /// <param name="conflictType">Info (by default)</param>
-        public GeneralConflictPanelItemViewModel(string title, string description, string code,
+        public PanelConflictItemGeneralViewModel(string title, string description, string code,
             ConflictTypes conflictType = ConflictTypes.Info)
         {
             _title = title;

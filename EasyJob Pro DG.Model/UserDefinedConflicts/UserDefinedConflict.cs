@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Markup;
 
 namespace EasyJob_ProDG.Model.UserDefinedConflicts
 {
@@ -7,13 +9,25 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
     /// </summary>
     public class UserDefinedConflict
     {
-        public string Title { get; set; }
-
-        public string Description { get; set; }
-
+        /// <summary>
+        /// ContainerNumber of a conflict unit in non-multi-unit conflict.
+        /// </summary>
         public string ContainerNumber { get; set; }
 
-        public bool IsMultiUnitsConflict { get; set; }
+        /// <summary>
+        /// List of conflicted ContainerNumbers in multi-unit conflict.
+        /// </summary>
+        public List<string> ContainerNumbers { get; set; }
+
+        /// <summary>
+        /// List of conflicted DgIDs in multi-unit conflict affecting DGs.
+        /// </summary>
+        public List<string> DgIDs { get; set; }
+
+        /// <summary>
+        /// Defines if conflict can affect multiple units or only one in case of false.
+        /// </summary>
+        public bool IsMultiUnitConflict { get; private set; }
 
         /// <summary>
         /// Reference to a <see cref="UserDefinedCondition"/> that defined this conflict. Used to link conflict with condition that caused it and to enable remove the condition from conflict.
@@ -31,17 +45,26 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
 
         public bool Equals(UserDefinedConflict conflict)
         {
-            return string.Equals(Title, conflict.Title)
-                && string.Equals(Description, conflict.Description);
+            return Reference.ReferenceEquals(this.ConditionReference, conflict.ConditionReference)
+                && (IsMultiUnitConflict
+                        ? MultiUnitConflictsHaveSameValues(conflict)
+                        : string.Equals(this.ContainerNumber, conflict.ContainerNumber));
         }
 
-        public override int GetHashCode()
+        /// <summary>
+        /// Compares <see cref="ContainerNumbers"/> and <see cref="DgIDs"/> of two conflicts.
+        /// </summary>
+        /// <param name="conflict"></param>
+        /// <returns>True if the lists contain all the same values.</returns>
+        private bool MultiUnitConflictsHaveSameValues(UserDefinedConflict conflict)
         {
-            int hashCode = -711990007;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Title);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Description);
-            hashCode = hashCode * -1521134295 + IsMultiUnitsConflict.GetHashCode();
-            return hashCode;
+
+            bool hasDifferentContainerNumbers =
+              ContainerNumbers.Except(conflict.ContainerNumbers).Any()
+              || conflict.ContainerNumbers.Except(this.ContainerNumbers).Any();
+            bool hasDifferentDgIDs =
+                DgIDs.Except(conflict.DgIDs).Any() || conflict.DgIDs.Except(this.DgIDs).Any();
+            return !hasDifferentContainerNumbers && !hasDifferentDgIDs;
         }
 
         #endregion
@@ -53,13 +76,21 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
 
         }
 
-        public UserDefinedConflict(string title, string description, UserDefinedCondition conditionReference, bool isMultiUnitsConflict = false)
+        public UserDefinedConflict(bool isMultiUnit = false)
         {
-            Title = title;
-            Description = description;
+            if (isMultiUnit)
+            {
+                ContainerNumbers = new List<string>();
+                DgIDs = new List<string>();
+            }
+        }
+
+        public UserDefinedConflict(string containerNumber, UserDefinedCondition conditionReference)
+        {
+            ContainerNumber = containerNumber;
             ConditionReference = conditionReference;
-            IsMultiUnitsConflict = isMultiUnitsConflict;
-        } 
+            IsMultiUnitConflict = false;
+        }
 
         #endregion
     }

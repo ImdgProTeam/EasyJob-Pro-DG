@@ -78,10 +78,10 @@
     <Compile Include="UserDefinedConflicts\UserDefinedConditionRepository.cs" />
     <Compile Include="UserDefinedConflicts\UserDefinedConditionRepositoryHandler.cs" />
     <Compile Include="UserDefinedConflicts\UserDefinedConditionType.cs" />
-    <Compile Include="UserDefinedConflicts\UserDefinedConflictsService.cs" />
+    <Compile Include="UserDefinedConflicts\UserDefinedConflictHandler.cs" />
     <Compile Include="UserDefinedConflicts\UserDefinedCondition.cs" />
     <Compile Include="UserDefinedConflicts\UserDefinedConflict.cs" />
-    <Compile Include="UserDefinedConflicts\UserDefinedConflictsCheckService.cs" />
+    <Compile Include="UserDefinedConflicts\UserDefinedConflictsChecker.cs" />
     <Compile Include="UserInformator\InformationMessage.cs" />
     <Compile Include="UserInformator\InformationMessageType.cs" />
     <Compile Include="IO\EasyJobCondition\CargoPlanAssociated.cs" />

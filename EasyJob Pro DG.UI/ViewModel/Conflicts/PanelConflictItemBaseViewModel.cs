@@ -3,7 +3,10 @@ using EasyJob_ProDG.UI.Utility;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
-    public abstract class ConflictPanelItemViewModel : Observable
+    /// <summary>
+    /// Base ViewModel class for Conflict panel items (conflict cards in conflict section)
+    /// </summary>
+    public abstract class PanelConflictItemBaseViewModel : Observable
     {
         #region Internal members
 
@@ -66,7 +69,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             return result;
         }
 
-        public virtual bool Equals(ConflictPanelItemViewModel conflict)
+        public virtual bool Equals(PanelConflictItemBaseViewModel conflict)
         {
             return ConflictType == conflict.ConflictType
                 && DisplayConflictHeader == conflict.DisplayConflictHeader
@@ -78,7 +81,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         // --------------- Public constructors ----------------------------------
 
-        public ConflictPanelItemViewModel()
+        public PanelConflictItemBaseViewModel()
         {
 
         }

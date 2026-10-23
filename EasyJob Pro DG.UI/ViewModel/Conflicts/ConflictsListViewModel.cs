@@ -17,8 +17,8 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         //readonly fields
         readonly IConflictDataService conflictDataService;
-        private List<ConflictPanelItemViewModel> deletedConflicts = new List<ConflictPanelItemViewModel>();
-        private ObservableCollection<ConflictPanelItemViewModel> allConflicts;
+        private List<PanelConflictItemBaseViewModel> deletedConflicts = new List<PanelConflictItemBaseViewModel>();
+        private ObservableCollection<PanelConflictItemBaseViewModel> allConflicts;
         private List<ConflictTypes> conflictsFilter;
 
         private readonly object _collectionLock = new object();
@@ -31,8 +31,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <summary>
         /// Confilicts from this list are displayed in ConflictList
         /// </summary>
-        public ObservableCollection<ConflictPanelItemViewModel> DisplayConflicts { get; private set; }
-        public ConflictPanelItemViewModel SelectedConflict { get; set; }
+        public ObservableCollection<PanelConflictItemBaseViewModel> DisplayConflicts { get; private set; }
+        public PanelConflictItemBaseViewModel SelectedConflict { get; set; }
 
         internal List<ConflictTypes> ExistingConflictTypes => allConflicts.Select(c => c.ConflictType).Distinct().ToList();
         #endregion
@@ -146,20 +146,20 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <param name="parameter"></param>
         private void RemoveConflict(object parameter)
         {
-            if (parameter is not ConflictPanelItemViewModel conflict) return;
+            if (parameter is not PanelConflictItemBaseViewModel conflict) return;
 
             deletedConflicts.Add(conflict);
             DisplayConflicts.Remove(conflict);
         }
 
         /// <summary>
-        /// Removes all <see cref="ConflictPanelItemViewModel"/>s from 
+        /// Removes all <see cref="PanelConflictItemBaseViewModel"/>s from 
         /// <see cref="DisplayConflicts"/> with the same conflict code as the parameter conflict.
         /// </summary>
         /// <param name="parameter"></param>
         private void RemoveSimilarConflicts(object parameter)
         {
-            var conflict = parameter as ConflictPanelItemViewModel;
+            var conflict = parameter as PanelConflictItemBaseViewModel;
             if (conflict == null) return;
 
             var code = conflict.Code;

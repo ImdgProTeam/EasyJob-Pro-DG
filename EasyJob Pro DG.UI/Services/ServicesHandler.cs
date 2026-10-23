@@ -34,6 +34,7 @@ namespace EasyJob_ProDG.UI.Services
         ITitleService _titleService;
         IFileNameService _fileNameService;
         IUserDefinedConditionService _userUserDefinedConditionService;
+        IUserDefinedConflictsCheckService _userDefinedConflictsCheckService;
 
         #endregion
 
@@ -53,6 +54,7 @@ namespace EasyJob_ProDG.UI.Services
         internal ITitleService TitleServiceAccess => _titleService;
         internal IFileNameService FileNameServiceAccess => _fileNameService;
         internal IUserDefinedConditionService UserDefindedConditionServiceAccess => _userUserDefinedConditionService;
+        internal IUserDefinedConflictsCheckService UserDefinedConflictsCheckServiceAccess => _userDefinedConflictsCheckService;
 
         #endregion
 
@@ -123,6 +125,7 @@ namespace EasyJob_ProDG.UI.Services
             _titleService = new TitleService();
             _fileNameService = new FileNameService();
             _userUserDefinedConditionService = UserDefinedConditionsService.GetService();
+            _userDefinedConflictsCheckService = UserDefinedConflictsCheckService.GetService();
         }
 
         private void RegisterInMessenger()

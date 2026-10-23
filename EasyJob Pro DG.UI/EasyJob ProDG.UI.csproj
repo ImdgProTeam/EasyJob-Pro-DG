@@ -114,7 +114,7 @@
     <Compile Include="Data\Conflicts\ConflictsListWarningsHandler.cs" />
     <Compile Include="Data\Conflicts\ConflictTypes.cs" />
     <Compile Include="Data\UserDefinedConflicts\UserDefinedConflictsList.cs" />
-    <Compile Include="Data\UserDefinedConflicts\UserDefinedConflictsListHandler.cs" />
+    <Compile Include="Data\UserDefinedConflicts\UserDefinedConflictsListUpdater.cs" />
     <Compile Include="IO\DialogOpenSettings.cs" />
     <Compile Include="IO\DialogSaveSettings.cs" />
     <Compile Include="Services\DataServices\CargoPlanCheckService.cs" />
@@ -124,6 +124,7 @@
     <Compile Include="Services\DataServices\Interfaces\IUserDefinedConflictsService.cs" />
     <Compile Include="Services\DataServices\Interfaces\IUserInformatorService.cs" />
     <Compile Include="Services\DataServices\Interfaces\IUserDefinedConditionService.cs" />
+    <Compile Include="Services\DataServices\Interfaces\IUserDefinedConflictsCheckService.cs" />
     <Compile Include="Services\DataServices\UserDefinedConditionsService.cs" />
     <Compile Include="Services\DataServices\UserDefinedConflictsCheckService.cs" />
     <Compile Include="Services\DataServices\UserInformatorService.cs" />
@@ -147,8 +148,9 @@
     <Compile Include="Validation\UnnoInputValidator.cs" />
     <Compile Include="ViewModel\Conflicts\ConflictFilterButtonVM.cs" />
     <Compile Include="ViewModel\Conflicts\ConflictsSectionViewModel.cs" />
-    <Compile Include="ViewModel\Conflicts\GeneralConflictPanelItemViewModel.cs" />
-    <Compile Include="ViewModel\Conflicts\DgConflictPanelItemViewModel.cs" />
+    <Compile Include="ViewModel\Conflicts\PanelConflictItemGeneralViewModel.cs" />
+    <Compile Include="ViewModel\Conflicts\PanelConflictItemDgViewModel.cs" />
+    <Compile Include="ViewModel\Conflicts\PanelConflictItemUserDefinedViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridContainerVMToolExtensions.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridDgContextMenuViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridDgVMToolExtension.cs" />
@@ -277,7 +279,7 @@
     <Compile Include="Utility\Messages\UpdateCargoPlan.cs" />
     <Compile Include="Utility\NotifyDataErrorInfoBase.cs" />
     <Compile Include="Utility\ViewModelLocator.cs" />
-    <Compile Include="ViewModel\Conflicts\ConflictPanelItemVM.cs" />
+    <Compile Include="ViewModel\Conflicts\PanelConflictItemBaseViewModel.cs" />
     <Compile Include="Data\Conflicts\ConflictsList.cs" />
     <Compile Include="ViewModel\Conflicts\ConflictsListViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridContainersViewModel.cs" />

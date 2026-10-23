@@ -11,6 +11,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
     internal class CargoPlanCheckService : ICargoPlanCheckService
     {
         ICurrentProgramData _currentProgramData => CurrentProgramData.GetCurrentProgramData();
+        IUserDefinedConflictsCheckService _userDefinedConflictsCheckService => UserDefinedConflictsCheckService.GetService();
         CargoPlan _cargoPlan => _currentProgramData.CargoPlan;
 
         #region Singleton
@@ -50,6 +51,9 @@ namespace EasyJob_ProDG.UI.Services.DataServices
             //Check stowage and segregation
             Stowage.CheckStowage(_cargoPlan);
             HandleDgList.CheckSegregation(_cargoPlan);
+
+            //User-defined conflicts
+            CheckUserDefinedConflicts();
         }
 
         /// <summary>
@@ -71,6 +75,14 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         {
             dg.Conflicts?.ClearStowageConflicts();
             Stowage.CheckUnitStowage(dg, cargoPlan.Containers);
+        }
+
+        /// <summary>
+        /// Calls check of only User-defined conflicts.
+        /// </summary>
+        public void CheckUserDefinedConflicts()
+        {
+            _userDefinedConflictsCheckService.CheckUserDefinedConflicts();
         }
 
     }

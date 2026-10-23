@@ -1,12 +1,16 @@
 ﻿using EasyJob_ProDG.Model.Cargo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace EasyJob_ProDG.Model.UserDefinedConflicts
 {
-    internal class UserDefinedConflictsCheckService
+    /// <summary>
+    /// Creates <see cref="UserDefinedConflict"/>s from <see cref="CargoPlan"/> against active <see cref="UserDefinedCondition"/>s.
+    /// </summary>
+    public class UserDefinedConflictsChecker
     {
-        internal List<UserDefinedConflict> CheckConflicts(CargoPlan cargoPlan, List<UserDefinedCondition> conditions)
+        public List<UserDefinedConflict> CheckConflicts(CargoPlan cargoPlan, List<UserDefinedCondition> conditions)
         {
             List<UserDefinedConflict> conflictsToShow = new List<UserDefinedConflict>();
             foreach (var condition in conditions)
@@ -23,13 +27,21 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
         /// <param name="cargoPlan"></param>
         /// <param name="condition"></param>
         /// <returns></returns>
-        private static List<UserDefinedConflict> CheckAddConflicts(List<UserDefinedConflict> conflictsToShow, CargoPlan cargoPlan, UserDefinedCondition condition)
+        private static void CheckAddConflicts(List<UserDefinedConflict> conflictsToShow, CargoPlan cargoPlan, UserDefinedCondition condition)
         {
-            CheckIfConflicted(cargoPlan, condition, out List<string> containerNumbersList);
-            UserDefinedConflict conflict = new UserDefinedConflict("title", "description", condition);
+            if (!CheckIfConflicted(cargoPlan, condition, out List<string> containerNumbersList))
+                return;
+
+            UserDefinedConflict conflict = CreateConflict(condition, containerNumbersList);
+
             conflictsToShow.Add(conflict);
-            return conflictsToShow;
         }
+
+        private static UserDefinedConflict CreateConflict(UserDefinedCondition condition, List<string> containerNumbersList)
+        {
+            throw new NotImplementedException();
+        }
+
 
         /// <summary>
         /// Checks if any <see cref="UserDefinedConflict"/> found in <see cref="CargoPlan"/> as per given <see cref="UserDefinedCondition"/>. 
@@ -47,7 +59,8 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
             {
                 case UserDefinedConditionType.ContainerNumberLoaded:
                     if (cargoPlan.Containers.Any(c => string.Equals(c.ContainerNumber, condition.ConditionValue)))
-                        conflictedContainerNumbersList.Add(condition.ConditionValue);
+                        if (condition.CellPosition.IsEmpty)
+                            conflictedContainerNumbersList.Add(condition.ConditionValue);
                     break;
                 case UserDefinedConditionType.ContainerNumberDischarged:
                     isConflicted = !cargoPlan.Containers.Any(c => string.Equals(c.ContainerNumber, condition.ConditionValue));
@@ -59,7 +72,7 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
                     isConflicted = !cargoPlan.Containers.Any(c => (ILocationOnBoard)c == condition.CellPosition);
                     break;
                 case UserDefinedConditionType.CellPositionLoadedWithReefer:
-                    //conflictedContainerNumbersList.AddRange([.. cargoPlan.Containers.Where(c => c.IsRf && (c as ILocationOnBoard) == condition.CellPosition).Select(c => c.ContainerNumber)]);
+                //conflictedContainerNumbersList.AddRange([.. cargoPlan.Containers.Where(c => c.IsRf && (c as ILocationOnBoard) == condition.CellPosition).Select(c => c.ContainerNumber)]);
                 case UserDefinedConditionType.CellPositionLoadedWithDg:
                     //conflictedContainerNumbersList.AddRange([.. cargoPlan.Containers.Where(c => c.ContainsDgCargo && (c as ILocationOnBoard) == condition.CellPosition).Select(c => c.ContainerNumber)]);
                     break;
@@ -122,7 +135,7 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
                     break;
 
                 case UserDefinedConditionType.ContainerNumberNotInPosition:
-                    if (cargoPlan.Containers.Any(c => string.Equals(c.ContainerNumber, condition.ConditionValue) 
+                    if (cargoPlan.Containers.Any(c => string.Equals(c.ContainerNumber, condition.ConditionValue)
                     && (c as ILocationOnBoard) != condition.CellPosition))
                     {
                         isConflicted = true;

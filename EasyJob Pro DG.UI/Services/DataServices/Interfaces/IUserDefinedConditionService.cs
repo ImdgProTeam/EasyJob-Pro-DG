@@ -1,5 +1,4 @@
-﻿using EasyJob_ProDG.Model.UserDefinedConflicts;
-using EasyJob_ProDG.UI.Wrapper;
+﻿using EasyJob_ProDG.UI.Wrapper;
 using System.Collections.ObjectModel;
 
 namespace EasyJob_ProDG.UI.Services.DataServices

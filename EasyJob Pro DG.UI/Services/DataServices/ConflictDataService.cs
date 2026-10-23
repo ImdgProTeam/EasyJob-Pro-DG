@@ -1,4 +1,5 @@
 ﻿using EasyJob_ProDG.UI.Data;
+using EasyJob_ProDG.UI.Data.UserDefinedConflicts;
 
 namespace EasyJob_ProDG.UI.Services.DataServices
 {
@@ -33,6 +34,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         public ConflictsList GetConflicts()
         {
             Conflicts.CreateConflictList(_cargoDataService.WorkingCargoPlan.DgList);
+            Conflicts.CheckUserDefinedConflicts(_cargoDataService.WorkingCargoPlan.DgList.IsCollectionNew);
             return Conflicts;
         }
 

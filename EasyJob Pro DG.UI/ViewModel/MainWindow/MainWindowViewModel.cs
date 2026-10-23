@@ -149,7 +149,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             DataMessenger.Default.Register<UpdateCargoPlan>(this, OnNeedToUpdateCargoPlanMessageReceived, "after dg removal");
             DataMessenger.Default.Register<ShipProfileSavedMessage>(this, OnShipProfileSaved, "ship profile saved");
-            DataMessenger.Default.Register<ConflictPanelItemViewModel>(this, OnConflictSelectionChanged,
+            DataMessenger.Default.Register<PanelConflictItemBaseViewModel>(this, OnConflictSelectionChanged,
                 "conflict selection changed");
             DataMessenger.Default.Register<ShowUpdatesMessage>(this, OnShowUpdatesMessageReceived);
             DataMessenger.Default.Register<ChangeSelectionMessage>(this, OnUpdatesDataGridClosedMessageReceived, "updates data grid closed");
@@ -441,11 +441,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// Method changes SelectedItem to match with ConflictPanelItem object
         /// </summary>
         /// <param name="obj">Selected conflict</param>
-        private void OnConflictSelectionChanged(ConflictPanelItemViewModel obj)
+        private void OnConflictSelectionChanged(PanelConflictItemBaseViewModel obj)
         {
             if (obj is null) return;
 
-            var dgConf = obj as DgConflictPanelItemViewModel;
+            var dgConf = obj as PanelConflictItemDgViewModel;
             if (dgConf is null) return;
 
             switch (SelectedDataGridIndex)

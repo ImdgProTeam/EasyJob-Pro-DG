@@ -16,8 +16,8 @@ namespace EasyJob_ProDG.UI.Data
         {
             foreach (var message in UserInformator.GetMessages())
             {
-                GeneralConflictPanelItemViewModel conflict =
-                    new GeneralConflictPanelItemViewModel(message.Title, message.Message, "", ConflictTypes.Info);
+                PanelConflictItemGeneralViewModel conflict =
+                    new PanelConflictItemGeneralViewModel(message.Title, message.Message, "", ConflictTypes.Info);
                 if (conflict != null)
                     conflictsList.Add(conflict);
             }

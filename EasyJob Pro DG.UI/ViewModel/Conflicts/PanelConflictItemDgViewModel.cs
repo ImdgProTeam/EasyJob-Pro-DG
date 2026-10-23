@@ -5,14 +5,13 @@ using System.Linq;
 
 namespace EasyJob_ProDG.UI.ViewModel.Conflicts
 {
-    public class DgConflictPanelItemViewModel : ConflictPanelItemViewModel
+    public class PanelConflictItemDgViewModel : PanelConflictItemBaseViewModel
     {
         const string GROUP_TITLE_SW19 = "SW19";
         const string GROUP_TITLE_SW22 = "SW22";
         const string GROUP_TITLE_STOWAGE = "Stowage";
         const string GROUP_TITLE_SEGREGATION = "Segregation";
         const string GROUP_TITLE_HANDLING = "Handling";
-        const string GROUP_TITLE_USER_DEFINED = "User-defined conflicts";
 
 
         // --------------- Private fields ---------------------------------------
@@ -53,7 +52,6 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
                 if (Code.StartsWith("SW22")) return GROUP_TITLE_SW22;
                 if (ConflictType == ConflictTypes.Handling) return GROUP_TITLE_HANDLING;
                 if (IsSegregationConflict) return GROUP_TITLE_SEGREGATION;
-                if (ConflictType == ConflictTypes.UserDefined) return GROUP_TITLE_USER_DEFINED;
                 else return GROUP_TITLE_STOWAGE;
             }
         }
@@ -126,9 +124,9 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
             return result;
         }
 
-        public override bool Equals(ConflictPanelItemViewModel conflict)
+        public override bool Equals(PanelConflictItemBaseViewModel conflict)
         {
-            var dgConflict = conflict as DgConflictPanelItemViewModel;
+            var dgConflict = conflict as PanelConflictItemDgViewModel;
             if (dgConflict is null) return false;
 
             return this.ContainerNumber == dgConflict.ContainerNumber
@@ -137,6 +135,7 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
                 && this._dgUnit.AllDgClasses.All(c => dgConflict._dgUnit.AllDgClasses.Any(x => string.Equals(x, c)))
                 && Code == dgConflict.Code
                 && DgID == dgConflict.DgID
+                && IsStowageConflict == dgConflict.IsStowageConflict
                 && ConflictingDgUnno == dgConflict.ConflictingDgUnno
                 && ConflictingDgNumber == dgConflict.ConflictingDgNumber;
         }
@@ -154,7 +153,7 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
         /// <param name="code">Conflict code</param>
         /// <param name="conflictType">Stowage (by default) or segregation</param>
         /// <param name="dgB">Null in case of stowage conflict</param>
-        public DgConflictPanelItemViewModel(DgWrapper dgUnit, string code,
+        public PanelConflictItemDgViewModel(DgWrapper dgUnit, string code,
             ConflictTypes conflictType = ConflictTypes.Stowage, DgWrapper dgB = null)
         {
             _dgUnit = dgUnit;
