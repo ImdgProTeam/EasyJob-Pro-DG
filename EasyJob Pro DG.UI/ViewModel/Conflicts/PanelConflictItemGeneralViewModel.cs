@@ -32,19 +32,9 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
 
         #endregion
 
-        private string Description
-        {
-            get
-            {
-                return _description;
-            }
-        }
-
-
         protected override string CreateDisplayText()
         {
-            string result = Description;
-            return result;
+            return _description;
         }
 
         #region Constructor 

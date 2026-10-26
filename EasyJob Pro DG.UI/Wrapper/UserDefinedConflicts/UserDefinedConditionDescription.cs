@@ -23,6 +23,11 @@ namespace EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts
 
         internal static string GetDescription(this UserDefinedConditionWrapper condition)
         {
+            return condition.Model.GetDescription();
+        }
+
+        internal static string GetDescription(this UserDefinedCondition condition)
+        {
             string resultDescription = string.Empty;
 
             try
@@ -134,7 +139,7 @@ namespace EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts
             return resultDescription;
         }
 
-        internal static string AddCellPositionIfNotEmpty(UserDefinedConditionWrapper condition)
+        internal static string AddCellPositionIfNotEmpty(UserDefinedCondition condition)
         {
             return (condition.CellPosition.IsEmpty ? "" : $" in {condition.CellPosition}");
         }
@@ -149,7 +154,7 @@ namespace EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts
         /// </summary>
         /// <param name="conditionValue"></param>
         /// <returns>Container with number containing 'XXXX' or Container with number XXXX 1234567</returns>
-        internal static string ContainerNumberContainingValue(UserDefinedConditionWrapper condition)
+        internal static string ContainerNumberContainingValue(UserDefinedCondition condition)
         {
             return ContainerNumberContainingValue(condition.ConditionValue);
         }

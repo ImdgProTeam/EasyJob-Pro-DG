@@ -21,7 +21,7 @@
         /// </summary>
         /// <param name="conflict"></param>
         /// <param name="dgID"></param>
-        internal static void AddMultiUnitConflictDgID(this UserDefinedConflict conflict, string dgID)
+        internal static void AddMultiUnitConflictDgID(this UserDefinedConflict conflict, int dgID)
         {
             if (!conflict.DgIDs.Contains(dgID))
                 conflict.DgIDs.Add(dgID);

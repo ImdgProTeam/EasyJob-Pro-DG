@@ -22,7 +22,7 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
         /// <summary>
         /// List of conflicted DgIDs in multi-unit conflict affecting DGs.
         /// </summary>
-        public List<string> DgIDs { get; set; }
+        public List<int> DgIDs { get; set; }
 
         /// <summary>
         /// Defines if conflict can affect multiple units or only one in case of false.
@@ -32,7 +32,7 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
         /// <summary>
         /// Reference to a <see cref="UserDefinedCondition"/> that defined this conflict. Used to link conflict with condition that caused it and to enable remove the condition from conflict.
         /// </summary>
-        internal UserDefinedCondition ConditionReference;
+        public UserDefinedCondition ConditionReference;
 
 
         #region Equals override methods
@@ -67,6 +67,17 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
             return !hasDifferentContainerNumbers && !hasDifferentDgIDs;
         }
 
+        public override int GetHashCode()
+        {
+            int hashCode = -1328340362;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ContainerNumber);
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<string>>.Default.GetHashCode(ContainerNumbers);
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<int>>.Default.GetHashCode(DgIDs);
+            hashCode = hashCode * -1521134295 + IsMultiUnitConflict.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<UserDefinedCondition>.Default.GetHashCode(ConditionReference);
+            return hashCode;
+        }
+
         #endregion
 
         #region Constructors
@@ -81,7 +92,7 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
             if (isMultiUnit)
             {
                 ContainerNumbers = new List<string>();
-                DgIDs = new List<string>();
+                DgIDs = new List<int>();
             }
         }
 

@@ -20,9 +20,8 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         {
             var conflicts = _checker.CheckConflicts(_currentProgramData.CargoPlan, _conditionsRepositoryHandler.GetConditions);
             _activeConflicts.Clear();
-            conflicts.ForEach(conflict => 
-                            _activeConflicts.AddConflict(
-                                new ViewModel.Conflicts.PanelConflictItemUserDefinedViewModel().CreatePanelConflictItemFrom(conflict)));
+            conflicts.ForEach(conflict =>
+                            _activeConflicts.AddConflict(new(conflict)));
         }
 
         /// <summary>
