@@ -212,22 +212,23 @@ namespace EasyJob_ProDG.UI.Data
         /// <param name="tempConflicts">New conflict list to be compared with</param>
         private static void UpdateConflictList(this ConflictsList conflictsList, DgWrapperList dgList, ConflictsList tempConflicts)
         {
-            //initializing axillary fields
-            int c = 0;
-            int count = conflictsList.Count;
-
             //Remove redundant conflicts
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < conflictsList.Count; i++)
             {
-                var con = conflictsList[i - c] as PanelConflictItemDgViewModel;
+                var con = conflictsList[i] as PanelConflictItemDgViewModel;
 
                 //Check if reference unit removed from the list
 
                 //General conflicts
-                if (con is null)
+                if (con is null && conflictsList[i] is PanelConflictItemGeneralViewModel)
                 {
-                    if (tempConflicts.Contains(conflictsList[i - c]))
+                    if (tempConflicts.Contains(conflictsList[i]))
                         continue;
+                }
+                //User-defined conflicts
+                if (con is null && conflictsList[i] is PanelConflictItemUserDefinedViewModel)
+                {
+                    continue;
                 }
                 //Dg conflicts
                 else if (dgList.Contains(con.ContainerNumber))
@@ -246,8 +247,8 @@ namespace EasyJob_ProDG.UI.Data
                 }
 
                 //If not found - remove the conflict
-                conflictsList.RemoveAt(i - c);
-                c++;
+                conflictsList.RemoveAt(i);
+                i--;
             }
 
             //Add new conflicts

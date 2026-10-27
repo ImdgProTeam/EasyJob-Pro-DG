@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EasyJob_ProDG.UI.ViewModel;
+using EasyJob_ProDG.UI.ViewModel.Conflicts;
+using System;
 
 namespace EasyJob_ProDG.UI.Data.UserDefinedConflicts
 {
@@ -27,25 +29,65 @@ namespace EasyJob_ProDG.UI.Data.UserDefinedConflicts
             {
                 var tempConflicts = new ConflictsList();
                 tempConflicts.CreateUserDefinedConflicts();
-                conflicts.UpdateUserDefinedConflicts();
+                conflicts.UpdateUserDefinedConflicts(tempConflicts);
             }
             return conflicts;
         }
 
 
-        private static ConflictsList CreateUserDefinedConflicts(this ConflictsList conflicts)
+        private static void CreateUserDefinedConflicts(this ConflictsList conflicts)
         {
-            throw new NotImplementedException();
+            foreach (var conflict in _conflictsRepository.GetConflicts)
+            {
+                conflicts.AddNewConflict(conflict);
+            }
         }
 
-        private static ConflictsList RemoveAllUserDefinedConflicts(this ConflictsList conflicts)
+        /// <summary>
+        /// Removes each conlict that is <see cref="PanelConflictItemUserDefinedViewModel"/>
+        /// </summary>
+        /// <param name="conflicts"></param>
+        private static void RemoveAllUserDefinedConflicts(this ConflictsList conflicts)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < conflicts.Count; i++)
+            {
+                if (conflicts[i] is PanelConflictItemUserDefinedViewModel)
+                {
+                    conflicts.RemoveAt(i);
+                    i--;
+                }
+            }
         }
 
-        private static ConflictsList UpdateUserDefinedConflicts(this ConflictsList conflicts)
+        private static void UpdateUserDefinedConflicts(this ConflictsList conflictsList, ConflictsList newConflictsList)
         {
-            throw new NotImplementedException();
+            //Remove redundant conflicts
+            for (int i = 0; i < conflictsList.Count; i++)
+            {
+                var conflict = conflictsList[i] as PanelConflictItemUserDefinedViewModel;
+
+                //Check if reference unit removed from the list
+
+                //General and Dg conflicts
+                if (conflict is null)
+                {
+                    continue;
+                }
+
+                if (newConflictsList.Contains(conflict))
+                    continue;
+
+                //If not found - remove the conflict
+                conflictsList.RemoveAt(i);
+                i--;
+            }
+
+            //Add new conflicts
+            foreach (PanelConflictItemUserDefinedViewModel conflict in newConflictsList)
+            {
+                conflictsList.AddNewConflict(conflict);
+            }
+
         }
     }
 }

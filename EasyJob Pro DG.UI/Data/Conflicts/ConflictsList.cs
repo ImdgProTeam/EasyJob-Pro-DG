@@ -37,30 +37,6 @@ namespace EasyJob_ProDG.UI.Data
         public bool Contains(PanelConflictItemDgViewModel conflict)
         {
             return this.Any(c => c is PanelConflictItemDgViewModel && c.Equals(conflict));
-            //foreach (PanelConflictItemBaseViewModel confl in this)
-            //{
-            //    var con = confl as PanelConflictItemDgViewModel;
-            //    if (con is null) continue;
-
-            //    if (con.DgID == conflict.DgID
-            //        && con.Location == conflict.Location
-            //        && con.Code == conflict.Code
-            //        && con.Unno == conflict.Unno
-            //        && con.IsStowageConflict == conflict.IsStowageConflict)
-            //    {
-            //        if (con.IsSegregationConflict)
-            //        {
-            //            if (conflict.IsSegregationConflict
-            //                && con.ConflictingDgNumber == conflict.ConflictingDgNumber
-            //                && con.ConflictingDgLocation == conflict.ConflictingDgLocation
-            //                && con.ConflictingDgUnno == conflict.ConflictingDgUnno)
-            //                return true;
-            //            continue;
-            //        }
-            //        return true;
-            //    }
-            //}
-            //return false;
         }
 
         public bool Contains(PanelConflictItemBaseViewModel conflict)

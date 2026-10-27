@@ -82,13 +82,15 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
                     case UserDefinedConditionType.DgClassLoaded:
                     case UserDefinedConditionType.DgUnnoLoaded:
                     case UserDefinedConditionType.DgFPLoaded:
+                    case UserDefinedConditionType.NoNetWeightUnitsOnboard:
+                        _description = $"{conditionDescription} (total: {conflict.DgIDs.Count}):{FollowContainerNumberList(conflict.ContainerNumbers)}";
+                        break;
                     case UserDefinedConditionType.ReeferContainingDgLoaded:
                     case UserDefinedConditionType.ReeferCommodityContains:
                     case UserDefinedConditionType.ReeferSetPointLoaded:
-                    case UserDefinedConditionType.NoNetWeightUnitsOnboard:
                     case UserDefinedConditionType.POLUnitsOnboard:
                     case UserDefinedConditionType.PODUnitsOnboard:
-                        _description = $"{conditionDescription}:{FollowContainerNumberList(conflict.ContainerNumbers)}";
+                        _description = $"{conditionDescription} (total: {conflict.ContainerNumbers.Count}):{FollowContainerNumberList(conflict.ContainerNumbers)}";
                         break;
 
                     case UserDefinedConditionType.General:
@@ -225,6 +227,7 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
         public PanelConflictItemUserDefinedViewModel(UserDefinedConflict conflict) : base()
         {
             ParseUserDefinedConflict(conflict, out _title, out _description);
+            ConflictType = Data.ConflictTypes.UserDefined;
         }
 
         #endregion
