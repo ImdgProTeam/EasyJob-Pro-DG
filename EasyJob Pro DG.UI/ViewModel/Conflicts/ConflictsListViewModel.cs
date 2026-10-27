@@ -2,10 +2,12 @@
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.View.Sort;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -16,10 +18,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         #region Private fields
 
         //readonly fields
-        readonly IConflictDataService conflictDataService;
+        private IConflictDataService conflictDataService;
         private List<PanelConflictItemBaseViewModel> deletedConflicts = new List<PanelConflictItemBaseViewModel>();
         private ObservableCollection<PanelConflictItemBaseViewModel> allConflicts;
-        private List<ConflictTypes> conflictsFilter;
+        private ListCollectionView _displayConflictsCollectionView;
+        private List<ConflictTypes> _conflictsFilter;
+        private ConflictGroupsComparer _conflictsComparer;
 
         private readonly object _collectionLock = new object();
 
@@ -31,7 +35,13 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <summary>
         /// Confilicts from this list are displayed in ConflictList
         /// </summary>
-        public ObservableCollection<PanelConflictItemBaseViewModel> DisplayConflicts { get; private set; }
+        public AsyncObservableCollection<PanelConflictItemBaseViewModel> DisplayConflicts
+        {
+            get => _conflictsToDispaly;
+            private set;
+        }
+        private AsyncObservableCollection<PanelConflictItemBaseViewModel> _conflictsToDispaly { get; set; }
+
         public PanelConflictItemBaseViewModel SelectedConflict { get; set; }
 
         internal List<ConflictTypes> ExistingConflictTypes => allConflicts.Select(c => c.ConflictType).Distinct().ToList();
@@ -46,10 +56,10 @@ namespace EasyJob_ProDG.UI.ViewModel
         internal void SetConflictsFilter(ICollection<ConflictTypes> conflictsTypes = null)
         {
             if (conflictsTypes == null)
-                conflictsFilter.Clear();
+                _conflictsFilter.Clear();
             else
             {
-                conflictsFilter = (List<ConflictTypes>)conflictsTypes;
+                _conflictsFilter = (List<ConflictTypes>)conflictsTypes;
             }
             SetDisplayConflicts();
         }
@@ -59,15 +69,15 @@ namespace EasyJob_ProDG.UI.ViewModel
         #region Private methods
 
         /// <summary>
-        /// Creates <see cref="DisplayConflicts"/> from the conflicts as received from <see cref="ConflictDataService"/>.
-        /// The items that have been deleted will be removed from <see cref="DisplayConflicts"/>
+        /// Creates <see cref="_conflictsToDispaly"/> from the conflicts as received from <see cref="ConflictDataService"/>.
+        /// The items that have been deleted will be removed from <see cref="_conflictsToDispaly"/>
         /// </summary>
         private void SetDisplayConflicts()
         {
             GatherAllConflicts();
             SetFilteredDisplayConflicts();
 
-            foreach (var conflict in DisplayConflicts)
+            foreach (var conflict in _conflictsToDispaly)
             {
                 conflict.RefreshConflictText();
             }
@@ -89,38 +99,43 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         /// <summary>
-        /// Filters from <see cref="DisplayConflicts"/> only those that pass <see cref="conflictsFilter"/> and not deleted.
+        /// Filters from <see cref="_conflictsToDispaly"/> only those that pass <see cref="_conflictsFilter"/> and not deleted.
         /// </summary>
         private void SetFilteredDisplayConflicts()
         {
             foreach (var conflict in allConflicts)
             {
-                if (conflictsFilter.Count == 0)
+                if (_conflictsFilter.Count == 0)
                 {
-                    if (!DisplayConflicts.Any(c => c.Equals(conflict)))
+                    if (!_conflictsToDispaly.Any(c => c.Equals(conflict)))
                         if (!deletedConflicts.Any(c => c.Equals(conflict)))
-                            DisplayConflicts.Add(conflict);
+                            _conflictsToDispaly.Add(conflict);
                 }
                 else
                 {
-                    if (conflictsFilter.Contains(conflict.ConflictType))
+                    if (_conflictsFilter.Contains(conflict.ConflictType))
                     {
-                        if (!DisplayConflicts.Any(c => c.Equals(conflict)))
+                        if (!_conflictsToDispaly.Any(c => c.Equals(conflict)))
                             if (!deletedConflicts.Any(c => c.Equals(conflict)))
-                                DisplayConflicts.Add(conflict);
+                                _conflictsToDispaly.Add(conflict);
                     }
                     else
-                        DisplayConflicts.Remove(DisplayConflicts.FirstOrDefault(c => c.Equals(conflict)));
+                        _conflictsToDispaly.Remove(_conflictsToDispaly.FirstOrDefault(c => c.Equals(conflict)));
                 }
             }
 
-            var conflictsToRemove = DisplayConflicts.Where(c => !allConflicts.Any(conf => conf.Equals(c))).ToList();
+            var conflictsToRemove = _conflictsToDispaly.Where(c => !allConflicts.Any(conf => conf.Equals(c))).ToList();
             foreach (var conflict in conflictsToRemove)
-                DisplayConflicts.Remove(conflict);
+                _conflictsToDispaly.Remove(conflict);
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _displayConflictsCollectionView?.Refresh();
+            });
         }
 
         /// <summary>
-        /// Refreshes <see cref="DisplayConflicts"/> depending on <see cref="DisplayConflictsToBeRefreshedMessage"/> parameters.
+        /// Refreshes <see cref="_conflictsToDispaly"/> depending on <see cref="DisplayConflictsToBeRefreshedMessage"/> parameters.
         /// </summary>
         /// <param name="obj">Contains parameters.</param>
         private void OnDisplayConflictsToBeRefreshedMessageReceived(DisplayConflictsToBeRefreshedMessage obj)
@@ -129,8 +144,8 @@ namespace EasyJob_ProDG.UI.ViewModel
             if (obj.FullListToBeUpdated)
             {
                 deletedConflicts.Clear();
-                DisplayConflicts?.Clear();
-                OnPropertyChanged(nameof(DisplayConflicts));
+                _conflictsToDispaly?.Clear();
+                OnPropertyChanged(nameof(_conflictsToDispaly));
             }
 
             SetDisplayConflicts();
@@ -141,7 +156,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         #region Command methods
 
         /// <summary>
-        /// Removes parameter conflict from the view (<see cref="DisplayConflicts"/>)
+        /// Removes parameter conflict from the view (<see cref="_conflictsToDispaly"/>)
         /// </summary>
         /// <param name="parameter"></param>
         private void RemoveConflict(object parameter)
@@ -149,12 +164,12 @@ namespace EasyJob_ProDG.UI.ViewModel
             if (parameter is not PanelConflictItemBaseViewModel conflict) return;
 
             deletedConflicts.Add(conflict);
-            DisplayConflicts.Remove(conflict);
+            _conflictsToDispaly.Remove(conflict);
         }
 
         /// <summary>
         /// Removes all <see cref="PanelConflictItemBaseViewModel"/>s from 
-        /// <see cref="DisplayConflicts"/> with the same conflict code as the parameter conflict.
+        /// <see cref="_conflictsToDispaly"/> with the same conflict code as the parameter conflict.
         /// </summary>
         /// <param name="parameter"></param>
         private void RemoveSimilarConflicts(object parameter)
@@ -163,13 +178,13 @@ namespace EasyJob_ProDG.UI.ViewModel
             if (conflict == null) return;
 
             var code = conflict.Code;
-            for (int i = 0; i < DisplayConflicts.Count; i++)
+            for (int i = 0; i < _conflictsToDispaly.Count; i++)
             {
-                conflict = DisplayConflicts[i];
+                conflict = _conflictsToDispaly[i];
                 if (conflict.Code == code)
                 {
                     deletedConflicts.Add(conflict);
-                    DisplayConflicts.RemoveAt(i);
+                    _conflictsToDispaly.RemoveAt(i);
                     i--;
                 }
             }
@@ -203,18 +218,47 @@ namespace EasyJob_ProDG.UI.ViewModel
         //Constructor
         public ConflictListViewModel()
         {
-            DataMessenger.Default.Register<DisplayConflictsToBeRefreshedMessage>(this, OnDisplayConflictsToBeRefreshedMessageReceived, "update conflicts");
+            RegisterInMessenger();
 
+            RegisterCommands();
+
+            _conflictsFilter = new();
+            SetCollectionView();
+
+            BindingOperations.EnableCollectionSynchronization(_conflictsToDispaly, _collectionLock);
+            BindingOperations.EnableCollectionSynchronization(DisplayConflicts, _collectionLock);
+
+            LoadServices();
+
+            SetDisplayConflicts();
+        }
+
+        private void LoadServices()
+        {
+            conflictDataService = ConflictDataService.GetConflictDataService();
+        }
+
+        private void SetCollectionView()
+        {
+            _conflictsToDispaly = new();
+
+            _displayConflictsCollectionView = (ListCollectionView)CollectionViewSource.GetDefaultView(_conflictsToDispaly);
+            _displayConflictsCollectionView.GroupDescriptions.Clear();
+            _displayConflictsCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("ConflictGroupTitle"));
+            _conflictsComparer = new ConflictGroupsComparer(_conflictsToDispaly);
+            _displayConflictsCollectionView.CustomSort = _conflictsComparer;
+        }
+
+        private void RegisterInMessenger()
+        {
+            DataMessenger.Default.Register<DisplayConflictsToBeRefreshedMessage>(this, OnDisplayConflictsToBeRefreshedMessageReceived, "update conflicts");
+        }
+
+        private void RegisterCommands()
+        {
             DoubleClickOnSelectedItem = new DelegateCommand(NotifyOfSelectedConflict);
             RemoveConflictCommand = new DelegateCommand(RemoveConflict);
             RemoveSimilarConflictCommand = new DelegateCommand(RemoveSimilarConflicts);
-
-            conflictsFilter = new();
-            DisplayConflicts = new();
-            BindingOperations.EnableCollectionSynchronization(DisplayConflicts, _collectionLock);
-            conflictDataService = ConflictDataService.GetConflictDataService();
-
-            SetDisplayConflicts();
         }
 
         #endregion

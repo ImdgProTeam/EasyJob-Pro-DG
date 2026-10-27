@@ -14,12 +14,6 @@
                              d:DataContext="{d:DesignInstance viewmodel:ConflictListViewModel, d:IsDesignTimeCreatable=True}">
 
     <UserControl.Resources>
-        <CollectionViewSource x:Key="ConflictsView"
-                              Source="{Binding Path=DisplayConflicts, IsAsync=True}">
-            <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="ConflictGroupTitle" />
-            </CollectionViewSource.GroupDescriptions>
-        </CollectionViewSource>
     </UserControl.Resources>
 
     <Grid x:Name="mainConflictListGrid">
@@ -30,7 +24,7 @@
 
 
         <ListBox x:Name="ConflictBox"
-                 ItemsSource="{Binding Source={StaticResource ConflictsView}, IsAsync=True,
+                 ItemsSource="{Binding DisplayConflicts, IsAsync=True,
                                         UpdateSourceTrigger=PropertyChanged}"
                  SelectedItem="{Binding SelectedConflict}"
                  IsSynchronizedWithCurrentItem="True"
@@ -79,6 +73,11 @@
                                         
                                         <!-- Setting group icons -->
                                         <ControlTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding Name}"
+                                                         Value="User defined conflicts">
+                                                <Setter TargetName="IconHolder" Property="Text"
+                                                        Value="{StaticResource UserConflictsIcon}" />
+                                            </DataTrigger>
                                             <DataTrigger Binding="{Binding Name}" Value="Stowage">
                                                 <Setter TargetName="IconHolder" Property="Text"
                                                         Value="{StaticResource StowageIcon}" />
@@ -106,11 +105,6 @@
                                             <DataTrigger Binding="{Binding Name}" Value="Information">
                                                 <Setter TargetName="IconHolder" Property="Text"
                                                         Value="{StaticResource InformationIcon}" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Name}"
-                                                         Value="User defined conflicts">
-                                                <Setter TargetName="IconHolder" Property="Text"
-                                                        Value="{StaticResource UserConflictsIcon}" />
                                             </DataTrigger>
                                         </ControlTemplate.Triggers>
                                         

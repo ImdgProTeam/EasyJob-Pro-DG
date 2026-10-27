@@ -1,5 +1,4 @@
 ﻿using EasyJob_ProDG.UI.ViewModel;
-using System;
 using System.ComponentModel;
 using System.Windows;
 
@@ -77,7 +76,7 @@ namespace EasyJob_ProDG.UI.View.UI
 
         public void RestoreConflictColumnWidth()
         {
-            WorkingGrid.ColumnDefinitions[1].Width=new GridLength( Properties.Settings.Default.ConflictsWidth);
+            WorkingGrid.ColumnDefinitions[1].Width = new GridLength(Properties.Settings.Default.ConflictsWidth);
         }
         #endregion
 
@@ -101,7 +100,7 @@ namespace EasyJob_ProDG.UI.View.UI
         private void Window_Deactivated(object sender, System.EventArgs e)
         {
             (DataContext as MainWindowViewModel).IsDimmedOverlayVisible = true;
-        } 
+        }
 
         #endregion
 

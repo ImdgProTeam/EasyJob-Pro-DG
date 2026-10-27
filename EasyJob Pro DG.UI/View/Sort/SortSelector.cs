@@ -26,7 +26,7 @@ namespace EasyJob_ProDG.UI.View.Sort
             {
                 case DgSortOrderPattern.ABC:
                 default:
-                    return new PositionABCComparer().Compare(valueX, valueY);
+                    return new DgWrapperABCOrderComparer().Compare(valueX, valueY);
                 case DgSortOrderPattern.CBA:
                     return 1;
                 case DgSortOrderPattern.LR:

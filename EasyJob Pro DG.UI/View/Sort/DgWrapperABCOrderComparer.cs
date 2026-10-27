@@ -8,7 +8,10 @@ using System.Collections.Generic;
 
 namespace EasyJob_ProDG.UI.View.Sort
 {
-    public class PositionABCComparer : IComparer<DgWrapper>
+    /// <summary>
+    /// Compares <see cref="DgWrapper"/> first by Unno then by DgNetWeight
+    /// </summary>
+    public class DgWrapperABCOrderComparer : IComparer<DgWrapper>
     {
         int result;
 

@@ -121,7 +121,6 @@
     <Compile Include="Services\DataServices\Interfaces\ICargoUpdatesDataService.cs" />
     <Compile Include="Services\DataServices\Interfaces\ICargoPlanCheckService.cs" />
     <Compile Include="Services\DataServices\CargoUpdatesDataService.cs" />
-    <Compile Include="Services\DataServices\Interfaces\IUserDefinedConflictsService.cs" />
     <Compile Include="Services\DataServices\Interfaces\IUserInformatorService.cs" />
     <Compile Include="Services\DataServices\Interfaces\IUserDefinedConditionService.cs" />
     <Compile Include="Services\DataServices\Interfaces\IUserDefinedConflictsCheckService.cs" />
@@ -168,6 +167,7 @@
     <Compile Include="View\Converters\MultiplyValueConverter.cs" />
     <Compile Include="View\Converters\StowageCategoryConverter.cs" />
     <Compile Include="View\Converters\SubstractValueConverter.cs" />
+    <Compile Include="View\Sort\ConflictGroupsComparer.cs" />
     <Compile Include="View\User Controls\MainWindow\ConflictsFilterPanel.xaml.cs">
       <DependentUpon>ConflictsFilterPanel.xaml</DependentUpon>
     </Compile>
@@ -339,15 +339,15 @@
     </Compile>
     <Compile Include="View\Helpers\Helpers.cs" />
     <Compile Include="View\Helpers\Units.cs" />
-    <Compile Include="View\Sort\ContainerLeftToRightComparer.cs" />
+    <Compile Include="View\Sort\Location\ContainerLeftToRightComparer.cs" />
     <Compile Include="View\Sort\EmptyTextLastSortComparer.cs" />
-    <Compile Include="View\Sort\LeftToRightComparer.cs" />
-    <Compile Include="View\Sort\LocationCompararABC.cs" />
-    <Compile Include="View\Sort\LocationComparerLR.cs" />
-    <Compile Include="View\Sort\LocationComparerLRSnake.cs" />
-    <Compile Include="View\Sort\LocationComparerRL.cs" />
-    <Compile Include="View\Sort\LocationComparerRLSnake.cs" />
-    <Compile Include="View\Sort\PositionABCComparer.cs" />
+    <Compile Include="View\Sort\Location\LeftToRightComparer.cs" />
+    <Compile Include="View\Sort\Location\LocationCompararABC.cs" />
+    <Compile Include="View\Sort\Location\LocationComparerLR.cs" />
+    <Compile Include="View\Sort\Location\LocationComparerLRSnake.cs" />
+    <Compile Include="View\Sort\Location\LocationComparerRL.cs" />
+    <Compile Include="View\Sort\Location\LocationComparerRLSnake.cs" />
+    <Compile Include="View\Sort\DgWrapperABCOrderComparer.cs" />
     <Compile Include="View\Sort\SortableLocation.cs" />
     <Compile Include="View\Sort\SortSelector.cs" />
     <Compile Include="ViewModel\DesignTimeViewModel.cs" />
@@ -475,7 +475,6 @@
     <Compile Include="Wrapper\UserDefinedConflicts\UserDefinedConditionDescription.cs" />
     <Compile Include="Wrapper\UserDefinedConflicts\UserDefinedConditionWrapper.cs" />
     <Compile Include="Wrapper\UserDefinedConflicts\UserDefinedConditionWrapperExtensions.cs" />
-    <Compile Include="Wrapper\UserDefinedConflicts\UserDefinedConflictWrapper.cs" />
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
