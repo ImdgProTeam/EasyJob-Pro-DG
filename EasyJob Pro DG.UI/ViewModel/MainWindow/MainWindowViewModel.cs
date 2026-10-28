@@ -1,5 +1,4 @@
-﻿
-using EasyJob_ProDG.Model.IO;
+﻿using EasyJob_ProDG.Model.IO;
 using EasyJob_ProDG.Model.Transport;
 using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.IO;
@@ -375,7 +374,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// <summary>
         /// Returns currently selected DataGrid ViewModel.
         /// </summary>
-        private DataGridViewModelBase SelectedDataGrid
+        internal DataGridViewModelBase SelectedDataGrid
         {
             get
             {

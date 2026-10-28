@@ -150,7 +150,6 @@
     <Compile Include="ViewModel\Conflicts\PanelConflictItemGeneralViewModel.cs" />
     <Compile Include="ViewModel\Conflicts\PanelConflictItemDgViewModel.cs" />
     <Compile Include="ViewModel\Conflicts\PanelConflictItemUserDefinedViewModel.cs" />
-    <Compile Include="ViewModel\Conflicts\PanelConflictItemViewModelsExtensions.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridContainerVMToolExtensions.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridDgContextMenuViewModel.cs" />
     <Compile Include="ViewModel\MainWindow\DataGridDgVMToolExtension.cs" />

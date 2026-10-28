@@ -2,6 +2,7 @@
 using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.Wrapper;
 using EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts;
 using System;
@@ -28,36 +29,15 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 
         #endregion
 
+        #region Methods on receipt of messages
+        // ----- Methods on receipt of messages -----
 
-
-        /// <summary>
-        /// Assigns Selected units list to ItemsToSelect property of a selected DataGrid
-        /// </summary>
-        private void SelectSelectedUnits()
+        private void OnSelectionChangedMessageReceived(ChangeSelectionMessage message)
         {
-            switch (selectedDataGridIndex)
-            {
-                case 0:
-                    {
-                        break;
-                    }
-                case 1:
-                    {
-                        break;
-                    }
-                case 2:
-                    {
-                        break;
-                    }
-                case 3:
-                    {
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
+            SetTextValueFromSelectedUnit();
+        } 
 
+        #endregion
 
         #region Common command methods
 
@@ -112,6 +92,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             //LoadTestData();
 
             SetInitialTextValues();
+            RegisterInMessenger();
         }
 
         private void LoadCommands()
@@ -142,6 +123,11 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             EditableCondition = new UserDefinedConditionWrapper(new Model.UserDefinedConflicts.UserDefinedCondition());
             EditableConditionCellPosition = new CellPositionWrapper(new CellPosition());
             EditableConditionCellPosition.AcceptEmpty = true;
+        }
+
+        private void RegisterInMessenger()
+        {
+            DataMessenger.Default.Register<ChangeSelectionMessage>(this, OnSelectionChangedMessageReceived, "Selected unit changed");
         }
 
         private void SetActiveConditionsDescription()

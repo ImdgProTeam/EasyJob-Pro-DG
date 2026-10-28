@@ -2,6 +2,7 @@
 using EasyJob_ProDG.Model.UserDefinedConflicts;
 using EasyJob_ProDG.UI.Wrapper;
 using EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts;
+using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 
@@ -294,6 +295,84 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 
         public bool IsEditableConditionValueTextBoxEnabled { get; private set; } = true;
         public string EditableConditionValueTextBoxTag { get; private set; }
+
+        /// <summary>
+        /// Responsible for update of <see cref="EditableConditionValueText"/> field in particular cases when selected unit in DataGrid.
+        /// </summary>
+        private void SetTextValueFromSelectedUnit()
+        {
+            string containerNumber = GetSelectedUnitContainerNumber();
+            switch (selectedConditionIndex)
+            {
+                case (byte)UserDefinedConditionType.General:
+                //FreeText = 255 21
+                case 21:
+                    EditableConditionValueText = string.IsNullOrWhiteSpace(_editableConditionValueText)
+                        ? containerNumber : _editableConditionValueText + $" {containerNumber}";
+                    break;
+
+                case (byte)UserDefinedConditionType.ContainerLocationChanged:
+                case (byte)UserDefinedConditionType.ContainerPODchanged:
+                case (byte)UserDefinedConditionType.ContainerNumberLoaded:
+                case (byte)UserDefinedConditionType.ContainerNumberDischarged:
+                case (byte)UserDefinedConditionType.ContainerNumberNotInPosition:
+                    EditableConditionValueText = containerNumber;
+                    break;
+
+                case (byte)UserDefinedConditionType.DgNameContainsLoaded:
+                    if (selectedDataGridIndex != 0) return;
+                    EditableConditionValueText = mainWindowViewModel.DataGridDgViewModel.SelectedDg?.Name;
+                    break;
+                case (byte)UserDefinedConditionType.DgTechnicalNameContains:
+                    if (selectedDataGridIndex != 0) return;
+                    {
+                        var name = mainWindowViewModel.DataGridDgViewModel.SelectedDg?.TechnicalName;
+                        if (!string.IsNullOrWhiteSpace(name))
+                            EditableConditionValueText = name;
+                    }
+                    break;
+                case (byte)UserDefinedConditionType.ReeferCommodityContains:
+                    if (selectedDataGridIndex == 1)
+                    {
+                        var commodity = mainWindowViewModel.DataGridReefersViewModel.SelectedUnit?.Commodity;
+                        if (!string.IsNullOrWhiteSpace(commodity))
+                            EditableConditionValueText = commodity;
+                    }
+                    break;
+
+                case (byte)UserDefinedConditionType.DgUnnoLoaded:
+                    if (selectedDataGridIndex != 0) return;
+                    EditableConditionValueText = mainWindowViewModel.DataGridDgViewModel.SelectedDg?.Unno.ToString();
+                    break;
+
+                default:
+                    break;
+            }
+            OnPropertyChanged(nameof(EditableConditionValueText));
+
+        }
+
+        /// <summary>
+        /// Returns ContainerNumber of a selected unit in selected DataGrid
+        /// </summary>
+        /// <returns></returns>
+        private string GetSelectedUnitContainerNumber()
+        {
+            switch (mainWindowViewModel.SelectedDataGridIndex)
+            {
+                case 0:
+                    return mainWindowViewModel.DataGridDgViewModel.SelectedDg.ContainerNumber;
+                case 1:
+                    return mainWindowViewModel.DataGridReefersViewModel.SelectedUnit.ContainerNumber;
+                case 2:
+                    return mainWindowViewModel.DataGridContainersViewModel.SelectedUnit.ContainerNumber;
+                case 3:
+                    return mainWindowViewModel.DataGridUpdatesViewModel.SelectedUnit.ContainerNumber;
+
+                default:
+                    return string.Empty;
+            }
+        }
 
         #endregion
 
