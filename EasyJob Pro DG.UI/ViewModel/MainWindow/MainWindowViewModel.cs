@@ -1,4 +1,5 @@
-﻿using EasyJob_ProDG.Model.IO;
+﻿
+using EasyJob_ProDG.Model.IO;
 using EasyJob_ProDG.Model.Transport;
 using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.IO;
@@ -11,6 +12,8 @@ using EasyJob_ProDG.UI.ViewModel.Conflicts;
 using EasyJob_ProDG.UI.ViewModel.MainWindow;
 using EasyJob_ProDG.UI.Wrapper;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Markup;
@@ -45,6 +48,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public DataGridReefersViewModel DataGridReefersViewModel => ViewModelLocator.DataGridReefersViewModel;
         public DataGridContainersViewModel DataGridContainersViewModel => ViewModelLocator.DataGridContainersViewModel;
         public DataGridUpdatesViewModel DataGridUpdatesViewModel => ViewModelLocator.DataGridUpdatesViewModel;
+
         public int SelectedDataGridIndex
         {
             get => selectedDataGridIndex;
@@ -79,30 +83,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         private bool isDimmedOverlayVisible;
 
-        /// <summary>
-        /// Returns currently selected DataGrid ViewModel.
-        /// </summary>
-        private DataGridViewModelBase SelectedDataGrid
-        {
-            get
-            {
-                switch (selectedDataGridIndex)
-                {
-                    case (int)DataGridViewModels.Dg:
-                        return DataGridDgViewModel;
-                    case (int)DataGridViewModels.Reefers:
-                        return DataGridReefersViewModel;
-                    case (int)DataGridViewModels.Containers:
-                        return DataGridContainersViewModel;
-                    case (int)DataGridViewModels.Updates:
-                        return DataGridUpdatesViewModel;
-                    case -1:
-                    default:
-                        return null;
-                }
-            }
-        }
-
         #endregion
 
 
@@ -124,8 +104,6 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         }
         #endregion
-
-        //-----------------------------------------------------------------------------------------------------------------------------
 
         #region StartUp logic
         //----- StartUp logic -----
@@ -391,7 +369,32 @@ namespace EasyJob_ProDG.UI.ViewModel
         #endregion
 
 
-        #region Private UI methods
+        #region Private UI methods and properties
+        // ----- Private properties -----
+
+        /// <summary>
+        /// Returns currently selected DataGrid ViewModel.
+        /// </summary>
+        private DataGridViewModelBase SelectedDataGrid
+        {
+            get
+            {
+                switch (selectedDataGridIndex)
+                {
+                    case (int)DataGridViewModels.Dg:
+                        return DataGridDgViewModel;
+                    case (int)DataGridViewModels.Reefers:
+                        return DataGridReefersViewModel;
+                    case (int)DataGridViewModels.Containers:
+                        return DataGridContainersViewModel;
+                    case (int)DataGridViewModels.Updates:
+                        return DataGridUpdatesViewModel;
+                    case -1:
+                    default:
+                        return null;
+                }
+            }
+        }
 
         //----- Private UI methods ------------------------------
 
@@ -404,6 +407,110 @@ namespace EasyJob_ProDG.UI.ViewModel
             OnPropertyChanged(nameof(VoyageInfo));
             DataGridDgViewModel?.RefreshControls();
         }
+
+        /// <summary>
+        /// Clears additional filters from DataGrids. Closes tool windows.
+        /// </summary>
+        private void ClearFilters()
+        {
+            CloseAllToolWindowsExecuted(null);
+            DataGridDgViewModel.ClearFilters();
+            DataGridReefersViewModel.ClearFilters();
+            DataGridContainersViewModel.ClearFilters();
+            DataGridUpdatesViewModel.ClearFilters();
+        }
+
+        #region Selection logic
+        // ----- Selection logic -----
+
+        /// <summary>
+        /// Method changes SelectedItem to match with ConflictPanelItem object
+        /// </summary>
+        /// <param name="obj">Selected conflict</param>
+        private void OnConflictSelectionChanged(PanelConflictItemBaseViewModel obj)
+        {
+            if (obj is null) return;
+
+            if (obj is PanelConflictItemUserDefinedViewModel)
+            {
+                SelectItemsFromUserDefinedConflict(obj);
+                return;
+            }
+
+            var dgConf = obj as PanelConflictItemDgViewModel;
+            if (dgConf is null) return;
+
+            SelectItemsFromDgConflict(dgConf);
+        }
+
+        private void SelectItemsFromDgConflict(PanelConflictItemDgViewModel dgConf)
+        {
+            switch (SelectedDataGridIndex)
+            {
+                case (int)DataGridViewModels.Dg:
+                    DataGridDgViewModel.SelectDg(dgConf.DgID);
+                    break;
+                case (int)DataGridViewModels.Reefers:
+                    DataGridReefersViewModel.SelectUnit(dgConf.ContainerNumber);
+                    break;
+                case (int)DataGridViewModels.Containers:
+                    DataGridContainersViewModel.SelectUnit(dgConf.ContainerNumber);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void SelectItemsFromUserDefinedConflict(PanelConflictItemBaseViewModel obj)
+        {
+            var udConf = obj as PanelConflictItemUserDefinedViewModel;
+            if (udConf is null) return;
+
+            List<string> listToSelect;
+
+            switch (selectedDataGridIndex)
+            {
+                case 0:
+                    {
+                        listToSelect = CreateDgIdsListToSelect(udConf);
+                        DataGridDgViewModel.ItemsToSelect = listToSelect;
+                        break;
+                    }
+                case 1:
+                case 2:
+                case 3:
+                    {
+                        listToSelect = CreateContainerNumbersListToSelect(udConf);
+                        SelectedDataGrid.ItemsToSelect = listToSelect;
+                        break;
+                    }
+                default:
+                    break;
+
+            }
+            return;
+        }
+
+        private List<string> CreateContainerNumbersListToSelect(PanelConflictItemUserDefinedViewModel udConf)
+        {
+            if (udConf.GetConflict().IsMultiUnitConflict)
+            {
+                return udConf.GetConflict().ContainerNumbers;
+            }
+
+            return new List<string>() { udConf.GetConflict().ContainerNumber };
+        }
+
+        private List<string> CreateDgIdsListToSelect(PanelConflictItemUserDefinedViewModel udConf)
+        {
+            List<string> ids = udConf.GetConflict().DgIDs?.Select(id => id.ToString()).ToList() ?? new();
+            return ids;
+        }
+
+        #endregion
+
+        #region Actions on receipt of messages
+        // ----- Actions on receipt of messages logic -----
 
         /// <summary>
         /// Raised when ShipProfile saved to update data
@@ -438,33 +545,6 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
 
         /// <summary>
-        /// Method changes SelectedItem to match with ConflictPanelItem object
-        /// </summary>
-        /// <param name="obj">Selected conflict</param>
-        private void OnConflictSelectionChanged(PanelConflictItemBaseViewModel obj)
-        {
-            if (obj is null) return;
-
-            var dgConf = obj as PanelConflictItemDgViewModel;
-            if (dgConf is null) return;
-
-            switch (SelectedDataGridIndex)
-            {
-                case (int)DataGridViewModels.Dg:
-                    DataGridDgViewModel.SelectDg(dgConf.DgID);
-                    break;
-                case (int)DataGridViewModels.Reefers:
-                    DataGridReefersViewModel.SelectUnit(dgConf.ContainerNumber);
-                    break;
-                case (int)DataGridViewModels.Containers:
-                    DataGridContainersViewModel.SelectUnit(dgConf.ContainerNumber);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        /// <summary>
         /// Method invoked when received SelectionChanged message from DatGrids.
         /// </summary>
         /// <param name="message"></param>
@@ -483,19 +563,9 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             SelectedDataGridIndex = 0;
             OnPropertyChanged(nameof(SelectedDataGridIndex));
-        }
+        } 
 
-        /// <summary>
-        /// Clears additional filters from DataGrids. Closes tool windows.
-        /// </summary>
-        private void ClearFilters()
-        {
-            CloseAllToolWindowsExecuted(null);
-            DataGridDgViewModel.ClearFilters();
-            DataGridReefersViewModel.ClearFilters();
-            DataGridContainersViewModel.ClearFilters();
-            DataGridUpdatesViewModel.ClearFilters();
-        }
+        #endregion
 
         #endregion
 

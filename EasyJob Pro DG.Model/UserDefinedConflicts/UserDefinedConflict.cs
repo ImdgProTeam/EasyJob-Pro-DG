@@ -84,15 +84,17 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
 
         public UserDefinedConflict()
         {
-
+            DgIDs = new List<int>();
         }
 
         public UserDefinedConflict(bool isMultiUnit = false)
         {
+            DgIDs = new List<int>();
+
             if (isMultiUnit)
             {
                 ContainerNumbers = new List<string>();
-                DgIDs = new List<int>();
+                IsMultiUnitConflict = isMultiUnit;
             }
         }
 

@@ -17,6 +17,7 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
         
         private string _title;
         private string _description;
+        private UserDefinedConflict _conflict;
 
 
         #region Display properties
@@ -34,6 +35,9 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
         {
             return _description;
         }
+
+        // ----- Access conflict -----
+        internal UserDefinedConflict GetConflict() => _conflict;
 
 
         // ----- Private methods -----
@@ -226,6 +230,7 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
 
         public PanelConflictItemUserDefinedViewModel(UserDefinedConflict conflict) : base()
         {
+            _conflict = conflict;
             ParseUserDefinedConflict(conflict, out _title, out _description);
             ConflictType = Data.ConflictTypes.UserDefined;
         }

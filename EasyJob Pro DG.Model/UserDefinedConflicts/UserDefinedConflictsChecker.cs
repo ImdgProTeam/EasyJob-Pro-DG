@@ -43,16 +43,17 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
                 conflictsToShow.Add(conflict);
         }
 
-        private UserDefinedConflict CreateSingleUnitConflict(UserDefinedCondition condition, string containerNumber)
+        private UserDefinedConflict CreateSingleUnitConflict(UserDefinedCondition condition, string containerNumber, List<int> dgIDs)
         {
             return new UserDefinedConflict(isMultiUnit: false)
             {
                 ContainerNumber = containerNumber,
+                DgIDs = dgIDs,
                 ConditionReference = condition
             };
         }
 
-        private UserDefinedConflict CreateMultiUnitConflict(UserDefinedCondition condition, List<string> containerNumbers, List<int> dgIDs = null)
+        private UserDefinedConflict CreateMultiUnitConflict(UserDefinedCondition condition, List<string> containerNumbers, List<int> dgIDs)
         {
             return new UserDefinedConflict(isMultiUnit: true)
             {
@@ -97,15 +98,16 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
         private UserDefinedConflict CreateCorrectTypeOfConflict(UserDefinedCondition condition, bool isSingleUnitConflict, bool isMultiUnitConflict, Container container, List<Dg> conflictedDgs, List<Container> conflictedContainers)
         {
             List<string> conflictedContainerNumbers;
+                List<int> conflictedDgIDs = null;
             UserDefinedConflict conflict = null;
 
             if (isSingleUnitConflict)
             {
-                conflict = CreateSingleUnitConflict(condition, container?.ContainerNumber ?? DEFAULT_EMPTY_VALUE);
+                GetDgIds(conflictedDgs, out conflictedDgIDs);
+                conflict = CreateSingleUnitConflict(condition, container?.ContainerNumber ?? DEFAULT_EMPTY_VALUE, conflictedDgIDs);
             }
             else if (isMultiUnitConflict)
             {
-                List<int> conflictedDgIDs = null;
 
                 if (conflictedDgs is not null)
                     GetContainerNumbersAndDgIds(conflictedDgs, out conflictedContainerNumbers, out conflictedDgIDs);
@@ -292,6 +294,37 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
                 default:
                     break;
             }
+
+            if (isSingleUnitConflict && container is not null)
+            {
+                conflictedDgs = SearchForDgs(cargoPlan, container);
+            }
+            if(isMultiUnitConflict && conflictedDgs is null)
+            {
+                conflictedDgs = SearchForDgs(cargoPlan, conflictedContainers);
+            }
+        }
+
+        private List<Dg> SearchForDgs(CargoPlan cargoPlan, List<Container> containers)
+        {
+            var result = new List<Dg>();
+            foreach (var dg in cargoPlan.DgList)
+            {
+                if (containers.Any(c => string.Equals(c.ContainerNumber, dg.ContainerNumber)))
+                    result.Add(dg);
+            }
+            return result;
+        }
+
+        private List<Dg> SearchForDgs(CargoPlan cargoPlan, Container container)
+        {
+            var result = new List<Dg>();
+            foreach (var dg in cargoPlan.DgList)
+            {
+                if (string.Equals(container.ContainerNumber, dg.ContainerNumber))
+                    result.Add(dg);
+            }
+            return result;
         }
 
         /// <summary>
@@ -327,8 +360,6 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
         /// <param name="conflictedDgIDs"></param>
         private static void GetContainerNumbersAndDgIds(List<Dg> conflictedDgs, out List<string> conflictedContainerNumbers, out List<int> conflictedDgIDs)
         {
-            conflictedContainerNumbers = new();
-            conflictedDgIDs = new();
             conflictedContainerNumbers = conflictedDgs.Select(dg => dg.ContainerNumber).Distinct().ToList();
             conflictedDgIDs = conflictedDgs.Select(dg => dg.ID).ToList();
         }
@@ -342,6 +373,17 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
         {
             conflictedContainerNumbers = new();
             conflictedContainerNumbers = conflictedContainers.Select(c => c.ContainerNumber).Distinct().ToList();
+        }
+
+        /// <summary>
+        /// Returns in out parameter Lists of DgIDs from conflictedDgs.
+        /// </summary>
+        /// <param name="conflictedDgs"></param>
+        /// <param name="conflictedContainerNumbers"></param>
+        /// <param name="conflictedDgIDs"></param>
+        private static void GetDgIds(List<Dg> conflictedDgs, out List<int> conflictedDgIDs)
+        {
+            conflictedDgIDs = conflictedDgs?.Select(dg => dg.ID).ToList();
         }
 
         private static void InitiateConflictedDgs(out List<Dg> conflictedDgs)
