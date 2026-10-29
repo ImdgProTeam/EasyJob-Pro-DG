@@ -80,6 +80,12 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             return true;
         }
 
+        protected override void OnWindowClosed(object obj)
+        {
+            base.OnWindowClosed(obj);
+            DataMessenger.Default.Send(new UserDefinedConditionsSavedMessage(), DataMessengerContext.USER_DEFINED_CONDITIONS_SAVED);
+        }
+
         #endregion
 
 

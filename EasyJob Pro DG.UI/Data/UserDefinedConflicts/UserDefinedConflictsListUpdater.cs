@@ -1,6 +1,4 @@
-﻿using EasyJob_ProDG.UI.ViewModel;
-using EasyJob_ProDG.UI.ViewModel.Conflicts;
-using System;
+﻿using EasyJob_ProDG.UI.ViewModel.Conflicts;
 
 namespace EasyJob_ProDG.UI.Data.UserDefinedConflicts
 {
@@ -12,30 +10,34 @@ namespace EasyJob_ProDG.UI.Data.UserDefinedConflicts
         private static UserDefinedConflictsList _conflictsRepository = UserDefinedConflictsList.GetAccess();
 
         /// <summary>
+        /// Updates existing <see cref="ConflictsList"/>, handling <see cref="UserDefinedConflict"/>s only.
         /// Creates User-defined conflicts for new plan (isCollectionNew?).
         /// Updates list of existing user-defined conflicts for existing plan.
         /// </summary>
         /// <param name="conflicts"></param>
         /// <param name="isCollectionNew"></param>
         /// <returns></returns>
-        internal static ConflictsList CheckUserDefinedConflicts(this ConflictsList conflicts, bool isCollectionNew)
+        internal static ConflictsList UpdateConflictsListWithUserDefinedConflicts(this ConflictsList conflicts, bool isCollectionNew)
         {
             if (isCollectionNew)
             {
                 conflicts.RemoveAllUserDefinedConflicts();
-                conflicts.CreateUserDefinedConflicts();
+                conflicts.CollectUserDefinedConflicts();
             }
             else
             {
                 var tempConflicts = new ConflictsList();
-                tempConflicts.CreateUserDefinedConflicts();
+                tempConflicts.CollectUserDefinedConflicts();
                 conflicts.UpdateUserDefinedConflicts(tempConflicts);
             }
             return conflicts;
         }
 
-
-        private static void CreateUserDefinedConflicts(this ConflictsList conflicts)
+        /// <summary>
+        /// Collects <see cref="UserDefinedConflict"/>s from Repository.
+        /// </summary>
+        /// <param name="conflicts"></param>
+        private static void CollectUserDefinedConflicts(this ConflictsList conflicts)
         {
             foreach (var conflict in _conflictsRepository.GetConflicts)
             {

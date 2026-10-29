@@ -34,7 +34,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         public ConflictsList GetConflicts()
         {
             Conflicts.CreateConflictList(_cargoDataService.WorkingCargoPlan.DgList);
-            Conflicts.CheckUserDefinedConflicts(_cargoDataService.WorkingCargoPlan.DgList.IsCollectionNew);
+            Conflicts.UpdateConflictsListWithUserDefinedConflicts(_cargoDataService.WorkingCargoPlan.DgList.IsCollectionNew);
             return Conflicts;
         }
 

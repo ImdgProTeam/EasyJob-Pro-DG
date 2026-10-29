@@ -2,6 +2,7 @@
 using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Services.DialogServices;
 using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.View.DialogWindows.Summaries;
 using EasyJob_ProDG.UI.Wrapper;
@@ -106,7 +107,12 @@ namespace EasyJob_ProDG.UI.Services
             }
             DataMessenger.Default.Send(new DgListSelectedItemUpdatedMessage());
         }
-
+        
+        private void OnUserDefinedConditionSavedMessageReceived(UserDefinedConditionsSavedMessage message)
+        {
+            _userDefinedConflictsCheckService.CheckUserDefinedConflicts();
+            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(), "update conflicts");
+        }
 
         #region Initializing setup private methods
 
@@ -132,6 +138,7 @@ namespace EasyJob_ProDG.UI.Services
         {
             DataMessenger.Default.Unregister(_instance);
             DataMessenger.Default.Register<ConflictsToBeCheckedAndUpdatedMessage>(this, OnConflictsToBeCheckedAndUpdatedMessageReceived);
+            DataMessenger.Default.Register<UserDefinedConditionsSavedMessage>(this, OnUserDefinedConditionSavedMessageReceived, DataMessengerContext.USER_DEFINED_CONDITIONS_SAVED);
         }
 
         #endregion

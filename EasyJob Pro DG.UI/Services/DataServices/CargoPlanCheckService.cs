@@ -80,7 +80,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         /// <summary>
         /// Calls check of only User-defined conflicts.
         /// </summary>
-        public void CheckUserDefinedConflicts()
+        private void CheckUserDefinedConflicts()
         {
             _userDefinedConflictsCheckService.CheckUserDefinedConflicts();
         }

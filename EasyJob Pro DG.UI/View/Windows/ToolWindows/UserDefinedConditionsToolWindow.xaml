@@ -9,6 +9,7 @@
                          mc:Ignorable="d"
                          Height="400"
                          Width="400"
+                         WindowCloseCommand="{Binding WindowClosedCommand}"
                          CaptureText="Manage user-defined conditions"
                          ApplyButtonVisibility="Collapsed"
                          WindowStartupLocation="CenterScreen">
