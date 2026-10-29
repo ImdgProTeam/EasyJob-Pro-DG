@@ -188,7 +188,15 @@ namespace EasyJob_ProDG.Model.Transport
         {
             return a.Equals(b);
         }
+        public static bool operator ==(ILocationOnBoard b, CellPosition a)
+        {
+            return a.Equals(b);
+        }
         public static bool operator !=(CellPosition a, ILocationOnBoard b)
+        {
+            return !(a == b);
+        }
+        public static bool operator !=(ILocationOnBoard b, CellPosition a)
         {
             return !(a == b);
         }
