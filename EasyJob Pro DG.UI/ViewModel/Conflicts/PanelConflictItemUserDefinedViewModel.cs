@@ -63,24 +63,6 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
 
                 switch (conflict.ConditionReference.ConditionType)
                 {
-                    // Single unit conflicts
-
-                    case UserDefinedConditionType.ContainerNumberLoaded:
-                    case UserDefinedConditionType.ContainerNumberDischarged:
-                        _description += conditionDescription;
-                        break;
-
-                    case UserDefinedConditionType.CellPositionLoaded:
-                    case UserDefinedConditionType.CellPositionEmpty:
-                    case UserDefinedConditionType.CellPositionLoadedWithReefer:
-                    case UserDefinedConditionType.CellPositionLoadedWithDg:
-                    case UserDefinedConditionType.ContainerLocationChanged:
-                    case UserDefinedConditionType.ContainerPODchanged:
-                    case UserDefinedConditionType.ContainerNumberNotInPosition:
-                        _description = $"{conflict.ContainerNumber}\n {conditionDescription}";
-                        break;
-
-                    // Multi-unit conflicts
                     case UserDefinedConditionType.DgNameContainsLoaded:
                     case UserDefinedConditionType.DgTechnicalNameContains:
                     case UserDefinedConditionType.DgClassLoaded:
@@ -89,6 +71,16 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
                     case UserDefinedConditionType.NoNetWeightUnitsOnboard:
                         _description = $"{conditionDescription} (total: {conflict.DgIDs.Count}):{FollowContainerNumberList(conflict.ContainerNumbers)}";
                         break;
+
+                    case UserDefinedConditionType.ContainerNumberLoaded:
+                    case UserDefinedConditionType.ContainerNumberDischarged:
+                    case UserDefinedConditionType.ContainerLocationChanged:
+                    case UserDefinedConditionType.ContainerPODchanged:
+                    case UserDefinedConditionType.ContainerNumberNotInPosition:
+                    case UserDefinedConditionType.CellPositionLoaded:
+                    case UserDefinedConditionType.CellPositionEmpty:
+                    case UserDefinedConditionType.CellPositionLoadedWithReefer:
+                    case UserDefinedConditionType.CellPositionLoadedWithDg:
                     case UserDefinedConditionType.ReeferContainingDgLoaded:
                     case UserDefinedConditionType.ReeferCommodityContains:
                     case UserDefinedConditionType.ReeferSetPointLoaded:
@@ -157,8 +149,10 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
             switch (condition.ConditionType)
             {
                 case UserDefinedConditionType.ContainerNumberLoaded:
+                    result = $"Container number loaded!";
+                    break;
                 case UserDefinedConditionType.ContainerNumberDischarged:
-                    result = $"{conflict.ContainerNumber}!";
+                    result = $"Container number discharged!";
                     break;
                 case UserDefinedConditionType.CellPositionLoaded:
                     result = $"Cell is loaded!";

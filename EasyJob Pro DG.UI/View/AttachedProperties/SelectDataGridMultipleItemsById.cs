@@ -70,9 +70,9 @@ namespace EasyJob_ProDG.UI.View.AttachedProperties
                 if (((List<string>)e.NewValue).Contains(((ContainerWrapper)unit).ContainerNumber))
                     grid.SelectedItems.Add(unit);
             }
+            grid.Focus();
             if (grid.SelectedItems.Count > 0)
                 grid.ScrollIntoView(grid.SelectedItems[0]);
-            grid.Focus();
         }
     }
 

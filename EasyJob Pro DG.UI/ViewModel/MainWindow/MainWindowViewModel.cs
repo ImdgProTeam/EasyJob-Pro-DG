@@ -7,6 +7,7 @@ using EasyJob_ProDG.UI.Services;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.View.DialogWindows;
+using EasyJob_ProDG.UI.View.User_Controls;
 using EasyJob_ProDG.UI.ViewModel.Conflicts;
 using EasyJob_ProDG.UI.ViewModel.MainWindow;
 using EasyJob_ProDG.UI.Wrapper;
@@ -480,6 +481,8 @@ namespace EasyJob_ProDG.UI.ViewModel
                 case 3:
                     {
                         listToSelect = CreateContainerNumbersListToSelect(udConf);
+                        if (listToSelect is null) return;
+                        SelectedDataGrid.ItemsToSelect = new List<string>();
                         SelectedDataGrid.ItemsToSelect = listToSelect;
                         break;
                     }
@@ -492,12 +495,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private List<string> CreateContainerNumbersListToSelect(PanelConflictItemUserDefinedViewModel udConf)
         {
-            if (udConf.GetConflict().IsMultiUnitConflict)
-            {
-                return udConf.GetConflict().ContainerNumbers;
-            }
-
-            return new List<string>() { udConf.GetConflict().ContainerNumber };
+            return udConf.GetConflict().ContainerNumbers;
         }
 
         private List<string> CreateDgIdsListToSelect(PanelConflictItemUserDefinedViewModel udConf)
@@ -562,7 +560,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             SelectedDataGridIndex = 0;
             OnPropertyChanged(nameof(SelectedDataGridIndex));
-        } 
+        }
 
         #endregion
 
