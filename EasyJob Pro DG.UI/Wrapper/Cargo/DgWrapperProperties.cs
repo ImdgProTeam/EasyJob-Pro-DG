@@ -212,6 +212,8 @@ namespace EasyJob_ProDG.UI.Wrapper
                     !oldName.ContainsCoolant() && newName.ContainsCoolant() ||
                     !oldName.ContainsConditioner() && newName.ContainsConditioner())
                     UpdateConflictList();
+
+                UpdateUserDefinedConflicts();
             }
         }
 
@@ -370,6 +372,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             set
             {
                 SetValue(value);
+                UpdateUserDefinedConflicts();
             }
         }
         #endregion

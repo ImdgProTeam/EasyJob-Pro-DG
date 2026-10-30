@@ -141,7 +141,7 @@
     <Compile Include="Utility\Messages\DgListSelectedItemUpdatedMessage.cs" />
     <Compile Include="Utility\Messages\ShipProfileSavedMessage.cs" />
     <Compile Include="Utility\Messages\ShowUpdatesMessage.cs" />
-    <Compile Include="Utility\Messages\UserDefinedConditionsSavedMessage.cs" />
+    <Compile Include="Utility\Messages\UserDefinedConflictsToCheckAndUpdateMessage.cs" />
     <Compile Include="Validation\DgClassInputValidator.cs" />
     <Compile Include="Validation\DgEMSInputValidator.cs" />
     <Compile Include="Validation\DgSubclassInputValidator.cs" />

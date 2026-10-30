@@ -86,12 +86,24 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
             List<string> conflictedContainerNumbers = null;
             List<int> conflictedDgIDs = null;
 
-            if (conflictedContainers is not null)
+            if (IsConditionRequireContainerList(condition, conflictedContainers))
                 GetContainerNumbersAndDgIds(conflictedContainers, conflictedDgs, out conflictedContainerNumbers, out conflictedDgIDs);
 
             UserDefinedConflict conflict = CreateMultiUnitConflict(condition, conflictedContainerNumbers, conflictedDgIDs);
 
             return conflict;
+        }
+
+        private bool IsConditionRequireContainerList(UserDefinedCondition condition, List<Container> conflictedContainers)
+        {
+            if ((condition.ConditionType == UserDefinedConditionType.ContainerNumberDischarged && conflictedContainers.Count > 0)
+                || (condition.ConditionType == UserDefinedConditionType.ContainerNumberNotInPosition && conflictedContainers.Count > 0))
+                return true;
+            return (condition.ConditionType != UserDefinedConditionType.FreeText
+            && condition.ConditionType != UserDefinedConditionType.General
+            && condition.ConditionType != UserDefinedConditionType.ContainerNumberNotInPosition
+            && condition.ConditionType != UserDefinedConditionType.ContainerNumberDischarged
+            && condition.ConditionType != UserDefinedConditionType.CellPositionEmpty);
         }
 
         /// <summary>
@@ -122,10 +134,10 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
                 case UserDefinedConditionType.ContainerNumberNotInPosition:
                     if (!TryGetContainersByNumber(cargoPlan, condition, out conflictedContainers))
                         return true;
-                    if (!condition.CellPosition.IsEmpty)
-                    {
-                        conflictedContainers = conflictedContainers.Where(c => condition.CellPosition != c).ToList();
-                    }
+                    if (condition.CellPosition.IsEmpty)
+                        return false;
+                    conflictedContainers = conflictedContainers.Where(c => condition.CellPosition != c).ToList();
+
                     break;
 
                 case UserDefinedConditionType.ContainerLocationChanged:
@@ -145,9 +157,9 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
                     TryGetContainersByCellPosition(cargoPlan, condition, out conflictedContainers);
                     break;
                 case UserDefinedConditionType.CellPositionEmpty:
-                    if (!TryGetContainersByCellPosition(cargoPlan, condition, out conflictedContainers))
-                        return true;
-                    break;
+                    if (TryGetContainersByCellPosition(cargoPlan, condition, out conflictedContainers))
+                        return false;
+                    else return true;
 
                 case UserDefinedConditionType.CellPositionLoadedWithReefer:
                     InitiateConflictedContainers(out conflictedContainers);
@@ -228,7 +240,7 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
                     return false;
             }
 
-            if (conflictedContainers is null && conflictedDgs?.Count == 0
+            if ((conflictedContainers is null && conflictedDgs?.Count == 0)
                 || conflictedContainers?.Count == 0)
                 return false;
 
@@ -256,6 +268,8 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
         /// <returns></returns>
         private bool CheckConflictedDecimalCondition(decimal decimalValue, UserDefinedCondition condition)
         {
+            if (ProgramDefaultValues.DefaultFlashPointValue == decimalValue)
+                return false;
             if (!decimal.TryParse(condition.ConditionValue, out decimal conditionValue))
                 return false;
 
@@ -283,7 +297,7 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
         /// <param name="conflictedDgIDs"></param>
         private static void GetContainerNumbersAndDgIds(List<Dg> conflictedDgs, out List<string> conflictedContainerNumbers, out List<int> conflictedDgIDs)
         {
-            conflictedContainerNumbers = conflictedDgs.Select(dg => dg.ContainerNumber).Distinct().ToList();
+            conflictedContainerNumbers = conflictedDgs?.Select(dg => dg.ContainerNumber).Distinct().ToList();
             conflictedDgIDs = conflictedDgs.Select(dg => dg.ID).ToList();
         }
 
@@ -294,12 +308,15 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
         /// <param name="conflictedContainerNumbers"></param>
         private static void GetContainerNumbersAndDgIds(List<Container> conflictedContainers, List<Dg> conflictedDgs, out List<string> conflictedContainerNumbers, out List<int> conflictedDgIDs)
         {
-            if (conflictedContainers.Count == 0)
+            if (conflictedContainers is null || conflictedContainers?.Count == 0)
             {
                 GetContainerNumbersAndDgIds(conflictedDgs, out conflictedContainerNumbers, out conflictedDgIDs);
             }
-            conflictedContainerNumbers = conflictedContainers.Select(c => c.ContainerNumber).Distinct().ToList();
-            conflictedDgIDs = conflictedDgs.Select(dg => dg.ID).ToList();
+            else
+            {
+                conflictedContainerNumbers = conflictedContainers.Select(c => c.ContainerNumber).Distinct().ToList();
+                conflictedDgIDs = conflictedDgs.Select(dg => dg.ID).ToList();
+            }
         }
 
         private static void InitiateConflictedDgs(out List<Dg> conflictedDgs)
@@ -335,7 +352,7 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
                 containers = cargoPlan.Containers.Where(c => c.ContainerNumber.Contains(condition.ConditionValue.ToUpper().Trim())).ToList();
             else
             {
-                containers = [cargoPlan.Containers.FirstOrDefault(c => string.Equals(c.ContainerNumber, condition.ConditionValue))];
+                containers = cargoPlan.Containers.Where(c => string.Equals(c.ContainerNumber, condition.ConditionValue)).ToList();
             }
             if (containers.Count > 0)
                 return true;

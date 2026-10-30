@@ -151,6 +151,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         private void OnNetWeightChanged()
         {
             DataMessenger.Default.Send<UpdateCargoPlan>(new UpdateCargoPlan(), "Net weight changed");
+            UpdateUserDefinedConflicts();
             NotifyStatusBar();
         }
 

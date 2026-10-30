@@ -1,4 +1,5 @@
-﻿using EasyJob_ProDG.Model.UserDefinedConflicts;
+﻿using EasyJob_ProDG.Data;
+using EasyJob_ProDG.Model.UserDefinedConflicts;
 using EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
         // ----- Constants -----
 
         const string GROUP_TITLE_USER_DEFINED = "User-defined conflicts";
-        const int MAX_NUMBER_OF_CONTAINER_NUMBERS_IN_DESCRIPTION = 10;
+        const int MAX_NUMBER_OF_CONTAINER_NUMBERS_IN_DESCRIPTION = 15;
 
 
         // ----- Private fields -----
@@ -72,13 +73,16 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
                         _description = $"{conditionDescription} (total: {conflict.DgIDs.Count}):{FollowContainerNumberList(conflict.ContainerNumbers)}";
                         break;
 
-                    case UserDefinedConditionType.ContainerNumberLoaded:
+                    case UserDefinedConditionType.CellPositionEmpty:
                     case UserDefinedConditionType.ContainerNumberDischarged:
+                    case UserDefinedConditionType.ContainerNumberNotInPosition:
+                        _description = $"{conditionDescription}";
+                        break;
+
+                    case UserDefinedConditionType.ContainerNumberLoaded:
                     case UserDefinedConditionType.ContainerLocationChanged:
                     case UserDefinedConditionType.ContainerPODchanged:
-                    case UserDefinedConditionType.ContainerNumberNotInPosition:
                     case UserDefinedConditionType.CellPositionLoaded:
-                    case UserDefinedConditionType.CellPositionEmpty:
                     case UserDefinedConditionType.CellPositionLoadedWithReefer:
                     case UserDefinedConditionType.CellPositionLoadedWithDg:
                     case UserDefinedConditionType.ReeferContainingDgLoaded:
@@ -117,18 +121,18 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
                     result = "NIL";
                     break;
                 case 1:
-                    result = $" {containerNumbers[0]}";
+                    result = $" {UserSettings.ContainerNumberToDisplay(containerNumbers[0])}";
                     break;
                 case <= MAX_NUMBER_OF_CONTAINER_NUMBERS_IN_DESCRIPTION:
                     foreach (var number in containerNumbers)
                     {
-                        result += $"\n{number}";
+                        result += $"\n{UserSettings.ContainerNumberToDisplay(number)}";
                     }
                     break;
                 default:
                     for (int i = 0; i < MAX_NUMBER_OF_CONTAINER_NUMBERS_IN_DESCRIPTION; i++)
                     {
-                        result += $"\n{containerNumbers[i]}";
+                        result += $"\n{UserSettings.ContainerNumberToDisplay(containerNumbers[i])}";
                     }
                     result += "\n...";
                     break;

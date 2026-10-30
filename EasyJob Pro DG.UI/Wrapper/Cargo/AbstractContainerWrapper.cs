@@ -1,6 +1,8 @@
 ﻿using EasyJob_ProDG.Data;
 using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.Model.IO;
+using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.Validation;
 using EasyJob_ProDG.UI.View.Sort;
 using System;
@@ -295,7 +297,16 @@ namespace EasyJob_ProDG.UI.Wrapper.Cargo
             Utility.DataMessenger.Default.Send(new UI.Messages.CargoPlanUnitPropertyChanged(this, value, oldValue, propertyName, false));
         }
 
-       
+        /// <summary>
+        /// To be called when User-defined conflicts need to be checked and updated separately from Dg conflicts.
+        /// </summary>
+        protected void UpdateUserDefinedConflicts()
+        {
+            DataMessenger.Default.Send(new UserDefinedConflictsToCheckAndUpdateMessage(),
+                                       DataMessengerContext.USER_DEFINED_CONFLICTS_TO_BE_CHECKED_AND_UPDATED);
+        }
+
+
         #region Refresh view methods
 
         /// <summary>

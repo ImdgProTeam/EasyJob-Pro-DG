@@ -128,10 +128,6 @@ namespace EasyJob_ProDG.UI.ViewModel
             foreach (var conflict in conflictsToRemove)
                 _conflictsToDispaly.Remove(conflict);
 
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                _displayConflictsCollectionView?.Refresh();
-            });
         }
 
         /// <summary>

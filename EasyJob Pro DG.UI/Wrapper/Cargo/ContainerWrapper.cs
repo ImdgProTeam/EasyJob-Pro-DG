@@ -29,12 +29,18 @@ namespace EasyJob_ProDG.UI.Wrapper
         public decimal SetTemperature
         {
             get { return GetValue<decimal>(); }
-            set { SetValue(value); }
+            set { 
+                SetValue(value);
+                UpdateUserDefinedConflicts();
+            }
         }
         public string Commodity
         {
             get { return GetValue<string>(); }
-            set { SetValue(value); }
+            set { 
+                SetValue(value);
+                UpdateUserDefinedConflicts();
+            }
         }
         public string VentSetting
         {

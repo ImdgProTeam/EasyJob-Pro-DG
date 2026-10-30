@@ -108,7 +108,7 @@ namespace EasyJob_ProDG.UI.Services
             DataMessenger.Default.Send(new DgListSelectedItemUpdatedMessage());
         }
         
-        private void OnUserDefinedConditionSavedMessageReceived(UserDefinedConditionsSavedMessage message)
+        private void OnUserDefinedConflictsToBeCheckedAndUpdatedMessageReceived(UserDefinedConflictsToCheckAndUpdateMessage message)
         {
             _userDefinedConflictsCheckService.CheckUserDefinedConflicts();
             DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(), "update conflicts");
@@ -138,7 +138,7 @@ namespace EasyJob_ProDG.UI.Services
         {
             DataMessenger.Default.Unregister(_instance);
             DataMessenger.Default.Register<ConflictsToBeCheckedAndUpdatedMessage>(this, OnConflictsToBeCheckedAndUpdatedMessageReceived);
-            DataMessenger.Default.Register<UserDefinedConditionsSavedMessage>(this, OnUserDefinedConditionSavedMessageReceived, DataMessengerContext.USER_DEFINED_CONDITIONS_SAVED);
+            DataMessenger.Default.Register<UserDefinedConflictsToCheckAndUpdateMessage>(this, OnUserDefinedConflictsToBeCheckedAndUpdatedMessageReceived, DataMessengerContext.USER_DEFINED_CONFLICTS_TO_BE_CHECKED_AND_UPDATED);
         }
 
         #endregion

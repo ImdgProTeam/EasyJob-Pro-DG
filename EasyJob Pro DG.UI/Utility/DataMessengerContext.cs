@@ -2,6 +2,6 @@
 {
     internal static class DataMessengerContext
     {
-        public const string USER_DEFINED_CONDITIONS_SAVED = "User-defined conditions saved";
+        public const string USER_DEFINED_CONFLICTS_TO_BE_CHECKED_AND_UPDATED = "User-defined conflicts to be checked and updated";
     }
 }

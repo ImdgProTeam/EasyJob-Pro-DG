@@ -83,7 +83,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         protected override void OnWindowClosed(object obj)
         {
             base.OnWindowClosed(obj);
-            DataMessenger.Default.Send(new UserDefinedConditionsSavedMessage(), DataMessengerContext.USER_DEFINED_CONDITIONS_SAVED);
+            DataMessenger.Default.Send(new UserDefinedConflictsToCheckAndUpdateMessage(), DataMessengerContext.USER_DEFINED_CONFLICTS_TO_BE_CHECKED_AND_UPDATED);
         }
 
         #endregion
