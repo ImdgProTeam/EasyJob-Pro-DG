@@ -74,7 +74,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                     {
                         excelcells = excelWorksheet.Cells[line, col];
                         if (excelcells.Value2 == null) continue;
-                        string value = excelcells.Value2.ToString();
+                        string value = excelcells.Value2.ToString().Trim();
 
                         if (col == byte.Parse(_template[3])) cont.ContainerNumber = value;
                         else if (col == byte.Parse(_template[4])) cont.Commodity = value;
