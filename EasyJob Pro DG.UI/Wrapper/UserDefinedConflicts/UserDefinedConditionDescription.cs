@@ -1,4 +1,5 @@
 ﻿using EasyJob_ProDG.Data;
+using EasyJob_ProDG.Model.Transport;
 using EasyJob_ProDG.Model.UserDefinedConflicts;
 using System;
 
@@ -40,16 +41,16 @@ namespace EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts
                         break;
 
                     case UserDefinedConditionType.CellPositionLoaded:
-                        resultDescription = $"Container is loaded in {condition.CellPosition}";
+                        resultDescription = $"Container is loaded" + AddCellPositionIfNotEmpty(condition);
                         break;
                     case UserDefinedConditionType.CellPositionEmpty:
-                        resultDescription = $"Container is discharged from or not loaded in {condition.CellPosition}";
+                        resultDescription = $"Container is discharged from or not loaded" + AddCellPositionIfNotEmpty(condition);
                         break;
                     case UserDefinedConditionType.CellPositionLoadedWithReefer:
-                        resultDescription = $"Reefer is loaded in {condition.CellPosition}";
+                        resultDescription = $"Reefer is loaded" + AddCellPositionIfNotEmpty(condition);
                         break;
                     case UserDefinedConditionType.CellPositionLoadedWithDg:
-                        resultDescription = $"Dangerous cargo is loaded in {condition.CellPosition}";
+                        resultDescription = $"Dangerous cargo is loaded" + AddCellPositionIfNotEmpty(condition);
                         break;
 
                     case UserDefinedConditionType.ContainerNumberLoaded:
@@ -120,7 +121,7 @@ namespace EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts
 
                     case UserDefinedConditionType.ContainerNumberNotInPosition:
                         resultDescription = ContainerNumberContainingValue(condition)
-                            + $" is not in {condition.CellPosition}";
+                            + $" is not loaded" + AddCellPositionIfNotEmpty(condition);
                         break;
 
                     case UserDefinedConditionType.NoNetWeightUnitsOnboard:
@@ -141,12 +142,14 @@ namespace EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts
 
         internal static string AddCellPositionIfNotEmpty(UserDefinedCondition condition)
         {
-            return (condition.CellPosition.IsEmpty ? "" : $" in {condition.CellPosition}");
+            return (condition.CellPosition.IsEmpty ? ""
+                : $"{(condition.CellPosition.IsOnlyOnOrUnderDeck ? "" : " in")} {condition.CellPosition.DisplayText()}");
         }
 
         internal static string AddCellPositionIfNotEmpty(CellPositionWrapper cellPosition)
         {
-            return (cellPosition.IsEmpty ? "" : $" in {cellPosition}");
+            return (cellPosition.IsEmpty ? "" 
+                : $"{(cellPosition.IsOnlyOnDeckOrUnderDeck ? "" : " in")} {cellPosition.Model.DisplayText()}");
         }
 
         /// <summary>

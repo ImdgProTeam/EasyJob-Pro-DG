@@ -13,7 +13,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         {
             get
             {
-                return Model.ToString();
+                return Model.DisplayText();
             }
             set
             {
@@ -38,7 +38,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         }
         private byte numberInList;
 
-        public bool IsEmpty => Model.Bay == 0 && Model.Row == 99 && Model.Tier == 0 && Model.HoldNr == 0 && Model.Underdeck == 0;
+        public bool IsEmpty => Model.IsEmpty;
         public bool HasError { get; private set; }
         public bool HasErrorOrEmpty => HasError || Model.IsEmpty;
 
@@ -46,6 +46,7 @@ namespace EasyJob_ProDG.UI.Wrapper
         /// If True, allows to accept Empty <see cref="CellPosition"/> without <see cref="HasError"/>.
         /// </summary>
         internal bool AcceptEmpty { get; set; } = false;
+        internal bool IsOnlyOnDeckOrUnderDeck => Model.IsOnlyOnOrUnderDeck;
 
         #endregion
 

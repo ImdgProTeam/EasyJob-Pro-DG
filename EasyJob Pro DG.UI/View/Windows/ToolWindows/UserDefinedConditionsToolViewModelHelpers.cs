@@ -49,25 +49,25 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
                     if (cellPosition.IsEmpty)
                         resultHintText = ENTER_VALID_POSITION;
                     else
-                        resultHintText = $"Container is loaded in {cellPosition}";
+                        resultHintText = $"Container is loaded" + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
                 case (byte)UserDefinedConditionType.CellPositionEmpty:
                     if (cellPosition.IsEmpty)
                         resultHintText = ENTER_VALID_POSITION;
                     else
-                        resultHintText = $"Container is discharged or not loaded in {cellPosition}";
+                        resultHintText = $"Container is discharged or not loaded" + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition); 
                     break;
                 case (byte)UserDefinedConditionType.CellPositionLoadedWithReefer:
                     if (cellPosition.IsEmpty)
                         resultHintText = ENTER_VALID_POSITION;
                     else
-                        resultHintText = $"Reefer is loaded in {cellPosition}";
+                        resultHintText = $"Reefer is loaded" + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
                 case (byte)UserDefinedConditionType.CellPositionLoadedWithDg:
                     if (cellPosition.IsEmpty)
                         resultHintText = ENTER_VALID_POSITION;
                     else
-                        resultHintText = $"Dangerous cargo is loaded in {cellPosition}";
+                        resultHintText = $"Dangerous cargo is loaded" + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
 
                 case (byte)UserDefinedConditionType.ContainerNumberLoaded:
@@ -86,7 +86,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
                 case (byte)UserDefinedConditionType.ContainerLocationChanged:
                     if (HasNoEntry(conditionValue))
                         resultHintText = ENTER_CONTAINER_NUMBER;
-                    else resultHintText = $"Position of {UserDefinedConditionDescription.ContainerNumberContainingValue(conditionValue)} has changed";
+                    else resultHintText = $"Position of " + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
                 case (byte)UserDefinedConditionType.ContainerPODchanged:
                     if (HasNoEntry(conditionValue))
@@ -176,14 +176,14 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
                     else if (cellPosition.IsEmpty)
                         resultHintText = ENTER_VALID_POSITION;
                     else
-                        resultHintText = $"{UserDefinedConditionDescription.ContainerNumberContainingValue(conditionValue)} is not in {cellPosition}";
+                        resultHintText = $"{UserDefinedConditionDescription.ContainerNumberContainingValue(conditionValue)} is not in {cellPosition.DisplayPosition}";
                     break;
 
                 case (byte)UserDefinedConditionType.NoNetWeightUnitsOnboard:
-                    resultHintText = $"Any dangerous cargo has no Net Weight value";
+                    resultHintText = $"Any dangerous cargo has no Net Weight value" + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
                 default:
-                    resultHintText = $"Select an option below and type values in the text boxes";
+                    resultHintText = $"Select an option below and type values in the text boxes" + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
             }
 

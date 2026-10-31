@@ -68,6 +68,7 @@ namespace EasyJob_ProDG.Model.Transport
         /// If any value is set (different from default), it is false.
         /// </summary>
         public bool IsEmpty => this[0] == 0 && this[1] == 0 && this[2] == 99 && this[3] == 0 && this[4] == 0; 
+        public bool IsOnlyOnOrUnderDeck => !IsEmpty && this[0] == 0 && this[1] == 0 && this[2] == 99 && this[3] == 0 && this[4] != 0; 
 
         #endregion
 
