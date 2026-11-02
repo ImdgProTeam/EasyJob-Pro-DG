@@ -117,6 +117,14 @@
                                  Value="SW22">
                 <Setter Property="TextBox.Foreground" Value="{StaticResource Brush.ConflictList.Text.SW22}"/>
             </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Name}"
+                                 Value="User-defined conflicts">
+                <Setter Property="TextBox.Foreground" Value="{StaticResource Brush.ConflictList.Text.UDC}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Name}"
+                                 Value="Handling">
+                <Setter Property="TextBox.Foreground" Value="{StaticResource Brush.ConflictList.Text.Handling}"/>
+            </DataTrigger>
         </Style.Triggers>
     </Style>
 

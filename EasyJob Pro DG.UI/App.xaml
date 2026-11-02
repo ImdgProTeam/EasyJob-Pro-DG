@@ -18,6 +18,7 @@
                 <ResourceDictionary Source="View/Styles\ContextMenu.xaml"/>
                 <ResourceDictionary Source="View/Styles\Buttons.xaml" />
                 <ResourceDictionary Source="View/Styles\TextControls.xaml" />
+                <ResourceDictionary Source="View/Styles\ScrollBar.xaml" />
                 <ResourceDictionary Source="View/Styles\Lists.xaml" />
                 <ResourceDictionary Source="View/Styles\DataGrids.xaml" />
                 <ResourceDictionary Source="View/Styles\DgTable.xaml"/>

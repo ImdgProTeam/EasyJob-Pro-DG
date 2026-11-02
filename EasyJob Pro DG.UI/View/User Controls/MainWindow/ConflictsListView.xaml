@@ -284,6 +284,7 @@
                                       Text="{Binding DisplayText, UpdateSourceTrigger=PropertyChanged}">
                                 <TextBox.Resources>
                                     <Style TargetType="TextBox">
+                                        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
                                         <Setter Property="TextAlignment" Value="Justify" />
                                         <Setter Property="TextWrapping" Value="WrapWithOverflow" />
                                         <Setter Property="MaxLines" Value="8" />
@@ -311,6 +312,10 @@
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
+                                    
+                                    <Style TargetType="{x:Type ScrollBar}"
+                                           BasedOn="{StaticResource VisibleOnHoverScrollBar}" />
+                                    
                                 </TextBox.Resources>
                             </TextBox>
                         </DockPanel>

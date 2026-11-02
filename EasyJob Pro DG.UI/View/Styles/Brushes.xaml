@@ -137,9 +137,16 @@
     <SolidColorBrush x:Key="Brush.ConflictList.Text.SW22"
                      Color="{StaticResource Color.Text.SW22}" 
                      p:Freeze="true"/>
+    <SolidColorBrush x:Key="Brush.ConflictList.Text.UDC"
+                     Color="{StaticResource Color.Text.UDC}" 
+                     p:Freeze="true"/>
+    <SolidColorBrush x:Key="Brush.ConflictList.Text.Handling"
+                     Color="{StaticResource Color.Text.Handling}" 
+                     p:Freeze="true"/>
     <SolidColorBrush x:Key="Brush.Text.Conflict"
                      Color="{StaticResource Color.Text.Conflict}" 
                      p:Freeze="true"/>
+    
     <SolidColorBrush x:Key="Brush.Text.MouseOver"
                      Color="{StaticResource Color.Text.MouseOver}" 
                      p:Freeze="true"/>
@@ -157,6 +164,16 @@
                      p:Freeze="true"/>
     <SolidColorBrush x:Key="Brush.ConflictItem.Selected.Foreground"
                      Color="{StaticResource Color.ConflictItem.Selected.Foreground}"
+                     p:Freeze="true"/>
+
+    <SolidColorBrush x:Key="Brush.ConflictItem.ScrollViewer.Thumb"
+                     Color="{StaticResource Color.ConflictItem.ScrollViewer.Thumb}"
+                     p:Freeze="true"/>
+    <SolidColorBrush x:Key="Brush.ConflictItem.ScrollViewer.Thumb.IsMouseOver"
+                     Color="{StaticResource Color.ConflictItem.ScrollViewer.Thumb.IsMouseOver}"
+                     p:Freeze="true"/>
+    <SolidColorBrush x:Key="Brush.ConflictItem.ScrollViewer.Thumb.IsDragging"
+                     Color="{StaticResource Color.ConflictItem.ScrollViewer.Thumb.IsDragging}"
                      p:Freeze="true"/>
     <!--#endregion-->
 
