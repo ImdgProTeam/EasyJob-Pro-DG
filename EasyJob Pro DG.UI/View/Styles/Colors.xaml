@@ -58,9 +58,9 @@
     <Color x:Key="Color.ConflictItem.ContainerNumber.Selected.Foreground">White</Color>
     
     <!-- Conflict items group colors -->
-    <Color x:Key="Color.Text.Stowage">DeepSkyBlue</Color>
+    <Color x:Key="Color.Text.Stowage">#85c1e9</Color>
     <Color x:Key="Color.Text.Segregation">MediumOrchid</Color>
-    <Color x:Key="Color.Text.SW19">#e67e22</Color>
+    <Color x:Key="Color.Text.SW19">#eb984e</Color>
     <Color x:Key="Color.Text.SW22">#5D8AA8</Color>
     <Color x:Key="Color.Text.UDC">#45b39d</Color>
     <Color x:Key="Color.Text.Handling">#aab7b8</Color>

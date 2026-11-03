@@ -119,6 +119,15 @@ namespace EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts
                                 + AddCellPositionIfNotEmpty(condition);
                         break;
 
+                    case UserDefinedConditionType.OpenTypeContainerLoaded:
+                        resultDescription = $"Open type container is loaded"
+                                + AddCellPositionIfNotEmpty(condition);
+                        break;
+                    case UserDefinedConditionType.OpenTypeDgContainerLoaded:
+                        resultDescription = $"Open type container with DG is loaded"
+                                + AddCellPositionIfNotEmpty(condition);
+                        break;
+
                     case UserDefinedConditionType.ContainerNumberNotInPosition:
                         resultDescription = ContainerNumberContainingValue(condition)
                             + $" is not loaded" + AddCellPositionIfNotEmpty(condition);

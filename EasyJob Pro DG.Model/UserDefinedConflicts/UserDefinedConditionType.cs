@@ -29,6 +29,8 @@
         NoNetWeightUnitsOnboard,
         POLUnitsOnboard,
         PODUnitsOnboard,
+        OpenTypeContainerLoaded,
+        OpenTypeDgContainerLoaded,
 
         ContainerNumberNotInPosition,
 

@@ -1,4 +1,5 @@
 ﻿using EasyJob_ProDG.Model.Transport;
+using System.Collections.Generic;
 
 namespace EasyJob_ProDG.Model.UserDefinedConflicts
 {
@@ -26,6 +27,16 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
                 && string.Equals(ConditionValue, condition.ConditionValue)
                 && CellPosition == condition.CellPosition
                 && ConditionOption == condition.ConditionOption;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 129416394;
+            hashCode = hashCode * -1521134295 + ConditionType.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ConditionValue);
+            hashCode = hashCode * -1521134295 + EqualityComparer<CellPosition>.Default.GetHashCode(CellPosition);
+            hashCode = hashCode * -1521134295 + ConditionOption.GetHashCode();
+            return hashCode;
         }
 
         #region Constructors

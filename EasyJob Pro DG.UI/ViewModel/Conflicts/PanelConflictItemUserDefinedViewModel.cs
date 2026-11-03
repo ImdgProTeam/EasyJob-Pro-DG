@@ -90,6 +90,8 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
                     case UserDefinedConditionType.ReeferSetPointLoaded:
                     case UserDefinedConditionType.POLUnitsOnboard:
                     case UserDefinedConditionType.PODUnitsOnboard:
+                    case UserDefinedConditionType.OpenTypeContainerLoaded:
+                    case UserDefinedConditionType.OpenTypeDgContainerLoaded:
                         _description = $"{conditionDescription} (total: {conflict.ContainerNumbers.Count}):{FollowContainerNumberList(conflict.ContainerNumbers)}";
                         break;
 
@@ -208,6 +210,12 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
                     break;
                 case UserDefinedConditionType.PODUnitsOnboard:
                     result = $"Port of discharging!";
+                    break;
+                case UserDefinedConditionType.OpenTypeContainerLoaded:
+                    result = $"Open type container is loaded!";
+                    break;
+                case UserDefinedConditionType.OpenTypeDgContainerLoaded:
+                    result = $"Open type container with DG is loaded!";
                     break;
                 case UserDefinedConditionType.ContainerNumberNotInPosition:
                     result = $"Container not in position!";

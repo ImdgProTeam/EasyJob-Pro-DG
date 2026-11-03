@@ -40,8 +40,8 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             {
                 case (byte)UserDefinedConditionType.General:
                 case (byte)UserDefinedConditionType.FreeText:
-                //FreeText = 255 21
-                case 21:
+                //FreeText = 255 23
+                case 23:
                     resultHintText = "Enter any text to display it in Conflict section.";
                     break;
 
@@ -168,6 +168,15 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
                             + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
                     break;
 
+                case (byte)UserDefinedConditionType.OpenTypeContainerLoaded:
+                        resultHintText = $"Open type container is loaded"
+                            + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
+                    break;
+                case (byte)UserDefinedConditionType.OpenTypeDgContainerLoaded:
+                        resultHintText = $"Open type container with DG is loaded"
+                            + UserDefinedConditionDescription.AddCellPositionIfNotEmpty(cellPosition);
+                    break;
+
                 case (byte)UserDefinedConditionType.ContainerNumberNotInPosition:
                     if (HasNoEntry(conditionValue) && cellPosition.IsEmpty)
                         resultHintText = ENTER_CONTAINER_NUMBER + " and position";
@@ -227,8 +236,8 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             {
                 case (byte)UserDefinedConditionType.General:
                 case (byte)UserDefinedConditionType.FreeText:
-                //FreeText = 255 21
-                case 21:
+                //FreeText = 255 23
+                case 23:
                     correctValue = inputValue;
                     if (!string.IsNullOrEmpty(inputValue))
                         result = true;
@@ -240,6 +249,8 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
                 case (byte)UserDefinedConditionType.CellPositionLoadedWithDg:
                 case (byte)UserDefinedConditionType.ReeferContainingDgLoaded:
                 case (byte)UserDefinedConditionType.NoNetWeightUnitsOnboard:
+                case (byte)UserDefinedConditionType.OpenTypeContainerLoaded:
+                case (byte)UserDefinedConditionType.OpenTypeDgContainerLoaded:
                     correctValue = string.Empty;
                     result = true;
                     break;
@@ -490,7 +501,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         /// <returns></returns>
         internal static UserDefinedConditionType GetProperUserDefinedConditionType(this int selectedIndex)
         {
-            if (selectedIndex == 21)
+            if (selectedIndex == 23)
             {
                 return UserDefinedConditionType.FreeText;
             }

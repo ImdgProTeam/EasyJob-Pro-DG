@@ -232,6 +232,19 @@ namespace EasyJob_ProDG.Model.UserDefinedConflicts
                                                     && r.POD.ToUpper().Trim().Contains(condition.ConditionValue.ToUpper().Trim()))]);
                     break;
 
+                case UserDefinedConditionType.OpenTypeContainerLoaded:
+                    InitiateConflictedContainers(out conflictedContainers);
+                    conflictedContainers.AddRange([.. cargoPlan.Containers.Where(c => !c.IsClosed)]);
+                    if (!condition.CellPosition.IsEmpty)
+                        conflictedContainers = conflictedContainers.Where(c => condition.CellPosition == c).ToList();
+                    break;
+                case UserDefinedConditionType.OpenTypeDgContainerLoaded:
+                    InitiateConflictedContainers(out conflictedContainers);
+                    conflictedContainers.AddRange([.. cargoPlan.Containers.Where(c => !c.IsClosed && c.ContainsDgCargo)]);
+                    if (!condition.CellPosition.IsEmpty)
+                        conflictedContainers = conflictedContainers.Where(c => condition.CellPosition == c).ToList();
+                    break;
+
                 case UserDefinedConditionType.FreeText:
                 case UserDefinedConditionType.General:
                     return true; // Free text condition is always conflicted as long as it is not empty, the actual conflict info will be shown in the comment of the conflict.

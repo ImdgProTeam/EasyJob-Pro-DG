@@ -76,11 +76,15 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             "Loaded units with POL:",
             //PODUnitsOnboard, 19
             "Loaded units with POD:",
+            //OpenTypeContainerLoaded, 20
+            "Open type container loaded:",
+            //OpenTypeDgContainerLoaded, 21
+            "Open type container with DG loaded:",
 
-            //ContainerNumberNotInPosition, 20
+            //ContainerNumberNotInPosition, 22
             "Container number is not in position:",
 
-            //FreeText = 255 21
+            //FreeText = 255 23
             "Free text"
         };
 
@@ -160,8 +164,8 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
 
             switch (selectedConditionIndex)
             {
-                //FreeText = 255 21
-                case 21:
+                //FreeText = 255 23
+                case 23:
                 case (byte)UserDefinedConditionType.General:
                 case (byte)UserDefinedConditionType.ContainerNumberLoaded:
                 case (byte)UserDefinedConditionType.ContainerNumberDischarged:
@@ -178,6 +182,8 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
                 case (byte)UserDefinedConditionType.NoNetWeightUnitsOnboard:
                 case (byte)UserDefinedConditionType.POLUnitsOnboard:
                 case (byte)UserDefinedConditionType.PODUnitsOnboard:
+                case (byte)UserDefinedConditionType.OpenTypeContainerLoaded:
+                case (byte)UserDefinedConditionType.OpenTypeDgContainerLoaded:
                     break;
 
                 case (byte)UserDefinedConditionType.ContainerNumberNotInPosition:
@@ -305,8 +311,8 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             switch (selectedConditionIndex)
             {
                 case (byte)UserDefinedConditionType.General:
-                //FreeText = 255 21
-                case 21:
+                //FreeText = 255 23
+                case 23:
                     EditableConditionValueText = string.IsNullOrWhiteSpace(_editableConditionValueText)
                         ? containerNumber : _editableConditionValueText + $" {containerNumber}";
                     break;
@@ -444,8 +450,8 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             switch (selectedConditionIndex)
             {
                 case (byte)UserDefinedConditionType.General:
-                //FreeText = 255 21
-                case 21:
+                //FreeText = 255 23
+                case 23:
                     EditableConditionValueTextBoxTag = ENTER_TEXT;
                     DisableCellPositionTextBox();
                     break;
@@ -506,6 +512,8 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
                     EnableCellPositionTextBox();
                     break;
                 case (byte)UserDefinedConditionType.ReeferContainingDgLoaded:
+                case (byte)UserDefinedConditionType.OpenTypeContainerLoaded:
+                case (byte)UserDefinedConditionType.OpenTypeDgContainerLoaded:
                     EditableConditionValueTextBoxTag = ENTER_NO_VALUE_REQUIRED;
                     EnableCellPositionTextBox();
                     break;
@@ -552,7 +560,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         private void OnAddSaveNewConditionCommandExecuted(object obj)
         {
             EditableCondition.ConditionType = selectedConditionIndex.GetProperUserDefinedConditionType();
-            EditableCondition.ConditionComment = EditableConditionCommentText;
+            EditableCondition.ConditionComment = EditableConditionCommentText ?? string.Empty;
             EditableCondition.CellPosition = EditableConditionCellPosition.Model.Clone();
             EditableCondition.ConditionValue = _correctEditableConditionValue;
             EditableCondition.ConditionOption = _correctEditableConditionOption;
