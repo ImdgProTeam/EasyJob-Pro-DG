@@ -9,12 +9,15 @@ using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.View.DialogWindows.Summaries;
 using EasyJob_ProDG.UI.View.UI;
+using EasyJob_ProDG.UI.Wrapper;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.ViewModel
@@ -70,6 +73,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         // ----- Various DataGrids commands -----
         public ICommand CloseUpdatesDataGridCommand { get; private set; }
         public ICommand ExportToExcelCommand { get; private set; }
+        public ICommand FilterDataGridFromSelection { get; private set;  }
+        public ICommand ClearFilterCommand { get; private set;  }
 
         // ----- Various commands -----
         public ICommand SelectionChangedCommand { get; private set; }
@@ -137,6 +142,8 @@ namespace EasyJob_ProDG.UI.ViewModel
 
             CloseUpdatesDataGridCommand = new DelegateCommand(CloseUpdatesDataGridCommandOnExecuted);
             ExportToExcelCommand = new DelegateCommand(ExportToExcelOnExecuted);
+            FilterDataGridFromSelection = new DelegateCommand(FilterDataGridFromSelectionExecuted);
+            ClearFilterCommand = new DelegateCommand(ClearFilterCommandExecuted);
             SelectionChangedCommand = new DelegateCommand(OnApplicationClosing);
             ApplicationClosingCommand = new DelegateCommand(OnApplicationClosing);
 
@@ -166,6 +173,30 @@ namespace EasyJob_ProDG.UI.ViewModel
             StatusBarControl.StartProgressBar(10, "Exporting to excel...");
             Action d = Services.LoadDataServiceAccess.ExportDgListToExcel;
             Task.Run(() => WrapMethodWithIsLoading(d)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Filters DataGrid items from selection
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void FilterDataGridFromSelectionExecuted(object obj)
+        {
+            var selectionObject = SelectedDataGrid.GetSelectionObjectList();
+            List<string> selectedItems = SelectedDataGridIndex == 0 
+                ? selectionObject.Select(o => ((DgWrapper)o).Model.ID.ToString()).ToList() 
+                : selectionObject.Select(o => ((ContainerWrapper)o).ContainerNumber.ToString()).ToList();
+            SelectedDataGrid.SetAdditionalFilter(selectedItems);
+        }
+
+        /// <summary>
+        /// Calls ClearFilter of SelectedDataGrid
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void ClearFilterCommandExecuted(object obj)
+        {
+            SelectedDataGrid.ClearFilterCommand.Execute(obj);
         }
 
 

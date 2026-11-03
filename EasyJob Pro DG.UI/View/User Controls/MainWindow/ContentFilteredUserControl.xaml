@@ -10,7 +10,8 @@
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <Button Content="Content below is filtered"
-            ToolTip="Click to clear filter"
+            ToolTip="Click to clear filter (Alt + C)"
+            Background="{StaticResource Brush.Basic.Orange}"
             Padding="50, 0"
             Visibility="{Binding IsFilterApplied, Converter={StaticResource BooleanToVisibilityConverter}}"
             Command="{Binding ClearFilterCommand}"

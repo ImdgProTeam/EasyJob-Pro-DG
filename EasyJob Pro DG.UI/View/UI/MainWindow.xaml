@@ -56,6 +56,10 @@
                     Command="{Binding ShowSelectionToolWindowCommand}" />
         <KeyBinding Key="D3" Modifiers="Ctrl"
                     Command="{Binding ShowSetToolWindowCommand}" />
+        <KeyBinding Key="F" Modifiers="Alt"
+                    Command="{Binding FilterDataGridFromSelection}" />
+        <KeyBinding Key="C" Modifiers="Alt"
+                    Command="{Binding ClearFilterCommand}" />
     </Window.InputBindings>
 
     <Window.Resources>

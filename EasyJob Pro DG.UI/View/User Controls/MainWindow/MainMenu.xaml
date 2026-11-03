@@ -472,6 +472,8 @@
             <MenuItem Header="Selection"
                       Visibility="{Binding SelectionMenuVisible, UpdateSourceTrigger=PropertyChanged,
                 Converter={StaticResource BooleanToVisibilityConverter}}">
+                <MenuItem Header="Filter selected only" Command="{Binding FilterDataGridFromSelection}"
+                          InputGestureText="Alt + F"/>
                 <MenuItem Header="Lock position" />
                 
                 <!-- Dg datagrid-->
