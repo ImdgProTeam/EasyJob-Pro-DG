@@ -24,7 +24,7 @@ Date:
 Licence: 31 Dec 2026
 
 Version workable: Yes
-Changes: 
+Changes: User-defined conflicts implemented
 
 
 VISUAL
