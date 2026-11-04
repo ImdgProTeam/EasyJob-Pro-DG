@@ -3,6 +3,7 @@ using EasyJob_ProDG.Model.UserDefinedConflicts;
 using EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts;
 using System;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace EasyJob_ProDG.UI.ViewModel.Conflicts
 {
@@ -26,6 +27,8 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
 
         public override string ConflictGroupTitle => GROUP_TITLE_USER_DEFINED;
         public override string DisplayConflictHeader => _title;
+
+        public override Visibility UserDefinedConflictMenuItemsVisible { get; protected set; } = Visibility.Visible;
 
         #endregion
 

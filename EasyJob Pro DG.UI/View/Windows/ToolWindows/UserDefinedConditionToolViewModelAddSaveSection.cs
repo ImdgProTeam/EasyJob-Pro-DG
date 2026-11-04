@@ -2,7 +2,6 @@
 using EasyJob_ProDG.Model.UserDefinedConflicts;
 using EasyJob_ProDG.UI.Wrapper;
 using EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts;
-using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 
@@ -94,6 +93,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         #region Private fields
         // ----- Private fields -----
 
+        const int INDEX_OF_FREE_TEXT = 23;
         private string _correctEditableConditionValue;
         private string _editableConditionCommentText;
         private bool _editableConditionValueIsValid;
@@ -165,7 +165,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             switch (selectedConditionIndex)
             {
                 //FreeText = 255 23
-                case 23:
+                case INDEX_OF_FREE_TEXT:
                 case (byte)UserDefinedConditionType.General:
                 case (byte)UserDefinedConditionType.ContainerNumberLoaded:
                 case (byte)UserDefinedConditionType.ContainerNumberDischarged:
@@ -289,7 +289,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
         {
             // Switch to 'Free text' from 'Select option'
             if (selectedConditionIndex == 0)
-                SelectedConditionIndex = 21;
+                SelectedConditionIndex = INDEX_OF_FREE_TEXT;
 
             // Sync typing with 'CellPoisition' in case when value expects for position
             if (selectedConditionIndex >= 3 && selectedConditionIndex <= 6)
@@ -312,7 +312,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             {
                 case (byte)UserDefinedConditionType.General:
                 //FreeText = 255 23
-                case 23:
+                case INDEX_OF_FREE_TEXT:
                     EditableConditionValueText = string.IsNullOrWhiteSpace(_editableConditionValueText)
                         ? containerNumber : _editableConditionValueText + $" {containerNumber}";
                     break;
@@ -451,7 +451,7 @@ namespace EasyJob_ProDG.UI.View.Windows.ToolWindows
             {
                 case (byte)UserDefinedConditionType.General:
                 //FreeText = 255 23
-                case 23:
+                case INDEX_OF_FREE_TEXT:
                     EditableConditionValueTextBoxTag = ENTER_TEXT;
                     DisableCellPositionTextBox();
                     break;

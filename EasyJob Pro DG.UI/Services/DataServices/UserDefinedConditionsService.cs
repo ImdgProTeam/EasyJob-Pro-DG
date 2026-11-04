@@ -1,5 +1,6 @@
 ﻿using EasyJob_ProDG.Model.UserDefinedConflicts;
 using EasyJob_ProDG.UI.Wrapper;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace EasyJob_ProDG.UI.Services.DataServices
@@ -36,7 +37,18 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         {
             if (_repositoryHandler.RemoveCondition(conditionWrapper.Model))
             {
-                _conditions.Remove(conditionWrapper);
+                if (_conditions is null) return true;
+
+                var conditionsToRemove = new List<UserDefinedConditionWrapper>();
+                foreach (var condition in _conditions)
+                {
+                    if (condition.Model == conditionWrapper.Model)
+                        conditionsToRemove.Add(condition);
+                }
+                foreach (var condition in conditionsToRemove)
+                {
+                    _conditions.Remove(condition);
+                }
                 return true;
             }
             return false;

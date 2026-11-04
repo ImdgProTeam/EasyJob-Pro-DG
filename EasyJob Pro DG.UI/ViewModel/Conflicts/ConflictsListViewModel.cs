@@ -2,6 +2,7 @@
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.View.Sort;
 using System;
 using System.Collections.Generic;
@@ -186,6 +187,15 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Removes UserDefinedCondition associated with selected conflict from repository. 
+        /// </summary>
+        /// <param name="parameter"></param>
+        private void RemoveUserDefinedCondition(object parameter)
+        {
+            DataMessenger.Default.Send(new UserDefinedConditionRemoveMessage(parameter), DataMessengerContext.USER_DEFINED_CONDITION_REMOVE);
+        }
+
         private void NotifyOfSelectedConflict(object parameters)
         {
             DataMessenger.Default.Send(SelectedConflict, "conflict selection changed");
@@ -198,6 +208,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ICommand DoubleClickOnSelectedItem { get; private set; }
         public ICommand RemoveConflictCommand { get; private set; }
         public ICommand RemoveSimilarConflictCommand { get; private set; }
+        public ICommand RemoveUserDefinedConditionCommand { get; private set; }
 
         #endregion
 
@@ -255,6 +266,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             DoubleClickOnSelectedItem = new DelegateCommand(NotifyOfSelectedConflict);
             RemoveConflictCommand = new DelegateCommand(RemoveConflict);
             RemoveSimilarConflictCommand = new DelegateCommand(RemoveSimilarConflicts);
+            RemoveUserDefinedConditionCommand = new DelegateCommand(RemoveUserDefinedCondition);
         }
 
         #endregion

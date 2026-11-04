@@ -6,6 +6,7 @@ using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.View.DialogWindows;
 using EasyJob_ProDG.UI.View.DialogWindows.Summaries;
 using EasyJob_ProDG.UI.Wrapper;
+using EasyJob_ProDG.UI.Wrapper.UserDefinedConflicts;
 using System;
 
 namespace EasyJob_ProDG.UI.Services
@@ -107,11 +108,22 @@ namespace EasyJob_ProDG.UI.Services
             }
             DataMessenger.Default.Send(new DgListSelectedItemUpdatedMessage());
         }
-        
+
         private void OnUserDefinedConflictsToBeCheckedAndUpdatedMessageReceived(UserDefinedConflictsToCheckAndUpdateMessage message)
         {
             _userDefinedConflictsCheckService.CheckUserDefinedConflicts();
             DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(), "update conflicts");
+        }
+
+        private void OnUserDefinedConditionRemoveMessageReceived(UserDefinedConditionRemoveMessage message)
+        {
+            if (_messageDialogService.ShowYesNoDialog
+                ($"The following condition will be permanently removed:\n{message.conflictPanelItem.GetConflict().ConditionReference.GetDescription()}", 
+                "Remove condition") == MessageDialogResult.No)
+                return;
+
+            _userUserDefinedConditionService.RemoveCondition(new UserDefinedConditionWrapper(message.conflictPanelItem.GetConflict().ConditionReference));
+            OnUserDefinedConflictsToBeCheckedAndUpdatedMessageReceived(null);
         }
 
         #region Initializing setup private methods
@@ -139,6 +151,8 @@ namespace EasyJob_ProDG.UI.Services
             DataMessenger.Default.Unregister(_instance);
             DataMessenger.Default.Register<ConflictsToBeCheckedAndUpdatedMessage>(this, OnConflictsToBeCheckedAndUpdatedMessageReceived);
             DataMessenger.Default.Register<UserDefinedConflictsToCheckAndUpdateMessage>(this, OnUserDefinedConflictsToBeCheckedAndUpdatedMessageReceived, DataMessengerContext.USER_DEFINED_CONFLICTS_TO_BE_CHECKED_AND_UPDATED);
+            DataMessenger.Default.Register<UserDefinedConditionRemoveMessage>(this,
+                OnUserDefinedConditionRemoveMessageReceived, DataMessengerContext.USER_DEFINED_CONDITION_REMOVE);
         }
 
         #endregion

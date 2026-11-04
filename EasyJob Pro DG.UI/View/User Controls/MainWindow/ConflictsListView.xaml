@@ -325,6 +325,10 @@
                                 <MenuItem Header="Remove this and similar conflicts"
                                           Command="{Binding ConflictListViewModel.RemoveSimilarConflictCommand, Source={StaticResource ViewModelLocator}}"
                                           CommandParameter="{Binding}" />
+                                <MenuItem Header="Remove user-defined condition"
+                                          Command="{Binding ConflictListViewModel.RemoveUserDefinedConditionCommand, Source={StaticResource ViewModelLocator}}"
+                                          CommandParameter="{Binding}"
+                                          Visibility="{Binding UserDefinedConflictMenuItemsVisible}"/>
                             </ContextMenu>
                         </Border.ContextMenu>
 

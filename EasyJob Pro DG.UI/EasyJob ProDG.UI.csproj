@@ -141,6 +141,7 @@
     <Compile Include="Utility\Messages\DgListSelectedItemUpdatedMessage.cs" />
     <Compile Include="Utility\Messages\ShipProfileSavedMessage.cs" />
     <Compile Include="Utility\Messages\ShowUpdatesMessage.cs" />
+    <Compile Include="Utility\Messages\UserDefinedConditionRemoveMessage.cs" />
     <Compile Include="Utility\Messages\UserDefinedConflictsToCheckAndUpdateMessage.cs" />
     <Compile Include="Validation\DgClassInputValidator.cs" />
     <Compile Include="Validation\DgEMSInputValidator.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="ViewModel\MainWindow\DataGridViewModels.cs" />
     <Compile Include="ViewModel\MainWindow\MainWindowCommands.cs" />
     <Compile Include="ViewModel\MainWindow\SelectionStatusBarTextGenerator.cs" />
+    <Compile Include="ViewModel\MenuItemViewModel.cs" />
     <Compile Include="View\Animations\FrameworkElementAnimations.cs" />
     <Compile Include="View\AttachedProperties\DataGridSortBehavior.cs" />
     <Compile Include="View\AttachedProperties\FrameworkElementsAnimationAttachedProperties.cs" />

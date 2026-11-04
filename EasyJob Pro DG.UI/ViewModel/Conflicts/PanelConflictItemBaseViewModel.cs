@@ -1,5 +1,6 @@
 ﻿using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.Utility;
+using System.Windows;
 
 namespace EasyJob_ProDG.UI.ViewModel
 {
@@ -42,6 +43,8 @@ namespace EasyJob_ProDG.UI.ViewModel
         /// </summary>
         public abstract string ConflictGroupTitle { get; }
 
+        public virtual Visibility UserDefinedConflictMenuItemsVisible { get; protected set; } = Visibility.Collapsed;
+
         #endregion
 
         #region Methods
@@ -59,6 +62,21 @@ namespace EasyJob_ProDG.UI.ViewModel
         protected abstract string CreateDisplayText();
 
         #endregion
+
+        //#region Context menu
+
+        //public ObservableCollection<MenuItemViewModel> ContextMenuItems { get; } = new();
+
+        //private void SetContextMenu()
+        //{
+        //    ContextMenuItems.Add(new MenuItemViewModel
+        //    {
+        //        Header = "Remove this and similar conflicts",
+        //        Command = 
+        //    });
+        //}
+
+        //#endregion
 
         #region Override system methods
         // ---------------- Overrided system methods ----------------------------
