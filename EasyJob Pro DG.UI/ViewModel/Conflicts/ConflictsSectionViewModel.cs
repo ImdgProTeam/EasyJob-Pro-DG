@@ -1,6 +1,7 @@
 ﻿using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Utility;
+using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.ViewModel.Conflicts;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,16 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void OnReCheckRequested(object obj)
         {
             DataMessenger.Default.Send(new ConflictsToBeCheckedAndUpdatedMessage(true));
+        }
+
+        /// <summary>
+        /// Called when 'settings' button in the top right corner is pressed.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void ShowUserDefinedConditionWindowExecuted(object obj)
+        {
+            DataMessenger.Default.Send(new OpenWindowMessage(), DataMessengerContext.OPEN_USER_DEFINED_CONDITION_TOOL_WINDOW);
         }
 
         /// <summary>
@@ -144,10 +155,12 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         #region Commands
         public ICommand ReCheckCommand { get; private set; }
+        public ICommand ShowUserDefinedConditionWindowCommand { get; private set;  }
 
         private void LoadCommands()
         {
             ReCheckCommand = new DelegateCommand(OnReCheckRequested);
+            ShowUserDefinedConditionWindowCommand = new DelegateCommand(ShowUserDefinedConditionWindowExecuted);
         }
 
         #endregion

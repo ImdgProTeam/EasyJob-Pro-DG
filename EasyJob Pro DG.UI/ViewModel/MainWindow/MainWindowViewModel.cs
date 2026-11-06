@@ -132,6 +132,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             DataMessenger.Default.Register<ShowUpdatesMessage>(this, OnShowUpdatesMessageReceived);
             DataMessenger.Default.Register<ChangeSelectionMessage>(this, OnUpdatesDataGridClosedMessageReceived, "updates data grid closed");
             DataMessenger.Default.Register<ChangeSelectionMessage>(this, OnSelectionChangedMessageReceived, "Selected unit changed");
+            DataMessenger.Default.Register<OpenWindowMessage>(this, OnShowUserDefinedConditionWindowExecuted, DataMessengerContext.OPEN_USER_DEFINED_CONDITION_TOOL_WINDOW);
         }
 
         /// <summary>
