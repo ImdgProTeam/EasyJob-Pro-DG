@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -46,6 +45,10 @@ namespace EasyJob_ProDG.UI.ViewModel
         public PanelConflictItemBaseViewModel SelectedConflict { get; set; }
 
         internal List<ConflictTypes> ExistingConflictTypes => allConflicts.Select(c => c.ConflictType).Distinct().ToList();
+
+        public bool HasNoConflicts => allConflicts?.Count == 0;
+        public bool HasNothingToDisplay => _conflictsToDispaly?.Count == 0;
+
         #endregion
 
         #region Public and internal methods
@@ -84,6 +87,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
 
             RaiseDisplayConflictsSetNotificationEvent();
+            OnPropertyChanged(nameof(HasNothingToDisplay));
         }
 
         /// <summary>
@@ -258,7 +262,7 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         private void RegisterInMessenger()
         {
-            DataMessenger.Default.Register<DisplayConflictsToBeRefreshedMessage>(this, OnDisplayConflictsToBeRefreshedMessageReceived, "update conflicts");
+            DataMessenger.Default.Register<DisplayConflictsToBeRefreshedMessage>(this, OnDisplayConflictsToBeRefreshedMessageReceived, DataMessengerContext.UPDATE_CONFLICTS);
         }
 
         private void RegisterCommands()

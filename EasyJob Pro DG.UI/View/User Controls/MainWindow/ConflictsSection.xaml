@@ -20,7 +20,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- Text 'Lost of conflicts' -->
-                <TextBlock Text="List of conflicts"
+                <TextBlock Text="{Binding HeaderText}"
                            Margin="0,8,0,2"
                            FontSize="{StaticResource StandardButtonFontSize}"
                            VerticalAlignment="Bottom"

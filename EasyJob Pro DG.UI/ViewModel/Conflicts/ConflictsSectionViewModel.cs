@@ -13,11 +13,32 @@ namespace EasyJob_ProDG.UI.ViewModel
 {
     public class ConflictsSectionViewModel : Observable
     {
+
+        #region Text
+        const string DEFAULT_HEADER_TEXT = "List of conflicts";
+        const string DEFAULT_NO_CONFLICTS_HEADER_TEXT = "No conflicts found";
+
+
+        private Dictionary<ConflictTypes, string> ConflictTypeDisplayTextDictionary = new Dictionary<ConflictTypes, string>()
+        {
+            { ConflictTypes.None, "None" },
+            { ConflictTypes.Segregation, "Segregation conflicts" },
+            { ConflictTypes.Stowage, "Stowage conflicts" },
+            { ConflictTypes.Info, "Information messages" },
+            { ConflictTypes.Warning, "Warnings" },
+            { ConflictTypes.UserDefined, "User-defined conflicts" },
+            { ConflictTypes.VentRequirement, "Ventilation requirements" },
+            { ConflictTypes.Handling, "Handling instructions" },
+        };
+
+        #endregion
+
         // Private fields
         ConflictListViewModel conflictListViewModel = ViewModelLocator.ConflictListViewModel;
         ConflictFilterButtonVM clearAllButton;
 
         // Public and internal members
+        public string HeaderText { get; private set; } = DEFAULT_HEADER_TEXT;
         public ObservableCollection<ConflictFilterButtonVM> FilterButtons { get; private set; }
         public VentilationRequirements Vents { get; set; }
 
@@ -57,27 +78,27 @@ namespace EasyJob_ProDG.UI.ViewModel
             {
                 new ConflictFilterButtonVM(ConflictTypes.Stowage, "SW")
                 {
-                    Hint="Stowage conflicts",
+                    Hint=ConflictTypeDisplayTextDictionary[ConflictTypes.Stowage],
                 },
                 new ConflictFilterButtonVM(ConflictTypes.Segregation, "SG")
                 {
-                    Hint="Segregation conflicts",
+                    Hint=ConflictTypeDisplayTextDictionary[ConflictTypes.Segregation],
                 },
                 new ConflictFilterButtonVM(ConflictTypes.VentRequirement, "Vent")
                 {
-                    Hint="Ventilation requirements",
+                    Hint=ConflictTypeDisplayTextDictionary[ConflictTypes.VentRequirement],
                 },
                 new ConflictFilterButtonVM(ConflictTypes.Handling, "Hand")
                 {
-                    Hint="Handling instructions",
+                    Hint=ConflictTypeDisplayTextDictionary[ConflictTypes.Handling],
                 },
                 new ConflictFilterButtonVM(ConflictTypes.Info, "Info")
                 {
-                    Hint="Information messages",
+                    Hint=ConflictTypeDisplayTextDictionary[ConflictTypes.Info],
                 },
                 new ConflictFilterButtonVM(ConflictTypes.UserDefined, "User")
                 {
-                    Hint="User-defined conflicts",
+                    Hint=ConflictTypeDisplayTextDictionary[ConflictTypes.UserDefined],
                 },
             };
             foreach (var filterButton in FilterButtons)
@@ -106,6 +127,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             conflictListViewModel.SetConflictsFilter();
 
             EnableClearAllButton();
+            SetIsFilteredTextOnHeader();
         }
 
         private void OnFilterButtonPressed(object obj)
@@ -121,6 +143,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             EnableClearAllButton();
 
             conflictListViewModel.SetConflictsFilter(FilteredConflictTypes);
+            SetIsFilteredTextOnHeader();
         }
 
         /// <summary>
@@ -151,11 +174,32 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
         }
 
+        private void SetIsFilteredTextOnHeader()
+        {
+            if (FilteredConflictTypes.Count == 0)
+            {
+                HeaderText = conflictListViewModel.HasNoConflicts
+                    ? DEFAULT_NO_CONFLICTS_HEADER_TEXT
+                 : DEFAULT_HEADER_TEXT;
+            }
+            else if (FilteredConflictTypes.Count == 1)
+            {
+                HeaderText = $"Filtered: {ConflictTypeDisplayTextDictionary[FilteredConflictTypes[0]]}";
+            }
+            else { HeaderText = $"{DEFAULT_HEADER_TEXT} (filtered)"; }
+            OnPropertyChanged(nameof(HeaderText));
+        }
+
+        private void OnDisplayConflictsToBeRefreshedMessageReceived(DisplayConflictsToBeRefreshedMessage message)
+        {
+            SetIsFilteredTextOnHeader();
+        }
+
         #endregion
 
         #region Commands
         public ICommand ReCheckCommand { get; private set; }
-        public ICommand ShowUserDefinedConditionWindowCommand { get; private set;  }
+        public ICommand ShowUserDefinedConditionWindowCommand { get; private set; }
 
         private void LoadCommands()
         {
@@ -170,6 +214,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         public ConflictsSectionViewModel()
         {
             LoadCommands();
+            RegisterInMessenger();
 
             FilteredConflictTypes = new();
 
@@ -179,6 +224,10 @@ namespace EasyJob_ProDG.UI.ViewModel
             CreateFilterButtons();
         }
 
+        private void RegisterInMessenger()
+        {
+            DataMessenger.Default.Register<DisplayConflictsToBeRefreshedMessage>(this, OnDisplayConflictsToBeRefreshedMessageReceived, DataMessengerContext.UPDATE_CONFLICTS);
+        }
 
         #endregion
     }

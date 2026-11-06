@@ -14,6 +14,7 @@
                              d:DataContext="{d:DesignInstance viewmodel:ConflictListViewModel, d:IsDesignTimeCreatable=True}">
 
     <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
 
     <Grid x:Name="mainConflictListGrid">
@@ -342,5 +343,12 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ListBox>
+
+        <TextBlock Text="Nothing to display"
+                   TextAlignment="Center"
+                   Padding="0 20"
+                   Opacity="0.6"
+                   IsHitTestVisible="False"
+                   Visibility="{Binding HasNothingToDisplay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
     </Grid>
 </local:AnimatedUserControl>

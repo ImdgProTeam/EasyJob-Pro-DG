@@ -8,5 +8,8 @@
         
         
         public const string OPEN_USER_DEFINED_CONDITION_TOOL_WINDOW = "Open user-defined condition tool window";
+        public const string UPDATE_CONFLICTS = "update conflicts";
+
+
     }
 }
