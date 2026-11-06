@@ -21,20 +21,37 @@ VERSION INFO
 0.9.24.9
 Date: 
 
-Licence: 31 Dec 2026
+Licence: 30 Jun 2027
 
 Version workable: Yes
 Changes: User-defined conflicts implemented
 
 
 VISUAL
-1. 
+1. Changed appearence of stowage category combo box
+2. Changed colors and added types of conflicts in Conflicts section
+3. Changed background color for 'Content below is filtered'
+4. Minor changes in various display text
+5. Improved status bar informating
+6. Added Segregation groups drop down menu with options to choose
+7. Conflict groups are now sorted in defined order
+8. Scroll bar for conflict text
 
 ERRORS FIXED
-1. 
+1. Ctrl + S shortcut to save file
+2. Improved scrolling of DataGrid DG
 
 NEW
-1. 
+1. User-defined conflicts
+2. Implemented new input methods for container location
+3. Implemented new input methods for EmS
+4. Implemented restore Proper shipping name
+5. Implemented restriction on input Container number that already exists
+6. Context menu for Proper shipping name
+7. Added functionality to SearchBox
+8. Filter selection
+
+Minor changes and improvements
 
 Fully functional release
 -------------------------------------------------------
