@@ -173,7 +173,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             Services.CargoPlanCheckServiceAccess.CheckCargoPlan();
 
             // Refreshes conflicts list
-            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(rebuildConflictList), "update conflicts");
+            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(rebuildConflictList), DataMessengerContext.UPDATE_CONFLICTS);
 
             //OnPropertyChange
             RefreshView();

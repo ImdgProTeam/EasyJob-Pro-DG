@@ -20,9 +20,9 @@ namespace EasyJob_ProDG.UI.Utility
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
-        public IEnumerable GetErrors(string propertyName)
+        public IEnumerable GetErrors(string? propertyName)
         {
-            return _errorsByPropertyName.ContainsKey(propertyName)
+            return _errorsByPropertyName.ContainsKey(propertyName ?? string.Empty)
                 ? _errorsByPropertyName[propertyName]
                 : null;
         }

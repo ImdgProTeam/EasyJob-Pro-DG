@@ -99,12 +99,12 @@ namespace EasyJob_ProDG.UI.Services
             if (wrapper is null)
             {
                 _cargoPlanCheckService.CheckCargoPlan();
-                DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(obj.FullListToBeUpdated), "update conflicts");
+                DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(obj.FullListToBeUpdated), DataMessengerContext.UPDATE_CONFLICTS);
             }
             else // if wrapper is passed, it means that only the unit stowage needs to be checked
             {
                 _cargoPlanCheckService.CheckDgWrapperStowage(wrapper);
-                DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(wrapper), "update conflicts");
+                DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(wrapper), DataMessengerContext.UPDATE_CONFLICTS);
             }
             DataMessenger.Default.Send(new DgListSelectedItemUpdatedMessage());
         }
@@ -112,7 +112,7 @@ namespace EasyJob_ProDG.UI.Services
         private void OnUserDefinedConflictsToBeCheckedAndUpdatedMessageReceived(UserDefinedConflictsToCheckAndUpdateMessage message)
         {
             _userDefinedConflictsCheckService.CheckUserDefinedConflicts();
-            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(), "update conflicts");
+            DataMessenger.Default.Send(new DisplayConflictsToBeRefreshedMessage(), DataMessengerContext.UPDATE_CONFLICTS);
         }
 
         private void OnUserDefinedConditionRemoveMessageReceived(UserDefinedConditionRemoveMessage message)

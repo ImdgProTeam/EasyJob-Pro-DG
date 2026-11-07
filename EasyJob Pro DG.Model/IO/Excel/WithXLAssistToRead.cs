@@ -36,7 +36,8 @@ namespace EasyJob_ProDG.Model.IO.Excel
 
                     if (char.IsPunctuation(c))
                     {
-                        if (c == '.' || c == '-') result += c;
+                        if (c == '.' || (c == '-' && string.IsNullOrEmpty(result))) 
+                            result += c;
                         if (c == ',') result += '.';
                         continue;
                     }
@@ -58,6 +59,54 @@ namespace EasyJob_ProDG.Model.IO.Excel
             }
             return dgfp;
         }
+        /// <summary>
+        /// Method reads fp, corrects the errors/typos, translates F into C.
+        /// </summary>
+        /// <param name="cells"></param>
+        /// <returns></returns>
+        internal static decimal ParseDecimal(this string value, decimal defaultProgramValue)
+        {
+            if (decimal.TryParse(value, out decimal d) && d != defaultProgramValue)
+                return d;
+
+            decimal decimalValue;
+            string result = null;
+            try
+            {
+                string units = "C";
+                foreach (char c in value)
+                {
+                    if (char.IsDigit(c))
+                    {
+                        result += c;
+                        continue;
+                    }
+
+                    if (char.IsPunctuation(c))
+                    {
+                        if (c == '.' || (c == '-' && string.IsNullOrEmpty(result))) 
+                            result += c;
+                        if (c == ',') result += '.';
+                        continue;
+                    }
+
+                    if (char.IsLetter(c))
+                    {
+                        if (char.ToLower(c) == 'f')
+                            units = "F";
+                    }
+                }
+
+                decimalValue = Math.Round(Convert.ToDecimal(result), 2);
+                if (units == "F") decimalValue = Math.Round(decimalValue.ToCelcium(), 2);
+
+            }
+            catch (Exception)
+            {
+                decimalValue = defaultProgramValue;
+            }
+            return decimalValue;
+        }
 
         /// <summary>
         /// Method reads DG class and helps to avoid exceptions and also validates the result.
@@ -78,6 +127,8 @@ namespace EasyJob_ProDG.Model.IO.Excel
 
                 if (char.IsDigit(c))
                 {
+                    if (char.Equals(c, '0')) continue;
+
                     if (string.IsNullOrEmpty(result) || result.Length == 2 && result[1] == '.')
                         result += c;
 
@@ -157,7 +208,6 @@ namespace EasyJob_ProDG.Model.IO.Excel
                     if (char.IsDigit(c))
                         result += c;
                     continue;
-
                 }
 
                 if (!string.IsNullOrEmpty(result))
@@ -260,7 +310,6 @@ namespace EasyJob_ProDG.Model.IO.Excel
         /// <param name="cont"></param>
         internal static void ParseRemarkColumn(string value, Dg unit, Container cont)
         {
-            //TODO: Method can be drastically improved
             bool matched = false;
             string tempValue = Convert.ToString(value).ToLower().Replace("\t", ",").Replace("\n", ",")
                 .Replace(", ", ",").Replace("\\", ",").Replace("/", ",").Trim();

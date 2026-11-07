@@ -1,8 +1,6 @@
-﻿using EasyJob_ProDG.Data.Info_data;
-using EasyJob_ProDG.Model.Cargo;
+﻿using EasyJob_ProDG.Model.Cargo;
 using EasyJob_ProDG.UI.Validation;
 using EasyJob_ProDG.UI.Wrapper.Cargo;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -197,13 +195,13 @@ namespace EasyJob_ProDG.UI.Wrapper
                 if (oldName.ContainsWaste() && !newName.ContainsWaste())
                     IsWaste = false;
                 else if (newName.ContainsWaste()) IsWaste = true;
-                else if (oldName.ContainsMax1Litre() && !newName.ContainsMax1Litre()) 
+                else if (oldName.ContainsMax1Litre() && !newName.ContainsMax1Litre())
                     IsMax1L = false;
-                else if (newName.ContainsMax1Litre() || newName.ContainsMax1Litre()) 
+                else if (newName.ContainsMax1Litre() || newName.ContainsMax1Litre())
                     IsMax1L = true;
                 if (oldName.ContainsStabilized() && !newName.ContainsStabilized())
                     IsStabilized = false;
-                else if (newName.ContainsStabilized()) 
+                else if (newName.ContainsStabilized())
                     IsStabilized = true;
 
                 // AS COOLANT OR AS CONDITIONER 5.5.3.2.1

@@ -70,20 +70,28 @@ namespace EasyJob_ProDG.Model.IO.Excel
                 {
                     Container cont = new Container();
 
-                    for (byte col = 1; col <= templateMaxColumn; col++)
+                    try
                     {
-                        excelcells = excelWorksheet.Cells[line, col];
-                        if (excelcells.Value2 == null) continue;
-                        string value = excelcells.Value2.ToString().Trim();
+                        for (byte col = 1; col <= templateMaxColumn; col++)
+                        {
+                            excelcells = excelWorksheet.Cells[line, col];
+                            if (excelcells.Value2 == null) continue;
+                            string value = excelcells.Value2.ToString().Trim();
 
-                        if (col == byte.Parse(_template[3])) cont.ContainerNumber = value;
-                        else if (col == byte.Parse(_template[4])) cont.Commodity = value;
-                        else if (col == byte.Parse(_template[5])) cont.SetTemperature = decimal.Parse(value);
-                        else if (col == byte.Parse(_template[6])) cont.VentSetting = value;
-                        else if (col == byte.Parse(_template[7])) cont.ReeferSpecial = value;
-                        else if (col == byte.Parse(_template[8])) cont.ReeferRemark = value;
+                            if (col == byte.Parse(_template[3])) cont.ContainerNumber = value;
+                            else if (col == byte.Parse(_template[4])) cont.Commodity = value;
+                            else if (col == byte.Parse(_template[5])) cont.SetTemperature = value.ParseDecimal(defaultProgramValue: 0);
+                            else if (col == byte.Parse(_template[6])) cont.VentSetting = value;
+                            else if (col == byte.Parse(_template[7])) cont.ReeferSpecial = value;
+                            else if (col == byte.Parse(_template[8])) cont.ReeferRemark = value;
+                        }
+                        if (!excelReefers.Contains(cont)) excelReefers.Add(cont);
                     }
-                    if (!excelReefers.Contains(cont)) excelReefers.Add(cont);
+                    catch (System.Exception ex)
+                    {
+                        Data.LogWriter.Write($"Reading Excel reefer manifest line {(!string.IsNullOrWhiteSpace(cont.ContainerNumber) ? $"for unit '{cont.ContainerNumber}' " : "")}thrown an exception: {ex.Message}");
+                        continue;
+                    }
 
                     #region Status bar update
                     //Status bar update
@@ -98,11 +106,19 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         }
                         else
                             Data.ProgressBarReporter.ReportPercentage += statusBarIncrementValue;
-                    } 
+                    }
                     #endregion
                 }
-                Data.LogWriter.Write($"Reefer manifest data read from excel.");
-                isImported = true;
+
+                if (excelReefers.Count > 0)
+                {
+                    Data.LogWriter.Write($"Reefer manifest data read from excel.");
+                    isImported = true;
+                }
+                else
+                {
+                    Data.LogWriter.Write($"No Reefer manifest data read from excel.");
+                }
             }
             catch
             {

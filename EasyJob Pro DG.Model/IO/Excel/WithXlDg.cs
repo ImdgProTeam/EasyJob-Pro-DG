@@ -1,5 +1,6 @@
 ﻿using EasyJob_ProDG.Data.Info_data;
 using EasyJob_ProDG.Model.Cargo;
+using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -82,11 +83,50 @@ namespace EasyJob_ProDG.Model.IO.Excel
                     statusBarIncrementValue = 30 / rowscount;
                 #endregion
 
-                //in order to handle missing container numbers and locations
-                Container lastContainer = new Container();
+                TryReadExcelRows(dgList, containers, ref excelcells, excelWorksheet, rowscount, tempStatusBarIncrementValue, ref tempIncrementAccummulation, statusBarIncrementValue);
 
-                //Create dg list & container list
-                for (int line = 0; line < rowscount; line++)
+                if (dgList.Count > 0)
+                {
+                    Data.LogWriter.Write($"Dg manifest data read from excel.");
+                    isImported = true;
+                }
+                else
+                {
+                    Data.LogWriter.Write($"No DG manifest data read from excel.");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Data.LogWriter.Write($"Attempt to read excel workbook {workbook} thrown an exception {ex.Message}.");
+            }
+            finally
+            {
+                #region Close and final release of excel objects
+
+                activeWorkbook.Close(false, null, null);
+                workbooks?.Close();
+                excelapp.Quit();
+
+                WithXl.RunGarbageCollector();
+                WithXl.FinalReleaseCOMObjects(excelcells, excelWorksheet, activeWorkbook, workbooks, excelapp);
+
+                Data.LogWriter.Write($"Excel file disconnected.");
+                #endregion
+            }
+
+            return isImported;
+        }
+
+        private static void TryReadExcelRows(List<Dg> dgList, ICollection<Container> containers, ref Range excelcells, Worksheet excelWorksheet, int rowscount, float tempStatusBarIncrementValue, ref float tempIncrementAccummulation, int statusBarIncrementValue)
+        {
+            //in order to handle missing container numbers and locations
+            Container lastContainer = new Container();
+
+            //Create dg list & container list
+            for (int line = 0; line < rowscount; line++)
+            {
+                try
                 {
                     int row = templateStartRow + line;
                     Dg unit = new Dg();
@@ -98,63 +138,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         if (excelcells.Value2 == null) continue;
                         string value = excelcells.Value2.ToString().Trim();
 
-                        if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colContNr))
-                            cont.ContainerNumber = value.Replace(" ", "");
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colLocation))
-                            cont.Location = value;
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colPOL))
-                            cont.POL = value;
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colPOD))
-                            cont.POD = value;
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colUnno))
-                        {
-                            unit.Unno = Convert.ToUInt16(value);
-                            unit.AssignSegregationGroup();
-                        }
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colClass))
-                        {
-                            unit.DgClass = WithXlAssistToRead.DgClass(value, unit.ContainerNumber);
-                        }
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colSubclass))
-                        {
-                            unit.DgSubClassArray = WithXlAssistToRead.DgSubClass(value, unit.ContainerNumber);
-                        }
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colName))
-                            unit.Name = value;
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colPkg))
-                            unit.PackingGroup = value;
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colMP))
-                        {
-                            unit.IsMp = WithXlAssistToRead.ParseMP(value);
-                            if (!string.IsNullOrEmpty(value)) unit.mpDetermined = true;
-                        }
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colLQ))
-                        {
-                            unit.IsLq = WithXlAssistToRead.ParseLQ(value);
-                        }
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colFP))
-                        {
-                            unit.FlashPointAsDecimal = WithXlAssistToRead.DgFp(value);
-                        }
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colEms))
-                            unit.DgEMS = value;
-                        //the following parses 'Remark' column and reads properties and segregation groups, if any
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colRemarks))
-                            WithXlAssistToRead.ParseRemarkColumn(value, unit, cont);
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colNetWt))
-                        {
-                            bool success = decimal.TryParse(value, out decimal tempValue);
-                            if(success) 
-                                unit.DgNetWeight = tempValue;
-                        }
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colTechName))
-                            unit.TechnicalName = value;
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colPackage))
-                            unit.NumberAndTypeOfPackages = value;
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colFinalDestination))
-                            unit.FinalDestination = value;
-                        else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colOperator))
-                            unit.Carrier = value;
+                        ReadCorrectExcelColumn(unit, cont, col, value);
                     }
 
                     cont.HoldNr = Transport.ShipProfile.DefineCargoHoldNumber(cont.Bay);
@@ -164,6 +148,9 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         lastContainer = cont;
                     else
                         cont = lastContainer;
+
+                    if (!CheckDgValid(unit, cont))
+                        throw new Exception($"Dg unit {(!string.IsNullOrWhiteSpace(unit.ContainerNumber) ? unit.ContainerNumber : "")} is not valid");
 
                     // Updating dg unit info and add it to the list
                     unit.CopyContainerAbstractInfo(cont);
@@ -191,34 +178,91 @@ namespace EasyJob_ProDG.Model.IO.Excel
                         }
                         else
                             Data.ProgressBarReporter.ReportPercentage += statusBarIncrementValue;
-                    } 
+                    }
                     #endregion
                 }
+                catch (Exception ex)
+                {
+                    if (!string.IsNullOrEmpty(ex.Message))
+                        Data.LogWriter.Write($"Could not read dg info from Excel: {ex.Message}.");
+                }
+            }
+        }
 
-                Data.LogWriter.Write($"Dg manifest data read from excel.");
-                isImported = true;
+        private static bool CheckDgValid(Dg unit, Container cont)
+        {
+            if (unit.Unno == 0) return false;
+            if (string.IsNullOrWhiteSpace(unit.ContainerNumber) && string.IsNullOrWhiteSpace(cont.ContainerNumber)) return false;
 
+            return true;
+        }
+
+        private static void ReadCorrectExcelColumn(Dg unit, Container cont, int col, string value)
+        {
+            try
+            {
+                if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colContNr))
+                    cont.ContainerNumber = value.Replace(" ", "");
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colLocation))
+                    cont.Location = value;
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colPOL))
+                    cont.POL = value;
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colPOD))
+                    cont.POD = value;
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colUnno))
+                {
+                    unit.Unno = Convert.ToUInt16(value);
+                    unit.AssignSegregationGroup();
+                }
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colClass))
+                {
+                    unit.DgClass = WithXlAssistToRead.DgClass(value, unit.ContainerNumber);
+                }
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colSubclass))
+                {
+                    unit.DgSubClassArray = WithXlAssistToRead.DgSubClass(value, unit.ContainerNumber);
+                }
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colName))
+                    unit.Name = value;
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colPkg))
+                    unit.PackingGroup = value;
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colMP))
+                {
+                    unit.IsMp = WithXlAssistToRead.ParseMP(value);
+                    if (!string.IsNullOrEmpty(value)) unit.mpDetermined = true;
+                }
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colLQ))
+                {
+                    unit.IsLq = WithXlAssistToRead.ParseLQ(value);
+                }
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colFP))
+                {
+                    unit.FlashPointAsDecimal = WithXlAssistToRead.DgFp(value);
+                }
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colEms))
+                    unit.DgEMS = value;
+                //the following parses 'Remark' column and reads properties and segregation groups, if any
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colRemarks))
+                    WithXlAssistToRead.ParseRemarkColumn(value, unit, cont);
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colNetWt))
+                {
+                    bool success = decimal.TryParse(value, out decimal tempValue);
+                    if (success)
+                        unit.DgNetWeight = tempValue;
+                }
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colTechName))
+                    unit.TechnicalName = value;
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colPackage))
+                    unit.NumberAndTypeOfPackages = value;
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colFinalDestination))
+                    unit.FinalDestination = value;
+                else if (col == _template.GetIntegerValueFromColumnsEnum(ExcelDgTemplate.Columns.colOperator))
+                    unit.Carrier = value;
             }
             catch (Exception ex)
             {
-                Data.LogWriter.Write($"Attempt to read excel workbook {workbook} thrown an exception {ex.Message}.");
+                Data.LogWriter.Write($"Reading column '{(ExcelDgTemplate.Columns)col}' with value '{value}' thrown an exception {ex.Message}.");
             }
-            finally
-            {
-                #region Close and final release of excel objects
-
-                activeWorkbook.Close(false, null, null);
-                workbooks?.Close();
-                excelapp.Quit();
-
-                WithXl.RunGarbageCollector();
-                WithXl.FinalReleaseCOMObjects(excelcells, excelWorksheet, activeWorkbook, workbooks, excelapp);
-
-                Data.LogWriter.Write($"Excel file disconnected.");
-                #endregion
-            }
-
-            return isImported;
         }
 
         /// <summary>
