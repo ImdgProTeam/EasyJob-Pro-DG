@@ -226,7 +226,7 @@ namespace EasyJob_ProDG.UI.Data
                         continue;
                 }
                 //User-defined conflicts
-                if (con is null && conflictsList[i] is PanelConflictItemUserDefinedViewModel)
+                else if (con is null && conflictsList[i] is PanelConflictItemUserDefinedViewModel)
                 {
                     continue;
                 }

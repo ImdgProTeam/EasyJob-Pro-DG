@@ -36,6 +36,7 @@ VISUAL
 6. Added Segregation groups drop down menu with options to choose
 7. Conflict groups are now sorted in defined order
 8. Scroll bar for conflict text
+9. Dynamically changing text of 'List of conflicts' depending on filter. Also added 'Nothing to display' in conflicts list.
 
 ERRORS FIXED
 1. Ctrl + S shortcut to save file
@@ -50,6 +51,7 @@ NEW
 6. Context menu for Proper shipping name
 7. Added functionality to SearchBox
 8. Filter selection
+9. Improved reading dg and reefer manifests from Excel
 
 Minor changes and improvements
 

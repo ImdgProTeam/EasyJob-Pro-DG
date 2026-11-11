@@ -9,6 +9,9 @@
         
         public const string OPEN_USER_DEFINED_CONDITION_TOOL_WINDOW = "Open user-defined condition tool window";
         public const string UPDATE_CONFLICTS = "update conflicts";
+        public const string UPDATE_INFORMATION_MESSAGES = "update information messages";
+
+        public const string REMOVE_INFO_MESSAGE = "Remove info message from informator";
 
 
     }

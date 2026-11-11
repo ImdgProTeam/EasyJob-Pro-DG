@@ -1,5 +1,7 @@
 ﻿using EasyJob_ProDG.Model;
+using EasyJob_ProDG.UI.ViewModel;
 using EasyJob_ProDG.UI.ViewModel.Conflicts;
+using System.Linq;
 
 namespace EasyJob_ProDG.UI.Data
 {
@@ -22,5 +24,6 @@ namespace EasyJob_ProDG.UI.Data
                     conflictsList.Add(conflict);
             }
         }
+
     }
 }

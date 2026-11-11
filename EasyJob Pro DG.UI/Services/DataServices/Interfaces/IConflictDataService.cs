@@ -8,5 +8,6 @@ namespace EasyJob_ProDG.UI.Services.DataServices
     internal interface IConflictDataService
     {
         ConflictsList GetConflicts();
+        ConflictsList GetInformationMessages();
     }
 }

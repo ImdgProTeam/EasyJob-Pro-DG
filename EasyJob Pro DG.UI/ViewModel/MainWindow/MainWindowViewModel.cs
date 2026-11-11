@@ -4,10 +4,10 @@ using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.IO;
 using EasyJob_ProDG.UI.Messages;
 using EasyJob_ProDG.UI.Services;
+using EasyJob_ProDG.UI.Services.DataServices;
 using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.Utility.Messages;
 using EasyJob_ProDG.UI.View.DialogWindows;
-using EasyJob_ProDG.UI.View.User_Controls;
 using EasyJob_ProDG.UI.ViewModel.Conflicts;
 using EasyJob_ProDG.UI.ViewModel.MainWindow;
 using EasyJob_ProDG.UI.Wrapper;
@@ -235,6 +235,7 @@ namespace EasyJob_ProDG.UI.ViewModel
                 Services.MessageDialogServiceAccess.ShowOkDialog("File can not be opened", "Error");
                 StatusBarControl.Cancel();
                 SetIsLoading(false);
+
                 return;
             }
             StatusBarControl.ChangeBarSet(80);
@@ -346,6 +347,8 @@ namespace EasyJob_ProDG.UI.ViewModel
                 StatusBarControl.Cancel();
                 SetIsLoading(false);
                 SetStatusBarMessageOnReeferManifestInfoImportFailed(file);
+                UserInformationMessageService.SendCannotReadMessage(UserInformationMessageService.MessageTypes.CannotReadReeferInfo, file);
+
                 return;
             }
             StatusBarControl.ChangeBarSet(90);

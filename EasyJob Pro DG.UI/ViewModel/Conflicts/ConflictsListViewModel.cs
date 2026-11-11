@@ -98,6 +98,21 @@ namespace EasyJob_ProDG.UI.ViewModel
             allConflicts = conflictDataService.GetConflicts();
         }
 
+        private void UpdateOnlyInformationConflicts()
+        {
+            for (int i = 0; i < allConflicts.Count; i++)
+            {
+                if (allConflicts[i].ConflictType != ConflictTypes.Info) continue;
+                allConflicts.RemoveAt(i);
+                i--;
+            }
+            foreach (var conflict in conflictDataService.GetInformationMessages())
+            {
+                allConflicts.Add(conflict);
+            }
+            SetFilteredDisplayConflicts();
+        }
+
         private void RaiseDisplayConflictsSetNotificationEvent()
         {
             DisplayConflictsSet?.Invoke(this, EventArgs.Empty);
@@ -152,6 +167,11 @@ namespace EasyJob_ProDG.UI.ViewModel
             SetDisplayConflicts();
         }
 
+        private void OnInformationMessagesToBeUpdatedMessageReceived(DisplayConflictsToBeRefreshedMessage message)
+        {
+            UpdateOnlyInformationConflicts();
+        }
+
         #endregion
 
         #region Command methods
@@ -164,7 +184,11 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             if (parameter is not PanelConflictItemBaseViewModel conflict) return;
 
-            deletedConflicts.Add(conflict);
+            // remove info conflicts without restore
+            if (conflict.ConflictType == ConflictTypes.Info)
+                DataMessenger.Default.Send(new RemoveWarningMessage(conflict), DataMessengerContext.REMOVE_INFO_MESSAGE);
+            else
+                deletedConflicts.Add(conflict);
             _conflictsToDispaly.Remove(conflict);
         }
 
@@ -263,6 +287,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void RegisterInMessenger()
         {
             DataMessenger.Default.Register<DisplayConflictsToBeRefreshedMessage>(this, OnDisplayConflictsToBeRefreshedMessageReceived, DataMessengerContext.UPDATE_CONFLICTS);
+            DataMessenger.Default.Register<DisplayConflictsToBeRefreshedMessage>(this, OnInformationMessagesToBeUpdatedMessageReceived, DataMessengerContext.UPDATE_INFORMATION_MESSAGES);
         }
 
         private void RegisterCommands()

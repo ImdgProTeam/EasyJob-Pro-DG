@@ -63,21 +63,6 @@ namespace EasyJob_ProDG.UI.ViewModel
 
         #endregion
 
-        //#region Context menu
-
-        //public ObservableCollection<MenuItemViewModel> ContextMenuItems { get; } = new();
-
-        //private void SetContextMenu()
-        //{
-        //    ContextMenuItems.Add(new MenuItemViewModel
-        //    {
-        //        Header = "Remove this and similar conflicts",
-        //        Command = 
-        //    });
-        //}
-
-        //#endregion
-
         #region Override system methods
         // ---------------- Overrided system methods ----------------------------
 

@@ -99,6 +99,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
             catch (Exception ex)
             {
                 Data.LogWriter.Write($"Attempt to read excel workbook {workbook} thrown an exception {ex.Message}.");
+                UserInformator.AddMessage(new InformationMessage("Could not read Dg manifest info from Excel", $"Reading Dg data from {workbook} caused error.", InformationMessageType.ReadingCondition));
             }
             finally
             {

@@ -262,7 +262,7 @@ namespace EasyJob_ProDG.UI.ViewModel
             EasyJob_ProDG.Data.ProgressBarReporter.ReportPercentage = 50;
 
             //Remove UserInformation messages
-            UserInformatorService.GetService().ClearShipProfileMessages();
+            UserInformatorCommunicatorService.GetService().ClearShipProfileMessages();
 
             //Sending notification message to DataMessenger
             DataMessenger.Default.Send(new ShipProfileSavedMessage(), "ship profile saved");

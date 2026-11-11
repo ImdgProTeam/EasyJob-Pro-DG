@@ -1,6 +1,7 @@
 ﻿using EasyJob_ProDG.UI.Data;
 using EasyJob_ProDG.UI.Data.UserDefinedConflicts;
 
+
 namespace EasyJob_ProDG.UI.Services.DataServices
 {
     /// <summary>
@@ -38,6 +39,12 @@ namespace EasyJob_ProDG.UI.Services.DataServices
             return Conflicts;
         }
 
+        public ConflictsList GetInformationMessages()
+        {
+            var result = new ConflictsList();
+            result.CreateWarnings();
+            return result;
+        }
 
         #region Constructor
 

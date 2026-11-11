@@ -123,6 +123,7 @@ namespace EasyJob_ProDG.Model.IO.Excel
             catch
             {
                 Data.LogWriter.Write($"Reefer manifest data reading failed!");
+                UserInformator.AddMessage(new InformationMessage("Could not read reefer manifest info from Excel", $"Reading Reefer data from {workbook} caused error.", InformationMessageType.ReadingCondition));
             }
             finally
             {

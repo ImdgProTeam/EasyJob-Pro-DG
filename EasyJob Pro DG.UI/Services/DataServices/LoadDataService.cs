@@ -14,6 +14,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
     class LoadDataService : ILoadDataService
     {
         readonly ICurrentProgramData _currentProgramData = CurrentProgramData.GetCurrentProgramData();
+        private IUserInformatorCommunicatorService _userInformatorService => ServicesHandler.GetServicesAccess().UserInformatorServiceAcess;
         private CargoPlan _cargoPlan => _currentProgramData.CargoPlan;
 
         public bool IsShipProfileNotFound => _currentProgramData.GetShipProfile().IsShipProfileNotFound;
@@ -40,6 +41,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
             if (!OpenCargoPlanFromFile(openPath ?? Properties.Settings.Default.WorkingCargoPlanFile))
             {
                 EasyJob_ProDG.Data.LogWriter.Write("Blank condition will be created.");
+                UserInformationMessageService.SendMessage(UserInformationMessageService.MessageTypes.BlankConditionCreated);
                 CreateBlankCargoPlan();
             }
         }
@@ -63,6 +65,9 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         /// <returns>True if filePath read successfully</returns>
         public bool OpenCargoPlanFromFile(string file, OpenFile.OpenOption openOption = OpenFile.OpenOption.Open, bool importOnlySelected = false, string currentPort = null)
         {
+            _userInformatorService.PreserveReadingConditionMessages();
+            _userInformatorService.ClearReadingConditionMessages();
+
             try
             {
                 bool result = CreateCargoPlanFromFile(file, openOption, importOnlySelected, currentPort);
@@ -72,11 +77,19 @@ namespace EasyJob_ProDG.UI.Services.DataServices
                 else
                     _currentProgramData.SetConditionFileName(OpenFile.FileName);
 
+                if (!result)
+                {
+                    UserInformationMessageService.SendCannotReadMessage(UserInformationMessageService.MessageTypes.CannotOpenFile, file);
+                }
                 return result;
             }
             catch (Exception ex)
             {
                 EasyJob_ProDG.Data.LogWriter.Write(ex.Message);
+                if (openOption == OpenFile.OpenOption.Import)
+                    UserInformationMessageService.SendCannotReadMessage(UserInformationMessageService.MessageTypes.CannotReadDgInfo, file);
+                else
+                    UserInformationMessageService.SendCannotReadMessage(UserInformationMessageService.MessageTypes.CannotOpenFile, file);
                 return false;
             }
         }
@@ -109,6 +122,7 @@ namespace EasyJob_ProDG.UI.Services.DataServices
         /// <returns></returns>
         public bool ImportReeferManifestInfo(string filePath, bool importOnlySelected = false, string currentPort = null)
         {
+            _userInformatorService.PreserveReadingConditionMessages();
             return _cargoPlan.ImportReeferManifestInfoFromExcel(filePath, importOnlySelected, currentPort);
         }
 

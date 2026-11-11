@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace EasyJob_ProDG.Model
 {
@@ -14,6 +15,7 @@ namespace EasyJob_ProDG.Model
         private List<InformationMessage> generalMessages;
         private List<InformationMessage> shipProfileMessages;
         private List<InformationMessage> readingConditionMessages;
+        private List<InformationMessage> preservedReadingConditionMessages;
 
         #endregion
 
@@ -37,15 +39,18 @@ namespace EasyJob_ProDG.Model
             switch (message.MessageType)
             {
                 case InformationMessageType.ShipProfile:
-                    _instance.shipProfileMessages.Add(message);
+                    if (!_instance.shipProfileMessages.Contains(message))
+                        _instance.shipProfileMessages.Add(message);
                     break;
                 case InformationMessageType.ReadingCondition:
-                    _instance.readingConditionMessages.Add(message);
+                    if (!_instance.readingConditionMessages.Contains(message))
+                        _instance.readingConditionMessages.Add(message);
                     break;
                 case InformationMessageType.General:
                 case InformationMessageType.All:
                 default:
-                    _instance.generalMessages.Add(message);
+                    if (!_instance.generalMessages.Contains(message))
+                        _instance.generalMessages.Add(message);
                     break;
             }
         }
@@ -57,6 +62,31 @@ namespace EasyJob_ProDG.Model
         public static void AddMessage(string message)
         {
             _instance.generalMessages.Add(new InformationMessage("", message));
+        }
+
+        /// <summary>
+        /// Removes a <see cref="InformationMessage"/> from respective list depending on its <see cref="InformationMessageType"/>
+        /// </summary>
+        /// <param name="message"></param>
+        public static void RemoveMessage(InformationMessage message)
+        {
+            switch (message.MessageType)
+            {
+                case InformationMessageType.ShipProfile:
+                    if (_instance.shipProfileMessages.Contains(message))
+                        _instance.shipProfileMessages.Remove(message);
+                    break;
+                case InformationMessageType.ReadingCondition:
+                    if (_instance.readingConditionMessages.Contains(message))
+                        _instance.readingConditionMessages.Remove(message);
+                    break;
+                case InformationMessageType.General:
+                    if (_instance.generalMessages.Contains(message))
+                        _instance.generalMessages.Remove(message);
+                    break;
+                default:
+                    break;
+            }
         }
 
         /// <summary>
@@ -126,6 +156,17 @@ namespace EasyJob_ProDG.Model
             }
         }
 
+        public static void PreserveReadingMessages()
+        {
+            _instance.preservedReadingConditionMessages = _instance.readingConditionMessages.ToList();
+        }
+
+        public static void RestoreReadingMessages()
+        {
+            _instance.readingConditionMessages = _instance.preservedReadingConditionMessages.ToList();
+            _instance.preservedReadingConditionMessages.Clear();
+        }
+
         #endregion
 
         #region Constructor
@@ -134,6 +175,7 @@ namespace EasyJob_ProDG.Model
             generalMessages = new List<InformationMessage>();
             shipProfileMessages = new List<InformationMessage>();
             readingConditionMessages = new List<InformationMessage>();
+            preservedReadingConditionMessages = new List<InformationMessage>();
         }
 
         #endregion
