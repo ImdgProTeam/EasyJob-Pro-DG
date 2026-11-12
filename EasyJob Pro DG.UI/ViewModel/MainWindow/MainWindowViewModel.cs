@@ -435,6 +435,12 @@ namespace EasyJob_ProDG.UI.ViewModel
         {
             if (obj is null) return;
 
+            if(obj is PanelConflictItemGeneralViewModel generalItem)
+            {
+                generalItem.AssignedAction?.Invoke();
+                return;
+            }
+
             if (obj is PanelConflictItemUserDefinedViewModel)
             {
                 SelectItemsFromUserDefinedConflict(obj);

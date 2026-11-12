@@ -1,4 +1,5 @@
 ﻿using EasyJob_ProDG.UI.Data;
+using System;
 
 namespace EasyJob_ProDG.UI.ViewModel.Conflicts
 {
@@ -30,6 +31,8 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
             }
         }
 
+        internal Action AssignedAction;
+
         #endregion
 
         protected override string CreateDisplayText()
@@ -49,12 +52,13 @@ namespace EasyJob_ProDG.UI.ViewModel.Conflicts
         /// <param name="code">Conflict code</param>
         /// <param name="conflictType">Info (by default)</param>
         public PanelConflictItemGeneralViewModel(string title, string description, string code,
-            ConflictTypes conflictType = ConflictTypes.Info)
+            ConflictTypes conflictType = ConflictTypes.Info, Action command = null)
         {
             _title = title;
             _description = description;
             Code = code;
             ConflictType = conflictType;
+            AssignedAction = command;
         }
 
         #endregion

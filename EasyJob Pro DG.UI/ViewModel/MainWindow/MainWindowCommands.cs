@@ -471,8 +471,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         #region Methods calling toolbox windows
         private void OpenShipProfileWindowExecuted(object parameters)
         {
-            Services.WindowDisplayServiceAccess.ShowDialog(new ShipProfileWindow(), new ShipProfileWindowVM());
-            SetWindowTitle();
+            OpenShipProfileWindow();
         }
         private void OpenUserSettingsWindowExecuted(object parameters)
         {
@@ -608,6 +607,19 @@ namespace EasyJob_ProDG.UI.ViewModel
         private void SetConditionUpdateSummaryCreatedStatus(bool created)
         {
             UpdateConditionSummaryViewModel.ReportCreated = created;
+        }
+
+        #endregion
+
+        #region Link methods for Information messages
+
+        /// <summary>
+        /// Calls Open ShipProfile window and sets its title
+        /// </summary>
+        internal void OpenShipProfileWindow()
+        {
+            Services.WindowDisplayServiceAccess.ShowDialog(new ShipProfileWindow(), new ShipProfileWindowVM());
+            SetWindowTitle();
         }
 
         #endregion

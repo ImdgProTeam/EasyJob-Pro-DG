@@ -1,7 +1,6 @@
 ﻿using EasyJob_ProDG.Model;
-using EasyJob_ProDG.UI.ViewModel;
+using EasyJob_ProDG.UI.Utility;
 using EasyJob_ProDG.UI.ViewModel.Conflicts;
-using System.Linq;
 
 namespace EasyJob_ProDG.UI.Data
 {
@@ -20,8 +19,30 @@ namespace EasyJob_ProDG.UI.Data
             {
                 PanelConflictItemGeneralViewModel conflict =
                     new PanelConflictItemGeneralViewModel(message.Title, message.Message, "", ConflictTypes.Info);
+                conflict.AssignAction(message);
                 if (conflict != null)
                     conflictsList.Add(conflict);
+            }
+        }
+
+        /// <summary>
+        /// Assigns Actions if required to particular <see cref="PanelConflictItemGeneralViewModel"/>
+        /// </summary>
+        /// <param name="conflict"></param>
+        /// <param name="message"></param>
+        private static void AssignAction(this PanelConflictItemGeneralViewModel conflict, InformationMessage message)
+        {
+            switch (message.MessageType)
+            {
+                case InformationMessageType.General:
+                    break;
+                case InformationMessageType.ShipProfile:
+                    conflict.AssignedAction = ViewModelLocator.MainWindowViewModel.OpenShipProfileWindow;
+                    break;
+                case InformationMessageType.ReadingCondition:
+                    break;
+                case InformationMessageType.All:
+                    break;
             }
         }
 
