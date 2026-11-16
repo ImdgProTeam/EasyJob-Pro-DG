@@ -19,7 +19,7 @@ VERSION INFO
 
 
 0.9.24.9
-Date: 
+Date: 15 Nov 2026
 
 License: 30 Jun 2027
 
@@ -37,10 +37,17 @@ VISUAL
 7. Conflict groups are now sorted in defined order
 8. Scroll bar for conflict text
 9. Dynamically changing text of 'List of conflicts' depending on filter. Also added 'Nothing to display' in conflicts list.
+10. Information messages in ConflictsList include Commands to activate a separate action on double click (e.g. Ship profile not found message will open ShipProfile window on double click).
+11. Information messages will not be restored after deleted.
+12. Word 'Licence' replaced with 'License'.
+
 
 ERRORS FIXED
 1. Ctrl + S shortcut to save file
 2. Improved scrolling of DataGrid DG
+3. Fixed error in ShipProfile creation when it was showing 0 accommodations by default.
+4. Fixed file extension association on FirstStart.
+5. ShipProfile window: fixed issue with vanishing cargo holds list when CH number is set to 0.
 
 NEW
 1. User-defined conflicts
@@ -52,8 +59,10 @@ NEW
 7. Added functionality to SearchBox
 8. Filter selection
 9. Improved reading dg and reefer manifests from Excel
+10. Added User properties from Properties.Settings upgrade to the new version.
+11. ShipProfileWindow: Cargo hold first and last bay numbers automatically assigned on increase of number of CH.
+12. Added several Information messages and Log entries.
 
-Minor changes and improvements
 
 Fully functional release
 -------------------------------------------------------
