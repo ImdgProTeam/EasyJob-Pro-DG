@@ -534,6 +534,7 @@ namespace EasyJob_ProDG.Model.Transport
         private ShipProfile()
         {
             SetSuperstructuresBaysProperties(100);
+            NumberOfSuperstructures = 1;
             NumberOfHolds = 1;
             CargoHolds = new List<CargoHold>(NumberOfHolds) { new CargoHold(1, 1, 199) };
             LivingQuarters = new List<CellPosition>() { new CellPosition(99, 199, 199, 199, 0) };

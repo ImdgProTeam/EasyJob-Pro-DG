@@ -117,6 +117,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             get { return GetValue<byte>(); }
             set
             {
+                if (value < 1) return;
                 SetValue(value);
                 UpdateCargoHoldsNumber();
                 OnPropertyChanged(nameof(CargoHolds));
@@ -370,6 +371,7 @@ namespace EasyJob_ProDG.UI.Wrapper
             if (NumberOfHolds > CargoHolds.Count)
             {
                 CargoHolds.Add(new CargoHoldWrapper(new CargoHold(), NumberOfHolds));
+                SetCargoHoldDefaultBays();
                 Doc.AddNewHold(NumberOfHolds);
             }
             if (NumberOfHolds < CargoHolds.Count)
@@ -429,6 +431,17 @@ namespace EasyJob_ProDG.UI.Wrapper
 
         #endregion
 
+        private void SetCargoHoldDefaultBays()
+        {
+            var previousLastHold = CargoHolds[NumberOfHolds - 2];
+            var newLastHold = CargoHolds[NumberOfHolds - 1];
 
+            if(CargoHolds.Count == 2 && previousLastHold.LastBay == 199)
+            {
+                previousLastHold.LastBay = (byte)(previousLastHold.FirstBay + 6);
+            }
+            newLastHold.FirstBay = (byte)(previousLastHold.LastBay + 2);
+            newLastHold.LastBay = (byte)(newLastHold.FirstBay + 6);
+        }
     }
 }
