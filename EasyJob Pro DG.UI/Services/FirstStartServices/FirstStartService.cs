@@ -1,7 +1,7 @@
-﻿using System;
+﻿using EasyJob_ProDG.Data;
+using System;
 using System.Diagnostics;
 using System.Windows;
-using EasyJob_ProDG.Data;
 
 namespace EasyJob_ProDG.UI.Services
 {
@@ -20,12 +20,12 @@ namespace EasyJob_ProDG.UI.Services
             //AssociateFileExtension
             try
             {
-                ExtensionRegistryHelper.SetFileAssociation(ProgramDefaultSettingValues.ConditionFileExtension,
-                    Process.GetCurrentProcess().MainModule.FileName);
+                string exePath = Process.GetCurrentProcess().MainModule.FileName;
+                ExtensionRegistryHelper.Register(ProgramDefaultSettingValues.ConditionFileExtension, "EasyJob.ProDGPro.ejc", "ProDG Pro condition file", exePath);
             }
             catch (Exception)
             {
-                MessageBox.Show("Cannot register program extension");
+                MessageBox.Show("Cannot register program extension.\nIt will not affect program performance.\nPlease acknowledge and continue with ");
             }
 
             //Restore user settings
@@ -33,23 +33,20 @@ namespace EasyJob_ProDG.UI.Services
             {
                 RestoreUserSettings();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
 
         }
 
+        /// <summary>
+        /// Restores user <see cref="Properties.Settings"/> from the previous version.
+        /// </summary>
         private static void RestoreUserSettings()
         {
             Properties.Settings.Default.Upgrade();
             Properties.Settings.Default.Save();
-            //foreach(var file in ProgramDefaultSettingValues.ProgramDirectory.GetFiles())
-            //{
-            //    if (!string.Equals(file.Extension.ToLower(), ProgramDefaultSettingValues.UserPropertiesFileExtension, StringComparison.OrdinalIgnoreCase))
-            //        continue;
-
-            //}
         }
     }
 }

@@ -53,23 +53,6 @@ namespace EasyJob_ProDG.UI.Settings
             return RestoreSettingsFromXDocument(xDocument);
         }
 
-        ///// <summary>
-        ///// Opens an .xml file and restores <see cref="Properties.Settings"/> values.
-        ///// </summary>
-        //internal static bool RestoreSettingsFromXml(string fileName)
-        //{
-        //    try
-        //    {
-        //        XDocument xDocument = XDocument.Load(fileName);
-        //        return RestoreSettingsFromXDocument(xDocument);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        EasyJob_ProDG.Data.LogWriter.WriteError($"Restoring Properties.Settings thrown an exception {ex.Message} when reading {fileName}");
-        //        return false;
-        //    }
-        //}
-
         /// <summary>
         /// Generates xml Document containing properties from settings.settings, 
         /// except properties listed in <see cref="exceptedProperties"/>
