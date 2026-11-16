@@ -22,7 +22,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         public ICommand ShowAgreement => new DelegateCommand(ShowAgreementOnExecuted);
         private void ShowAgreementOnExecuted(object obj)
         {
-            ViewModelLocator.MainWindowViewModel.ShowLicenceAgreement();
+            ViewModelLocator.MainWindowViewModel.ShowLicenseAgreement();
         }
     }
 }

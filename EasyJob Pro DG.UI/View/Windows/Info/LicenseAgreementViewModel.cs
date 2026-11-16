@@ -4,11 +4,11 @@ using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.View.DialogWindows
 {
-    public class LicenceAgreementViewModel
+    public class LicenseAgreementViewModel
     {
         //Public properties
 
-        public string LicenceText => Licence.LicenceText;
+        public string LicenseText => License.LicenseText;
 
         /// <summary>
         /// States if the Agreement is shown in the first start
@@ -25,7 +25,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         /// <summary>
         /// Default constructor with <see cref="IsFirstStart"/> set to 'true'
         /// </summary>
-        public LicenceAgreementViewModel()
+        public LicenseAgreementViewModel()
         {
             IsFirstStart = true;
         }
@@ -34,7 +34,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         /// Default constructor with explicit setter of <see cref="IsFirstStart"/> property.
         /// </summary>
         /// <param name="isFirstStart"><see cref="IsFirstStart"/></param>
-        public LicenceAgreementViewModel(bool isFirstStart)
+        public LicenseAgreementViewModel(bool isFirstStart)
         {
             IsFirstStart = isFirstStart;
         }

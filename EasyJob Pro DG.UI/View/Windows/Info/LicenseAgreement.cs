@@ -3,11 +3,11 @@
 namespace EasyJob_ProDG.UI.View.DialogWindows
 {
     /// <summary>
-    /// Interaction logic for LicenceAgreement.xaml
+    /// Interaction logic for LicenseAgreement.xaml
     /// </summary>
-    public partial class LicenceAgreement : AnimatedWindow
+    public partial class LicenseAgreement : AnimatedWindow
     {
-        public LicenceAgreement()
+        public LicenseAgreement()
         {
             InitializeComponent();
         }

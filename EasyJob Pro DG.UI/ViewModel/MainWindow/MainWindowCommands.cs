@@ -499,7 +499,7 @@ namespace EasyJob_ProDG.UI.ViewModel
         }
         private void ShowLicenseDialogExecuted(object parameter)
         {
-            Services.WindowDisplayServiceAccess.ShowDialog(new winLicence());
+            Services.WindowDisplayServiceAccess.ShowDialog(new winLicense());
         }
         private void ShowLoginWindowOnExecuted(object obj)
         {
@@ -530,10 +530,10 @@ namespace EasyJob_ProDG.UI.ViewModel
             }
         }
 
-        internal void ShowLicenceAgreement(bool isFirstStart = false)
+        internal void ShowLicenseAgreement(bool isFirstStart = false)
         {
-            var viewModel = new LicenceAgreementViewModel(isFirstStart);
-            Services.WindowDisplayServiceAccess.ShowDialog(new LicenceAgreement(), viewModel);
+            var viewModel = new LicenseAgreementViewModel(isFirstStart);
+            Services.WindowDisplayServiceAccess.ShowDialog(new LicenseAgreement(), viewModel);
         }
 
         // ----- Toolbox windows -----

@@ -1,4 +1,4 @@
-﻿<base:AnimatedWindow x:Class="EasyJob_ProDG.UI.View.DialogWindows.winLicence"
+﻿<base:AnimatedWindow x:Class="EasyJob_ProDG.UI.View.DialogWindows.winLicense"
                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,14 +7,14 @@
                      xmlns:local="clr-namespace:EasyJob_ProDG.UI.View.DialogWindows"
                      xmlns:uc="clr-namespace:EasyJob_ProDG.UI.View.User_Controls"
                      mc:Ignorable="d"
-                     Title="Licence"
+                     Title="License"
                      Style="{StaticResource DemoWindowStyle}"
                      WindowStartupLocation="CenterScreen"
                      SizeToContent="Height"
                      Width="320"
                      MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <Window.DataContext>
-        <local:WinLicenceViewModel />
+        <local:WinLicenseViewModel />
     </Window.DataContext>
 
     <Grid>
@@ -50,10 +50,10 @@
 
             <TextBlock Margin="4"
                        TextAlignment="Center"
-                       Text="Your licence is valid until" />
+                       Text="Your license is valid until" />
             <TextBlock Margin="4"
                        TextAlignment="Center"
-                       Text="{Binding LicenceValidity}" />
+                       Text="{Binding LicenseValidity}" />
             <StackPanel Orientation="Vertical"
                         Margin="0, 10,0,0">
                 <TextBlock Margin="4, 4, 0, 4"

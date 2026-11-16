@@ -5,17 +5,17 @@ using System.Windows.Input;
 
 namespace EasyJob_ProDG.UI.View.DialogWindows
 {
-    public class WinLicenceViewModel
+    public class WinLicenseViewModel
     {
         /// <summary>
-        /// End date and time of current licence.
+        /// End date and time of current license.
         /// </summary>
-        public static DateTime LicenceValidity => Licence.EndLicence;
+        public static DateTime LicenseValidity => License.EndLicense;
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        public WinLicenceViewModel() 
+        public WinLicenseViewModel() 
         {
 
         }
@@ -26,7 +26,7 @@ namespace EasyJob_ProDG.UI.View.DialogWindows
         public ICommand ShowAgreement => new DelegateCommand(ShowAgreementOnExecuted);
         private void ShowAgreementOnExecuted(object obj)
         {
-            ViewModelLocator.MainWindowViewModel.ShowLicenceAgreement();
+            ViewModelLocator.MainWindowViewModel.ShowLicenseAgreement();
         }
     }
 }

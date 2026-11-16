@@ -22,20 +22,23 @@ namespace EasyJob_ProDG.UI.Services
             {
                 string exePath = Process.GetCurrentProcess().MainModule.FileName;
                 ExtensionRegistryHelper.Register(ProgramDefaultSettingValues.ConditionFileExtension, "EasyJob.ProDGPro.ejc", "ProDG Pro condition file", exePath);
+                LogWriter.Write($"Program extension has been registered.");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 MessageBox.Show("Cannot register program extension.\nIt will not affect program performance.\nPlease acknowledge and continue with ");
+                LogWriter.WriteError($"Could not register program extension: {ex.Message}.");
             }
 
             //Restore user settings
             try
             {
                 RestoreUserSettings();
+                LogWriter.Write("Properties have been upgraded from the previous version.");
             }
             catch (Exception ex)
             {
-
+                LogWriter.WriteError($"Could not resotre Properties.Settings: {ex.Message}.");
             }
 
         }

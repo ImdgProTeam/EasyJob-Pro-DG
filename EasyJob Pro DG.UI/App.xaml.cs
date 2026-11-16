@@ -30,7 +30,7 @@ namespace EasyJob_ProDG.UI
 #endif 
             #endregion
 
-            CheckLicence();
+            CheckLicense();
 
             FirstTimeStart();
 
@@ -61,14 +61,16 @@ namespace EasyJob_ProDG.UI
 
             //Sign agreement
             Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            var viewModel = new LicenceAgreementViewModel(true);
-            var window = new LicenceAgreement();
+            var viewModel = new LicenseAgreementViewModel(true);
+            var window = new LicenseAgreement();
             window.DataContext = viewModel;
             window.ShowDialog();
             if (!viewModel.Result.HasValue || !viewModel.Result.Value)
             {
+                LogWriter.Write($"License agreement rejected by the user.");
                 Environment.Exit(0);
             }
+            LogWriter.Write($"License agreement accepted by the user.");
 
             //Switch to normal window
             Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
@@ -82,20 +84,20 @@ namespace EasyJob_ProDG.UI
         }
 
         /// <summary>
-        /// Checking the licence is valid
+        /// Checking the license is valid
         /// </summary>
-        private void CheckLicence()
+        private void CheckLicense()
         {
-            LogWriter.Write($"Checking licence");
+            LogWriter.Write($"Checking license");
 
-            if (!Licence.IsValid())
+            if (!License.IsValid())
             {
-                LogWriter.Write("Licence expired.");
+                LogWriter.Write("license expired.");
 
-                MessageBox.Show("Your licence has expired.\nPlease contact\n\nfeedback@imdg.pro\n\nto renew your licence.", "Invalid licence");
+                MessageBox.Show("Your license has expired.\nPlease contact\n\nfeedback@imdg.pro\n\nto renew your license.", "Invalid license");
                 Environment.Exit(0);
             }
-            LogWriter.Write("-----> Licence is valid.");
+            LogWriter.Write("-----> license is valid.");
         }
 
         /// <summary>

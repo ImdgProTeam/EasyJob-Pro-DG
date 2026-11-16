@@ -186,10 +186,10 @@
     </Compile>
     <Compile Include="View\Windows\Base\AnimatedToolWindow.cs" />
     <Compile Include="View\Windows\Base\ToolWindowTemplate.cs" />
-    <Compile Include="View\Windows\Info\LicenceAgreement.xaml.cs">
-      <DependentUpon>LicenceAgreement.xaml</DependentUpon>
+    <Compile Include="View\Windows\Info\LicenseAgreement.cs">
+      <DependentUpon>LicenseAgreement.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Windows\Info\LicenceAgreementViewModel.cs" />
+    <Compile Include="View\Windows\Info\LicenseAgreementViewModel.cs" />
     <Compile Include="View\Windows\Info\WelcomeWindow.xaml.cs">
       <DependentUpon>WelcomeWindow.xaml</DependentUpon>
     </Compile>
@@ -329,10 +329,10 @@
     </Compile>
     <Compile Include="View\Windows\DialogWindows\DialogWindowOptionsViewModel.cs" />
     <Compile Include="View\Windows\Base\FeaturedWindow.cs" />
-    <Compile Include="View\Windows\Info\winLicence.xaml.cs">
-      <DependentUpon>winLicence.xaml</DependentUpon>
+    <Compile Include="View\Windows\Info\winLicense.cs">
+      <DependentUpon>winLicense.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Windows\Info\WinLicenceViewModel.cs" />
+    <Compile Include="View\Windows\Info\WinLicenseViewModel.cs" />
     <Compile Include="View\Windows\Summaries\Supporting classes\UpdateReportBlockCondition.cs" />
     <Compile Include="View\Windows\Summaries\UpdateConditionSummaryWindow.cs">
       <DependentUpon>UpdateConditionSummaryWindow.xaml</DependentUpon>
@@ -510,7 +510,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Windows\Info\LicenceAgreement.xaml">
+    <Page Include="View\Windows\Info\LicenseAgreement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -518,7 +518,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Windows\Info\winLicence.xaml">
+    <Page Include="View\Windows\Info\winLicense.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

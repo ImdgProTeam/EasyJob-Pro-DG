@@ -49,7 +49,7 @@
     <Compile Include="Info data\IMDGCode.cs" />
     <Compile Include="Info data\IMDGCodeSegregationGroups.cs" />
     <Compile Include="Info data\SpecialProvisions.cs" />
-    <Compile Include="Licence.cs" />
+    <Compile Include="License.cs" />
     <Compile Include="LogWriter.cs" />
     <Compile Include="ProgramDefaultSettingValues.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

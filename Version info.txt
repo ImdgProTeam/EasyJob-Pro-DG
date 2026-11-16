@@ -21,7 +21,7 @@ VERSION INFO
 0.9.24.9
 Date: 
 
-Licence: 30 Jun 2027
+License: 30 Jun 2027
 
 Version workable: Yes
 Changes: User-defined conflicts implemented

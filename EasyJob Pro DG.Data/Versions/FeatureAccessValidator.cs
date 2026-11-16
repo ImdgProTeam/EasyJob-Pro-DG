@@ -1,7 +1,7 @@
 ﻿namespace EasyJob_ProDG.Data
 {
     /// <summary>
-    /// Defines what features are enabled depending on licence version.
+    /// Defines what features are enabled depending on license version.
     /// </summary>
     public class FeatureAccessValidator
     {
