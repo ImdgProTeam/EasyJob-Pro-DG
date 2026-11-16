@@ -28,6 +28,28 @@ namespace EasyJob_ProDG.UI.Services
                 MessageBox.Show("Cannot register program extension");
             }
 
+            //Restore user settings
+            try
+            {
+                RestoreUserSettings();
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+        }
+
+        private static void RestoreUserSettings()
+        {
+            Properties.Settings.Default.Upgrade();
+            Properties.Settings.Default.Save();
+            //foreach(var file in ProgramDefaultSettingValues.ProgramDirectory.GetFiles())
+            //{
+            //    if (!string.Equals(file.Extension.ToLower(), ProgramDefaultSettingValues.UserPropertiesFileExtension, StringComparison.OrdinalIgnoreCase))
+            //        continue;
+
+            //}
         }
     }
 }

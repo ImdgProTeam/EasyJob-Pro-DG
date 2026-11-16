@@ -1,4 +1,5 @@
-﻿using EasyJob_ProDG.UI.IO;
+﻿using EasyJob_ProDG.Data;
+using EasyJob_ProDG.UI.IO;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -52,6 +53,23 @@ namespace EasyJob_ProDG.UI.Settings
             return RestoreSettingsFromXDocument(xDocument);
         }
 
+        ///// <summary>
+        ///// Opens an .xml file and restores <see cref="Properties.Settings"/> values.
+        ///// </summary>
+        //internal static bool RestoreSettingsFromXml(string fileName)
+        //{
+        //    try
+        //    {
+        //        XDocument xDocument = XDocument.Load(fileName);
+        //        return RestoreSettingsFromXDocument(xDocument);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        EasyJob_ProDG.Data.LogWriter.WriteError($"Restoring Properties.Settings thrown an exception {ex.Message} when reading {fileName}");
+        //        return false;
+        //    }
+        //}
+
         /// <summary>
         /// Generates xml Document containing properties from settings.settings, 
         /// except properties listed in <see cref="exceptedProperties"/>
@@ -62,9 +80,9 @@ namespace EasyJob_ProDG.UI.Settings
             try
             {
                 xDocument = new XDocument();
-                xDocument.Add(new XComment("EasyJob ProDG properties"));
+                xDocument.Add(new XComment(ProgramDefaultSettingValues.UserPropertiesFileHeaderComment));
                 xDocument.Add(new XElement("Properties"));
-                xDocument.Root.Add(new XElement("version", "1.0"));
+                xDocument.Root.Add(new XElement("version", ProgramDefaultSettingValues.UserPropertiesFileVersion));
                 foreach (SettingsProperty property in Properties.Settings.Default.Properties)
                 {
                     //exclude
@@ -77,7 +95,7 @@ namespace EasyJob_ProDG.UI.Settings
             }
             catch (Exception e)
             {
-                EasyJob_ProDG.Data.LogWriter.Write($"Thrown an exception {e.Message} when generating settings.xml");
+                EasyJob_ProDG.Data.LogWriter.WriteError($"Thrown an exception {e.Message} when generating settings.xml");
                 xDocument = null;
                 return false;
             }
@@ -100,7 +118,7 @@ namespace EasyJob_ProDG.UI.Settings
                         if (element.Name.ToString().Equals("version")) continue;
                         SetSettingsPropertyValue(element);
                     }
-                    catch (Exception)
+                    catch
                     {
                         continue;
                     }
@@ -108,7 +126,7 @@ namespace EasyJob_ProDG.UI.Settings
             }
             catch (Exception e)
             {
-                EasyJob_ProDG.Data.LogWriter.Write($"Thrown an exception {e.Message} when reading settings.xml");
+                EasyJob_ProDG.Data.LogWriter.WriteError($"Thrown an exception {e.Message} when reading settings.xml");
                 return false;
             }
             Properties.Settings.Default.Save();

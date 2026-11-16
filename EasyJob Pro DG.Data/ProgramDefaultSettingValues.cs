@@ -21,6 +21,9 @@ namespace EasyJob_ProDG.Data
         public const string ConditionFileExtension = ".ejc";
         public const string NoNamePrefix = "+NONAME+";
         public const decimal DefaultFlashPointValue = -9999;
+        public const string UserPropertiesFileExtension = "xml";
+        public const string UserPropertiesFileVersion = "1.0";
+        public const string UserPropertiesFileHeaderComment = "EasyJob ProDG properties";
 
         public const byte lowestTierOnDeck = 72;
 

@@ -51,6 +51,16 @@ namespace EasyJob_ProDG.UI.Services
             UserSettingsApplicator.ApplyUserSettings();
         } 
 
+        ///// <summary>
+        ///// Restores UserSettings directly from the file.
+        ///// </summary>
+        ///// <param name="fileName">Full path of a file.</param>
+        //internal void RestreSettingsFromFile(string fileName)
+        //{
+        //    UserSettingsFileHandler.RestoreSettingsFromXml(fileName);
+        //    UserSettingsApplicator.ApplyUserSettings();
+        //}
+
         #endregion
 
         #region Excel templates
